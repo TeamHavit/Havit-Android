@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">havit</string>
+    <string name="kakao_app_key">6069fb41c205cbbf8f213b32eec7f2c8</string>
+    <string name="category_entire_category">전체 카테고리</string>
+    <string name="category_modify">수정</string>
+    <string name="category_entire">전체 </string>
+    <string name="category_add_category">카테고리 추가</string>
+    <string name="category_category_modify">카테고리 수정</string>
+    <string name="category_complete">완료</string>
+    <string name="category_notice">카테고리를 누른 뒤 위아래로 드래그하여 순서를 바꿀 수 있습니다</string>
+    <string name="category_title">제목</string>
+    <string name="category_remove">삭제</string>
+    <string name="category_icon">아이콘</string>
 </resources>

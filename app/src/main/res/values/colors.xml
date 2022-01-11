@@ -7,4 +7,22 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="Havit_purple">#8578ff</color>
+    <color name="gray_4">#424247</color>
+    <color name="gray_5">#212225</color>
+    <color name="gray_1">#dddce1</color>
+    <color name="gray_3">#74757e</color>
+    <color name="gray_2">#afafb7</color>
+    <color name="Havit_gray">#272b30</color>
+    <color name="purple_1">#efedff</color>
+    <color name="Havit_white">#fafafa</color>
+    <color name="purple_text">#7c73d9</color>
+    <color name="purple_light">#d6d5ff</color>
+    <color name="gray_0">#f3f3f3</color>
+    <color name="purple_category">#f7f6ff</color>
+    <color name="white_gray">#f6f6f8</color>
+    <color name="caution">#ff6969</color>
+    <color name="Havit_red">#ef4848</color>
+    <color name="purple_2">#c3c2ff</color>
 </resources>
