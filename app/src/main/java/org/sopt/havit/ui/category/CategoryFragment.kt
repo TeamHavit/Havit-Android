@@ -5,12 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import org.sopt.havit.databinding.FragmentCategoryBinding
 
 class CategoryFragment : Fragment() {
-
-    private lateinit var categoryViewModel: CategoryViewModel
     private var _binding: FragmentCategoryBinding? = null
 
     // This property is only valid between onCreateView and
@@ -21,15 +18,10 @@ class CategoryFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        categoryViewModel =
-            ViewModelProvider(this).get(CategoryViewModel::class.java)
-
+    ): View {
         _binding = FragmentCategoryBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {
