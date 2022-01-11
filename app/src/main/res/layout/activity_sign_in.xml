@@ -5,7 +5,7 @@
     <data>
         <variable
             name="vm"
-            type="org.wesopt.havit.ui.kakao.SignInViewModel" />
+            type="org.sopt.havit.ui.kakao.SignInViewModel" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout

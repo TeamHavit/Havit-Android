@@ -1,14 +1,13 @@
-package org.wesopt.havit.ui.mypage
+package org.sopt.havit.ui.mypage
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.havit.databinding.FragmentMyPageBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.sopt.havit.databinding.FragmentMyPageBinding
-import org.wesopt.havit.util.web.CustomWebView
+import org.sopt.havit.util.web.CustomWebView
 
 class MyPageFragment : Fragment() {
 

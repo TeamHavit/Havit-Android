@@ -1,4 +1,4 @@
-package org.wesopt.havit.ui.category
+package org.sopt.havit.ui.category
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.havit.databinding.FragmentCategoryBinding
+import org.sopt.havit.databinding.FragmentCategoryBinding
 
 class CategoryFragment : Fragment() {
 
-    private lateinit var categoryViewModel: org.wesopt.havit.ui.category.CategoryViewModel
+    private lateinit var categoryViewModel: CategoryViewModel
     private var _binding: FragmentCategoryBinding? = null
 
     // This property is only valid between onCreateView and

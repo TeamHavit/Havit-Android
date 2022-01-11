@@ -52,7 +52,7 @@
         android:backgroundTint="@color/Havit_purple"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/icon_add"
+        android:src="@drawable/ic_add"
         app:borderWidth="0dp"
         app:layout_anchor="@id/bottom_app_bar"
         app:tint="@android:color/white" />

@@ -22,7 +22,7 @@
             android:layout_marginStart="11dp"
             android:layout_marginTop="17dp"
             android:layout_marginBottom="14dp"
-            android:src="@drawable/icon_back_white"
+            android:src="@drawable/ic_back_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -86,7 +86,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
     <TextView
-        android:id="@+id/tv_icon"
+        android:id="@+id/tv_ic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
@@ -99,7 +99,7 @@
         app:layout_constraintTop_toBottomOf="@+id/et_category" />
 
     <LinearLayout
-        android:id="@+id/ll_icon"
+        android:id="@+id/ll_ic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
@@ -107,7 +107,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_icon">
+        app:layout_constraintTop_toBottomOf="@+id/tv_ic">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,31 +119,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
         </LinearLayout>
 
         <LinearLayout
@@ -156,31 +156,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
         </LinearLayout>
 
         <LinearLayout
@@ -193,31 +193,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
         </LinearLayout>
 
         <LinearLayout
@@ -230,31 +230,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:src="@drawable/icon_select_inactive" />
+                android:src="@drawable/ic_select_inactive" />
         </LinearLayout>
 
     </LinearLayout>

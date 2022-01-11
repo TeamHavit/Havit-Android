@@ -7,7 +7,7 @@
 
         <variable
             name="category"
-            type="org.wesopt.havit.data.CategoryData" />
+            type="org.sopt.havit.data.CategoryData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/iv_category_icon"
+                android:id="@+id/iv_category_ic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
@@ -37,7 +37,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/category_icon" />
+                app:srcCompat="@drawable/ic_category" />
 
             <TextView
                 android:id="@+id/tv_category_name"
@@ -49,7 +49,7 @@
                 android:textColor="@color/Havit_gray"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/iv_category_icon"
+                app:layout_constraintStart_toEndOf="@+id/iv_category_ic"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="UX/UI 아티클" />
 
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:src="@drawable/icon_edit"
+                android:src="@drawable/ic_edit"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

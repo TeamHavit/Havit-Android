@@ -1,4 +1,4 @@
-package org.wesopt.havit.ui.category
+package org.sopt.havit.ui.category
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

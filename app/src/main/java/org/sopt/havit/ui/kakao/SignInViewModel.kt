@@ -1,4 +1,4 @@
-package org.wesopt.havit.ui.kakao
+package org.sopt.havit.ui.kakao
 
 import androidx.lifecycle.ViewModel
 

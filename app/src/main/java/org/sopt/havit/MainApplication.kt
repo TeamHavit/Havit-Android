@@ -7,14 +7,16 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
-import org.wesopt.havit.ui.mypage.MyPageViewModel
-import org.wesopt.havit.ui.search.SearchViewModel
+import org.sopt.havit.data.repository.MyPageRepository
+import org.sopt.havit.data.repository.SearchRepository
+import org.sopt.havit.ui.mypage.MyPageViewModel
+import org.sopt.havit.ui.search.SearchViewModel
 
 class MainApplication :Application() {
 
     companion object
     {
-        var instance: org.sopt.havit.MainApplication? = null
+        var instance: MainApplication? = null
     }
 
     override fun onCreate()
@@ -39,19 +41,19 @@ class MainApplication :Application() {
     }
 
     private val myModule = module{
-        single { org.wesopt.havit.data.repository.MyPageRepository() }
-        single { org.wesopt.havit.data.repository.SearchRepository() }
+        single { MyPageRepository() }
+        single { SearchRepository() }
     }
 
     override fun onTerminate()
     {
         super.onTerminate()
-        org.sopt.havit.MainApplication.Companion.instance = null
+        instance = null
     }
 
     fun getMainApplicationContext(): org.sopt.havit.MainApplication
     {
-        checkNotNull(org.sopt.havit.MainApplication.Companion.instance) { "this application does not inherit com.kakao.MainApplication" }
-        return org.sopt.havit.MainApplication.Companion.instance!!
+        checkNotNull(instance) { "this application does not inherit com.kakao.MainApplication" }
+        return instance!!
     }
 }

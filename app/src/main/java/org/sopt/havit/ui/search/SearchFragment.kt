@@ -1,11 +1,11 @@
-package org.wesopt.havit.ui.search
+package org.sopt.havit.ui.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.havit.R
+import org.sopt.havit.R
 
 
 class SearchFragment : Fragment() {

@@ -1,4 +1,4 @@
-package org.wesopt.havit.ui.base
+package org.sopt.havit.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

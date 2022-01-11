@@ -1,4 +1,4 @@
-package org.wesopt.havit.data
+package org.sopt.havit.data
 
 data class CategoryData(
     val categoryName: String,

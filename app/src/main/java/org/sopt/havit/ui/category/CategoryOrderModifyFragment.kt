@@ -1,11 +1,10 @@
-package org.wesopt.havit.ui.category
+package org.sopt.havit.ui.category
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.havit.databinding.FragmentCategoryOrderModifyBinding
 import org.sopt.havit.databinding.FragmentCategoryOrderModifyBinding
 
 class CategoryOrderModifyFragment : Fragment() {

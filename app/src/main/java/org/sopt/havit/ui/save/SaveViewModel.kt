@@ -1,3 +1,3 @@
-package org.wesopt.havit.ui.save
+package org.sopt.havit.ui.save
 
 class SaveViewModel

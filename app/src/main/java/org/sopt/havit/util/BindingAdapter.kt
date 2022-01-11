@@ -1,4 +1,4 @@
-package org.wesopt.havit.util
+package org.sopt.havit.util
 
 object BindingAdapter {
 }

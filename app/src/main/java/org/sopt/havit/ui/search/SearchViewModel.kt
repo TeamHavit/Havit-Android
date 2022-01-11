@@ -1,6 +1,7 @@
-package org.wesopt.havit.ui.search
+package org.sopt.havit.ui.search
 
 import androidx.lifecycle.ViewModel
+import org.sopt.havit.data.repository.SearchRepository
 
-class SearchViewModel(private val searchRepository: org.wesopt.havit.data.repository.SearchRepository) :
+class SearchViewModel(private val searchRepository: SearchRepository) :
     ViewModel()

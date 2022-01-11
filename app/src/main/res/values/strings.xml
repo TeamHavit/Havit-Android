@@ -1,4 +1,8 @@
 <resources>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_home">Home</string>
+    <string name="title_category">Category</string>
+    <string name="title_my_page">MyPage</string>
     <string name="app_name">havit</string>
     <string name="kakao_app_key">6069fb41c205cbbf8f213b32eec7f2c8</string>
     <string name="category_entire_category">전체 카테고리</string>

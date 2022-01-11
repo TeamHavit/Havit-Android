@@ -54,7 +54,6 @@
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="300dp"
-                android:src="@drawable/ic_home_black_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/imageView3"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -63,7 +62,6 @@
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                android:src="@drawable/ic_home_black_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 

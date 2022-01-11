@@ -9,7 +9,8 @@ import android.net.Uri
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
-import com.example.havit.R
+import org.sopt.havit.MainActivity
+import org.sopt.havit.R
 
 object CustomWebView {
 
@@ -34,10 +35,10 @@ object CustomWebView {
 
         // setShareState(CustomTabsIntent.SHARE_STATE_ON) will add a menu to share the web-page
         builder.setShareState(CustomTabsIntent.SHARE_STATE_ON)
-        val intent = Intent(Intent(context, org.wesopt.havit.MainActivity::class.java))
+        val intent = Intent(Intent(context, MainActivity::class.java))
 
 
-        val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_home_black_24dp)
+        //val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_home_black_24dp)
         val pendingFlagIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
 
         val menuItemPendingIntent: PendingIntent = createPendingIntent(context,

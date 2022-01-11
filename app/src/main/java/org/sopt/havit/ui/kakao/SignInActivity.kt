@@ -10,10 +10,9 @@ import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySignInBinding
-import org.wesopt.havit.ui.kakao.SignInViewModel
+import org.sopt.havit.ui.base.BaseBindingActivity
 
-class SignInActivity :
-    org.wesopt.havit.ui.base.BaseBindingActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
+class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
 
 
     private val viewModel: SignInViewModel by viewModels()

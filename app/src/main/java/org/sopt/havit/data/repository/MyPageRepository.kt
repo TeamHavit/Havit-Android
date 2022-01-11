@@ -1,3 +1,3 @@
-package org.wesopt.havit.data.repository
+package org.sopt.havit.data.repository
 
 class MyPageRepository

@@ -22,7 +22,7 @@
             android:layout_marginStart="11dp"
             android:layout_marginTop="17dp"
             android:layout_marginBottom="14dp"
-            android:src="@drawable/icon_back_white"
+            android:src="@drawable/ic_back_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="29dp"
             android:layout_marginBottom="16dp"
-            android:src="@drawable/icon_notice"
+            android:src="@drawable/ic_notice"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -1,4 +1,4 @@
-package org.wesopt.havit.ui.home
+package org.sopt.havit.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

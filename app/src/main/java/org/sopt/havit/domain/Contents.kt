@@ -1,4 +1,4 @@
-package org.wesopt.havit.domain
+package org.sopt.havit.domain
 
 data class Contents(
     val title:String
