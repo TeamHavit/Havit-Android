@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.sopt.havit">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <queries>
+        <package android:name="com.kakao.talk" />
+    </queries>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,7 +16,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Havit">
         <activity
-            android:name=".MainActivity"
+            android:name=".ShareActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.sopt.havit.ui.kakao.SignInActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="oauth"
+                    android:scheme="kakao6069fb41c205cbbf8f213b32eec7f2c8" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity"/>
+        <activity
+            android:name=".ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,6 +49,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver
+            android:name="org.sopt.havit.util.web.ActionBroadcastReceiver"
+            android:enabled="true" />
+        <receiver
+            android:name="org.sopt.havit.util.web.DigBroadcastReceiver"
+            android:enabled="true" />
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key" />
     </application>
 
 </manifest>
