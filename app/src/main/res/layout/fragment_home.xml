@@ -6,10 +6,9 @@
     <data>
 
         <variable
-            name="vmHome"
+            name="vm_home"
             type="org.sopt.havit.ui.home.HomeViewModel" />
     </data>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -78,7 +77,8 @@
                         android:layout_marginStart="22dp"
                         android:layout_marginTop="13dp"
                         android:layout_marginBottom="14dp"
-                        android:text="@string/home_popup"
+                        android:text="@{vm_home.popupData}"
+                        tools:text="도달률이 50% 이하로 떨어졌어요!"
                         android:textAppearance="@style/Text14Regular"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -114,7 +114,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="16dp"
-                        android:text="@{vmHome.userName}"
+                        android:text="@{vm_home.userName}"
                         android:textAppearance="@style/Header19Semibold"
                         android:textColor="@color/gray_4"
                         app:layout_constraintStart_toStartOf="parent"
@@ -138,7 +138,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="25dp"
-                        android:text="@{vmHome.reachData.read}"
+                        android:text="@{vm_home.reachData.read}"
                         android:textAppearance="@style/Extrabold16"
                         android:textColor="@color/gray_3"
                         app:layout_constraintStart_toStartOf="parent"
@@ -151,7 +151,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="2.5dp"
                         android:layout_marginTop="29dp"
-                        android:text="@{vmHome.reachData.all}"
+                        android:text="@{vm_home.reachData.all}"
                         android:textAppearance="@style/Mini10Regular"
                         android:textColor="@color/gray_3"
                         app:layout_constraintStart_toEndOf="@+id/tv_reach_read"
@@ -194,7 +194,7 @@
                         android:layout_marginTop="22dp"
                         android:layout_marginEnd="3.5dp"
                         android:layout_marginBottom="14dp"
-                        android:text="@{vmHome.reachData.rate}"
+                        android:text="@{vm_home.reachData.rate}"
                         android:textAppearance="@style/Bold38"
                         android:textColor="@color/havit_purple"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -238,7 +238,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:text="@{vmHome.userName}"
+                        android:text="@{vm_home.userName}"
                         android:textAppearance="@style/Header17Semibold"
                         android:textColor="@color/havit_gray"
                         app:layout_constraintStart_toStartOf="parent"
@@ -271,6 +271,7 @@
                         android:id="@+id/fcv_category"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_category_user_name" />

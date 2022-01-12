@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm_home"
+            type="org.sopt.havit.ui.home.HomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.HomeCategoryFragment">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_category"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+            android:id="@+id/indicator_category"
+            android:layout_width="wrap_content"
+            android:layout_height="3dp"
+            android:layout_marginTop="10dp"
+            app:dotsColor="@color/havit_purple"
+            app:dotsCornerRadius="0dp"
+            app:dotsSize="12dp"
+            app:dotsSpacing="3dp"
+            app:dotsStrokeColor="@color/white_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vp_category" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
