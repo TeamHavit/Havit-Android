@@ -21,4 +21,23 @@
     <string name="title">제목</string>
     <string name="next">다음</string>
     <string name="icon">icon</string>
+    <string name="home_popup">도달률이 50% 이하로 떨어졌어요!</string>
+    <string name="home_reach_user">님의 도달률</string>
+    <string name="home_reach_contents">봐야 하는 콘텐츠</string>
+    <string name="home_reach_percent">%</string>
+    <string name="home_user_category">님의 카테고리</string>
+    <string name="home_category_all">전체보기</string>
+    <string name="home_recent_contents">최근 저장 콘텐츠</string>
+    <string name="home_more_contents">더보기</string>
+    <string name="home_service_use">콘텐츠 저장을 위한 해빗 서비스 이용 방법</string>
+    <string name="home_recommend_site">오늘의 추천 사이트</string>
+    <string name="home_recommend_havit">다양한 사이트에서 해빗 할 컨텐츠를 탐색해보세요!</string>
+    <string name="home_category_save">저장 콘텐츠</string>
+    <string name="contents_divider">·</string>
+    <string name="contents_alarm_plan">알림 예정</string>
+    <string name="contents_order_default">최근순</string>
+    <string name="contents_search_hint">원하는 콘텐츠를 검색하세요</string>
+    <string name="contents_entire">전체</string>
+    <string name="contents_unseen">안 봤어요</string>
+    <string name="contents_seen">봤어요</string>
 </resources>
