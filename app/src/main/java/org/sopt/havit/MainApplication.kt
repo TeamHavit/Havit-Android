@@ -9,6 +9,7 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import org.sopt.havit.data.repository.MyPageRepository
 import org.sopt.havit.data.repository.SearchRepository
+import org.sopt.havit.domain.repository.SearchRepositoryImpl
 import org.sopt.havit.ui.mypage.MyPageViewModel
 import org.sopt.havit.ui.search.SearchViewModel
 
@@ -42,7 +43,7 @@ class MainApplication :Application() {
 
     private val myModule = module{
         single { MyPageRepository() }
-        single { SearchRepository() }
+        single<SearchRepository> { SearchRepositoryImpl() }
     }
 
     override fun onTerminate()
