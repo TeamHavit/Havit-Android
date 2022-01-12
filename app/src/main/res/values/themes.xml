@@ -12,6 +12,16 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/gray_4</item>
         <!-- Customize your theme here. -->
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="toolBarStyle" parent="@style/TextAppearance.AppCompat.Title">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="PurpleEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="colorControlActivated">@color/havit_purple</item>
+        <item name="colorControlNormal">@color/havit_purple</item>
     </style>
 
     <style name="Theme.AppCompat.Transparent.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
