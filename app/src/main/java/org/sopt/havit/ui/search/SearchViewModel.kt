@@ -14,7 +14,7 @@ class SearchViewModel(private val searchRepositoryImpl: SearchRepositoryImpl) : 
     private val _searchResult = MutableLiveData<List<ContentsData>>()
     var searchResult :LiveData<List<ContentsData>> = _searchResult
 
-    fun getSearchContents(){
+    fun getSearchContents(keyWord:String){
         viewModelScope.launch {
             searchRepositoryImpl.getSearchContents()
         }
