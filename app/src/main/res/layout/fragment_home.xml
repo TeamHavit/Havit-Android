@@ -79,12 +79,12 @@
                         android:layout_marginTop="13dp"
                         android:layout_marginBottom="14dp"
                         android:text="@{vm_home.popupData}"
-                        tools:text="도달률이 50% 이하로 떨어졌어요!"
                         android:textAppearance="@style/Text14Regular"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="도달률이 50% 이하로 떨어졌어요!" />
 
                     <ImageView
                         android:id="@+id/iv_delete_popup"
@@ -104,8 +104,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="13dp"
-                    android:elevation="5dp"
                     android:background="@drawable/rectangle_white_radius_6"
+                    android:elevation="5dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cl_popup">
@@ -364,6 +364,12 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_recommend_havit" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="582dp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_recommend_havit" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ImageView

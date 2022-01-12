@@ -9,14 +9,21 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_gray"
         tools:context=".ui.home.HomeSearchFragment">
+
+        <View
+            android:id="@+id/test"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:background="@drawable/ellipse_white_radius_24"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/test" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
