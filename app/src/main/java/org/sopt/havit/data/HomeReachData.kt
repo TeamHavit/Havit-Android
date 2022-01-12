@@ -1,4 +1,4 @@
-package org.sopt.havit.data.repository
+package org.sopt.havit.data
 
 data class HomeReachData(
     val read: String,
