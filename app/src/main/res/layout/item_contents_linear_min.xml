@@ -29,18 +29,12 @@
                 android:id="@+id/iv_thumbnail"
                 android:layout_width="102dp"
                 android:layout_height="104dp"
-                android:background="@drawable/rectangle_gray_1_radius_4"
-                android:radius="4dp" />
+                android:background="@drawable/rectangle_gray_1_radius_4" />
 
             <ImageView
                 android:id="@+id/iv_alarm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="100dp"
-                android:shadowColor="#000000"
-                android:shadowDx="10"
-                android:shadowDy="10"
-                android:shadowRadius="3.0"
                 android:src="@drawable/ic_alarmtag_puple_none" />
         </FrameLayout>
 
