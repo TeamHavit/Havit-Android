@@ -17,4 +17,7 @@
     <string name="category_icon">아이콘</string>
     <string name="no_category">카테고리가 아직 없어요</string>
     <string name="add_category">카테고리 추가</string>
+    <string name="enter_category">카테고리 제목을 입력하세요</string>
+    <string name="title">제목</string>
+    <string name="next">다음</string>
 </resources>
