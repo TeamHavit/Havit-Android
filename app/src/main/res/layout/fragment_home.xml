@@ -164,7 +164,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:layout_marginEnd="16dp"
-                        android:background="@drawable/bg_white_purple_light_radius_6"
+                        android:background="@drawable/rectangle_white_purple_light_radius_6"
                         android:paddingVertical="5dp"
                         android:paddingStart="8dp"
                         android:paddingEnd="9dp"
