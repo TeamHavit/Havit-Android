@@ -15,4 +15,6 @@
     <string name="category_title">제목</string>
     <string name="category_remove">삭제</string>
     <string name="category_icon">아이콘</string>
+    <string name="no_category">카테고리가 아직 없어요</string>
+    <string name="add_category">카테고리 추가</string>
 </resources>

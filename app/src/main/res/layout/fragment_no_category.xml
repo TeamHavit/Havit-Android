@@ -13,20 +13,23 @@
         android:id="@+id/tv_enter_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="17dp"
+        android:layout_marginStart="17dp"
         android:layout_marginTop="41dp"
-        android:text="카테고리가 아직 없어요"
+        android:text="@string/no_category"
         android:textAppearance="@style/Header22Semibold"
         android:textColor="@color/gray_5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="이미지 들어가야함" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="107dp"
+        android:contentDescription="@string/no_category"
+        android:src="@drawable/img_nocategory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_enter_title" />
 
     <Button
         android:layout_width="0dp"
@@ -35,7 +38,7 @@
         android:layout_marginBottom="84dp"
         android:background="@drawable/rectangle_purple_category_radius_44"
         android:paddingVertical="14dp"
-        android:text="카테고리 추가"
+        android:text="@string/add_category"
         android:textAppearance="@style/Button15Medium"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
