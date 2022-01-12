@@ -1,8 +1,10 @@
 package org.sopt.havit.data.repository
 
-class SearchRepository {
+import org.sopt.havit.data.ContentsData
 
-    //suspend fun getSearchContents()
+interface SearchRepository {
+
+    suspend fun getSearchContents():List<ContentsData>
 
     //suspend fun getSearchCategory()
 }
