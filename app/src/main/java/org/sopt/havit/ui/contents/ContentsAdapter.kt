@@ -12,7 +12,7 @@ class ContentsAdapter : RecyclerView.Adapter<ContentsAdapter.ContentsViewHolder>
     class ContentsViewHolder(private val binding: ItemContentsLinearMinBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsData) {
-
+            binding.content = data
         }
     }
 
