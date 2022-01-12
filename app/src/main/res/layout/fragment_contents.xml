@@ -261,6 +261,18 @@
                             app:textEndPadding="14dp"
                             app:textStartPadding="14dp" />
 
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_alarm"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:chipIconEnabled="true"
+                            app:chipIcon="@drawable/ic_alarm"
+                            app:iconStartPadding="14dp"
+                            app:iconEndPadding="0dp"
+                            app:chipBackgroundColor="@color/selector_chip"
+                            app:chipMinTouchTargetSize="0dp" />
+
                     </com.google.android.material.chip.ChipGroup>
 
                     <TextView

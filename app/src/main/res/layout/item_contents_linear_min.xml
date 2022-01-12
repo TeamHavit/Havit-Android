@@ -30,14 +30,18 @@
                 android:layout_width="102dp"
                 android:layout_height="104dp"
                 android:radius="4dp"
-                tools:srcCompat="@color/gray_1" />
+                android:background="@drawable/rectangle_gray_1_radius_4" />
 
             <ImageView
                 android:id="@+id/iv_alarm"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_alarmtag_puple" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="100dp"
+                android:shadowColor="#000000"
+                android:shadowDx="10"
+                android:shadowDy="10"
+                android:shadowRadius="3.0"
+                android:src="@drawable/ic_alarmtag_puple_none" />
         </FrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,7 +61,7 @@
             android:fontFamily="@font/pretendard_medium"
             android:maxLines="2"
             android:text="@{content.title}"
-            android:textColor="@color/Havit_gray"
+            android:textColor="@color/havit_gray"
             android:textSize="15sp"
             app:layout_constraintEnd_toStartOf="@+id/iv_setting"
             app:layout_constraintStart_toEndOf="@+id/fl_image"
@@ -134,7 +138,7 @@
             android:layout_marginBottom="15dp"
             android:fontFamily="@font/pretendard_semibold"
             android:text="@{content.alarmDate}"
-            android:textColor="@color/Havit_purple"
+            android:textColor="@color/havit_purple"
             android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_date"
@@ -147,7 +151,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_semibold"
             android:text="@string/contents_alarm_plan"
-            android:textColor="@color/Havit_purple"
+            android:textColor="@color/havit_purple"
             android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_alarm"
             app:layout_constraintStart_toEndOf="@+id/tv_alarm"
