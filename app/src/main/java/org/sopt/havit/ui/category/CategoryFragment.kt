@@ -9,10 +9,7 @@ import org.sopt.havit.databinding.FragmentCategoryBinding
 
 class CategoryFragment : Fragment() {
     private var _binding: FragmentCategoryBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private val binding get() = _binding ?: error("binding error")
 
     override fun onCreateView(
         inflater: LayoutInflater,
