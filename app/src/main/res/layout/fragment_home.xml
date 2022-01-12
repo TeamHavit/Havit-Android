@@ -78,12 +78,12 @@
                         android:layout_marginTop="13dp"
                         android:layout_marginBottom="14dp"
                         android:text="@{vm_home.popupData}"
-                        tools:text="도달률이 50% 이하로 떨어졌어요!"
                         android:textAppearance="@style/Text14Regular"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="도달률이 50% 이하로 떨어졌어요!" />
 
                     <ImageView
                         android:id="@+id/iv_delete_popup"
@@ -309,14 +309,23 @@
                             app:layout_constraintTop_toTopOf="@id/iv_service_use" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <include
-                        android:id="@+id/layout_home_contents"
-                        layout="@layout/layout_home_contents"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_home_contents"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="49dp"
                         app:layout_constraintStart_toStartOf="@id/cl_service_use"
-                        app:layout_constraintTop_toBottomOf="@id/cl_service_use" />
+                        app:layout_constraintTop_toBottomOf="@id/cl_service_use">
+
+                        <include
+                            android:id="@+id/layout_home_contents"
+                            layout="@layout/layout_home_contents"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="49dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

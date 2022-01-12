@@ -48,17 +48,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginEnd="6dp"
-                android:text="@{data_home_contents.title}"
-                android:textColor="@color/purple_text"
-                android:textAppearance="@style/Mini10Regular"
-                android:layout_marginBottom="3dp"
-                tools:text="카테고리 이름"
                 android:layout_marginTop="4dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginBottom="3dp"
+                android:text="@{data_home_contents.title}"
+                android:textAppearance="@style/Mini10Regular"
+                android:textColor="@color/purple_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_category"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="카테고리 이름" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -71,12 +71,12 @@
             android:maxLines="2"
             android:minLines="2"
             android:text="@{data_home_contents.header}"
-            android:textColor="@color/havit_gray"
-            tools:text="헤더입니다 헤더입니다 헤더입니다 헤더임"
             android:textAppearance="@style/Text14Medium"
+            android:textColor="@color/havit_gray"
             app:layout_constraintBottom_toTopOf="@id/tv_time"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cl_title" />
+            app:layout_constraintTop_toBottomOf="@id/cl_title"
+            tools:text="헤더입니다 헤더입니다 헤더입니다 헤더임" />
 
         <TextView
             android:id="@+id/tv_time"
@@ -84,11 +84,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text="@{data_home_contents.time}"
-            android:textColor="@color/gray_2"
-            tools:text="2021. 11. 24"
             android:textAppearance="@style/Mini9Regular"
+            android:textColor="@color/gray_2"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="2021. 11. 24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
