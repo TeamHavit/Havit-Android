@@ -9,6 +9,11 @@ import org.sopt.havit.data.HomeReachData
 
 class HomeViewModel : ViewModel() {
 
+    private val _popupData = MutableLiveData<String>().apply {
+        value = "도달률이 50% 이하로 떨어졌어요!"
+    }
+    val popupData: LiveData<String> = _popupData
+
     private val _reachData = MutableLiveData<HomeReachData>().apply {
         value = HomeReachData(62.toString(), 145.toString(), 100.toString())
     }

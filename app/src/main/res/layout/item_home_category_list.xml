@@ -58,7 +58,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/tv_title"
                 app:layout_constraintTop_toBottomOf="@id/tv_title"
-                tools:text="저장 콘텐츠" />
+                android:text="@string/home_category_save" />
 
             <TextView
                 android:id="@+id/tv_count"
