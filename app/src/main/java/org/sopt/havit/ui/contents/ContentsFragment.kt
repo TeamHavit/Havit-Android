@@ -1,39 +1,31 @@
 package org.sopt.havit.ui.contents
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import org.sopt.havit.R
+import androidx.fragment.app.Fragment
 import org.sopt.havit.databinding.FragmentContentsBinding
-import org.sopt.havit.ui.base.BaseBindingFragment
 
-class ContentsFragment : BaseBindingFragment<FragmentContentsBinding>(R.layout.fragment_contents) {
-    private val contentsViewModel: ContentsViewModel by viewModels()
+class ContentsFragment : Fragment() {
+    private var _binding: FragmentContentsBinding? = null
 
-    private var _contentsAdapter: ContentsAdapter? = null
-    private val contentsAdapter get() = _contentsAdapter ?: error("adapter error")
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("base", "3")
-        binding.contentViewModel = contentsViewModel
-
-        contentsViewModel.contentsList.observe(viewLifecycleOwner) {
-            contentsAdapter.contentsList.addAll(it)
-            contentsAdapter.notifyDataSetChanged()
-        }
+        _binding = FragmentContentsBinding.inflate(inflater, container, false)
 
         return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _contentsAdapter = null
+        _binding = null
     }
 }
