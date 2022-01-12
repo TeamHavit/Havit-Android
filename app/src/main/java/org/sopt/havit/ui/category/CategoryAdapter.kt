@@ -3,6 +3,7 @@ package org.sopt.havit.ui.category
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import org.sopt.havit.data.CategoryData
 import org.sopt.havit.databinding.ItemCategoryBinding
 
@@ -27,6 +28,9 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: CategoryData) {
             binding.category = data
+            Glide.with(binding.ivCategoryIc.context)
+                .load(data.icon)
+                .into(binding.ivCategoryIc)
         }
     }
 }

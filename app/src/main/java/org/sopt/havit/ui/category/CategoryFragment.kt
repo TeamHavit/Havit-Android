@@ -4,25 +4,65 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import org.sopt.havit.R
+import org.sopt.havit.data.CategoryData
 import org.sopt.havit.databinding.FragmentCategoryBinding
+import org.sopt.havit.ui.base.BaseBindingFragment
 
-class CategoryFragment : Fragment() {
-    private var _binding: FragmentCategoryBinding? = null
-    private val binding get() = _binding ?: error("binding error")
+class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.fragment_category) {
+    private var _categoryAdapter: CategoryAdapter? = null
+    private val categoryAdapter get() = _categoryAdapter ?: error("adapter error")
+
+    private val categoryViewModel: CategoryViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCategoryBinding.inflate(inflater, container, false)
+        super.onCreateView(inflater, container, savedInstanceState)
+
+        binding.categoryViewModel = categoryViewModel
+
+        initAdapter()
+        setData()
+        dataObserve()
 
         return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _categoryAdapter = null
+    }
+
+    private fun initAdapter() {
+        _categoryAdapter = CategoryAdapter()
+        binding.rvContents.adapter = categoryAdapter
+    }
+
+    private fun setData() {
+        val list = mutableListOf<CategoryData>()
+        for (i in 1..15) {
+            list.add(
+                CategoryData(
+                    "UX/UI 아티클",
+                    "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png"
+                )
+            )
+        }
+        categoryViewModel.requestCategoryTaken(list, list.size.toString())
+    }
+
+    private fun dataObserve() {
+        with(categoryViewModel) {
+            categoryList.observe(viewLifecycleOwner) {
+                categoryAdapter.categoryList.addAll(it)
+                categoryAdapter.notifyDataSetChanged()
+            }
+            categoryCount.observe(viewLifecycleOwner) {
+                binding.tvCount.text = it
+            }
+        }
     }
 }
