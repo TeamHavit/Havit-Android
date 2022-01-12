@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vmHome"
             type="org.sopt.havit.ui.home.HomeViewModel" />
@@ -52,6 +53,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/cl_topbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -76,10 +78,9 @@
                         android:layout_marginStart="22dp"
                         android:layout_marginTop="13dp"
                         android:layout_marginBottom="14dp"
-                        android:fontFamily="@font/pretendard_regular"
                         android:text="@string/home_popup"
+                        android:textAppearance="@style/Text14Regular"
                         android:textColor="@color/white"
-                        android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -94,7 +95,6 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="13dp"
-                    android:background="@drawable/rectangle_white_radius_20"
+                    android:background="@drawable/rectangle_white_radius_6"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cl_popup">
@@ -114,10 +114,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="16dp"
-                        android:fontFamily="@font/pretendard_semibold"
                         android:text="@{vmHome.userName}"
+                        android:textAppearance="@style/Header19Semibold"
                         android:textColor="@color/gray_4"
-                        android:textSize="19sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="000" />
@@ -126,10 +125,9 @@
                         android:id="@+id/tv_reach_user"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/pretendard_semibold"
                         android:text="@string/home_reach_user"
+                        android:textAppearance="@style/Header19Semibold"
                         android:textColor="@color/gray_4"
-                        android:textSize="19sp"
                         app:layout_constraintStart_toEndOf="@id/tv_reach_user_name"
                         app:layout_constraintTop_toTopOf="@id/tv_reach_user_name"
                         tools:text="@string/home_reach_user" />
@@ -140,10 +138,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="25dp"
-                        android:fontFamily="@font/pretendard_extrabold"
                         android:text="@{vmHome.reachData.read}"
+                        android:textAppearance="@style/Extrabold16"
                         android:textColor="@color/gray_3"
-                        android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_reach_user"
                         tools:text="62" />
@@ -154,10 +151,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="2.5dp"
                         android:layout_marginTop="29dp"
-                        android:fontFamily="@font/pretendard_regular"
                         android:text="@{vmHome.reachData.all}"
+                        android:textAppearance="@style/Mini10Regular"
                         android:textColor="@color/gray_3"
-                        android:textSize="10sp"
                         app:layout_constraintStart_toEndOf="@+id/tv_reach_read"
                         app:layout_constraintTop_toBottomOf="@id/tv_reach_user"
                         tools:text="/ 145" />
@@ -169,13 +165,12 @@
                         android:layout_marginTop="15dp"
                         android:layout_marginEnd="16dp"
                         android:background="@drawable/bg_white_purple_light_radius_6"
-                        android:fontFamily="@font/pretendard_medium"
                         android:paddingVertical="5dp"
                         android:paddingStart="8dp"
                         android:paddingEnd="9dp"
                         android:text="@string/home_reach_contents"
+                        android:textAppearance="@style/Sub12Medium"
                         android:textColor="@color/gray_3"
-                        android:textSize="12sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -185,10 +180,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="35dp"
                         android:layout_marginBottom="16dp"
-                        android:fontFamily="@font/pretendard_light"
                         android:text="@string/home_reach_percent"
+                        android:textAppearance="@style/Light20"
                         android:textColor="@color/havit_purple"
-                        android:textSize="20sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@id/tv_reach_contents"
                         app:layout_constraintTop_toBottomOf="@id/tv_reach_contents" />
@@ -200,10 +194,9 @@
                         android:layout_marginTop="22dp"
                         android:layout_marginEnd="3.5dp"
                         android:layout_marginBottom="14dp"
-                        android:fontFamily="@font/pretendard_bold"
                         android:text="@{vmHome.reachData.rate}"
+                        android:textAppearance="@style/Bold38"
                         android:textColor="@color/havit_purple"
-                        android:textSize="38sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/tv_reach_percent"
                         app:layout_constraintTop_toBottomOf="@id/tv_reach_contents"
@@ -225,18 +218,18 @@
 
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/fcv_search"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="31dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cl_reach" />
+                    app:layout_constraintTop_toBottomOf="@id/cl_reach"
+                    tools:layout="@layout/fragment_home_search" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_category_contents"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
                     android:background="@color/white"
                     app:layout_constraintTop_toBottomOf="@id/fcv_search">
 
@@ -245,10 +238,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:fontFamily="@font/pretendard_semibold"
                         android:text="@{vmHome.userName}"
+                        android:textAppearance="@style/Header17Semibold"
                         android:textColor="@color/havit_gray"
-                        android:textSize="17sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="000" />
@@ -257,10 +249,9 @@
                         android:id="@+id/tv_category_user"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/pretendard_semibold"
                         android:text="@string/home_user_category"
+                        android:textAppearance="@style/Header17Semibold"
                         android:textColor="@color/havit_gray"
-                        android:textSize="17sp"
                         app:layout_constraintStart_toEndOf="@id/tv_category_user_name"
                         app:layout_constraintTop_toTopOf="@id/tv_category_user_name" />
 
@@ -270,10 +261,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:layout_marginEnd="16dp"
-                        android:fontFamily="@font/pretendard_regular"
                         android:text="@string/home_category_all"
+                        android:textAppearance="@style/Sub12Regular"
                         android:textColor="@color/gray_3"
-                        android:textSize="12sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -285,27 +275,116 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_category_user_name" />
 
-                    <ImageView
-                        android:id="@+id/iv_service_use"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_service_use"
                         android:layout_width="0dp"
-                        android:scaleType="fitXY"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="34dp"
                         android:layout_marginHorizontal="16dp"
-                        android:src="@drawable/ic_main_card_service_use"
+                        android:layout_marginTop="34dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/fcv_category" />
+                        app:layout_constraintTop_toBottomOf="@id/fcv_category">
+
+                        <ImageView
+                            android:id="@+id/iv_service_use"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/bg_card_service_use"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_service_use"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_service_use"
+                            android:textAppearance="@style/Text14Medium"
+                            android:textColor="@color/white"
+                            app:layout_constraintBottom_toBottomOf="@id/iv_service_use"
+                            app:layout_constraintEnd_toEndOf="@id/iv_service_use"
+                            app:layout_constraintStart_toStartOf="@id/iv_service_use"
+                            app:layout_constraintTop_toTopOf="@id/iv_service_use" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <include
                         android:id="@+id/layout_home_contents"
                         layout="@layout/layout_home_contents"
-                        app:layout_constraintStart_toStartOf="@id/iv_service_use"
-                        app:layout_constraintTop_toBottomOf="@id/iv_service_use"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="49dp"
+                        app:layout_constraintStart_toStartOf="@id/cl_service_use"
+                        app:layout_constraintTop_toBottomOf="@id/cl_service_use" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_recommend"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:paddingHorizontal="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_category_contents">
+
+                    <TextView
+                        android:id="@+id/tv_recommend_site"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="33dp"
+                        android:text="@string/home_recommend_site"
+                        android:textAppearance="@style/Header17Semibold"
+                        android:textColor="@color/havit_gray"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_recommend_havit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/home_recommend_havit"
+                        android:textAppearance="@style/Text14Regular"
+                        android:textColor="@color/gray_3"
+                        app:layout_constraintStart_toStartOf="@id/tv_recommend_site"
+                        app:layout_constraintTop_toBottomOf="@id/tv_recommend_site" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_recommend"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="29dp"
+                        android:layout_marginBottom="127dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_recommend_havit" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageView
+                    android:id="@+id/iv_logo_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="109dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginBottom="128dp"
+                    android:src="@drawable/ic_logo_box"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_recommend" />
+
+                <ImageView
+                    android:id="@+id/iv_logo_small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="46dp"
+                    android:src="@drawable/ic_logo_small_gray"
+                    app:layout_constraintStart_toEndOf="@id/iv_logo_box"
+                    app:layout_constraintTop_toBottomOf="@id/cl_recommend" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
