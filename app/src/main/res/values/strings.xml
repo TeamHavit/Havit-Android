@@ -40,4 +40,9 @@
     <string name="contents_entire">전체</string>
     <string name="contents_unseen">안 봤어요</string>
     <string name="contents_seen">봤어요</string>
+    <string name="og_image">ogImage</string>
+    <string name="modify_title">제목 수정</string>
+    <string name="complete">완료</string>
+    <string name="set_alarm">알림설정</string>
+    <string name="edit_title">edit_title</string>
 </resources>
