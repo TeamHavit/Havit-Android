@@ -34,9 +34,28 @@ class BottomSheetShareFragment : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
 
+        initTransaction()
+//        setBottomSheetStyle(view)
+
+        val bottomSheet: View = dialog!!.findViewById(R.id.design_bottom_sheet)
+        bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+
+
+    }
+
+    private fun initTransaction() {
+        val noCategoryFragment = NoCategoryFragment()
+
+        childFragmentManager
+            .beginTransaction()
+            .add(R.id.fcv_share, noCategoryFragment)
+            .commit()
+
+    }
+
+    private fun setBottomSheetStyle(view: View) {
         requireView().post {
             val parent = view.parent as View
             val params = parent.layoutParams as CoordinatorLayout.LayoutParams
@@ -50,8 +69,8 @@ class BottomSheetShareFragment : BottomSheetDialogFragment() {
     private fun getTargetHeight(): Int {
         // 휴대폰 화면의 0.94배 높이
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            return (requireActivity().windowManager.currentWindowMetrics.bounds.height() * 0.94).toInt()
-        return (resources.displayMetrics.heightPixels  * 0.94).toInt()
+            return (requireActivity().windowManager.currentWindowMetrics.bounds.height()).toInt()
+        return (resources.displayMetrics.heightPixels).toInt()
     }
 
 }
