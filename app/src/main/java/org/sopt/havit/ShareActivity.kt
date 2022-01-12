@@ -15,8 +15,28 @@ class ShareActivity : AppCompatActivity() {
         binding = ActivityShareBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initView()
+
+    }
+
+    private fun initView() {
+        if (hadLogin()) {
+            startShareProcess()
+        } else {
+            moveToLogin()
+        }
+    }
+
+    private fun moveToLogin(){
+
+    }
+
+    private fun startShareProcess(){
         val bottomSheet = BottomSheetShareFragment()
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+    }
 
+    private fun hadLogin(): Boolean {
+        return true
     }
 }
