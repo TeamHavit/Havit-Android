@@ -27,6 +27,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         initSearchSticky()
         initFragment()
         initProgressBar()
+//        initContentsLayout()
+        initContentsRvAdapter()
+
         return binding.root
     }
 
@@ -43,10 +46,27 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
 
+    private fun initContentsRvAdapter() {
+        contentsAdapter = HomeContentsRvAdapter()
+        binding.layoutHomeContents.rvContents.adapter = contentsAdapter
+        homeViewModel.requestContentsTaken()
+        homeViewModel.contentsList.observe(viewLifecycleOwner) {
+            contentsAdapter.setList(it)
+        }
+        contentsAdapter.notifyDataSetChanged()
+    }
+
+    private fun initContentsLayout() {
+        val inflater = LayoutInflater.from(context)
+        val view = inflater.inflate(R.layout.layout_home_contents_empty, null)
+        val layout = binding.clHomeContents
+        layout.addView(view)
+    }
+
     private fun initProgressBar() {
         val read = 62.toDouble()
         val all = 145.toDouble()
-        val rate: Int = ((read / all) * 100).toInt()
+        val rate : Int = ((read / all) * 100).toInt()
         Log.d("HomeFragment", "rate : $rate")
         binding.pbReach.progress = rate
     }
