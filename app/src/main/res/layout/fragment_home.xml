@@ -49,7 +49,8 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.core.widget.NestedScrollView
+        <org.sopt.havit.util.StickyScrollView
+            android:id="@+id/sv_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -103,6 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="13dp"
+                    android:elevation="5dp"
                     android:background="@drawable/rectangle_white_radius_6"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -388,7 +390,7 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+        </org.sopt.havit.util.StickyScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -24,15 +24,29 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vmHome = homeViewModel
 
+        initSearchSticky()
         initFragment()
         initProgressBar()
         return binding.root
     }
 
+    private fun initSearchSticky() {
+        binding.svMain.run {
+            header = binding.fcvSearch
+            stickListener = { _ ->
+                Log.d("LOGGER_TAG", "stickListener")
+            }
+            freeListener = { _ ->
+                Log.d("LOGGER_TAG", "freeListener")
+            }
+        }
+    }
+
+
     private fun initProgressBar() {
         val read = 62.toDouble()
         val all = 145.toDouble()
-        val rate : Int = ((read / all) * 100).toInt()
+        val rate: Int = ((read / all) * 100).toInt()
         Log.d("HomeFragment", "rate : $rate")
         binding.pbReach.progress = rate
     }
