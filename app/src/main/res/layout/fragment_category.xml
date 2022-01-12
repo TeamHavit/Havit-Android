@@ -87,13 +87,14 @@
                 android:id="@+id/tv_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="1dp"
+                android:layout_marginStart="2dp"
                 android:text="@{categoryViewModel.categoryCount}"
                 android:textAppearance="@style/Sub13Regular"
                 android:textColor="#696969"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_entire"
                 app:layout_constraintStart_toEndOf="@+id/tv_entire"
-                app:layout_constraintTop_toTopOf="@+id/tv_entire" />
+                app:layout_constraintTop_toTopOf="@+id/tv_entire"
+                tools:text="0" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_add"
