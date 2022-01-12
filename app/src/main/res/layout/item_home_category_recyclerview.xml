@@ -15,5 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:spanCount="2"
         tools:itemCount="6"
+        android:paddingHorizontal="12dp"
+        android:clipToPadding="false"
         tools:listitem="@layout/item_home_category_list" />
 </androidx.constraintlayout.widget.ConstraintLayout>

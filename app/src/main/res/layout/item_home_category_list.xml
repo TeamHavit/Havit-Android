@@ -4,17 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
-            name="vm_home"
-            type="org.sopt.havit.ui.home.HomeViewModel" />
+            name="data_home_category"
+            type="org.sopt.havit.data.HomeCategoryData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
+        android:layout_marginVertical="4dp"
         android:clipToPadding="false"
-        android:paddingHorizontal="8dp">
+        android:paddingHorizontal="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -39,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="2dp"
+                android:text="@{data_home_category.title}"
                 android:textAppearance="@style/Header16Medium"
                 android:textColor="@color/havit_gray"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
+                android:text="@{data_home_category.count}"
                 android:textAppearance="@style/Sub12Regular"
                 android:textColor="@color/havit_purple"
                 app:layout_constraintStart_toEndOf="@id/tv_save"

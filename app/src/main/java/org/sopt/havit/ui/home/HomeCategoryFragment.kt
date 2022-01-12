@@ -11,7 +11,10 @@ import org.sopt.havit.ui.base.BaseBindingFragment
 
 class HomeCategoryFragment :
     BaseBindingFragment<FragmentHomeCategoryBinding>(R.layout.fragment_home_category) {
+
     private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var categoryVpAdapter: HomeCategoryVpAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -21,7 +24,24 @@ class HomeCategoryFragment :
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vmHome = homeViewModel
 
+        initVpAdapter()
+        initIndicator()
+
         return binding.root
+    }
+
+    private fun initIndicator() {
+        val indicator = binding.indicatorCategory
+        indicator.setViewPager2(binding.vpCategory)
+    }
+
+    private fun initVpAdapter() {
+        categoryVpAdapter = HomeCategoryVpAdapter()
+        binding.vpCategory.adapter = categoryVpAdapter
+
+        homeViewModel.categoryData.observe(viewLifecycleOwner) {
+            categoryVpAdapter.setList(it)
+        }
     }
 
 }

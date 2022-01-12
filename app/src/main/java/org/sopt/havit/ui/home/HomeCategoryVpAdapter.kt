@@ -7,7 +7,11 @@ import org.sopt.havit.data.HomeCategoryListData
 import org.sopt.havit.databinding.ItemHomeCategoryRecyclerviewBinding
 
 class HomeCategoryVpAdapter : RecyclerView.Adapter<HomeCategoryVpAdapter.HomeCategoryViewHolder>() {
-    val categoryList = mutableListOf<HomeCategoryListData>()
+    var categoryList = mutableListOf<HomeCategoryListData>()
+
+    fun setList(list: List<HomeCategoryListData>) {
+        categoryList = list as MutableList<HomeCategoryListData>
+    }
 
     class HomeCategoryViewHolder(private val binding: ItemHomeCategoryRecyclerviewBinding) :
         RecyclerView.ViewHolder(binding.root) {

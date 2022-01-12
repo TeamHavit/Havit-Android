@@ -19,36 +19,35 @@ class HomeViewModel : ViewModel() {
     }
     val userName: LiveData<String> = _userName
 
-
     private val _categoryData = MutableLiveData<List<HomeCategoryListData>>().apply {
         value = listOf(
             HomeCategoryListData(
                 listOf(
-                    HomeCategoryData("", "전체", 19),
-                    HomeCategoryData("", "category1", 20),
-                    HomeCategoryData("", "category2", 21),
-                    HomeCategoryData("", "category3", 22),
-                    HomeCategoryData("", "category4", 22),
-                    HomeCategoryData("", "category5", 22)
+                    HomeCategoryData("", "전체", 19.toString()),
+                    HomeCategoryData("", "category1", 20.toString()),
+                    HomeCategoryData("", "category2", 21.toString()),
+                    HomeCategoryData("", "category3", 22.toString()),
+                    HomeCategoryData("", "category4", 22.toString()),
+                    HomeCategoryData("", "category5", 22.toString())
                 )
             ),
             HomeCategoryListData(
                 listOf(
-                    HomeCategoryData("", "category6", 19),
-                    HomeCategoryData("", "category7", 20),
-                    HomeCategoryData("", "category8", 21),
-                    HomeCategoryData("", "category9", 22),
-                    HomeCategoryData("", "category10", 22),
-                    HomeCategoryData("", "category11", 22)
+                    HomeCategoryData("", "category6", 19.toString()),
+                    HomeCategoryData("", "category7", 20.toString()),
+                    HomeCategoryData("", "category8", 21.toString()),
+                    HomeCategoryData("", "category9", 22.toString()),
+                    HomeCategoryData("", "category10", 22.toString()),
+                    HomeCategoryData("", "category11", 22.toString())
                 )
             ),
             HomeCategoryListData(
                 listOf(
-                    HomeCategoryData("", "category12", 19),
-                    HomeCategoryData("", "category13", 20),
-                    HomeCategoryData("", "category14", 21),
-                    HomeCategoryData("", "category15", 22),
-                    HomeCategoryData("", "category16", 22)
+                    HomeCategoryData("", "category12", 19.toString()),
+                    HomeCategoryData("", "category13", 20.toString()),
+                    HomeCategoryData("", "category14", 21.toString()),
+                    HomeCategoryData("", "category15", 22.toString()),
+                    HomeCategoryData("", "category16", 22.toString())
                 )
             )
         )

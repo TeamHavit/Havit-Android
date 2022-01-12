@@ -18,8 +18,7 @@ class HomeCategoryRvAdapter :
     class HomeCategoryRvViewHolder(private val binding: ItemHomeCategoryListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: HomeCategoryData) {
-            binding.tvTitle.text = data.title
-            binding.tvCount.text = data.count.toString()
+            binding.dataHomeCategory = data
         }
     }
 
@@ -46,13 +45,12 @@ class HomeCategoryRvAdapter :
     ) {
         holder.onBind(categoryList[position])
 
-        if (position == 0) {
-            holder.itemView.background = categoryBackground
-            binding.ivIcon.visibility = categoryIcon!!
-        }
+//        if (position == 0) {
+//            holder.itemView.background = categoryBackground
+//            binding.ivIcon.visibility = categoryIcon!!
+//        }
         // else
     }
 
     override fun getItemCount(): Int = categoryList.size
-
 }
