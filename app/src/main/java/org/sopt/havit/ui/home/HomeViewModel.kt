@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.sopt.havit.data.HomeCategoryData
 import org.sopt.havit.data.HomeCategoryListData
+import org.sopt.havit.data.HomeContentsData
 import org.sopt.havit.data.HomeReachData
 
 class HomeViewModel : ViewModel() {
@@ -58,4 +59,22 @@ class HomeViewModel : ViewModel() {
         )
     }
     val categoryData: LiveData<List<HomeCategoryListData>> = _categoryData
+
+    private val _contentsList = MutableLiveData<List<HomeContentsData>>()
+    val contentsList: LiveData<List<HomeContentsData>> = _contentsList
+
+    fun requestContentsTaken() {
+        val list = listOf(
+            HomeContentsData("", "카테고리 이름1", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
+            HomeContentsData("", "카테고리 이름2", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
+            HomeContentsData("", "카테고리 이름3", "헤더입니다", "2021.11.24"),
+            HomeContentsData("", "카테고리 이름4", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
+            HomeContentsData("", "카테고리 이름5", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
+            HomeContentsData("", "카테고리 이름6", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
+            HomeContentsData("", "카테고리 이름7", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
+            HomeContentsData("", "카테고리 이름8", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24")
+        )
+        _contentsList.value = list
+    }
+
 }
