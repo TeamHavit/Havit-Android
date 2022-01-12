@@ -13,6 +13,7 @@ import org.sopt.havit.ui.base.BaseBindingFragment
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var contentsAdapter: HomeContentsRvAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +67,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private fun initProgressBar() {
         val read = 62.toDouble()
         val all = 145.toDouble()
-        val rate : Int = ((read / all) * 100).toInt()
+        val rate: Int = ((read / all) * 100).toInt()
         Log.d("HomeFragment", "rate : $rate")
         binding.pbReach.progress = rate
     }
