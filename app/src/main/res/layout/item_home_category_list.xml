@@ -18,6 +18,7 @@
         android:paddingHorizontal="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_category_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rectangle_purple_category_radius_6"

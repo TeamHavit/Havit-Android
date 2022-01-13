@@ -14,16 +14,25 @@ class HomeViewModel : ViewModel() {
         value = "도달률이 50% 이하로 떨어졌어요!"
     }
     val popupData: LiveData<String> = _popupData
+    fun requestPopupData(popup :String) {
+        _popupData.value = popup
+    }
 
     private val _reachData = MutableLiveData<HomeReachData>().apply {
-        value = HomeReachData(62.toString(), 145.toString(), 100.toString())
+        value = HomeReachData(62.toString(), "/ 145", 100.toString())
     }
     val reachData: LiveData<HomeReachData> = _reachData
+    fun requestReachData(homeReach: HomeReachData) {
+        _reachData.value = homeReach
+    }
 
     private val _userName = MutableLiveData<String>().apply {
         value = "000"
     }
     val userName: LiveData<String> = _userName
+    fun requestUserName(userName: String) {
+        _userName.value = userName
+    }
 
     private val _categoryData = MutableLiveData<List<HomeCategoryListData>>().apply {
         value = listOf(
@@ -59,21 +68,14 @@ class HomeViewModel : ViewModel() {
         )
     }
     val categoryData: LiveData<List<HomeCategoryListData>> = _categoryData
+    fun requestCategoryData(homeCategoryData: List<HomeCategoryListData>) {
+        _categoryData.value = homeCategoryData
+    }
 
     private val _contentsList = MutableLiveData<List<HomeContentsData>>()
     val contentsList: LiveData<List<HomeContentsData>> = _contentsList
 
-    fun requestContentsTaken() {
-        val list = listOf(
-            HomeContentsData("", "카테고리 이름1", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
-            HomeContentsData("", "카테고리 이름2", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
-            HomeContentsData("", "카테고리 이름3", "헤더입니다", "2021.11.24"),
-            HomeContentsData("", "카테고리 이름4", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
-            HomeContentsData("", "카테고리 이름5", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
-            HomeContentsData("", "카테고리 이름6", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
-            HomeContentsData("", "카테고리 이름7", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
-            HomeContentsData("", "카테고리 이름8", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24")
-        )
+    fun requestContentsTaken(list : List<HomeContentsData>) {
         _contentsList.value = list
     }
 
