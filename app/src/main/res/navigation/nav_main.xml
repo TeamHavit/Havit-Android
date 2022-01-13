@@ -15,13 +15,17 @@
         android:id="@+id/navigation_category"
         android:name="org.sopt.havit.ui.category.CategoryFragment"
         android:label="@string/title_category"
-        tools:layout="@layout/fragment_category" />
+        tools:layout="@layout/fragment_category">
+        <action
+            android:id="@+id/action_navigation_category_to_contentsFragment"
+            app:destination="@id/contentsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_my_page"
         android:name="org.sopt.havit.ui.mypage.MyPageFragment"
         android:label="@string/title_my_page"
-        tools:layout="@layout/fragment_my_page" >
+        tools:layout="@layout/fragment_my_page">
         <action
             android:id="@+id/action_navigation_my_page_to_searchFragment"
             app:destination="@id/searchFragment" />
@@ -30,5 +34,9 @@
         android:id="@+id/searchFragment"
         android:name="org.sopt.havit.ui.search.SearchFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search"/>
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/contentsFragment"
+        android:name="org.sopt.havit.ui.contents.ContentsFragment"
+        android:label="ContentsFragment" />
 </navigation>
