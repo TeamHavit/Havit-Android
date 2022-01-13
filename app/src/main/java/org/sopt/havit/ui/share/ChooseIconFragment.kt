@@ -24,6 +24,7 @@ class ChooseIconFragment : Fragment() {
 
         binding.btnNext.setOnClickListener {
 
+            // TODO: snack bar로 custom (release)
             val toast = Toast(requireContext())
             // set text
             val view = layoutInflater.inflate(R.layout.toast_category_added, null)
