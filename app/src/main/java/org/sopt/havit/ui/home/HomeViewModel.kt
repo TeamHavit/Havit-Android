@@ -3,10 +3,7 @@ package org.sopt.havit.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.sopt.havit.data.HomeCategoryData
-import org.sopt.havit.data.HomeCategoryListData
-import org.sopt.havit.data.HomeContentsData
-import org.sopt.havit.data.HomeReachData
+import org.sopt.havit.data.*
 
 class HomeViewModel : ViewModel() {
 
@@ -14,7 +11,7 @@ class HomeViewModel : ViewModel() {
         value = "도달률이 50% 이하로 떨어졌어요!"
     }
     val popupData: LiveData<String> = _popupData
-    fun requestPopupData(popup :String) {
+    fun requestPopupData(popup: String) {
         _popupData.value = popup
     }
 
@@ -75,8 +72,14 @@ class HomeViewModel : ViewModel() {
     private val _contentsList = MutableLiveData<List<HomeContentsData>>()
     val contentsList: LiveData<List<HomeContentsData>> = _contentsList
 
-    fun requestContentsTaken(list : List<HomeContentsData>) {
+    fun requestContentsTaken(list: List<HomeContentsData>) {
         _contentsList.value = list
+    }
+
+    private val _recommendList = MutableLiveData<List<HomeRecommendData>>()
+    val recommendList: LiveData<List<HomeRecommendData>> = _recommendList
+    fun requestRecommendTaken(list: List<HomeRecommendData>) {
+        _recommendList.value = list
     }
 
 }

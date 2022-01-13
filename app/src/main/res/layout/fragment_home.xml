@@ -369,40 +369,48 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="29dp"
-                        android:layout_marginBottom="127dp"
+                        android:layout_marginBottom="121dp"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_recommend_havit" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="582dp"
-                        app:layout_constraintTop_toBottomOf="@id/tv_recommend_havit" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_recommend_havit"
+                        app:spanCount="3"
+                        tools:itemCount="9"
+                        tools:listitem="@layout/item_home_recommend_list" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <ImageView
-                    android:id="@+id/iv_logo_box"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_bottom_logo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="109dp"
                     android:layout_marginTop="28dp"
                     android:layout_marginBottom="128dp"
-                    android:src="@drawable/ic_logo_box"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cl_recommend" />
+                    app:layout_constraintTop_toBottomOf="@id/cl_recommend">
 
-                <ImageView
-                    android:id="@+id/iv_logo_small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="46dp"
-                    android:src="@drawable/ic_logo_small_gray"
-                    app:layout_constraintStart_toEndOf="@id/iv_logo_box"
-                    app:layout_constraintTop_toBottomOf="@id/cl_recommend" />
+                    <ImageView
+                        android:id="@+id/iv_logo_box"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_logo_box"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
+                    <ImageView
+                        android:id="@+id/iv_logo_small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:src="@drawable/ic_logo_small_gray"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_logo_box"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </org.sopt.havit.util.StickyScrollView>
