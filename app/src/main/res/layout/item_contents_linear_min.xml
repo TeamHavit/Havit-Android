@@ -35,8 +35,8 @@
                 android:id="@+id/iv_alarm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:src="@drawable/ic_alarmtag_purple" />
+                android:src="@drawable/ic_alarmtag_purple"
+                android:visibility="visible" />
         </FrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -106,15 +106,17 @@
 
         <TextView
             android:id="@+id/tv_url"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="1dp"
             android:ellipsize="end"
             android:ems="10"
+            android:maxLines="1"
             android:text="@{content.url}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintBottom_toBottomOf="@+id/tv_divider"
+            app:layout_constraintEnd_toEndOf="@+id/tv_description"
             app:layout_constraintStart_toEndOf="@+id/tv_divider"
             app:layout_constraintTop_toTopOf="@+id/tv_divider"
             tools:text="www.brunch.com.dididididi" />
