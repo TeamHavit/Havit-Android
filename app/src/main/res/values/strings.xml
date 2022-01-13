@@ -50,4 +50,6 @@
     <string name="edit_title">edit_title</string>
     <string name="edit_title_description">TIP. 알아보기 쉬운 제목은 어때요?</string>
     <string name="edit_title_kor">컨텐츠 제목을 수정하세요</string>
+    <string name="webview_unread">콘텐츠 확인하기</string>
+    <string name="webview_read">콘텐츠 확인 완료</string>
 </resources>
