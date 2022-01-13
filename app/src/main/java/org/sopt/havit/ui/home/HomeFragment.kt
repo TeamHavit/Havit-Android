@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import org.sopt.havit.R
 import org.sopt.havit.data.HomeContentsData
+import org.sopt.havit.data.HomeRecommendData
 import org.sopt.havit.databinding.FragmentHomeBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 
@@ -15,6 +16,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var contentsAdapter: HomeContentsRvAdapter
+    private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,8 +33,31 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         initProgressBar()
 //        initContentsLayout()
         initContentsRvAdapter()
+        initRecommendRvAdapter()
 
         return binding.root
+    }
+
+    private fun initRecommendRvAdapter() {
+        recommendRvAdapter = HomeRecommendRvAdapter()
+        binding.rvRecommend.adapter = recommendRvAdapter
+        val list = listOf(
+            HomeRecommendData("", "이름1", "종류 / 카테고리"),
+            HomeRecommendData("", "이름2", "종류 / 카테고리"),
+            HomeRecommendData("", "이름3", "종류 / 카테고리"),
+            HomeRecommendData("", "이름4", "종류 / 카테고리"),
+            HomeRecommendData("", "이름5", "종류 / 카테고리"),
+            HomeRecommendData("", "이름6", "종류 / 카테고리"),
+            HomeRecommendData("", "이름7", "종류 / 카테고리"),
+            HomeRecommendData("", "이름8", "종류 / 카테고리"),
+            HomeRecommendData("", "이름9", "종류 / 카테고리")
+
+        )
+        homeViewModel.requestRecommendTaken(list)
+        homeViewModel.recommendList.observe(viewLifecycleOwner) {
+            recommendRvAdapter.setList(it)
+        }
+        recommendRvAdapter.notifyDataSetChanged()
     }
 
     private fun initSearchSticky() {
