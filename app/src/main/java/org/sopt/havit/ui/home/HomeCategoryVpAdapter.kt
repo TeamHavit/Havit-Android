@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.data.HomeCategoryListData
 import org.sopt.havit.databinding.ItemHomeCategoryRecyclerviewBinding
+import org.sopt.havit.ui.home.HomeCategoryRvAdapter.Companion.isFirst
 
 class HomeCategoryVpAdapter : RecyclerView.Adapter<HomeCategoryVpAdapter.HomeCategoryViewHolder>() {
     var categoryList = mutableListOf<HomeCategoryListData>()
@@ -21,6 +22,8 @@ class HomeCategoryVpAdapter : RecyclerView.Adapter<HomeCategoryVpAdapter.HomeCat
             rvCategoryAdapter.categoryList.addAll(
                 data.categoryListData
             )
+            if(position == isFirst)
+                rvCategoryAdapter.setItemViewType(isFirst)
             rvCategoryAdapter.notifyDataSetChanged()
         }
     }

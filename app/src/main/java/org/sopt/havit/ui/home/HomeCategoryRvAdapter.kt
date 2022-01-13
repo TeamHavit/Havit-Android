@@ -2,8 +2,11 @@ package org.sopt.havit.ui.home
 
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import org.sopt.havit.R
 import org.sopt.havit.data.HomeCategoryData
 import org.sopt.havit.databinding.ItemHomeCategoryListBinding
 
@@ -14,12 +17,36 @@ class HomeCategoryRvAdapter :
     val categoryList = mutableListOf<HomeCategoryData>()
     private var categoryBackground: Drawable? = null
     private var categoryIcon: Int? = null
+    private var viewType = 1
+
+    override fun getItemViewType(position: Int): Int {
+        return viewType
+    }
 
     class HomeCategoryRvViewHolder(private val binding: ItemHomeCategoryListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: HomeCategoryData) {
+        fun onBind(data: HomeCategoryData, position: Int) {
             binding.dataHomeCategory = data
+
+            if (position == isFirst) {
+                when (itemViewType) {
+                    isFirst -> {
+                        binding.clCategoryItem.setBackgroundResource(R.drawable.bg_main_card_category_all_img)
+                        binding.ivIcon.visibility = View.INVISIBLE
+                    }
+                    else -> {
+                        binding.clCategoryItem.setBackgroundResource(R.drawable.rectangle_purple_category_radius_6)
+                        binding.ivIcon.visibility = View.VISIBLE
+                    }
+
+                }
+            }
         }
+    }
+
+    fun setItemViewType(type: Int) {
+        viewType = type
+        notifyDataSetChanged()
     }
 
     fun setCallbackChangeItemBackground(background: Drawable?, icon: Int) {
@@ -43,14 +70,12 @@ class HomeCategoryRvAdapter :
         holder: HomeCategoryRvAdapter.HomeCategoryRvViewHolder,
         position: Int
     ) {
-        holder.onBind(categoryList[position])
-
-//        if (position == 0) {
-//            holder.itemView.background = categoryBackground
-//            binding.ivIcon.visibility = categoryIcon!!
-//        }
-        // else
+        holder.onBind(categoryList[position], position)
     }
 
     override fun getItemCount(): Int = categoryList.size
+
+    companion object {
+        const val isFirst = 0
+    }
 }
