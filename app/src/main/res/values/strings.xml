@@ -45,4 +45,6 @@
     <string name="complete">완료</string>
     <string name="set_alarm">알림설정</string>
     <string name="edit_title">edit_title</string>
+    <string name="edit_title_description">TIP. 알아보기 쉬운 제목은 어때요?</string>
+    <string name="edit_title_kor">컨텐츠 제목을 수정하세요</string>
 </resources>
