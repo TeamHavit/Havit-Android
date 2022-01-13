@@ -1,19 +1,15 @@
 package org.sopt.havit.ui.share
 
 import android.app.Dialog
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentBottomSheetShareBinding
-
 
 class BottomSheetShareFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentBottomSheetShareBinding? = null
@@ -37,40 +33,28 @@ class BottomSheetShareFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initTransaction()
-//        setBottomSheetStyle(view)
-
-        val bottomSheet: View = dialog!!.findViewById(R.id.design_bottom_sheet)
-        bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-
-
+        getBottomSheetHeight()
     }
 
     private fun initTransaction() {
-        val noCategoryFragment = NoCategoryFragment()
-
-        childFragmentManager
-            .beginTransaction()
-            .add(R.id.fcv_share, noCategoryFragment)
+        childFragmentManager.beginTransaction()
+            .add(R.id.fcv_share, EditTitleFragment())
             .commit()
-
     }
 
-    private fun setBottomSheetStyle(view: View) {
-        requireView().post {
-            val parent = view.parent as View
-            val params = parent.layoutParams as CoordinatorLayout.LayoutParams
-            val behavior = params.behavior
-            val bottomSheetBehavior = behavior as BottomSheetBehavior<*>?
-            bottomSheetBehavior?.peekHeight = getTargetHeight()
-            parent.setBackgroundColor(Color.TRANSPARENT)
+    private fun getBottomSheetHeight() {
+        (dialog as BottomSheetDialog).behavior.apply {
+            state = BottomSheetBehavior.STATE_EXPANDED      // 높이 고정
+            skipCollapsed = true                            // HALF_EXPANDED 안되게 설정
         }
-    }
 
-    private fun getTargetHeight(): Int {
         // 휴대폰 화면의 0.94배 높이
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            return (requireActivity().windowManager.currentWindowMetrics.bounds.height()).toInt()
-        return (resources.displayMetrics.heightPixels).toInt()
+        binding.bottomSheetShare.layoutParams.height =
+            (resources.displayMetrics.heightPixels * 0.94).toInt()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        requireActivity().finish()
+    }
 }
