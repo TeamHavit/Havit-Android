@@ -22,7 +22,7 @@ class HomeCategoryVpAdapter : RecyclerView.Adapter<HomeCategoryVpAdapter.HomeCat
             rvCategoryAdapter.categoryList.addAll(
                 data.categoryListData
             )
-            if(position == isFirst)
+            if (position == isFirst)
                 rvCategoryAdapter.setItemViewType(isFirst)
             rvCategoryAdapter.notifyDataSetChanged()
         }

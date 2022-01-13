@@ -54,12 +54,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="13dp"
+                android:text="@string/home_category_save"
                 android:textAppearance="@style/Sub12Regular"
                 android:textColor="@color/gray_3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/tv_title"
-                app:layout_constraintTop_toBottomOf="@id/tv_title"
-                android:text="@string/home_category_save" />
+                app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
             <TextView
                 android:id="@+id/tv_count"

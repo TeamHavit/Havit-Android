@@ -14,7 +14,7 @@ class HomeViewModel : ViewModel() {
         value = "도달률이 50% 이하로 떨어졌어요!"
     }
     val popupData: LiveData<String> = _popupData
-    fun requestPopupData(popup :String) {
+    fun requestPopupData(popup: String) {
         _popupData.value = popup
     }
 
@@ -75,7 +75,7 @@ class HomeViewModel : ViewModel() {
     private val _contentsList = MutableLiveData<List<HomeContentsData>>()
     val contentsList: LiveData<List<HomeContentsData>> = _contentsList
 
-    fun requestContentsTaken(list : List<HomeContentsData>) {
+    fun requestContentsTaken(list: List<HomeContentsData>) {
         _contentsList.value = list
     }
 
