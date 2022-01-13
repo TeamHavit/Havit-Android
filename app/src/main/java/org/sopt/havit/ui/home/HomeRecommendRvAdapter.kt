@@ -25,17 +25,17 @@ class HomeRecommendRvAdapter :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): HomeRecommendRvAdapter.HomeRecommendViewHolder {
+    ): HomeRecommendViewHolder {
         val binding = ItemHomeRecommendListBinding.inflate(
             LayoutInflater.from(parent.context),
             parent, false
         )
 
-        return HomeRecommendRvAdapter.HomeRecommendViewHolder(binding)
+        return HomeRecommendViewHolder(binding)
     }
 
     override fun onBindViewHolder(
-        holder: HomeRecommendRvAdapter.HomeRecommendViewHolder,
+        holder: HomeRecommendViewHolder,
         position: Int
     ) {
         holder.onBind(recommendList[position])
