@@ -47,7 +47,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
-
     private fun initContentsRvAdapter() {
         contentsAdapter = HomeContentsRvAdapter()
         binding.layoutHomeContents.rvContents.adapter = contentsAdapter
