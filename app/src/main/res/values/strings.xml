@@ -40,4 +40,7 @@
     <string name="contents_entire">전체</string>
     <string name="contents_unseen">안 봤어요</string>
     <string name="contents_seen">봤어요</string>
+    <string name="save_title">콘텐츠 저장</string>
+    <string name="save_info1">URL 링크</string>
+    <string name="save_info2">를 입력 및 붙여넣기 해주세요</string>
 </resources>
