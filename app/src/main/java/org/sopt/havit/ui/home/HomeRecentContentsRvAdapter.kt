@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.data.HomeContentsData
 import org.sopt.havit.databinding.ItemHomeRecentContentsListBinding
 
-class HomeContentsRvAdapter : RecyclerView.Adapter<HomeContentsRvAdapter.HomeContentsViewHolder>() {
+class HomeRecentContentsRvAdapter : RecyclerView.Adapter<HomeRecentContentsRvAdapter.HomeContentsViewHolder>() {
 
     var contentsList = mutableListOf<HomeContentsData>()
 

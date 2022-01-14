@@ -17,7 +17,7 @@ import org.sopt.havit.ui.base.BaseBindingFragment
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel: HomeViewModel by viewModels()
-    private lateinit var contentsAdapter: HomeContentsRvAdapter
+    private lateinit var contentsAdapter: HomeRecentContentsRvAdapter
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
     private lateinit var action : NavDirections
 
@@ -104,7 +104,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun initContentsRvAdapter() {
-        contentsAdapter = HomeContentsRvAdapter()
+        contentsAdapter = HomeRecentContentsRvAdapter()
         binding.rvContents.adapter = contentsAdapter
         val list = listOf(
             HomeContentsData("", "카테고리 이름1", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
