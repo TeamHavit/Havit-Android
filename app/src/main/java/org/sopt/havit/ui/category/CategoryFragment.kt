@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import org.sopt.havit.R
 import org.sopt.havit.data.CategoryData
 import org.sopt.havit.databinding.FragmentCategoryBinding
@@ -27,6 +28,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         initAdapter()
         setData()
         dataObserve()
+        moveManage()
 
         return binding.root
     }
@@ -63,6 +65,12 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
             categoryCount.observe(viewLifecycleOwner) {
                 binding.tvCount.text = it
             }
+        }
+    }
+
+    private fun moveManage(){
+        binding.tvModify.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_category_to_categoryOrderModifyFragment)
         }
     }
 }
