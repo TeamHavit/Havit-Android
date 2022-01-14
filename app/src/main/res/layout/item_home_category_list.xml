@@ -42,6 +42,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="2dp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="@{data_home_category.title}"
                 android:textAppearance="@style/Header16Medium"
                 android:textColor="@color/havit_gray"
