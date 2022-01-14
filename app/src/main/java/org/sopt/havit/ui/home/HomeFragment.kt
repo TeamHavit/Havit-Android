@@ -29,7 +29,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.vmHome = homeViewModel
 
         initSearchSticky()
-        initFragment()
+        initCategoryFragment()
         initProgressBar()
 //        initContentsLayout()
         initContentsRvAdapter()
@@ -51,7 +51,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             HomeRecommendData("", "이름7", "종류 / 카테고리"),
             HomeRecommendData("", "이름8", "종류 / 카테고리"),
             HomeRecommendData("", "이름9", "종류 / 카테고리")
-
         )
         homeViewModel.requestRecommendTaken(list)
         homeViewModel.recommendList.observe(viewLifecycleOwner) {
@@ -62,7 +61,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private fun initSearchSticky() {
         binding.svMain.run {
-            header = binding.fcvSearch
+            header = binding.clStickyView
             stickListener = { _ ->
                 Log.d("LOGGER_TAG", "stickListener")
             }
@@ -107,14 +106,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.pbReach.progress = rate
     }
 
-    private fun initFragment() {
-        val fragmentHomeSearch = HomeSearchFragment()
+    private fun initCategoryFragment() {
         val fragmentHomeCategory = HomeCategoryFragment()
 //        val fragmentHomeCategoryEmpty = HomeCategoryEmptyFragment()
-
-        childFragmentManager.beginTransaction()
-            .add(R.id.fcv_search, fragmentHomeSearch)
-            .commit()
 
         childFragmentManager.beginTransaction()
             .add(R.id.fcv_category, fragmentHomeCategory)
