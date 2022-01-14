@@ -13,7 +13,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="8dp"
-        android:background="@color/white"
+        android:background="@color/white_gray"
         tools:context=".ui.home.HomeCategoryEmptyFragment">
 
         <TextView
@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
             android:gravity="center_horizontal"
+            android:lineHeight="18sp"
             android:text="@string/home_category_empty_recommend_create_category"
             android:textAppearance="@style/Sub13Regular"
             android:textColor="@color/gray_3"

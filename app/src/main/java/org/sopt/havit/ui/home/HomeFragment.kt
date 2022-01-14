@@ -108,10 +108,13 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private fun initCategoryFragment() {
         val fragmentHomeCategory = HomeCategoryFragment()
-//        val fragmentHomeCategoryEmpty = HomeCategoryEmptyFragment()
+        val fragmentHomeCategoryEmpty = HomeCategoryEmptyFragment()
 
+//        childFragmentManager.beginTransaction()
+//            .add(R.id.fcv_category, fragmentHomeCategory)
+//            .commit()
         childFragmentManager.beginTransaction()
-            .add(R.id.fcv_category, fragmentHomeCategory)
+            .add(R.id.fcv_category, fragmentHomeCategoryEmpty)
             .commit()
     }
 
