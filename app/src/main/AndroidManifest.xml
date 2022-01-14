@@ -22,9 +22,6 @@
             android:name=".ui.notification.NotificationActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.home.HomeAddCategoryActivity"
-            android:exported="true" />
-        <activity
             android:name=".ui.home.HomeCategoryAllActivity"
             android:exported="true" />
         <activity

@@ -25,8 +25,7 @@ class HomeCategoryEmptyFragment :
 
     private fun clickBtnAddCategory() {
         binding.tvAddCategory.setOnClickListener {
-            val intent = Intent(requireActivity(), HomeAddCategoryActivity::class.java)
-            startActivity(intent)
+            // move to AddCategory BottomSheet
         }
     }
 
