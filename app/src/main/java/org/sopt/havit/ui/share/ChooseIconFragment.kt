@@ -28,8 +28,8 @@ class ChooseIconFragment : Fragment() {
             val toast = Toast(requireContext())
             // set text
             val view = layoutInflater.inflate(R.layout.toast_category_added, null)
-            val textView : TextView = view.findViewById(R.id.tv_toast_category)
-            textView.text = "커스텀 토스트 메세지"
+            val textView : TextView = view.findViewById(R.id.tv_toast_category1)
+            textView.text = "test"
             toast.view = view
             toast.show()
 
