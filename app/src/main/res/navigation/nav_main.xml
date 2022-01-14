@@ -56,10 +56,10 @@
     <fragment
         android:id="@+id/homeContentsFragment"
         android:name="org.sopt.havit.ui.home.contents.HomeContentsFragment"
-        android:label="HomeContentsFragment" >
+        android:label="HomeContentsFragment">
         <argument
             android:name="unseenOrRecent"
-            app:argType="string"
-            android:defaultValue='""' />
+            android:defaultValue='""'
+            app:argType="string" />
     </fragment>
 </navigation>

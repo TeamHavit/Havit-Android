@@ -1,10 +1,12 @@
 package org.sopt.havit.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
@@ -19,7 +21,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var contentsAdapter: HomeRecentContentsRvAdapter
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
-    private lateinit var action : NavDirections
+    private lateinit var action: NavDirections
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,11 +57,11 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             findNavController().navigate(R.id.action_navigation_home_to_searchFragment)
         }
         binding.tvCategoryAll.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_homeContentsFragment)
+            val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
+            startActivity(intent)
         }
         binding.tvMoreContents.setOnClickListener {
-            action = HomeFragmentDirections.actionNavigationHomeToHomeContentsFragment("recent")
-            findNavController().navigate(action)
+            findNavController().navigate(R.id.action_navigation_home_to_homeContentsFragment)
         }
     }
 
