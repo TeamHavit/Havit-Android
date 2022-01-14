@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +33,7 @@ class ContentsFragment : BaseBindingFragment<FragmentContentsBinding>(R.layout.f
         setData()
         dataObserve()
         changeLayout()
+        clickBack()
 
         return binding.root
     }
@@ -110,6 +112,12 @@ class ContentsFragment : BaseBindingFragment<FragmentContentsBinding>(R.layout.f
                     binding.ivLayout.setImageResource(R.drawable.ic_layout_3)
                 }
             }
+        }
+    }
+
+    private fun clickBack(){
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
