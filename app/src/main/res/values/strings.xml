@@ -58,4 +58,5 @@
     <string name="contents_add">contents_add</string>
     <string name="is_selected">isSelected</string>
     <string name="choose_category">카테고리를 선택하세요</string>
+    <string name="set_notification_time">알림 받을 시간을 설정하세요</string>
 </resources>
