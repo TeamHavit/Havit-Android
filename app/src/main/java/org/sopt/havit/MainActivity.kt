@@ -1,13 +1,12 @@
 package org.sopt.havit
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -27,39 +26,41 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         navView = binding.navView
 
-        navHostFragment= supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         navController = navHostFragment.navController
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 
         navView.setupWithNavController(navController)
-        binding.navView.background=null
+        binding.navView.background = null
         navView.menu.getItem(3).isEnabled = false
         binding.save.bringToFront()
 
         val fab: View = findViewById(R.id.save)
         fab.setOnClickListener { view ->
-            SaveFragment().show(supportFragmentManager,"sdf")
+            SaveFragment().show(supportFragmentManager, "sdf")
         }
 
         bottomNavVisible()
     }
 
-    private fun bottomNavVisible(){
+    private fun bottomNavVisible() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            if(destination.id == R.id.contentsFragment){
+            if (destination.id == R.id.contentsFragment) {
                 navView.visibility = GONE
-                with(binding){
+                with(binding) {
                     bottomAppBar.visibility = GONE
-                    navHostFragmentActivityMain.layoutParams.height = resources.displayMetrics.heightPixels
+                    navHostFragmentActivityMain.layoutParams.height =
+                        resources.displayMetrics.heightPixels
                     save.visibility = GONE
                 }
-            }
-            else {
+            } else {
                 navView.isVisible = true
-                with(binding){
+                with(binding) {
                     bottomAppBar.isVisible = true
-                    navHostFragmentActivityMain.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+                    navHostFragmentActivityMain.layoutParams.height =
+                        ViewGroup.LayoutParams.MATCH_PARENT
                     save.isVisible = true
                 }
             }
