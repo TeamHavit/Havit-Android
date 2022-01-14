@@ -87,7 +87,6 @@
             android:id="@+id/btn_save_next"
             android:layout_width="0dp"
             android:layout_height="58dp"
-            android:layout_alignParentBottom="true"
             android:background="@color/gray_2"
             android:text="@string/next"
             android:textAppearance="@style/Text16Semibold"
