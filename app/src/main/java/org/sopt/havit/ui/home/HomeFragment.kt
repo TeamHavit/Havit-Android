@@ -53,6 +53,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
         binding.tvReachContents.setOnClickListener {
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
+            intent.putExtra("before", "unseen")
             startActivity(intent)
         }
 //        binding.clSearch.setOnClickListener {
@@ -64,6 +65,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 //        }
         binding.tvMoreContents.setOnClickListener {
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
+            intent.putExtra("before", "recent_save")
             startActivity(intent)
         }
     }
