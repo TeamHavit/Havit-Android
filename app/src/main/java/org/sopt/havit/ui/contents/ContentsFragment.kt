@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.R
 import org.sopt.havit.data.ContentsData
@@ -30,6 +31,7 @@ class ContentsFragment : BaseBindingFragment<FragmentContentsBinding>(R.layout.f
         decorationView()
         setData()
         dataObserve()
+        changeLayout()
 
         return binding.root
     }
@@ -87,5 +89,34 @@ class ContentsFragment : BaseBindingFragment<FragmentContentsBinding>(R.layout.f
                 binding.tvContentsCount.text = it
             }
         }
+    }
+
+    private fun changeLayout() {
+        binding.ivLayout.setOnClickListener {
+            when (layout) {
+                LINEAR_MIN_LAYOUT -> {
+                    layout = GRID_LAYOUT
+                    binding.rvContents.layoutManager = GridLayoutManager(view?.context, 2)
+                    binding.ivLayout.setImageResource(R.drawable.ic_layout_4)
+                }
+                GRID_LAYOUT -> {
+                    layout = LINEAR_MAX_LAYOUT
+                    binding.rvContents.layoutManager = LinearLayoutManager(view?.context)
+                    binding.ivLayout.setImageResource(R.drawable.ic_layout_2)
+                }
+                LINEAR_MAX_LAYOUT -> {
+                    layout = LINEAR_MIN_LAYOUT
+                    binding.rvContents.layoutManager = LinearLayoutManager(view?.context)
+                    binding.ivLayout.setImageResource(R.drawable.ic_layout_3)
+                }
+            }
+        }
+    }
+
+    companion object {
+        const val LINEAR_MIN_LAYOUT = 1
+        const val GRID_LAYOUT = 2
+        const val LINEAR_MAX_LAYOUT = 3
+        var layout = 1
     }
 }
