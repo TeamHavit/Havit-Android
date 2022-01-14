@@ -28,7 +28,7 @@ class SaveFragment : BottomSheetDialogFragment() {
         dialog?.setOnShowListener {
             openKeyBoard()
             val behavior = BottomSheetBehavior.from<ConstraintLayout>(
-                (dialog as BottomSheetDialog).findViewById(org.sopt.havit.R.id.design_bottom_sheet)!!
+                (dialog as BottomSheetDialog).findViewById(R.id.design_bottom_sheet)!!
             )
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
             behavior.skipCollapsed = true
@@ -52,14 +52,24 @@ class SaveFragment : BottomSheetDialogFragment() {
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_IMPLICIT)
     }
 
+    private fun hideKeyBoard(){
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+    }
+
     private fun setListeners() {
         binding.btnSaveClose.setOnClickListener {
-
+            hideKeyBoard()
+            dismiss()
         }
     }
 
     override fun getTheme(): Int {
         return R.style.AppBottomSheetDialogTheme
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        hideKeyBoard()
     }
 
 
