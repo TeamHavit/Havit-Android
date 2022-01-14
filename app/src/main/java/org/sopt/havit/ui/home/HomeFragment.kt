@@ -45,9 +45,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.ivAlarm.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_homeAlarmFragment)
         }
-//        binding.tvReachContents.setOnClickListener {
-//            findNavController().navigate(R.id.action_navigation_home_to_homeHaveToSeeFragment)
-//        }
+        binding.tvReachContents.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_homeHaveToSeeFragment)
+        }
 
     }
 
