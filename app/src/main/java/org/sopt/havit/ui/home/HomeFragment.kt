@@ -1,15 +1,12 @@
 package org.sopt.havit.ui.home
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDirections
 import org.sopt.havit.R
 import org.sopt.havit.data.HomeContentsData
 import org.sopt.havit.data.HomeRecommendData

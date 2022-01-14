@@ -31,7 +31,8 @@
                 android:layout_height="42dp"
                 android:layout_marginStart="11dp"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/ic_category_sample"
+                android:src="@{data_home_category.icon}"
+                tools:src="@drawable/ic_category_sample"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
