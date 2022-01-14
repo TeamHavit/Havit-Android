@@ -29,6 +29,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         setData()
         dataObserve()
         moveManage()
+        clickBack()
 
         return binding.root
     }
@@ -71,6 +72,12 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     private fun moveManage(){
         binding.tvModify.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_category_to_categoryOrderModifyFragment)
+        }
+    }
+
+    private fun clickBack(){
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 }
