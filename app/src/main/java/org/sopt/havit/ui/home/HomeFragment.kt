@@ -6,22 +6,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
-import androidx.navigation.fragment.findNavController
 import org.sopt.havit.R
 import org.sopt.havit.data.HomeContentsData
 import org.sopt.havit.data.HomeRecommendData
 import org.sopt.havit.databinding.FragmentHomeBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.ui.notification.NotificationActivity
 
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var contentsAdapter: HomeRecentContentsRvAdapter
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
-    private lateinit var action: NavDirections
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,22 +45,22 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private fun setClickEvent() {
         binding.ivAlarm.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_homeAlarmFragment)
-        }
-        binding.tvReachContents.setOnClickListener {
-            action = HomeFragmentDirections.actionNavigationHomeToHomeContentsFragment("unseen")
-            findNavController().navigate(action)
-        }
-        binding.clSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_searchFragment)
-        }
-        binding.tvCategoryAll.setOnClickListener {
-            val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
+            val intent = Intent(requireActivity(), NotificationActivity::class.java)
             startActivity(intent)
         }
-        binding.tvMoreContents.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_homeContentsFragment)
-        }
+//        binding.tvReachContents.setOnClickListener {
+//
+//        }
+//        binding.clSearch.setOnClickListener {
+//
+//        }
+//        binding.tvCategoryAll.setOnClickListener {
+//            val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
+//            startActivity(intent)
+//        }
+//        binding.tvMoreContents.setOnClickListener {
+//
+//        }
     }
 
     private fun initContentsView() {

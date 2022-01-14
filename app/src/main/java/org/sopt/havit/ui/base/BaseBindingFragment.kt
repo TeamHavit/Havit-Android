@@ -12,7 +12,8 @@ import androidx.fragment.app.Fragment
 
 abstract class BaseBindingFragment<B : ViewDataBinding>(@LayoutRes private val layoutResId: Int) :
     Fragment() {
-    lateinit var binding: B
+    private var _binding: B? = null
+    val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,7 +25,12 @@ abstract class BaseBindingFragment<B : ViewDataBinding>(@LayoutRes private val l
     }
 
     private fun initBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        binding = DataBindingUtil.inflate<B>(inflater, layoutResId, container, false)
+        _binding = DataBindingUtil.inflate<B>(inflater, layoutResId, container, false)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +25,8 @@ class HomeCategoryEmptyFragment :
 
     private fun clickBtnAddCategory() {
         binding.tvAddCategory.setOnClickListener {
-
+            val intent = Intent(requireActivity(), HomeAddCategoryActivity::class.java)
+            startActivity(intent)
         }
     }
 
