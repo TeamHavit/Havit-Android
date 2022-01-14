@@ -31,11 +31,18 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         initSearchSticky()
         initCategoryFragment()
         initProgressBar()
-//        initContentsLayout()
+        initContentsView()
         initContentsRvAdapter()
         initRecommendRvAdapter()
 
         return binding.root
+    }
+
+    private fun initContentsView() {
+        binding.clContentsEmpty.visibility = View.GONE
+
+//        binding.rvContents.visibility = View.GONE
+//        binding.tvMoreContents.visibility = View.INVISIBLE
     }
 
     private fun initRecommendRvAdapter() {
@@ -73,7 +80,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private fun initContentsRvAdapter() {
         contentsAdapter = HomeContentsRvAdapter()
-        binding.layoutHomeContents.rvContents.adapter = contentsAdapter
+        binding.rvContents.adapter = contentsAdapter
         val list = listOf(
             HomeContentsData("", "카테고리 이름1", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
             HomeContentsData("", "카테고리 이름2", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
@@ -91,12 +98,14 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         contentsAdapter.notifyDataSetChanged()
     }
 
-    private fun initContentsLayout() {
-        val inflater = LayoutInflater.from(context)
-        val view = inflater.inflate(R.layout.layout_home_contents_empty, null)
-        val layout = binding.clHomeContents
-        layout.addView(view)
-    }
+//    private fun initContentsLayout() {
+//        val inflater = LayoutInflater.from(context)
+//        val contentsEmptyView = inflater.inflate(R.layout.layout_home_contents_empty, null)
+//        val contentsView = inflater.inflate(R.layout.layout_home_contents, null)
+//        val layout = binding.clHomeContents
+//        layout.addView(contentsEmptyView)
+//        contentsView.visibility = View.GONE
+//    }
 
     private fun initProgressBar() {
         val read = 62.toDouble()
