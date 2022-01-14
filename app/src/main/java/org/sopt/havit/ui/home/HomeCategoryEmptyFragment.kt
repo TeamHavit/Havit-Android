@@ -18,7 +18,14 @@ class HomeCategoryEmptyFragment :
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
 
+        clickBtnAddCategory()
         return binding.root
+    }
+
+    private fun clickBtnAddCategory() {
+        binding.tvAddCategory.setOnClickListener {
+
+        }
     }
 
 
