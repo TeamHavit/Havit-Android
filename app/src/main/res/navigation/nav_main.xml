@@ -42,6 +42,7 @@
         android:id="@+id/contentsFragment"
         android:name="org.sopt.havit.ui.contents.ContentsFragment"
         android:label="ContentsFragment" />
+
     <fragment
         android:id="@+id/categoryOrderModifyFragment"
         android:name="org.sopt.havit.ui.category.CategoryOrderModifyFragment"
