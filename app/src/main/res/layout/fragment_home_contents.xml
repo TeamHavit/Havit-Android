@@ -9,12 +9,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.haveToSee.HomeHaveToSeeFragment">
+        tools:context=".ui.home.contents.HomeContentsFragment">
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="HaveToSee" />
+            android:text="HOMECONTENTS" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

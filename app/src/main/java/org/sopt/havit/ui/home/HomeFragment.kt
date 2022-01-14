@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import org.sopt.havit.R
 import org.sopt.havit.data.HomeContentsData
@@ -18,6 +19,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var contentsAdapter: HomeContentsRvAdapter
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
+    private lateinit var action : NavDirections
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,9 +48,19 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             findNavController().navigate(R.id.action_navigation_home_to_homeAlarmFragment)
         }
         binding.tvReachContents.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_homeHaveToSeeFragment)
+            action = HomeFragmentDirections.actionNavigationHomeToHomeContentsFragment("unseen")
+            findNavController().navigate(action)
         }
-
+        binding.clSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_searchFragment)
+        }
+        binding.tvCategoryAll.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_homeContentsFragment)
+        }
+        binding.tvMoreContents.setOnClickListener {
+            action = HomeFragmentDirections.actionNavigationHomeToHomeContentsFragment("recent")
+            findNavController().navigate(action)
+        }
     }
 
     private fun initContentsView() {
