@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Havit">
         <activity
+            android:name=".ui.home.HomeAddCategoryActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.home.HomeCategoryAllActivity"
             android:exported="true" />
         <activity

@@ -12,7 +12,8 @@ import org.sopt.havit.databinding.FragmentHomeContentsBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.home.HomeViewModel
 
-class HomeContentsFragment : BaseBindingFragment<FragmentHomeContentsBinding>(R.layout.fragment_home_contents) {
+class HomeContentsFragment :
+    BaseBindingFragment<FragmentHomeContentsBinding>(R.layout.fragment_home_contents) {
 
     private val homeViewModel: HomeViewModel by viewModels()
 
