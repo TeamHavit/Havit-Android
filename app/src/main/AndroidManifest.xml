@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Havit">
         <activity
+            android:name=".ui.contents_simple.ContentsSimpleActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.notification.NotificationActivity"
             android:exported="true" />
         <activity

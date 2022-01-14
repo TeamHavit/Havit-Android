@@ -1,11 +1,13 @@
 package org.sopt.havit.ui.home
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import org.sopt.havit.R
@@ -13,6 +15,7 @@ import org.sopt.havit.data.HomeContentsData
 import org.sopt.havit.data.HomeRecommendData
 import org.sopt.havit.databinding.FragmentHomeBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.ui.contents_simple.ContentsSimpleActivity
 import org.sopt.havit.ui.notification.NotificationActivity
 
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
@@ -48,9 +51,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             val intent = Intent(requireActivity(), NotificationActivity::class.java)
             startActivity(intent)
         }
-//        binding.tvReachContents.setOnClickListener {
-//
-//        }
+        binding.tvReachContents.setOnClickListener {
+            val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
+            startActivity(intent)
+        }
 //        binding.clSearch.setOnClickListener {
 //
 //        }
@@ -58,9 +62,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 //            val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
 //            startActivity(intent)
 //        }
-//        binding.tvMoreContents.setOnClickListener {
-//
-//        }
+        binding.tvMoreContents.setOnClickListener {
+            val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun initContentsView() {
