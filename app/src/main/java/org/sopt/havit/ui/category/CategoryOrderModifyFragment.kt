@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import org.sopt.havit.R
 import org.sopt.havit.data.CategoryData
 import org.sopt.havit.databinding.FragmentCategoryOrderModifyBinding
 
@@ -15,6 +16,7 @@ class CategoryOrderModifyFragment : Fragment() {
     private var _binding: FragmentCategoryOrderModifyBinding? = null
     private val binding get() = _binding!!
 
+    lateinit var holder: RecyclerView.ViewHolder
     private var _categoryOrderModifyAdapter: CategoryOrderModifyAdapter? = null
     private val categoryOrderModifyAdapter
         get() = _categoryOrderModifyAdapter ?: error("adapter error")
@@ -60,14 +62,26 @@ class CategoryOrderModifyFragment : Fragment() {
     }
 
     private fun initDrag() {
-        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT
+        var state = false
+        val itemTouchCallback = object : ItemTouchHelper.Callback(
         ) {
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ): Int {
+                val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+                return makeMovementFlags(dragFlags, 0)
+            }
+
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
+                state = true
+                holder = viewHolder
+                viewHolder.itemView.findViewById<View>(R.id.cl_category_list)
+                    .setBackgroundResource(R.drawable.rectangle_purple_light_radius_6)
                 val fromPosition: Int = viewHolder.adapterPosition
                 val toPosition: Int = target.adapterPosition
                 categoryOrderModifyAdapter.swapData(fromPosition, toPosition)
@@ -76,6 +90,15 @@ class CategoryOrderModifyFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 categoryOrderModifyAdapter.removeData((viewHolder.layoutPosition))
+            }
+
+            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                super.onSelectedChanged(viewHolder, actionState)
+                if (state) {
+                    state = false
+                    holder.itemView.findViewById<View>(R.id.cl_category_list)
+                        .setBackgroundResource(R.drawable.rectangle_purple_category_radius_6)
+                }
             }
         }
         ItemTouchHelper(itemTouchCallback).attachToRecyclerView(binding.rvContents)
