@@ -25,6 +25,7 @@
     <string name="home_reach_user">님의 도달률</string>
     <string name="home_reach_contents">봐야 하는 콘텐츠</string>
     <string name="home_reach_percent">%</string>
+    <string name="home_search">원하는 콘텐츠를 검색하세요</string>
     <string name="home_user_category">님의 카테고리</string>
     <string name="home_category_all">전체보기</string>
     <string name="home_recent_contents">최근 저장 콘텐츠</string>
@@ -32,6 +33,10 @@
     <string name="home_service_use">콘텐츠 저장을 위한 해빗 서비스 이용 방법</string>
     <string name="home_recommend_site">오늘의 추천 사이트</string>
     <string name="home_recommend_havit">다양한 사이트에서 해빗 할 컨텐츠를 탐색해보세요!</string>
+    <string name="home_category_empty">아직 카테고리가 없습니다</string>
+    <string name="home_category_empty_recommend_create_category">HAVIT에 콘텐츠를 쉽게 저장할 수 있습니다.\n카테고리를 생성하려면 아래를 누르세요.</string>
+    <string name="home_category_empty_create_category">카테고리 추가</string>
+    <string name="home_contents_empty">저장한 컨텐츠가 없습니다</string>
     <string name="home_category_save">저장 콘텐츠</string>
     <string name="contents_divider">·</string>
     <string name="contents_alarm_plan">알림 예정</string>
@@ -40,6 +45,9 @@
     <string name="contents_entire">전체</string>
     <string name="contents_unseen">안 봤어요</string>
     <string name="contents_seen">봤어요</string>
+    <string name="save_title">콘텐츠 저장</string>
+    <string name="save_info1">URL 링크</string>
+    <string name="save_info2">를 입력 및 붙여넣기 해주세요</string>
     <string name="og_image">ogImage</string>
     <string name="modify_title">제목 수정</string>
     <string name="complete">완료</string>

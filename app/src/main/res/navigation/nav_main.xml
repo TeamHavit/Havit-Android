@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_navigation_category_to_contentsFragment"
             app:destination="@id/contentsFragment" />
+        <action
+            android:id="@+id/action_navigation_category_to_categoryOrderModifyFragment"
+            app:destination="@id/categoryOrderModifyFragment" />
     </fragment>
 
     <fragment
@@ -39,4 +42,19 @@
         android:id="@+id/contentsFragment"
         android:name="org.sopt.havit.ui.contents.ContentsFragment"
         android:label="ContentsFragment" />
+
+    <fragment
+        android:id="@+id/categoryOrderModifyFragment"
+        android:name="org.sopt.havit.ui.category.CategoryOrderModifyFragment"
+        android:label="fragment_category_order_modify"
+        tools:layout="@layout/fragment_category_order_modify" >
+        <action
+            android:id="@+id/action_categoryOrderModifyFragment_to_categoryContentModifyFragment"
+            app:destination="@id/categoryContentModifyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryContentModifyFragment"
+        android:name="org.sopt.havit.ui.category.CategoryContentModifyFragment"
+        android:label="fragment_category_content_modify"
+        tools:layout="@layout/fragment_category_content_modify" />
 </navigation>

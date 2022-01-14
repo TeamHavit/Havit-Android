@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import org.sopt.havit.databinding.FragmentCategoryContentModifyBinding
 
 class CategoryContentModifyFragment : Fragment() {
@@ -20,11 +21,19 @@ class CategoryContentModifyFragment : Fragment() {
     ): View {
         _binding = FragmentCategoryContentModifyBinding.inflate(inflater, container, false)
 
+        clickBack()
+
         return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun clickBack(){
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 }

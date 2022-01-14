@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import org.sopt.havit.R
 import org.sopt.havit.data.HomeContentsData
+import org.sopt.havit.data.HomeRecommendData
 import org.sopt.havit.databinding.FragmentHomeBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 
@@ -15,6 +16,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var contentsAdapter: HomeContentsRvAdapter
+    private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,17 +29,46 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.vmHome = homeViewModel
 
         initSearchSticky()
-        initFragment()
+        initCategoryFragment()
         initProgressBar()
-//        initContentsLayout()
+        initContentsView()
         initContentsRvAdapter()
+        initRecommendRvAdapter()
 
         return binding.root
     }
 
+    private fun initContentsView() {
+        binding.clContentsEmpty.visibility = View.GONE
+
+//        binding.rvContents.visibility = View.GONE
+//        binding.tvMoreContents.visibility = View.INVISIBLE
+    }
+
+    private fun initRecommendRvAdapter() {
+        recommendRvAdapter = HomeRecommendRvAdapter()
+        binding.rvRecommend.adapter = recommendRvAdapter
+        val list = listOf(
+            HomeRecommendData("", "이름1", "종류 / 카테고리"),
+            HomeRecommendData("", "이름2", "종류 / 카테고리"),
+            HomeRecommendData("", "이름3", "종류 / 카테고리"),
+            HomeRecommendData("", "이름4", "종류 / 카테고리"),
+            HomeRecommendData("", "이름5", "종류 / 카테고리"),
+            HomeRecommendData("", "이름6", "종류 / 카테고리"),
+            HomeRecommendData("", "이름7", "종류 / 카테고리"),
+            HomeRecommendData("", "이름8", "종류 / 카테고리"),
+            HomeRecommendData("", "이름9", "종류 / 카테고리")
+        )
+        homeViewModel.requestRecommendTaken(list)
+        homeViewModel.recommendList.observe(viewLifecycleOwner) {
+            recommendRvAdapter.setList(it)
+        }
+        recommendRvAdapter.notifyDataSetChanged()
+    }
+
     private fun initSearchSticky() {
         binding.svMain.run {
-            header = binding.fcvSearch
+            header = binding.clStickyView
             stickListener = { _ ->
                 Log.d("LOGGER_TAG", "stickListener")
             }
@@ -47,10 +78,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
-
     private fun initContentsRvAdapter() {
         contentsAdapter = HomeContentsRvAdapter()
-        binding.layoutHomeContents.rvContents.adapter = contentsAdapter
+        binding.rvContents.adapter = contentsAdapter
         val list = listOf(
             HomeContentsData("", "카테고리 이름1", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
             HomeContentsData("", "카테고리 이름2", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
@@ -68,12 +98,14 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         contentsAdapter.notifyDataSetChanged()
     }
 
-    private fun initContentsLayout() {
-        val inflater = LayoutInflater.from(context)
-        val view = inflater.inflate(R.layout.layout_home_contents_empty, null)
-        val layout = binding.clHomeContents
-        layout.addView(view)
-    }
+//    private fun initContentsLayout() {
+//        val inflater = LayoutInflater.from(context)
+//        val contentsEmptyView = inflater.inflate(R.layout.layout_home_contents_empty, null)
+//        val contentsView = inflater.inflate(R.layout.layout_home_contents, null)
+//        val layout = binding.clHomeContents
+//        layout.addView(contentsEmptyView)
+//        contentsView.visibility = View.GONE
+//    }
 
     private fun initProgressBar() {
         val read = 62.toDouble()
@@ -83,17 +115,15 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.pbReach.progress = rate
     }
 
-    private fun initFragment() {
-        val fragmentHomeSearch = HomeSearchFragment()
+    private fun initCategoryFragment() {
         val fragmentHomeCategory = HomeCategoryFragment()
-//        val fragmentHomeCategoryEmpty = HomeCategoryEmptyFragment()
+        val fragmentHomeCategoryEmpty = HomeCategoryEmptyFragment()
 
+//        childFragmentManager.beginTransaction()
+//            .add(R.id.fcv_category, fragmentHomeCategory)
+//            .commit()
         childFragmentManager.beginTransaction()
-            .add(R.id.fcv_search, fragmentHomeSearch)
-            .commit()
-
-        childFragmentManager.beginTransaction()
-            .add(R.id.fcv_category, fragmentHomeCategory)
+            .add(R.id.fcv_category, fragmentHomeCategoryEmpty)
             .commit()
     }
 
