@@ -1,18 +1,35 @@
 package org.sopt.havit.ui.category
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.sopt.havit.R
 import org.sopt.havit.data.CategoryData
 import org.sopt.havit.databinding.ItemCategoryModifyBinding
+import java.util.*
 
-class CategoryOrderModifyAdapter: RecyclerView.Adapter<CategoryOrderModifyAdapter.CategoryOrderModifyViewHolder>() {
+class CategoryOrderModifyAdapter :
+    RecyclerView.Adapter<CategoryOrderModifyAdapter.CategoryOrderModifyViewHolder>() {
     val categoryList = mutableListOf<CategoryData>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryOrderModifyViewHolder {
+    fun removeData(position: Int) {
+        categoryList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun swapData(fromPosition: Int, toPosition: Int) {
+        Collections.swap(categoryList, fromPosition, toPosition)
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): CategoryOrderModifyViewHolder {
         val binding = ItemCategoryModifyBinding.inflate(
             LayoutInflater.from(parent.context),
             parent, false
@@ -38,7 +55,8 @@ class CategoryOrderModifyAdapter: RecyclerView.Adapter<CategoryOrderModifyAdapte
 
         fun onClick() {
             binding.clCategoryList.setOnClickListener {
-                Navigation.findNavController(binding.clCategoryList).navigate(R.id.action_categoryOrderModifyFragment_to_categoryContentModifyFragment)
+                Navigation.findNavController(binding.clCategoryList)
+                    .navigate(R.id.action_categoryOrderModifyFragment_to_categoryContentModifyFragment)
             }
         }
     }
