@@ -5,19 +5,31 @@
     android:layout_height="wrap_content"
     android:background="@drawable/rectangle_black_radius_24">
 
+
     <TextView
-        android:id="@+id/tv_toast_category"
+        android:id="@+id/tv_toast_category1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="40dp"
+        android:paddingStart="40dp"
         android:paddingVertical="14dp"
-        android:text="UX/UI 아티클 카테고리가 추가되었습니다."
+        android:text="UX/UI 아티클"
         android:textAppearance="@style/Text14Semibold"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tv_toast_category2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="40dp"
+        android:paddingVertical="14dp"
+        android:text=" 카테고리가 추가되었습니다."
+        android:textAppearance="@style/Text14Regular"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_toast_category1"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
