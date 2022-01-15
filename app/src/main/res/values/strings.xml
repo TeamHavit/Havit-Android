@@ -57,4 +57,6 @@
     <string name="edit_title_kor">컨텐츠 제목을 수정하세요</string>
     <string name="contents_empty">아직 저장된 콘텐츠가 없습니다</string>
     <string name="contents_add">콘텐츠 추가</string>
+    <string name="webview_unread">콘텐츠 확인하기</string>
+    <string name="webview_read">콘텐츠 확인 완료</string>
 </resources>

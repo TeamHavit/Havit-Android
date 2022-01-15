@@ -416,7 +416,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_recent_contents"
-                            tools:listitem="@layout/item_home_contents_list" />
+                            tools:listitem="@layout/item_home_recent_contents_list" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/cl_contents_empty"
