@@ -16,17 +16,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Havit">
         <activity
+            android:name=".ui.home.HomeAddCategoryActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.home.HomeCategoryAllActivity"
+            android:exported="true" />
+        <activity
             android:name=".ShareActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Transparent.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
         <activity
-            android:name="org.sopt.havit.ui.kakao.SignInActivity"
+            android:name=".ui.kakao.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -39,8 +47,9 @@
                     android:scheme="kakao6069fb41c205cbbf8f213b32eec7f2c8" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true">
@@ -51,10 +60,7 @@
             </intent-filter>
         </activity>
         <receiver
-            android:name="org.sopt.havit.util.web.ActionBroadcastReceiver"
-            android:enabled="true" />
-        <receiver
-            android:name="org.sopt.havit.util.web.DigBroadcastReceiver"
+            android:name="org.sopt.havit.ui.web.HavitBroadcastReceiver"
             android:enabled="true" />
 
         <meta-data

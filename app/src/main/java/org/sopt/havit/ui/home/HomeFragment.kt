@@ -1,11 +1,15 @@
 package org.sopt.havit.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import org.sopt.havit.R
 import org.sopt.havit.data.HomeContentsData
 import org.sopt.havit.data.HomeRecommendData
@@ -15,8 +19,9 @@ import org.sopt.havit.ui.base.BaseBindingFragment
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel: HomeViewModel by viewModels()
-    private lateinit var contentsAdapter: HomeContentsRvAdapter
+    private lateinit var contentsAdapter: HomeRecentContentsRvAdapter
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
+    private lateinit var action: NavDirections
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +40,29 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         initContentsRvAdapter()
         initRecommendRvAdapter()
 
+        setClickEvent()
+
         return binding.root
+    }
+
+    private fun setClickEvent() {
+        binding.ivAlarm.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_homeAlarmFragment)
+        }
+        binding.tvReachContents.setOnClickListener {
+            action = HomeFragmentDirections.actionNavigationHomeToHomeContentsFragment("unseen")
+            findNavController().navigate(action)
+        }
+        binding.clSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_searchFragment)
+        }
+        binding.tvCategoryAll.setOnClickListener {
+            val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
+            startActivity(intent)
+        }
+        binding.tvMoreContents.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_homeContentsFragment)
+        }
     }
 
     private fun initContentsView() {
@@ -79,7 +106,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun initContentsRvAdapter() {
-        contentsAdapter = HomeContentsRvAdapter()
+        contentsAdapter = HomeRecentContentsRvAdapter()
         binding.rvContents.adapter = contentsAdapter
         val list = listOf(
             HomeContentsData("", "카테고리 이름1", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
@@ -98,15 +125,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         contentsAdapter.notifyDataSetChanged()
     }
 
-//    private fun initContentsLayout() {
-//        val inflater = LayoutInflater.from(context)
-//        val contentsEmptyView = inflater.inflate(R.layout.layout_home_contents_empty, null)
-//        val contentsView = inflater.inflate(R.layout.layout_home_contents, null)
-//        val layout = binding.clHomeContents
-//        layout.addView(contentsEmptyView)
-//        contentsView.visibility = View.GONE
-//    }
-
     private fun initProgressBar() {
         val read = 62.toDouble()
         val all = 145.toDouble()
@@ -119,12 +137,12 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         val fragmentHomeCategory = HomeCategoryFragment()
         val fragmentHomeCategoryEmpty = HomeCategoryEmptyFragment()
 
-//        childFragmentManager.beginTransaction()
-//            .add(R.id.fcv_category, fragmentHomeCategory)
-//            .commit()
         childFragmentManager.beginTransaction()
-            .add(R.id.fcv_category, fragmentHomeCategoryEmpty)
+            .add(R.id.fcv_category, fragmentHomeCategory)
             .commit()
+//        childFragmentManager.beginTransaction()
+//            .add(R.id.fcv_category, fragmentHomeCategoryEmpty)
+//            .commit()
     }
 
 }
