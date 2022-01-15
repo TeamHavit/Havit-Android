@@ -87,99 +87,99 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- 검색 + 콘텐츠 -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_main"
+        <org.sopt.havit.util.StickyScrollView
+            android:id="@+id/sv_main"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:fitsSystemWindows="true"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cl_top">
-            <!-- 검색 -->
+            app:layout_constraintTop_toBottomOf="@id/cl_top">
+            <!-- 검색 + 콘텐츠 -->
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_tab"
+                android:id="@+id/cl_main"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white_gray"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
+                <!-- 검색 -->
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_search"
+                    android:id="@+id/cl_tab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
                     android:background="@color/white_gray"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageView
-                        android:id="@+id/iv_search"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginBottom="8dp"
-                        android:src="@drawable/ic_search"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <EditText
-                        android:id="@+id/et_search"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="9dp"
-                        android:background="@android:color/transparent"
-                        android:hint="@string/contents_search_hint"
-                        android:includeFontPadding="false"
-                        android:inputType="textPersonName"
-                        android:textAppearance="@style/Text14Medium"
-                        android:textColor="@color/gray_2"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/iv_search"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <View
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_search"
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@color/gray_1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@color/white_gray"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/iv_search"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:layout_marginBottom="8dp"
+                            android:src="@drawable/ic_search"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <EditText
+                            android:id="@+id/et_search"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="9dp"
+                            android:background="@android:color/transparent"
+                            android:hint="@string/contents_search_hint"
+                            android:includeFontPadding="false"
+                            android:inputType="textPersonName"
+                            android:textAppearance="@style/Text14Medium"
+                            android:textColor="@color/gray_2"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/iv_search"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="@color/gray_1"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_contents"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white_gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cl_tab">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_order_option"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rectangle_white_radius_20"
+                    android:background="@drawable/bg_search"
                     app:layout_constraintBottom_toTopOf="@+id/rv_contents"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@+id/cl_tab">
 
                     <TextView
                         android:id="@+id/tv_entire"
@@ -313,11 +313,12 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_contents"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@color/white"
                     android:orientation="vertical"
                     android:paddingHorizontal="10dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cl_order_option"
@@ -328,8 +329,6 @@
                 </androidx.recyclerview.widget.RecyclerView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </org.sopt.havit.util.StickyScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

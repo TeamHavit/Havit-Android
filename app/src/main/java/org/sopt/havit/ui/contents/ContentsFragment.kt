@@ -1,6 +1,7 @@
 package org.sopt.havit.ui.contents
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -38,6 +39,7 @@ class ContentsFragment : BaseBindingFragment<FragmentContentsBinding>(R.layout.f
         dataObserve()
         changeLayout()
         clickBack()
+        initSearchSticky()
 
         return binding.root
     }
@@ -122,6 +124,18 @@ class ContentsFragment : BaseBindingFragment<FragmentContentsBinding>(R.layout.f
     private fun clickBack(){
         binding.ivBack.setOnClickListener {
             findNavController().popBackStack()
+        }
+    }
+
+    private fun initSearchSticky() {
+        binding.svMain.run {
+            header = binding.clOrderOption
+            stickListener = { _ ->
+                Log.d("LOGGER_TAG", "stickListener")
+            }
+            freeListener = { _ ->
+                Log.d("LOGGER_TAG", "freeListener")
+            }
         }
     }
 
