@@ -42,6 +42,9 @@
         <action
             android:id="@+id/action_navigation_my_page_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_navigation_my_page_to_webFragment"
+            app:destination="@id/webFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -80,4 +83,8 @@
         android:name="org.sopt.havit.ui.category.CategoryContentModifyFragment"
         android:label="fragment_category_content_modify"
         tools:layout="@layout/fragment_category_content_modify" />
+    <fragment
+        android:id="@+id/webFragment"
+        android:name="org.sopt.havit.ui.web.WebFragment"
+        android:label="WebFragment" />
 </navigation>
