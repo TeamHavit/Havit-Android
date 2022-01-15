@@ -22,11 +22,16 @@ class ContentsViewModel : ViewModel() {
     val orderState: LiveData<String> = _orderState
 
     fun requestContentsTaken(list: List<ContentsData>, name: String, count: String, state: String) {
+        _contentsCount.value = count
         viewModelScope.launch(Dispatchers.IO) {
             _contentsList.postValue(list)
             _categoryName.postValue(name)
             _contentsCount.postValue(count)
             _orderState.postValue(state)
         }
+    }
+
+    fun init(){
+        _contentsCount.value = "0"
     }
 }
