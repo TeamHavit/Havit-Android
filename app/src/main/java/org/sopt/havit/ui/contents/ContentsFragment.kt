@@ -1,9 +1,13 @@
 package org.sopt.havit.ui.contents
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -26,6 +30,7 @@ class ContentsFragment : BaseBindingFragment<FragmentContentsBinding>(R.layout.f
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
 
+        contentsViewModel.init()
         binding.contentsViewModel = contentsViewModel
 
         initAdapter()
@@ -34,6 +39,7 @@ class ContentsFragment : BaseBindingFragment<FragmentContentsBinding>(R.layout.f
         dataObserve()
         changeLayout()
         clickBack()
+        initSearchSticky()
 
         return binding.root
     }
@@ -118,6 +124,18 @@ class ContentsFragment : BaseBindingFragment<FragmentContentsBinding>(R.layout.f
     private fun clickBack(){
         binding.ivBack.setOnClickListener {
             findNavController().popBackStack()
+        }
+    }
+
+    private fun initSearchSticky() {
+        binding.svMain.run {
+            header = binding.clOrderOption
+            stickListener = { _ ->
+                Log.d("LOGGER_TAG", "stickListener")
+            }
+            freeListener = { _ ->
+                Log.d("LOGGER_TAG", "freeListener")
+            }
         }
     }
 
