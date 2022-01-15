@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import org.sopt.havit.R
 import org.sopt.havit.data.HomeContentsData
@@ -31,6 +32,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vmHome = homeViewModel
+        binding.layoutCategory.vmHome = homeViewModel
+        binding.layoutCategoryEmpty.vmHome = homeViewModel
 
         initSearchSticky()
         initProgressBar()
@@ -50,21 +53,29 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         // Category가 존재할 경우
         initVpAdapter()
         initIndicator()
-        binding.clCategoryEmpty.visibility = View.GONE
+        homeViewModel.requestUserName("안나영")
+        binding.layoutCategoryEmpty.clHomeCategoryEmpty.visibility = View.GONE
 
         // Category가 존재하지 않을 경우
-//        binding.clCategory.visibility = View.GONE
+//        binding.layoutCategory.clHomeCategory.visibility = View.GONE
+//        clickAddCategory()
 
     }
 
+    private fun clickAddCategory() {
+        binding.layoutCategoryEmpty.tvAddCategory.setOnClickListener {
+            Log.d("HomeFragment", "home_add_category")
+        }
+    }
+
     private fun initIndicator() {
-        val indicator = binding.indicatorCategory
-        indicator.setViewPager2(binding.vpCategory)
+        val indicator = binding.layoutCategory.indicatorCategory
+        indicator.setViewPager2(binding.layoutCategory.vpCategory)
     }
 
     private fun initVpAdapter() {
         categoryVpAdapter = HomeCategoryVpAdapter()
-        binding.vpCategory.adapter = categoryVpAdapter
+        binding.layoutCategory.vpCategory.adapter = categoryVpAdapter
 
         homeViewModel.categoryData.observe(viewLifecycleOwner) {
             categoryVpAdapter.setList(it)
@@ -84,10 +95,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 //        binding.clSearch.setOnClickListener {
 //
 //        }
-//        binding.tvCategoryAll.setOnClickListener {
-//            val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
-//            startActivity(intent)
-//        }
         binding.tvMoreContents.setOnClickListener {
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
             intent.putExtra("before", "recent_save")
@@ -96,8 +103,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun initContentsView() {
+        // 최근 저장 콘텐츠가 있을 경우
         binding.clContentsEmpty.visibility = View.GONE
 
+        // 최근 저장 콘텐츠가 없을 경우
 //        binding.rvContents.visibility = View.GONE
 //        binding.tvMoreContents.visibility = View.INVISIBLE
     }
