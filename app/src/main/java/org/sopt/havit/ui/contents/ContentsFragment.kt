@@ -7,7 +7,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -87,6 +86,19 @@ class ContentsFragment : BaseBindingFragment<FragmentContentsBinding>(R.layout.f
     private fun dataObserve() {
         with(contentsViewModel) {
             contentsList.observe(viewLifecycleOwner) {
+                with(binding) {
+                    if (it.isEmpty()) {
+                        Log.d("count ", "${contentsAdapter.contentsList.size}")
+                        Log.d("visibility", " success")
+                        rvContents.visibility = GONE
+                        clEmpty.visibility = VISIBLE
+                    } else {
+                        rvContents.visibility = VISIBLE
+                        clEmpty.visibility = GONE
+                        Log.d("count ", "${contentsAdapter.contentsList.size}")
+                        Log.d("visibility", " fail")
+                    }
+                }
                 contentsAdapter.contentsList.addAll(it)
                 contentsAdapter.notifyDataSetChanged()
             }
@@ -121,7 +133,7 @@ class ContentsFragment : BaseBindingFragment<FragmentContentsBinding>(R.layout.f
         }
     }
 
-    private fun clickBack(){
+    private fun clickBack() {
         binding.ivBack.setOnClickListener {
             findNavController().popBackStack()
         }
