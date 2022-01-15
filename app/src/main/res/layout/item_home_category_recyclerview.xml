@@ -9,13 +9,13 @@
         android:id="@+id/rv_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingHorizontal="12dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:spanCount="2"
         tools:itemCount="6"
-        android:paddingHorizontal="12dp"
-        android:clipToPadding="false"
         tools:listitem="@layout/item_home_category_list" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,7 +38,7 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
 
         fun onClick() {
             binding.clCategoryList.setOnClickListener {
-                findNavController(binding.clCategoryList).navigate(R.id.action_navigation_category_to_contentsFragment)
+                // findNavController(binding.clCategoryList).navigate(R.id.action_navigation_category_to_contentsFragment)
             }
         }
     }

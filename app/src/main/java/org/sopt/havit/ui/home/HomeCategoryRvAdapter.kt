@@ -1,10 +1,8 @@
 package org.sopt.havit.ui.home
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.data.HomeCategoryData
@@ -15,8 +13,6 @@ class HomeCategoryRvAdapter :
 
     private lateinit var binding: ItemHomeCategoryListBinding
     val categoryList = mutableListOf<HomeCategoryData>()
-    private var categoryBackground: Drawable? = null
-    private var categoryIcon: Int? = null
     private var viewType = 1
 
     override fun getItemViewType(position: Int): Int {
@@ -47,11 +43,6 @@ class HomeCategoryRvAdapter :
     fun setItemViewType(type: Int) {
         viewType = type
         notifyDataSetChanged()
-    }
-
-    fun setCallbackChangeItemBackground(background: Drawable?, icon: Int) {
-        categoryBackground = background
-        categoryIcon = icon
     }
 
     override fun onCreateViewHolder(

@@ -14,7 +14,6 @@ abstract class BaseBindingFragment<B : ViewDataBinding>(@LayoutRes private val l
     Fragment() {
     lateinit var binding: B
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
