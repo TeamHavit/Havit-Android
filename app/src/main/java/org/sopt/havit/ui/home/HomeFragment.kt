@@ -20,6 +20,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var contentsAdapter: HomeRecentContentsRvAdapter
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
+    private lateinit var categoryVpAdapter: HomeCategoryVpAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,15 +33,42 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.vmHome = homeViewModel
 
         initSearchSticky()
-        initCategoryFragment()
         initProgressBar()
         initContentsView()
+        initCategoryView()
+        initVpAdapter()
+        initIndicator()
         initContentsRvAdapter()
         initRecommendRvAdapter()
 
         setClickEvent()
 
         return binding.root
+    }
+
+    private fun initCategoryView() {
+        // Category가 존재할 경우
+        initVpAdapter()
+        initIndicator()
+        binding.clCategoryEmpty.visibility = View.GONE
+
+        // Category가 존재하지 않을 경우
+//        binding.clCategory.visibility = View.GONE
+
+    }
+
+    private fun initIndicator() {
+        val indicator = binding.indicatorCategory
+        indicator.setViewPager2(binding.vpCategory)
+    }
+
+    private fun initVpAdapter() {
+        categoryVpAdapter = HomeCategoryVpAdapter()
+        binding.vpCategory.adapter = categoryVpAdapter
+
+        homeViewModel.categoryData.observe(viewLifecycleOwner) {
+            categoryVpAdapter.setList(it)
+        }
     }
 
     private fun setClickEvent() {
@@ -111,7 +139,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         contentsAdapter = HomeRecentContentsRvAdapter()
         binding.rvContents.adapter = contentsAdapter
         val list = listOf(
-            HomeContentsData("", "카테고리 이름1", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
+            HomeContentsData("", "카테고리 이름11111111111", "헤더입니다 헤더입니다 헤더입니다 헤더입니다", "2021.11.24"),
             HomeContentsData("", "카테고리 이름2", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
             HomeContentsData("", "카테고리 이름3", "헤더입니다", "2021.11.24"),
             HomeContentsData("", "카테고리 이름4", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
@@ -133,18 +161,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         val rate: Int = ((read / all) * 100).toInt()
         Log.d("HomeFragment", "rate : $rate")
         binding.pbReach.progress = rate
-    }
-
-    private fun initCategoryFragment() {
-        val fragmentHomeCategory = HomeCategoryFragment()
-        val fragmentHomeCategoryEmpty = HomeCategoryEmptyFragment()
-
-        childFragmentManager.beginTransaction()
-            .add(R.id.fcv_category, fragmentHomeCategory)
-            .commit()
-//        childFragmentManager.beginTransaction()
-//            .add(R.id.fcv_category, fragmentHomeCategoryEmpty)
-//            .commit()
     }
 
 }
