@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".ui.contents.ContentsFragment">
+        tools:context=".ui.contents.ContentsActivity">
 
         <!-- 상단 -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -148,8 +148,8 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginBottom="9dp"
                             android:background="@android:color/transparent"
-                            android:text="@string/contents_search_hint"
                             android:includeFontPadding="false"
+                            android:text="@string/contents_search_hint"
                             android:textAppearance="@style/Text14Medium"
                             android:textColor="@color/gray_2"
                             app:layout_constraintBottom_toBottomOf="parent"

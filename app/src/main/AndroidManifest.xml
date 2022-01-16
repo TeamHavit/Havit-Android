@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Havit">
         <activity
+            android:name=".ui.contents.ContentsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.category.CategoryContentModifyActivity"
             android:exported="false" />
         <activity

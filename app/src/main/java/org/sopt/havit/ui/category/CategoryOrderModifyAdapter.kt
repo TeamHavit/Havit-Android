@@ -52,9 +52,6 @@ class CategoryOrderModifyAdapter :
 
         fun onClick(position: Int) {
             binding.clCategoryList.setOnClickListener {
-//                Navigation.findNavController(binding.clCategoryList)
-//                    .navigate(R.id.action_categoryOrderModifyFragment_to_categoryContentModifyFragment)
-
                 val intent = Intent(it.context, CategoryContentModifyActivity::class.java)
                 intent.putExtra("categoryPos", position)
                 it.context.startActivity(intent)
