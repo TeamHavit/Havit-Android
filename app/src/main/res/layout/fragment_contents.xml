@@ -272,7 +272,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:chipBackgroundColor="@color/selector_chip"
-                            app:chipIcon="@drawable/ic_alarm"
+                            app:chipIcon="@drawable/selector_chip_alarm"
                             app:chipIconEnabled="true"
                             app:chipMinTouchTargetSize="0dp"
                             app:ensureMinTouchTargetSize="false"
