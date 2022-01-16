@@ -18,7 +18,6 @@ class HomeCategoryAllActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-
     private fun initCategoryFragment() {
         supportFragmentManager.beginTransaction()
             .add(R.id.fcv_category_all, CategoryFragment())

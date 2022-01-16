@@ -111,6 +111,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             startActivity(intent)
         }
         binding.layoutCategory.tvCategoryAll.setOnClickListener {
+            Log.d("activity_check", "CLICK TEST")
             val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
             startActivity((intent))
         }
