@@ -9,6 +9,7 @@
     </queries>
 
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,7 +17,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Havit">
         <activity
-            android:name=".ui.home.HomeAddCategoryActivity"
+            android:name=".ui.contents.ContentsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.category.CategoryContentModifyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.category.CategoryOrderModifyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.contents_simple.ContentsSimpleActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.notification.NotificationActivity"
             android:exported="true" />
         <activity
             android:name=".ui.home.HomeCategoryAllActivity"
@@ -50,6 +63,7 @@
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.search.SearchActivity"/>
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true">
@@ -59,8 +73,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <receiver
-            android:name="org.sopt.havit.ui.web.HavitBroadcastReceiver"
+            android:name=".ui.web.HavitBroadcastReceiver"
             android:enabled="true" />
 
         <meta-data

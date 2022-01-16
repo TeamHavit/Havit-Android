@@ -66,4 +66,11 @@
     <string name="webview_read">콘텐츠 확인 완료</string>
     <string name="choose_icon">아이콘을 선택하세요</string>
     <string name="icon_kr">아이콘</string>
+    <string name="search_title">검색된 콘텐츠</string>
+    <string name="search_cancel">취소</string>
+    <string name="search_no_result">검색 결과가 없습니다</string>
+    <string name="category_category_delete">카테고리 삭제</string>
+    <string name="category_delete_description">해당 카테고리를 삭제하시겠습니까?\n카테고리 내 콘텐츠도 함께 삭제됩니다.</string>
+    <string name="category_cancel">취소</string>
+    <string name="category_delete">삭제</string>
 </resources>

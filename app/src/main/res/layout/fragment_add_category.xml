@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.share.AddCategoryFragment">
 
-
     <TextView
         android:id="@+id/tv_enter_title"
         android:layout_width="wrap_content"

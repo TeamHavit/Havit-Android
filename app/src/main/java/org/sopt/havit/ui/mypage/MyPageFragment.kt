@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.mypage
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import org.sopt.havit.R
+import org.sopt.havit.ShareActivity
 import org.sopt.havit.databinding.FragmentMyPageBinding
 import org.sopt.havit.ui.contents.ContentsViewModel
+import org.sopt.havit.ui.search.SearchActivity
 
 class MyPageFragment : Fragment() {
 
@@ -31,11 +34,7 @@ class MyPageFragment : Fragment() {
 
 
         binding.textHome.setOnClickListener {
-            /*CustomWebView.setView(
-                requireContext(),
-                "https://github.com/boostcampwm-2021/android03-Contact/wiki/Git-%EC%82%AC%EC%9A%A9%EB%B2%95"
-            )*/
-            findNavController().navigate(R.id.action_navigation_my_page_to_webFragment)
+            startActivity(Intent(context,SearchActivity::class.java))
         }
 
 
