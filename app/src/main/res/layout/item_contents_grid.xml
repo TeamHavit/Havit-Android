@@ -70,7 +70,7 @@
             android:maxLines="1"
             android:text="@{content.description}"
             android:textAppearance="@style/Mini9Regular"
-            android:textColor="@color/havit_gray"
+            android:textColor="@color/gray_3"
             app:layout_constraintEnd_toEndOf="@+id/tv_title"
             app:layout_constraintStart_toStartOf="@+id/tv_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
