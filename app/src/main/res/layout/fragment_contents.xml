@@ -140,7 +140,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <EditText
+                        <TextView
                             android:id="@+id/et_search"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -148,9 +148,8 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginBottom="9dp"
                             android:background="@android:color/transparent"
-                            android:hint="@string/contents_search_hint"
+                            android:text="@string/contents_search_hint"
                             android:includeFontPadding="false"
-                            android:inputType="textPersonName"
                             android:textAppearance="@style/Text14Medium"
                             android:textColor="@color/gray_2"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -175,7 +174,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_search"
-                    app:layout_constraintBottom_toTopOf="@+id/rv_contents"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -273,7 +271,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:chipBackgroundColor="@color/selector_chip"
-                            app:chipIcon="@drawable/ic_alarm"
+                            app:chipIcon="@drawable/selector_chip_alarm"
                             app:chipIconEnabled="true"
                             app:chipMinTouchTargetSize="0dp"
                             app:ensureMinTouchTargetSize="false"
@@ -317,6 +315,7 @@
                     android:background="@color/white"
                     android:orientation="vertical"
                     android:paddingHorizontal="10dp"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -327,6 +326,58 @@
 
 
                 </androidx.recyclerview.widget.RecyclerView>
+
+                <!-- 빈 경우 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_order_option">
+
+                    <TextView
+                        android:id="@+id/tv_empty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="68dp"
+                        android:text="@string/contents_empty"
+                        android:textAppearance="@style/Text14Medium"
+                        android:textColor="@color/gray_2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_empty"
+                        app:srcCompat="@drawable/img_graphic_nocontents" />
+
+                    <TextView
+                        android:id="@+id/tv_add_contents"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginBottom="109dp"
+                        android:background="@drawable/rectangle_purple_main_radius_44"
+                        android:paddingHorizontal="82dp"
+                        android:paddingVertical="14dp"
+                        android:text="@string/contents_add"
+                        android:textAppearance="@style/Button15Medium"
+                        android:textColor="@color/havit_purple"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </org.sopt.havit.util.StickyScrollView>

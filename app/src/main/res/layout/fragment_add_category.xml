@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.share.AddCategoryFragment">
 
-
     <TextView
         android:id="@+id/tv_enter_title"
         android:layout_width="wrap_content"
@@ -33,22 +32,22 @@
         app:layout_constraintTop_toBottomOf="@id/tv_enter_title" />
 
     <EditText
-        android:backgroundTint="@color/havit_purple"
-        app:layout_constraintTop_toBottomOf="@id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
+        android:backgroundTint="@color/havit_purple"
         android:hint="카테고리 제목 입력"
         android:textAppearance="@style/Header19Medium"
+        android:textColor="@color/havit_gray"
         android:textColorHint="@color/gray_2"
-        android:textColor="@color/havit_gray"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:textColor="@color/white"
+        android:background="@drawable/rectangle_purple"
         android:text="@string/next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/rectangle_purple"/>
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

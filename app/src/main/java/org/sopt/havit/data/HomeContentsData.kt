@@ -3,6 +3,6 @@ package org.sopt.havit.data
 data class HomeContentsData(
     val image: String,
     val title: String,
-    val header: String,
+    var header: String,
     val time: String
 )

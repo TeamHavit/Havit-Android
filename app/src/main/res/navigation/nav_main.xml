@@ -17,6 +17,7 @@
             android:id="@+id/action_navigation_home_to_homeContentsFragment"
             app:destination="@id/homeContentsFragment" />
     </fragment>
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_category"
@@ -26,9 +27,6 @@
         <action
             android:id="@+id/action_navigation_category_to_contentsFragment"
             app:destination="@id/contentsFragment" />
-        <action
-            android:id="@+id/action_navigation_category_to_categoryOrderModifyFragment"
-            app:destination="@id/categoryOrderModifyFragment" />
     </fragment>
 
     <fragment
@@ -44,25 +42,12 @@
         android:id="@+id/contentsFragment"
         android:name="org.sopt.havit.ui.contents.ContentsFragment"
         android:label="ContentsFragment" />
-    <fragment
-        android:id="@+id/homeAlarmFragment"
-        android:name="org.sopt.havit.ui.home.alarm.HomeAlarmFragment"
-        android:label="HomeAlarmFragment" />
-    <fragment
-        android:id="@+id/homeContentsFragment"
-        android:name="org.sopt.havit.ui.home.contents.HomeContentsFragment"
-        android:label="HomeContentsFragment">
-        <argument
-            android:name="unseenOrRecent"
-            android:defaultValue='""'
-            app:argType="string" />
-    </fragment>
 
     <fragment
         android:id="@+id/categoryOrderModifyFragment"
         android:name="org.sopt.havit.ui.category.CategoryOrderModifyFragment"
         android:label="fragment_category_order_modify"
-        tools:layout="@layout/fragment_category_order_modify" >
+        tools:layout="@layout/fragment_category_order_modify">
         <action
             android:id="@+id/action_categoryOrderModifyFragment_to_categoryContentModifyFragment"
             app:destination="@id/categoryContentModifyFragment" />

@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.Havit" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -269,4 +269,23 @@
         <item name="android:letterSpacing">-0.008</item>
         <item name="android:lineSpacingExtra">5sp</item>
     </style>
+
+    <style name="PopupTitle">
+        <item name="android:fontFamily">@font/pretendard</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">-0.018</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
+    <style name="CustomAlertDialogStyle">
+        <!-- 꽉 채운 화면에 배경 없이 (custom view 영역만 보일 것이다.) -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowMinWidthMajor">100%</item>
+        <item name="android:windowMinWidthMinor">100%</item>
+
+        <!-- Dialog 가 센터에 나오도록 하자. -->
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
 </resources>
