@@ -62,12 +62,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <receiver
-            android:name=".util.web.ActionBroadcastReceiver"
-            android:enabled="true" />
-        <receiver
-            android:name=".util.web.DigBroadcastReceiver"
+            android:name="org.sopt.havit.ui.web.HavitBroadcastReceiver"
             android:enabled="true" />
 
         <meta-data
