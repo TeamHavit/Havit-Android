@@ -3,6 +3,7 @@ package org.sopt.havit.ui.contents
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.sopt.havit.R
 import org.sopt.havit.data.ContentsData
 import org.sopt.havit.databinding.ItemContentsGridBinding
 import org.sopt.havit.databinding.ItemContentsLinearMaxBinding
@@ -16,6 +17,18 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun onBind(data: ContentsData) {
             binding.content = data
         }
+
+        fun onClick() {
+            binding.ivHavit.setOnClickListener {
+                if (binding.ivHavit.tag == "unseen") {
+                    binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
+                    binding.ivHavit.tag = "seen"
+                } else if (binding.ivHavit.tag == "seen") {
+                    binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+                    binding.ivHavit.tag = "unseen"
+                }
+            }
+        }
     }
 
     class GridViewHolder(private val binding: ItemContentsGridBinding) :
@@ -23,12 +36,36 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun onBind(data: ContentsData) {
             binding.content = data
         }
+
+        fun onClick() {
+            binding.ivHavit.setOnClickListener {
+                if (binding.ivHavit.tag == "unseen") {
+                    binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
+                    binding.ivHavit.tag = "seen"
+                } else if (binding.ivHavit.tag == "seen") {
+                    binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+                    binding.ivHavit.tag = "unseen"
+                }
+            }
+        }
     }
 
     class LinearMaxViewHolder(private val binding: ItemContentsLinearMaxBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsData) {
             binding.content = data
+        }
+
+        fun onClick() {
+            binding.ivHavit.setOnClickListener {
+                if (binding.ivHavit.tag == "unseen") {
+                    binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
+                    binding.ivHavit.tag = "seen"
+                } else if (binding.ivHavit.tag == "seen") {
+                    binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+                    binding.ivHavit.tag = "unseen"
+                }
+            }
         }
     }
 
@@ -62,12 +99,15 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         when (ContentsFragment.layout) {
             ContentsFragment.LINEAR_MIN_LAYOUT -> {
                 (holder as LinearMinViewHolder).onBind(contentsList[position])
+                holder.onClick()
             }
             ContentsFragment.GRID_LAYOUT -> {
                 (holder as GridViewHolder).onBind(contentsList[position])
+                holder.onClick()
             }
             ContentsFragment.LINEAR_MAX_LAYOUT -> {
                 (holder as LinearMaxViewHolder).onBind(contentsList[position])
+                holder.onClick()
             }
         }
     }
