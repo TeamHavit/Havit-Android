@@ -1,6 +1,7 @@
 package org.sopt.havit.ui.contents_simple
 
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
@@ -19,14 +20,13 @@ class ContentsSimpleActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setContentView(binding.root)
         binding.vmContents = contentsViewModel
+
         initAdapter()
         initContents()
         dataObserve()
         decorationView()
-
-        setContentView(binding.root)
     }
 
     private fun decorationView() {
@@ -74,7 +74,7 @@ class ContentsSimpleActivity :
                 )
             )
         }
-        contentsViewModel.requestContentsTaken(list, "최근 저장 콘텐츠")
+        contentsViewModel.requestContentsTaken(list, "봐야하는")
     }
 
     private fun dataObserve() {
@@ -90,6 +90,7 @@ class ContentsSimpleActivity :
                             clContentsEmpty.visibility = View.GONE
                         }
                     }
+                    Log.d("contents_simple", "dataObserve() list: $list")
                     contentsAdapter.contentsList.addAll(list)
                     contentsAdapter.notifyDataSetChanged()
                 }
@@ -100,6 +101,5 @@ class ContentsSimpleActivity :
                 }
             }
         }
-
     }
 }

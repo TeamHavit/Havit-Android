@@ -378,12 +378,15 @@
                             android:id="@+id/tv_more_contents"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginEnd="16dp"
+                            android:paddingVertical="7dp"
+                            android:layout_marginEnd="7dp"
+                            android:paddingStart="19dp"
+                            android:paddingEnd="9dp"
                             android:text="@string/home_more_contents"
                             android:textAppearance="@style/Sub12Regular"
                             android:textColor="@color/gray_3"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_recent_contents"
                             app:layout_constraintTop_toTopOf="@id/tv_recent_contents" />
 
                         <androidx.recyclerview.widget.RecyclerView

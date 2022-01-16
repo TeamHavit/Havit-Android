@@ -12,7 +12,7 @@ class ContentsSimpleRvAdapter :
 
     var contentsList = mutableListOf<ContentsData>()
 
-    class ContentsSimpleViewHolder(private val binding: ItemContentsLinearMinBinding) :
+    inner class ContentsSimpleViewHolder(private val binding: ItemContentsLinearMinBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsData) {
             binding.content = data
