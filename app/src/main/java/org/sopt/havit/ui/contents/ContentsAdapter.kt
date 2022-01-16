@@ -71,14 +71,14 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            ContentsFragment.LINEAR_MIN_LAYOUT -> {
+            ContentsActivity.LINEAR_MIN_LAYOUT -> {
                 val binding = ItemContentsLinearMinBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent, false
                 )
                 LinearMinViewHolder(binding)
             }
-            ContentsFragment.GRID_LAYOUT -> {
+            ContentsActivity.GRID_LAYOUT -> {
                 val binding = ItemContentsGridBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent, false
@@ -96,16 +96,16 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (ContentsFragment.layout) {
-            ContentsFragment.LINEAR_MIN_LAYOUT -> {
+        when (ContentsActivity.layout) {
+            ContentsActivity.LINEAR_MIN_LAYOUT -> {
                 (holder as LinearMinViewHolder).onBind(contentsList[position])
                 holder.onClick()
             }
-            ContentsFragment.GRID_LAYOUT -> {
+            ContentsActivity.GRID_LAYOUT -> {
                 (holder as GridViewHolder).onBind(contentsList[position])
                 holder.onClick()
             }
-            ContentsFragment.LINEAR_MAX_LAYOUT -> {
+            ContentsActivity.LINEAR_MAX_LAYOUT -> {
                 (holder as LinearMaxViewHolder).onBind(contentsList[position])
                 holder.onClick()
             }
@@ -115,6 +115,6 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int = contentsList.size
 
     override fun getItemViewType(position: Int): Int {
-        return ContentsFragment.layout
+        return ContentsActivity.layout
     }
 }
