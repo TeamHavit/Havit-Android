@@ -19,9 +19,6 @@
         <action
             android:id="@+id/action_navigation_category_to_contentsFragment"
             app:destination="@id/contentsFragment" />
-        <action
-            android:id="@+id/action_navigation_category_to_categoryOrderModifyFragment"
-            app:destination="@id/categoryOrderModifyFragment" />
     </fragment>
 
     <fragment
