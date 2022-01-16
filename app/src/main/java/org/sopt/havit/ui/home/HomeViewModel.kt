@@ -37,31 +37,99 @@ class HomeViewModel : ViewModel() {
         value = listOf(
             HomeCategoryListData(
                 listOf(
-                    HomeCategoryData("", "전체", 19.toString()),
-                    HomeCategoryData("", "category1", 20.toString()),
-                    HomeCategoryData("", "category2", 21.toString()),
-                    HomeCategoryData("", "category3", 22.toString()),
-                    HomeCategoryData("", "category4", 22.toString()),
-                    HomeCategoryData("", "category5", 22.toString())
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "전체",
+                        19.toString()
+                    ),
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category1",
+                        20.toString()
+                    ),
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category2",
+                        21.toString()
+                    ),
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category3",
+                        22.toString()
+                    ),
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category4",
+                        22.toString()
+                    ),
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category5",
+                        22.toString()
+                    )
                 )
             ),
             HomeCategoryListData(
                 listOf(
-                    HomeCategoryData("", "category6", 19.toString()),
-                    HomeCategoryData("", "category7", 20.toString()),
-                    HomeCategoryData("", "category8", 21.toString()),
-                    HomeCategoryData("", "category9", 22.toString()),
-                    HomeCategoryData("", "category10", 22.toString()),
-                    HomeCategoryData("", "category11", 22.toString())
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category6",
+                        19.toString()
+                    ),
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category7",
+                        20.toString()
+                    ),
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category8",
+                        21.toString()
+                    ),
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category9",
+                        22.toString()
+                    ),
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category10",
+                        22.toString()
+                    ),
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category11",
+                        22.toString()
+                    )
                 )
             ),
             HomeCategoryListData(
                 listOf(
-                    HomeCategoryData("", "category12", 19.toString()),
-                    HomeCategoryData("", "category13", 20.toString()),
-                    HomeCategoryData("", "category14", 21.toString()),
-                    HomeCategoryData("", "category15", 22.toString()),
-                    HomeCategoryData("", "category16", 22.toString())
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category12",
+                        19.toString()
+                    ),
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category13",
+                        20.toString()
+                    ),
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category14",
+                        21.toString()
+                    ),
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category15",
+                        22.toString()
+                    ),
+                    HomeCategoryData(
+                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                        "category16",
+                        22.toString()
+                    )
                 )
             )
         )
