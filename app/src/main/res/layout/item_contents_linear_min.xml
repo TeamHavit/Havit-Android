@@ -27,9 +27,9 @@
 
             <ImageView
                 android:id="@+id/iv_thumbnail"
-                android:layout_width="102dp"
-                android:layout_height="104dp"
-                android:background="@drawable/rectangle_gray_1_radius_4" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_contents_dummy" />
 
             <ImageView
                 android:id="@+id/iv_alarm"
