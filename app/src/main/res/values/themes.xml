@@ -269,4 +269,13 @@
         <item name="android:letterSpacing">-0.008</item>
         <item name="android:lineSpacingExtra">5sp</item>
     </style>
+
+    <style name="PopupTitle">
+        <item name="android:fontFamily">@font/pretendard</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">-0.18</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
 </resources>
