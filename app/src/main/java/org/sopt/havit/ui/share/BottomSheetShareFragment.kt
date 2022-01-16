@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -33,16 +34,28 @@ class BottomSheetShareFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initTransaction()
-        getBottomSheetHeight()
+        setBottomSheetHeight()
+
     }
+
 
     private fun initTransaction() {
-        childFragmentManager.beginTransaction()
-            .add(R.id.fcv_share, EditTitleFragment())
-            .commit()
+
+        // 이미 생성된 카테고리가 있으면 카테고리 선택 Fragment 로 이동
+        if (getCategoryNum() != 0){
+            childFragmentManager.beginTransaction()
+                .replace(R.id.fcv_share, SelectCategoryFragment())
+                .commit()
+        }
+
     }
 
-    private fun getBottomSheetHeight() {
+    private fun getCategoryNum() : Int {
+        return 0
+    }
+
+    
+    private fun setBottomSheetHeight() {
         (dialog as BottomSheetDialog).behavior.apply {
             state = BottomSheetBehavior.STATE_EXPANDED      // 높이 고정
             skipCollapsed = true                            // HALF_EXPANDED 안되게 설정
