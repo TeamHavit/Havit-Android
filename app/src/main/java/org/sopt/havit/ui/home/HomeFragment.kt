@@ -54,7 +54,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             findNavController().navigate(action)
         }
         binding.clSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_searchFragment)
+            //findNavController().navigate(R.id.action_navigation_home_to_searchFragment)
         }
         binding.tvCategoryAll.setOnClickListener {
             val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)

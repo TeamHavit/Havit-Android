@@ -14,9 +14,6 @@
             android:id="@+id/action_navigation_home_to_homeAlarmFragment"
             app:destination="@id/homeAlarmFragment" />
         <action
-            android:id="@+id/action_navigation_home_to_searchFragment"
-            app:destination="@id/searchFragment" />
-        <action
             android:id="@+id/action_navigation_home_to_homeContentsFragment"
             app:destination="@id/homeContentsFragment" />
     </fragment>
@@ -40,17 +37,9 @@
         android:label="@string/title_my_page"
         tools:layout="@layout/fragment_my_page">
         <action
-            android:id="@+id/action_navigation_my_page_to_searchFragment"
-            app:destination="@id/searchFragment" />
-        <action
             android:id="@+id/action_navigation_my_page_to_webFragment"
             app:destination="@id/webFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="org.sopt.havit.ui.search.SearchFragment"
-        android:label="SearchFragment"
-        tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/contentsFragment"
         android:name="org.sopt.havit.ui.contents.ContentsFragment"
