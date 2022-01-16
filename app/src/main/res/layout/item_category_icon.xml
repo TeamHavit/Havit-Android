@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="categoryIcon"
-            type= "String" />
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:id="@+id/cl_icon"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/oval_gray">
 
-        <ImageView
-            iconSrc="@{categoryIcon}"
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_icon"
-            android:layout_width="59dp"
-            android:layout_height="59dp"
+            iconSrc="@{categoryIcon}"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:contentDescription="@string/icon"
-            tools:src="@drawable/ic_select_inactive"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_select_inactive" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
