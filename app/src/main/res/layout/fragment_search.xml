@@ -12,26 +12,127 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white_gray">
 
 
         <EditText
             android:id="@+id/et_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="54dp"
             android:ems="10"
-            android:inputType="text"
             android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:background="@null"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_search"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/iv_search"
+            app:layout_constraintTop_toTopOf="@+id/iv_search" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_search"
-            android:layout_width="409dp"
-            android:layout_height="684dp"
+        <TextView
+            android:id="@+id/tv_search_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Text14Medium"
+            android:layout_marginEnd="17dp"
+            android:textColor="@color/havit_gray"
+            android:text="@string/search_cancel"
+            app:layout_constraintBottom_toBottomOf="@id/et_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_search" />
+
+        <View
+            android:id="@+id/v_search"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="9dp"
+            android:background="@color/gray_1"
+            app:layout_constraintEnd_toEndOf="@+id/et_search"
+            app:layout_constraintStart_toStartOf="@+id/iv_search"
+            app:layout_constraintTop_toBottomOf="@id/et_search" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_search_rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/rectangle_white_radius_16"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_search" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/v_search">
+
+            <TextView
+                android:id="@+id/tv_search_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textAppearance="@style/Mini10Regular"
+                android:textColor="@color/gray_3"
+                android:text="@string/search_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_search_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@{String.valueOf(vm._searchCount)}"
+                android:textAppearance="@style/Mini10Regular"
+                android:textColor="@color/gray_3"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_search_title"
+                app:layout_constraintStart_toEndOf="@id/tv_search_title"
+                app:layout_constraintTop_toTopOf="@id/tv_search_title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_search"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                android:visibility="invisible"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_search_title"
+                tools:listitem="@layout/item_contents_linear_min"/>
+
+            <TextView
+                android:id="@+id/tv_search_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:text="@string/search_no_result"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/rv_search" />
+
+            <ImageView
+                android:id="@+id/iv_search_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_search"
+                android:layout_marginTop="40dp"
+                app:layout_constraintEnd_toEndOf="@+id/tv_search_no"
+                app:layout_constraintStart_toStartOf="@+id/tv_search_no"
+                app:layout_constraintTop_toBottomOf="@id/tv_search_no" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="19dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_search_black" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

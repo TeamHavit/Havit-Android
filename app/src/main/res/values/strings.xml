@@ -64,6 +64,9 @@
     <string name="contents_add">콘텐츠 추가</string>
     <string name="webview_unread">콘텐츠 확인하기</string>
     <string name="webview_read">콘텐츠 확인 완료</string>
+    <string name="search_title">검색된 콘텐츠</string>
+    <string name="search_cancel">취소</string>
+    <string name="search_no_result">검색 결과가 없습니다</string>
     <string name="category_category_delete">카테고리 삭제</string>
     <string name="category_delete_description">해당 카테고리를 삭제하시겠습니까?\n카테고리 내 콘텐츠도 함께 삭제됩니다.</string>
     <string name="category_cancel">취소</string>

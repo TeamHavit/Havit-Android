@@ -106,6 +106,11 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             startActivity(intent)
         }
         binding.tvReachContents.setOnClickListener {
+            action = HomeFragmentDirections.actionNavigationHomeToHomeContentsFragment("unseen")
+            findNavController().navigate(action)
+        }
+        binding.clSearch.setOnClickListener {
+            //findNavController().navigate(R.id.action_navigation_home_to_searchFragment)
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
             intent.putExtra("before", "unseen")
             startActivity(intent)
