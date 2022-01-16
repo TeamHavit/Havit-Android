@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="41dp"
+        android:layout_marginTop="39dp"
         android:text="@string/enter_category"
         android:textAppearance="@style/Header22Semibold"
         android:textColor="@color/gray_5"
@@ -32,6 +32,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_enter_title" />
 
     <EditText
+        android:id="@+id/et_category_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -43,10 +44,12 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
     <Button
+        android:id="@+id/btn_next"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/rectangle_purple"
+        android:background="@drawable/rectangle_gray_2"
         android:text="@string/next"
+        android:textAppearance="@style/Text16Semibold"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent" />
 

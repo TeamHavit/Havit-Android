@@ -64,6 +64,8 @@
     <string name="contents_add">콘텐츠 추가</string>
     <string name="webview_unread">콘텐츠 확인하기</string>
     <string name="webview_read">콘텐츠 확인 완료</string>
+    <string name="choose_icon">아이콘을 선택하세요</string>
+    <string name="icon_kr">아이콘</string>
     <string name="search_title">검색된 콘텐츠</string>
     <string name="search_cancel">취소</string>
     <string name="search_no_result">검색 결과가 없습니다</string>

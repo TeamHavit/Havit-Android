@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import org.koin.android.ext.android.bind
 import org.sopt.havit.R
 import org.sopt.havit.data.CategorySelectableData
 import org.sopt.havit.databinding.FragmentSelectCategoryBinding
@@ -21,8 +23,15 @@ class SelectCategoryFragment : Fragment() {
         _binding = FragmentSelectCategoryBinding.inflate(layoutInflater, container, false)
 
         initAdapter()
+        initListener()
 
         return binding.root
+    }
+
+    private fun initListener(){
+        binding.btnNext.setOnClickListener {
+            findNavController().navigate(R.id.action_selectCategoryFragment_to_contentsSummeryFragment)
+        }
     }
 
     private fun initAdapter() {
