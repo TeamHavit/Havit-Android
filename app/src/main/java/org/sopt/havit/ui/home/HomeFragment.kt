@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import org.sopt.havit.R
 import org.sopt.havit.data.HomeContentsData
@@ -32,6 +31,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vmHome = homeViewModel
+
         binding.layoutCategory.vmHome = homeViewModel
         binding.layoutCategoryEmpty.vmHome = homeViewModel
 
@@ -91,6 +91,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
             intent.putExtra("before", "unseen")
             startActivity(intent)
+        }
+        binding.layoutCategory.tvCategoryAll.setOnClickListener {
+            val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
+            startActivity((intent))
         }
 //        binding.clSearch.setOnClickListener {
 //

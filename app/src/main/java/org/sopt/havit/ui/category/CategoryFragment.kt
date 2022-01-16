@@ -30,6 +30,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         dataObserve()
         moveManage()
         clickBack()
+        clickItemView()
 
         return binding.root
     }
@@ -69,15 +70,25 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         }
     }
 
-    private fun moveManage(){
+    private fun moveManage() {
         binding.tvModify.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_category_to_categoryOrderModifyFragment)
         }
     }
 
-    private fun clickBack(){
+    private fun clickBack() {
         binding.ivBack.setOnClickListener {
             findNavController().popBackStack()
         }
+    }
+
+    private fun clickItemView() {
+        categoryAdapter.setItemClickListener(object : CategoryAdapter.OnItemClickListener {
+            override fun onClick(v: View, position: Int) {
+                // ContentsFragment -> ContentsActivity로 바꾸고 ContentsActivity로 이동
+//                val intent = Intent(requireActivity(), ContentsActivity::class.java)
+//                startActivity(intent)
+            }
+        })
     }
 }
