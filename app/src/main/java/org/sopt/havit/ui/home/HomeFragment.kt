@@ -1,27 +1,28 @@
 package org.sopt.havit.ui.home
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDirections
-import androidx.navigation.fragment.findNavController
 import org.sopt.havit.R
 import org.sopt.havit.data.HomeContentsData
 import org.sopt.havit.data.HomeRecommendData
 import org.sopt.havit.databinding.FragmentHomeBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.ui.contents_simple.ContentsSimpleActivity
+import org.sopt.havit.ui.notification.NotificationActivity
 
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var contentsAdapter: HomeRecentContentsRvAdapter
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
-    private lateinit var action: NavDirections
+    private lateinit var categoryVpAdapter: HomeCategoryVpAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,11 +33,15 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vmHome = homeViewModel
+        binding.layoutCategory.vmHome = homeViewModel
+        binding.layoutCategoryEmpty.vmHome = homeViewModel
 
         initSearchSticky()
-        initCategoryFragment()
         initProgressBar()
         initContentsView()
+        initCategoryView()
+        initVpAdapter()
+        initIndicator()
         initContentsRvAdapter()
         initRecommendRvAdapter()
 
@@ -45,29 +50,93 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         return binding.root
     }
 
+    private fun initCategoryView() {
+        // Category가 존재할 경우
+        initVpAdapter()
+        initIndicator()
+        homeViewModel.requestUserName("안나영")
+        binding.layoutCategoryEmpty.clHomeCategoryEmpty.visibility = View.GONE
+
+        // Category가 존재하지 않을 경우
+//        binding.layoutCategory.clHomeCategory.visibility = View.GONE
+//        clickAddCategory()
+
+    }
+
+    private fun clickAddCategory() {
+        binding.layoutCategoryEmpty.tvAddCategory.setOnClickListener {
+            Log.d("HomeFragment", "home_add_category")
+        }
+    }
+
+    private fun initIndicator() {
+        val indicator = binding.layoutCategory.indicatorCategory
+        indicator.setViewPager2(binding.layoutCategory.vpCategory)
+    }
+
+    private fun initVpAdapter() {
+        categoryVpAdapter = HomeCategoryVpAdapter()
+        binding.layoutCategory.vpCategory.adapter = categoryVpAdapter
+
+        homeViewModel.categoryData.observe(viewLifecycleOwner) {
+            categoryVpAdapter.setList(it)
+        }
+    }
+
+    // popUp 삭제 버튼 클릭 시 수행되는 animation + popUp.visibility.GONE
+    private fun deletePopup() {
+        binding.clPopup.animate()
+            .translationY(binding.clPopup.height.toFloat() * -1)
+            .alpha(0.0f)
+            .setDuration(200)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    super.onAnimationEnd(animation)
+                    binding.clPopup.visibility = View.GONE
+                }
+            })
+    }
+
     private fun setClickEvent() {
+        binding.ivDeletePopup.setOnClickListener {
+            deletePopup()
+        }
         binding.ivAlarm.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_homeAlarmFragment)
+            val intent = Intent(requireActivity(), NotificationActivity::class.java)
+            startActivity(intent)
         }
         binding.tvReachContents.setOnClickListener {
             action = HomeFragmentDirections.actionNavigationHomeToHomeContentsFragment("unseen")
             findNavController().navigate(action)
         }
         binding.clSearch.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_searchFragment)
-        }
-        binding.tvCategoryAll.setOnClickListener {
-            val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
+            //findNavController().navigate(R.id.action_navigation_home_to_searchFragment)
+            val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
+            intent.putExtra("before", "unseen")
             startActivity(intent)
         }
+        binding.layoutCategory.tvCategoryAll.setOnClickListener {
+            Log.d("activity_check", "CLICK TEST")
+            val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
+            startActivity((intent))
+        }
+        binding.clSearch.setOnClickListener {
+            Log.d("homefragment_search", "SEARCH")
+//            val intent = Intent(requireActivity(), SearchActivity::class.java)
+//            startActivity(intent)
+        }
         binding.tvMoreContents.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_homeContentsFragment)
+            val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
+            intent.putExtra("before", "recent_save")
+            startActivity(intent)
         }
     }
 
     private fun initContentsView() {
+        // 최근 저장 콘텐츠가 있을 경우
         binding.clContentsEmpty.visibility = View.GONE
 
+        // 최근 저장 콘텐츠가 없을 경우
 //        binding.rvContents.visibility = View.GONE
 //        binding.tvMoreContents.visibility = View.INVISIBLE
     }
@@ -109,7 +178,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         contentsAdapter = HomeRecentContentsRvAdapter()
         binding.rvContents.adapter = contentsAdapter
         val list = listOf(
-            HomeContentsData("", "카테고리 이름1", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
+            HomeContentsData("", "카테고리 이름11111111111", "헤더입니다 헤더입니다 헤더입니다 헤더입니다", "2021.11.24"),
             HomeContentsData("", "카테고리 이름2", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
             HomeContentsData("", "카테고리 이름3", "헤더입니다", "2021.11.24"),
             HomeContentsData("", "카테고리 이름4", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
@@ -132,17 +201,4 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         Log.d("HomeFragment", "rate : $rate")
         binding.pbReach.progress = rate
     }
-
-    private fun initCategoryFragment() {
-        val fragmentHomeCategory = HomeCategoryFragment()
-        val fragmentHomeCategoryEmpty = HomeCategoryEmptyFragment()
-
-        childFragmentManager.beginTransaction()
-            .add(R.id.fcv_category, fragmentHomeCategory)
-            .commit()
-//        childFragmentManager.beginTransaction()
-//            .add(R.id.fcv_category, fragmentHomeCategoryEmpty)
-//            .commit()
-    }
-
 }

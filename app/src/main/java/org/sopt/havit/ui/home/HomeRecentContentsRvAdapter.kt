@@ -6,14 +6,17 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.data.HomeContentsData
 import org.sopt.havit.databinding.ItemHomeRecentContentsListBinding
 
-class HomeRecentContentsRvAdapter : RecyclerView.Adapter<HomeRecentContentsRvAdapter.HomeContentsViewHolder>() {
+class HomeRecentContentsRvAdapter :
+    RecyclerView.Adapter<HomeRecentContentsRvAdapter.HomeContentsViewHolder>() {
 
     var contentsList = mutableListOf<HomeContentsData>()
 
     class HomeContentsViewHolder(private val binding: ItemHomeRecentContentsListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: HomeContentsData) {
+            data.header = data.header.replace(" ", "\u00a0") // tvHeader 단어 자동줄바꿈 막는 코드
             binding.dataHomeContents = data
+
         }
     }
 
