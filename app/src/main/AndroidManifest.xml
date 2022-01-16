@@ -16,6 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Havit">
         <activity
+            android:name=".ui.category.CategoryContentModifyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.category.CategoryOrderModifyActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.contents_simple.ContentsSimpleActivity"
             android:exported="true" />
         <activity
@@ -62,8 +68,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <receiver
-            android:name="org.sopt.havit.ui.web.HavitBroadcastReceiver"
+            android:name=".ui.web.HavitBroadcastReceiver"
             android:enabled="true" />
 
         <meta-data

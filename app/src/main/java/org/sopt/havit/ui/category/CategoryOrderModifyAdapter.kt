@@ -1,13 +1,10 @@
 package org.sopt.havit.ui.category
 
+import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import org.sopt.havit.R
 import org.sopt.havit.data.CategoryData
 import org.sopt.havit.databinding.ItemCategoryModifyBinding
 import java.util.*
@@ -39,7 +36,7 @@ class CategoryOrderModifyAdapter :
 
     override fun onBindViewHolder(holder: CategoryOrderModifyViewHolder, position: Int) {
         holder.onBind(categoryList[position])
-        holder.onClick()
+        holder.onClick(position)
     }
 
     override fun getItemCount(): Int = categoryList.size
@@ -53,10 +50,14 @@ class CategoryOrderModifyAdapter :
                 .into(binding.ivCategoryIc)
         }
 
-        fun onClick() {
+        fun onClick(position: Int) {
             binding.clCategoryList.setOnClickListener {
-                Navigation.findNavController(binding.clCategoryList)
-                    .navigate(R.id.action_categoryOrderModifyFragment_to_categoryContentModifyFragment)
+//                Navigation.findNavController(binding.clCategoryList)
+//                    .navigate(R.id.action_categoryOrderModifyFragment_to_categoryContentModifyFragment)
+
+                val intent = Intent(it.context, CategoryContentModifyActivity::class.java)
+                intent.putExtra("categoryPos", position)
+                it.context.startActivity(intent)
             }
         }
     }
