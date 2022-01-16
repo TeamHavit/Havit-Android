@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
 
@@ -32,6 +33,12 @@ class ContentsSummeryFragment : Fragment() {
     private fun initListener() {
         binding.btnComplete.setOnClickListener {
             setCustomToast()
+        }
+        binding.ibEditTitle.setOnClickListener{
+            findNavController().navigate(R.id.action_contentsSummeryFragment_to_editTitleFragment)
+        }
+        binding.tvSetAlarm.setOnClickListener {
+            findNavController().navigate(R.id.action_contentsSummeryFragment_to_setNotificationFragment)
         }
     }
 
