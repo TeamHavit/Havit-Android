@@ -1,5 +1,7 @@
 package org.sopt.havit.ui.home
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -31,7 +33,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vmHome = homeViewModel
-
         binding.layoutCategory.vmHome = homeViewModel
         binding.layoutCategoryEmpty.vmHome = homeViewModel
 
@@ -82,7 +83,24 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
+    // popUp 삭제 버튼 클릭 시 수행되는 animation + popUp.visibility.GONE
+    private fun deletePopup() {
+        binding.clPopup.animate()
+            .translationY(binding.clPopup.height.toFloat() * -1)
+            .alpha(0.0f)
+            .setDuration(200)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    super.onAnimationEnd(animation)
+                    binding.clPopup.visibility = View.GONE
+                }
+            })
+    }
+
     private fun setClickEvent() {
+        binding.ivDeletePopup.setOnClickListener {
+            deletePopup()
+        }
         binding.ivAlarm.setOnClickListener {
             val intent = Intent(requireActivity(), NotificationActivity::class.java)
             startActivity(intent)
@@ -96,9 +114,11 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
             startActivity((intent))
         }
-//        binding.clSearch.setOnClickListener {
-//
-//        }
+        binding.clSearch.setOnClickListener {
+            Log.d("homefragment_search", "SEARCH")
+//            val intent = Intent(requireActivity(), SearchActivity::class.java)
+//            startActivity(intent)
+        }
         binding.tvMoreContents.setOnClickListener {
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
             intent.putExtra("before", "recent_save")
@@ -175,5 +195,4 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         Log.d("HomeFragment", "rate : $rate")
         binding.pbReach.progress = rate
     }
-
 }
