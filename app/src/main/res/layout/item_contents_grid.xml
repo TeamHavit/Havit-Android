@@ -25,12 +25,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/iv_thumbnail"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/img_contents_dummy_2" />
+                app:cardCornerRadius="4dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:id="@+id/iv_thumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_contents_dummy_2" />
+            </androidx.cardview.widget.CardView>
 
             <ImageView
                 android:id="@+id/iv_alarm"
@@ -70,7 +77,7 @@
             android:maxLines="1"
             android:text="@{content.description}"
             android:textAppearance="@style/Mini9Regular"
-            android:textColor="@color/havit_gray"
+            android:textColor="@color/gray_3"
             app:layout_constraintEnd_toEndOf="@+id/tv_title"
             app:layout_constraintStart_toStartOf="@+id/tv_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
@@ -136,7 +143,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:src="@drawable/ic_contents_read_2"
+            android:src="@drawable/ic_contents_unread"
+            android:tag="unseen"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/fl_image" />
 
