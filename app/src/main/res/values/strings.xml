@@ -64,4 +64,9 @@
     <string name="contents_add">콘텐츠 추가</string>
     <string name="webview_unread">콘텐츠 확인하기</string>
     <string name="webview_read">콘텐츠 확인 완료</string>
+    <string name="contents_simple_recent_save">최근 저장 콘텐츠</string>
+    <string name="contents_simple_unseen">봐야 하는 콘텐츠</string>
+    <string name="contents_simple_recent_save_empty">최근 저장 콘텐츠가 없습니다.\n새로운 콘텐츠를 저장해 보세요!</string>
+    <string name="contents_simple_unseen_empty">봐야 하는 콘텐츠가 없습니다.\n새로운 콘텐츠를 저장해 보세요!</string>
+    <string name="contents_simple_add_contents">콘텐츠 추가</string>
 </resources>
