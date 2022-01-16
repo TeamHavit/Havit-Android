@@ -17,7 +17,7 @@
         <FrameLayout
             android:id="@+id/fl_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:layout_marginTop="17dp"
             android:layout_marginEnd="6dp"
@@ -28,8 +28,9 @@
             <ImageView
                 android:id="@+id/iv_thumbnail"
                 android:layout_width="match_parent"
-                android:layout_height="184dp"
-                android:background="@drawable/rectangle_gray_1_radius_4" />
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_contents_dummy_3" />
 
             <ImageView
                 android:id="@+id/iv_alarm"
@@ -150,19 +151,17 @@
             android:id="@+id/iv_havit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="4dp"
             android:src="@drawable/ic_contents_read_2"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="@+id/fl_image" />
 
         <ImageView
             android:id="@+id/iv_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
+            android:layout_width="20dp"
+            android:layout_height="6dp"
             android:src="@drawable/ic_more"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/fl_image"
             app:layout_constraintTop_toTopOf="@+id/tv_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
