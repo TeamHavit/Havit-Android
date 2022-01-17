@@ -29,7 +29,7 @@ class CategoryContentModifyActivity : AppCompatActivity() {
 
     private fun setAlertDialog() {
         val layoutInflater = LayoutInflater.from(this)
-        val view = layoutInflater.inflate(R.layout.dilaog_category_delete, null)
+        val view = layoutInflater.inflate(R.layout.dialog_category_delete, null)
 
         val alertDialog = AlertDialog.Builder(this, R.style.CustomAlertDialogStyle)
             .setView(view)
