@@ -12,8 +12,8 @@ class HomeViewModel : ViewModel() {
     }
     val popupData: LiveData<String> = _popupData
 
-     val _reachRate = MutableLiveData<Int>()
-    //val reachRate: LiveData<String> = _reachRate
+    private val _reachRate = MutableLiveData<Int>()
+    var reachRate: LiveData<Int> = _reachRate
 
     fun requestPopupData(popup: String) {
         _popupData.value = popup
@@ -21,7 +21,8 @@ class HomeViewModel : ViewModel() {
 
     private val _reachData = MutableLiveData<HomeReachData>().apply {
         value = HomeReachData(123, "최유빈", 125, 12, 64)
-        _reachRate.value = (value!!.totalSeenContentNumber.toDouble() / value!!.totalContentNumber.toDouble() * 100).toInt()
+        _reachRate.value =
+            (value!!.totalSeenContentNumber.toDouble() / value!!.totalContentNumber.toDouble() * 100).toInt()
     }
     val reachData: LiveData<HomeReachData> = _reachData
     fun requestReachData(homeReach: HomeReachData) {
@@ -29,101 +30,44 @@ class HomeViewModel : ViewModel() {
     }
 
     private val _categoryData = MutableLiveData<List<HomeCategoryListData>>().apply {
+        val list = mutableListOf<CategoryData>()
+        for (i in 1..6) {
+            list.add(
+                CategoryData(
+                    3,
+                    "슉슉",
+                    "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                    0,
+                    1
+                )
+            )
+        }
         value = listOf(
+            HomeCategoryListData(list),
+            HomeCategoryListData(list),
+            HomeCategoryListData(list),
             HomeCategoryListData(
                 listOf(
-                    HomeCategoryData(
+                    CategoryData(
+                        3,
+                        "슉슉",
                         "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "전체",
-                        19.toString()
+                        0,
+                        1
                     ),
-                    HomeCategoryData(
+                    CategoryData(
+                        3,
+                        "슉슉",
                         "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category1",
-                        20.toString()
+                        0,
+                        1
                     ),
-                    HomeCategoryData(
+                    CategoryData(
+                        3,
+                        "슉슉",
                         "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category2",
-                        21.toString()
-                    ),
-                    HomeCategoryData(
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category3",
-                        22.toString()
-                    ),
-                    HomeCategoryData(
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category4",
-                        22.toString()
-                    ),
-                    HomeCategoryData(
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category5",
-                        22.toString()
-                    )
-                )
-            ),
-            HomeCategoryListData(
-                listOf(
-                    HomeCategoryData(
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category6",
-                        19.toString()
-                    ),
-                    HomeCategoryData(
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category7",
-                        20.toString()
-                    ),
-                    HomeCategoryData(
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category8",
-                        21.toString()
-                    ),
-                    HomeCategoryData(
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category9",
-                        22.toString()
-                    ),
-                    HomeCategoryData(
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category10",
-                        22.toString()
-                    ),
-                    HomeCategoryData(
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category11",
-                        22.toString()
-                    )
-                )
-            ),
-            HomeCategoryListData(
-                listOf(
-                    HomeCategoryData(
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category12",
-                        19.toString()
-                    ),
-                    HomeCategoryData(
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category13",
-                        20.toString()
-                    ),
-                    HomeCategoryData(
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category14",
-                        21.toString()
-                    ),
-                    HomeCategoryData(
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category15",
-                        22.toString()
-                    ),
-                    HomeCategoryData(
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        "category16",
-                        22.toString()
+                        0,
+                        1
                     )
                 )
             )

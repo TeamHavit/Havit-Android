@@ -202,7 +202,7 @@
                         android:layout_marginTop="22dp"
                         android:layout_marginEnd="3dp"
                         android:layout_marginBottom="14dp"
-                        android:text="@{String.valueOf(vm_home._reachRate)}"
+                        android:text="@{String.valueOf(vm_home.reachRate)}"
                         android:textAppearance="@style/Bold38"
                         android:textColor="@color/havit_purple"
                         app:layout_constraintBottom_toBottomOf="parent"
