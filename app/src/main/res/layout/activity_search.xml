@@ -7,6 +7,7 @@
         <variable
             name="vm"
             type="org.sopt.havit.ui.search.SearchViewModel" />
+        <import type="android.view.View"/>
 
     </data>
 
@@ -22,13 +23,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="54dp"
-            android:ems="10"
             android:imeOptions="actionSearch"
             android:inputType="text"
+            android:textCursorDrawable="@drawable/rectangle_havit_purple_cursor"
             android:background="@null"
+            android:focusable="true"
             app:layout_constraintBottom_toBottomOf="@+id/iv_search"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/iv_search"
             app:layout_constraintTop_toTopOf="@+id/iv_search" />
 
@@ -108,6 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
                 android:text="@string/search_no_result"
+                android:visibility="@{vm.searchTv == true ? View.INVISIBLE :View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/rv_search" />
@@ -116,7 +118,8 @@
                 android:id="@+id/iv_search_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/img_search"
+                android:visibility="@{vm.searchImg == true ? View.INVISIBLE : View.VISIBLE}"
+                imgRes="@{vm.searchIng == true ? @drawable/ic_search_is :@drawable/img_search}"
                 android:layout_marginTop="40dp"
                 app:layout_constraintEnd_toEndOf="@+id/tv_search_no"
                 app:layout_constraintStart_toStartOf="@+id/tv_search_no"
@@ -128,7 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="17dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_search_black" />
