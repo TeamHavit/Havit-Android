@@ -13,6 +13,7 @@ import org.sopt.havit.ShareActivity
 import org.sopt.havit.databinding.FragmentMyPageBinding
 import org.sopt.havit.ui.contents.ContentsViewModel
 import org.sopt.havit.ui.search.SearchActivity
+import org.sopt.havit.ui.web.WebActivity
 
 class MyPageFragment : Fragment() {
 
@@ -34,7 +35,8 @@ class MyPageFragment : Fragment() {
 
 
         binding.textHome.setOnClickListener {
-            startActivity(Intent(context,SearchActivity::class.java))
+            startActivity(Intent(context,WebActivity::class.java))
+
         }
 
 

@@ -1,5 +1,6 @@
 package org.sopt.havit
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
@@ -11,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.sopt.havit.databinding.ActivityMainBinding
+import org.sopt.havit.ui.save.SaveActivity
 import org.sopt.havit.ui.save.SaveFragment
 
 class MainActivity : AppCompatActivity() {
@@ -39,7 +41,8 @@ class MainActivity : AppCompatActivity() {
 
         val fab: View = findViewById(R.id.save)
         fab.setOnClickListener { view ->
-            SaveFragment().show(supportFragmentManager, "sdf")
+            SaveFragment().show(supportFragmentManager, "save")
+            //startActivity(Intent(this,SaveActivity::class.java))
         }
 
         bottomNavVisible()

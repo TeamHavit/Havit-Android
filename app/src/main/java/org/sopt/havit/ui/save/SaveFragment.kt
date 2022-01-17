@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -26,7 +27,12 @@ class SaveFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         dialog?.setOnShowListener {
+            //openKeyBoard()
             openKeyBoard()
+            activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+            val bottomSheet: View = dialog!!.findViewById(R.id.design_bottom_sheet)
+            bottomSheet.layoutParams.height = (resources.displayMetrics.heightPixels * 0.94).toInt()
+
             val behavior = BottomSheetBehavior.from<ConstraintLayout>(
                 (dialog as BottomSheetDialog).findViewById(R.id.design_bottom_sheet)!!
             )
@@ -71,15 +77,10 @@ class SaveFragment : BottomSheetDialogFragment() {
         super.onDestroy()
         hideKeyBoard()
     }
-
-
     override fun onStart() {
         super.onStart()
-
         if (dialog != null) {
-            activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-            val bottomSheet: View = dialog!!.findViewById(R.id.design_bottom_sheet)
-            bottomSheet.layoutParams.height = (resources.displayMetrics.heightPixels * 0.94).toInt()
+            openKeyBoard()
         }
     }
 
