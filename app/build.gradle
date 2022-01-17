@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -92,5 +93,16 @@ dependencies {
 
     // CircleImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // Import the Firebase BoM
+    /**  효림) BoM은 자동으로 버전 체크를 해주지 않기 때문에,
+     *  문제가 생기면 아래 링크에서 최신 버전으로 수동 업데이트를 해줘야함
+     *  https://firebase.google.com/docs/android/setup#available-libraries
+     *  아래 firebase-analytics는 bom 버전과 자동으로 동기화 되므로
+     *  bom 이외의 sdk에 버전 지정을 하지 않게 주의
+     * */
+    implementation platform('com.google.firebase:firebase-bom:29.0.3')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
 
 }
