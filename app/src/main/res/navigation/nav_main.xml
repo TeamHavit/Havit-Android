@@ -9,25 +9,13 @@
         android:id="@+id/navigation_home"
         android:name="org.sopt.havit.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_navigation_home_to_homeAlarmFragment"
-            app:destination="@id/homeAlarmFragment" />
-        <action
-            android:id="@+id/action_navigation_home_to_homeContentsFragment"
-            app:destination="@id/homeContentsFragment" />
-    </fragment>
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_category"
         android:name="org.sopt.havit.ui.category.CategoryFragment"
         android:label="@string/title_category"
-        tools:layout="@layout/fragment_category">
-        <action
-            android:id="@+id/action_navigation_category_to_contentsFragment"
-            app:destination="@id/contentsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_category" />
 
     <fragment
         android:id="@+id/navigation_my_page"
@@ -43,20 +31,20 @@
         android:name="org.sopt.havit.ui.contents.ContentsFragment"
         android:label="ContentsFragment" />
 
-    <fragment
-        android:id="@+id/categoryOrderModifyFragment"
-        android:name="org.sopt.havit.ui.category.CategoryOrderModifyFragment"
-        android:label="fragment_category_order_modify"
-        tools:layout="@layout/fragment_category_order_modify">
-        <action
-            android:id="@+id/action_categoryOrderModifyFragment_to_categoryContentModifyFragment"
-            app:destination="@id/categoryContentModifyFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/categoryContentModifyFragment"
-        android:name="org.sopt.havit.ui.category.CategoryContentModifyFragment"
-        android:label="fragment_category_content_modify"
-        tools:layout="@layout/fragment_category_content_modify" />
+<!--    <fragment-->
+<!--        android:id="@+id/categoryOrderModifyFragment"-->
+<!--        android:name="org.sopt.havit.ui.category.CategoryOrderModifyFragment"-->
+<!--        android:label="fragment_category_order_modify"-->
+<!--        tools:layout="@layout/fragment_category_order_modify">-->
+<!--        <action-->
+<!--            android:id="@+id/action_categoryOrderModifyFragment_to_categoryContentModifyFragment"-->
+<!--            app:destination="@id/categoryContentModifyFragment" />-->
+<!--    </fragment>-->
+<!--    <fragment-->
+<!--        android:id="@+id/categoryContentModifyFragment"-->
+<!--        android:name="org.sopt.havit.ui.category.CategoryContentModifyFragment"-->
+<!--        android:label="fragment_category_content_modify"-->
+<!--        tools:layout="@layout/fragment_category_content_modify" />-->
     <fragment
         android:id="@+id/webFragment"
         android:name="org.sopt.havit.ui.web.WebFragment"

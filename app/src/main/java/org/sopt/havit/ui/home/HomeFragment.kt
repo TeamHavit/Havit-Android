@@ -69,11 +69,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
-    private fun initIndicator() {
-        val indicator = binding.layoutCategory.indicatorCategory
-        indicator.setViewPager2(binding.layoutCategory.vpCategory)
-    }
-
     private fun initVpAdapter() {
         categoryVpAdapter = HomeCategoryVpAdapter()
         binding.layoutCategory.vpCategory.adapter = categoryVpAdapter
@@ -81,6 +76,11 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         homeViewModel.categoryData.observe(viewLifecycleOwner) {
             categoryVpAdapter.setList(it)
         }
+    }
+
+    private fun initIndicator() {
+        val indicator = binding.layoutCategory.indicatorCategory
+        indicator.setViewPager2(binding.layoutCategory.vpCategory)
     }
 
     // popUp 삭제 버튼 클릭 시 수행되는 animation + popUp.visibility.GONE
@@ -106,11 +106,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             startActivity(intent)
         }
         binding.tvReachContents.setOnClickListener {
-            action = HomeFragmentDirections.actionNavigationHomeToHomeContentsFragment("unseen")
-            findNavController().navigate(action)
-        }
-        binding.clSearch.setOnClickListener {
-            //findNavController().navigate(R.id.action_navigation_home_to_searchFragment)
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
             intent.putExtra("before", "unseen")
             startActivity(intent)
