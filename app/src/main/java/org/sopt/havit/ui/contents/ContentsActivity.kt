@@ -1,7 +1,9 @@
 package org.sopt.havit.ui.contents
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -145,6 +147,26 @@ class ContentsActivity : AppCompatActivity() {
         binding.tvAddContents.setOnClickListener {
             SaveFragment().show(supportFragmentManager, "언니 사랑해")
         }
+    }
+
+    private fun setAlertDialog() {
+        val layoutInflater = LayoutInflater.from(this)
+        val view = layoutInflater.inflate(R.layout.dialog_contents_top, null)
+
+        val alertDialog = AlertDialog.Builder(this, R.style.CustomAlertDialogStyle)
+            .setView(view)
+            .create()
+
+        val buttonClose = view.findViewById<View>(R.id.btn_cancel)
+        val buttonDelete = view.findViewById<View>(R.id.btn_delete)
+        buttonClose.setOnClickListener {
+            alertDialog.dismiss()
+        }
+        buttonDelete.setOnClickListener {
+
+        }
+
+        alertDialog.show()
     }
 
     companion object {
