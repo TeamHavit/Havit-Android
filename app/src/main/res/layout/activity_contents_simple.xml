@@ -1,15 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.contents_simple.ContentsSimpleActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CONTENTS_SIMPLE"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+        <variable
+            name="vmContents"
+            type="org.sopt.havit.ui.contents_simple.ContentsSimpleViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.contents_simple.ContentsSimpleActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_topbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_gray"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginBottom="14dp"
+                android:src="@drawable/ic_back_black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_topbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="16dp"
+                android:text="@{vmContents.topBarName}"
+                android:textAppearance="@style/Header16Bold"
+                android:textColor="@color/havit_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/contents_simple_recent_save" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_contents"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_topbar"
+            tools:listitem="@layout/item_contents_linear_min" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_contents_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_topbar">
+
+            <TextView
+                android:id="@+id/tv_contents_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Text14Medium"
+                android:textColor="@color/gray_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@{vmContents.emptyContents}" />
+
+            <ImageView
+                android:id="@+id/iv_contents_empty"
+                android:layout_width="203dp"
+                android:layout_height="246dp"
+                android:src="@drawable/img_graphic_nocontents"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_contents_empty" />
+
+            <TextView
+                android:layout_width="233dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="57dp"
+                android:background="@drawable/rectangle_purple_main_radius_44"
+                android:gravity="center"
+                android:paddingVertical="14dp"
+                android:text="@string/contents_simple_add_contents"
+                android:textAppearance="@style/Button15Medium"
+                android:textColor="@color/havit_purple"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_contents_empty" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

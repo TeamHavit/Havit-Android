@@ -39,12 +39,14 @@
         <TextView
             android:id="@+id/tv_category_all"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="2dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="7dp"
+            android:paddingHorizontal="9dp"
             android:text="@string/home_category_all"
             android:textAppearance="@style/Sub12Regular"
             android:textColor="@color/gray_3"
+            app:layout_constraintBottom_toTopOf="@id/cl_category"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
