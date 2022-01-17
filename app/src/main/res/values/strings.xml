@@ -3,7 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_category">Category</string>
     <string name="title_my_page">MyPage</string>
-    <string name="app_name">havit</string>
+    <string name="app_name">Havit</string>
     <string name="kakao_app_key">6069fb41c205cbbf8f213b32eec7f2c8</string>
     <string name="category_entire_category">전체 카테고리</string>
     <string name="category_modify">수정</string>
@@ -69,4 +69,13 @@
     <string name="contents_simple_recent_save_empty">최근 저장 콘텐츠가 없습니다.\n새로운 콘텐츠를 저장해 보세요!</string>
     <string name="contents_simple_unseen_empty">봐야 하는 콘텐츠가 없습니다.\n새로운 콘텐츠를 저장해 보세요!</string>
     <string name="contents_simple_add_contents">콘텐츠 추가</string>
+    <string name="choose_icon">아이콘을 선택하세요</string>
+    <string name="icon_kr">아이콘</string>
+    <string name="search_title">검색된 콘텐츠</string>
+    <string name="search_cancel">취소</string>
+    <string name="search_no_result">검색 결과가 없습니다</string>
+    <string name="category_category_delete">카테고리 삭제</string>
+    <string name="category_delete_description">해당 카테고리를 삭제하시겠습니까?\n카테고리 내 콘텐츠도 함께 삭제됩니다.</string>
+    <string name="category_cancel">취소</string>
+    <string name="category_delete">삭제</string>
 </resources>
