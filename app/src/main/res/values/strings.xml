@@ -78,4 +78,5 @@
     <string name="category_delete_description">해당 카테고리를 삭제하시겠습니까?\n카테고리 내 콘텐츠도 함께 삭제됩니다.</string>
     <string name="category_cancel">취소</string>
     <string name="category_delete">삭제</string>
+    <string name="category_suggestion">카테고리로 콘텐츠를 정리해보세요.</string>
 </resources>
