@@ -12,25 +12,20 @@ class HomeViewModel : ViewModel() {
     }
     val popupData: LiveData<String> = _popupData
 
+     val _reachRate = MutableLiveData<Int>()
+    //val reachRate: LiveData<String> = _reachRate
+
     fun requestPopupData(popup: String) {
         _popupData.value = popup
     }
 
     private val _reachData = MutableLiveData<HomeReachData>().apply {
-        value = HomeReachData(62.toString(), "/ 145", 100.toString())
+        value = HomeReachData(123, "최유빈", 125, 12, 64)
+        _reachRate.value = (value!!.totalSeenContentNumber.toDouble() / value!!.totalContentNumber.toDouble() * 100).toInt()
     }
     val reachData: LiveData<HomeReachData> = _reachData
-
     fun requestReachData(homeReach: HomeReachData) {
         _reachData.value = homeReach
-    }
-
-    private val _userName = MutableLiveData<String>().apply {
-        value = "000"
-    }
-    val userName: LiveData<String> = _userName
-    fun requestUserName(userName: String) {
-        _userName.value = userName
     }
 
     private val _categoryData = MutableLiveData<List<HomeCategoryListData>>().apply {

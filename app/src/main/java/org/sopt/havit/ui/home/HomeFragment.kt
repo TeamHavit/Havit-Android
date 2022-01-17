@@ -16,6 +16,7 @@ import org.sopt.havit.databinding.FragmentHomeBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents_simple.ContentsSimpleActivity
 import org.sopt.havit.ui.notification.NotificationActivity
+import org.sopt.havit.ui.search.SearchActivity
 
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
@@ -54,7 +55,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         // Category가 존재할 경우
         initVpAdapter()
         initIndicator()
-        homeViewModel.requestUserName("안나영")
         binding.layoutCategoryEmpty.clHomeCategoryEmpty.visibility = View.GONE
 
         // Category가 존재하지 않을 경우
@@ -117,8 +117,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
         binding.clSearch.setOnClickListener {
             Log.d("homefragment_search", "SEARCH")
-//            val intent = Intent(requireActivity(), SearchActivity::class.java)
-//            startActivity(intent)
+            val intent = Intent(requireActivity(), SearchActivity::class.java)
+            startActivity(intent)
         }
         binding.tvMoreContents.setOnClickListener {
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
@@ -190,10 +190,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun initProgressBar() {
-        val read = 62.toDouble()
-        val all = 145.toDouble()
-        val rate: Int = ((read / all) * 100).toInt()
-        Log.d("HomeFragment", "rate : $rate")
-        binding.pbReach.progress = rate
+//        Log.d("HomeFragment", "rate : $rate")
+        binding.pbReach.progress = 100 // test
     }
 }

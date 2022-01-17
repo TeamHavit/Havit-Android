@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
-                android:text="@{category.categoryName}"
+                android:text="@{category.title}"
                 android:textAppearance="@style/Text14Medium"
                 android:textColor="@color/havit_gray"
                 app:layout_constraintBottom_toBottomOf="parent"

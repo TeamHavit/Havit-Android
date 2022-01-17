@@ -122,7 +122,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="16dp"
-                        android:text="@{vm_home.userName}"
+                        android:text="@{vm_home.reachData.nickname}"
                         android:textAppearance="@style/Header19Semibold"
                         android:textColor="@color/gray_4"
                         app:layout_constraintStart_toStartOf="parent"
@@ -146,7 +146,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="25dp"
-                        android:text="@{vm_home.reachData.read}"
+                        android:text="@{String.valueOf(vm_home.reachData.totalSeenContentNumber)}"
                         android:textAppearance="@style/Extrabold16"
                         android:textColor="@color/gray_3"
                         app:layout_constraintStart_toStartOf="parent"
@@ -159,7 +159,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="2.5dp"
                         android:layout_marginTop="29dp"
-                        android:text="@{vm_home.reachData.all}"
+                        android:text="@{`/ `+String.valueOf(vm_home.reachData.totalContentNumber)}"
                         android:textAppearance="@style/Mini10Regular"
                         android:textColor="@color/gray_3"
                         app:layout_constraintStart_toEndOf="@+id/tv_reach_read"
@@ -200,9 +200,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="22dp"
-                        android:layout_marginEnd="3.5dp"
+                        android:layout_marginEnd="3dp"
                         android:layout_marginBottom="14dp"
-                        android:text="@{vm_home.reachData.rate}"
+                        android:text="@{String.valueOf(vm_home._reachRate)}"
                         android:textAppearance="@style/Bold38"
                         android:textColor="@color/havit_purple"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -216,10 +216,10 @@
                         android:layout_width="0dp"
                         android:layout_height="5dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginEnd="105dp"
+                        android:layout_marginEnd="74dp"
                         android:max="100"
                         android:progressDrawable="@drawable/bg_home_reach_progress"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/tv_reach_percent"
                         app:layout_constraintStart_toStartOf="@id/tv_reach_read"
                         app:layout_constraintTop_toBottomOf="@id/tv_reach_read" />
 
@@ -536,6 +536,5 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </org.sopt.havit.util.StickyScrollView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -52,8 +52,11 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         for (i in 1..15) {
             list.add(
                 CategoryData(
-                    "UX/UI 아티클",
-                    "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png"
+                    3,
+                    "슉슉",
+                    "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                    0,
+                    1
                 )
             )
         }
@@ -101,7 +104,6 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                 // ContentsFragment -> ContentsActivity로 바꾸고 ContentsActivity로 이동
                 val intent = Intent(requireActivity(), ContentsActivity::class.java)
                 startActivity(intent)
-                //findNavController().navigate(R.id.action_navigation_category_to_contentsFragment)
             }
         })
     }

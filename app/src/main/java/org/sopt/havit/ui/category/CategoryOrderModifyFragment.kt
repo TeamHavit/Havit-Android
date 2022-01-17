@@ -48,8 +48,11 @@ class CategoryOrderModifyFragment : Fragment() {
         for (i in 1..15) {
             categoryOrderModifyAdapter.categoryList.add(
                 CategoryData(
-                    "UX/UI 아티클 $i ",
-                    "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png"
+                    3,
+                    "슉슉",
+                    "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+                    0,
+                    1
                 )
             )
         }
