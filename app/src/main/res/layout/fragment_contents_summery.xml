@@ -79,7 +79,7 @@
             android:id="@+id/tv_set_alarm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="20.21.10 오후 23시 9분에 알림 예정"
+            android:text="알림 설정"
             android:textAppearance="@style/Text15Semibold"
             android:textColor="@color/havit_purple"
             app:layout_constraintBottom_toBottomOf="@id/iv_alarm"
@@ -96,6 +96,8 @@
         android:layout_height="85dp"
         android:background="@drawable/rectangle_purple"
         android:text="@string/complete"
+        android:textAppearance="@style/Text16Semibold"
+        android:paddingBottom="22dp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent" />
 

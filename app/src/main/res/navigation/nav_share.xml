@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_share"
+    app:startDestination="@id/noCategoryFragment">
+
+    <fragment
+        android:id="@+id/setNotificationFragment"
+        android:name="org.sopt.havit.ui.share.SetNotificationFragment"
+        android:label="fragment_set_notification"
+        tools:layout="@layout/fragment_set_notification" >
+        <action
+            android:id="@+id/action_setNotificationFragment_to_contentsSummeryFragment"
+            app:destination="@id/contentsSummeryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCategoryFragment"
+        android:name="org.sopt.havit.ui.share.AddCategoryFragment"
+        android:label="fragment_add_category"
+        tools:layout="@layout/fragment_add_category" >
+        <action
+            android:id="@+id/action_addCategoryFragment_to_chooseIconFragment"
+            app:destination="@id/chooseIconFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseIconFragment"
+        android:name="org.sopt.havit.ui.share.ChooseIconFragment"
+        android:label="fragment_choose_icon"
+        tools:layout="@layout/fragment_choose_icon" >
+        <action
+            android:id="@+id/action_chooseIconFragment_to_selectCategoryFragment"
+            app:destination="@id/selectCategoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectCategoryFragment"
+        android:name="org.sopt.havit.ui.share.SelectCategoryFragment"
+        android:label="fragment_select_category"
+        tools:layout="@layout/fragment_select_category" >
+        <action
+            android:id="@+id/action_selectCategoryFragment_to_contentsSummeryFragment"
+            app:destination="@id/contentsSummeryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contentsSummeryFragment"
+        android:name="org.sopt.havit.ui.share.ContentsSummeryFragment"
+        android:label="fragment_contents_summery"
+        tools:layout="@layout/fragment_contents_summery" >
+        <action
+            android:id="@+id/action_contentsSummeryFragment_to_setNotificationFragment"
+            app:destination="@id/setNotificationFragment" />
+        <action
+            android:id="@+id/action_contentsSummeryFragment_to_editTitleFragment"
+            app:destination="@id/editTitleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editTitleFragment"
+        android:name="org.sopt.havit.ui.share.EditTitleFragment"
+        android:label="fragment_edit_title"
+        tools:layout="@layout/fragment_edit_title" >
+        <action
+            android:id="@+id/action_editTitleFragment_to_contentsSummeryFragment"
+            app:destination="@id/contentsSummeryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noCategoryFragment"
+        android:name="org.sopt.havit.ui.share.NoCategoryFragment"
+        android:label="fragment_no_category"
+        tools:layout="@layout/fragment_no_category" >
+        <action
+            android:id="@+id/action_noCategoryFragment_to_addCategoryFragment"
+            app:destination="@id/addCategoryFragment" />
+    </fragment>
+</navigation>

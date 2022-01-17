@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +19,14 @@ class HomeCategoryEmptyFragment :
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
 
+        clickBtnAddCategory()
         return binding.root
+    }
+
+    private fun clickBtnAddCategory() {
+        binding.tvAddCategory.setOnClickListener {
+            // move to AddCategory BottomSheet
+        }
     }
 
 

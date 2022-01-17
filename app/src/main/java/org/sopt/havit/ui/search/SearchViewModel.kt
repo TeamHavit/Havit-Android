@@ -1,24 +1,40 @@
 package org.sopt.havit.ui.search
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.sopt.havit.data.ContentsData
+import org.sopt.havit.data.remote.SearchContentsResponse
 import org.sopt.havit.data.repository.SearchRepository
 import org.sopt.havit.domain.repository.SearchRepositoryImpl
 
-class SearchViewModel(private val searchRepositoryImpl: SearchRepositoryImpl) : ViewModel(){
+class SearchViewModel(private val searchRepository: SearchRepository) : ViewModel(){
 
-    private val _searchResult = MutableLiveData<List<ContentsData>>()
-    var searchResult :LiveData<List<ContentsData>> = _searchResult
+    private val _searchResult = MutableLiveData<List<SearchContentsResponse.Contents>>()
+    var searchResult :LiveData<List<SearchContentsResponse.Contents>> = _searchResult
+
+     var _searchCount = MutableLiveData<Int>()
 
     fun getSearchContents(keyWord:String){
+        Log.d("fffs", keyWord.toString())
         viewModelScope.launch {
-            searchRepositoryImpl.getSearchContents()
+
+            try {
+                val response = searchRepository.getSearchContents(keyWord)
+                Log.d("fff", response.toString())
+                _searchResult.postValue(response)
+                _searchCount.postValue(response.size)
+                Log.d("fffdd", response.size.toString())
+            } catch (e: Exception) {
+            }
+
         }
-    }
+        }
 
 
 }
