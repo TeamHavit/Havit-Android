@@ -35,8 +35,8 @@ class MyPageFragment : Fragment() {
 
 
         binding.textHome.setOnClickListener {
-            startActivity(Intent(context,WebActivity::class.java))
-
+            //startActivity(Intent(context,WebActivity::class.java))
+            startActivity(Intent(context,SearchActivity::class.java))
         }
 
 

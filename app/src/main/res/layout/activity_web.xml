@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="vm"
+            type="org.sopt.havit.ui.web.WebViewModel" />
 
     </data>
 
@@ -42,7 +45,7 @@
                 android:id="@+id/iv_webview_unread"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_contents_unread" />
+                imgRes="@{vm.isHavit == true ? @drawable/ic_contents_unread : @drawable/ic_contents_read_2}"/>
 
 
             <TextView
@@ -50,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="12dp"
-                android:text="@string/webview_unread"
+                android:text="@{vm.isHavit == true ? @string/webview_unread: @string/webview_read}"
                 android:textAppearance="@style/Sub13Regular"
                 android:textColor="@color/gray_2" />
         </LinearLayout>
