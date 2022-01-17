@@ -66,6 +66,19 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     private fun dataObserve() {
         with(categoryViewModel) {
             categoryList.observe(viewLifecycleOwner) {
+                with(binding) {
+                    if (it.isEmpty()) {
+                        Log.d("count ", "${categoryAdapter.categoryList.size}")
+                        Log.d("visibility", " success")
+                        rvContents.visibility = View.GONE
+                        clEmpty.visibility = View.VISIBLE
+                    } else {
+                        rvContents.visibility = View.VISIBLE
+                        clEmpty.visibility = View.GONE
+                        Log.d("count ", "${categoryAdapter.categoryList.size}")
+                        Log.d("visibility", " fail")
+                    }
+                }
                 categoryAdapter.categoryList.addAll(it)
                 categoryAdapter.notifyDataSetChanged()
             }
