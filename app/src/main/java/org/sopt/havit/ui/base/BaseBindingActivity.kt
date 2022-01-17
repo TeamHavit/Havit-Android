@@ -16,6 +16,5 @@ abstract class BaseBindingActivity<T : ViewDataBinding>(@LayoutRes private val l
         binding.lifecycleOwner = this
     }
 
-
 }
 
