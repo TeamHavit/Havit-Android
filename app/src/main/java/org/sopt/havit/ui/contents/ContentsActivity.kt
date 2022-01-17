@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.R
 import org.sopt.havit.data.ContentsData
 import org.sopt.havit.databinding.ActivityContentsBinding
+import org.sopt.havit.ui.save.SaveFragment
 
 class ContentsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityContentsBinding
@@ -34,6 +35,7 @@ class ContentsActivity : AppCompatActivity() {
         changeLayout()
         clickBack()
         initSearchSticky()
+        clickAddContents()
     }
 
     private fun initAdapter() {
@@ -53,21 +55,21 @@ class ContentsActivity : AppCompatActivity() {
     private fun setData() {
         val list = mutableListOf<ContentsData>()
         val category = "카테고리명"
-        for (i in 1..15) {
-            list.add(
-                ContentsData(
-                    true,
-                    "카테고리명",
-                    "슈슈슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉",
-                    "상세내용 상세내용 상세내용 상세내용 상세내용 상세내용 상세내용은 한줄만만",
-                    true,
-                    "2021. 11. 24",
-                    "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg",
-                    "2021. 11. 17 오전 12:30 ",
-                    "www.brunch.com.dididididididididididididi"
-                )
-            )
-        }
+//        for (i in 1..15) {
+//            list.add(
+//                ContentsData(
+//                    true,
+//                    "카테고리명",
+//                    "슈슈슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉",
+//                    "상세내용 상세내용 상세내용 상세내용 상세내용 상세내용 상세내용은 한줄만만",
+//                    true,
+//                    "2021. 11. 24",
+//                    "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg",
+//                    "2021. 11. 17 오전 12:30 ",
+//                    "www.brunch.com.dididididididididididididi"
+//                )
+//            )
+//        }
         contentsViewModel.requestContentsTaken(list, category, list.size.toString(), "최근순")
     }
 
@@ -136,6 +138,12 @@ class ContentsActivity : AppCompatActivity() {
             freeListener = { _ ->
                 Log.d("LOGGER_TAG", "freeListener")
             }
+        }
+    }
+
+    private fun clickAddContents() {
+        binding.tvAddContents.setOnClickListener {
+            SaveFragment().show(supportFragmentManager, "언니 사랑해")
         }
     }
 
