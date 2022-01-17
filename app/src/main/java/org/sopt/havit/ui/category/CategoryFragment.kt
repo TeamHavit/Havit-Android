@@ -48,19 +48,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     }
 
     private fun setData() {
-        val list = mutableListOf<CategoryData>()
-        for (i in 1..15) {
-            list.add(
-                CategoryData(
-                    3,
-                    "슉슉",
-                    "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                    0,
-                    1
-                )
-            )
-        }
-        categoryViewModel.requestCategoryTaken(list, list.size.toString())
+        categoryViewModel.requestCategoryTaken()
     }
 
     private fun dataObserve() {
@@ -83,7 +71,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                 categoryAdapter.notifyDataSetChanged()
             }
             categoryCount.observe(viewLifecycleOwner) {
-                binding.tvCount.text = it
+                binding.tvCount.text = it.toString()
             }
         }
     }

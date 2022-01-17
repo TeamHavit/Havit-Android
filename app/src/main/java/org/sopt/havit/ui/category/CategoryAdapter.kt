@@ -5,11 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import org.sopt.havit.R
 import org.sopt.havit.data.CategoryData
+import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemCategoryBinding
 
 class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
-    val categoryList = mutableListOf<CategoryData>()
+    val categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
     private lateinit var itemClickListener: OnItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
@@ -43,11 +45,13 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
 
     class CategoryViewHolder(private val binding: ItemCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: CategoryData) {
+        fun onBind(data: CategoryResponse.AllCategoryData) {
+            data.url = "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png"
             binding.category = data
-            Glide.with(binding.ivCategoryIc.context)
-                .load(data.categoryImage)
-                .into(binding.ivCategoryIc)
+//            Glide.with(binding.ivCategoryIc.context)
+//                .load(data.url)
+//                .placeholder(R.drawable.ic_category_sample)
+//                .into(binding.ivCategoryIc)
         }
     }
 }
