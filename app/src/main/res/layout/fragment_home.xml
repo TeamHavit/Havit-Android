@@ -54,8 +54,9 @@
         <org.sopt.havit.util.StickyScrollView
             android:id="@+id/sv_main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_topbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -108,8 +109,8 @@
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="13dp"
                     android:layout_marginBottom="13dp"
-                    android:elevation="11dp"
                     android:background="@drawable/rectangle_white_radius_6"
+                    android:elevation="11dp"
                     app:layout_constraintBottom_toTopOf="@id/cl_sticky_view"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -378,15 +379,15 @@
                             android:id="@+id/tv_more_contents"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingVertical="7dp"
                             android:layout_marginEnd="7dp"
+                            android:paddingVertical="7dp"
                             android:paddingStart="19dp"
                             android:paddingEnd="9dp"
                             android:text="@string/home_more_contents"
                             android:textAppearance="@style/Sub12Regular"
                             android:textColor="@color/gray_3"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintBottom_toBottomOf="@id/tv_recent_contents"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/tv_recent_contents" />
 
                         <androidx.recyclerview.widget.RecyclerView
@@ -507,7 +508,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="28dp"
-                    android:layout_marginBottom="128dp"
+                    android:layout_marginBottom="58dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

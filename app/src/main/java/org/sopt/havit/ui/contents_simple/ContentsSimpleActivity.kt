@@ -1,7 +1,6 @@
 package org.sopt.havit.ui.contents_simple
 
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
@@ -88,11 +87,11 @@ class ContentsSimpleActivity :
                         } else {
                             rvContents.visibility = View.VISIBLE
                             clContentsEmpty.visibility = View.GONE
+                            contentsAdapter.contentsList.addAll(list)
+                            contentsAdapter.notifyDataSetChanged()
                         }
                     }
                     Log.d("contents_simple", "dataObserve() list: $list")
-                    contentsAdapter.contentsList.addAll(list)
-                    contentsAdapter.notifyDataSetChanged()
                 }
             }
             binding.lifecycleOwner?.let {
