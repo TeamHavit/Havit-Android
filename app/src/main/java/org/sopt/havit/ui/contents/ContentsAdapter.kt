@@ -4,17 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
-import org.sopt.havit.data.ContentsData
+import org.sopt.havit.data.remote.ContentsResponse
 import org.sopt.havit.databinding.ItemContentsGridBinding
 import org.sopt.havit.databinding.ItemContentsLinearMaxBinding
 import org.sopt.havit.databinding.ItemContentsLinearMinBinding
 
 class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var contentsList = mutableListOf<ContentsData>()
+    var contentsList = mutableListOf<ContentsResponse.ContentsData>()
 
     class LinearMinViewHolder(private val binding: ItemContentsLinearMinBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ContentsData) {
+        fun onBind(data: ContentsResponse.ContentsData) {
             binding.content = data
         }
 
@@ -33,7 +33,7 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class GridViewHolder(private val binding: ItemContentsGridBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ContentsData) {
+        fun onBind(data: ContentsResponse.ContentsData) {
             binding.content = data
         }
 
@@ -52,7 +52,7 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class LinearMaxViewHolder(private val binding: ItemContentsLinearMaxBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ContentsData) {
+        fun onBind(data: ContentsResponse.ContentsData) {
             binding.content = data
         }
 

@@ -1,6 +1,5 @@
 package org.sopt.havit.data.repository
 
-import org.sopt.havit.data.ContentsData
 import org.sopt.havit.data.remote.SearchContentsResponse
 
 interface SearchRepository {

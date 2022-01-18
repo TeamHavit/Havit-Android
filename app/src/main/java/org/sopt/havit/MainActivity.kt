@@ -41,29 +41,5 @@ class MainActivity : AppCompatActivity() {
         fab.setOnClickListener { view ->
             SaveFragment().show(supportFragmentManager, "sdf")
         }
-
-        bottomNavVisible()
-    }
-
-    private fun bottomNavVisible() {
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            if (destination.id == R.id.contentsFragment) {
-                navView.visibility = GONE
-                with(binding) {
-                    bottomAppBar.visibility = GONE
-                    navHostFragmentActivityMain.layoutParams.height =
-                        resources.displayMetrics.heightPixels
-                    save.visibility = GONE
-                }
-            } else {
-                navView.isVisible = true
-                with(binding) {
-                    bottomAppBar.isVisible = true
-                    navHostFragmentActivityMain.layoutParams.height =
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                    save.isVisible = true
-                }
-            }
-        }
     }
 }
