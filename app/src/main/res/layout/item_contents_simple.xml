@@ -7,7 +7,7 @@
 
         <variable
             name="content"
-            type="org.sopt.havit.data.ContentsData" />
+            type="org.sopt.havit.data.remote.ContentsSimpleResponse.ContentsSimpleData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="15dp"
-            android:text="@{content.date}"
+            android:text="@{content.createdAt}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintStart_toEndOf="@+id/fl_image"
@@ -122,14 +122,13 @@
             app:layout_constraintTop_toTopOf="@+id/tv_divider"
             tools:text="www.brunch.com.dididididi" />
 
-
         <TextView
             android:id="@+id/tv_alarm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="15dp"
-            android:text="@{content.alarmDate}"
+            android:text="@{content.notificationTime}"
             android:textAppearance="@style/Semibold9"
             android:textColor="@color/havit_purple"
             app:layout_constraintBottom_toBottomOf="parent"
