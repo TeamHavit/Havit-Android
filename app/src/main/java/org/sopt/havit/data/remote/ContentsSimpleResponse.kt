@@ -8,7 +8,7 @@ data class ContentsSimpleResponse(
 ) {
     data class ContentsSimpleData(
         val createdAt: String,
-        val description: String,
+        var description: String,
         val id: Int,
         val image: String,
         val isNotified: Boolean,
