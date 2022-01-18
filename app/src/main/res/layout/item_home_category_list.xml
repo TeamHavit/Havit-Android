@@ -7,7 +7,7 @@
 
         <variable
             name="data_home_category"
-            type="org.sopt.havit.data.HomeCategoryData" />
+            type="org.sopt.havit.data.CategoryData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,14 +27,14 @@
 
             <ImageView
                 android:id="@+id/iv_icon"
+                imageUrl="@{data_home_category.categoryImage}"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_marginStart="11dp"
                 android:layout_marginTop="10dp"
-                android:src="@{data_home_category.icon}"
-                tools:src="@drawable/ic_category_sample"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_category_sample" />
 
             <TextView
                 android:id="@+id/tv_title"
@@ -42,8 +42,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="2dp"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
                 android:text="@{data_home_category.title}"
                 android:textAppearance="@style/Header16Medium"
                 android:textColor="@color/havit_gray"
@@ -69,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
-                android:text="@{data_home_category.count}"
+                android:text="@{String.valueOf(data_home_category.contentNumber)}"
                 android:textAppearance="@style/Sub12Regular"
                 android:textColor="@color/havit_purple"
                 app:layout_constraintStart_toEndOf="@id/tv_save"

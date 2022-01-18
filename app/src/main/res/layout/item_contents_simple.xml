@@ -5,22 +5,21 @@
 
     <data>
 
-        <import type="android.view.View" />
-
         <variable
             name="content"
-            type="org.sopt.havit.data.remote.ContentsResponse.ContentsData" />
+            type="org.sopt.havit.data.remote.ContentsSimpleResponse.ContentsSimpleData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="13dp">
 
         <FrameLayout
             android:id="@+id/fl_image"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="6dp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -38,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_alarmtag_purple"
-                android:visibility="@{content.notified? View.VISIBLE : View.GONE}" />
+                android:visibility="visible" />
         </FrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -123,7 +122,6 @@
             app:layout_constraintTop_toTopOf="@+id/tv_divider"
             tools:text="www.brunch.com.dididididi" />
 
-
         <TextView
             android:id="@+id/tv_alarm"
             android:layout_width="wrap_content"
@@ -145,7 +143,6 @@
             android:text="@string/contents_alarm_plan"
             android:textAppearance="@style/Semibold9"
             android:textColor="@color/havit_purple"
-            android:visibility="@{content.notified? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/tv_alarm"
             app:layout_constraintStart_toEndOf="@+id/tv_alarm"
             app:layout_constraintTop_toTopOf="@+id/tv_alarm" />
@@ -154,7 +151,6 @@
             android:id="@+id/iv_havit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="7dp"
             android:layout_marginBottom="1dp"
             android:src="@drawable/ic_contents_unread"
             android:tag="unseen"
@@ -166,7 +162,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="3dp"
             android:src="@drawable/ic_more"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

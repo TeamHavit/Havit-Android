@@ -3,18 +3,17 @@ package org.sopt.havit.ui.contents_simple
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.sopt.havit.data.ContentsData
-import org.sopt.havit.data.HomeContentsData
-import org.sopt.havit.databinding.ItemContentsLinearMinBinding
+import org.sopt.havit.data.remote.ContentsSimpleResponse
+import org.sopt.havit.databinding.ItemContentsSimpleBinding
 
 class ContentsSimpleRvAdapter :
     RecyclerView.Adapter<ContentsSimpleRvAdapter.ContentsSimpleViewHolder>() {
 
-    var contentsList = mutableListOf<ContentsData>()
+    var contentsList = mutableListOf<ContentsSimpleResponse.ContentsSimpleData>()
 
-    inner class ContentsSimpleViewHolder(private val binding: ItemContentsLinearMinBinding) :
+    inner class ContentsSimpleViewHolder(private val binding: ItemContentsSimpleBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ContentsData) {
+        fun onBind(data: ContentsSimpleResponse.ContentsSimpleData) {
             binding.content = data
         }
     }
@@ -23,7 +22,7 @@ class ContentsSimpleRvAdapter :
         parent: ViewGroup,
         viewType: Int
     ): ContentsSimpleViewHolder {
-        val binding = ItemContentsLinearMinBinding.inflate(
+        val binding = ItemContentsSimpleBinding.inflate(
             LayoutInflater.from(parent.context),
             parent, false
         )
@@ -39,8 +38,4 @@ class ContentsSimpleRvAdapter :
     }
 
     override fun getItemCount(): Int = contentsList.size
-
-    fun setList(list: List<ContentsData>) {
-        contentsList = list as MutableList<ContentsData>
-    }
 }

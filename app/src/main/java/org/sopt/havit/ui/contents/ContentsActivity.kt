@@ -1,7 +1,9 @@
 package org.sopt.havit.ui.contents
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -9,13 +11,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.R
-import org.sopt.havit.data.ContentsData
 import org.sopt.havit.databinding.ActivityContentsBinding
+import org.sopt.havit.ui.save.SaveFragment
 
 class ContentsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityContentsBinding
     private lateinit var contentsAdapter: ContentsAdapter
-
     private val contentsViewModel: ContentsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +24,6 @@ class ContentsActivity : AppCompatActivity() {
 
         binding = ActivityContentsBinding.inflate(layoutInflater)
 
-        //contentsViewModel.init()
         binding.contentsViewModel = contentsViewModel
 
         setContentView(binding.root)
@@ -34,6 +34,7 @@ class ContentsActivity : AppCompatActivity() {
         changeLayout()
         clickBack()
         initSearchSticky()
+        clickAddContents()
     }
 
     private fun initAdapter() {
@@ -51,25 +52,21 @@ class ContentsActivity : AppCompatActivity() {
     }
 
     private fun setData() {
-        val list = mutableListOf<ContentsData>()
-        val category = "카테고리명"
-        for (i in 1..15) {
-            list.add(
-                ContentsData(
-                    true,
-                    "카테고리명",
-                    "슈슈슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉",
-                    "상세내용 상세내용 상세내용 상세내용 상세내용 상세내용 상세내용은 한줄만만",
-                    true,
-                    "2021. 11. 24",
-                    "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg",
-                    "2021. 11. 17 오전 12:30 ",
-                    "www.brunch.com.dididididididididididididi"
-                )
-            )
+        val id = intent.getIntExtra("categoryId", 0)
+        if (id == 0) {
+            Log.d("categoryId", "error")
+        } else {
+            var name: String = "error"
+            intent.getStringExtra("categoryName")?.let {
+                name = it
+            }
+            contentsViewModel.requestContentsTaken(id, "all", "seen_at", name)
+            binding.tvCategory.text = name
+            Log.d("categoryName", "$name")
         }
-        contentsViewModel.requestContentsTaken(list, category, list.size.toString(), "최근순")
+
     }
+
 
     private fun dataObserve() {
         with(contentsViewModel) {
@@ -90,11 +87,9 @@ class ContentsActivity : AppCompatActivity() {
                 contentsAdapter.contentsList.addAll(it)
                 contentsAdapter.notifyDataSetChanged()
             }
-            categoryName.observe(this@ContentsActivity) {
-                binding.tvCategory.text = it
-            }
+
             contentsCount.observe(this@ContentsActivity) {
-                binding.tvContentsCount.text = it
+                binding.tvContentsCount.text = it.toString()
             }
         }
     }
@@ -137,6 +132,32 @@ class ContentsActivity : AppCompatActivity() {
                 Log.d("LOGGER_TAG", "freeListener")
             }
         }
+    }
+
+    private fun clickAddContents() {
+        binding.tvAddContents.setOnClickListener {
+            SaveFragment().show(supportFragmentManager, "언니 사랑해")
+        }
+    }
+
+    private fun setAlertDialog() {
+        val layoutInflater = LayoutInflater.from(this)
+        val view = layoutInflater.inflate(R.layout.dialog_contents_top, null)
+
+        val alertDialog = AlertDialog.Builder(this, R.style.CustomAlertDialogStyle)
+            .setView(view)
+            .create()
+
+        val buttonClose = view.findViewById<View>(R.id.btn_cancel)
+        val buttonDelete = view.findViewById<View>(R.id.btn_delete)
+        buttonClose.setOnClickListener {
+            alertDialog.dismiss()
+        }
+        buttonDelete.setOnClickListener {
+
+        }
+
+        alertDialog.show()
     }
 
     companion object {

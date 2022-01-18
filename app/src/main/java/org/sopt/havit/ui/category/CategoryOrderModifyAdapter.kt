@@ -46,7 +46,7 @@ class CategoryOrderModifyAdapter :
         fun onBind(data: CategoryData) {
             binding.category = data
             Glide.with(binding.ivCategoryIc.context)
-                .load(data.icon)
+                .load(data.categoryImage)
                 .into(binding.ivCategoryIc)
         }
 

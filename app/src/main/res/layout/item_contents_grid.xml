@@ -5,9 +5,11 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="content"
-            type="org.sopt.havit.data.ContentsData" />
+            type="org.sopt.havit.data.remote.ContentsResponse.ContentsData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_alarmtag_purple"
-                android:visibility="visible" />
+                android:visibility="@{content.notified? View.VISIBLE : View.GONE}" />
         </FrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -88,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="@{content.date}"
+            android:text="@{content.createdAt}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintStart_toStartOf="@+id/tv_url"
@@ -119,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="16dp"
-            android:text="@{content.alarmDate}"
+            android:text="@{content.notificationTime}"
             android:textAppearance="@style/Semibold9"
             android:textColor="@color/havit_purple"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -134,6 +136,7 @@
             android:text="@string/contents_alarm_plan"
             android:textAppearance="@style/Semibold9"
             android:textColor="@color/havit_purple"
+            android:visibility="@{content.notified? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/tv_alarm"
             app:layout_constraintStart_toEndOf="@+id/tv_alarm"
             app:layout_constraintTop_toTopOf="@+id/tv_alarm" />
