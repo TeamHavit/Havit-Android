@@ -125,7 +125,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
         binding.tvMoreContents.setOnClickListener {
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
-            intent.putExtra("before", "recent_save")
+            intent.putExtra("before", "recent")
             startActivity(intent)
         }
     }
@@ -178,7 +178,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                         binding.tvMoreContents.visibility = View.INVISIBLE
                     } else {
                         binding.clContentsEmpty.visibility = View.GONE
-                        Log.d("homefragment_recentContents_size", "size: ${data.size}")
                         val min = if (data.size < 10) data.size else 10
                         val list = data.subList(0, min)
                         contentsAdapter.contentsList.addAll(list)

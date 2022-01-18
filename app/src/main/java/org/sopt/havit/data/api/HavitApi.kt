@@ -29,4 +29,7 @@ interface HavitApi {
 
     @GET("content/recent")
     suspend fun getContentsRecent(): ContentsSimpleResponse
+
+    @GET("content/unseen")
+    suspend fun getContentsUnseen() : ContentsSimpleResponse
 }

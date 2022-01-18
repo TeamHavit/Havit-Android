@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.R
-import org.sopt.havit.data.ContentsData
 import org.sopt.havit.databinding.ActivityContentsSimpleBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 
@@ -50,17 +49,19 @@ class ContentsSimpleActivity :
     }
 
     private fun setContents() {
-        if (contentsType == "unseen")   // topBarName
-            contentsViewModel.requestTopBarName(getString(R.string.contents_simple_unseen))
-        else
-            contentsViewModel.requestTopBarName(getString(R.string.contents_simple_recent_save))
         contentsViewModel.requestContentsTaken(contentsType)    // contentsList
+        if (contentsType == "unseen") {// topBarName
+            contentsViewModel.requestTopBarName(getString(R.string.contents_simple_unseen))
+        } else {
+            contentsViewModel.requestTopBarName(getString(R.string.contents_simple_recent_save))
+        }
     }
 
     private fun dataObserve() {
         with(contentsViewModel) {
             binding.lifecycleOwner?.let {
                 contentsList.observe(it) { data ->
+                    Log.d("contentsSimple", "contentsList data : $data")
                     if (data.isEmpty()) {
                         binding.rvContents.visibility = View.GONE
                         if (contentsType == "unseen")
