@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import org.sopt.havit.R
-import org.sopt.havit.data.HomeContentsData
 import org.sopt.havit.data.HomeRecommendData
 import org.sopt.havit.databinding.FragmentHomeBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
@@ -37,9 +36,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.layoutCategory.vmHome = homeViewModel
         binding.layoutCategoryEmpty.vmHome = homeViewModel
 
+        setData()
         initSearchSticky()
         initProgressBar()
-        initContentsView()
         initCategoryView()
         initVpAdapter()
         initIndicator()
@@ -49,6 +48,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         setClickEvent()
 
         return binding.root
+    }
+
+    private fun setData() {
+        homeViewModel.requestContentsTaken()
     }
 
     private fun initCategoryView() {
@@ -122,18 +125,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
         binding.tvMoreContents.setOnClickListener {
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
-            intent.putExtra("before", "recent_save")
+            intent.putExtra("before", "recent")
             startActivity(intent)
         }
-    }
-
-    private fun initContentsView() {
-        // 최근 저장 콘텐츠가 있을 경우
-        binding.clContentsEmpty.visibility = View.GONE
-
-        // 최근 저장 콘텐츠가 없을 경우
-//        binding.rvContents.visibility = View.GONE
-//        binding.tvMoreContents.visibility = View.INVISIBLE
     }
 
     private fun initRecommendRvAdapter() {
@@ -172,28 +166,31 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private fun initContentsRvAdapter() {
         contentsAdapter = HomeRecentContentsRvAdapter()
         binding.rvContents.adapter = contentsAdapter
-        val list = listOf(
-            HomeContentsData("", "카테고리 이름11111111111", "헤더입니다 헤더입니다 헤더입니다 헤더입니다", "2021.11.24"),
-            HomeContentsData("", "카테고리 이름2", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
-            HomeContentsData("", "카테고리 이름3", "헤더입니다", "2021.11.24"),
-            HomeContentsData("", "카테고리 이름4", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
-            HomeContentsData("", "카테고리 이름5", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
-            HomeContentsData("", "카테고리 이름6", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
-            HomeContentsData("", "카테고리 이름7", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24"),
-            HomeContentsData("", "카테고리 이름8", "헤더입니다 헤더입니다 헤더입니다 헤더임", "2021.11.24")
-        )
-        homeViewModel.requestContentsTaken(list)
-        homeViewModel.contentsList.observe(viewLifecycleOwner) {
-            contentsAdapter.setList(it)
+        recentContentsDataObserve()
+    }
+
+    private fun recentContentsDataObserve() {
+        with(homeViewModel) {
+            contentsList.observe(viewLifecycleOwner) { data ->
+                with(binding) {
+                    if (data.isEmpty()) {
+                        binding.rvContents.visibility = View.GONE
+                        binding.tvMoreContents.visibility = View.INVISIBLE
+                    } else {
+                        binding.clContentsEmpty.visibility = View.GONE
+                        val min = if (data.size < 10) data.size else 10
+                        val list = data.subList(0, min)
+                        contentsAdapter.contentsList.addAll(list)
+                        contentsAdapter.notifyDataSetChanged()
+                    }
+                }
+            }
         }
-        contentsAdapter.notifyDataSetChanged()
     }
 
     private fun initProgressBar() {
-//        Log.d("HomeFragment", "rate : $rate")
         homeViewModel.reachRate.observe(viewLifecycleOwner) {
             binding.pbReach.progress = it
         }
-//        binding.pbReach.progress = 100 // test
     }
 }

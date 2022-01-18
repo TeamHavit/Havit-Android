@@ -30,4 +30,10 @@ interface HavitApi {
         @Query("seen") seen: String,
         @Query("filter") filter: String
     ) : ContentsResponse
+
+    @GET("content/recent")
+    suspend fun getContentsRecent(): ContentsSimpleResponse
+
+    @GET("content/unseen")
+    suspend fun getContentsUnseen() : ContentsSimpleResponse
 }

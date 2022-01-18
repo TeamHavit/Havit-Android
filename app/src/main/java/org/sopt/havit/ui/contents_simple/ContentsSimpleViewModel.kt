@@ -1,35 +1,46 @@
 package org.sopt.havit.ui.contents_simple
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.remote.ContentsSimpleResponse
 
 class ContentsSimpleViewModel : ViewModel() {
 
-    private val _contentsList = MutableLiveData<List<ContentsData>>()
-    val contentsList: LiveData<List<ContentsData>> = _contentsList
+    private val _contentsList = MutableLiveData<List<ContentsSimpleResponse.ContentsSimpleData>>()
+    val contentsList: LiveData<List<ContentsSimpleResponse.ContentsSimpleData>> = _contentsList
+    fun requestContentsTaken(contentsType: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                if (contentsType == "unseen") {
+                    val response =
+                        RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
+                            .getContentsUnseen()
+                    _contentsList.postValue(response.data)
+                } else {
+                    val response =
+                        RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
+                            .getContentsRecent()
+                    _contentsList.postValue(response.data)
+                }
+            } catch (e: Exception) {
+            }
+        }
+    }
 
     // 상단 바에 들어갈 최근 저장 콘텐츠 / 봐야 하는 콘텐츠 text
     private val _topBarName = MutableLiveData<String>()
     val topBarName: LiveData<String> = _topBarName
-
-    fun requestContentsTaken(list: List<ContentsData>, name: String) {
-        _contentsList.value = list
-        _topBarName.value = name
-        Log.d("contents_simple", "${contentsList.value}")
-        viewModelScope.launch(Dispatchers.IO) { // 서버 쓰일 코드
-            // _contentsList.postValue(list)
-//            _categoryName.postValue(name)
-        }
+    fun requestTopBarName(name: String) {
+        _topBarName.postValue(name)
     }
 
-    private val _emptyContents = MutableLiveData<String>().apply {
-        value = "최근 저장 콘텐츠가 없습니다.\n새로운 콘텐츠를 저장해 보세요!"
-    }
+    // contentsEmpty일 경우 보일 text
+    private val _emptyContents = MutableLiveData<String>()
     val emptyContents: LiveData<String> = _emptyContents
     fun requestEmptyContents(emptyContents: String) {
         _emptyContents.value = emptyContents
