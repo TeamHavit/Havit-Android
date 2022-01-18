@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.R
-import org.sopt.havit.data.ContentsData
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.save.SaveFragment
 
@@ -26,7 +25,6 @@ class ContentsActivity : AppCompatActivity() {
 
         binding = ActivityContentsBinding.inflate(layoutInflater)
 
-        //contentsViewModel.init()
         binding.contentsViewModel = contentsViewModel
 
         setContentView(binding.root)
@@ -55,24 +53,14 @@ class ContentsActivity : AppCompatActivity() {
     }
 
     private fun setData() {
-        val list = mutableListOf<ContentsData>()
-        val category = "카테고리명"
-//        for (i in 1..15) {
-//            list.add(
-//                ContentsData(
-//                    true,
-//                    "카테고리명",
-//                    "슈슈슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉",
-//                    "상세내용 상세내용 상세내용 상세내용 상세내용 상세내용 상세내용은 한줄만만",
-//                    true,
-//                    "2021. 11. 24",
-//                    "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg",
-//                    "2021. 11. 17 오전 12:30 ",
-//                    "www.brunch.com.dididididididididididididi"
-//                )
-//            )
-//        }
-        contentsViewModel.requestContentsTaken(list, category, list.size.toString(), "최근순")
+        val id = intent.getIntExtra("categoryId", 0)
+        if(id == 0){
+            Log.d("categoryId", "error")
+        }
+        else {
+            intent.getStringExtra("categoryName")
+                ?.let { contentsViewModel.requestContentsTaken(id, "all", "seen_at", it) }
+        }
     }
 
     private fun dataObserve() {
@@ -94,11 +82,11 @@ class ContentsActivity : AppCompatActivity() {
                 contentsAdapter.contentsList.addAll(it)
                 contentsAdapter.notifyDataSetChanged()
             }
-            categoryName.observe(this@ContentsActivity) {
-                binding.tvCategory.text = it
-            }
+
+            binding.tvCategory.text = intent.getStringExtra("categoryName")
+
             contentsCount.observe(this@ContentsActivity) {
-                binding.tvContentsCount.text = it
+                binding.tvContentsCount.text = it.toString()
             }
         }
     }

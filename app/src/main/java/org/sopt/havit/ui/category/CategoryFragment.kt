@@ -104,6 +104,10 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
             override fun onClick(v: View, position: Int) {
                 // ContentsFragment -> ContentsActivity로 바꾸고 ContentsActivity로 이동
                 val intent = Intent(requireActivity(), ContentsActivity::class.java)
+                categoryViewModel.categoryList.value?.get(position)
+                    ?.let { intent.putExtra("categoryId", it.id) }
+                categoryViewModel.categoryList.value?.get(position)
+                    ?.let { intent.putExtra("categoryName", it.title) }
                 startActivity(intent)
             }
         })

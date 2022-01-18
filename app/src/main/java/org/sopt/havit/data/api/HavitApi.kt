@@ -1,13 +1,7 @@
 package org.sopt.havit.data.api
 
-import org.sopt.havit.data.remote.CategoryResponse
-import org.sopt.havit.data.remote.ContentsHavitRequest
-import org.sopt.havit.data.remote.ContentsHavitResponse
-import org.sopt.havit.data.remote.SearchContentsResponse
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.PATCH
-import retrofit2.http.Query
+import org.sopt.havit.data.remote.*
+import retrofit2.http.*
 
 interface HavitApi {
 
@@ -29,4 +23,11 @@ interface HavitApi {
 
     @GET("category")
     suspend fun getAllCategory(): CategoryResponse
+
+    @GET("category/{categoryId}?seen=&filter=")
+    suspend fun getCategoryContents(
+        @Path("categoryId") categoryId: Int,
+        @Query("seen") seen: String,
+        @Query("filter") filter: String
+    ) : ContentsResponse
 }

@@ -3,8 +3,6 @@ package org.sopt.havit.ui.contents_simple
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.sopt.havit.data.ContentsData
-import org.sopt.havit.data.HomeContentsData
 import org.sopt.havit.databinding.ItemContentsLinearMinBinding
 
 class ContentsSimpleRvAdapter :
