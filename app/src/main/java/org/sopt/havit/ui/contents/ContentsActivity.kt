@@ -1,15 +1,12 @@
 package org.sopt.havit.ui.contents
 
 import android.app.AlertDialog
-import android.graphics.Color
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +15,7 @@ import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.save.SaveFragment
+import org.sopt.havit.ui.search.SearchActivity
 
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
@@ -38,8 +36,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         initSearchSticky()
         clickAddContents()
         setOrderDialog()
+        moveSearch()
     }
-
 
 
     private fun initAdapter() {
@@ -69,7 +67,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             binding.tvCategory.text = name
             Log.d("categoryName", "$name")
         }
-
     }
 
 
@@ -161,7 +158,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         alertDialog.show()
     }
 
-    private fun setOrderDialog(){
+    private fun setOrderDialog() {
         val bottomSheetView = layoutInflater.inflate(R.layout.dialog_contents_order, null)
         val bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(bottomSheetView)
@@ -183,6 +180,14 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         binding.tvOrder.setOnClickListener {
             bottomSheetDialog.show()
+        }
+    }
+
+    private fun moveSearch() {
+        binding.clSearch.setOnClickListener {
+            val intent = Intent(this, SearchActivity::class.java)
+            intent.putExtra("categoryName", "${contentsViewModel.categoryName}")
+            startActivity(intent)
         }
     }
 
