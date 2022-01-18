@@ -41,8 +41,8 @@ class MainActivity : AppCompatActivity() {
 
         val fab: View = findViewById(R.id.save)
         fab.setOnClickListener { view ->
-            SaveFragment().show(supportFragmentManager, "save")
-            //startActivity(Intent(this,SaveActivity::class.java))
+            //SaveFragment().show(supportFragmentManager, "save")
+            startActivity(Intent(this,SaveActivity::class.java))
         }
 
         bottomNavVisible()
