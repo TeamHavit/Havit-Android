@@ -14,7 +14,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
-import org.sopt.havit.ui.category.CategoryAdapter
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
@@ -67,7 +66,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 name = it
             }
             contentsViewModel.requestContentsTaken(id, "all", "seen_at", name)
-            binding.tvCategory.text = name
             Log.d("categoryName", "$name")
         }
     }
