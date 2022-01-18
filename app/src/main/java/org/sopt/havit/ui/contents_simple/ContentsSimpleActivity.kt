@@ -26,6 +26,13 @@ class ContentsSimpleActivity :
         initContents()
         dataObserve()
         decorationView()
+        clickBtnBack()
+    }
+
+    private fun clickBtnBack() {
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun decorationView() {

@@ -1,5 +1,6 @@
 package org.sopt.havit
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
@@ -11,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.sopt.havit.databinding.ActivityMainBinding
+import org.sopt.havit.ui.save.SaveActivity
 import org.sopt.havit.ui.save.SaveFragment
 
 class MainActivity : AppCompatActivity() {
@@ -39,31 +41,8 @@ class MainActivity : AppCompatActivity() {
 
         val fab: View = findViewById(R.id.save)
         fab.setOnClickListener { view ->
-            SaveFragment().show(supportFragmentManager, "sdf")
-        }
-
-        bottomNavVisible()
-    }
-
-    private fun bottomNavVisible() {
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            if (destination.id == R.id.contentsFragment) {
-                navView.visibility = GONE
-                with(binding) {
-                    bottomAppBar.visibility = GONE
-                    navHostFragmentActivityMain.layoutParams.height =
-                        resources.displayMetrics.heightPixels
-                    save.visibility = GONE
-                }
-            } else {
-                navView.isVisible = true
-                with(binding) {
-                    bottomAppBar.isVisible = true
-                    navHostFragmentActivityMain.layoutParams.height =
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                    save.isVisible = true
-                }
-            }
+            SaveFragment().show(supportFragmentManager, "save")
+            //startActivity(Intent(this,SaveActivity::class.java))
         }
     }
 }

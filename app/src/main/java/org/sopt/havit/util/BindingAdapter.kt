@@ -1,5 +1,6 @@
 package org.sopt.havit.util
 
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -22,5 +23,13 @@ object BindingAdapter {
             .circleCrop()
             .into(this)
     }
+
+    @BindingAdapter("imgRes")
+    @JvmStatic
+    fun imgLoad(imageView:ImageView, resid:Drawable) {
+        imageView.setImageDrawable(resid)
+    }
+
+
 
 }
