@@ -63,15 +63,13 @@ class WebFragment : BaseBindingFragment<FragmentWebBinding>(R.layout.fragment_we
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.button.setOnClickListener {
-            val url =
-                "https://github.com/boostcampwm-2021/android03-Contact/wiki/Git-%EC%82%AC%EC%9A%A9%EB%B2%95"
-            //val url = "https://www.wikipedia.org"
-            val customTabsIntent: CustomTabsIntent = builder.build()
-            prepareBottombar(requireContext(), builder)
 
-            customTabsIntent.launchUrl(requireActivity(), Uri.parse(url))
-        }
+        val url =
+            "https://github.com/boostcampwm-2021/android03-Contact/wiki/Git-%EC%82%AC%EC%9A%A9%EB%B2%95"
+        val customTabsIntent: CustomTabsIntent = builder.build()
+        prepareBottombar(requireContext(), builder)
+
+        customTabsIntent.launchUrl(requireActivity(), Uri.parse(url))
     }
 
 
