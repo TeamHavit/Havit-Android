@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.save.SaveFragment
@@ -35,6 +36,7 @@ class ContentsActivity : AppCompatActivity() {
         clickBack()
         initSearchSticky()
         clickAddContents()
+        setOrderDialog()
     }
 
     private fun initAdapter() {
@@ -158,6 +160,16 @@ class ContentsActivity : AppCompatActivity() {
         }
 
         alertDialog.show()
+    }
+
+    private fun setOrderDialog(){
+        val bottomSheetView = layoutInflater.inflate(R.layout.dialog_contents_order, null)
+        val bottomSheetDialog = BottomSheetDialog(this)
+        bottomSheetDialog.setContentView(bottomSheetView)
+
+        binding.tvOrder.setOnClickListener {
+            bottomSheetDialog.show()
+        }
     }
 
     companion object {
