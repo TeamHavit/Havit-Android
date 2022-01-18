@@ -294,4 +294,18 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
+    <style name="Order18Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+    </style>
+
+    <style name="Order16Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">-0.016</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+    </style>
 </resources>

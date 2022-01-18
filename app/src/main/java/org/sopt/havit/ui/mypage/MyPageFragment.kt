@@ -7,23 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-
 import org.sopt.havit.databinding.FragmentMyPageBinding
 import org.sopt.havit.ui.contents.ContentsViewModel
-import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
-import android.R
-import com.github.techisfun.android.topsheet.TopSheetBehavior
-
-import com.github.techisfun.android.topsheet.TopSheetDialog
-
-
 
 
 class MyPageFragment : Fragment() {
 
     //private val myPageViewModel: MyPageViewModel by viewModel()
-     val contentsViewModel:ContentsViewModel by viewModels()
+    val contentsViewModel: ContentsViewModel by viewModels()
     private var _binding: FragmentMyPageBinding? = null
 
     // This property is only valid between onCreateView and
@@ -40,7 +32,7 @@ class MyPageFragment : Fragment() {
 
 
         binding.textHome.setOnClickListener {
-            startActivity(Intent(context,WebActivity::class.java))
+            startActivity(Intent(context, WebActivity::class.java))
             //startActivity(Intent(context,SearchActivity::class.java))
 
         }

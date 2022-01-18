@@ -1,7 +1,9 @@
 package org.sopt.havit.data
 
 data class HomeReachData(
-    val read: String,
-    val all: String,
-    val rate: String
+    val userId: Int,
+    val nickname: String,
+    val totalContentNumber: Int,
+    val totalCategoryNumber: Int,
+    val totalSeenContentNumber: Int
 )

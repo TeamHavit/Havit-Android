@@ -90,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
-                android:text="@{categoryViewModel.categoryCount}"
+                android:text="@{String.valueOf(categoryViewModel.categoryCount)}"
                 android:textAppearance="@style/Sub13Regular"
                 android:textColor="#696969"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_entire"

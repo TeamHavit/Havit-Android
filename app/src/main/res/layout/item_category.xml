@@ -7,7 +7,7 @@
 
         <variable
             name="category"
-            type="org.sopt.havit.data.CategoryData" />
+            type="org.sopt.havit.data.remote.CategoryResponse.AllCategoryData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,6 +30,7 @@
 
             <ImageView
                 android:id="@+id/iv_category_ic"
+                imageUrl="@{category.url}"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_marginStart="7dp"
@@ -45,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
-                android:text="@{category.categoryName}"
+                android:text="@{category.title}"
                 android:textAppearance="@style/Text14Medium"
                 android:textColor="@color/havit_gray"
                 app:layout_constraintBottom_toBottomOf="parent"
