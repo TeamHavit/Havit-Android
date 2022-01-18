@@ -40,6 +40,7 @@
     <string name="home_category_save">저장 콘텐츠</string>
     <string name="contents_divider">·</string>
     <string name="contents_alarm_plan">알림 예정</string>
+    <string name="contents_order_default">최근순</string>
     <string name="contents_search_hint">원하는 콘텐츠를 검색하세요</string>
     <string name="contents_entire">전체</string>
     <string name="contents_unseen">안 봤어요</string>
