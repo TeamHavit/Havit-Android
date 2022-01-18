@@ -16,6 +16,7 @@ import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
+import org.sopt.havit.ui.web.WebActivity
 
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
@@ -37,6 +38,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         clickAddContents()
         setOrderDialog()
         moveSearch()
+        clickItemView()
     }
 
 
@@ -64,7 +66,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 name = it
             }
             contentsViewModel.requestContentsTaken(id, "all", "seen_at", name)
-            binding.tvCategory.text = name
             Log.d("categoryName", "$name")
         }
     }
@@ -189,6 +190,18 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             intent.putExtra("categoryName", "${contentsViewModel.categoryName}")
             startActivity(intent)
         }
+    }
+
+    private fun clickItemView() {
+        contentsAdapter.setItemClickListener(object : ContentsAdapter.OnItemClickListener {
+            override fun onWebClick(v: View, position: Int) {
+                // ContentsFragment -> ContentsActivity로 바꾸고 ContentsActivity로 이동
+                val intent = Intent(v.context, WebActivity::class.java)
+                contentsViewModel.contentsList.value?.get(position)
+                    ?.let { intent.putExtra("url", it.url) }
+                startActivity(intent)
+            }
+        })
     }
 
     companion object {

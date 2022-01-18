@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.CategoryData
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.CategoryResponse
 
@@ -24,7 +23,8 @@ class CategoryViewModel : ViewModel() {
                         .getAllCategory()
                 _categoryList.postValue(response.data)
                 _categoryCount.postValue(response.data.size)
-            } catch (e: Exception) { }
+            } catch (e: Exception) {
+            }
         }
     }
 }
