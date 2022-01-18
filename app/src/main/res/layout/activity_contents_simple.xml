@@ -24,11 +24,12 @@
 
             <ImageView
                 android:id="@+id/iv_back"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="11dp"
-                android:layout_marginTop="17dp"
-                android:layout_marginBottom="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:padding="3dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginBottom="11dp"
                 android:src="@drawable/ic_back_black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
