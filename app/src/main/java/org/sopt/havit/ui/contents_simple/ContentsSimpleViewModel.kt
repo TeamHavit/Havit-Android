@@ -8,20 +8,39 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.ContentsData
+import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.remote.ContentsSimpleResponse
 
 class ContentsSimpleViewModel : ViewModel() {
 
-    private val _contentsList = MutableLiveData<List<ContentsData>>()
-    val contentsList: LiveData<List<ContentsData>> = _contentsList
+    private val _contentsList = MutableLiveData<List<ContentsSimpleResponse.ContentsSimpleData>>()
+    val contentsList: LiveData<List<ContentsSimpleResponse.ContentsSimpleData>> = _contentsList
 
+    fun requestContentsTaken() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response =
+                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
+                        .getContentsRecent()
+                _contentsList.postValue(response.data)
+            } catch (e: Exception) {
+            }
+        }
+    }
+
+
+    //    dummy data
     // 상단 바에 들어갈 최근 저장 콘텐츠 / 봐야 하는 콘텐츠 text
     private val _topBarName = MutableLiveData<String>()
     val topBarName: LiveData<String> = _topBarName
 
+
+    private val _contentsListDummy = MutableLiveData<List<ContentsData>>()
+    val contentsListDummy: LiveData<List<ContentsData>> = _contentsListDummy
     fun requestContentsTaken(list: List<ContentsData>, name: String) {
-        _contentsList.value = list
+        _contentsListDummy.value = list
         _topBarName.value = name
-        Log.d("contents_simple", "${contentsList.value}")
+        Log.d("contents_simple", "${contentsListDummy.value}")
         viewModelScope.launch(Dispatchers.IO) { // 서버 쓰일 코드
             // _contentsList.postValue(list)
 //            _categoryName.postValue(name)

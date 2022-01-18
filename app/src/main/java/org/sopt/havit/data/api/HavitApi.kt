@@ -1,9 +1,6 @@
 package org.sopt.havit.data.api
 
-import org.sopt.havit.data.remote.CategoryResponse
-import org.sopt.havit.data.remote.ContentsHavitRequest
-import org.sopt.havit.data.remote.ContentsHavitResponse
-import org.sopt.havit.data.remote.SearchContentsResponse
+import org.sopt.havit.data.remote.*
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
@@ -29,4 +26,7 @@ interface HavitApi {
 
     @GET("category")
     suspend fun getAllCategory(): CategoryResponse
+
+    @GET("content/recent")
+    suspend fun getContentsRecent(): ContentsSimpleResponse
 }

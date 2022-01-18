@@ -79,7 +79,7 @@ class ContentsSimpleActivity :
     private fun dataObserve() {
         with(contentsViewModel) {
             binding.lifecycleOwner?.let {
-                contentsList.observe(it) { list ->
+                contentsListDummy.observe(it) { list->
                     with(binding) {
                         if (list.isEmpty()) {
                             rvContents.visibility = View.GONE
