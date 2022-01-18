@@ -190,10 +190,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun initProgressBar() {
-//        Log.d("HomeFragment", "rate : $rate")
         homeViewModel.reachRate.observe(viewLifecycleOwner) {
             binding.pbReach.progress = it
         }
-//        binding.pbReach.progress = 100 // test
     }
 }
