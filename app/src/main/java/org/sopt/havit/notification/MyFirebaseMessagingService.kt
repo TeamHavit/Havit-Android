@@ -25,7 +25,7 @@ const val channelName = "org.sopt.androidsharing"
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
-        // 토큰 변경되면 서버에게 알려줌
+        // 토큰 변경될 떄
         Log.d("MyFirebaseMessagingService", "Refreshed token: $token")
     }
 
@@ -50,6 +50,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         remoteMessage.data.let {
             Log.d("MyFirebaseMessagingService", "Message data payload: ${remoteMessage.data}")
+            val dataFromServer = remoteMessage.data
+            val title = dataFromServer["title"]
+            val description = dataFromServer["body"]
+            val image = dataFromServer["image"]
+            val url = dataFromServer["url"]
+
+            if (title != null && description != null){
+                generateNotification(title, description)
+            }
         }
 
         // Check if message contains a notification payload.
