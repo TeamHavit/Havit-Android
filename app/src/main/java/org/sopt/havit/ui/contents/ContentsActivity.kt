@@ -14,6 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.category.CategoryAdapter
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
 
@@ -37,6 +38,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         clickAddContents()
         setOrderDialog()
         moveSearch()
+        clickItemView()
     }
 
 
@@ -189,6 +191,18 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             intent.putExtra("categoryName", "${contentsViewModel.categoryName}")
             startActivity(intent)
         }
+    }
+
+    private fun clickItemView() {
+        contentsAdapter.setItemClickListener(object : ContentsAdapter.OnItemClickListener {
+            override fun onWebClick(v: View, position: Int) {
+                // ContentsFragment -> ContentsActivity로 바꾸고 ContentsActivity로 이동
+                val intent = Intent(this, WebActivity::class.java)
+                contentsViewModel.contentsList.value?.get(position)
+                    ?.let { intent.putExtra("url", it.url) }
+                startActivity(intent)
+            }
+        })
     }
 
     companion object {
