@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import org.sopt.havit.R
-import org.sopt.havit.data.CategoryData
 import org.sopt.havit.databinding.FragmentCategoryBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsActivity
@@ -86,7 +85,6 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     }
 
     private fun clickBack() {
-        //val homeCategoryAllActivity = HomeCategoryAllActivity()
         val activityName = requireActivity().javaClass.simpleName.trim()
         if (activityName == "HomeCategoryAllActivity") { // HomeFragment->전체 보기 누른 경우
             Log.d("activity_check", "HomeCategory")
@@ -105,8 +103,10 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                 // ContentsFragment -> ContentsActivity로 바꾸고 ContentsActivity로 이동
                 val intent = Intent(requireActivity(), ContentsActivity::class.java)
                 categoryViewModel.categoryList.value?.get(position)
-                    ?.let { intent.putExtra("categoryId", it.id)
-                        intent.putExtra("categoryName", it.title) }
+                    ?.let {
+                        intent.putExtra("categoryId", it.id)
+                        intent.putExtra("categoryName", it.title)
+                    }
                 startActivity(intent)
             }
         })
