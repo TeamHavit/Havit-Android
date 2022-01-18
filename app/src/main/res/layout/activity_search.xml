@@ -112,18 +112,18 @@
                 android:visibility="@{vm.searchTv == true ? View.INVISIBLE :View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/rv_search" />
+                app:layout_constraintTop_toTopOf="@+id/cl_search_rv" />
 
             <ImageView
                 android:id="@+id/iv_search_no"
+                imgRes="@{vm.searchIng == true ? @drawable/ic_search_is :@drawable/img_search}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="138dp"
                 android:visibility="@{vm.searchImg == true ? View.INVISIBLE : View.VISIBLE}"
-                imgRes="@{vm.searchIng == true ? @drawable/ic_search_is :@drawable/img_search}"
-                android:layout_marginTop="40dp"
                 app:layout_constraintEnd_toEndOf="@+id/tv_search_no"
                 app:layout_constraintStart_toStartOf="@+id/tv_search_no"
-                app:layout_constraintTop_toBottomOf="@id/tv_search_no" />
+                app:layout_constraintTop_toTopOf="@+id/cl_search_rv" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
