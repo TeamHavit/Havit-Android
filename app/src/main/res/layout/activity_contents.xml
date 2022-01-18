@@ -196,7 +196,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="2dp"
-                        android:text="@{contentsViewModel.contentsCount}"
+                        android:text="@{String.valueOf(contentsViewModel.contentsCount)}"
                         android:textAppearance="@style/Mini10Regular"
                         android:textColor="@color/gray_3"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_entire"

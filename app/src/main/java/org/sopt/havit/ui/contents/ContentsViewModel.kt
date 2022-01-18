@@ -6,31 +6,31 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.remote.ContentsResponse
 
 class ContentsViewModel : ViewModel() {
-    private val _contentsList = MutableLiveData<List<ContentsData>>()
-    val contentsList: LiveData<List<ContentsData>> = _contentsList
+    private val _contentsList = MutableLiveData<List<ContentsResponse.ContentsData>>()
+    val contentsList: LiveData<List<ContentsResponse.ContentsData>> = _contentsList
+
+    private val _contentsCount = MutableLiveData<Int>()
+    val contentsCount: LiveData<Int> = _contentsCount
 
     private val _categoryName = MutableLiveData<String>()
     val categoryName: LiveData<String> = _categoryName
 
-    private val _contentsCount = MutableLiveData<String>()
-    val contentsCount: LiveData<String> = _contentsCount
-
     private val _orderState = MutableLiveData<String>()
     val orderState: LiveData<String> = _orderState
 
-    fun requestContentsTaken(list: List<ContentsData>, name: String, count: String, state: String) {
-        _contentsCount.value = count
+    fun requestContentsTaken(categoryId: Int, seen: String, filter: String, name: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _contentsList.postValue(list)
-            _categoryName.postValue(name)
-            _contentsCount.postValue(count)
-            _orderState.postValue(state)
+            try{
+                val response = RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
+                    .getCategoryContents(categoryId, seen, filter)
+                _contentsList.postValue(response.data)
+                _contentsCount.postValue(response.data.size)
+                _categoryName.value = name
+            } catch (e: Exception) { }
         }
-    }
-
-    fun init(){
-        _contentsCount.value = "0"
     }
 }
