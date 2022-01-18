@@ -7,7 +7,7 @@
 
         <variable
             name="data_home_contents"
-            type="org.sopt.havit.data.HomeContentsData" />
+            type="org.sopt.havit.data.remote.ContentsSimpleResponse.ContentsSimpleData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -74,7 +74,7 @@
             android:gravity="left"
             android:maxLines="2"
             android:minLines="2"
-            android:text="@{data_home_contents.header}"
+            android:text="@{data_home_contents.description}"
             android:textAppearance="@style/Text14Medium"
             android:textColor="@color/havit_gray"
             app:layout_constraintBottom_toTopOf="@id/tv_time"
@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="@{data_home_contents.time}"
+            android:text="@{data_home_contents.createdAt}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintBottom_toBottomOf="parent"
