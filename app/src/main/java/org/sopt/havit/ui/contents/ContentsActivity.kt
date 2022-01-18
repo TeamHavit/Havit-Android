@@ -17,7 +17,6 @@ import org.sopt.havit.ui.save.SaveFragment
 class ContentsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityContentsBinding
     private lateinit var contentsAdapter: ContentsAdapter
-
     private val contentsViewModel: ContentsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,14 +53,20 @@ class ContentsActivity : AppCompatActivity() {
 
     private fun setData() {
         val id = intent.getIntExtra("categoryId", 0)
-        if(id == 0){
+        if (id == 0) {
             Log.d("categoryId", "error")
+        } else {
+            var name: String = "error"
+            intent.getStringExtra("categoryName")?.let {
+                name = it
+            }
+            contentsViewModel.requestContentsTaken(id, "all", "seen_at", name)
+            binding.tvCategory.text = name
+            Log.d("categoryName", "$name")
         }
-        else {
-            intent.getStringExtra("categoryName")
-                ?.let { contentsViewModel.requestContentsTaken(id, "all", "seen_at", it) }
-        }
+
     }
+
 
     private fun dataObserve() {
         with(contentsViewModel) {
@@ -82,8 +87,6 @@ class ContentsActivity : AppCompatActivity() {
                 contentsAdapter.contentsList.addAll(it)
                 contentsAdapter.notifyDataSetChanged()
             }
-
-            binding.tvCategory.text = intent.getStringExtra("categoryName")
 
             contentsCount.observe(this@ContentsActivity) {
                 binding.tvContentsCount.text = it.toString()

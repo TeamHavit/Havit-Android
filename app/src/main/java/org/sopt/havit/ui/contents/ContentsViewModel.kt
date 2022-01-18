@@ -22,14 +22,14 @@ class ContentsViewModel : ViewModel() {
     private val _orderState = MutableLiveData<String>()
     val orderState: LiveData<String> = _orderState
 
-    fun requestContentsTaken(categoryId: Int, seen: String, filter: String, categoryName: String) {
+    fun requestContentsTaken(categoryId: Int, seen: String, filter: String, name: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try{
                 val response = RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
                     .getCategoryContents(categoryId, seen, filter)
                 _contentsList.postValue(response.data)
                 _contentsCount.postValue(response.data.size)
-                _categoryName.postValue(categoryName)
+                _categoryName.value = name
             } catch (e: Exception) { }
         }
     }
