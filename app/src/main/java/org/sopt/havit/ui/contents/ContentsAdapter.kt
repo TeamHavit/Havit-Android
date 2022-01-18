@@ -30,10 +30,6 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     binding.ivHavit.tag = "unseen"
                 }
             }
-
-            binding.clContentsItem.setOnClickListener {
-
-            }
         }
     }
 
@@ -112,7 +108,7 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 holder.onClick()
             }
             ContentsActivity.LINEAR_MAX_LAYOUT -> {
-                (holder as LinearMaxVewHolder).onBind(contentsList[position])
+                (holder as LinearMaxViewHolder).onBind(contentsList[position])
                 holder.onClick()
             }
         }
