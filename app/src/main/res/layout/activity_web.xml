@@ -110,9 +110,7 @@
                 android:background="@color/white_gray"
                 android:layout_weight="1">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+
 
                     <TextView
                     android:id="@+id/tv_webview_unread"
@@ -120,9 +118,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{vm.isHavit == true ? @string/webview_unread: @string/webview_read}"
                     android:textAppearance="@style/Sub13Regular"
-                    app:layout_constraintStart_toEndOf="@id/iv_webview_unread"
-                    app:layout_constraintTop_toTopOf="@id/iv_webview_unread"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_webview_unread"
+
                     android:textColor="@color/gray_2" />
 
                     <ImageView
@@ -133,7 +129,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

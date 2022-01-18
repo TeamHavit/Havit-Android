@@ -8,7 +8,7 @@ interface HavitApi {
     @GET("content/search/?keyword=")
     suspend fun getSearchContents(
         @Query("keyword") keyword: String
-    ): SearchContentsResponse
+    ): ContentsSearchResponse
 
     @GET("content/search?categoryId=&keyword=")
     suspend fun getSearchCategory(
