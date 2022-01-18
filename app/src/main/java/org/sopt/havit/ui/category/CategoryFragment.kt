@@ -91,7 +91,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         if (activityName == "HomeCategoryAllActivity") { // HomeFragment->전체 보기 누른 경우
             Log.d("activity_check", "HomeCategory")
             binding.ivBack.setOnClickListener {
-
+                requireActivity().finish()
             }
         } else {  // MainActivity
             binding.ivBack.visibility = View.GONE
