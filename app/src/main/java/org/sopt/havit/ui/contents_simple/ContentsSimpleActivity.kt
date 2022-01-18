@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.R
-import org.sopt.havit.data.ContentsData
 import org.sopt.havit.databinding.ActivityContentsSimpleBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 
@@ -16,6 +15,7 @@ class ContentsSimpleActivity :
 
     private val contentsViewModel: ContentsSimpleViewModel by viewModels()
     private lateinit var contentsAdapter: ContentsSimpleRvAdapter
+    private lateinit var contentsType: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +26,13 @@ class ContentsSimpleActivity :
         initContents()
         dataObserve()
         decorationView()
+        clickBtnBack()
+    }
+
+    private fun clickBtnBack() {
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun decorationView() {
@@ -42,61 +49,39 @@ class ContentsSimpleActivity :
     private fun initContents() {
         intent?.let {
             it.getStringExtra("before")?.let { before ->
-                if (before == "unseen") {
-                    setUnseenContents()
-                } else {
-                    setRecentSaveContents()
-                    Log.d("contents_simple", "setRecentSaveContents")
-                }
+                contentsType = before
+                setContents()
             }
         }
     }
 
-    private fun setUnseenContents() {
-        Log.d("ContentsSimple_before", "unseen")
-    }
-
-    private fun setRecentSaveContents() {
-        val list = mutableListOf<ContentsData>()
-        for (i in 1..15) {
-            list.add(
-                ContentsData(
-                    true,
-                    "카테고리명",
-                    "슈슈슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉",
-                    "상세내용 상세내용 상세내용 상세내용 상세내용 상세내용 상세내용은 한줄만만",
-                    true,
-                    "2021. 11. 24",
-                    "https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg",
-                    "2021. 11. 17 오전 12:30 ",
-                    "www.brunch.com.dididididididididididididi"
-                )
-            )
+    private fun setContents() {
+        contentsViewModel.requestContentsTaken(contentsType)    // contentsList
+        if (contentsType == "unseen") {// topBarName
+            contentsViewModel.requestTopBarName(getString(R.string.contents_simple_unseen))
+        } else {
+            contentsViewModel.requestTopBarName(getString(R.string.contents_simple_recent_save))
         }
-        contentsViewModel.requestContentsTaken(list, "봐야하는")
     }
 
     private fun dataObserve() {
         with(contentsViewModel) {
             binding.lifecycleOwner?.let {
-                contentsList.observe(it) { list ->
-                    with(binding) {
-                        if (list.isEmpty()) {
-                            rvContents.visibility = View.GONE
-                            clContentsEmpty.visibility = View.VISIBLE
-                        } else {
-                            rvContents.visibility = View.VISIBLE
-                            clContentsEmpty.visibility = View.GONE
-                            contentsAdapter.contentsList.addAll(list)
-                            contentsAdapter.notifyDataSetChanged()
-                        }
+                contentsList.observe(it) { data ->
+                    Log.d("contentsSimple", "contentsList data : $data")
+                    if (data.isEmpty()) {
+                        binding.rvContents.visibility = View.GONE
+                        if (contentsType == "unseen")
+                            requestEmptyContents(getString(R.string.contents_simple_unseen_empty))
+                        else
+                            requestEmptyContents(getString(R.string.contents_simple_recent_save_empty))
+                    } else {
+                        binding.clContentsEmpty.visibility = View.GONE
+                        val min = if (data.size < 20) data.size else 20
+                        val list = data.subList(0, min)
+                        contentsAdapter.contentsList.addAll(list)
+                        contentsAdapter.notifyDataSetChanged()
                     }
-                    Log.d("contents_simple", "dataObserve() list: $list")
-                }
-            }
-            binding.lifecycleOwner?.let {
-                topBarName.observe(it) {
-                    binding.tvTopbar.text = it
                 }
             }
         }

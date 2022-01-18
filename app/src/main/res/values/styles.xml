@@ -8,4 +8,9 @@
         <item name="android:background">@drawable/rectangle_white_radius_20</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
+
+    <style name="TopSheet_DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_out_from_top</item>
+        <item name="android:windowExitAnimation">@anim/slide_back_to_top</item>
+    </style>
 </resources>

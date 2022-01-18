@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="org.sopt.havit.ui.web.WebViewModel" />
@@ -19,43 +20,121 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/ib_web_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_back_black" />
+
+            <EditText
+                android:id="@+id/et_web_url"
+                android:layout_width="0dp"
+                android:layout_height="33dp"
+                android:paddingHorizontal="8dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/rectangle_gray_0_radius_4"
+                android:ellipsize="end"
+                android:enabled="false"
+                android:text="asdfasdfasdf"
+                android:textAppearance="@style/Text16Regular"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/ib_web_back"
+                app:layout_constraintEnd_toStartOf="@+id/ib_web_reload"
+                app:layout_constraintStart_toEndOf="@+id/ib_web_back"
+                app:layout_constraintTop_toTopOf="@+id/ib_web_back" />
+
+
+            <ImageButton
+                android:id="@+id/ib_web_reload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="11dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_refresh"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <WebView
             android:id="@+id/wb_custom"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/ll_webview"
+            app:layout_constraintBottom_toTopOf="@+id/ll_web_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_tool_bar" />
 
         <LinearLayout
-            android:id="@+id/ll_webview"
+            android:id="@+id/ll_web_bottom"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@color/white_gray"
-            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <ImageView
-                android:id="@+id/iv_webview_unread"
+            <LinearLayout
+                android:id="@+id/ll_web_share"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                imgRes="@{vm.isHavit == true ? @drawable/ic_contents_unread : @drawable/ic_contents_read_2}"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_share" />
 
-            <TextView
-                android:id="@+id/tv_webview_unread"
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_webview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="12dp"
-                android:text="@{vm.isHavit == true ? @string/webview_unread: @string/webview_read}"
-                android:textAppearance="@style/Sub13Regular"
-                android:textColor="@color/gray_2" />
+                android:layout_height="match_parent"
+                android:background="@color/white_gray"
+                android:layout_weight="1">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                    android:id="@+id/tv_webview_unread"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{vm.isHavit == true ? @string/webview_unread: @string/webview_read}"
+                    android:textAppearance="@style/Sub13Regular"
+                    app:layout_constraintStart_toEndOf="@id/iv_webview_unread"
+                    app:layout_constraintTop_toTopOf="@id/iv_webview_unread"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_webview_unread"
+                    android:textColor="@color/gray_2" />
+
+                    <ImageView
+                        android:id="@+id/iv_webview_unread"
+                        imgRes="@{vm.isHavit == true ? @drawable/ic_contents_unread : @drawable/ic_contents_read_2}"
+                        android:layout_width="30dp"
+                        android:layout_height="42dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
