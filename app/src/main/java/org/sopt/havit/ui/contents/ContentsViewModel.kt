@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.ContentsData
 
 class ContentsViewModel : ViewModel() {
     private val _contentsList = MutableLiveData<List<ContentsData>>()

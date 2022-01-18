@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.R
-import org.sopt.havit.data.ContentsData
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.save.SaveFragment
 

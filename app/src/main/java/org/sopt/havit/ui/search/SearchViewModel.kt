@@ -5,13 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.sopt.havit.data.ContentsData
 import org.sopt.havit.data.remote.SearchContentsResponse
 import org.sopt.havit.data.repository.SearchRepository
-import org.sopt.havit.domain.repository.SearchRepositoryImpl
 
 class SearchViewModel(private val searchRepository: SearchRepository) : ViewModel(){
 
