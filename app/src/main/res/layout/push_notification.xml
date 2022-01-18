@@ -3,35 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:layout_height="91dp"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:background="@drawable/rectangle_black_radius_20"
+    android:padding="13dp">
 
     <ImageView
         android:id="@+id/iv_image"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        tools:src="@drawable/ic_havit_logo" />
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="1dp"
+        tools:src="@drawable/ic_havit_radious_10" />
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="1dp"
         android:layout_toEndOf="@id/iv_image"
-        android:text="title"
+        android:textAppearance="@style/Text12Semibold"
+        android:textColor="@color/white"
         android:textSize="15sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:text="읽지않은 컨텐츠" />
 
     <TextView
         android:id="@+id/tv_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_title"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginStart="16dp"
         android:layout_toEndOf="@id/iv_image"
-        android:text="description"
+        android:textAppearance="@style/Sub12Regular"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@id/tv_title"
-        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        tools:text="description" />
 
 </RelativeLayout>

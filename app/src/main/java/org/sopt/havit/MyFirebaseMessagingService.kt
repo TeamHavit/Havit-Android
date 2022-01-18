@@ -75,7 +75,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val remoteView = RemoteViews("org.sopt.havit", R.layout.push_notification)
         remoteView.setTextViewText(R.id.tv_title, title)
         remoteView.setTextViewText(R.id.tv_description, message)
-        remoteView.setImageViewResource(R.id.iv_image, R.drawable.ic_havit_logo)
+        remoteView.setImageViewResource(R.id.iv_image, R.drawable.ic_havit_radious_10)
 
         Log.d(TAG, "getRemoteView")
 
