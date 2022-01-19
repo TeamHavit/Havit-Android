@@ -72,7 +72,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private fun initVpAdapter() {
         categoryVpAdapter = HomeCategoryVpAdapter()
         binding.layoutCategory.vpCategory.adapter = categoryVpAdapter
-
     }
 
     private fun categoryDataObserve() {

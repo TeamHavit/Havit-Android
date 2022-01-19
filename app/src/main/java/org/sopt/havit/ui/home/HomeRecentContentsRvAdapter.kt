@@ -15,11 +15,9 @@ class HomeRecentContentsRvAdapter :
     class HomeContentsViewHolder(private val binding: ItemHomeRecentContentsListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsSimpleResponse.ContentsSimpleData) {
-            if (data.createdAt.isNotEmpty()) {
-            val time = data.createdAt.substring(0 until 10)
-            data.createdAt = time.replace("-", ". ")
-                Log.d("HomeRecentContentsRvAdapter TIME", data.createdAt.length.toString())
-            }
+            data.createdAt = data.createdAt.substring(0 until 10)
+                .replace("-", ". ")
+            Log.d("HomeRecentContentsRvAdapter TIME", data.createdAt.length.toString())
             Log.d("HomeRecentContentsRvAdapter TIME", data.notificationTime)
             data.description = data.description.replace(" ", "\u00a0") // tvHeader 단어 자동줄바꿈 막는 코드
             binding.dataHomeContents = data
