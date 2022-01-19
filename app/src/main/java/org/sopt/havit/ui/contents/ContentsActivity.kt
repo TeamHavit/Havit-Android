@@ -32,6 +32,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         binding.contentsViewModel = contentsViewModel
 
+
         setContentView(binding.root)
         initAdapter()
         setData(OPTION, FILTER)
@@ -63,6 +64,9 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun setData(o: String, f: String) {
+        // 레이아웃 초기화
+        layout = LINEAR_MIN_LAYOUT
+        // 데이터 셋팅
         ID = intent.getIntExtra("categoryId", 0)
         if (ID == 0) {
             Log.d("categoryId", "error")
