@@ -1,5 +1,7 @@
 package org.sopt.havit.data.remote
 
+import com.google.gson.annotations.SerializedName
+
 data class CategoryResponse(
     val data: List<AllCategoryData>,
     val message: String,
@@ -11,6 +13,7 @@ data class CategoryResponse(
         val id: Int,
         val orderIndex: Int,
         val title: String,
+        @SerializedName("imageUrl")
         var url: String
     )
 }
