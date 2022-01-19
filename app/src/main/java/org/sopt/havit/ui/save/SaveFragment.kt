@@ -1,7 +1,10 @@
 package org.sopt.havit.ui.save
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,41 +12,42 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
+import org.sopt.havit.ShareActivity
 import org.sopt.havit.databinding.FragmentSaveBinding
-import org.sopt.havit.util.KeyBoardUtil
 
 
 class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentSaveBinding
+    private val saveViewModel: SaveViewModel by viewModels()
     var categoryName=categoryName
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         dialog?.setOnShowListener {
-            //openKeyBoard()
             openKeyBoard()
             activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-            val bottomSheet: View = dialog!!.findViewById(R.id.design_bottom_sheet)
-            bottomSheet.layoutParams.height = (resources.displayMetrics.heightPixels * 0.94).toInt()
-
             val behavior = BottomSheetBehavior.from<ConstraintLayout>(
                 (dialog as BottomSheetDialog).findViewById(R.id.design_bottom_sheet)!!
             )
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
             behavior.skipCollapsed = true
+            val bottomSheet: View = dialog!!.findViewById(R.id.design_bottom_sheet)
+            bottomSheet.layoutParams.height = (resources.displayMetrics.heightPixels * 0.94).toInt()
         }
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_save, container, false)
-
-
+        binding.vm = saveViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+        setListeners()
         return binding.root
     }
 
@@ -53,13 +57,17 @@ class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
         setListeners()
     }
 
-    private fun openKeyBoard(){
+    private fun openKeyBoard() {
         binding.etSaveUrl.requestFocus()
-        val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.SHOW_IMPLICIT)
+        val inputMethodManager =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.toggleSoftInput(
+            InputMethodManager.SHOW_FORCED,
+            InputMethodManager.SHOW_IMPLICIT
+        )
     }
 
-    private fun hideKeyBoard(){
+    private fun hideKeyBoard() {
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
     }
 
@@ -68,6 +76,28 @@ class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
             hideKeyBoard()
             dismiss()
         }
+        binding.btnSaveNext.setOnClickListener {
+            var intent = Intent(requireContext(), ShareActivity::class.java)
+            intent.putExtra("url", binding.etSaveUrl.text.toString())
+            startActivity(intent)
+        }
+        binding.etSaveUrl.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(c: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (binding.etSaveUrl.text.isNotEmpty()) {
+                    saveViewModel.setClick(true)
+                } else {
+                    saveViewModel.setClick(false)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+        })
     }
 
     override fun getTheme(): Int {
@@ -77,12 +107,6 @@ class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         hideKeyBoard()
-    }
-    override fun onStart() {
-        super.onStart()
-        if (dialog != null) {
-            openKeyBoard()
-        }
     }
 
 }
