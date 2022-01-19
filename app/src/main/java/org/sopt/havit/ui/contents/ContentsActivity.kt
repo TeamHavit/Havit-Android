@@ -44,6 +44,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         setOrderDialog()
         moveSearch()
         clickItemView()
+        setChipOrder()
     }
 
 
@@ -198,21 +199,23 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         }
 
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent).setOnClickListener {
-            contentsViewModel.requestContentsTaken(id, seen, "created_at", name)
+            filter = "created_at"
+            contentsViewModel.requestContentsTaken(id, seen, filter, name)
             binding.tvOrder.text = "최신순"
             bottomSheetDialog.dismiss()
         }
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past).setOnClickListener {
-            contentsViewModel.requestContentsTaken(id, seen, "reverse", name)
+            filter = "reverse"
+            contentsViewModel.requestContentsTaken(id, seen, filter, name)
             binding.tvOrder.text = "과거순"
             bottomSheetDialog.dismiss()
         }
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view).setOnClickListener {
-            contentsViewModel.requestContentsTaken(id, seen, "seen_at", name)
+            filter = "seen_at"
+            contentsViewModel.requestContentsTaken(id, seen, filter, name)
             binding.tvOrder.text = "최근 조회순"
             bottomSheetDialog.dismiss()
         }
-
     }
 
     private fun moveSearch() {
@@ -232,6 +235,23 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 startActivity(intent)
             }
         })
+    }
+
+    private fun setChipOrder() {
+        with(binding) {
+            chAll.setOnClickListener {
+                seen = "all"
+                contentsViewModel?.requestContentsTaken(id, seen, filter, name)
+            }
+            chSeen.setOnClickListener {
+                seen = "true"
+                contentsViewModel?.requestContentsTaken(id, seen, filter, name)
+            }
+            chUnseen.setOnClickListener {
+                seen = "false"
+                contentsViewModel?.requestContentsTaken(id, seen, filter, name)
+            }
+        }
     }
 
     companion object {

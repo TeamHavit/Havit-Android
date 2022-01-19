@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 
 object BindingAdapter {
 
+    // item_category
     @BindingAdapter("imageUrl")
     @JvmStatic
     fun ImageView.loadImage(url: String) {
