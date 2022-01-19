@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import org.sopt.havit.R
 
 object BindingAdapter {
 
@@ -41,6 +42,15 @@ object BindingAdapter {
         }else{
             btn.setBackgroundColor(Color.parseColor("#afafb7"))
         }
+    }
+
+    @BindingAdapter("imageSearch")
+    @JvmStatic
+    fun ImageView.loadSearch(url: String) {
+        Glide.with(context)
+            .load(url)
+            .placeholder(R.drawable.img_contents_dummy)
+            .into(this)
     }
 
 

@@ -35,7 +35,7 @@
                 android:id="@+id/iv_thumbnail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/img_contents_dummy" />
+                imageSearch="@{content.url}" />
 
             <ImageView
                 android:id="@+id/iv_alarm"
@@ -166,7 +166,7 @@
         <ImageButton
             android:id="@+id/iv_setting"
             android:layout_width="32dp"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
