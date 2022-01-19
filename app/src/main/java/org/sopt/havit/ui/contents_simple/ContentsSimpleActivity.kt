@@ -77,7 +77,7 @@ class ContentsSimpleActivity :
                         else
                             requestEmptyContents(getString(R.string.contents_simple_recent_save_empty))
                         binding.tvAddCategory.setOnClickListener {
-                            SaveFragment().show(supportFragmentManager, "save")
+                            SaveFragment("").show(supportFragmentManager, "save")
                         }
                     } else {
                         binding.clContentsEmpty.visibility = View.GONE
