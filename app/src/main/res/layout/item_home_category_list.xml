@@ -27,10 +27,10 @@
 
             <ImageView
                 android:id="@+id/iv_icon"
-                iconSrc="@{data_home_category.url}"
-                android:layout_width="44dp"
-                android:layout_height="47dp"
-                android:layout_marginStart="17dp"
+                imageUrl="@{data_home_category.url}"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="14dp"
                 android:contentDescription="@string/icon"
                 app:layout_constraintStart_toStartOf="parent"

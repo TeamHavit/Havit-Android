@@ -21,7 +21,7 @@ import org.sopt.havit.ui.search.SearchActivity
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel: HomeViewModel by viewModels()
-    private lateinit var contentsAdapter: HomeRecentContentsRvAdapter
+    private val contentsAdapter: HomeRecentContentsRvAdapter by lazy{HomeRecentContentsRvAdapter()}
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
     private lateinit var categoryVpAdapter: HomeCategoryVpAdapter
 
@@ -43,8 +43,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         // Category RecyclerView
         initVpAdapter()
         initIndicator()
+        categoryDataObserve()
         // Recent Save RecyclerView
-        initContentsRvAdapter()
+        initRecentContentsRvAdapter()
+        recentContentsDataObserve()
         // Recommend RecyclerView
         initRecommendRvAdapter()
         setClickEvent() // Every clickEvent
@@ -52,6 +54,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         return binding.root
     }
 
+    private fun initRecentContentsRvAdapter() {
+        //contentsAdapter = HomeRecentContentsRvAdapter()
+        binding.rvContents.adapter = contentsAdapter
+    }
     private fun setData() {
         homeViewModel.requestContentsTaken()
         homeViewModel.requestCategoryTaken()
@@ -66,7 +72,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private fun initVpAdapter() {
         categoryVpAdapter = HomeCategoryVpAdapter()
         binding.layoutCategory.vpCategory.adapter = categoryVpAdapter
-        categoryDataObserve()
+
     }
 
     private fun categoryDataObserve() {
@@ -177,12 +183,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                 Log.d("LOGGER_TAG", "freeListener")
             }
         }
-    }
-
-    private fun initContentsRvAdapter() {
-        contentsAdapter = HomeRecentContentsRvAdapter()
-        binding.rvContents.adapter = contentsAdapter
-        recentContentsDataObserve()
     }
 
     private fun recentContentsDataObserve() {

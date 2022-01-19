@@ -22,8 +22,8 @@ class ContentsSimpleActivity :
         setContentView(binding.root)
         binding.vmContents = contentsViewModel
 
-        initAdapter()
         initContents()
+        initAdapter()
         dataObserve()
         decorationView()
         clickBtnBack()
