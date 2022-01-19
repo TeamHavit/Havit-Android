@@ -50,42 +50,27 @@ object BindingAdapter {
     @BindingAdapter("imageDefaultLinearMin")
     @JvmStatic
     fun ImageView.defaultImageLinearMin(url: String) {
-        Log.d("imageSet", "1")
-        if(url==""){
-            setImageResource(R.drawable.img_contents_dummy)
-        }
-        else{
-            Glide.with(context)
-                .load(url)
-                .into(this)
-        }
+        Glide.with(context)
+            .load(url)
+            .placeholder(R.drawable.img_contents_dummy)
+            .into(this)
     }
 
     @BindingAdapter("imageDefaultGrid")
     @JvmStatic
     fun ImageView.defaultImageGrid(url: String) {
-        Log.d("imageSet", "2")
-        if(url==""){
-            setImageResource(R.drawable.img_contents_dummy_2)
-        }
-        else{
-            Glide.with(context)
-                .load(url)
-                .into(this)
-        }
+        Glide.with(context)
+            .load(url)
+            .placeholder(R.drawable.img_contents_dummy_2)
+            .into(this)
     }
 
     @BindingAdapter("imageDefaultLinearMax")
     @JvmStatic
     fun ImageView.defaultImageLinearMax(url: String) {
-        Log.d("imageSet", "3")
-        if(url==""){
-            setImageResource(R.drawable.img_contents_dummy_3)
-        }
-        else{
-            Glide.with(context)
-                .load(url)
-                .into(this)
-        }
+        Glide.with(context)
+            .load(url)
+            .placeholder(R.drawable.img_contents_dummy_3)
+            .into(this)
     }
 }
