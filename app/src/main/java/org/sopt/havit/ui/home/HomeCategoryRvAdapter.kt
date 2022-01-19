@@ -35,7 +35,6 @@ class HomeCategoryRvAdapter :
                         binding.clCategoryItem.setBackgroundResource(R.drawable.rectangle_purple_category_radius_6)
                         binding.ivIcon.visibility = View.VISIBLE
                     }
-
                 }
             }
         }
