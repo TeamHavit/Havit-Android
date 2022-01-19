@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import org.sopt.havit.R
 import org.sopt.havit.data.HomeRecommendData
+import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentHomeBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents_simple.ContentsSimpleActivity
@@ -38,32 +39,22 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
         setData()
         initSearchSticky()
-        initProgressBar()
-        initCategoryView()
+        initProgressBar()   // User reach graph
+        // Category RecyclerView
         initVpAdapter()
         initIndicator()
+        // Recent Save RecyclerView
         initContentsRvAdapter()
+        // Recommend RecyclerView
         initRecommendRvAdapter()
-
-        setClickEvent()
+        setClickEvent() // Every clickEvent
 
         return binding.root
     }
 
     private fun setData() {
         homeViewModel.requestContentsTaken()
-    }
-
-    private fun initCategoryView() {
-        // Category가 존재할 경우
-        initVpAdapter()
-        initIndicator()
-        binding.layoutCategoryEmpty.clHomeCategoryEmpty.visibility = View.GONE
-
-        // Category가 존재하지 않을 경우
-//        binding.layoutCategory.clHomeCategory.visibility = View.GONE
-//        clickAddCategory()
-
+        homeViewModel.requestCategoryTaken()
     }
 
     private fun clickAddCategory() {
@@ -75,9 +66,34 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private fun initVpAdapter() {
         categoryVpAdapter = HomeCategoryVpAdapter()
         binding.layoutCategory.vpCategory.adapter = categoryVpAdapter
+        categoryDataObserve()
+    }
 
-        homeViewModel.categoryData.observe(viewLifecycleOwner) {
-            categoryVpAdapter.setList(it)
+    private fun categoryDataObserve() {
+        with(homeViewModel) {
+            categoryData.observe(viewLifecycleOwner) { data ->
+                with(binding) {
+                    if (data.isEmpty()) {
+                        binding.layoutCategory.clHomeCategory.visibility = View.GONE
+                        clickAddCategory()
+                    } else {
+                        binding.layoutCategoryEmpty.clHomeCategoryEmpty.visibility = View.GONE
+                        categoryVpAdapter.categoryList.clear()
+                        val list = mutableListOf(listOf<CategoryResponse.AllCategoryData>())
+                        var size = data.size
+                        var count = 0
+                        list.clear()
+                        while (size > 6) {
+                            list.add(data.subList(count * 6, count * 6 + 6))
+                            ++count
+                            size -= 6
+                        }
+                        list.add(data.subList(count * 6, count * 6 + size))
+                        categoryVpAdapter.categoryList.addAll(list)
+                        categoryVpAdapter.notifyDataSetChanged()
+                    }
+                }
+            }
         }
     }
 

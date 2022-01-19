@@ -8,6 +8,7 @@
         <package android:name="com.kakao.talk" />
     </queries>
 
+
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
@@ -17,6 +18,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Havit"
         android:usesCleartextTraffic="true">
+
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+
+        <!-- 상태표시줄에 뜨는 아이콘 -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_havit_radious_10" />
+        <!-- 상태표시줄에 뜨는 앱 이름 텍스트 컬러 -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/havit_gray" />
+
+
         <activity
             android:name=".ui.web.WebActivity"
             android:exported="false" />

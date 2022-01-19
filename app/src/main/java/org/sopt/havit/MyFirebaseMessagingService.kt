@@ -1,4 +1,4 @@
-package org.sopt.havit.notification
+package org.sopt.havit
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
@@ -45,11 +45,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        super.onMessageReceived(remoteMessage)
         Log.d("MyFirebaseMessagingService", "onMessageReceived")
         getDeviceToken()
 
-        remoteMessage.data.let {
-            Log.d("MyFirebaseMessagingService", "Message data payload: ${remoteMessage.data}")
+        if (remoteMessage.data.isNotEmpty()) {
+            Log.d("MyFirebaseMessagingService_data", "Message data payload: ${remoteMessage.data}")
             val dataFromServer = remoteMessage.data
             val title = dataFromServer["title"]
             val description = dataFromServer["body"]
@@ -59,38 +60,43 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             if (title != null && description != null){
                 generateNotification(title, description)
             }
+        } else {
+            Log.d("MyFirebaseMessagingService[data]", "Empty Data")
         }
 
         // Check if message contains a notification payload.
         remoteMessage.notification?.let {
+            Log.d("MyFirebaseMessagingService_notification", it.title!!)
             generateNotification(it.title!!, it.body!!)
-            Log.d("MyFirebaseMessagingService", it.title!!)
         }
     }
 
     private fun getRemoteView(title: String, message: String): RemoteViews {
-        val remoteView = RemoteViews("com.sopt.androidsharing", R.layout.push_notification)
+        val remoteView = RemoteViews("org.sopt.havit", R.layout.push_notification)
         remoteView.setTextViewText(R.id.tv_title, title)
         remoteView.setTextViewText(R.id.tv_description, message)
-        remoteView.setImageViewResource(R.id.iv_image, R.drawable.ic_launcher_foreground)
+        remoteView.setImageViewResource(R.id.iv_image, R.drawable.ic_havit_radious_10)
 
-        Log.d("MyFirebaseMessagingService", "getRemoteView")
+        Log.d(TAG, "getRemoteView")
 
         return remoteView
     }
 
     private fun generateNotification(title: String, message: String) {
+        Log.d("MyFirebaseMessagingService", "generateNotification")
 
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
 
         var builder = NotificationCompat.Builder(this, channelID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_havit_radious_10)
             .setAutoCancel(true)
             .setVibrate(longArrayOf(1000, 500, 1000, 500))  // 1초 울리고 0.5초 쉬고
             .setOnlyAlertOnce(true)
             .setContentIntent(pendingIntent)
+//            .setContentTitle(title)
+//            .setContentText(message)
 
         builder = builder.setContent(getRemoteView(title, message))    // custom
 
@@ -99,13 +105,17 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         /** Oreo Version 이하일때 처리 하는 코드 */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.d("MyFirebaseMessagingService", "under Oreo Version")
+            Log.d(TAG, "under Oreo Version")
             val notificationChannel =
                 NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(notificationChannel)
         }
 
         notificationManager.notify(0, builder.build())
+    }
+
+    companion object {
+        const val TAG = "MyFirebaseMessagingService"
     }
 
 }

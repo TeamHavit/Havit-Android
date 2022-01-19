@@ -18,13 +18,17 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.vm = webViewModel
+        intent.getStringExtra("url")?.let { setUrlLaunch(it) }
+        setListeners()
+    }
+
+    private fun setUrlLaunch(url:String){
         binding.wbCustom.apply {
             webViewClient = WebViewClient()
             settings.javaScriptEnabled = true
         }
-
-        binding.wbCustom.loadUrl("https://www.naver.co.kr/")
-        setListeners()
+        binding.wbCustom.loadUrl(url)
+        webViewModel.setUrl(url)
     }
 
     private fun setListeners() {

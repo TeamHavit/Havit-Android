@@ -6,20 +6,44 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.remote.SearchContentsResponse
+import org.sopt.havit.data.remote.ContentsSearchResponse
+import org.sopt.havit.data.repository.ContentsRepository
 import org.sopt.havit.data.repository.SearchRepository
 
-class SearchViewModel(private val searchRepository: SearchRepository) : ViewModel(){
+class SearchViewModel(private val searchRepository: SearchRepository,private val contentsRepository: ContentsRepository) : ViewModel() {
 
-    private val _searchResult = MutableLiveData<List<SearchContentsResponse.Contents>>()
-    var searchResult :LiveData<List<SearchContentsResponse.Contents>> = _searchResult
+    private val _searchResult = MutableLiveData<List<ContentsSearchResponse.Data>>()
+    var searchResult: LiveData<List<ContentsSearchResponse.Data>> = _searchResult
 
-     var _searchCount = MutableLiveData<Int>()
+    var _searchCount = MutableLiveData<Int>()
 
-    fun getSearchContents(keyWord:String){
-        Log.d("fffs", keyWord.toString())
+    var searchImg = MutableLiveData<Boolean>()
+    var searchTv = MutableLiveData<Boolean>()
+    var searchIng = MutableLiveData<Boolean>()
+
+    var isSearchFirst = MutableLiveData<Boolean>()
+    var isRead = MutableLiveData<Boolean>()
+
+    init {
+        searchImg.value = false
+        searchTv.value = false
+        searchIng.value = false
+    }
+
+    fun setSearchNoImage(search: Boolean) {
+        searchImg.value = search
+    }
+
+    fun setSearchImage(search: Boolean) {
+        searchIng.value = search
+    }
+
+    fun setSearchNoText(search: Boolean) {
+        searchTv.value = search
+    }
+
+    fun getSearchContents(keyWord: String) {
         viewModelScope.launch {
-
             try {
                 val response = searchRepository.getSearchContents(keyWord)
                 Log.d("fff", response.toString())
@@ -30,7 +54,17 @@ class SearchViewModel(private val searchRepository: SearchRepository) : ViewMode
             }
 
         }
+    }
+
+    fun setIsSeen(contentsId:Int){
+        viewModelScope.launch {
+            try{
+                val response = contentsRepository.isSeen(contentsId)
+            }catch (e:Exception){
+
+            }
         }
+    }
 
 
 }
