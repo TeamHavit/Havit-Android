@@ -17,7 +17,7 @@ import org.sopt.havit.util.KeyBoardUtil
 class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activity_search) {
 
     private val searchViewModel: SearchViewModel by viewModel()
-    private val searchContentsAdapter: SearchContentsAdapter by lazy { SearchContentsAdapter() }
+    private val searchContentsAdapter: SearchContentsAdapter by lazy { SearchContentsAdapter(searchViewModel) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
