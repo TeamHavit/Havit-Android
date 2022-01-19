@@ -11,10 +11,6 @@ import org.sopt.havit.ui.home.HomeCategoryRvAdapter.Companion.isFirst
 class HomeCategoryVpAdapter : RecyclerView.Adapter<HomeCategoryVpAdapter.HomeCategoryViewHolder>() {
     var categoryList = mutableListOf<List<CategoryResponse.AllCategoryData>>()
 
-    fun setList(list: List<List<CategoryResponse.AllCategoryData>>) {
-        categoryList = list as MutableList<List<CategoryResponse.AllCategoryData>>
-    }
-
     class HomeCategoryViewHolder(private val binding: ItemHomeCategoryRecyclerviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: List<CategoryResponse.AllCategoryData>, position: Int) {

@@ -83,18 +83,12 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                         var size = data.size
                         var count = 0
                         list.clear()
-                        Log.d("HOMEFRAGMENT_CATEGORY", "data: $data")
-                        Log.d("HOMEFRAGMENT_CATEGORY", "data.size: ${data.size}")
-                        Log.d("HOMEFRAGMENT_CATEGORY", "before list.add: $list")
                         while (size > 6) {
                             list.add(data.subList(count * 6, count * 6 + 6))
-                            Log.d("HOMEFRAGMENT_CATEGORY", "doing list.add: $list")
                             ++count
                             size -= 6
                         }
-                        Log.d("HOMEFRAGMENT_CATEGORY", "doing list.add: $list")
                         list.add(data.subList(count * 6, count * 6 + size))
-                        Log.d("HOMEFRAGMENT_CATEGORY", "after list.add: $list")
                         categoryVpAdapter.categoryList.addAll(list)
                         categoryVpAdapter.notifyDataSetChanged()
                     }
