@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="vm"
+            type="org.sopt.havit.ui.save.SaveViewModel" />
 
     </data>
 
@@ -93,8 +95,9 @@
             android:id="@+id/btn_save_next"
             android:layout_width="0dp"
             android:layout_height="58dp"
-            android:background="@color/gray_2"
+            btnColor="@{vm.isSaveClick}"
             android:text="@string/next"
+            android:clickable="@{vm.isSaveClick == true ? true : false}"
             android:textAppearance="@style/Text16Semibold"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
