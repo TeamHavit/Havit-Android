@@ -1,19 +1,15 @@
 package org.sopt.havit
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.View.GONE
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.sopt.havit.databinding.ActivityMainBinding
-import org.sopt.havit.ui.save.SaveActivity
 import org.sopt.havit.ui.save.SaveFragment
+import org.sopt.havit.util.MySharedPreference
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navHostFragment: NavHostFragment
@@ -39,10 +35,19 @@ class MainActivity : AppCompatActivity() {
         navView.menu.getItem(3).isEnabled = false
         binding.save.bringToFront()
 
+        setToken()
+
         val fab: View = findViewById(R.id.save)
         fab.setOnClickListener { view ->
             SaveFragment("응가").show(supportFragmentManager, "save")
             //startActivity(Intent(this,SaveActivity::class.java))
+        }
+
+    }
+
+    private fun setToken() {
+        if (MySharedPreference.getXAuthToken(this) == ""){
+            MySharedPreference.setXAuthToken(this)
         }
     }
 }
