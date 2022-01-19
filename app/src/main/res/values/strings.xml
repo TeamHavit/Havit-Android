@@ -79,6 +79,8 @@
     <string name="category_cancel">취소</string>
     <string name="category_delete">삭제</string>
     <string name="category_suggestion">카테고리로 콘텐츠를 정리해보세요.</string>
+    <string name="havit_capital_letter">HAVIT</string>
+    <string name="now">지금</string>
     <string name="contents_recent_order">최신순</string>
     <string name="contents_past_order">과거순</string>
     <string name="contents_recent_view_order">최근 조회순</string>
