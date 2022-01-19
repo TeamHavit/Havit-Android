@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="vm"
+            type="org.sopt.havit.ui.contents.ContentsViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_white_radius_20"
+        android:background="@android:color/transparent"
         tools:context=".ui.contents.ContentsMoreFragment">
 
         <TextView
@@ -39,7 +42,7 @@
             android:layout_height="63dp"
             android:layout_marginStart="19dp"
             android:layout_marginTop="29dp"
-            android:src="@drawable/ic_alarm_black"
+            android:src="@{vm.contentsMore.image}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_more" />
 
@@ -50,19 +53,29 @@
             android:layout_marginStart="13dp"
             android:layout_marginEnd="24dp"
             android:maxLines="2"
-            android:text="TextView"
+            android:text="@{vm.contentsMore.description}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
 
         <TextView
+            android:id="@+id/tv_edit_create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="20201"
+            android:text="@{vm.contentsMore.createdAt}"
             app:layout_constraintStart_toStartOf="@+id/textView2"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{vm.contentsMore.url}"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_edit_create"
+            app:layout_constraintStart_toEndOf="@+id/tv_edit_create"
+            app:layout_constraintTop_toTopOf="@+id/tv_edit_create" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_edit"
@@ -85,9 +98,9 @@
                 android:id="@+id/tv_edit_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="84dp"
-                android:textAppearance="@style/Text16Regular"
+                android:layout_marginStart="7dp"
                 android:text="@string/contents_edit_title"
+                android:textAppearance="@style/Text16Regular"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView3"
                 app:layout_constraintStart_toEndOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="@+id/imageView3" />
@@ -118,9 +131,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="84dp"
-                android:textAppearance="@style/Text16Regular"
+                android:layout_marginStart="7dp"
                 android:text="@string/contents_edit_share"
+                android:textAppearance="@style/Text16Regular"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_edit_share"
                 app:layout_constraintStart_toEndOf="@+id/iv_edit_share"
                 app:layout_constraintTop_toTopOf="@+id/iv_edit_share" />
@@ -151,9 +164,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="84dp"
-                android:textAppearance="@style/Text16Regular"
+                android:layout_marginStart="7dp"
                 android:text="@string/contents_edit_category_move"
+                android:textAppearance="@style/Text16Regular"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_edit_move"
                 app:layout_constraintStart_toEndOf="@+id/iv_edit_move"
                 app:layout_constraintTop_toTopOf="@+id/iv_edit_move" />
@@ -185,9 +198,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="96dp"
-                android:textAppearance="@style/Text16Regular"
+                android:layout_marginStart="7dp"
                 android:text="@string/contents_edit_category_move"
+                android:textAppearance="@style/Text16Regular"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_edit_alarm"
                 app:layout_constraintStart_toEndOf="@+id/iv_edit_alarm"
                 app:layout_constraintTop_toTopOf="@+id/iv_edit_alarm" />
@@ -221,7 +234,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="96dp"
+                android:layout_marginStart="7dp"
                 android:text="@string/contents_edit_delete"
                 android:textAppearance="@style/Text16Regular"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_edit_delete"

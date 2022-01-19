@@ -73,7 +73,7 @@ class SearchContentsAdapter(searchViewModel: SearchViewModel,fragmentManager: Fr
                 it.context.startActivity(intent)
             }
             binding.ivSetting.setOnClickListener {
-                ContentsMoreFragment().show(mFragmentManager,"setting")
+                ContentsMoreFragment(data).show(mFragmentManager,"setting")
             }
         }
     }
