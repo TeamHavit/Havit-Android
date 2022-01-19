@@ -11,6 +11,7 @@ import org.sopt.havit.R
 import org.sopt.havit.util.BindingAdapter.defaultImageGrid
 import org.sopt.havit.util.BindingAdapter.defaultImageLinearMax
 
+
 object BindingAdapter {
 
     // item_category
@@ -46,6 +47,17 @@ object BindingAdapter {
             btn.setBackgroundColor(Color.parseColor("#afafb7"))
         }
     }
+
+
+    @BindingAdapter("imageSearch")
+    @JvmStatic
+    fun ImageView.loadSearch(url: String) {
+        Glide.with(context)
+            .load(url)
+            .placeholder(R.drawable.img_contents_dummy)
+            .into(this)
+    }
+
 
     @BindingAdapter("imageDefaultLinearMin")
     @JvmStatic

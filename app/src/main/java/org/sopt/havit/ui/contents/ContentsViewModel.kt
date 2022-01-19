@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.ContentsResponse
+import org.sopt.havit.data.remote.ContentsSearchResponse
 
 class ContentsViewModel : ViewModel() {
     private val _contentsList = MutableLiveData<List<ContentsResponse.ContentsData>>()
@@ -22,6 +23,8 @@ class ContentsViewModel : ViewModel() {
 
     private val _orderState = MutableLiveData<String>()
     val orderState: LiveData<String> = _orderState
+
+    var contentsMore = MutableLiveData< ContentsSearchResponse.Data>()
 
     fun requestContentsTaken(categoryId: Int, option: String, filter: String, name: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -44,5 +47,9 @@ class ContentsViewModel : ViewModel() {
 
             }
         }
+    }
+
+    fun setContentsView(data: ContentsSearchResponse.Data){
+        contentsMore.value=data
     }
 }
