@@ -141,7 +141,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun clickAddContents() {
         binding.tvAddContents.setOnClickListener {
-            SaveFragment().show(supportFragmentManager, "언니 사랑해")
+            SaveFragment(name).show(supportFragmentManager, "언니 사랑해")
         }
     }
 

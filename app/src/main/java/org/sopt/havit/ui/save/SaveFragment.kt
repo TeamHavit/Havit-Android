@@ -18,9 +18,10 @@ import org.sopt.havit.databinding.FragmentSaveBinding
 import org.sopt.havit.util.KeyBoardUtil
 
 
-class SaveFragment : BottomSheetDialogFragment() {
+class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentSaveBinding
+    var categoryName=categoryName
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
