@@ -33,6 +33,12 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
     <!-- values/fonts.xml -->
     <style name="Bold38">
         <item name="android:fontFamily">@font/pretendard</item>
@@ -288,4 +294,18 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
+    <style name="Order18Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+    </style>
+
+    <style name="Order16Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">-0.016</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+    </style>
 </resources>

@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{contentsViewModel.categoryName}"
                     android:textAppearance="@style/Header16Bold"
-                    android:textColor="@color/gray_3"
+                    android:textColor="@color/havit_gray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -236,8 +236,8 @@
                             android:textColor="@color/selector_chip_text"
                             app:chipBackgroundColor="@color/selector_chip"
                             app:chipMinTouchTargetSize="0dp"
-                            app:textEndPadding="14dp"
-                            app:textStartPadding="14dp" />
+                            app:textEndPadding="10dp"
+                            app:textStartPadding="10dp" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/ch_unseen"
@@ -249,8 +249,8 @@
                             android:textColor="@color/selector_chip_text"
                             app:chipBackgroundColor="@color/selector_chip"
                             app:chipMinTouchTargetSize="0dp"
-                            app:textEndPadding="14dp"
-                            app:textStartPadding="14dp" />
+                            app:textEndPadding="10dp"
+                            app:textStartPadding="10dp" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/ch_seen"
@@ -262,8 +262,8 @@
                             android:textColor="@color/selector_chip_text"
                             app:chipBackgroundColor="@color/selector_chip"
                             app:chipMinTouchTargetSize="0dp"
-                            app:textEndPadding="14dp"
-                            app:textStartPadding="14dp" />
+                            app:textEndPadding="10dp"
+                            app:textStartPadding="10dp" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/ch_alarm"
@@ -275,8 +275,8 @@
                             app:chipIconEnabled="true"
                             app:chipMinTouchTargetSize="0dp"
                             app:ensureMinTouchTargetSize="false"
-                            app:iconEndPadding="10dp"
-                            app:iconStartPadding="10dp"
+                            app:iconEndPadding="6dp"
+                            app:iconStartPadding="6dp"
                             app:textEndPadding="0dp"
                             app:textStartPadding="0dp" />
 
@@ -288,7 +288,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
                         android:layout_marginBottom="18dp"
-                        android:text="@string/contents_order_default"
+                        android:text="@string/contents_recent_order"
                         android:textAppearance="@style/Sub12Medium"
                         android:textColor="@color/gray_3"
                         app:layout_constraintBottom_toBottomOf="parent"

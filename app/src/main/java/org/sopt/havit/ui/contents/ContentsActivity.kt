@@ -1,28 +1,29 @@
 package org.sopt.havit.ui.contents
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsBinding
+import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.save.SaveFragment
+import org.sopt.havit.ui.search.SearchActivity
+import org.sopt.havit.ui.web.WebActivity
 
-class ContentsActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityContentsBinding
+class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
     private val contentsViewModel: ContentsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityContentsBinding.inflate(layoutInflater)
 
         binding.contentsViewModel = contentsViewModel
 
@@ -35,7 +36,11 @@ class ContentsActivity : AppCompatActivity() {
         clickBack()
         initSearchSticky()
         clickAddContents()
+        setOrderDialog()
+        moveSearch()
+        clickItemView()
     }
+
 
     private fun initAdapter() {
         contentsAdapter = ContentsAdapter()
@@ -61,10 +66,8 @@ class ContentsActivity : AppCompatActivity() {
                 name = it
             }
             contentsViewModel.requestContentsTaken(id, "all", "seen_at", name)
-            binding.tvCategory.text = name
             Log.d("categoryName", "$name")
         }
-
     }
 
 
@@ -86,10 +89,6 @@ class ContentsActivity : AppCompatActivity() {
                 }
                 contentsAdapter.contentsList.addAll(it)
                 contentsAdapter.notifyDataSetChanged()
-            }
-
-            contentsCount.observe(this@ContentsActivity) {
-                binding.tvContentsCount.text = it.toString()
             }
         }
     }
@@ -158,6 +157,51 @@ class ContentsActivity : AppCompatActivity() {
         }
 
         alertDialog.show()
+    }
+
+    private fun setOrderDialog() {
+        val bottomSheetView = layoutInflater.inflate(R.layout.dialog_contents_order, null)
+        val bottomSheetDialog = BottomSheetDialog(this)
+        bottomSheetDialog.setContentView(bottomSheetView)
+
+//        when(binding.tvOrder.text){
+//            "최신순"->{
+//                findViewById<View>(R.id.cl_recent).setBackgroundColor(Color.parseColor("#8578ff"))
+//                findViewById<TextView>(R.id.tv_recent).setTextColor(Color.parseColor("#272b30"))
+//            }
+//            "과거순"->{
+//                findViewById<View>(R.id.cl_past).setBackgroundColor(Color.parseColor("#8578ff"))
+//                findViewById<TextView>(R.id.tv_past).setTextColor(Color.parseColor("#272b30"))
+//            }
+//            "최근 죄회순"->{
+//                findViewById<View>(R.id.cl_past).setBackgroundColor(Color.parseColor("#8578ff"))
+//                findViewById<TextView>(R.id.tv_past).setTextColor(Color.parseColor("#272b30"))
+//            }
+//        }
+
+        binding.tvOrder.setOnClickListener {
+            bottomSheetDialog.show()
+        }
+    }
+
+    private fun moveSearch() {
+        binding.clSearch.setOnClickListener {
+            val intent = Intent(this, SearchActivity::class.java)
+            intent.putExtra("categoryName", "${contentsViewModel.categoryName}")
+            startActivity(intent)
+        }
+    }
+
+    private fun clickItemView() {
+        contentsAdapter.setItemClickListener(object : ContentsAdapter.OnItemClickListener {
+            override fun onWebClick(v: View, position: Int) {
+                // ContentsFragment -> ContentsActivity로 바꾸고 ContentsActivity로 이동
+                val intent = Intent(v.context, WebActivity::class.java)
+                contentsViewModel.contentsList.value?.get(position)
+                    ?.let { intent.putExtra("url", it.url) }
+                startActivity(intent)
+            }
+        })
     }
 
     companion object {

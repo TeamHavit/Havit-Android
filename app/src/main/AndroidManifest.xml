@@ -16,7 +16,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_havit_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Havit">
+        android:theme="@style/Theme.Havit"
+        android:usesCleartextTraffic="true">
 
         <service
             android:name=".MyFirebaseMessagingService"
@@ -27,17 +28,23 @@
         </service>
 
 
-        <!-- 상태표시줄에 뜨는거인줄 알았는데 아니네..? -->
+        <!-- 상태표시줄에 뜨는 아이콘 -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_havit_radious_10" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!-- 상태표시줄에 뜨는 앱 이름 텍스트 컬러 -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/havit_gray" />
 
 
+        <activity
+            android:name=".ui.web.WebActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.save.SaveActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.contents.ContentsActivity"
             android:exported="false" />
@@ -82,10 +89,8 @@
                     android:scheme="kakao6069fb41c205cbbf8f213b32eec7f2c8" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.search.SearchActivity"/>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".ui.search.SearchActivity" />
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true">

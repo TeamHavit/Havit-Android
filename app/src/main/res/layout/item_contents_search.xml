@@ -9,11 +9,10 @@
 
         <variable
             name="content"
-            type="org.sopt.havit.data.remote.ContentsResponse.ContentsData" />
+            type="org.sopt.havit.data.remote.ContentsSearchResponse.Data" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_contents_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

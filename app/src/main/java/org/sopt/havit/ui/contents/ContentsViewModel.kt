@@ -29,7 +29,7 @@ class ContentsViewModel : ViewModel() {
                     .getCategoryContents(categoryId, seen, filter)
                 _contentsList.postValue(response.data)
                 _contentsCount.postValue(response.data.size)
-                _categoryName.value = name
+                _categoryName.postValue(name)
             } catch (e: Exception) { }
         }
     }
