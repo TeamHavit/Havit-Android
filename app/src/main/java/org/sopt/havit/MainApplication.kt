@@ -39,7 +39,7 @@ class MainApplication :Application() {
     }
 
     private val myViewModel = module {
-        viewModel { SearchViewModel(get()) }
+        viewModel { SearchViewModel(get(),get()) }
         viewModel { MyPageViewModel(get()) }
         viewModel { WebViewModel(get()) }
     }

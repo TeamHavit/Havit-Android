@@ -10,9 +10,13 @@
         <variable
             name="content"
             type="org.sopt.havit.data.remote.ContentsSearchResponse.Data" />
+        <variable
+            name="vm"
+            type="org.sopt.havit.ui.search.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_search_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -154,7 +158,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="7dp"
             android:layout_marginBottom="1dp"
-            android:src="@drawable/ic_contents_unread"
+            imgRes="@{content.isSeen == true ? @drawable/ic_contents_read_2 : @drawable/ic_contents_unread}"
             android:tag="unseen"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
