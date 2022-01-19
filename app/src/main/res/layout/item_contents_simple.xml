@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="content"
             type="org.sopt.havit.data.remote.ContentsSimpleResponse.ContentsSimpleData" />
@@ -61,7 +63,7 @@
             app:layout_constraintEnd_toStartOf="@+id/iv_setting"
             app:layout_constraintStart_toEndOf="@+id/fl_image"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="슈슈슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉" />
+            tools:text="슈슉슉슉 이것은 제목입니다 슈슉" />
 
         <TextView
             android:id="@+id/tv_description"
@@ -87,8 +89,9 @@
             android:text="@{content.createdAt}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintBottom_toTopOf="@id/tv_alarm"
             app:layout_constraintStart_toEndOf="@+id/fl_image"
-            app:layout_constraintTop_toBottomOf="@+id/tv_description"
             tools:text="2021. 11. 24" />
 
         <TextView
@@ -133,7 +136,6 @@
             android:textColor="@color/havit_purple"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_date"
-            app:layout_constraintTop_toBottomOf="@+id/tv_date"
             tools:text="2021. 11. 17 오전 12:30 " />
 
         <TextView
@@ -143,6 +145,7 @@
             android:text="@string/contents_alarm_plan"
             android:textAppearance="@style/Semibold9"
             android:textColor="@color/havit_purple"
+            android:visibility="@{content.isNotified? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/tv_alarm"
             app:layout_constraintStart_toEndOf="@+id/tv_alarm"
             app:layout_constraintTop_toTopOf="@+id/tv_alarm" />
