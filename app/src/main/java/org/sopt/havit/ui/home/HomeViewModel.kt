@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.*
+import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 
 class HomeViewModel : ViewModel() {
@@ -20,6 +21,20 @@ class HomeViewModel : ViewModel() {
                     RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
                         .getContentsRecent()
                 _contentsList.postValue(response.data)
+            } catch (e: Exception) {
+            }
+        }
+    }
+
+    private val _categoryData = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
+    val categoryData: LiveData<List<CategoryResponse.AllCategoryData>> = _categoryData
+    fun requestCategoryTaken() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response =
+                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
+                        .getAllCategory()
+                _categoryData.postValue(response.data)
             } catch (e: Exception) {
             }
         }
@@ -48,54 +63,54 @@ class HomeViewModel : ViewModel() {
         _reachData.value = homeReach
     }
 
-    private val _categoryData = MutableLiveData<List<HomeCategoryListData>>().apply {
-        val list = mutableListOf<CategoryData>()
-        for (i in 1..6) {
-            list.add(
-                CategoryData(
-                    3,
-                    "슉슉",
-                    "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                    0,
-                    1
-                )
-            )
-        }
-        value = listOf(
-            HomeCategoryListData(list),
-            HomeCategoryListData(list),
-            HomeCategoryListData(list),
-            HomeCategoryListData(
-                listOf(
-                    CategoryData(
-                        3,
-                        "슉슉",
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        0,
-                        1
-                    ),
-                    CategoryData(
-                        3,
-                        "슉슉",
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        0,
-                        1
-                    ),
-                    CategoryData(
-                        3,
-                        "슉슉",
-                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                        0,
-                        1
-                    )
-                )
-            )
-        )
-    }
-    val categoryData: LiveData<List<HomeCategoryListData>> = _categoryData
-    fun requestCategoryData(homeCategoryData: List<HomeCategoryListData>) {
-        _categoryData.value = homeCategoryData
-    }
+//    private val _categoryData = MutableLiveData<List<HomeCategoryListData>>().apply {
+//        val list = mutableListOf<CategoryData>()
+//        for (i in 1..6) {
+//            list.add(
+//                CategoryData(
+//                    3,
+//                    "슉슉",
+//                    "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+//                    0,
+//                    1
+//                )
+//            )
+//        }
+//        value = listOf(
+//            HomeCategoryListData(list),
+//            HomeCategoryListData(list),
+//            HomeCategoryListData(list),
+//            HomeCategoryListData(
+//                listOf(
+//                    CategoryData(
+//                        3,
+//                        "슉슉",
+//                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+//                        0,
+//                        1
+//                    ),
+//                    CategoryData(
+//                        3,
+//                        "슉슉",
+//                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+//                        0,
+//                        1
+//                    ),
+//                    CategoryData(
+//                        3,
+//                        "슉슉",
+//                        "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
+//                        0,
+//                        1
+//                    )
+//                )
+//            )
+//        )
+//    }
+//    val categoryData: LiveData<List<HomeCategoryListData>> = _categoryData
+//    fun requestCategoryData(homeCategoryData: List<HomeCategoryListData>) {
+//        _categoryData.value = homeCategoryData
+//    }
 
     private val _recommendList = MutableLiveData<List<HomeRecommendData>>()
     val recommendList: LiveData<List<HomeRecommendData>> = _recommendList
