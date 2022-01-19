@@ -35,7 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_back_black" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_web_url"
                 android:layout_width="0dp"
                 android:layout_height="33dp"
@@ -45,7 +45,9 @@
                 android:background="@drawable/rectangle_gray_0_radius_4"
                 android:ellipsize="end"
                 android:enabled="false"
-                android:text="asdfasdfasdf"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="@{vm.contentsUrl}"
                 android:textAppearance="@style/Text16Regular"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/ib_web_back"
@@ -79,56 +81,56 @@
 
         <LinearLayout
             android:id="@+id/ll_web_bottom"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="45dp"
             android:background="@color/white_gray"
-            android:orientation="horizontal"
             android:weightSum="2"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <LinearLayout
                 android:id="@+id/ll_web_share"
-                android:layout_width="wrap_content"
+                android:layout_width="180dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal">
+                android:gravity="center"
+                android:layout_weight="1">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_share" />
+                    android:src="@drawable/ic_share"
+                    android:layout_gravity="center"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_webview"
-                android:layout_width="wrap_content"
+                android:layout_width="180dp"
                 android:layout_height="match_parent"
                 android:background="@color/white_gray"
+                android:orientation="horizontal"
+                android:gravity="center"
                 android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/iv_webview_unread"
+                    android:layout_gravity="center"
+                    imgRes="@{vm.isHavit == true ? @drawable/ic_contents_unread : @drawable/ic_contents_read_2}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-
-
-                    <TextView
+                <TextView
                     android:id="@+id/tv_webview_unread"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="@{vm.isHavit == true ? @string/webview_unread: @string/webview_read}"
                     android:textAppearance="@style/Sub13Regular"
+                    android:textColor="@color/gray_2"
+                     />
 
-                    android:textColor="@color/gray_2" />
 
-                    <ImageView
-                        android:id="@+id/iv_webview_unread"
-                        imgRes="@{vm.isHavit == true ? @drawable/ic_contents_unread : @drawable/ic_contents_read_2}"
-                        android:layout_width="30dp"
-                        android:layout_height="42dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
 
             </LinearLayout>
         </LinearLayout>

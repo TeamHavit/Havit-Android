@@ -9,7 +9,7 @@ import org.sopt.havit.data.repository.ContentsRepository
 class WebViewModel(private val contentsRepository: ContentsRepository) : ViewModel() {
 
     var isHavit = MutableLiveData<Boolean>()
-
+    var contentsUrl = MutableLiveData<String>()
 
     fun init(havit: Boolean) {
         isHavit.value = havit
@@ -24,6 +24,10 @@ class WebViewModel(private val contentsRepository: ContentsRepository) : ViewMod
         }
 
     }
+    fun setUrl(url:String){
+        contentsUrl.value=url
+    }
+
 
     fun unHavit() {
         isHavit.value = false
