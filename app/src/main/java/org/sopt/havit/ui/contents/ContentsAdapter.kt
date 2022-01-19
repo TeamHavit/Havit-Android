@@ -18,35 +18,57 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
             binding.content = data
+            if(data.isSeen){
+                binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
+            }
+            else{
+                binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+            }
         }
 
         fun onClick() {
             binding.ivHavit.setOnClickListener {
-                if (binding.ivHavit.tag == "unseen") {
+                if(binding.content?.isSeen == false){
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-                    binding.ivHavit.tag = "seen"
-                } else if (binding.ivHavit.tag == "seen") {
+                }
+                else{
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
-                    binding.ivHavit.tag = "unseen"
                 }
             }
         }
+
+//        fun onClick() {
+//            binding.ivHavit.setOnClickListener {
+//                if (binding.ivHavit.tag == "unseen") {
+//                    binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
+//                    binding.ivHavit.tag = "seen"
+//                } else if (binding.ivHavit.tag == "seen") {
+//                    binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+//                    binding.ivHavit.tag = "unseen"
+//                }
+//            }
+//        }
     }
 
     class GridViewHolder(private val binding: ItemContentsGridBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
             binding.content = data
+            if(data.isSeen){
+                binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
+            }
+            else{
+                binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+            }
         }
 
         fun onClick() {
             binding.ivHavit.setOnClickListener {
-                if (binding.ivHavit.tag == "unseen") {
+                if(binding.content?.isSeen == false){
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-                    binding.ivHavit.tag = "seen"
-                } else if (binding.ivHavit.tag == "seen") {
+                }
+                else{
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
-                    binding.ivHavit.tag = "unseen"
                 }
             }
         }
@@ -56,16 +78,21 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
             binding.content = data
+            if(data.isSeen){
+                binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
+            }
+            else{
+                binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+            }
         }
 
         fun onClick() {
             binding.ivHavit.setOnClickListener {
-                if (binding.ivHavit.tag == "unseen") {
+                if(binding.content?.isSeen == false){
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-                    binding.ivHavit.tag = "seen"
-                } else if (binding.ivHavit.tag == "seen") {
+                }
+                else{
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
-                    binding.ivHavit.tag = "unseen"
                 }
             }
         }

@@ -1,12 +1,13 @@
 package org.sopt.havit.ui.contents
 
-import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,10 @@ import org.sopt.havit.ui.web.WebActivity
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
     private val contentsViewModel: ContentsViewModel by viewModels()
+    private var id = 0
+    private var name = "error"
+    private var seen: String = "all"
+    private var filter: String = "created_at"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +34,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         setContentView(binding.root)
         initAdapter()
-        setData()
+        setData(seen, filter)
         dataObserve()
         decorationView()
         changeLayout()
@@ -56,16 +61,15 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         )
     }
 
-    private fun setData() {
-        val id = intent.getIntExtra("categoryId", 0)
+    private fun setData(s: String, f: String) {
+        id = intent.getIntExtra("categoryId", 0)
         if (id == 0) {
             Log.d("categoryId", "error")
         } else {
-            var name: String = "error"
             intent.getStringExtra("categoryName")?.let {
                 name = it
             }
-            contentsViewModel.requestContentsTaken(id, "all", "seen_at", name)
+            contentsViewModel.requestContentsTaken(id, s, f, name)
             Log.d("categoryName", "$name")
         }
     }
@@ -87,6 +91,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                         Log.d("visibility", " fail")
                     }
                 }
+                contentsAdapter.contentsList.clear()
                 contentsAdapter.contentsList.addAll(it)
                 contentsAdapter.notifyDataSetChanged()
             }
@@ -139,49 +144,75 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         }
     }
 
-    private fun setAlertDialog() {
-        val layoutInflater = LayoutInflater.from(this)
-        val view = layoutInflater.inflate(R.layout.dialog_contents_top, null)
-
-        val alertDialog = AlertDialog.Builder(this, R.style.CustomAlertDialogStyle)
-            .setView(view)
-            .create()
-
-        val buttonClose = view.findViewById<View>(R.id.btn_cancel)
-        val buttonDelete = view.findViewById<View>(R.id.btn_delete)
-        buttonClose.setOnClickListener {
-            alertDialog.dismiss()
-        }
-        buttonDelete.setOnClickListener {
-
-        }
-
-        alertDialog.show()
-    }
-
     private fun setOrderDialog() {
         val bottomSheetView = layoutInflater.inflate(R.layout.dialog_contents_order, null)
         val bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(bottomSheetView)
 
-//        when(binding.tvOrder.text){
-//            "최신순"->{
-//                findViewById<View>(R.id.cl_recent).setBackgroundColor(Color.parseColor("#8578ff"))
-//                findViewById<TextView>(R.id.tv_recent).setTextColor(Color.parseColor("#272b30"))
-//            }
-//            "과거순"->{
-//                findViewById<View>(R.id.cl_past).setBackgroundColor(Color.parseColor("#8578ff"))
-//                findViewById<TextView>(R.id.tv_past).setTextColor(Color.parseColor("#272b30"))
-//            }
-//            "최근 죄회순"->{
-//                findViewById<View>(R.id.cl_past).setBackgroundColor(Color.parseColor("#8578ff"))
-//                findViewById<TextView>(R.id.tv_past).setTextColor(Color.parseColor("#272b30"))
-//            }
-//        }
-
         binding.tvOrder.setOnClickListener {
+            when (binding.tvOrder.text) {
+                "최신순" -> {
+                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent)
+                        .setBackgroundColor(Color.parseColor("#f7f6ff"))
+                    bottomSheetView.findViewById<TextView>(R.id.tv_recent)
+                        .setTextColor(Color.parseColor("#8578ff"))
+                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past)
+                        .setBackgroundColor(Color.parseColor("#ffffff"))
+                    bottomSheetView.findViewById<TextView>(R.id.tv_past)
+                        .setTextColor(Color.parseColor("#424247"))
+                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view)
+                        .setBackgroundColor(Color.parseColor("#ffffff"))
+                    bottomSheetView.findViewById<TextView>(R.id.tv_view)
+                        .setTextColor(Color.parseColor("#424247"))
+                }
+                "과거순" -> {
+                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past)
+                        .setBackgroundColor(Color.parseColor("#f7f6ff"))
+                    bottomSheetView.findViewById<TextView>(R.id.tv_past)
+                        .setTextColor(Color.parseColor("#8578ff"))
+                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent)
+                        .setBackgroundColor(Color.parseColor("#ffffff"))
+                    bottomSheetView.findViewById<TextView>(R.id.tv_recent)
+                        .setTextColor(Color.parseColor("#424247"))
+                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view)
+                        .setBackgroundColor(Color.parseColor("#ffffff"))
+                    bottomSheetView.findViewById<TextView>(R.id.tv_view)
+                        .setTextColor(Color.parseColor("#424247"))
+                }
+                else -> {
+                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view)
+                        .setBackgroundColor(Color.parseColor("#f7f6ff"))
+                    bottomSheetView.findViewById<TextView>(R.id.tv_view)
+                        .setTextColor(Color.parseColor("#8578ff"))
+                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent)
+                        .setBackgroundColor(Color.parseColor("#ffffff"))
+                    bottomSheetView.findViewById<TextView>(R.id.tv_recent)
+                        .setTextColor(Color.parseColor("#424247"))
+                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past)
+                        .setBackgroundColor(Color.parseColor("#ffffff"))
+                    bottomSheetView.findViewById<TextView>(R.id.tv_past)
+                        .setTextColor(Color.parseColor("#424247"))
+                }
+            }
             bottomSheetDialog.show()
         }
+
+        bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent).setOnClickListener {
+            contentsViewModel.requestContentsTaken(id, seen, "created_at", name)
+            binding.tvOrder.text = "최신순"
+            bottomSheetDialog.dismiss()
+        }
+        bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past).setOnClickListener {
+            contentsViewModel.requestContentsTaken(id, seen, "reverse", name)
+            binding.tvOrder.text = "과거순"
+            bottomSheetDialog.dismiss()
+        }
+        bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view).setOnClickListener {
+            contentsViewModel.requestContentsTaken(id, seen, "seen_at", name)
+            binding.tvOrder.text = "최근 조회순"
+            bottomSheetDialog.dismiss()
+        }
+
     }
 
     private fun moveSearch() {
@@ -195,7 +226,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun clickItemView() {
         contentsAdapter.setItemClickListener(object : ContentsAdapter.OnItemClickListener {
             override fun onWebClick(v: View, position: Int) {
-                // ContentsFragment -> ContentsActivity로 바꾸고 ContentsActivity로 이동
                 val intent = Intent(v.context, WebActivity::class.java)
                 contentsViewModel.contentsList.value?.get(position)
                     ?.let { intent.putExtra("url", it.url) }

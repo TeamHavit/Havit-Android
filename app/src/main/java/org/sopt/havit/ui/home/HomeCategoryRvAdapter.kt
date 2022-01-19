@@ -1,18 +1,19 @@
 package org.sopt.havit.ui.home
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
-import org.sopt.havit.data.CategoryData
+import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemHomeCategoryListBinding
 
 class HomeCategoryRvAdapter :
     RecyclerView.Adapter<HomeCategoryRvAdapter.HomeCategoryRvViewHolder>() {
 
     private lateinit var binding: ItemHomeCategoryListBinding
-    val categoryList = mutableListOf<CategoryData>()
+    val categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
     private var viewType = 1
 
     override fun getItemViewType(position: Int): Int {
@@ -21,7 +22,8 @@ class HomeCategoryRvAdapter :
 
     class HomeCategoryRvViewHolder(private val binding: ItemHomeCategoryListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: CategoryData, position: Int) {
+        fun onBind(data: CategoryResponse.AllCategoryData, position: Int) {
+            Log.d("HOMECATEGORYRVADAPTER", data.url)
             binding.dataHomeCategory = data
 
             if (position == isFirst) {
@@ -34,7 +36,6 @@ class HomeCategoryRvAdapter :
                         binding.clCategoryItem.setBackgroundResource(R.drawable.rectangle_purple_category_radius_6)
                         binding.ivIcon.visibility = View.VISIBLE
                     }
-
                 }
             }
         }
