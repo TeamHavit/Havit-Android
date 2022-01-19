@@ -90,7 +90,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
 
         var builder = NotificationCompat.Builder(this, channelID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_havit_radious_10)
             .setAutoCancel(true)
             .setVibrate(longArrayOf(1000, 500, 1000, 500))  // 1초 울리고 0.5초 쉬고
             .setOnlyAlertOnce(true)

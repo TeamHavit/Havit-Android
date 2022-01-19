@@ -3,29 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/rl_notification"
     android:layout_height="91dp"
-    android:layout_marginLeft="30dp"
-    android:layout_marginRight="30dp"
-    android:background="@drawable/rectangle_black_radius_20"
-    android:padding="13dp">
+    android:padding="15dp">
+
 
     <ImageView
         android:id="@+id/iv_image"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_marginStart="6dp"
+        android:layout_marginLeft="1dp"
         android:layout_marginTop="1dp"
         tools:src="@drawable/ic_havit_radious_10" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@id/iv_image"
+        android:text="@string/havit_capital_letter"
+        android:textAppearance="@style/Text14Medium"
+        android:textColor="@color/havit_gray" />
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="1dp"
+        android:layout_below="@id/iv_image"
+        android:layout_alignStart="@id/iv_image"
+        android:layout_marginTop="7dp"
         android:layout_toEndOf="@id/iv_image"
         android:textAppearance="@style/Text12Semibold"
-        android:textColor="@color/white"
+        android:textColor="@color/havit_gray"
         android:textSize="15sp"
         android:textStyle="bold"
         tools:text="읽지않은 컨텐츠" />
@@ -35,12 +45,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_title"
-        android:layout_marginStart="16dp"
+        android:layout_alignStart="@id/iv_image"
+        android:layout_marginTop="2dp"
         android:layout_toEndOf="@id/iv_image"
         android:textAppearance="@style/Sub12Regular"
-        android:textColor="@color/white"
+        android:textColor="@color/havit_gray"
         app:layout_constraintStart_toStartOf="@id/tv_title"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         tools:text="description" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/now"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="1dp"/>
+
 
 </RelativeLayout>

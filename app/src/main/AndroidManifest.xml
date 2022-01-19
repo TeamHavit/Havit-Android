@@ -27,14 +27,15 @@
         </service>
 
 
+        <!-- 상태표시줄에 뜨는거인줄 알았는데 아니네..? -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_launcher_foreground" />
+            android:resource="@drawable/ic_havit_radious_10" />
         <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more. -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/teal_200" />
+            android:resource="@color/havit_gray" />
 
 
         <activity
