@@ -84,4 +84,9 @@
     <string name="contents_recent_order">최신순</string>
     <string name="contents_past_order">과거순</string>
     <string name="contents_recent_view_order">최근 조회순</string>
+    <string name="contents_edit_title">제목 수정</string>
+    <string name="contents_edit_share">공유하기</string>
+    <string name="contents_edit_category_move">카테고리 이동</string>
+    <string name="contents_edit_alarm">알림 설정</string>
+    <string name="contents_edit_delete">삭제</string>
 </resources>

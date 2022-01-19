@@ -3,14 +3,16 @@ package org.sopt.havit.ui.search
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ItemContentsSearchBinding
+import org.sopt.havit.ui.contents.ContentsMoreFragment
 import org.sopt.havit.ui.web.WebActivity
 
-class SearchContentsAdapter(searchViewModel: SearchViewModel) :
+class SearchContentsAdapter(searchViewModel: SearchViewModel,fragmentManager: FragmentManager) :
     RecyclerView.Adapter<SearchContentsAdapter.SearchContentsViewHolder>() {
 
     private var searchContents = mutableListOf<ContentsSearchResponse.Data>()
@@ -23,6 +25,9 @@ class SearchContentsAdapter(searchViewModel: SearchViewModel) :
         binding.vm = viewModel
         return SearchContentsViewHolder(binding)
     }
+
+    private var mFragmentManager : FragmentManager = fragmentManager
+
 
     override fun onBindViewHolder(holder: SearchContentsViewHolder, position: Int) {
         holder.bind(position, searchContents[position])
@@ -66,6 +71,9 @@ class SearchContentsAdapter(searchViewModel: SearchViewModel) :
                 var intent = Intent(it.context,WebActivity::class.java)
                 intent.putExtra("url",data.url)
                 it.context.startActivity(intent)
+            }
+            binding.ivSetting.setOnClickListener {
+                ContentsMoreFragment().show(mFragmentManager,"setting")
             }
         }
     }
