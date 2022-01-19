@@ -20,7 +20,7 @@
         <FrameLayout
             android:id="@+id/fl_image"
             android:layout_width="match_parent"
-            android:layout_height="109dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:layout_marginTop="17dp"
             android:layout_marginEnd="6dp"
@@ -38,7 +38,7 @@
                     android:id="@+id/iv_thumbnail"
                     imageDefaultGrid="@{content.image}"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="109dp"
                     android:scaleType="centerCrop"
                     tools:src="@drawable/img_contents_dummy_2" />
             </androidx.cardview.widget.CardView>
