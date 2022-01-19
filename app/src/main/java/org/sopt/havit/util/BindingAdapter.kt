@@ -2,11 +2,15 @@ package org.sopt.havit.util
 
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import org.sopt.havit.R
+import org.sopt.havit.util.BindingAdapter.defaultImageGrid
+import org.sopt.havit.util.BindingAdapter.defaultImageLinearMax
+
 
 object BindingAdapter {
 
@@ -44,6 +48,7 @@ object BindingAdapter {
         }
     }
 
+
     @BindingAdapter("imageSearch")
     @JvmStatic
     fun ImageView.loadSearch(url: String) {
@@ -54,5 +59,45 @@ object BindingAdapter {
     }
 
 
+    @BindingAdapter("imageDefaultLinearMin")
+    @JvmStatic
+    fun ImageView.defaultImageLinearMin(url: String) {
+        Log.d("imageSet", "1")
+        if(url==""){
+            setImageResource(R.drawable.img_contents_dummy)
+        }
+        else{
+            Glide.with(context)
+                .load(url)
+                .into(this)
+        }
+    }
 
+    @BindingAdapter("imageDefaultGrid")
+    @JvmStatic
+    fun ImageView.defaultImageGrid(url: String) {
+        Log.d("imageSet", "2")
+        if(url==""){
+            setImageResource(R.drawable.img_contents_dummy_2)
+        }
+        else{
+            Glide.with(context)
+                .load(url)
+                .into(this)
+        }
+    }
+
+    @BindingAdapter("imageDefaultLinearMax")
+    @JvmStatic
+    fun ImageView.defaultImageLinearMax(url: String) {
+        Log.d("imageSet", "3")
+        if(url==""){
+            setImageResource(R.drawable.img_contents_dummy_3)
+        }
+        else{
+            Glide.with(context)
+                .load(url)
+                .into(this)
+        }
+    }
 }

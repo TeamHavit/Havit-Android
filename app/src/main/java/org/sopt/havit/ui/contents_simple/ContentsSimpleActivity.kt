@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsSimpleBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.save.SaveFragment
 
 class ContentsSimpleActivity :
     BaseBindingActivity<ActivityContentsSimpleBinding>(R.layout.activity_contents_simple) {
@@ -22,8 +23,8 @@ class ContentsSimpleActivity :
         setContentView(binding.root)
         binding.vmContents = contentsViewModel
 
-        initAdapter()
         initContents()
+        initAdapter()
         dataObserve()
         decorationView()
         clickBtnBack()
@@ -75,6 +76,9 @@ class ContentsSimpleActivity :
                             requestEmptyContents(getString(R.string.contents_simple_unseen_empty))
                         else
                             requestEmptyContents(getString(R.string.contents_simple_recent_save_empty))
+                        binding.tvAddCategory.setOnClickListener {
+                            SaveFragment("").show(supportFragmentManager, "save")
+                        }
                     } else {
                         binding.clContentsEmpty.visibility = View.GONE
                         val min = if (data.size < 20) data.size else 20

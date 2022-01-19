@@ -20,7 +20,7 @@
         <FrameLayout
             android:id="@+id/fl_image"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="16dp"
@@ -30,9 +30,10 @@
 
             <ImageView
                 android:id="@+id/iv_thumbnail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/img_contents_dummy" />
+                imageDefaultLinearMin="@{content.image}"
+                android:layout_width="102dp"
+                android:layout_height="104dp"
+                tools:src="@drawable/img_contents_dummy" />
 
             <ImageView
                 android:id="@+id/iv_alarm"
