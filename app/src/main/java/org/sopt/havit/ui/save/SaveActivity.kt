@@ -13,7 +13,7 @@ class SaveActivity : BaseBindingActivity<ActivitySaveBinding>(R.layout.activity_
         setContentView(binding.root)
 
         //val transaction = supportFragmentManager.beginTransaction()
-        SaveFragment().show(supportFragmentManager,"save")
+        SaveFragment("응가").show(supportFragmentManager,"save")
         /*transaction.add(R.id.fl_save, fragment)
         transaction.commit()*/
 

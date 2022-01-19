@@ -46,12 +46,7 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
     class CategoryViewHolder(private val binding: ItemCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: CategoryResponse.AllCategoryData) {
-            data.url = "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png"
             binding.category = data
-//            Glide.with(binding.ivCategoryIc.context)
-//                .load(data.url)
-//                .placeholder(R.drawable.ic_category_sample)
-//                .into(binding.ivCategoryIc)
         }
     }
 }
