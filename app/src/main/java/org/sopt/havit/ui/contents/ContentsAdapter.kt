@@ -10,11 +10,12 @@ import org.sopt.havit.databinding.ItemContentsGridBinding
 import org.sopt.havit.databinding.ItemContentsLinearMaxBinding
 import org.sopt.havit.databinding.ItemContentsLinearMinBinding
 
-class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ContentsAdapter(contentsViewModel: ContentsViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var contentsList = mutableListOf<ContentsResponse.ContentsData>()
-    private lateinit var itemClickListener: ContentsAdapter.OnItemClickListener
+    private lateinit var itemClickListener: OnItemClickListener
+    private var viewModel = contentsViewModel
 
-    class LinearMinViewHolder(private val binding: ItemContentsLinearMinBinding) :
+    inner class LinearMinViewHolder(private val binding: ItemContentsLinearMinBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
             binding.content = data
@@ -26,44 +27,9 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
         }
 
-        fun onClick() {
+        fun onClick(data: ContentsResponse.ContentsData) {
             binding.ivHavit.setOnClickListener {
-                if(binding.content?.isSeen == false){
-                    binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-                }
-                else{
-                    binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
-                }
-            }
-        }
-
-//        fun onClick() {
-//            binding.ivHavit.setOnClickListener {
-//                if (binding.ivHavit.tag == "unseen") {
-//                    binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-//                    binding.ivHavit.tag = "seen"
-//                } else if (binding.ivHavit.tag == "seen") {
-//                    binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
-//                    binding.ivHavit.tag = "unseen"
-//                }
-//            }
-//        }
-    }
-
-    class GridViewHolder(private val binding: ItemContentsGridBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ContentsResponse.ContentsData) {
-            binding.content = data
-            if(data.isSeen){
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-            }
-            else{
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
-            }
-        }
-
-        fun onClick() {
-            binding.ivHavit.setOnClickListener {
+                viewModel.setIsSeen(data.id)
                 if(binding.content?.isSeen == false){
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
                 }
@@ -74,7 +40,7 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    class LinearMaxViewHolder(private val binding: ItemContentsLinearMaxBinding) :
+    inner class GridViewHolder(private val binding: ItemContentsGridBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
             binding.content = data
@@ -86,7 +52,33 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
         }
 
-        fun onClick() {
+        fun onClick(data: ContentsResponse.ContentsData) {
+            binding.ivHavit.setOnClickListener {
+                viewModel.setIsSeen(data.id)
+                if(binding.content?.isSeen == false){
+                    binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
+                }
+                else{
+                    binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+                }
+            }
+        }
+    }
+
+    inner class LinearMaxViewHolder(private val binding: ItemContentsLinearMaxBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun onBind(data: ContentsResponse.ContentsData) {
+            binding.content = data
+            if(data.isSeen){
+                binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
+            }
+            else{
+                binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+            }
+        }
+
+        fun onClick(data: ContentsResponse.ContentsData) {
+            viewModel.setIsSeen(data.id)
             binding.ivHavit.setOnClickListener {
                 if(binding.content?.isSeen == false){
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
@@ -128,15 +120,15 @@ class ContentsAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         when (ContentsActivity.layout) {
             ContentsActivity.LINEAR_MIN_LAYOUT -> {
                 (holder as LinearMinViewHolder).onBind(contentsList[position])
-                holder.onClick()
+                holder.onClick(contentsList[position])
             }
             ContentsActivity.GRID_LAYOUT -> {
                 (holder as GridViewHolder).onBind(contentsList[position])
-                holder.onClick()
+                holder.onClick(contentsList[position])
             }
             ContentsActivity.LINEAR_MAX_LAYOUT -> {
                 (holder as LinearMaxViewHolder).onBind(contentsList[position])
-                holder.onClick()
+                holder.onClick(contentsList[position])
             }
         }
         // (1) 리스트 내 항목 클릭 시 onClick() 호출

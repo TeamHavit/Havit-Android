@@ -24,7 +24,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private val contentsViewModel: ContentsViewModel by viewModels()
     private var id = 0
     private var name = "error"
-    private var seen: String = "all"
+    private var option: String = "all"
     private var filter: String = "created_at"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         setContentView(binding.root)
         initAdapter()
-        setData(seen, filter)
+        setData(option, filter)
         dataObserve()
         decorationView()
         changeLayout()
@@ -49,7 +49,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
 
     private fun initAdapter() {
-        contentsAdapter = ContentsAdapter()
+        contentsAdapter = ContentsAdapter(contentsViewModel)
         binding.rvContents.adapter = contentsAdapter
     }
 
@@ -62,7 +62,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         )
     }
 
-    private fun setData(s: String, f: String) {
+    private fun setData(o: String, f: String) {
         id = intent.getIntExtra("categoryId", 0)
         if (id == 0) {
             Log.d("categoryId", "error")
@@ -70,7 +70,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             intent.getStringExtra("categoryName")?.let {
                 name = it
             }
-            contentsViewModel.requestContentsTaken(id, s, f, name)
+            contentsViewModel.requestContentsTaken(id, o, f, name)
             Log.d("categoryName", "$name")
         }
     }
@@ -200,19 +200,19 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent).setOnClickListener {
             filter = "created_at"
-            contentsViewModel.requestContentsTaken(id, seen, filter, name)
+            contentsViewModel.requestContentsTaken(id, option, filter, name)
             binding.tvOrder.text = "최신순"
             bottomSheetDialog.dismiss()
         }
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past).setOnClickListener {
             filter = "reverse"
-            contentsViewModel.requestContentsTaken(id, seen, filter, name)
+            contentsViewModel.requestContentsTaken(id, option, filter, name)
             binding.tvOrder.text = "과거순"
             bottomSheetDialog.dismiss()
         }
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view).setOnClickListener {
             filter = "seen_at"
-            contentsViewModel.requestContentsTaken(id, seen, filter, name)
+            contentsViewModel.requestContentsTaken(id, option, filter, name)
             binding.tvOrder.text = "최근 조회순"
             bottomSheetDialog.dismiss()
         }
@@ -240,16 +240,22 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun setChipOrder() {
         with(binding) {
             chAll.setOnClickListener {
-                seen = "all"
-                contentsViewModel?.requestContentsTaken(id, seen, filter, name)
+                option = "all"
+                contentsViewModel?.requestContentsTaken(id, option, filter, name)
             }
             chSeen.setOnClickListener {
-                seen = "true"
-                contentsViewModel?.requestContentsTaken(id, seen, filter, name)
+                option = "true"
+                contentsViewModel?.requestContentsTaken(id, option, filter, name)
             }
             chUnseen.setOnClickListener {
-                seen = "false"
-                contentsViewModel?.requestContentsTaken(id, seen, filter, name)
+                option = "false"
+                Log.d("ServerContents : option", "${option}")
+                Log.d("ServerContents : filter", "${filter}")
+                contentsViewModel?.requestContentsTaken(id, option, filter, name)
+            }
+            chAlarm.setOnClickListener {
+                option = "notified"
+                contentsViewModel?.requestContentsTaken(id, option, filter, name)
             }
         }
     }
