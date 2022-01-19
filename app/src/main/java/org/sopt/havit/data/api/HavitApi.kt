@@ -24,10 +24,10 @@ interface HavitApi {
     @GET("category")
     suspend fun getAllCategory(): CategoryResponse
 
-    @GET("category/{categoryId}?seen=&filter=")
+    @GET("category/{categoryId}?option=&filter=")
     suspend fun getCategoryContents(
         @Path("categoryId") categoryId: Int,
-        @Query("seen") seen: String,
+        @Query("option") option: String,
         @Query("filter") filter: String
     ) : ContentsResponse
 

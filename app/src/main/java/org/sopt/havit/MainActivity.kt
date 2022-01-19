@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         val fab: View = findViewById(R.id.save)
         fab.setOnClickListener { view ->
-            SaveFragment().show(supportFragmentManager, "save")
+            SaveFragment("응가").show(supportFragmentManager, "save")
             //startActivity(Intent(this,SaveActivity::class.java))
         }
     }

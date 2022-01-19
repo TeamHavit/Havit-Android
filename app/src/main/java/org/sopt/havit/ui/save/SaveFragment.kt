@@ -21,10 +21,12 @@ import org.sopt.havit.ShareActivity
 import org.sopt.havit.databinding.FragmentSaveBinding
 
 
-class SaveFragment : BottomSheetDialogFragment() {
+class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentSaveBinding
     private val saveViewModel: SaveViewModel by viewModels()
+    var categoryName=categoryName
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

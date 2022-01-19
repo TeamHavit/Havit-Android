@@ -7,7 +7,7 @@
 
         <variable
             name="data_home_category"
-            type="org.sopt.havit.data.CategoryData" />
+            type="org.sopt.havit.data.remote.CategoryResponse.AllCategoryData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,14 +27,15 @@
 
             <ImageView
                 android:id="@+id/iv_icon"
-                imageUrl="@{data_home_category.categoryImage}"
+                iconSrc="@{data_home_category.url}"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_marginStart="11dp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_category_sample" />
+                tools:src="@drawable/ic_category_sample"
+                android:contentDescription="@string/icon" />
 
             <TextView
                 android:id="@+id/tv_title"

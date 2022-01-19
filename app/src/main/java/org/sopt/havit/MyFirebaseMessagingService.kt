@@ -9,14 +9,12 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.widget.RemoteViews
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import org.sopt.havit.MainActivity
-import org.sopt.havit.R
+import org.sopt.havit.ui.web.WebActivity
 
 const val channelID = "notification_channel"
 const val channelName = "org.sopt.androidsharing"
@@ -25,7 +23,7 @@ const val channelName = "org.sopt.androidsharing"
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
-        // 토큰 변경될 떄
+        // 토큰 변경될 때
         Log.d("MyFirebaseMessagingService", "Refreshed token: $token")
     }
 
@@ -44,11 +42,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         })
     }
 
+    // 1. push 알림 들어옴
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         Log.d("MyFirebaseMessagingService", "onMessageReceived")
         getDeviceToken()
 
+        // 2-1. data 확인
         if (remoteMessage.data.isNotEmpty()) {
             Log.d("MyFirebaseMessagingService_data", "Message data payload: ${remoteMessage.data}")
             val dataFromServer = remoteMessage.data
@@ -57,21 +57,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val image = dataFromServer["image"]
             val url = dataFromServer["url"]
 
-            if (title != null && description != null){
-                generateNotification(title, description)
-            }
-        } else {
-            Log.d("MyFirebaseMessagingService[data]", "Empty Data")
+            generateNotification(title, description, image, url)
         }
 
-        // Check if message contains a notification payload.
-        remoteMessage.notification?.let {
-            Log.d("MyFirebaseMessagingService_notification", it.title!!)
-            generateNotification(it.title!!, it.body!!)
-        }
+        // 2-2. notification 확인
+//        remoteMessage.notification?.let {
+//            Log.d("MyFirebaseMessagingService_notification", it.title!!)
+//            generateNotification(it.title!!, it.body!!, )
+//        }
     }
 
-    private fun getRemoteView(title: String, message: String): RemoteViews {
+    private fun isExistImage(url: String?): Boolean {
+        if (url?.isEmpty() == true)
+            return false
+        return true
+    }
+
+    private fun getRemoteView(title: String?, message: String?, image: String?): RemoteViews {
         val remoteView = RemoteViews("org.sopt.havit", R.layout.push_notification)
         remoteView.setTextViewText(R.id.tv_title, title)
         remoteView.setTextViewText(R.id.tv_description, message)
@@ -82,11 +84,17 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         return remoteView
     }
 
-    private fun generateNotification(title: String, message: String) {
+    private fun generateNotification(
+        title: String?,
+        message: String?,
+        image: String?,
+        url: String?
+    ) {
         Log.d("MyFirebaseMessagingService", "generateNotification")
 
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, WebActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.putExtra("url", url)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
 
         var builder = NotificationCompat.Builder(this, channelID)
@@ -95,10 +103,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setVibrate(longArrayOf(1000, 500, 1000, 500))  // 1초 울리고 0.5초 쉬고
             .setOnlyAlertOnce(true)
             .setContentIntent(pendingIntent)
-//            .setContentTitle(title)
-//            .setContentText(message)
 
-        builder = builder.setContent(getRemoteView(title, message))    // custom
+        builder = builder.setContent(getRemoteView(title, message, image))    // custom
 
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
