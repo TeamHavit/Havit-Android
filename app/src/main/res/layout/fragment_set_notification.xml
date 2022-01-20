@@ -7,7 +7,6 @@
     tools:context=".ui.share.SetNotificationFragment">
 
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_tool_bar"
         android:layout_width="match_parent"
@@ -36,13 +35,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/ic_close"
+        <TextView
+            android:id="@+id/tv_complete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:contentDescription="@string/button_close"
-            android:src="@drawable/ic_close_black"
+            android:layout_marginEnd="19dp"
+            android:text="@string/complete"
+            android:textAppearance="@style/Text14Medium"
+            android:textColor="@color/havit_purple"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -56,69 +56,69 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_tool_bar">
 
-    <TextView
-        android:id="@+id/tv_set_alarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="39dp"
-        android:text="@string/set_notification_time"
-        android:textAppearance="@style/Header22Semibold"
-        android:textColor="@color/gray_5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tv_set_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="39dp"
+            android:text="@string/set_notification_time"
+            android:textAppearance="@style/Header22Semibold"
+            android:textColor="@color/gray_5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/btn_1h"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/rectangle_purple_category_radius_6"
-        android:gravity="center"
-        android:text="1시간 후"
-        android:textAppearance="@style/List16Semibold"
-        android:textColor="@color/gray_3"
-        app:layout_constraintTop_toBottomOf="@id/tv_set_alarm" />
+        <TextView
+            android:id="@+id/btn_1h"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/rectangle_purple_category_radius_6"
+            android:gravity="center"
+            android:text="1시간 후"
+            android:textAppearance="@style/List16Semibold"
+            android:textColor="@color/gray_3"
+            app:layout_constraintTop_toBottomOf="@id/tv_set_alarm" />
 
-    <TextView
-        android:id="@+id/btn_2h"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="11dp"
-        android:background="@drawable/rectangle_purple_category_radius_6"
-        android:gravity="center"
-        android:text="2시간 후"
-        android:textAppearance="@style/List16Semibold"
-        android:textColor="@color/gray_3"
-        app:layout_constraintTop_toBottomOf="@id/btn_1h" />
+        <TextView
+            android:id="@+id/btn_2h"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/rectangle_purple_category_radius_6"
+            android:gravity="center"
+            android:text="2시간 후"
+            android:textAppearance="@style/List16Semibold"
+            android:textColor="@color/gray_3"
+            app:layout_constraintTop_toBottomOf="@id/btn_1h" />
 
-    <TextView
-        android:id="@+id/btn_3h"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="11dp"
-        android:background="@drawable/rectangle_purple_category_radius_6"
-        android:gravity="center"
-        android:text="3시간 후"
-        android:textAppearance="@style/List16Semibold"
-        android:textColor="@color/gray_3"
-        app:layout_constraintTop_toBottomOf="@id/btn_2h" />
+        <TextView
+            android:id="@+id/btn_3h"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/rectangle_purple_category_radius_6"
+            android:gravity="center"
+            android:text="3시간 후"
+            android:textAppearance="@style/List16Semibold"
+            android:textColor="@color/gray_3"
+            app:layout_constraintTop_toBottomOf="@id/btn_2h" />
 
-    <TextView
-        android:id="@+id/btn_tomorrow"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="11dp"
-        android:background="@drawable/rectangle_purple_category_radius_6"
-        android:gravity="center"
-        android:text="내일 이 시간"
-        android:textAppearance="@style/List16Semibold"
-        android:textColor="@color/gray_3"
-        app:layout_constraintTop_toBottomOf="@id/btn_3h" />
+        <TextView
+            android:id="@+id/btn_tomorrow"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/rectangle_purple_category_radius_6"
+            android:gravity="center"
+            android:text="내일 이 시간"
+            android:textAppearance="@style/List16Semibold"
+            android:textColor="@color/gray_3"
+            app:layout_constraintTop_toBottomOf="@id/btn_3h" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
