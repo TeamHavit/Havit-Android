@@ -65,7 +65,13 @@ class AddCategoryFragment : Fragment() {
     }
 
     private fun initClickListener() {
-        binding.btnNext.setOnClickListener { findNavController().navigate(R.id.action_addCategoryFragment_to_chooseIconFragment) }
+        binding.btnNext.setOnClickListener {
+            findNavController().navigate(
+                AddCategoryFragmentDirections.actionAddCategoryFragmentToChooseIconFragment(
+                    binding.etCategoryTitle.text.toString()
+                )
+            )
+        }
     }
 
     private fun isTitleNull(): Boolean = binding.etCategoryTitle.text.isEmpty()

@@ -1,20 +1,29 @@
 package org.sopt.havit.ui.share
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import org.koin.android.ext.android.bind
+import kotlinx.coroutines.launch
 import org.sopt.havit.R
+import org.sopt.havit.data.CategoryData
 import org.sopt.havit.data.CategorySelectableData
+import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentSelectCategoryBinding
+import org.sopt.havit.util.MySharedPreference
 
 class SelectCategoryFragment : Fragment() {
     private lateinit var categorySelectableAdapter: CategorySelectableAdapter
     private var _binding: FragmentSelectCategoryBinding? = null
     private val binding get() = _binding!!
+    private lateinit var clickedCategory :Array<Boolean>
+    lateinit var categoryData: List<CategoryResponse.AllCategoryData>
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,44 +31,70 @@ class SelectCategoryFragment : Fragment() {
     ): View? {
         _binding = FragmentSelectCategoryBinding.inflate(layoutInflater, container, false)
 
-        initAdapter()
-        initListener()
+        initView()
 
         return binding.root
     }
 
-    private fun initListener(){
-        binding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.action_selectCategoryFragment_to_contentsSummeryFragment)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initListener()
+    }
+
+    private fun initView() {
+
+        lifecycleScope.launch {
+            try {
+                // 서버 통신
+                val response =
+                    RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
+                        .getCategoryNum()
+                categoryData = response.data
+
+                Log.d("SelectCategoryFragment", categoryData.toString())
+                Log.d("SelectCategoryFragment_len", categoryData.size.toString())
+
+                // Adapter 설정
+                categorySelectableAdapter = CategorySelectableAdapter()
+                binding.rvCategory.adapter = categorySelectableAdapter
+                categorySelectableAdapter.categorySelectableList.addAll(categoryData)
+                categorySelectableAdapter.notifyDataSetChanged()
+
+                clickedCategory = Array(categoryData.size+1) { _ -> false }
+                Log.d("SelectCategoryFragment_array_size", clickedCategory.size.toString())
+
+                categorySelectableAdapter.setItemClickListener(object :
+                    CategorySelectableAdapter.OnItemClickListener {
+                    override fun onClick(v: View, position: Int) {
+                        Log.d("categorySelectableAdapter", "$position clicked in Fragment")
+                        Log.d("SelectCategoryFragment_array_size", clickedCategory.size.toString())
+                        clickedCategory[position + 1] = !clickedCategory[position + 1]
+
+                        clickedCategory.forEach{
+                            Log.d("SelectCategoryFragment_for","$it")
+                        }
+                    }
+                })
+            } catch (e: Exception) {
+                // 서버 통신 실패 시
+            }
         }
     }
 
-    private fun initAdapter() {
-        categorySelectableAdapter = CategorySelectableAdapter()
-        binding.rvCategory.adapter = categorySelectableAdapter
-        categorySelectableAdapter.categorySelectableList.addAll(
-            listOf(
-                CategorySelectableData(
-                    "아키텍처 스터디", dummyImg,false
-                ),
-                CategorySelectableData(
-                    "아키텍처 스터디2", dummyImg,true
-                )
-            )
-        )
-        categorySelectableAdapter.notifyDataSetChanged()
+    private fun initListener() {
+        // 하단 다음 버튼
+        binding.btnNext.setOnClickListener {
+            findNavController().navigate(R.id.action_selectCategoryFragment_to_contentsSummeryFragment)
+        }
 
+        // 상단 카테고리 추가 버튼
+        binding.ivCategoryAdd.setOnClickListener {
+            findNavController().navigate(R.id.action_selectCategoryFragment_to_addCategoryFragment)
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-    companion object {
-        const val dummyImg =
-            "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png"
-    }
-
-
 }
