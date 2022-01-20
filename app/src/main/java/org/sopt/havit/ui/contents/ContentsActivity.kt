@@ -22,20 +22,17 @@ import org.sopt.havit.ui.web.WebActivity
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
     private val contentsViewModel: ContentsViewModel by viewModels()
-//    private var id = 0
-//    private var name = "error"
-//    private var option: String = "all"
-//    private var filter: String = "created_at"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding.contentsViewModel = contentsViewModel
 
-
         setContentView(binding.root)
+
+        initData()
         initAdapter()
-        setData(OPTION, FILTER)
+        setData()
         dataObserve()
         decorationView()
         changeLayout()
@@ -46,8 +43,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         moveSearch()
         clickItemView()
         setChipOrder()
+        setCategoryListDialog()
     }
-
 
     private fun initAdapter() {
         contentsAdapter = ContentsAdapter(contentsViewModel)
@@ -63,10 +60,15 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         )
     }
 
-    private fun setData(o: String, f: String) {
+    private fun initData(){
         // 레이아웃 초기화
         layout = LINEAR_MIN_LAYOUT
-        // 데이터 셋팅
+        // 옵션 및 필터 초기화
+        OPTION = "all"
+        FILTER = "created_at"
+    }
+
+    private fun setData(){
         ID = intent.getIntExtra("categoryId", 0)
         if (ID == 0) {
             Log.d("categoryId", "error")
@@ -74,7 +76,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             intent.getStringExtra("categoryName")?.let {
                 CATEGORY_NAME = it
             }
-            contentsViewModel.requestContentsTaken(ID, o, f, CATEGORY_NAME)
+            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             Log.d("categoryName", "$CATEGORY_NAME")
         }
     }
@@ -219,6 +221,13 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             binding.tvOrder.text = "최근 조회순"
             bottomSheetDialog.dismiss()
+        }
+    }
+
+    private fun setCategoryListDialog(){
+        binding.clCategory.setOnClickListener {
+            binding.ivCategoryDrop.setImageResource(R.drawable.ic_dropback_black)
+            DialogContentsCategoryFragment().show(supportFragmentManager, "categoryList")
         }
     }
 
