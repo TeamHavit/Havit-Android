@@ -39,4 +39,7 @@ interface HavitApi {
 
     @GET("content/unseen")
     suspend fun getContentsUnseen() : ContentsSimpleResponse
+
+    @GET("recommendation")
+    suspend fun getRecommendation() : RecommendationResponse
 }

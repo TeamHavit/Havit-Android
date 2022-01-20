@@ -3,7 +3,6 @@ package org.sopt.havit.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.sopt.havit.data.HomeCategoryListData
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemHomeCategoryRecyclerviewBinding
 import org.sopt.havit.ui.home.HomeCategoryRvAdapter.Companion.isFirst

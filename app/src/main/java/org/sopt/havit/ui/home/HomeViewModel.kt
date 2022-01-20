@@ -1,16 +1,19 @@
 package org.sopt.havit.ui.home
 
+import android.graphics.drawable.Drawable
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.sopt.havit.R
 import org.sopt.havit.data.HomeReachData
-import org.sopt.havit.data.HomeRecommendData
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.data.remote.ContentsSimpleResponse
+import org.sopt.havit.data.remote.RecommendationResponse
 
 class HomeViewModel : ViewModel() {
 
@@ -42,6 +45,21 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    private val _recommendList = MutableLiveData<List<RecommendationResponse.RecommendationData>>()
+    val recommendList: LiveData<List<RecommendationResponse.RecommendationData>> = _recommendList
+    fun requestRecommendTaken() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response =
+                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
+                        .getRecommendation()
+                _recommendList.postValue(response.data)
+            } catch (e: Exception) {
+
+            }
+        }
+    }
+
     //    dummy data
     private val _popupData = MutableLiveData<String>().apply {
         value = "도달률이 50% 이하로 떨어졌어요!"
@@ -58,10 +76,11 @@ class HomeViewModel : ViewModel() {
     }
     val reachData: LiveData<HomeReachData> = _reachData
 
-    private val _recommendList = MutableLiveData<List<HomeRecommendData>>()
-    val recommendList: LiveData<List<HomeRecommendData>> = _recommendList
-    fun requestRecommendTaken(list: List<HomeRecommendData>) {
-        _recommendList.value = list
-    }
+
+//    private val _recommendIconList = MutableLiveData<List<Drawable>>()
+//    val recommendIconList : LiveData<List<Drawable>> = _recommendIconList
+//    fun requestRecommendIconTaken(iconList: List<Drawable>) {
+//        _recommendIconList
+//    }
 
 }

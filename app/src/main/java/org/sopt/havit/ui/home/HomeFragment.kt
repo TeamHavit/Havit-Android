@@ -10,18 +10,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import org.sopt.havit.R
-import org.sopt.havit.data.HomeRecommendData
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentHomeBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents_simple.ContentsSimpleActivity
 import org.sopt.havit.ui.notification.NotificationActivity
 import org.sopt.havit.ui.search.SearchActivity
+import org.sopt.havit.ui.web.WebActivity
 
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel: HomeViewModel by viewModels()
-    private val contentsAdapter: HomeRecentContentsRvAdapter by lazy{HomeRecentContentsRvAdapter()}
+    private val contentsAdapter: HomeRecentContentsRvAdapter by lazy { HomeRecentContentsRvAdapter() }
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
     private lateinit var categoryVpAdapter: HomeCategoryVpAdapter
 
@@ -47,20 +47,36 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         // Recent Save RecyclerView
         initRecentContentsRvAdapter()
         recentContentsDataObserve()
+        clickContentsItemView()
         // Recommend RecyclerView
-        initRecommendRvAdapter()
+        recommendationDataObserve()
+//        initRecommendRvAdapter()
         setClickEvent() // Every clickEvent
 
         return binding.root
+    }
+
+    private fun clickContentsItemView() {
+        contentsAdapter.setItemClickListener(object :
+            HomeRecentContentsRvAdapter.OnItemClickListener {
+            override fun onWebClick(v: View, position: Int) {
+                val intent = Intent(v.context, WebActivity::class.java)
+                homeViewModel.contentsList.value?.get(position)
+                    ?.let { intent.putExtra("url", it.url) }
+                startActivity(intent)
+            }
+        })
     }
 
     private fun initRecentContentsRvAdapter() {
         //contentsAdapter = HomeRecentContentsRvAdapter()
         binding.rvContents.adapter = contentsAdapter
     }
+
     private fun setData() {
         homeViewModel.requestContentsTaken()
         homeViewModel.requestCategoryTaken()
+        homeViewModel.requestRecommendTaken()
     }
 
     private fun clickAddCategory() {
@@ -151,26 +167,45 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
-    private fun initRecommendRvAdapter() {
-        recommendRvAdapter = HomeRecommendRvAdapter()
-        binding.rvRecommend.adapter = recommendRvAdapter
-        val list = listOf(
-            HomeRecommendData("", "이름1", "종류 / 카테고리"),
-            HomeRecommendData("", "이름2", "종류 / 카테고리"),
-            HomeRecommendData("", "이름3", "종류 / 카테고리"),
-            HomeRecommendData("", "이름4", "종류 / 카테고리"),
-            HomeRecommendData("", "이름5", "종류 / 카테고리"),
-            HomeRecommendData("", "이름6", "종류 / 카테고리"),
-            HomeRecommendData("", "이름7", "종류 / 카테고리"),
-            HomeRecommendData("", "이름8", "종류 / 카테고리"),
-            HomeRecommendData("", "이름9", "종류 / 카테고리")
-        )
-        homeViewModel.requestRecommendTaken(list)
-        homeViewModel.recommendList.observe(viewLifecycleOwner) {
-            recommendRvAdapter.setList(it)
+    private fun recommendationDataObserve() {
+        with(homeViewModel) {
+            recommendList.observe(viewLifecycleOwner) { data ->
+                with(binding) {
+                    Log.d("HOMEFRAGMENT_RECOMMENDATION", "recommendation data: $data")
+                    if (data.isNotEmpty()) {
+                        Log.d("HOMEFRAGMENT_RECOMMENDATION", "recommendation data: $data")
+                        recommendRvAdapter = HomeRecommendRvAdapter()
+                        binding.rvRecommend.adapter = recommendRvAdapter
+//                        val list = mutableListOf<RecommendationResponse.RecommendationData>()
+                        recommendRvAdapter.recommendList.addAll(data)
+                        recommendRvAdapter.notifyDataSetChanged()
+                    }
+                }
+
+            }
         }
-        recommendRvAdapter.notifyDataSetChanged()
     }
+
+//    private fun initRecommendRvAdapter() {
+//        recommendRvAdapter = HomeRecommendRvAdapter()
+//        binding.rvRecommend.adapter = recommendRvAdapter
+////        val list = listOf(
+////            HomeRecommendData("", "이름1", "종류 / 카테고리"),
+////            HomeRecommendData("", "이름2", "종류 / 카테고리"),
+////            HomeRecommendData("", "이름3", "종류 / 카테고리"),
+////            HomeRecommendData("", "이름4", "종류 / 카테고리"),
+////            HomeRecommendData("", "이름5", "종류 / 카테고리"),
+////            HomeRecommendData("", "이름6", "종류 / 카테고리"),
+////            HomeRecommendData("", "이름7", "종류 / 카테고리"),
+////            HomeRecommendData("", "이름8", "종류 / 카테고리"),
+////            HomeRecommendData("", "이름9", "종류 / 카테고리")
+////        )
+//        homeViewModel.requestRecommendTaken()
+//        homeViewModel.recommendList.observe(viewLifecycleOwner) {
+//            recommendRvAdapter.setList(it)
+//        }
+//        recommendRvAdapter.notifyDataSetChanged()
+//    }
 
     private fun initSearchSticky() {
         binding.svMain.run {
