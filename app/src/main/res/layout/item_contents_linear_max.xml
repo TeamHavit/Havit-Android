@@ -166,8 +166,9 @@
 
         <ImageView
             android:id="@+id/iv_setting"
-            android:layout_width="20dp"
-            android:layout_height="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
             android:src="@drawable/ic_more"
             app:layout_constraintEnd_toEndOf="@+id/fl_image"
             app:layout_constraintTop_toTopOf="@+id/tv_title" />
