@@ -6,11 +6,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.data.CategorySelectableData
+import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemCategorySelectableBinding
 
 class CategorySelectableAdapter :
     RecyclerView.Adapter<CategorySelectableAdapter.CategorySelectableViewHolder>() {
-    val categorySelectableList = mutableListOf<CategorySelectableData>()
+    val categorySelectableList = mutableListOf<CategoryResponse.AllCategoryData>()
 
     override fun onCreateViewHolder( parent: ViewGroup, viewType: Int ): CategorySelectableViewHolder {
         val binding: ItemCategorySelectableBinding =
@@ -30,7 +31,7 @@ class CategorySelectableAdapter :
 
     class CategorySelectableViewHolder(private val binding: ItemCategorySelectableBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: CategorySelectableData) {
+        fun onBind(data: CategoryResponse.AllCategoryData) {
             binding.selectableCategory = data
         }
     }
