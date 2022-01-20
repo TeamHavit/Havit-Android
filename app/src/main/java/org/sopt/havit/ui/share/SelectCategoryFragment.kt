@@ -21,6 +21,9 @@ class SelectCategoryFragment : Fragment() {
     private lateinit var categorySelectableAdapter: CategorySelectableAdapter
     private var _binding: FragmentSelectCategoryBinding? = null
     private val binding get() = _binding!!
+    private lateinit var clickedCategory :Array<Boolean>
+    lateinit var categoryData: List<CategoryResponse.AllCategoryData>
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +42,7 @@ class SelectCategoryFragment : Fragment() {
     }
 
     private fun initView() {
-        lateinit var categoryData: List<CategoryResponse.AllCategoryData>
+
         lifecycleScope.launch {
             try {
                 // 서버 통신
@@ -47,6 +50,7 @@ class SelectCategoryFragment : Fragment() {
                     RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
                         .getCategoryNum()
                 categoryData = response.data
+
                 Log.d("SelectCategoryFragment", categoryData.toString())
                 Log.d("SelectCategoryFragment_len", categoryData.size.toString())
 
@@ -56,9 +60,19 @@ class SelectCategoryFragment : Fragment() {
                 categorySelectableAdapter.categorySelectableList.addAll(categoryData)
                 categorySelectableAdapter.notifyDataSetChanged()
 
-                categorySelectableAdapter.setItemClickListener(object : CategorySelectableAdapter.OnItemClickListener{
+                clickedCategory = Array(categoryData.size+1) { _ -> false }
+                Log.d("SelectCategoryFragment_array_size", clickedCategory.size.toString())
+
+                categorySelectableAdapter.setItemClickListener(object :
+                    CategorySelectableAdapter.OnItemClickListener {
                     override fun onClick(v: View, position: Int) {
                         Log.d("categorySelectableAdapter", "$position clicked in Fragment")
+                        Log.d("SelectCategoryFragment_array_size", clickedCategory.size.toString())
+                        clickedCategory[position + 1] = !clickedCategory[position + 1]
+
+                        clickedCategory.forEach{
+                            Log.d("SelectCategoryFragment_for","$it")
+                        }
                     }
                 })
             } catch (e: Exception) {
