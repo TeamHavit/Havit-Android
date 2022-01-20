@@ -1,11 +1,9 @@
 package org.sopt.havit.ui.category
 
-import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import org.sopt.havit.data.CategoryData
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemCategoryModifyBinding
 import java.util.*
@@ -13,6 +11,7 @@ import java.util.*
 class CategoryOrderModifyAdapter :
     RecyclerView.Adapter<CategoryOrderModifyAdapter.CategoryOrderModifyViewHolder>() {
     val categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
+    private lateinit var itemClickListener: OnItemClickListener
 
     fun removeData(position: Int) {
         categoryList.removeAt(position)
@@ -37,7 +36,20 @@ class CategoryOrderModifyAdapter :
 
     override fun onBindViewHolder(holder: CategoryOrderModifyViewHolder, position: Int) {
         holder.onBind(categoryList[position])
-        holder.onClick(position)
+        // (1) 리스트 내 항목 클릭 시 onClick() 호출
+        holder.itemView.setOnClickListener {
+            itemClickListener.onClick(it, holder.layoutPosition)
+        }
+    }
+
+    // (2) 리스너 인터페이스
+    interface OnItemClickListener {
+        fun onClick(v: View, position: Int)
+    }
+
+    // (3) 외부에서 클릭 시 이벤트 설정
+    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.itemClickListener = onItemClickListener
     }
 
     override fun getItemCount(): Int = categoryList.size
@@ -48,12 +60,12 @@ class CategoryOrderModifyAdapter :
             binding.category = data
         }
 
-        fun onClick(position: Int) {
-            binding.clCategoryList.setOnClickListener {
-                val intent = Intent(it.context, CategoryContentModifyActivity::class.java)
-                intent.putExtra("categoryName", binding.category?.title)
-                intent.putExtra("categoryId", binding.category?.id)
-            }
-        }
+//        fun onClick(position: Int) {
+//            binding.clCategoryList.setOnClickListener {
+//                val intent = Intent(it.context, CategoryContentModifyActivity::class.java)
+//                intent.putExtra("categoryName", binding.category?.title)
+//                intent.putExtra("categoryId", binding.category?.id)
+//            }
+//        }
     }
 }
