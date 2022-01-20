@@ -28,10 +28,11 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         binding.contentsViewModel = contentsViewModel
 
-
         setContentView(binding.root)
+
+        initData()
         initAdapter()
-        setData(OPTION, FILTER)
+        setData()
         dataObserve()
         decorationView()
         changeLayout()
@@ -44,7 +45,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         setChipOrder()
         setCategoryListDialog()
     }
-
 
     private fun initAdapter() {
         contentsAdapter = ContentsAdapter(contentsViewModel)
@@ -60,10 +60,15 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         )
     }
 
-    private fun setData(o: String, f: String) {
+    private fun initData(){
         // 레이아웃 초기화
         layout = LINEAR_MIN_LAYOUT
-        // 데이터 셋팅
+        // 옵션 및 필터 초기화
+        OPTION = "all"
+        FILTER = "created_at"
+    }
+
+    private fun setData(){
         ID = intent.getIntExtra("categoryId", 0)
         if (ID == 0) {
             Log.d("categoryId", "error")
@@ -71,7 +76,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             intent.getStringExtra("categoryName")?.let {
                 CATEGORY_NAME = it
             }
-            contentsViewModel.requestContentsTaken(ID, o, f, CATEGORY_NAME)
+            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             Log.d("categoryName", "$CATEGORY_NAME")
         }
     }
