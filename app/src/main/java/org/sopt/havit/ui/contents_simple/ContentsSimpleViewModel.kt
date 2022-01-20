@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 
 class ContentsSimpleViewModel : ViewModel() {
@@ -44,6 +45,22 @@ class ContentsSimpleViewModel : ViewModel() {
     val emptyContents: LiveData<String> = _emptyContents
     fun requestEmptyContents(emptyContents: String) {
         _emptyContents.value = emptyContents
+    }
+
+    // 해빗하기 버튼
+    private val _isHavit = MutableLiveData<Boolean>()
+    val isHavit: LiveData<Boolean> = _isHavit
+    fun setIsSeen(contentsId: Int) {
+        viewModelScope.launch {
+            try {
+                val response =
+                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
+                        .isHavit(ContentsHavitRequest(contentsId))
+                _isHavit.postValue(response.data.isSeen)
+            } catch (e: Exception) {
+
+            }
+        }
     }
 
 }

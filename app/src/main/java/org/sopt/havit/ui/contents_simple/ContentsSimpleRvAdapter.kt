@@ -4,14 +4,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.databinding.ItemContentsSimpleBinding
 
-class ContentsSimpleRvAdapter :
+class ContentsSimpleRvAdapter(contentsViewModel: ContentsSimpleViewModel) :
     RecyclerView.Adapter<ContentsSimpleRvAdapter.ContentsSimpleViewHolder>() {
 
     var contentsList = mutableListOf<ContentsSimpleResponse.ContentsSimpleData>()
     private lateinit var itemClickListener: OnItemClickListener
+    private var viewModel = contentsViewModel
 
     inner class ContentsSimpleViewHolder(private val binding: ItemContentsSimpleBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -21,7 +23,25 @@ class ContentsSimpleRvAdapter :
             }
             data.createdAt = data.createdAt.substring(0 until 10)
                 .replace("-", ". ")
+            setIvHavit(data.isSeen)
             binding.content = data
+        }
+
+        fun setIvHavit(isSeen: Boolean) {
+            if (isSeen) {
+                binding.ivHavit.tag = "seen"
+                binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
+            } else {
+                binding.ivHavit.tag = "unseen"
+                binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+            }
+        }
+
+        fun onHavitClick(data: ContentsSimpleResponse.ContentsSimpleData) {
+            binding.ivHavit.setOnClickListener {
+                viewModel.setIsSeen(data.id)
+                setIvHavit(binding.ivHavit.tag == "unseen")
+            }
         }
 
         private fun setTime(time: String): String {
@@ -54,6 +74,7 @@ class ContentsSimpleRvAdapter :
         position: Int
     ) {
         holder.onBind(contentsList[position])
+        holder.onHavitClick(contentsList[position])
 
         holder.itemView.setOnClickListener {
             itemClickListener.onWebClick(it, position)
