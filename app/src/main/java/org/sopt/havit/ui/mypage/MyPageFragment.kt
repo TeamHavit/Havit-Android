@@ -7,37 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentMyPageBinding
+import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsViewModel
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
 
 
-class MyPageFragment : Fragment() {
+class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
     //private val myPageViewModel: MyPageViewModel by viewModel()
     val contentsViewModel: ContentsViewModel by viewModels()
-    private var _binding: FragmentMyPageBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
-        _binding = FragmentMyPageBinding.inflate(inflater, container, false)
-
-
-        binding.textHome.setOnClickListener {
-            //startActivity(Intent(context, WebActivity::class.java))
-            startActivity(Intent(context, SearchActivity::class.java))
-
-        }
-
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
 
 
 
@@ -45,8 +34,4 @@ class MyPageFragment : Fragment() {
     }
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
