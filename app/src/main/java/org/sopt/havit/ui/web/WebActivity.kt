@@ -60,11 +60,6 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
         }*/
 
-        webViewModel._isHavit.observe(this) {
-            if (it) {
-                //setCustomToast()
-            }
-        }
     }
 
     private fun setCustomToast() {
