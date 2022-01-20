@@ -30,6 +30,7 @@
 
             <ImageView
                 android:id="@+id/iv_category_ic"
+                imageUrl="@{category.url}"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="10dp"

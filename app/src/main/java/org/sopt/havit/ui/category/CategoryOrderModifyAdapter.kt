@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.sopt.havit.data.CategoryData
+import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemCategoryModifyBinding
 import java.util.*
 
 class CategoryOrderModifyAdapter :
     RecyclerView.Adapter<CategoryOrderModifyAdapter.CategoryOrderModifyViewHolder>() {
-    val categoryList = mutableListOf<CategoryData>()
+    val categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
 
     fun removeData(position: Int) {
         categoryList.removeAt(position)
@@ -43,18 +44,15 @@ class CategoryOrderModifyAdapter :
 
     class CategoryOrderModifyViewHolder(private val binding: ItemCategoryModifyBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: CategoryData) {
+        fun onBind(data: CategoryResponse.AllCategoryData) {
             binding.category = data
-            Glide.with(binding.ivCategoryIc.context)
-                .load(data.categoryImage)
-                .into(binding.ivCategoryIc)
         }
 
         fun onClick(position: Int) {
             binding.clCategoryList.setOnClickListener {
                 val intent = Intent(it.context, CategoryContentModifyActivity::class.java)
-                intent.putExtra("categoryPos", position)
-                it.context.startActivity(intent)
+                intent.putExtra("categoryName", binding.category?.title)
+                intent.putExtra("categoryId", binding.category?.id)
             }
         }
     }
