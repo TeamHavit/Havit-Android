@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@{vm_home.reachData.nickname}"
+            android:text="@{vm_home.userData.nickname}"
             android:textAppearance="@style/Header17Semibold"
             android:textColor="@color/havit_gray"
             app:layout_constraintStart_toStartOf="parent"

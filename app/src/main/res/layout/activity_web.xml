@@ -116,7 +116,7 @@
                 <ImageView
                     android:id="@+id/iv_webview_unread"
                     android:layout_gravity="center"
-                    imgRes="@{vm.isHavit == true ? @drawable/ic_contents_unread : @drawable/ic_contents_read_2}"
+                    imgRes="@{vm.isHavit == true ? @drawable/ic_contents_read_2 : @drawable/ic_contents_unread}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -125,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@{vm.isHavit == true ? @string/webview_unread: @string/webview_read}"
+                    android:text="@{vm.isHavit == true ? @string/webview_read: @string/webview_unread}"
                     android:textAppearance="@style/Sub13Regular"
                     android:textColor="@color/gray_2"
                      />

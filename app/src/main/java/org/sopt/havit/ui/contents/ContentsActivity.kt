@@ -46,8 +46,13 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         setCategoryListDialog()
     }
 
+    override fun onStart() {
+        super.onStart()
+        contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+    }
+
     private fun initAdapter() {
-        contentsAdapter = ContentsAdapter(contentsViewModel)
+        contentsAdapter = ContentsAdapter(contentsViewModel,supportFragmentManager)
         binding.rvContents.adapter = contentsAdapter
     }
 
@@ -76,7 +81,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             intent.getStringExtra("categoryName")?.let {
                 CATEGORY_NAME = it
             }
-            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+            //contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             Log.d("categoryName", "$CATEGORY_NAME")
         }
     }
@@ -244,7 +249,9 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             override fun onWebClick(v: View, position: Int) {
                 val intent = Intent(v.context, WebActivity::class.java)
                 contentsViewModel.contentsList.value?.get(position)
-                    ?.let { intent.putExtra("url", it.url) }
+                    ?.let { intent.putExtra("url", it.url)
+                    intent.putExtra("contentsId", it.id)
+                    intent.putExtra("isSeen", it.isSeen)}
                 startActivity(intent)
             }
         })

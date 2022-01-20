@@ -90,7 +90,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_contents_empty" />
 
             <TextView
-                android:id="@+id/tv_add_category"
+                android:id="@+id/tv_add_contents"
                 android:layout_width="233dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="57dp"

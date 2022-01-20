@@ -79,7 +79,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         binding.tvModify.setOnClickListener {
             Log.d("setClick", " success")
             val intent = Intent(activity, CategoryOrderModifyActivity::class.java)
-            intent.putExtra("categoryList", "${categoryAdapter.categoryList}")
+            intent.putExtra("dataSet", true)
             startActivity(intent)
         }
     }

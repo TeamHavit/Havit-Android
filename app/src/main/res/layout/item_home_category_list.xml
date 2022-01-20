@@ -45,7 +45,6 @@
                 android:layout_marginTop="7dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{data_home_category.title}"
                 android:textAppearance="@style/Header16Medium"
                 android:textColor="@color/havit_gray"
                 app:layout_constraintStart_toStartOf="parent"

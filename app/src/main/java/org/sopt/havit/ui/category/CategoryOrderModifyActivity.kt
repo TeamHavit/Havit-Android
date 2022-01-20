@@ -1,30 +1,34 @@
 package org.sopt.havit.ui.category
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
-import org.sopt.havit.data.CategoryData
 import org.sopt.havit.databinding.ActivityCategoryOrderModifyBinding
+import org.sopt.havit.ui.base.BaseBindingActivity
 
-class CategoryOrderModifyActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityCategoryOrderModifyBinding
+class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderModifyBinding>(R.layout.activity_category_order_modify) {
     private lateinit var categoryOrderModifyAdapter: CategoryOrderModifyAdapter
+    private val categoryViewModel: CategoryViewModel by viewModels()
     lateinit var holder: RecyclerView.ViewHolder
+    private var SET = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityCategoryOrderModifyBinding.inflate(layoutInflater)
+        binding.categoryViewModel = categoryViewModel
+        setContentView(binding.root)
 
         initAdapter()
         setData()
         clickBack()
         initDrag()
+        dataObserve()
 
-        setContentView(binding.root)
     }
 
     private fun initAdapter() {
@@ -32,17 +36,20 @@ class CategoryOrderModifyActivity : AppCompatActivity() {
         binding.rvContents.adapter = categoryOrderModifyAdapter
     }
 
-    private fun setData() {
-        for (i in 1..15) {
-            categoryOrderModifyAdapter.categoryList.add(
-                CategoryData(
-                    3,
-                    "슉슉",
-                    "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png",
-                    0,
-                    1
-                )
-            )
+    private fun setData(){
+        SET = intent.getBooleanExtra("dataSet", false)
+        if(SET) {
+            categoryViewModel.requestCategoryTaken()
+            SET = false
+        }
+    }
+
+    private fun dataObserve() {
+        with(categoryViewModel) {
+            categoryList.observe(this@CategoryOrderModifyActivity) {
+                categoryOrderModifyAdapter.categoryList.addAll(it)
+                categoryOrderModifyAdapter.notifyDataSetChanged()
+            }
         }
     }
 

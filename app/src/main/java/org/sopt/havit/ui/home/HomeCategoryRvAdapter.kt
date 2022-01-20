@@ -1,13 +1,16 @@
 package org.sopt.havit.ui.home
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemHomeCategoryListBinding
+import org.sopt.havit.ui.contents.ContentsActivity
 
 class HomeCategoryRvAdapter :
     RecyclerView.Adapter<HomeCategoryRvAdapter.HomeCategoryRvViewHolder>() {
@@ -25,6 +28,7 @@ class HomeCategoryRvAdapter :
         fun onBind(data: CategoryResponse.AllCategoryData, position: Int) {
             Log.d("HOMECATEGORYRVADAPTER", data.url)
             binding.dataHomeCategory = data
+            binding.tvTitle.text = data.title
 
             if (position == isFirst) {
                 when (itemViewType) {
@@ -49,7 +53,7 @@ class HomeCategoryRvAdapter :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): HomeCategoryRvAdapter.HomeCategoryRvViewHolder {
+    ): HomeCategoryRvViewHolder {
         binding = ItemHomeCategoryListBinding.inflate(
             LayoutInflater.from(parent.context),
             parent, false
@@ -59,10 +63,17 @@ class HomeCategoryRvAdapter :
     }
 
     override fun onBindViewHolder(
-        holder: HomeCategoryRvAdapter.HomeCategoryRvViewHolder,
+        holder: HomeCategoryRvViewHolder,
         position: Int
     ) {
         holder.onBind(categoryList[position], position)
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(it.context, ContentsActivity::class.java)
+            intent.putExtra("categoryId", categoryList[position].id)
+            intent.putExtra("categoryName", categoryList[position].title)
+            startActivity(holder.itemView.context, intent, null)
+        }
     }
 
     override fun getItemCount(): Int = categoryList.size
