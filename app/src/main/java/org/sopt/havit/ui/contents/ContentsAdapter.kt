@@ -20,9 +20,11 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel) : RecyclerView.Adapt
         fun onBind(data: ContentsResponse.ContentsData) {
             binding.content = data
             if(data.isSeen){
+                binding.ivHavit.tag = "seen"
                 binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
             }
             else{
+                binding.ivHavit.tag = "unseen"
                 binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
             }
         }
@@ -30,12 +32,20 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel) : RecyclerView.Adapt
         fun onClick(data: ContentsResponse.ContentsData) {
             binding.ivHavit.setOnClickListener {
                 viewModel.setIsSeen(data.id)
-                if(binding.content?.isSeen == false){
+                if(binding.ivHavit.tag == "unseen"){
+                    binding.ivHavit.tag = "seen"
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
                 }
                 else{
+                    binding.ivHavit.tag = "unseen"
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
                 }
+                viewModel.requestContentsTaken(
+                    ContentsActivity.ID,
+                    ContentsActivity.OPTION,
+                    ContentsActivity.FILTER,
+                    ContentsActivity.CATEGORY_NAME
+                )
             }
         }
     }
@@ -45,9 +55,11 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel) : RecyclerView.Adapt
         fun onBind(data: ContentsResponse.ContentsData) {
             binding.content = data
             if(data.isSeen){
+                binding.ivHavit.tag = "seen"
                 binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
             }
             else{
+                binding.ivHavit.tag = "unseen"
                 binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
             }
         }
@@ -55,12 +67,21 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel) : RecyclerView.Adapt
         fun onClick(data: ContentsResponse.ContentsData) {
             binding.ivHavit.setOnClickListener {
                 viewModel.setIsSeen(data.id)
-                if(binding.content?.isSeen == false){
+                if(binding.ivHavit.tag == "unseen"){
+                    binding.ivHavit.tag = "seen"
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
                 }
                 else{
+                    binding.ivHavit.tag = "unseen"
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
                 }
+                viewModel.requestContentsTaken(
+                    ContentsActivity.ID,
+                    ContentsActivity.OPTION,
+                    ContentsActivity.FILTER,
+                    ContentsActivity.CATEGORY_NAME
+                )
+
             }
         }
     }
@@ -70,22 +91,32 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel) : RecyclerView.Adapt
         fun onBind(data: ContentsResponse.ContentsData) {
             binding.content = data
             if(data.isSeen){
+                binding.ivHavit.tag = "seen"
                 binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
             }
             else{
+                binding.ivHavit.tag = "unseen"
                 binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
             }
         }
 
         fun onClick(data: ContentsResponse.ContentsData) {
-            viewModel.setIsSeen(data.id)
             binding.ivHavit.setOnClickListener {
-                if(binding.content?.isSeen == false){
+                viewModel.setIsSeen(data.id)
+                if(binding.ivHavit.tag == "unseen"){
+                    binding.ivHavit.tag = "seen"
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
                 }
                 else{
+                    binding.ivHavit.tag = "unseen"
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
                 }
+                viewModel.requestContentsTaken(
+                    ContentsActivity.ID,
+                    ContentsActivity.OPTION,
+                    ContentsActivity.FILTER,
+                    ContentsActivity.CATEGORY_NAME
+                )
             }
         }
     }

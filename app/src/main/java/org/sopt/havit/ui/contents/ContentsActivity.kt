@@ -22,19 +22,20 @@ import org.sopt.havit.ui.web.WebActivity
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
     private val contentsViewModel: ContentsViewModel by viewModels()
-    private var id = 0
-    private var name = "error"
-    private var option: String = "all"
-    private var filter: String = "created_at"
+//    private var id = 0
+//    private var name = "error"
+//    private var option: String = "all"
+//    private var filter: String = "created_at"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding.contentsViewModel = contentsViewModel
 
+
         setContentView(binding.root)
         initAdapter()
-        setData(option, filter)
+        setData(OPTION, FILTER)
         dataObserve()
         decorationView()
         changeLayout()
@@ -63,15 +64,18 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun setData(o: String, f: String) {
-        id = intent.getIntExtra("categoryId", 0)
-        if (id == 0) {
+        // 레이아웃 초기화
+        layout = LINEAR_MIN_LAYOUT
+        // 데이터 셋팅
+        ID = intent.getIntExtra("categoryId", 0)
+        if (ID == 0) {
             Log.d("categoryId", "error")
         } else {
             intent.getStringExtra("categoryName")?.let {
-                name = it
+                CATEGORY_NAME = it
             }
-            contentsViewModel.requestContentsTaken(id, o, f, name)
-            Log.d("categoryName", "$name")
+            contentsViewModel.requestContentsTaken(ID, o, f, CATEGORY_NAME)
+            Log.d("categoryName", "$CATEGORY_NAME")
         }
     }
 
@@ -141,7 +145,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun clickAddContents() {
         binding.tvAddContents.setOnClickListener {
-            SaveFragment(name).show(supportFragmentManager, "언니 사랑해")
+            SaveFragment(CATEGORY_NAME).show(supportFragmentManager, "언니 사랑해")
         }
     }
 
@@ -199,20 +203,20 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         }
 
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent).setOnClickListener {
-            filter = "created_at"
-            contentsViewModel.requestContentsTaken(id, option, filter, name)
+            FILTER = "created_at"
+            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             binding.tvOrder.text = "최신순"
             bottomSheetDialog.dismiss()
         }
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past).setOnClickListener {
-            filter = "reverse"
-            contentsViewModel.requestContentsTaken(id, option, filter, name)
+            FILTER = "reverse"
+            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             binding.tvOrder.text = "과거순"
             bottomSheetDialog.dismiss()
         }
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view).setOnClickListener {
-            filter = "seen_at"
-            contentsViewModel.requestContentsTaken(id, option, filter, name)
+            FILTER = "seen_at"
+            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             binding.tvOrder.text = "최근 조회순"
             bottomSheetDialog.dismiss()
         }
@@ -240,22 +244,20 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun setChipOrder() {
         with(binding) {
             chAll.setOnClickListener {
-                option = "all"
-                contentsViewModel?.requestContentsTaken(id, option, filter, name)
+                OPTION = "all"
+                contentsViewModel?.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             }
             chSeen.setOnClickListener {
-                option = "true"
-                contentsViewModel?.requestContentsTaken(id, option, filter, name)
+                OPTION = "true"
+                contentsViewModel?.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             }
             chUnseen.setOnClickListener {
-                option = "false"
-                Log.d("ServerContents : option", "${option}")
-                Log.d("ServerContents : filter", "${filter}")
-                contentsViewModel?.requestContentsTaken(id, option, filter, name)
+                OPTION = "false"
+                contentsViewModel?.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             }
             chAlarm.setOnClickListener {
-                option = "notified"
-                contentsViewModel?.requestContentsTaken(id, option, filter, name)
+                OPTION = "notified"
+                contentsViewModel?.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             }
         }
     }
@@ -265,5 +267,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         const val GRID_LAYOUT = 2
         const val LINEAR_MAX_LAYOUT = 3
         var layout = 1
+
+        var ID = 0
+        var CATEGORY_NAME = "error"
+        var OPTION: String = "all"
+        var FILTER: String = "created_at"
     }
 }
