@@ -46,6 +46,11 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         setCategoryListDialog()
     }
 
+    override fun onStart() {
+        super.onStart()
+        contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+    }
+
     private fun initAdapter() {
         contentsAdapter = ContentsAdapter(contentsViewModel)
         binding.rvContents.adapter = contentsAdapter
@@ -76,7 +81,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             intent.getStringExtra("categoryName")?.let {
                 CATEGORY_NAME = it
             }
-            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+            //contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             Log.d("categoryName", "$CATEGORY_NAME")
         }
     }
