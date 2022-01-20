@@ -31,6 +31,7 @@ class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryConten
         clickBack()
         clickDelete()
         changeColor()
+        clickComplete()
     }
 
     private fun setData(){
@@ -45,10 +46,8 @@ class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryConten
         binding.ivBack.setOnClickListener { finish() }
     }
 
-    //@RequiresApi(Build.VERSION_CODES.Q)
     private fun changeColor(){
         binding.etCategory.setOnFocusChangeListener { view, b -> binding.etCategory.setTextColor(Color.parseColor("#272b30")) }
-        //binding.etCategory.setTextCursorDrawable(R.drawable.rectangle_havit_purple_cursor)
     }
 
     private fun setAlertDialog() {
@@ -65,7 +64,11 @@ class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryConten
             alertDialog.dismiss()
         }
         buttonDelete.setOnClickListener {
-            val intent = Intent(this, CategoryOrderModifyActivity::class.java).apply { putExtra("position", position) }
+            // 관리 뷰에 전달할 데이터 셋팅
+            val intentName = Intent(this, CategoryOrderModifyActivity::class.java).apply {
+                putExtra("position", position)
+                putExtra("categoryName", binding.etCategory.text)
+            }
             setResult(RESULT_OK, intent)
             finish()
         }
@@ -75,5 +78,16 @@ class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryConten
 
     private fun clickDelete() {
         binding.btnRemove.setOnClickListener { setAlertDialog() }
+    }
+
+    private fun clickComplete(){
+        binding.tvComplete.setOnClickListener {
+            val intentName = Intent(this, CategoryOrderModifyActivity::class.java)
+            intentName.putExtra("position2", position)
+            intentName.putExtra("categoryName", binding.etCategory.text.toString())
+            Log.d("CategoryNameTest", "전달 전 : ${binding.etCategory.text}")
+            setResult(RESULT_FIRST_USER, intentName)
+            finish()
+        }
     }
 }

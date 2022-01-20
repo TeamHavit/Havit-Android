@@ -59,10 +59,19 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
     }
 
     private fun setResult(){
+        // 데이터 받아옴 (카테고리 내용 수정 뷰에서)
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             if(it.resultCode == RESULT_OK){
                 val position = it.data?.getIntExtra("position", 0) ?: 0
                 categoryOrderModifyAdapter.removeData(position)
+            }
+            else if(it.resultCode == RESULT_FIRST_USER){
+                val position = it.data?.getIntExtra("position2", 0) ?: 0
+                val name = it.data?.getStringExtra("categoryName")
+                Log.d("CategoryNameTest", "$name")
+                //categoryViewModel.modifyValue(position, name.toString())
+                categoryOrderModifyAdapter.categoryList[position].title = name.toString()
+                categoryOrderModifyAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -74,7 +83,7 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
                 categoryViewModel.categoryList.value?.get(position)
                     ?.let { intent.putExtra("categoryId", it.id)
                         intent.putExtra("position", position)
-                    intent.putExtra("categoryName", it.title)}
+                    intent.putExtra("categoryName", categoryOrderModifyAdapter.categoryList[position].title)}
                 Log.d("CategoryContentsData", "전달 전 포지션 : ${position}")
                 getResult.launch(intent)
             }
