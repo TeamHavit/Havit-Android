@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.contents
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentDialogContentsCategoryBinding
 import org.sopt.havit.ui.category.CategoryAdapter
+import org.sopt.havit.ui.web.WebActivity
 
 class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentDialogContentsCategoryBinding? = null
@@ -36,6 +38,7 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
         setData()
         dataObserve()
         decorationView()
+        clickCategory()
         return binding.root
     }
 
@@ -69,5 +72,20 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
                 LinearLayoutManager.VERTICAL
             )
         )
+    }
+
+    private fun clickCategory(){
+        contentsCategoryAdapter.setItemCategoryClickListener(object : ContentsCategoryAdapter.OnItemClickListener {
+            override fun onClick(v: View, position: Int) {
+                val intent = Intent(requireActivity(), ContentsActivity::class.java)
+                contentsCategoryViewModel.contentsCategoryList.value?.get(position)
+                    ?.let {
+                        intent.putExtra("categoryId", it.id)
+                        intent.putExtra("categoryName", it.title)
+                    }
+                startActivity(intent)
+                requireActivity().finish()
+            }
+        })
     }
 }
