@@ -50,8 +50,12 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         clickContentsItemView()
         // Recommend RecyclerView
         recommendationDataObserve()
-//        initRecommendRvAdapter()
         setClickEvent() // Every clickEvent
+
+        // CATEGORY CLICK TEST
+        binding.clCategory.setOnClickListener {
+            Log.d("HOMEFRAGMENT_CATEGORY", "HOMEFRAGMENT")
+        }
 
         return binding.root
     }
@@ -95,21 +99,29 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             categoryData.observe(viewLifecycleOwner) { data ->
                 with(binding) {
                     if (data.isEmpty()) {
-                        binding.layoutCategory.clHomeCategory.visibility = View.GONE
+                        layoutCategory.clHomeCategory.visibility = View.GONE
                         clickAddCategory()
                     } else {
-                        binding.layoutCategoryEmpty.clHomeCategoryEmpty.visibility = View.GONE
+                        layoutCategoryEmpty.clHomeCategoryEmpty.visibility = View.GONE
                         categoryVpAdapter.categoryList.clear()
                         val list = mutableListOf(listOf<CategoryResponse.AllCategoryData>())
                         var size = data.size
                         var count = 0
                         list.clear()
-                        while (size > 6) {
-                            list.add(data.subList(count * 6, count * 6 + 6))
-                            ++count
-                            size -= 6
+                        while (count < data.size) {
+                            if (size - count > 6) {
+                                if (count == 0) {
+                                    list.add(data.subList(count, count + 5))
+                                    count += 5
+                                } else {
+                                    list.add(data.subList(count, count + 6))
+                                    count += 6
+                                }
+                            } else {
+                                list.add(data.subList(count, data.size))
+                                break
+                            }
                         }
-                        list.add(data.subList(count * 6, count * 6 + size))
                         categoryVpAdapter.categoryList.addAll(list)
                         categoryVpAdapter.notifyDataSetChanged()
                     }
@@ -151,12 +163,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             startActivity(intent)
         }
         binding.layoutCategory.tvCategoryAll.setOnClickListener {
-            Log.d("activity_check", "CLICK TEST")
             val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
             startActivity((intent))
         }
         binding.clSearch.setOnClickListener {
-            Log.d("homefragment_search", "SEARCH")
             val intent = Intent(requireActivity(), SearchActivity::class.java)
             startActivity(intent)
         }
@@ -175,37 +185,14 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                     if (data.isNotEmpty()) {
                         Log.d("HOMEFRAGMENT_RECOMMENDATION", "recommendation data: $data")
                         recommendRvAdapter = HomeRecommendRvAdapter()
-                        binding.rvRecommend.adapter = recommendRvAdapter
-//                        val list = mutableListOf<RecommendationResponse.RecommendationData>()
+                        rvRecommend.adapter = recommendRvAdapter
                         recommendRvAdapter.recommendList.addAll(data)
                         recommendRvAdapter.notifyDataSetChanged()
                     }
                 }
-
             }
         }
     }
-
-//    private fun initRecommendRvAdapter() {
-//        recommendRvAdapter = HomeRecommendRvAdapter()
-//        binding.rvRecommend.adapter = recommendRvAdapter
-////        val list = listOf(
-////            HomeRecommendData("", "이름1", "종류 / 카테고리"),
-////            HomeRecommendData("", "이름2", "종류 / 카테고리"),
-////            HomeRecommendData("", "이름3", "종류 / 카테고리"),
-////            HomeRecommendData("", "이름4", "종류 / 카테고리"),
-////            HomeRecommendData("", "이름5", "종류 / 카테고리"),
-////            HomeRecommendData("", "이름6", "종류 / 카테고리"),
-////            HomeRecommendData("", "이름7", "종류 / 카테고리"),
-////            HomeRecommendData("", "이름8", "종류 / 카테고리"),
-////            HomeRecommendData("", "이름9", "종류 / 카테고리")
-////        )
-//        homeViewModel.requestRecommendTaken()
-//        homeViewModel.recommendList.observe(viewLifecycleOwner) {
-//            recommendRvAdapter.setList(it)
-//        }
-//        recommendRvAdapter.notifyDataSetChanged()
-//    }
 
     private fun initSearchSticky() {
         binding.svMain.run {
@@ -224,10 +211,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             contentsList.observe(viewLifecycleOwner) { data ->
                 with(binding) {
                     if (data.isEmpty()) {
-                        binding.rvContents.visibility = View.GONE
-                        binding.tvMoreContents.visibility = View.INVISIBLE
+                        rvContents.visibility = View.GONE
+                        tvMoreContents.visibility = View.INVISIBLE
                     } else {
-                        binding.clContentsEmpty.visibility = View.GONE
+                        clContentsEmpty.visibility = View.GONE
                         val min = if (data.size < 10) data.size else 10
                         val list = data.subList(0, min)
                         contentsAdapter.contentsList.addAll(list)
