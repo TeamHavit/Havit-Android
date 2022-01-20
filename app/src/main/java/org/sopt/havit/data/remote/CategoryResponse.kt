@@ -15,6 +15,6 @@ data class CategoryResponse(
         @SerializedName("imageUrl")
         val url: String,
         val orderIndex: Int,
-        val title: String
+        var title: String
     )
 }
