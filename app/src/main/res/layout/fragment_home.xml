@@ -216,6 +216,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="74dp"
                         android:max="100"
+                        android:progress="@{vm_home.reachRate}"
                         android:progressDrawable="@drawable/bg_home_reach_progress"
                         app:layout_constraintEnd_toStartOf="@id/tv_reach_percent"
                         app:layout_constraintStart_toStartOf="@id/tv_reach_read"
