@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.contents
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,36 +11,50 @@ import org.sopt.havit.databinding.ItemContentsGridBinding
 import org.sopt.havit.databinding.ItemContentsLinearMaxBinding
 import org.sopt.havit.databinding.ItemContentsLinearMinBinding
 
-class ContentsAdapter(contentsViewModel: ContentsViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ContentsAdapter(contentsViewModel: ContentsViewModel) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var contentsList = mutableListOf<ContentsResponse.ContentsData>()
     private lateinit var itemClickListener: OnItemClickListener
     private var viewModel = contentsViewModel
+    private var available_1 = true
+    private var available_2 = true
+    private var available_3 = true
 
     inner class LinearMinViewHolder(private val binding: ItemContentsLinearMinBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
             binding.content = data
-            if(data.isSeen){
-                binding.ivHavit.tag = "seen"
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-            }
-            else{
-                binding.ivHavit.tag = "unseen"
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+            if (available_1) {
+                if (data.isSeen) {
+                    Log.d("HavitButtonTest", "1. binding - seen")
+                    binding.ivHavit.tag = "seen"
+                    binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
+                } else {
+                    Log.d("HavitButtonTest", "1. binding - unseen")
+                    binding.ivHavit.tag = "unseen"
+                    binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+                }
+            } else {
+                Log.d("HavitButtonTest", "1. binding STOP")
+                available_1 = true
             }
         }
 
         fun onClick(data: ContentsResponse.ContentsData) {
             binding.ivHavit.setOnClickListener {
                 viewModel.setIsSeen(data.id)
-                if(binding.ivHavit.tag == "unseen"){
+                if (binding.ivHavit.tag == "unseen") {
+                    Log.d("HavitButtonTest", "1. click - unseen 1 : ${binding.ivHavit.tag}")
                     binding.ivHavit.tag = "seen"
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-                }
-                else{
+                    Log.d("HavitButtonTest", "1. click - unseen 2 : ${binding.ivHavit.tag}")
+                } else {
+                    Log.d("HavitButtonTest", "1. click - seen 1 : ${binding.ivHavit.tag}")
                     binding.ivHavit.tag = "unseen"
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+                    Log.d("HavitButtonTest", "1. click - seen 2 : ${binding.ivHavit.tag}")
                 }
+                available_1 = false
                 viewModel.requestContentsTaken(
                     ContentsActivity.ID,
                     ContentsActivity.OPTION,
@@ -54,27 +69,37 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel) : RecyclerView.Adapt
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
             binding.content = data
-            if(data.isSeen){
-                binding.ivHavit.tag = "seen"
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-            }
-            else{
-                binding.ivHavit.tag = "unseen"
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+            if (available_2) {
+                if (data.isSeen) {
+                    Log.d("HavitButtonTest", "2. binding - seen")
+                    binding.ivHavit.tag = "seen"
+                    binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
+                } else {
+                    Log.d("HavitButtonTest", "2. binding - unseen")
+                    binding.ivHavit.tag = "unseen"
+                    binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+                }
+            } else {
+                Log.d("HavitButtonTest", "2. binding STOP")
+                available_2 = true
             }
         }
 
         fun onClick(data: ContentsResponse.ContentsData) {
             binding.ivHavit.setOnClickListener {
                 viewModel.setIsSeen(data.id)
-                if(binding.ivHavit.tag == "unseen"){
+                if (binding.ivHavit.tag == "unseen") {
+                    Log.d("HavitButtonTest", "2. click - unseen 1 : ${binding.ivHavit.tag}")
                     binding.ivHavit.tag = "seen"
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-                }
-                else{
+                    Log.d("HavitButtonTest", "2. click - unseen 2 : ${binding.ivHavit.tag}")
+                } else {
+                    Log.d("HavitButtonTest", "2. click - seen 1 : ${binding.ivHavit.tag}")
                     binding.ivHavit.tag = "unseen"
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+                    Log.d("HavitButtonTest", "2. click - seen 2 : ${binding.ivHavit.tag}")
                 }
+                available_2 = false
                 viewModel.requestContentsTaken(
                     ContentsActivity.ID,
                     ContentsActivity.OPTION,
@@ -90,27 +115,37 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel) : RecyclerView.Adapt
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
             binding.content = data
-            if(data.isSeen){
-                binding.ivHavit.tag = "seen"
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-            }
-            else{
-                binding.ivHavit.tag = "unseen"
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+            if (available_3) {
+                if (data.isSeen) {
+                    Log.d("HavitButtonTest", "3. binding - seen")
+                    binding.ivHavit.tag = "seen"
+                    binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
+                } else {
+                    Log.d("HavitButtonTest", "3. binding - unseen")
+                    binding.ivHavit.tag = "unseen"
+                    binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+                }
+            } else {
+                Log.d("HavitButtonTest", "3. binding STOP")
+                available_3 = true
             }
         }
 
         fun onClick(data: ContentsResponse.ContentsData) {
             binding.ivHavit.setOnClickListener {
                 viewModel.setIsSeen(data.id)
-                if(binding.ivHavit.tag == "unseen"){
+                if (binding.ivHavit.tag == "unseen") {
+                    Log.d("HavitButtonTest", "3. click - unseen 1 : ${binding.ivHavit.tag}")
                     binding.ivHavit.tag = "seen"
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-                }
-                else{
+                    Log.d("HavitButtonTest", "3. click - unseen 2 : ${binding.ivHavit.tag}")
+                } else {
+                    Log.d("HavitButtonTest", "3. click - seen 1 : ${binding.ivHavit.tag}")
                     binding.ivHavit.tag = "unseen"
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+                    Log.d("HavitButtonTest", "3. click - unseen 2 : ${binding.ivHavit.tag}")
                 }
+                available_3 = false
                 viewModel.requestContentsTaken(
                     ContentsActivity.ID,
                     ContentsActivity.OPTION,
