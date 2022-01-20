@@ -3,22 +3,22 @@ package org.sopt.havit.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.sopt.havit.data.HomeRecommendData
+import org.sopt.havit.data.remote.RecommendationResponse
 import org.sopt.havit.databinding.ItemHomeRecommendListBinding
 
 class HomeRecommendRvAdapter :
     RecyclerView.Adapter<HomeRecommendRvAdapter.HomeRecommendViewHolder>() {
 
-    var recommendList = mutableListOf<HomeRecommendData>()
+    var recommendList = mutableListOf<RecommendationResponse.RecommendationData>()
 
-    fun setList(list: List<HomeRecommendData>) {
-        recommendList = list as MutableList<HomeRecommendData>
+    fun setList(list: List<RecommendationResponse.RecommendationData>) {
+        recommendList = list as MutableList<RecommendationResponse.RecommendationData>
     }
 
     class HomeRecommendViewHolder(private val binding: ItemHomeRecommendListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: HomeRecommendData) {
-            binding.dataHomeRecommend = data
+        fun onBind(data: RecommendationResponse.RecommendationData) {
+            binding.recommendationData = data
         }
     }
 
