@@ -10,8 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 import org.sopt.havit.R
-import org.sopt.havit.data.CategoryData
-import org.sopt.havit.data.CategorySelectableData
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentSelectCategoryBinding

@@ -69,7 +69,7 @@ class HomeViewModel() : ViewModel() {
         val list = mutableListOf(listOf<CategoryResponse.AllCategoryData>())
         var count = 0
         list.clear()
-        val firstData = CategoryResponse.AllCategoryData(-1, -1, -1, "전체", "")
+        val firstData = CategoryResponse.AllCategoryData(-1, -1, -1, "", -1, "모든 콘텐츠")
         while (data.size > count) {
             if (data.size - count >= 6) {
                 if (count == 0) {
