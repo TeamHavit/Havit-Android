@@ -61,6 +61,14 @@
             android:name="contents_alarm_time"
             app:argType="string"
             android:defaultValue="알림설정" />
+        <argument
+            android:name="is_notified"
+            app:argType="boolean"
+            android:defaultValue="false"/>
+        <argument
+            android:name="notification_time"
+            app:argType="string"
+            android:defaultValue=""/>
         <action
             android:id="@+id/action_contentsSummeryFragment_to_setNotificationFragment"
             app:destination="@id/setNotificationFragment" />
