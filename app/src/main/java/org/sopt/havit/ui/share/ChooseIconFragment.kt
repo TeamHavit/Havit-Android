@@ -9,10 +9,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import kotlinx.coroutines.launch
 import org.sopt.havit.R
+import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.remote.CategoryAddRequest
 import org.sopt.havit.databinding.FragmentChooseIconBinding
+import org.sopt.havit.util.MySharedPreference
 
 class ChooseIconFragment : Fragment() {
     private lateinit var iconAdapter: IconAdapter
@@ -70,17 +75,40 @@ class ChooseIconFragment : Fragment() {
                 Log.d("IconAdapter", "$position clicked in Fragment")
                 v.background =
                     ContextCompat.getDrawable(requireContext(), R.drawable.oval_gray_stroke_2)
-                categoryIndex = position
+                categoryIndex = position + 1
+                checkIsSelected()
             }
         })
+    }
+
+    private fun checkIsSelected() {
+        if (categoryIndex != -1) {
+            binding.btnNext.setBackgroundResource(R.drawable.rectangle_purple)
+            binding.btnNext.isEnabled = true
+        }
     }
 
     private fun initClickNext() {
         binding.btnNext.setOnClickListener {
 
+            initNetwork()
             findNavController().navigate(R.id.action_chooseIconFragment_to_selectCategoryFragment)
             showCustomToast()
 
+        }
+    }
+
+    private fun initNetwork() {
+        lifecycleScope.launch {
+            try {
+                // 서버 통신
+                val response =
+                    RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
+                        .addCategory(CategoryAddRequest(args.categoryTitle, categoryIndex))
+                Log.d("CreateCategory", response.success.toString())
+            } catch (e: Exception) {
+                // 서버 통신 실패 시
+            }
         }
     }
 
@@ -90,7 +118,7 @@ class ChooseIconFragment : Fragment() {
         // set text
         val view = layoutInflater.inflate(R.layout.toast_category_added, null)
         val textView: TextView = view.findViewById(R.id.tv_toast_category1)
-        textView.text = "test"
+        textView.text = args.categoryTitle
         toast.view = view
         toast.show()
     }

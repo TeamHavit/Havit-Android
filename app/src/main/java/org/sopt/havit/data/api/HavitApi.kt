@@ -27,16 +27,21 @@ interface HavitApi {
     @GET("category")
     suspend fun getCategoryNum(): CategoryResponse
 
+    @POST("category")
+    suspend fun addCategory(
+        @Body body: CategoryAddRequest
+    ): BasicResponse
+
     @GET("category/{categoryId}?option=&filter=")
     suspend fun getCategoryContents(
         @Path("categoryId") categoryId: Int,
         @Query("option") option: String,
         @Query("filter") filter: String
-    ) : ContentsResponse
+    ): ContentsResponse
 
     @GET("content/recent")
     suspend fun getContentsRecent(): ContentsSimpleResponse
 
     @GET("content/unseen")
-    suspend fun getContentsUnseen() : ContentsSimpleResponse
+    suspend fun getContentsUnseen(): ContentsSimpleResponse
 }
