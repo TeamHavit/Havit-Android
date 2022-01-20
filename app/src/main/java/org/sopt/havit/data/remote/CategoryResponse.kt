@@ -12,7 +12,7 @@ data class CategoryResponse(
         val contentNumber: Int,
         val id: Int,
         val orderIndex: Int,
-        val title: String,
+        var title: String,
         @SerializedName("imageUrl")
         var url: String
     )

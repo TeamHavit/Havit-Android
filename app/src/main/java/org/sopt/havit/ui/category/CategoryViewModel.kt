@@ -27,4 +27,8 @@ class CategoryViewModel : ViewModel() {
             }
         }
     }
+
+    fun modifyValue(position : Int, name : String){
+        _categoryList.value?.get(position)?.title = name
+    }
 }
