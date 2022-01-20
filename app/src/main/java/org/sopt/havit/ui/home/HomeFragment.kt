@@ -46,11 +46,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         // Recent Save RecyclerView
         initRecentContentsRvAdapter()
         recentContentsDataObserve()
-        clickContentsItemView()
         // Recommend RecyclerView
         recommendationDataObserve()
         setClickEvent() // Every clickEvent
-
         // CATEGORY CLICK TEST
         binding.clCategory.setOnClickListener {
             Log.d("HOMEFRAGMENT_CATEGORY", "HOMEFRAGMENT")
@@ -75,6 +73,21 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         })
     }
 
+    private fun clickRecommendItemView() {
+        recommendRvAdapter.setItemClickListener(object :
+            HomeRecommendRvAdapter.OnItemClickListener {
+            override fun onWebClick(v: View, position: Int) {
+                val intent = Intent(v.context, WebActivity::class.java)
+                homeViewModel.recommendList.value?.get(position)
+                    ?.let {
+                        intent.putExtra("url", it.url)
+//                        intent.putExtra("contentsId", it.id)
+                    }
+                startActivity(intent)
+            }
+        })
+    }
+
     private fun initRecentContentsRvAdapter() {
         //contentsAdapter = HomeRecentContentsRvAdapter()
         binding.rvContents.adapter = contentsAdapter
@@ -85,6 +98,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         homeViewModel.requestContentsTaken()
         homeViewModel.requestCategoryTaken()
         homeViewModel.requestRecommendTaken()
+//        allContentsCount = homeViewModel.userData.value!!.totalContentNumber
     }
 
     private fun clickAddCategory() {
@@ -175,6 +189,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                         rvRecommend.adapter = recommendRvAdapter
                         recommendRvAdapter.recommendList.addAll(data)
                         recommendRvAdapter.notifyDataSetChanged()
+                        clickRecommendItemView()
                     }
                 }
             }
@@ -206,6 +221,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                         val list = data.subList(0, min)
                         contentsAdapter.contentsList.addAll(list)
                         contentsAdapter.notifyDataSetChanged()
+                        clickContentsItemView()
                     }
                 }
             }
