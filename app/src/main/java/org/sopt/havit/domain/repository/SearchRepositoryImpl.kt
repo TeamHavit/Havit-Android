@@ -1,14 +1,18 @@
 package org.sopt.havit.domain.repository
 
+import android.content.Context
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.data.remote.SearchContentsResponse
 import org.sopt.havit.data.repository.SearchRepository
+import org.sopt.havit.util.MySharedPreference
 
-class SearchRepositoryImpl :SearchRepository {
+class SearchRepositoryImpl(context: Context) :SearchRepository {
+
+    private val pref = MySharedPreference.getXAuthToken(context)
 
     override suspend fun getSearchContents(keyword:String): List<ContentsSearchResponse.Data> =
-        RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
+        RetrofitObject.provideHavitApi(pref)
             .getSearchContents(keyword).data
 
 }

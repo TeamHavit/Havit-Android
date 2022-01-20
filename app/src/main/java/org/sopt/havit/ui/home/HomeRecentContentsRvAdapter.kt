@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.home
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -14,9 +15,12 @@ class HomeRecentContentsRvAdapter :
     class HomeContentsViewHolder(private val binding: ItemHomeRecentContentsListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsSimpleResponse.ContentsSimpleData) {
+            data.createdAt = data.createdAt.substring(0 until 10)
+                .replace("-", ". ")
+            Log.d("HomeRecentContentsRvAdapter TIME", data.createdAt.length.toString())
+            Log.d("HomeRecentContentsRvAdapter TIME", data.notificationTime)
             data.description = data.description.replace(" ", "\u00a0") // tvHeader 단어 자동줄바꿈 막는 코드
             binding.dataHomeContents = data
-
         }
     }
 
@@ -32,10 +36,6 @@ class HomeRecentContentsRvAdapter :
     override fun onBindViewHolder(holder: HomeContentsViewHolder, position: Int) {
         holder.onBind(contentsList[position])
     }
-
-//    fun setList(list: List<ContentsSimpleResponse.ContentsSimpleData>) {
-//        contentsList = list as MutableList<ContentsSimpleResponse.ContentsSimpleData>
-//    }
 
     override fun getItemCount(): Int = contentsList.size
 }

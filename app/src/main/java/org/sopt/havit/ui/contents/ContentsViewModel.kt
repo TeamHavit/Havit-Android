@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.ContentsResponse
+import org.sopt.havit.data.remote.ContentsSearchResponse
 
 class ContentsViewModel : ViewModel() {
     private val _contentsList = MutableLiveData<List<ContentsResponse.ContentsData>>()
@@ -23,10 +24,12 @@ class ContentsViewModel : ViewModel() {
     private val _orderState = MutableLiveData<String>()
     val orderState: LiveData<String> = _orderState
 
+    var contentsMore = MutableLiveData< ContentsSearchResponse.Data>()
+
     fun requestContentsTaken(categoryId: Int, option: String, filter: String, name: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try{
-                val response = RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
+                val response = RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
                     .getCategoryContents(categoryId, option, filter)
                 _contentsList.postValue(response.data)
                 _contentsCount.postValue(response.data.size)
@@ -44,5 +47,9 @@ class ContentsViewModel : ViewModel() {
 
             }
         }
+    }
+
+    fun setContentsView(data: ContentsSearchResponse.Data){
+        contentsMore.value=data
     }
 }

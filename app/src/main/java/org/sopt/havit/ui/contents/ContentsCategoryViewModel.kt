@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.category
+package org.sopt.havit.ui.contents
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,11 +9,9 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.CategoryResponse
 
-class CategoryViewModel : ViewModel() {
-    private val _categoryCount = MutableLiveData<Int>()
-    val categoryCount: LiveData<Int> = _categoryCount
-    private val _categoryList = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
-    val categoryList: LiveData<List<CategoryResponse.AllCategoryData>> = _categoryList
+class ContentsCategoryViewModel : ViewModel() {
+    private val _contentsCategoryList = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
+    val contentsCategoryList: LiveData<List<CategoryResponse.AllCategoryData>> = _contentsCategoryList
 
     fun requestCategoryTaken() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -21,8 +19,7 @@ class CategoryViewModel : ViewModel() {
                 val response =
                     RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
                         .getAllCategory()
-                _categoryList.postValue(response.data)
-                _categoryCount.postValue(response.data.size)
+                _contentsCategoryList.postValue(response.data)
             } catch (e: Exception) {
             }
         }

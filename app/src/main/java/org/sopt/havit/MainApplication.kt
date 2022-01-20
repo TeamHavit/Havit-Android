@@ -46,7 +46,7 @@ class MainApplication :Application() {
 
     private val myModule = module{
         single { MyPageRepository() }
-        single<SearchRepository> { SearchRepositoryImpl() }
+        single<SearchRepository> { SearchRepositoryImpl(get()) }
         single<ContentsRepository>{ ContentsRepositoryImpl() }
     }
 
