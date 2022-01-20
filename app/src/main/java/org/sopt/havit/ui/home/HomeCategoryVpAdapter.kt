@@ -1,9 +1,9 @@
 package org.sopt.havit.ui.home
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.sopt.havit.data.HomeCategoryListData
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemHomeCategoryRecyclerviewBinding
 import org.sopt.havit.ui.home.HomeCategoryRvAdapter.Companion.isFirst
@@ -36,6 +36,10 @@ class HomeCategoryVpAdapter : RecyclerView.Adapter<HomeCategoryVpAdapter.HomeCat
 
     override fun onBindViewHolder(holder: HomeCategoryViewHolder, position: Int) {
         holder.onBind(categoryList[position], position)
+
+        holder.itemView.setOnClickListener {
+            Log.d("HOMEFRAGMENT_CATEGORY", "VIEWPAGER")
+        }
     }
 
     override fun getItemCount(): Int = categoryList.size

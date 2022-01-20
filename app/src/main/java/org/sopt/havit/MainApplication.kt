@@ -47,7 +47,7 @@ class MainApplication :Application() {
     private val myModule = module{
         single { MyPageRepository() }
         single<SearchRepository> { SearchRepositoryImpl(get()) }
-        single<ContentsRepository>{ ContentsRepositoryImpl() }
+        single<ContentsRepository>{ ContentsRepositoryImpl(get()) }
     }
 
     override fun onTerminate()

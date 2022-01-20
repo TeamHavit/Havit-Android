@@ -14,7 +14,7 @@ interface HavitApi {
     suspend fun getSearchCategory(
         @Query("categoryId") categoryId: String,
         @Query("keyword") keyword: String
-    ): SearchContentsResponse
+    ): ContentsSearchResponse
 
     @PATCH("content/check")
     suspend fun isHavit(
@@ -24,21 +24,30 @@ interface HavitApi {
     @GET("category")
     suspend fun getAllCategory(): CategoryResponse
 
+    @GET("category")
+    suspend fun getCategoryNum(): CategoryResponse
+
     @GET("category/{categoryId}?option=&filter=")
     suspend fun getCategoryContents(
         @Path("categoryId") categoryId: Int,
         @Query("option") option: String,
         @Query("filter") filter: String
-    ) : ContentsResponse
+    ): ContentsResponse
 
     @GET("content/recent")
     suspend fun getContentsRecent(): ContentsSimpleResponse
 
     @GET("content/unseen")
-    suspend fun getContentsUnseen() : ContentsSimpleResponse
+    suspend fun getContentsUnseen(): ContentsSimpleResponse
 
     @GET("category/{categoryId}")
     suspend fun deleteCategory(
         @Path("categoryId") categoryId: Int
-    ) : ContentsResponse
+    ): ContentsResponse
+
+    @GET("recommendation")
+    suspend fun getRecommendation() : RecommendationResponse
+
+    @GET("user")
+    suspend fun getUserData() : UserResponse
 }

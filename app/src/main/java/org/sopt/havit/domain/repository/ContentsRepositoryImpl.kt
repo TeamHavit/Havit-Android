@@ -1,13 +1,17 @@
 package org.sopt.havit.domain.repository
 
+import android.content.Context
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.ContentsHavitResponse
 import org.sopt.havit.data.repository.ContentsRepository
+import org.sopt.havit.util.MySharedPreference
 
-class ContentsRepositoryImpl :ContentsRepository {
+class ContentsRepositoryImpl(context: Context) :ContentsRepository {
+
+    private val pref = MySharedPreference.getXAuthToken(context)
 
     override suspend fun isSeen(contentsId: Int): ContentsHavitResponse {
-        return RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk").isHavit(ContentsHavitRequest(contentsId))
+        return RetrofitObject.provideHavitApi(pref).isHavit(ContentsHavitRequest(contentsId))
     }
 }

@@ -26,4 +26,6 @@
     <color name="havit_red">#ef4848</color>
     <color name="purple_2">#c3c2ff</color>
     <color name="havit_green">#5fec86</color>
+    <color name="purple_main">#8578ff</color>
+    <color name="purple_main2">#6a5bff</color>
 </resources>

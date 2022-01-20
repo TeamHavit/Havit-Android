@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_selectCategoryFragment_to_contentsSummeryFragment"
             app:destination="@id/contentsSummeryFragment" />
+        <action
+            android:id="@+id/action_selectCategoryFragment_to_addCategoryFragment"
+            app:destination="@id/addCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/contentsSummeryFragment"
@@ -70,5 +73,8 @@
         <action
             android:id="@+id/action_noCategoryFragment_to_addCategoryFragment"
             app:destination="@id/addCategoryFragment" />
+        <action
+            android:id="@+id/action_noCategoryFragment_to_selectCategoryFragment"
+            app:destination="@id/selectCategoryFragment" />
     </fragment>
 </navigation>
