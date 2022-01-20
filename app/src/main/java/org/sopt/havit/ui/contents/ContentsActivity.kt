@@ -22,10 +22,6 @@ import org.sopt.havit.ui.web.WebActivity
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
     private val contentsViewModel: ContentsViewModel by viewModels()
-//    private var id = 0
-//    private var name = "error"
-//    private var option: String = "all"
-//    private var filter: String = "created_at"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +42,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         moveSearch()
         clickItemView()
         setChipOrder()
+        setCategoryListDialog()
     }
 
 
@@ -219,6 +216,12 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             binding.tvOrder.text = "최근 조회순"
             bottomSheetDialog.dismiss()
+        }
+    }
+
+    private fun setCategoryListDialog(){
+        binding.clCategory.setOnClickListener {
+            DialogContentsCategoryFragment().show(supportFragmentManager, "categoryList")
         }
     }
 
