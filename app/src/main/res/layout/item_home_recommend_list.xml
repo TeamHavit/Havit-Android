@@ -24,7 +24,7 @@
             android:layout_width="53dp"
             android:layout_height="53dp"
             android:layout_marginTop="17dp"
-            iconSrc="@{recommendationData.url}"
+            iconSrc="@{recommendationData.imageUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

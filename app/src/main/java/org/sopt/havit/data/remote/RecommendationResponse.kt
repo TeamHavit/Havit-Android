@@ -10,6 +10,7 @@ data class RecommendationResponse(
         val id: Int,
         val title: String,
         val url: String,
-        val websiteCategory: String
+        val websiteCategory: String,
+        val imageUrl: String
     )
 }
