@@ -15,10 +15,13 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.navigation.navArgs
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
 import org.sopt.havit.databinding.ActivityCategoryOrderModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.share.ChooseIconFragmentArgs
 import org.sopt.havit.ui.share.IconAdapter
 
 class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryContentModifyBinding>(R.layout.activity_category_content_modify) {
@@ -26,6 +29,8 @@ class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryConten
     private val categoryContentModifyViewModel: CategoryContentModifyViewModel by viewModels()
     var position = -1
     private lateinit var iconAdapter : IconAdapter
+    private val args by navArgs<ChooseIconFragmentArgs>()
+    private var categoryIndex = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,29 +104,38 @@ class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryConten
     }
 
     private fun initAdapter() {
+
         iconAdapter = IconAdapter()
         binding.rvIcon.adapter = iconAdapter
         iconAdapter.iconList.addAll(
             listOf(
-                dummyImg,dummyImg2,dummyImg,dummyImg2,dummyImg,dummyImg2,dummyImg,dummyImg2,dummyImg,dummyImg2,
-                dummyImg,dummyImg2,dummyImg,dummyImg2,dummyImg
+                R.drawable.ic_category1,
+                R.drawable.ic_category2,
+                R.drawable.ic_category3,
+                R.drawable.ic_category4,
+                R.drawable.ic_category5,
+                R.drawable.ic_category6,
+                R.drawable.ic_category7,
+                R.drawable.ic_category8,
+                R.drawable.ic_category9,
+                R.drawable.ic_category10,
+                R.drawable.ic_category11,
+                R.drawable.ic_category12,
+                R.drawable.ic_category13,
+                R.drawable.ic_category14,
+                R.drawable.ic_category15
             )
         )
         iconAdapter.notifyDataSetChanged()
 
 
-        iconAdapter.setItemClickListener(object : IconAdapter.OnItemClickListener{
+        iconAdapter.setItemClickListener(object : IconAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 Log.d("IconAdapter", "$position clicked in Fragment")
-                v.background = ContextCompat.getDrawable(v.context, R.drawable.oval_gray_stroke_2)
+                v.background =
+                    ContextCompat.getDrawable(v.context, R.drawable.oval_gray_stroke_2)
+                categoryIndex = position + 1
             }
-        } )
-    }
-
-    companion object {
-        const val dummyImg =
-            "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png"
-        const val dummyImg2 =
-            "https://user-images.githubusercontent.com/59546818/149669476-3387dddf-d3cb-464d-a1a7-985cc3f397aa.png"
+        })
     }
 }
