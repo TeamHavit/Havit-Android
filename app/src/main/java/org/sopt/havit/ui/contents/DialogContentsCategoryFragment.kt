@@ -3,10 +3,10 @@ package org.sopt.havit.ui.contents
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentDialogContentsCategoryBinding
-import org.sopt.havit.ui.category.CategoryAdapter
-import org.sopt.havit.ui.web.WebActivity
 
 class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentDialogContentsCategoryBinding? = null
@@ -31,7 +29,12 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_dialog_contents_category, container, false)
+        _binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_dialog_contents_category,
+            container,
+            false
+        )
         binding.contentsCategoryViewModel = contentsCategoryViewModel
 
         initAdapter()
@@ -44,6 +47,8 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        Log.d("dialogDestroy", "success")
+        requireActivity().findViewById<ImageView>(R.id.iv_category_drop).setImageResource(R.drawable.ic_drop_black)
         _binding = null
     }
 
@@ -74,8 +79,9 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
         )
     }
 
-    private fun clickCategory(){
-        contentsCategoryAdapter.setItemCategoryClickListener(object : ContentsCategoryAdapter.OnItemClickListener {
+    private fun clickCategory() {
+        contentsCategoryAdapter.setItemCategoryClickListener(object :
+            ContentsCategoryAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 val intent = Intent(requireActivity(), ContentsActivity::class.java)
                 contentsCategoryViewModel.contentsCategoryList.value?.get(position)

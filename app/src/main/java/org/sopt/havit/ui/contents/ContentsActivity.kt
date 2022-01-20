@@ -221,6 +221,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun setCategoryListDialog(){
         binding.clCategory.setOnClickListener {
+            binding.ivCategoryDrop.setImageResource(R.drawable.ic_dropback_black)
             DialogContentsCategoryFragment().show(supportFragmentManager, "categoryList")
         }
     }
