@@ -1,24 +1,24 @@
 package org.sopt.havit.ui.home
 
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.databinding.ItemHomeRecentContentsListBinding
+import org.sopt.havit.ui.contents.ContentsAdapter
 
 class HomeRecentContentsRvAdapter :
     RecyclerView.Adapter<HomeRecentContentsRvAdapter.HomeContentsViewHolder>() {
 
     var contentsList = mutableListOf<ContentsSimpleResponse.ContentsSimpleData>()
+    private lateinit var itemClickListener: OnItemClickListener
 
-    class HomeContentsViewHolder(private val binding: ItemHomeRecentContentsListBinding) :
+    inner class HomeContentsViewHolder(private val binding: ItemHomeRecentContentsListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsSimpleResponse.ContentsSimpleData) {
             data.createdAt = data.createdAt.substring(0 until 10)
                 .replace("-", ". ")
-            Log.d("HomeRecentContentsRvAdapter TIME", data.createdAt.length.toString())
-            Log.d("HomeRecentContentsRvAdapter TIME", data.notificationTime)
             data.description = data.description.replace(" ", "\u00a0") // tvHeader 단어 자동줄바꿈 막는 코드
             binding.dataHomeContents = data
         }
@@ -35,6 +35,18 @@ class HomeRecentContentsRvAdapter :
 
     override fun onBindViewHolder(holder: HomeContentsViewHolder, position: Int) {
         holder.onBind(contentsList[position])
+
+        holder.itemView.setOnClickListener {
+            itemClickListener.onWebClick(it, position)
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onWebClick(v: View, position: Int)
+    }
+
+    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.itemClickListener = onItemClickListener
     }
 
     override fun getItemCount(): Int = contentsList.size

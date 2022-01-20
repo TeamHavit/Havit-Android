@@ -24,6 +24,9 @@ interface HavitApi {
     @GET("category")
     suspend fun getAllCategory(): CategoryResponse
 
+    @GET("category")
+    suspend fun getCategoryNum(): CategoryResponse
+
     @GET("category/{categoryId}?option=&filter=")
     suspend fun getCategoryContents(
         @Path("categoryId") categoryId: Int,
@@ -41,4 +44,8 @@ interface HavitApi {
     suspend fun deleteCategory(
         @Path("categoryId") categoryId: Int
     ) : ContentsResponse
+
+    @GET("recommendation")
+    suspend fun getRecommendation() : RecommendationResponse
+
 }

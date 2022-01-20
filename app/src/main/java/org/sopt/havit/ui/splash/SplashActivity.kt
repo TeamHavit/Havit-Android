@@ -20,6 +20,6 @@ class SplashActivity : BaseBindingActivity<ActivitySplashBinding>(R.layout.activ
             startActivity(Intent(this, MainActivity::class.java))
             finish()
 
-        }, 1000)
+        }, 3000)
     }
 }
