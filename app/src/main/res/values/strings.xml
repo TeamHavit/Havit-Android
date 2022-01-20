@@ -95,4 +95,10 @@
     <string name="contents_edit_delete">삭제</string>
     <string name="notification_no_alarm">알람 예정 콘텐츠가 없습니다.</string>
     <string name="notificatino_topbar">전체 알림</string>
+    <string name="mypage_name">해빗님의 활동</string>
+    <string name="mypage_percent">79%</string>
+    <string name="mypage_description">해빗님은 7일차 해빗러입니다.\n벌써 함께한지 일주일!</string>
+    <string name="mypage_category_title">카테고리 수</string>
+    <string name="mypage_save_title">저장한 콘텐츠</string>
+    <string name="mypage_check_title">확인한 콘텐츠</string>
 </resources>
