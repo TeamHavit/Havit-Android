@@ -104,24 +104,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                     } else {
                         layoutCategoryEmpty.clHomeCategoryEmpty.visibility = View.GONE
                         categoryVpAdapter.categoryList.clear()
-                        val list = mutableListOf(listOf<CategoryResponse.AllCategoryData>())
-                        var size = data.size
-                        var count = 0
-                        list.clear()
-                        while (count < data.size) {
-                            if (size - count > 6) {
-                                if (count == 0) {
-                                    list.add(data.subList(count, count + 5))
-                                    count += 5
-                                } else {
-                                    list.add(data.subList(count, count + 6))
-                                    count += 6
-                                }
-                            } else {
-                                list.add(data.subList(count, data.size))
-                                break
-                            }
-                        }
+                        val list = setList(data)
                         categoryVpAdapter.categoryList.addAll(list)
                         categoryVpAdapter.notifyDataSetChanged()
                     }

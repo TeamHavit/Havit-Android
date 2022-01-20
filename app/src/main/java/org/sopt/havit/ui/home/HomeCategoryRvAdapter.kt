@@ -5,14 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemHomeCategoryListBinding
 import org.sopt.havit.ui.contents.ContentsActivity
-import org.sopt.havit.ui.contents.ContentsAdapter
 
 class HomeCategoryRvAdapter :
     RecyclerView.Adapter<HomeCategoryRvAdapter.HomeCategoryRvViewHolder>() {
@@ -31,16 +29,14 @@ class HomeCategoryRvAdapter :
             Log.d("HOMECATEGORYRVADAPTER", data.url)
             binding.dataHomeCategory = data
             binding.tvTitle.text = data.title
+
             if (position == isFirst) {
                 when (itemViewType) {
                     isFirst -> {
-                        binding.tvTitle.text = "전체"
                         binding.clCategoryItem.setBackgroundResource(R.drawable.bg_main_card_category_all_img)
                         binding.ivIcon.visibility = View.INVISIBLE
                     }
                     else -> {
-                        Log.d("HOMECATEGORYRVADAPTER", "data.title: ${data.title}")
-                        Log.d("HOMECATEGORYRVADAPTER", "binding.tvTitle: ${binding.tvTitle.text}")
                         binding.clCategoryItem.setBackgroundResource(R.drawable.rectangle_purple_category_radius_6)
                         binding.ivIcon.visibility = View.VISIBLE
                     }
@@ -68,7 +64,7 @@ class HomeCategoryRvAdapter :
 
     override fun onBindViewHolder(
         holder: HomeCategoryRvViewHolder,
-        position : Int
+        position: Int
     ) {
         holder.onBind(categoryList[position], position)
 
