@@ -3,11 +3,13 @@ package org.sopt.havit.ui.category
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
@@ -43,8 +45,10 @@ class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryConten
         binding.ivBack.setOnClickListener { finish() }
     }
 
+    //@RequiresApi(Build.VERSION_CODES.Q)
     private fun changeColor(){
         binding.etCategory.setOnFocusChangeListener { view, b -> binding.etCategory.setTextColor(Color.parseColor("#272b30")) }
+        //binding.etCategory.setTextCursorDrawable(R.drawable.rectangle_havit_purple_cursor)
     }
 
     private fun setAlertDialog() {
