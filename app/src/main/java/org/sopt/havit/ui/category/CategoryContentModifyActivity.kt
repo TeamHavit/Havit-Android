@@ -4,23 +4,31 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
+import org.sopt.havit.databinding.ActivityCategoryOrderModifyBinding
+import org.sopt.havit.ui.base.BaseBindingActivity
 
-class CategoryContentModifyActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityCategoryContentModifyBinding
+class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryContentModifyBinding>(R.layout.activity_category_content_modify) {
     private lateinit var categoryOrderModifyAdapter: CategoryOrderModifyAdapter
+    private val categoryContentModifyViewModel: CategoryContentModifyViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityCategoryContentModifyBinding.inflate(layoutInflater)
+        binding.categoryViewModel = categoryContentModifyViewModel
+        setContentView(binding.root)
 
         clickBack()
         clickDelete()
 
-        setContentView(binding.root)
+    }
+
+    private fun setData(){
+        val name = intent.getStringExtra("categoryName")
+        binding.etCategory.setText(name)
     }
 
     private fun clickBack() {

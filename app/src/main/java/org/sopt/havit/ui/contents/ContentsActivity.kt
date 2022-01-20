@@ -244,7 +244,9 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             override fun onWebClick(v: View, position: Int) {
                 val intent = Intent(v.context, WebActivity::class.java)
                 contentsViewModel.contentsList.value?.get(position)
-                    ?.let { intent.putExtra("url", it.url) }
+                    ?.let { intent.putExtra("url", it.url)
+                    intent.putExtra("contentsId", it.id)
+                    intent.putExtra("isSeen", it.isSeen)}
                 startActivity(intent)
             }
         })
