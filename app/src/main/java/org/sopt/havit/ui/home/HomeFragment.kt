@@ -20,7 +20,7 @@ import org.sopt.havit.ui.web.WebActivity
 
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by lazy { HomeViewModel() }
     private val contentsAdapter: HomeRecentContentsRvAdapter by lazy { HomeRecentContentsRvAdapter() }
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
     private lateinit var categoryVpAdapter: HomeCategoryVpAdapter
@@ -210,8 +210,13 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun initProgressBar() {
-        homeViewModel.reachRate.observe(viewLifecycleOwner) {
-            binding.pbReach.progress = it
+        with(homeViewModel) {
+            userData.observe(viewLifecycleOwner) {
+                val rate =
+                    (it.totalSeenContentNumber.toDouble() / it!!.totalContentNumber.toDouble() * 100).toInt()
+                requestReachRate(rate)
+                binding.pbReach.progress = rate
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.home
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,14 +8,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.HomeReachData
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.data.remote.RecommendationResponse
 import org.sopt.havit.data.remote.UserResponse
+import org.sopt.havit.util.MySharedPreference
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel() : ViewModel() {
+
+//    private val token = MySharedPreference.getXAuthToken(context)
+    private val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo"
 
     private val _contentsList = MutableLiveData<List<ContentsSimpleResponse.ContentsSimpleData>>()
     val contentsList: LiveData<List<ContentsSimpleResponse.ContentsSimpleData>> = _contentsList
@@ -22,7 +26,7 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response =
-                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
+                    RetrofitObject.provideHavitApi(token)
                         .getContentsRecent()
                 _contentsList.postValue(response.data)
             } catch (e: Exception) {
@@ -36,7 +40,7 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response =
-                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
+                    RetrofitObject.provideHavitApi(token)
                         .getAllCategory()
                 _categoryData.postValue(response.data)
             } catch (e: Exception) {
@@ -50,7 +54,7 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response =
-                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
+                    RetrofitObject.provideHavitApi(token)
                         .getRecommendation()
                 _recommendList.postValue(response.data)
             } catch (e: Exception) {
@@ -92,21 +96,28 @@ class HomeViewModel : ViewModel() {
         return list
     }
 
-    private val _reachRate = MutableLiveData<Int>()
-    var reachRate: LiveData<Int> = _reachRate
-
     private val _userData = MutableLiveData<UserResponse.UserData>()
     val userData: LiveData<UserResponse.UserData> = _userData
     fun requestUserDataTaken() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response =
-                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
+                    RetrofitObject.provideHavitApi(token)
                         .getUserData()
                 _userData.postValue(response.data)
+                val rate =
+                    (_userData.value!!.totalSeenContentNumber.toDouble() / _userData.value!!.totalSeenContentNumber.toDouble() * 100).toInt()
+                _reachRate.postValue(rate)
+                Log.d("HOMEVIEWMODEL", "userdata: $userData")
             } catch (e: Exception) {
             }
         }
+    }
+
+    private val _reachRate = MutableLiveData<Int>()
+    var reachRate: LiveData<Int> = _reachRate
+    fun requestReachRate(rate: Int) {
+        _reachRate.postValue(rate)
     }
 
     //    dummy data
