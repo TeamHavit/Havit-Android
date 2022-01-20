@@ -78,6 +78,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun setData() {
+        homeViewModel.requestUserDataTaken()
         homeViewModel.requestContentsTaken()
         homeViewModel.requestCategoryTaken()
         homeViewModel.requestRecommendTaken()
@@ -209,8 +210,11 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun initProgressBar() {
-        homeViewModel.reachRate.observe(viewLifecycleOwner) {
-            binding.pbReach.progress = it
+        with(homeViewModel) {
+            userData.observe(viewLifecycleOwner) {
+                val rate = (it.totalSeenContentNumber.toDouble() / it.totalContentNumber.toDouble() * 100).toInt()
+                requestReachRate(rate)
+            }
         }
     }
 }

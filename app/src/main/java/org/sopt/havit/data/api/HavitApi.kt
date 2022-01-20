@@ -46,6 +46,8 @@ interface HavitApi {
     ): ContentsResponse
 
     @GET("recommendation")
-    suspend fun getRecommendation(): RecommendationResponse
+    suspend fun getRecommendation() : RecommendationResponse
 
+    @GET("user")
+    suspend fun getUserData() : UserResponse
 }
