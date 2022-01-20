@@ -2,6 +2,7 @@ package org.sopt.havit.ui.category
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -27,7 +28,7 @@ class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryConten
         setData()
         clickBack()
         clickDelete()
-
+        changeColor()
     }
 
     private fun setData(){
@@ -40,6 +41,10 @@ class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryConten
 
     private fun clickBack() {
         binding.ivBack.setOnClickListener { finish() }
+    }
+
+    private fun changeColor(){
+        binding.etCategory.setOnFocusChangeListener { view, b -> binding.etCategory.setTextColor(Color.parseColor("#272b30")) }
     }
 
     private fun setAlertDialog() {
