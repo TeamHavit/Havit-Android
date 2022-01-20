@@ -37,9 +37,12 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:backgroundTint="@color/havit_purple"
-        android:hint="카테고리 제목 입력"
+        android:hint="@string/enter_category_title"
+        android:maxLength="12"
+        android:maxLines="1"
         android:textAppearance="@style/Header19Medium"
         android:textColor="@color/havit_gray"
+        android:theme="@style/PurpleEditTextStyle"
         android:textColorHint="@color/gray_2"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
