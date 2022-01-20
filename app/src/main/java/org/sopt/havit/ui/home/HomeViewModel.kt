@@ -12,6 +12,7 @@ import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.data.remote.RecommendationResponse
+import org.sopt.havit.data.remote.UserResponse
 
 class HomeViewModel : ViewModel() {
 
@@ -91,19 +92,26 @@ class HomeViewModel : ViewModel() {
         return list
     }
 
+    private val _reachRate = MutableLiveData<Int>()
+    var reachRate: LiveData<Int> = _reachRate
+
+    private val _userData = MutableLiveData<UserResponse.UserData>()
+    val userData: LiveData<UserResponse.UserData> = _userData
+    fun requestUserDataTaken() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response =
+                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
+                        .getUserData()
+                _userData.postValue(response.data)
+            } catch (e: Exception) {
+            }
+        }
+    }
+
     //    dummy data
     private val _popupData = MutableLiveData<String>().apply {
         value = "도달률이 50% 이하로 떨어졌어요!"
     }
     val popupData: LiveData<String> = _popupData
-
-    private val _reachRate = MutableLiveData<Int>()
-    var reachRate: LiveData<Int> = _reachRate
-
-    private val _reachData = MutableLiveData<HomeReachData>().apply {
-        value = HomeReachData(123, "최유빈", 125, 12, 64)
-        _reachRate.value =
-            (value!!.totalSeenContentNumber.toDouble() / value!!.totalContentNumber.toDouble() * 100).toInt()
-    }
-    val reachData: LiveData<HomeReachData> = _reachData
 }

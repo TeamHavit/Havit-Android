@@ -78,6 +78,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun setData() {
+        homeViewModel.requestUserDataTaken()
         homeViewModel.requestContentsTaken()
         homeViewModel.requestCategoryTaken()
         homeViewModel.requestRecommendTaken()
