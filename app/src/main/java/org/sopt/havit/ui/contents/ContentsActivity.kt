@@ -52,7 +52,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun initAdapter() {
-        contentsAdapter = ContentsAdapter(contentsViewModel)
+        contentsAdapter = ContentsAdapter(contentsViewModel,supportFragmentManager)
         binding.rvContents.adapter = contentsAdapter
     }
 

@@ -4,16 +4,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsResponse
+import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ItemContentsGridBinding
 import org.sopt.havit.databinding.ItemContentsLinearMaxBinding
 import org.sopt.havit.databinding.ItemContentsLinearMinBinding
 
-class ContentsAdapter(contentsViewModel: ContentsViewModel) :
+class ContentsAdapter(contentsViewModel: ContentsViewModel,fragmentManager: FragmentManager) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var contentsList = mutableListOf<ContentsResponse.ContentsData>()
+    private var mFragmentManager : FragmentManager = fragmentManager
     private lateinit var itemClickListener: OnItemClickListener
     private var viewModel = contentsViewModel
     private var available_1 = true
@@ -62,6 +65,10 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel) :
                     ContentsActivity.CATEGORY_NAME
                 )
             }
+            binding.ivSetting.setOnClickListener {
+                val dataMore = ContentsSearchResponse.Data(data.createdAt,data.description,data.id,data.image,data.isNotified,data.isSeen,data.notificationTime,data.title,data.url)
+                ContentsMoreFragment(dataMore).show(mFragmentManager,"setting")
+            }
         }
     }
 
@@ -108,6 +115,10 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel) :
                 )
 
             }
+            binding.ivSetting.setOnClickListener {
+                val dataMore = ContentsSearchResponse.Data(data.createdAt,data.description,data.id,data.image,data.isNotified,data.isSeen,data.notificationTime,data.title,data.url)
+                ContentsMoreFragment(dataMore).show(mFragmentManager,"setting")
+            }
         }
     }
 
@@ -152,6 +163,10 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel) :
                     ContentsActivity.FILTER,
                     ContentsActivity.CATEGORY_NAME
                 )
+            }
+            binding.ivSetting.setOnClickListener {
+                val dataMore = ContentsSearchResponse.Data(data.createdAt,data.description,data.id,data.image,data.isNotified,data.isSeen,data.notificationTime,data.title,data.url)
+                ContentsMoreFragment(dataMore).show(mFragmentManager,"setting")
             }
         }
     }
