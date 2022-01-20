@@ -54,7 +54,6 @@ class IconAdapter : RecyclerView.Adapter<IconAdapter.IconViewHolder>() {
     // 외부에서 클릭 시 이벤트 설정
     fun setItemClickListener(onItemClickListener: OnItemClickListener) {
         this.itemClickListener = onItemClickListener
-
     }
 
     // setItemClickListener로 설정한 함수 실행
@@ -68,7 +67,5 @@ class IconAdapter : RecyclerView.Adapter<IconAdapter.IconViewHolder>() {
             binding.categoryIcon = data
             binding.clIcon.setBackgroundResource(R.drawable.oval_gray)
         }
-
-
     }
 }

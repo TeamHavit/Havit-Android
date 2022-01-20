@@ -28,8 +28,7 @@ class SelectCategoryFragment : Fragment() {
     ): View? {
         _binding = FragmentSelectCategoryBinding.inflate(layoutInflater, container, false)
 
-//        initAdapter()
-        getCategoryData()
+        initView()
 
         return binding.root
     }
@@ -39,10 +38,11 @@ class SelectCategoryFragment : Fragment() {
         initListener()
     }
 
-    private fun getCategoryData() {
+    private fun initView() {
         lateinit var categoryData: List<CategoryResponse.AllCategoryData>
         lifecycleScope.launch {
             try {
+                // 서버 통신
                 val response =
                     RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
                         .getCategoryNum()
@@ -50,11 +50,19 @@ class SelectCategoryFragment : Fragment() {
                 Log.d("SelectCategoryFragment", categoryData.toString())
                 Log.d("SelectCategoryFragment_len", categoryData.size.toString())
 
+                // Adapter 설정
                 categorySelectableAdapter = CategorySelectableAdapter()
                 binding.rvCategory.adapter = categorySelectableAdapter
                 categorySelectableAdapter.categorySelectableList.addAll(categoryData)
                 categorySelectableAdapter.notifyDataSetChanged()
+
+                categorySelectableAdapter.setItemClickListener(object : CategorySelectableAdapter.OnItemClickListener{
+                    override fun onClick(v: View, position: Int) {
+                        Log.d("categorySelectableAdapter", "$position clicked in Fragment")
+                    }
+                })
             } catch (e: Exception) {
+                // 서버 통신 실패 시
             }
         }
     }
@@ -71,35 +79,8 @@ class SelectCategoryFragment : Fragment() {
         }
     }
 
-    private fun initAdapter() {
-
-//        val categoryData: List<CategoryResponse.AllCategoryData> = getCategoryData()
-//        var categorySelectableData = mutableListOf<CategorySelectableData>()
-//
-//        for (i in 0..categoryData.size) {
-//            categorySelectableData[i].categoryName = categoryData[i].title
-//            categorySelectableData[i].icon = categoryData[i].url
-//            categorySelectableData[i].id = categoryData[i].id
-//            categorySelectableData[i].isSelect = false
-//        }
-//
-//
-//        categorySelectableAdapter = CategorySelectableAdapter()
-//        binding.rvCategory.adapter = categorySelectableAdapter
-//        categorySelectableAdapter.categorySelectableList.addAll(categorySelectableData)
-//        categorySelectableAdapter.notifyDataSetChanged()
-
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-    companion object {
-        const val dummyImg =
-            "https://user-images.githubusercontent.com/68214704/149118495-e9cc9770-785d-4644-9956-9e17a6641180.png"
-    }
-
-
 }
