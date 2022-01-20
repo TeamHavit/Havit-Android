@@ -19,7 +19,8 @@
             android:id="@+id/iv_contents"
             android:layout_width="match_parent"
             android:layout_height="82dp"
-            android:src="@drawable/rectangle_gray_1_radius_6"
+            imageUrl="@{data_home_contents.image}"
+            android:background="@drawable/bg_radius_6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

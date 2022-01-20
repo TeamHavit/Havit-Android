@@ -1,6 +1,7 @@
 package org.sopt.havit.ui.home
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.data.remote.RecommendationResponse
@@ -10,6 +11,7 @@ class HomeRecommendRvAdapter :
     RecyclerView.Adapter<HomeRecommendRvAdapter.HomeRecommendViewHolder>() {
 
     var recommendList = mutableListOf<RecommendationResponse.RecommendationData>()
+    private lateinit var itemClickListener: OnItemClickListener
 
     class HomeRecommendViewHolder(private val binding: ItemHomeRecommendListBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -35,6 +37,18 @@ class HomeRecommendRvAdapter :
         position: Int
     ) {
         holder.onBind(recommendList[position])
+
+        holder.itemView.setOnClickListener {
+            itemClickListener.onWebClick(it, position)
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onWebClick(v: View, position: Int)
+    }
+
+    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.itemClickListener = onItemClickListener
     }
 
     override fun getItemCount(): Int = recommendList.size
