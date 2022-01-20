@@ -21,7 +21,6 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         binding.vm = webViewModel
         intent.getStringExtra("url")?.let { setUrlLaunch(it) }
         webViewModel.init(intent.getBooleanExtra("isSeen", false))
-        Log.d("issss", intent.getBooleanExtra("isSeen", false).toString())
         setListeners()
     }
 
@@ -37,6 +36,9 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
     private fun setListeners() {
         binding.llWebview.setOnClickListener {
             webViewModel.setHavit(intent!!.getIntExtra("contentsId", 0))
+            if(webViewModel.isHavit.value==true){
+                setCustomToast()
+            }
         }
         binding.ibWebBack.setOnClickListener {
             finish()
@@ -60,14 +62,13 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
         webViewModel._isHavit.observe(this) {
             if (it) {
-                setCustomToast()
+                //setCustomToast()
             }
         }
     }
 
     private fun setCustomToast() {
         val toast = Toast(this)
-        //toast.setGravity(Gravity.TOP, 0, 54)
         val view = layoutInflater.inflate(R.layout.toast_havit_complete, null)
         toast.view = view
         toast.show()
