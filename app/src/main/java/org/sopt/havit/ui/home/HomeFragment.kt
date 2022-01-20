@@ -17,11 +17,12 @@ import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents_simple.ContentsSimpleActivity
 import org.sopt.havit.ui.notification.NotificationActivity
 import org.sopt.havit.ui.search.SearchActivity
+import org.sopt.havit.ui.web.WebActivity
 
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel: HomeViewModel by viewModels()
-    private val contentsAdapter: HomeRecentContentsRvAdapter by lazy{HomeRecentContentsRvAdapter()}
+    private val contentsAdapter: HomeRecentContentsRvAdapter by lazy { HomeRecentContentsRvAdapter() }
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
     private lateinit var categoryVpAdapter: HomeCategoryVpAdapter
 
@@ -47,6 +48,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         // Recent Save RecyclerView
         initRecentContentsRvAdapter()
         recentContentsDataObserve()
+        clickContentsItemView()
         // Recommend RecyclerView
         initRecommendRvAdapter()
         setClickEvent() // Every clickEvent
@@ -54,10 +56,23 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         return binding.root
     }
 
+    private fun clickContentsItemView() {
+        contentsAdapter.setItemClickListener(object :
+            HomeRecentContentsRvAdapter.OnItemClickListener {
+            override fun onWebClick(v: View, position: Int) {
+                val intent = Intent(v.context, WebActivity::class.java)
+                homeViewModel.contentsList.value?.get(position)
+                    ?.let { intent.putExtra("url", it.url) }
+                startActivity(intent)
+            }
+        })
+    }
+
     private fun initRecentContentsRvAdapter() {
         //contentsAdapter = HomeRecentContentsRvAdapter()
         binding.rvContents.adapter = contentsAdapter
     }
+
     private fun setData() {
         homeViewModel.requestContentsTaken()
         homeViewModel.requestCategoryTaken()
