@@ -11,10 +11,6 @@ class HomeRecommendRvAdapter :
 
     var recommendList = mutableListOf<RecommendationResponse.RecommendationData>()
 
-    fun setList(list: List<RecommendationResponse.RecommendationData>) {
-        recommendList = list as MutableList<RecommendationResponse.RecommendationData>
-    }
-
     class HomeRecommendViewHolder(private val binding: ItemHomeRecommendListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: RecommendationResponse.RecommendationData) {

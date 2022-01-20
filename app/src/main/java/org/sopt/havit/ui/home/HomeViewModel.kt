@@ -1,14 +1,12 @@
 package org.sopt.havit.ui.home
 
-import android.graphics.drawable.Drawable
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.sopt.havit.R
 import org.sopt.havit.data.HomeReachData
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.CategoryResponse
@@ -37,7 +35,7 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response =
-                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
+                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
                         .getAllCategory()
                 _categoryData.postValue(response.data)
             } catch (e: Exception) {
@@ -60,6 +58,39 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    fun setList(
+        data:
+        List<CategoryResponse.AllCategoryData>
+    ): MutableList<List<CategoryResponse.AllCategoryData>> {
+        val list = mutableListOf(listOf<CategoryResponse.AllCategoryData>())
+        val size = data.size
+        var count = 0
+        list.clear()
+        val firstData = CategoryResponse.AllCategoryData(-1, -1, -1, "전체", "")
+        while (count < data.size) {
+            if (size - count > 6) {
+                if (count == 0) {
+                    val firstPage = mutableListOf<CategoryResponse.AllCategoryData>()
+                    firstPage.clear()
+                    firstPage.add(firstData)
+                    for (i in 0..4) {
+                        firstPage.add(data[i])
+                    }
+                    Log.d("HOMEFRAGMENT_TEMP", "temp : $firstPage")
+                    list.add(firstPage)
+                    count += 5
+                } else {
+                    list.add(data.subList(count, count + 6))
+                    count += 6
+                }
+            } else {
+                list.add(data.subList(count, data.size))
+                break
+            }
+        }
+        return list
+    }
+
     //    dummy data
     private val _popupData = MutableLiveData<String>().apply {
         value = "도달률이 50% 이하로 떨어졌어요!"
@@ -75,12 +106,4 @@ class HomeViewModel : ViewModel() {
             (value!!.totalSeenContentNumber.toDouble() / value!!.totalContentNumber.toDouble() * 100).toInt()
     }
     val reachData: LiveData<HomeReachData> = _reachData
-
-
-//    private val _recommendIconList = MutableLiveData<List<Drawable>>()
-//    val recommendIconList : LiveData<List<Drawable>> = _recommendIconList
-//    fun requestRecommendIconTaken(iconList: List<Drawable>) {
-//        _recommendIconList
-//    }
-
 }
