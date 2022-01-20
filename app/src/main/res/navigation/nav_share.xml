@@ -28,6 +28,10 @@
         android:name="org.sopt.havit.ui.share.ChooseIconFragment"
         android:label="fragment_choose_icon"
         tools:layout="@layout/fragment_choose_icon" >
+        <argument
+            android:name="category_title"
+            app:argType="string"
+            android:defaultValue="카테고리 제목" />
         <action
             android:id="@+id/action_chooseIconFragment_to_selectCategoryFragment"
             app:destination="@id/selectCategoryFragment" />
@@ -49,6 +53,14 @@
         android:name="org.sopt.havit.ui.share.ContentsSummeryFragment"
         android:label="fragment_contents_summery"
         tools:layout="@layout/fragment_contents_summery" >
+        <argument
+            android:name="contents_title"
+            app:argType="string"
+            android:defaultValue="제목없음" />
+        <argument
+            android:name="contents_alarm_time"
+            app:argType="string"
+            android:defaultValue="알림설정" />
         <action
             android:id="@+id/action_contentsSummeryFragment_to_setNotificationFragment"
             app:destination="@id/setNotificationFragment" />
