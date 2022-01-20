@@ -101,4 +101,6 @@
     <string name="mypage_category_title">카테고리 수</string>
     <string name="mypage_save_title">저장한 콘텐츠</string>
     <string name="mypage_check_title">확인한 콘텐츠</string>
+    <string name="mypage_count">12</string>
+    <string name="mypage_count_title">개</string>
 </resources>
