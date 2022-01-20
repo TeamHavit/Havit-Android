@@ -1,6 +1,7 @@
 package org.sopt.havit.ui.contents_simple
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.data.remote.ContentsSimpleResponse
@@ -10,6 +11,7 @@ class ContentsSimpleRvAdapter :
     RecyclerView.Adapter<ContentsSimpleRvAdapter.ContentsSimpleViewHolder>() {
 
     var contentsList = mutableListOf<ContentsSimpleResponse.ContentsSimpleData>()
+    private lateinit var itemClickListener: OnItemClickListener
 
     inner class ContentsSimpleViewHolder(private val binding: ItemContentsSimpleBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -52,6 +54,18 @@ class ContentsSimpleRvAdapter :
         position: Int
     ) {
         holder.onBind(contentsList[position])
+
+        holder.itemView.setOnClickListener {
+            itemClickListener.onWebClick(it, position)
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onWebClick(v: View, position: Int)
+    }
+
+    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.itemClickListener = onItemClickListener
     }
 
     override fun getItemCount(): Int = contentsList.size
