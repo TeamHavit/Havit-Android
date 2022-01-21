@@ -47,7 +47,7 @@ class ContentsSimpleActivity :
     }
 
     private fun initAdapter() {
-        contentsAdapter = ContentsSimpleRvAdapter(contentsViewModel)
+        contentsAdapter = ContentsSimpleRvAdapter(contentsViewModel,supportFragmentManager)
         binding.rvContents.adapter = contentsAdapter
     }
 
