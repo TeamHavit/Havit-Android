@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
@@ -19,10 +20,40 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
     private var mFragmentManager: FragmentManager = fragmentManager
     private lateinit var itemClickListener: OnItemClickListener
     private var viewModel = contentsViewModel
+    // setItemClickListener로 설정한 함수 실행
+    private lateinit var havitClickListener: OnHavitClickListener
+
+    // 리스너 인터페이스
+    interface OnHavitClickListener {
+        fun onHavitClick()
+    }
+
+    // 외부에서 클릭 시 이벤트 설정
+    fun setHavitClickListener(onItemClickListener: OnHavitClickListener) {
+        this.havitClickListener = onItemClickListener
+    }
+
+    private fun setTime(time: String): String {
+        val date = time.substring(0 until 10)
+            .replace("-", ". ")
+        val hour = time.substring(11 until 13)
+        val minute = time.substring(14 until 16)
+        return if (hour < "12") {
+            "$date 오전 ${hour}:${minute} "
+        } else {
+            "$date 오후 ${hour}:${minute} "
+        }
+    }
 
     inner class LinearMinViewHolder(private val binding: ItemContentsLinearMinBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
+            if (data.notificationTime.isNotEmpty()) {
+                data.notificationTime = setTime(data.notificationTime)
+            }
+            data.createdAt = data.createdAt.substring(0 until 10)
+                .replace("-", ". ")
+
             binding.content = data
             if (data.isSeen) {
                 Log.d("HavitButtonTest", "1. binding - seen ${data.title}")
@@ -37,6 +68,9 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
 
         fun onClick(data: ContentsResponse.ContentsData, pos: Int) {
             binding.ivHavit.setOnClickListener {
+                if(!contentsList[pos].isSeen) {
+                    havitClickListener.onHavitClick()
+                }
                 contentsList[pos].isSeen = !contentsList[pos].isSeen
                 viewModel.setIsSeen(data.id)
                 if (binding.ivHavit.tag == "unseen") {
@@ -71,6 +105,11 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
     inner class GridViewHolder(private val binding: ItemContentsGridBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
+            if (data.notificationTime.isNotEmpty()) {
+                data.notificationTime = setTime(data.notificationTime)
+            }
+            data.createdAt = data.createdAt.substring(0 until 10)
+                .replace("-", ". ")
             binding.content = data
             if (data.isSeen) {
                 Log.d("HavitButtonTest", "2. binding - seen ${data.title}")
@@ -85,6 +124,9 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
 
         fun onClick(data: ContentsResponse.ContentsData, pos: Int) {
             binding.ivHavit.setOnClickListener {
+                if(!contentsList[pos].isSeen) {
+                    havitClickListener.onHavitClick()
+                }
                 contentsList[pos].isSeen = !contentsList[pos].isSeen
                 viewModel.setIsSeen(data.id)
                 if (binding.ivHavit.tag == "unseen") {
@@ -119,6 +161,11 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
     inner class LinearMaxViewHolder(private val binding: ItemContentsLinearMaxBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
+            if (data.notificationTime.isNotEmpty()) {
+                data.notificationTime = setTime(data.notificationTime)
+            }
+            data.createdAt = data.createdAt.substring(0 until 10)
+                .replace("-", ". ")
             binding.content = data
             if (data.isSeen) {
                 Log.d("HavitButtonTest", "3. binding - seen ${data.title}")
@@ -133,6 +180,9 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
 
         fun onClick(data: ContentsResponse.ContentsData, pos: Int) {
             binding.ivHavit.setOnClickListener {
+                if(!contentsList[pos].isSeen) {
+                    havitClickListener.onHavitClick()
+                }
                 contentsList[pos].isSeen = !contentsList[pos].isSeen
                 viewModel.setIsSeen(data.id)
                 if (binding.ivHavit.tag == "unseen") {
