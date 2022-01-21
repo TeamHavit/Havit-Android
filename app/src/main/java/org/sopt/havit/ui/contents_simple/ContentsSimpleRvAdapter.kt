@@ -3,15 +3,19 @@ package org.sopt.havit.ui.contents_simple
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
+import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.databinding.ItemContentsSimpleBinding
+import org.sopt.havit.ui.contents.ContentsMoreFragment
 
-class ContentsSimpleRvAdapter(contentsViewModel: ContentsSimpleViewModel) :
+class ContentsSimpleRvAdapter(contentsViewModel: ContentsSimpleViewModel,fragmentManager: FragmentManager) :
     RecyclerView.Adapter<ContentsSimpleRvAdapter.ContentsSimpleViewHolder>() {
 
     var contentsList = mutableListOf<ContentsSimpleResponse.ContentsSimpleData>()
+    private var mFragmentManager : FragmentManager = fragmentManager
     private lateinit var itemClickListener: OnItemClickListener
     private var viewModel = contentsViewModel
 
@@ -41,6 +45,11 @@ class ContentsSimpleRvAdapter(contentsViewModel: ContentsSimpleViewModel) :
             binding.ivHavit.setOnClickListener {
                 viewModel.setIsSeen(data.id)
                 setIvHavit(binding.ivHavit.tag == "unseen")
+            }
+
+            binding.ivSetting.setOnClickListener {
+                val dataMore = ContentsSearchResponse.Data(data.createdAt,data.description,data.id,data.image,data.isNotified,data.isSeen,data.notificationTime,data.title,data.url)
+                ContentsMoreFragment(dataMore).show(mFragmentManager,"setting")
             }
         }
 

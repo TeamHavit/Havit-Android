@@ -38,6 +38,18 @@ class ContentsViewModel : ViewModel() {
         }
     }
 
+    fun requestContentsAllTaken(option: String, filter: String, name: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try{
+                val response = RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
+                    .getAllContents(option, filter)
+                _contentsList.postValue(response.data)
+                _contentsCount.postValue(response.data.size)
+                _categoryName.postValue(name)
+            } catch (e: Exception) { }
+        }
+    }
+
     fun setIsSeen(contentsId:Int){
         viewModelScope.launch {
             try{
