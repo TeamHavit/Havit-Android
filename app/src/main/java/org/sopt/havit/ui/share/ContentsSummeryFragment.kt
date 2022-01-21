@@ -10,12 +10,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
 
 class ContentsSummeryFragment : Fragment() {
     private var _binding :FragmentContentsSummeryBinding? = null
     private val binding get() = _binding!!
+    private val args by navArgs<ContentsSummeryFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +31,7 @@ class ContentsSummeryFragment : Fragment() {
         initListener()
         toolbarClickListener()
         initIntent()
+        Log.d("Argument_test", args.contentsCategoryIds)
 
         return binding.root
     }

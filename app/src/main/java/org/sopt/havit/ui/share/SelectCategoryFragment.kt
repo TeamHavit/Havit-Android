@@ -116,13 +116,28 @@ class SelectCategoryFragment : Fragment() {
     private fun initListener() {
         // 하단 다음 버튼
         binding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.action_selectCategoryFragment_to_contentsSummeryFragment)
+            Log.d ( "getSelectedCategoryNum", getSelectedCategoryNum())
+            // 카테고리 리스트 스트링으로 변경하여 전송
+            findNavController().navigate(
+                SelectCategoryFragmentDirections.actionSelectCategoryFragmentToContentsSummeryFragment(
+                    getSelectedCategoryNum()
+                )
+            )
         }
 
         // 상단 카테고리 추가 버튼
         binding.ivCategoryAdd.setOnClickListener {
             findNavController().navigate(R.id.action_selectCategoryFragment_to_addCategoryFragment)
         }
+    }
+
+    private fun getSelectedCategoryNum() : String{
+        var selectedCategory = ""
+        for (i in clickCountList.indices){
+            if (clickCountList[i])
+                selectedCategory += ("$i ")
+        }
+        return selectedCategory
     }
 
     override fun onDestroyView() {

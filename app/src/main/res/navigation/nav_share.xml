@@ -60,13 +60,17 @@
         android:label="fragment_contents_summery"
         tools:layout="@layout/fragment_contents_summery" >
         <argument
+            android:name="contents_categoryIds"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
             android:name="contents_title"
             app:argType="string"
-            android:defaultValue="제목없음" />
+            android:defaultValue="" />
         <argument
             android:name="contents_alarm_time"
             app:argType="string"
-            android:defaultValue="알림설정" />
+            android:defaultValue="" />
         <argument
             android:name="is_notified"
             app:argType="boolean"
