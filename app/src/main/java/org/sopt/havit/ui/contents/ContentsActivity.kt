@@ -115,9 +115,9 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                         Log.d("visibility", " fail")
                     }
                 }
-                contentsAdapter.contentsList.clear()
-                contentsAdapter.contentsList.addAll(it)
-                contentsAdapter.notifyDataSetChanged()
+//                contentsAdapter.contentsList.clear()
+//                contentsAdapter.contentsList.addAll(it)
+                contentsAdapter.updateList(it.toList())
             }
         }
     }
