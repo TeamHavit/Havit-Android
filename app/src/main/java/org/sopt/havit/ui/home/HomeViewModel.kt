@@ -2,6 +2,7 @@ package org.sopt.havit.ui.home
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -81,28 +82,30 @@ class HomeViewModel(context: Context) : ViewModel() {
             "모든 콘텐츠"
         )
         list.clear()
+        Log.d("HOMECATEGORY", "category_size: ${data.size}")
         while (data.size > count) {
-            if (data.size - count >= 6) {
-                if (count == 0) {
-                    val firstPage = mutableListOf<CategoryResponse.AllCategoryData>()
-                    firstPage.clear()
-                    firstPage.add(firstData)
-                    val min = if (data.size < 5) data.size else 4
-                    for (i in 0..min) {
-                        firstPage.add(data[i])
-                    }
-                    Log.d("HOMEFRAGMENT_TEMP", "temp : $firstPage")
-                    list.add(firstPage)
-                    count += 5
-                } else {
+            if (count == 0) {
+                val firstPage = mutableListOf<CategoryResponse.AllCategoryData>()
+                firstPage.clear()
+                firstPage.add(firstData)
+                val min = if (data.size < 5) (data.size - 1) else 4
+                for (i in 0..min) {
+                    firstPage.add(data[i])
+                }
+                Log.d("HOMEFRAGMENT_TEMP", "temp : $firstPage")
+                list.add(firstPage)
+                count += 5
+            } else {
+                if (data.size - count >= 6) {
                     list.add(data.subList(count, count + 6))
                     count += 6
+                } else {
+                    list.add(data.subList(count, data.size))
+                    break
                 }
-            } else {
-                list.add(data.subList(count, data.size))
-                break
             }
         }
+
         return list
     }
 

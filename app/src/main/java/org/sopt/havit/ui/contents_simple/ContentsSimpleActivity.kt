@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.MainActivity
@@ -17,7 +16,7 @@ import org.sopt.havit.ui.web.WebActivity
 class ContentsSimpleActivity :
     BaseBindingActivity<ActivityContentsSimpleBinding>(R.layout.activity_contents_simple) {
 
-    private val contentsViewModel: ContentsSimpleViewModel by viewModels()
+    private val contentsViewModel: ContentsSimpleViewModel by lazy { ContentsSimpleViewModel(this) }
     private lateinit var contentsAdapter: ContentsSimpleRvAdapter
     private lateinit var contentsType: String
 
@@ -47,7 +46,7 @@ class ContentsSimpleActivity :
     }
 
     private fun initAdapter() {
-        contentsAdapter = ContentsSimpleRvAdapter(contentsViewModel,supportFragmentManager)
+        contentsAdapter = ContentsSimpleRvAdapter(contentsViewModel, supportFragmentManager)
         binding.rvContents.adapter = contentsAdapter
     }
 
