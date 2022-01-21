@@ -56,4 +56,9 @@ interface HavitApi {
 
     @GET("user")
     suspend fun getUserData() : UserResponse
+
+    @PATCH("category/order")
+    suspend fun modifyCategoryOrder(
+        @Body body : CategoryOrderRequest
+    ): CategoryOrderResponse
 }

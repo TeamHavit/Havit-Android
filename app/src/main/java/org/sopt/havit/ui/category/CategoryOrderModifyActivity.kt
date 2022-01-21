@@ -7,11 +7,17 @@ import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.sopt.havit.MainActivity
 import org.sopt.havit.R
+import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.databinding.ActivityCategoryOrderModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.util.MySharedPreference
 
 class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderModifyBinding>(R.layout.activity_category_order_modify) {
     private lateinit var getResult: ActivityResultLauncher<Intent>
@@ -34,6 +40,7 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
         clickBack()
         initDrag()
         dataObserve()
+        setOrder()
     }
 
     private fun initAdapter() {
@@ -54,6 +61,12 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
             categoryList.observe(this@CategoryOrderModifyActivity) {
                 categoryOrderModifyAdapter.categoryList.addAll(it)
                 categoryOrderModifyAdapter.notifyDataSetChanged()
+
+                val list = mutableListOf<Int>()
+                for(i in categoryOrderModifyAdapter.categoryList){
+                    list.add(i.id)
+                }
+                Log.d("CategoryOrderList", "변경 전 : ${list}")
             }
         }
     }
@@ -142,5 +155,20 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
         ItemTouchHelper(itemTouchCallback).attachToRecyclerView(binding.rvContents)
     }
 
+    private fun setOrder(){
+        binding.tvComplete.setOnClickListener {
+            val mlist = mutableListOf<Int>()
+            for(i in categoryOrderModifyAdapter.categoryList){
+                mlist.add(i.id)
+            }
+            Log.d("CategoryOrderList", "${mlist.toList()}")
+            categoryViewModel.requestCategoryOrder(mlist.toList())
 
+            val intent = Intent(this, CategoryFragment::class.java)
+            setResult(RESULT_OK, intent)
+            finish()
+
+            finish()
+        }
+    }
 }

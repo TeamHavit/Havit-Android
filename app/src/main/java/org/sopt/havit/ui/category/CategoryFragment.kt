@@ -6,6 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentCategoryBinding
@@ -13,6 +16,8 @@ import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsActivity
 
 class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.fragment_category) {
+    private lateinit var getResult: ActivityResultLauncher<Intent>
+
     private var _categoryAdapter: CategoryAdapter? = null
     private val categoryAdapter get() = _categoryAdapter ?: error("adapter error")
 
@@ -27,13 +32,20 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         binding.categoryViewModel = categoryViewModel
 
         initAdapter()
-        setData()
-        dataObserve()
+        //setData()
+        //dataObserve()
         moveManage()
         clickBack()
         clickItemView()
+        //setReOrder()
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setData()
+        dataObserve()
     }
 
     override fun onDestroyView() {
@@ -48,6 +60,17 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
 
     private fun setData() {
         categoryViewModel.requestCategoryTaken()
+    }
+
+    private fun setReOrder(){
+        // 데이터 받아옴 (카테고리 내용 수정 뷰에서)
+        getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            if(it.resultCode == AppCompatActivity.RESULT_OK){
+                Log.d("Movet","ok")
+                setData()
+                dataObserve()
+            }
+        }
     }
 
     private fun dataObserve() {
@@ -66,8 +89,10 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                         Log.d("visibility", " fail")
                     }
                 }
+                categoryAdapter.categoryList.clear()
                 categoryAdapter.categoryList.addAll(it)
                 categoryAdapter.notifyDataSetChanged()
+                Log.d("TestTest", "${categoryViewModel.categoryList.value?.get(0)?.id}")
             }
             categoryCount.observe(viewLifecycleOwner) {
                 binding.tvCount.text = it.toString()
