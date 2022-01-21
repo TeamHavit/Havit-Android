@@ -1,6 +1,7 @@
 package org.sopt.havit.data.api
 
 import org.sopt.havit.data.remote.*
+import retrofit2.Call
 import retrofit2.http.*
 
 interface HavitApi {
@@ -52,11 +53,7 @@ interface HavitApi {
     ): CategoryDeleteResponse
 
     @GET("recommendation")
-    suspend fun getRecommendation() : RecommendationResponse
-
-    @GET("user")
-    suspend fun getUserData() : UserResponse
-
+    suspend fun getRecommendation(): RecommendationResponse
 
     @PATCH("category/order")
     suspend fun modifyCategoryOrder(
@@ -74,4 +71,11 @@ interface HavitApi {
         @Query("option") option: String,
         @Query("filter") filter: String
     ): ContentsResponse
+
+    @GET("user")
+    suspend fun getUserData(): UserResponse
+    @GET("content/scrap?link=")
+    fun getOgData(
+        @Query("link") link: String
+    ): Call<ContentsScrapResponse>
 }

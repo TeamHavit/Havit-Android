@@ -60,23 +60,24 @@
             android:layout_height="173dp"
             android:layout_marginHorizontal="26dp"
             android:layout_marginTop="70dp"
+            android:background="@drawable/rectangle_imageview_radius_6"
             android:contentDescription="@string/og_image"
             android:scaleType="centerCrop"
-            android:src="@drawable/img_dummy"
             app:civ_border_color="@color/black"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/img_contents_dummy_3" />
 
         <TextView
-            android:id="@+id/et_og_title"
+            android:id="@+id/tv_og_title"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginHorizontal="26dp"
             android:layout_marginTop="27dp"
             android:ellipsize="end"
-            android:text="콘텐츠 제목은 우리 몇글자까지 할까ㅇ..어카지어카지 "
             android:textAppearance="@style/Header20Semibold"
             android:textColor="@color/gray_4"
-            app:layout_constraintTop_toBottomOf="@id/iv_og_image" />
+            app:layout_constraintTop_toBottomOf="@id/iv_og_image"
+            tools:text="콘텐츠 제목은 우리 몇글자까지 할까ㅇ..어카지어카지 " />
 
         <TextView
             android:id="@+id/tv_url"
@@ -84,12 +85,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="19dp"
             android:gravity="center"
-            android:text="m.blog.naver.com..."
             android:textAppearance="@style/Sub12Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_og_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_og_title"
+            tools:text="m.blog.naver.com..." />
 
         <ImageButton
             android:id="@+id/ib_edit_title"

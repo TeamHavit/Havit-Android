@@ -79,6 +79,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_edit_title" />
 
         <EditText
+            android:id="@+id/et_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="22dp"
@@ -89,7 +90,7 @@
             android:importantForAutofill="auto"
             android:inputType="textMultiLine"
             android:scrollHorizontally="false"
-            android:text="콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈 테스트으으ㅡ으"
+            tools:text="콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈 테스트으으ㅡ으"
             android:textAppearance="@style/Text20Medium"
             android:textColor="@color/gray_4"
             android:theme="@style/PurpleEditTextStyle"
