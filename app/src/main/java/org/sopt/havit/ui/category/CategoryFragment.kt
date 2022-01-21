@@ -42,6 +42,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         moveManage()
         clickBack()
         clickItemView()
+        addCategory()
 
         return binding.root
     }
@@ -132,5 +133,12 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                 startActivity(intent)
             }
         })
+    }
+
+    private fun addCategory(){
+        binding.clAdd.setOnClickListener {
+            val intent = Intent(requireActivity(), CategoryAddActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

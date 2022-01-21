@@ -1,14 +1,12 @@
 package org.sopt.havit.ui.category
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.bumptech.glide.load.HttpException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.remote.CategoryAddRequest
 import org.sopt.havit.data.remote.CategoryModifyRequest
 import org.sopt.havit.data.remote.CategoryOrderRequest
 import org.sopt.havit.data.remote.CategoryResponse
@@ -21,6 +19,8 @@ class CategoryViewModel : ViewModel() {
     val categoryList: LiveData<List<CategoryResponse.AllCategoryData>> = _categoryList
     private val _delay = MutableLiveData(false)
     val delay: LiveData<Boolean> = _delay
+    private val _addDelay = MutableLiveData(false)
+    val addDelay: LiveData<Boolean> = _addDelay
 
     fun requestCategoryTaken() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -78,5 +78,25 @@ class CategoryViewModel : ViewModel() {
 
     fun setDelay(v: Boolean){
         _delay.value= v
+    }
+
+    fun setAddDelay(v: Boolean){
+        _addDelay.value= v
+    }
+
+    fun requestAddCategory(t: String, i: Int){
+        viewModelScope.launch {
+            try {
+                // 서버 통신
+                val response =
+                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
+                        .addCategory(CategoryAddRequest(t, i))
+                _addDelay.postValue(true)
+                Log.d("CreateCategory", response.success.toString())
+            } catch (e: Exception) {
+                // 서버 통신 실패 시
+                Log.d("CreateCategory", e.toString())
+            }
+        }
     }
 }

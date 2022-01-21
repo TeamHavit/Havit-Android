@@ -17,7 +17,7 @@ object BindingAdapter {
     // item_category
     @BindingAdapter("imageUrl")
     @JvmStatic
-    fun ImageView.loadImage(url: String) {
+    fun ImageView.loadImage(url: String?) {
         Glide.with(context)
             .load(url)
             .into(this)
