@@ -32,28 +32,23 @@ class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        dialog?.setOnShowListener {
-            openKeyBoard()
-            activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-            val behavior = BottomSheetBehavior.from<ConstraintLayout>(
-                (dialog as BottomSheetDialog).findViewById(R.id.design_bottom_sheet)!!
-            )
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            behavior.skipCollapsed = true
-            val bottomSheet: View = dialog!!.findViewById(R.id.design_bottom_sheet)
-            bottomSheet.layoutParams.height = (resources.displayMetrics.heightPixels * 0.94).toInt()
-        }
-
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_save, container, false)
         binding.vm = saveViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        setListeners()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+            openKeyBoard()
+            //activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+             val behavior = BottomSheetBehavior.from<ConstraintLayout>(
+                 (dialog as BottomSheetDialog).findViewById(R.id.design_bottom_sheet)!!
+             )
+             behavior.state = BottomSheetBehavior.STATE_EXPANDED
+             behavior.skipCollapsed = true
+            binding.clSaveBottom.layoutParams.height = (resources.displayMetrics.heightPixels * 0.94).toInt()
         setListeners()
     }
 
