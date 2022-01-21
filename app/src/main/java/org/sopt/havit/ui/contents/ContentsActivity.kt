@@ -37,7 +37,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         initAdapter()
         setData()
         dataObserve()
-        decorationView()
         changeLayout()
         clickBack()
         initSearchSticky()
@@ -67,15 +66,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun initAdapter() {
         contentsAdapter = ContentsAdapter(contentsViewModel, supportFragmentManager)
         binding.rvContents.adapter = contentsAdapter
-    }
-
-    private fun decorationView() {
-        binding.rvContents.addItemDecoration(
-            DividerItemDecoration(
-                this,
-                LinearLayoutManager.VERTICAL
-            )
-        )
     }
 
     private fun initData() {
@@ -115,8 +105,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                         Log.d("visibility", " fail")
                     }
                 }
-//                contentsAdapter.contentsList.clear()
-//                contentsAdapter.contentsList.addAll(it)
                 contentsAdapter.updateList(it.toList())
             }
         }
