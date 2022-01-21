@@ -52,7 +52,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun initAdapter() {
-        contentsAdapter = ContentsAdapter(contentsViewModel,supportFragmentManager)
+        contentsAdapter = ContentsAdapter(contentsViewModel, supportFragmentManager)
         binding.rvContents.adapter = contentsAdapter
     }
 
@@ -65,7 +65,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         )
     }
 
-    private fun initData(){
+    private fun initData() {
         // 레이아웃 초기화
         layout = LINEAR_MIN_LAYOUT
         // 옵션 및 필터 초기화
@@ -73,7 +73,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         FILTER = "created_at"
     }
 
-    private fun setData(){
+    private fun setData() {
         ID = intent.getIntExtra("categoryId", 0)
         if (ID == 0) {
             Log.d("categoryId", "error")
@@ -156,6 +156,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         }
     }
 
+    // 최신순, 과거순, 최근 조회순 다이얼로그별 화면 설정
     private fun setOrderDialog() {
         val bottomSheetView = layoutInflater.inflate(R.layout.dialog_contents_order, null)
         val bottomSheetDialog = BottomSheetDialog(this)
@@ -211,25 +212,31 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent).setOnClickListener {
             FILTER = "created_at"
-            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             binding.tvOrder.text = "최신순"
-            bottomSheetDialog.dismiss()
+            setOrderContent(bottomSheetDialog)
         }
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past).setOnClickListener {
             FILTER = "reverse"
-            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             binding.tvOrder.text = "과거순"
-            bottomSheetDialog.dismiss()
+            setOrderContent(bottomSheetDialog)
         }
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view).setOnClickListener {
             FILTER = "seen_at"
-            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             binding.tvOrder.text = "최근 조회순"
-            bottomSheetDialog.dismiss()
+            setOrderContent(bottomSheetDialog)
         }
     }
 
-    private fun setCategoryListDialog(){
+    private fun setOrderContent(bottomSheetDialog: BottomSheetDialog) {
+        if (ID == -1) {
+            contentsViewModel.requestContentsAllTaken(OPTION, FILTER, CATEGORY_NAME)
+        } else {
+            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+        }
+        bottomSheetDialog.dismiss()
+    }
+
+    private fun setCategoryListDialog() {
         binding.clCategory.setOnClickListener {
             binding.ivCategoryDrop.setImageResource(R.drawable.ic_dropback_black)
             DialogContentsCategoryFragment().show(supportFragmentManager, "categoryList")
@@ -249,9 +256,11 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             override fun onWebClick(v: View, position: Int) {
                 val intent = Intent(v.context, WebActivity::class.java)
                 contentsViewModel.contentsList.value?.get(position)
-                    ?.let { intent.putExtra("url", it.url)
-                    intent.putExtra("contentsId", it.id)
-                    intent.putExtra("isSeen", it.isSeen)}
+                    ?.let {
+                        intent.putExtra("url", it.url)
+                        intent.putExtra("contentsId", it.id)
+                        intent.putExtra("isSeen", it.isSeen)
+                    }
                 startActivity(intent)
             }
         })
