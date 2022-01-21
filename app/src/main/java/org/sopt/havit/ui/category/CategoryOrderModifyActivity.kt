@@ -164,10 +164,6 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
             Log.d("CategoryOrderList", "${mlist.toList()}")
             categoryViewModel.requestCategoryOrder(mlist.toList())
 
-            val intent = Intent(this, CategoryFragment::class.java)
-            setResult(RESULT_OK, intent)
-            finish()
-
             finish()
         }
     }

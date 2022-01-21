@@ -37,7 +37,6 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         moveManage()
         clickBack()
         clickItemView()
-        //setReOrder()
 
         return binding.root
     }
@@ -60,17 +59,6 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
 
     private fun setData() {
         categoryViewModel.requestCategoryTaken()
-    }
-
-    private fun setReOrder(){
-        // 데이터 받아옴 (카테고리 내용 수정 뷰에서)
-        getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            if(it.resultCode == AppCompatActivity.RESULT_OK){
-                Log.d("Movet","ok")
-                setData()
-                dataObserve()
-            }
-        }
     }
 
     private fun dataObserve() {
