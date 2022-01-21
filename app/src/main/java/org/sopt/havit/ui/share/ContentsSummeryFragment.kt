@@ -25,6 +25,8 @@ class ContentsSummeryFragment : Fragment() {
     private var _binding: FragmentContentsSummeryBinding? = null
     private val binding get() = _binding!!
     private val args by navArgs<ContentsSummeryFragmentArgs>()
+    private lateinit var cateIdString: List<String>
+    private lateinit var cateIdInt: MutableList<Int>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +35,17 @@ class ContentsSummeryFragment : Fragment() {
         _binding = FragmentContentsSummeryBinding.inflate(layoutInflater, container, false)
 
         gerNotificationTime()
+        cateIdString = args.contentsCategoryIds.split(" ")
+        Log.d("CateIdString", cateIdString.size.toString())
+        cateIdInt = MutableList(cateIdString.size-1) { _ -> 0 }
+
+        for (i in 0..cateIdString.size -2) {
+            Log.d("cateIdString", cateIdString[i])
+            cateIdInt[i] = (cateIdString[i].toInt())
+        }
+        for (i in 0..cateIdString.size -2) {
+            Log.d("cateIdInt", cateIdInt[i].toString())
+        }
 
         return binding.root
     }
