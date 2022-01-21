@@ -20,7 +20,7 @@ class SelectCategoryFragment : Fragment() {
     private var _binding: FragmentSelectCategoryBinding? = null
     private val binding get() = _binding!!
     lateinit var categoryData: List<CategoryResponse.AllCategoryData>
-
+    lateinit var clickCountList : Array<Boolean>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +28,7 @@ class SelectCategoryFragment : Fragment() {
     ): View? {
         _binding = FragmentSelectCategoryBinding.inflate(layoutInflater, container, false)
 
+        initView()
 
         return binding.root
     }
@@ -69,19 +70,47 @@ class SelectCategoryFragment : Fragment() {
 
                 // Adapter 내의 clickCategory 초기화
                 categorySelectableAdapter.clickedCategory = Array(categoryData.size) { _ -> false }
-
-
+                clickCountList = Array(categoryData.size) { _ -> false }
+                Log.d("clickCountList", categoryData.size.toString())
 
                 categorySelectableAdapter.setItemClickListener(object :
                     CategorySelectableAdapter.OnItemClickListener {
                     override fun onClick(v: View, position: Int) {
-                        Log.d("categorySelectableAdapter", "$position clicked in Fragment")
+
+                        clickCountList[position] = !clickCountList[position]
+
+                        var booleanLog = clickCountList[position]
+                        Log.d("clickCountList", booleanLog.toString())
+
+                        if (isSelectedLeastOneCategory()) {
+                            binding.btnNext.isEnabled = true
+                            binding.btnNext.setBackgroundResource(R.drawable.rectangle_purple)
+                        } else {
+                            binding.btnNext.isEnabled = false
+                            binding.btnNext.setBackgroundResource(R.drawable.rectangle_gray_2)
+                        }
                     }
                 })
             } catch (e: Exception) {
                 // 서버 통신 실패 시
             }
         }
+    }
+
+    private fun isSelectedLeastOneCategory() : Boolean{
+
+        val cateSize = clickCountList.size
+        Log.d("isSelectedLeastOneCategory_size", cateSize.toString())
+        var isMoreThanOne = false
+        for (i in 0 until cateSize){
+            if (clickCountList[i]){
+                isMoreThanOne = true
+                Log.d("isSelectedLeastOneCategory_for", "check for statement")
+                break
+            }
+        }
+        Log.d("isSelectedLeastOneCategory_return", isMoreThanOne.toString())
+        return isMoreThanOne
     }
 
     private fun initListener() {
