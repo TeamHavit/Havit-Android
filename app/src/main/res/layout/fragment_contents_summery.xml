@@ -75,7 +75,7 @@
                 app:civ_border_color="@color/black"
                 ogImage="@{contentsTitleImageData.imgUrl}"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/img_dummy" />
+                tools:src="@drawable/img_contents_dummy_3" />
 
             <TextView
                 android:id="@+id/tv_og_title"
