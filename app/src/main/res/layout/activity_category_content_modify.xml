@@ -49,7 +49,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_modify"
+                android:id="@+id/tv_complete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="23dp"
@@ -81,12 +81,11 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:text="@{categoryViewModel.categoryName}"
             android:backgroundTint="@color/havit_purple"
             android:ems="10"
             android:inputType="textPersonName"
             android:textAppearance="@style/Header19Medium"
-            android:textColor="@color/havit_gray"
+            android:textColor="@color/gray_3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
@@ -102,6 +101,21 @@
             android:textColor="@color/havit_purple"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_category" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="17dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_ic"
+            app:spanCount="5"
+            tools:itemCount="15"
+            tools:listitem="@layout/item_category_icon">
+        </androidx.recyclerview.widget.RecyclerView>
 
 
         <androidx.appcompat.widget.AppCompatButton

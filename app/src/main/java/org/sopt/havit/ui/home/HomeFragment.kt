@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import org.sopt.havit.R
-import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentHomeBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents_simple.ContentsSimpleActivity
@@ -47,11 +46,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         // Recent Save RecyclerView
         initRecentContentsRvAdapter()
         recentContentsDataObserve()
-        clickContentsItemView()
         // Recommend RecyclerView
         recommendationDataObserve()
         setClickEvent() // Every clickEvent
-
         // CATEGORY CLICK TEST
         binding.clCategory.setOnClickListener {
             Log.d("HOMEFRAGMENT_CATEGORY", "HOMEFRAGMENT")
@@ -66,7 +63,26 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             override fun onWebClick(v: View, position: Int) {
                 val intent = Intent(v.context, WebActivity::class.java)
                 homeViewModel.contentsList.value?.get(position)
-                    ?.let { intent.putExtra("url", it.url) }
+                    ?.let {
+                        intent.putExtra("url", it.url)
+                        intent.putExtra("contentsId", it.id)
+                        intent.putExtra("isSeen", it.isSeen)
+                    }
+                startActivity(intent)
+            }
+        })
+    }
+
+    private fun clickRecommendItemView() {
+        recommendRvAdapter.setItemClickListener(object :
+            HomeRecommendRvAdapter.OnItemClickListener {
+            override fun onWebClick(v: View, position: Int) {
+                val intent = Intent(v.context, WebActivity::class.java)
+                homeViewModel.recommendList.value?.get(position)
+                    ?.let {
+                        intent.putExtra("url", it.url)
+//                        intent.putExtra("contentsId", it.id)
+                    }
                 startActivity(intent)
             }
         })
@@ -78,9 +94,11 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun setData() {
+        homeViewModel.requestUserDataTaken()
         homeViewModel.requestContentsTaken()
         homeViewModel.requestCategoryTaken()
         homeViewModel.requestRecommendTaken()
+//        allContentsCount = homeViewModel.userData.value!!.totalContentNumber
     }
 
     private fun clickAddCategory() {
@@ -96,17 +114,19 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private fun categoryDataObserve() {
         with(homeViewModel) {
-            categoryData.observe(viewLifecycleOwner) { data ->
-                with(binding) {
-                    if (data.isEmpty()) {
-                        layoutCategory.clHomeCategory.visibility = View.GONE
-                        clickAddCategory()
-                    } else {
-                        layoutCategoryEmpty.clHomeCategoryEmpty.visibility = View.GONE
-                        categoryVpAdapter.categoryList.clear()
-                        val list = setList(data)
-                        categoryVpAdapter.categoryList.addAll(list)
-                        categoryVpAdapter.notifyDataSetChanged()
+            userData.observe(viewLifecycleOwner) { userData ->
+                categoryData.observe(viewLifecycleOwner) { data ->
+                    with(binding) {
+                        if (data.isEmpty()) {
+                            layoutCategory.clHomeCategory.visibility = View.GONE
+                            clickAddCategory()
+                        } else {
+                            layoutCategoryEmpty.clHomeCategoryEmpty.visibility = View.GONE
+                            categoryVpAdapter.categoryList.clear()
+                            val list = setList(data, userData.totalContentNumber)
+                            categoryVpAdapter.categoryList.addAll(list)
+                            categoryVpAdapter.notifyDataSetChanged()
+                        }
                     }
                 }
             }
@@ -171,6 +191,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                         rvRecommend.adapter = recommendRvAdapter
                         recommendRvAdapter.recommendList.addAll(data)
                         recommendRvAdapter.notifyDataSetChanged()
+                        clickRecommendItemView()
                     }
                 }
             }
@@ -202,6 +223,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                         val list = data.subList(0, min)
                         contentsAdapter.contentsList.addAll(list)
                         contentsAdapter.notifyDataSetChanged()
+                        clickContentsItemView()
                     }
                 }
             }
@@ -209,8 +231,12 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun initProgressBar() {
-        homeViewModel.reachRate.observe(viewLifecycleOwner) {
-            binding.pbReach.progress = it
+        with(homeViewModel) {
+            userData.observe(viewLifecycleOwner) {
+                val rate =
+                    (it.totalSeenContentNumber.toDouble() / it.totalContentNumber.toDouble() * 100).toInt()
+                requestReachRate(rate)
+            }
         }
     }
 }

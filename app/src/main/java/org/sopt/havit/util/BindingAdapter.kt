@@ -32,6 +32,15 @@ object BindingAdapter {
             .into(this)
     }
 
+    @BindingAdapter("localIcon")
+    @JvmStatic
+    fun ImageView.loadIcon(url: Int) {
+        Glide.with(context)
+            .load(url)
+            .circleCrop()
+            .into(this)
+    }
+
     @BindingAdapter("imgRes")
     @JvmStatic
     fun imgLoad(imageView:ImageView, resid:Drawable) {

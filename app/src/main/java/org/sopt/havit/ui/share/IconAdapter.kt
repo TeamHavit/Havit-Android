@@ -10,7 +10,7 @@ import org.sopt.havit.R
 import org.sopt.havit.databinding.ItemCategoryIconBinding
 
 class IconAdapter : RecyclerView.Adapter<IconAdapter.IconViewHolder>() {
-    val iconList = mutableListOf<String>()
+    val iconList = mutableListOf<Int>()
     private var clickedPosition : Int = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IconViewHolder {
@@ -54,7 +54,6 @@ class IconAdapter : RecyclerView.Adapter<IconAdapter.IconViewHolder>() {
     // 외부에서 클릭 시 이벤트 설정
     fun setItemClickListener(onItemClickListener: OnItemClickListener) {
         this.itemClickListener = onItemClickListener
-
     }
 
     // setItemClickListener로 설정한 함수 실행
@@ -64,11 +63,9 @@ class IconAdapter : RecyclerView.Adapter<IconAdapter.IconViewHolder>() {
 
     class IconViewHolder(private val binding: ItemCategoryIconBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: String) {
+        fun onBind(data: Int) {
             binding.categoryIcon = data
             binding.clIcon.setBackgroundResource(R.drawable.oval_gray)
         }
-
-
     }
 }

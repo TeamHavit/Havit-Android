@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.CategoryResponse
 
 class CategoryContentModifyViewModel: ViewModel() {
     private val _categoryName = MutableLiveData<String>()

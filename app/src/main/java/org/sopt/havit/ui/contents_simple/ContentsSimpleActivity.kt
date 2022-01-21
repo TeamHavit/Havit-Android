@@ -7,6 +7,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsSimpleBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
@@ -35,6 +36,7 @@ class ContentsSimpleActivity :
     private fun clickBtnBack() {
         binding.ivBack.setOnClickListener {
             finish()
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 
@@ -45,7 +47,7 @@ class ContentsSimpleActivity :
     }
 
     private fun initAdapter() {
-        contentsAdapter = ContentsSimpleRvAdapter(contentsViewModel)
+        contentsAdapter = ContentsSimpleRvAdapter(contentsViewModel,supportFragmentManager)
         binding.rvContents.adapter = contentsAdapter
     }
 
@@ -73,7 +75,11 @@ class ContentsSimpleActivity :
             override fun onWebClick(v: View, position: Int) {
                 val intent = Intent(v.context, WebActivity::class.java)
                 contentsViewModel.contentsList.value?.get(position)
-                    ?.let { intent.putExtra("url", it.url) }
+                    ?.let {
+                        intent.putExtra("url", it.url)
+                        intent.putExtra("contentsId", it.id)
+                        intent.putExtra("isSeen", it.isSeen)
+                    }
                 startActivity(intent)
             }
         })
