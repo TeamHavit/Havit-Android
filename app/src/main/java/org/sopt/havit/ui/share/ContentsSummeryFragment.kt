@@ -1,6 +1,5 @@
 package org.sopt.havit.ui.share
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,13 +11,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenCreated
-import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
 import org.sopt.havit.ContentsFinalData
 import org.sopt.havit.R
-import org.sopt.havit.data.ContentsTitleImageData
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsScrapResponse
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
@@ -40,76 +38,16 @@ class ContentsSummeryFragment : Fragment() {
     ): View? {
         _binding = FragmentContentsSummeryBinding.inflate(layoutInflater, container, false)
 
-        // TODO : imageview 모서리 둥글게
-        binding.ivOgImage.clipToOutline = true
+        return binding.root
+    }
 
-        MySharedPreference.clearTitle(requireContext())
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initListener()
         toolbarClickListener()
         initIntent()
 
-        if (MySharedPreference.getTitle(requireContext()).isEmpty()) {
-            Log.d("shared_title", MySharedPreference.getTitle(requireContext()))
-            binding.tvOgTitle.text = MySharedPreference.getTitle(requireContext())
-        }
-
-        return binding.root
-    }
-
-    private fun setContents(url: String) {
-        lifecycleScope.launch {
-            whenCreated {
-                try {
-                    Log.d("server", "log")
-                    // 서버 통신
-                    val response =
-                        RetrofitObject.provideHavitApi(
-                            MySharedPreference
-                                .getXAuthToken(requireContext())
-                        ).getOgData(url)
-
-
-//                contentsFinalData = ContentsFinalData(
-//                    response.data.ogTitle,
-//                    response.data.ogDescription,
-//                    response.data.ogImage,
-//                    response.data.ogUrl,
-//                    false,
-//                    "",
-//                    getCategoryArray() as MutableList<Int>
-//                )
-
-//                    Log.d("ContentsSummeryFragment", response.toString())
-//
-//                    val contentsTitleImageData =
-//                        ContentsTitleImageData(response.data.ogTitle, response.data.ogImage)
-//                    binding.contentsTitleImageData = contentsTitleImageData
-//
-//                    if (MySharedPreference.getTitle(requireContext()) == "") {
-//                        contentsFinalData.title = response.data.ogTitle // 이거 지우고 바로 밑에 데이터 클래스로 넣기
-//                    } else {
-//                        contentsFinalData.title = MySharedPreference.getTitle(requireContext())
-//                    }
-
-                } catch (e: Exception) {
-                    Log.d("ContentsSummeryFragment", e.toString())
-                    // 서버 통신 실패 시
-                }
-            }
-
-        }
-    }
-
-    private fun getCategoryArray(): List<Int> {
-        val categoryIds = args.contentsCategoryIds
-        val arrString = categoryIds.split(" ")
-        Log.d("split category : ", arrString.toString())
-        val arrInt: MutableList<Int> = List(arrString.size) { _ -> 0 }.toMutableList()
-        for (i in arrString.indices) {
-            arrInt[i] = arrString[i].toInt()
-        }
-        return arrInt
     }
 
     private fun initIntent() {
@@ -125,38 +63,36 @@ class ContentsSummeryFragment : Fragment() {
     private fun handleSendText(intent: Intent): String? {
         val url = intent.getStringExtra(Intent.EXTRA_TEXT)
         binding.tvUrl.text = url
-//        setContents(url!!)
         setContentsCallback(url!!)
         return url
     }
 
     private fun setContentsCallback(url: String) {
         RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
-            .getOgData(url).enqueue(object : Callback<ContentsScrapResponse>{
+            .getOgData(url).enqueue(object : Callback<ContentsScrapResponse> {
                 override fun onResponse(
                     call: Call<ContentsScrapResponse>,
                     response: Response<ContentsScrapResponse>
                 ) {
-                    if (response.isSuccessful){
+                    if (response.isSuccessful) {
                         val response = response.body()
                         Log.d("ContentsSummeryFragment", response.toString())
 
-                        val contentsTitleImageData =
-                            ContentsTitleImageData(response!!.data.ogTitle, response.data.ogImage)
-                        binding.contentsTitleImageData = contentsTitleImageData
+                        Glide.with(requireContext()).load(response?.data?.ogImage)
+                            .into(binding.ivOgImage)
 
-                        if (MySharedPreference.getTitle(requireContext()).isEmpty()) {
-                            Log.d("shared1", MySharedPreference.getTitle(requireContext()) )
-                            binding.tvOgTitle.text = response.data.ogTitle // 이거 지우고 바로 밑에 데이터 클래스로 넣기
+                        if (MySharedPreference.getTitle(requireContext()).isNotEmpty()) {
+                            Log.d("shared_title", MySharedPreference.getTitle(requireContext()))
+                            binding.tvOgTitle.text = MySharedPreference.getTitle(requireContext())
+                            MySharedPreference.clearTitle(requireContext())
                         } else {
-                            Log.d("shared2", MySharedPreference.getTitle(requireContext()) )
-                            binding.tvOgTitle.text= MySharedPreference.getTitle(requireContext())
+                            binding.tvOgTitle.text = response?.data?.ogTitle
+                            Log.d("shared_title", "No Shared Preference data")
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<ContentsScrapResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
                 }
             })
     }
@@ -178,7 +114,6 @@ class ContentsSummeryFragment : Fragment() {
                 )
             )
             MySharedPreference.clearTitle(requireContext())
-
         }
 
         binding.btnComplete.setOnClickListener {
@@ -186,7 +121,6 @@ class ContentsSummeryFragment : Fragment() {
             //서버연동
             requireActivity().finish()
         }
-
 
         binding.tvSetAlarm.setOnClickListener {
             findNavController().navigate(R.id.action_contentsSummeryFragment_to_setNotificationFragment)
