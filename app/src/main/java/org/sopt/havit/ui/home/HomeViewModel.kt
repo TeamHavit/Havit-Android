@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.home
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,14 +13,11 @@ import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.data.remote.RecommendationResponse
 import org.sopt.havit.data.remote.UserResponse
+import org.sopt.havit.util.MySharedPreference
 
-class HomeViewModel() : ViewModel() {
+class HomeViewModel(context: Context) : ViewModel() {
 
-    //    private val token = MySharedPreference.getXAuthToken(context)
-    private val token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo"
-
-    val contentsAllNum=MutableLiveData<Int>()
+    private val token = MySharedPreference.getXAuthToken(context)
 
     private val _contentsList = MutableLiveData<List<ContentsSimpleResponse.ContentsSimpleData>>()
     val contentsList: LiveData<List<ContentsSimpleResponse.ContentsSimpleData>> = _contentsList
@@ -47,11 +45,7 @@ class HomeViewModel() : ViewModel() {
                 val response =
                     RetrofitObject.provideHavitApi(token)
                         .getAllCategory()
-
                 _categoryData.postValue(response.data)
-//                _categoryList.postValue(response.data)
-//                _categoryData.postValue(setList(categoryList.value))
-////                _categoryData.postValue(response.data)
             } catch (e: Exception) {
             }
         }
@@ -113,7 +107,6 @@ class HomeViewModel() : ViewModel() {
     }
 
 
-
     private val _userData = MutableLiveData<UserResponse.UserData>()
     val userData: LiveData<UserResponse.UserData> = _userData
     fun requestUserDataTaken() {
@@ -123,11 +116,6 @@ class HomeViewModel() : ViewModel() {
                     RetrofitObject.provideHavitApi(token)
                         .getUserData()
                 _userData.postValue(response.data)
-                contentsAllNum.postValue(response.data.totalContentNumber)
-//                val rate =
-//                    (_userData.value!!.totalSeenContentNumber.toDouble() / _userData.value!!.totalSeenContentNumber.toDouble() * 100).toInt()
-//                Log.d("HOMEVIEWMODEL", "val rate: $rate")
-//                _reachRate.postValue(rate)
                 Log.d("HOMEVIEWMODEL", "rate: ${_reachRate.value}")
                 Log.d("HOMEVIEWMODEL", "userdata: $userData")
             } catch (e: Exception) {

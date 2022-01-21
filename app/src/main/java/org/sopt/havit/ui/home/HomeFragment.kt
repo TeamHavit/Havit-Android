@@ -19,7 +19,7 @@ import org.sopt.havit.ui.web.WebActivity
 
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by lazy { HomeViewModel(requireContext())}
     private val contentsAdapter: HomeRecentContentsRvAdapter by lazy { HomeRecentContentsRvAdapter() }
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
     private lateinit var categoryVpAdapter: HomeCategoryVpAdapter
@@ -81,7 +81,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                 homeViewModel.recommendList.value?.get(position)
                     ?.let {
                         intent.putExtra("url", it.url)
-//                        intent.putExtra("contentsId", it.id)
                     }
                 startActivity(intent)
             }
@@ -98,7 +97,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         homeViewModel.requestContentsTaken()
         homeViewModel.requestCategoryTaken()
         homeViewModel.requestRecommendTaken()
-//        allContentsCount = homeViewModel.userData.value!!.totalContentNumber
     }
 
     private fun clickAddCategory() {
