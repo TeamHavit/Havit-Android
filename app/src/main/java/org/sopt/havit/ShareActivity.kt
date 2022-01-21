@@ -47,4 +47,10 @@ class ShareActivity : AppCompatActivity() {
     private fun hadLogin(): Boolean {
         return true
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        MySharedPreference.clearNotificationTime(this)
+        MySharedPreference.clearTitle(this)
+    }
 }

@@ -9,13 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenCreated
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.launch
-import org.sopt.havit.ContentsFinalData
 import org.sopt.havit.R
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsScrapResponse
@@ -29,14 +25,14 @@ class ContentsSummeryFragment : Fragment() {
     private var _binding: FragmentContentsSummeryBinding? = null
     private val binding get() = _binding!!
     private val args by navArgs<ContentsSummeryFragmentArgs>()
-    lateinit var contentsFinalData: ContentsFinalData
-    private var isSeverConnected = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentContentsSummeryBinding.inflate(layoutInflater, container, false)
+
+        gerNotificationTime()
 
         return binding.root
     }
@@ -48,6 +44,25 @@ class ContentsSummeryFragment : Fragment() {
         toolbarClickListener()
         initIntent()
 
+    }
+
+    private fun gerNotificationTime() {
+        val setTime = MySharedPreference.getNotificationTime(requireContext())
+        if (setTime.isEmpty()) {
+            Log.d("Notification", "No")
+            // 알림 없음
+        } else {
+            Log.d("Notification Yes", MySharedPreference.getNotificationTime(requireContext()))
+            binding.tvSetAlarm.text = setDateFormat(setTime)
+            // boolean 변수 true
+            // 알림 있음
+        }
+    }
+
+    private fun setDateFormat(originTime: String): String {
+        Log.d("originTime", originTime)
+        return "${originTime[2]}${originTime[2]}.${originTime[5]}${originTime[6]}.${originTime[8]}${originTime[9]}" +
+                " ${originTime[11]}${originTime[12]}시 ${originTime[14]}${originTime[15]}분에 알림 예정"
     }
 
     private fun initIntent() {
@@ -118,6 +133,8 @@ class ContentsSummeryFragment : Fragment() {
 
         binding.btnComplete.setOnClickListener {
             setCustomToast()
+            MySharedPreference.clearTitle(requireContext())
+            MySharedPreference.clearNotificationTime(requireContext())
             //서버연동
             requireActivity().finish()
         }
@@ -134,6 +151,7 @@ class ContentsSummeryFragment : Fragment() {
 
         binding.icClose.setOnClickListener {
             MySharedPreference.clearTitle(requireContext())
+            MySharedPreference.clearNotificationTime(requireContext())
             requireActivity().finish()
         }
     }

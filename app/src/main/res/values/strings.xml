@@ -103,4 +103,9 @@
     <string name="mypage_check_title">확인한 콘텐츠</string>
     <string name="mypage_count">12</string>
     <string name="mypage_count_title">개</string>
+    <string name="after_1_min">1분 후</string>
+    <string name="tomorrow_this_time">내일 이 시간</string>
+    <string name="after_3h">3시간 후</string>
+    <string name="after_2h">2시간 후</string>
+    <string name="after_1h">1시간 후</string>
 </resources>
