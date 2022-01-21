@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.contents
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,8 +11,10 @@ import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.ContentsResponse
 import org.sopt.havit.data.remote.ContentsSearchResponse
+import org.sopt.havit.util.MySharedPreference
 
-class ContentsViewModel : ViewModel() {
+class ContentsViewModel (context: Context) : ViewModel() {
+    private val token = MySharedPreference.getXAuthToken(context)
     private val _contentsList = MutableLiveData<List<ContentsResponse.ContentsData>>()
     val contentsList: LiveData<List<ContentsResponse.ContentsData>> = _contentsList
 
@@ -29,8 +32,18 @@ class ContentsViewModel : ViewModel() {
     fun requestContentsTaken(categoryId: Int, option: String, filter: String, name: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try{
-                val response = RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
-                    .getCategoryContents(categoryId, option, filter)
+                val response = RetrofitObject.provideHavitApi(token).getCategoryContents(categoryId, option, filter)
+                _contentsList.postValue(response.data)
+                _contentsCount.postValue(response.data.size)
+                _categoryName.postValue(name)
+            } catch (e: Exception) { }
+        }
+    }
+
+    fun requestContentsAllTaken(option: String, filter: String, name: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try{
+                val response = RetrofitObject.provideHavitApi(token).getAllContents(option, filter)
                 _contentsList.postValue(response.data)
                 _contentsCount.postValue(response.data.size)
                 _categoryName.postValue(name)
@@ -41,8 +54,7 @@ class ContentsViewModel : ViewModel() {
     fun setIsSeen(contentsId:Int){
         viewModelScope.launch {
             try{
-                val response = RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
-                    .isHavit(ContentsHavitRequest(contentsId))
+                val response = RetrofitObject.provideHavitApi(token).isHavit(ContentsHavitRequest(contentsId))
             }catch (e:Exception){
 
             }

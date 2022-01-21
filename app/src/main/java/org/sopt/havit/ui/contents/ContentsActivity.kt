@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -15,13 +16,15 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.category.CategoryAdapter
+import org.sopt.havit.ui.category.CategoryOrderModifyActivity
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
 
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
-    private val contentsViewModel: ContentsViewModel by viewModels()
+    private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,15 +47,25 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         clickItemView()
         setChipOrder()
         setCategoryListDialog()
+        clickModify()
+        setToast()
     }
 
     override fun onStart() {
         super.onStart()
-        contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+        setContentsData()
+    }
+
+    private fun setContentsData() {
+        if (ID == -1) {
+            contentsViewModel.requestContentsAllTaken(OPTION, FILTER, CATEGORY_NAME)
+        } else {
+            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+        }
     }
 
     private fun initAdapter() {
-        contentsAdapter = ContentsAdapter(contentsViewModel,supportFragmentManager)
+        contentsAdapter = ContentsAdapter(contentsViewModel, supportFragmentManager)
         binding.rvContents.adapter = contentsAdapter
     }
 
@@ -65,7 +78,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         )
     }
 
-    private fun initData(){
+    private fun initData() {
         // 레이아웃 초기화
         layout = LINEAR_MIN_LAYOUT
         // 옵션 및 필터 초기화
@@ -73,19 +86,18 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         FILTER = "created_at"
     }
 
-    private fun setData(){
+    private fun setData() {
         ID = intent.getIntExtra("categoryId", 0)
-        if (ID == 0) {
-            Log.d("categoryId", "error")
-        } else {
-            intent.getStringExtra("categoryName")?.let {
-                CATEGORY_NAME = it
-            }
-            //contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
-            Log.d("categoryName", "$CATEGORY_NAME")
+        if (ID == -1) {
+            binding.tvModify.visibility = View.GONE
+            binding.ivCategoryDrop.visibility = View.GONE
         }
+        intent.getStringExtra("categoryName")?.let {
+            CATEGORY_NAME = it
+        }
+        //contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+        Log.d("categoryName", "$CATEGORY_NAME")
     }
-
 
     private fun dataObserve() {
         with(contentsViewModel) {
@@ -156,6 +168,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         }
     }
 
+    // 최신순, 과거순, 최근 조회순 다이얼로그별 화면 설정
     private fun setOrderDialog() {
         val bottomSheetView = layoutInflater.inflate(R.layout.dialog_contents_order, null)
         val bottomSheetDialog = BottomSheetDialog(this)
@@ -211,25 +224,25 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent).setOnClickListener {
             FILTER = "created_at"
-            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             binding.tvOrder.text = "최신순"
+            setContentsData()
             bottomSheetDialog.dismiss()
         }
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past).setOnClickListener {
             FILTER = "reverse"
-            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             binding.tvOrder.text = "과거순"
+            setContentsData()
             bottomSheetDialog.dismiss()
         }
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view).setOnClickListener {
             FILTER = "seen_at"
-            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
             binding.tvOrder.text = "최근 조회순"
+            setContentsData()
             bottomSheetDialog.dismiss()
         }
     }
 
-    private fun setCategoryListDialog(){
+    private fun setCategoryListDialog() {
         binding.clCategory.setOnClickListener {
             binding.ivCategoryDrop.setImageResource(R.drawable.ic_dropback_black)
             DialogContentsCategoryFragment().show(supportFragmentManager, "categoryList")
@@ -249,9 +262,11 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             override fun onWebClick(v: View, position: Int) {
                 val intent = Intent(v.context, WebActivity::class.java)
                 contentsViewModel.contentsList.value?.get(position)
-                    ?.let { intent.putExtra("url", it.url)
-                    intent.putExtra("contentsId", it.id)
-                    intent.putExtra("isSeen", it.isSeen)}
+                    ?.let {
+                        intent.putExtra("url", it.url)
+                        intent.putExtra("contentsId", it.id)
+                        intent.putExtra("isSeen", it.isSeen)
+                    }
                 startActivity(intent)
             }
         })
@@ -261,21 +276,44 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         with(binding) {
             chAll.setOnClickListener {
                 OPTION = "all"
-                contentsViewModel?.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+                setContentsData()
             }
             chSeen.setOnClickListener {
                 OPTION = "true"
-                contentsViewModel?.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+                setContentsData()
             }
             chUnseen.setOnClickListener {
                 OPTION = "false"
-                contentsViewModel?.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+                setContentsData()
             }
             chAlarm.setOnClickListener {
                 OPTION = "notified"
-                contentsViewModel?.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+                setContentsData()
             }
         }
+    }
+
+    private fun clickModify(){
+        binding.tvModify.setOnClickListener {
+            val intent = Intent(this, CategoryOrderModifyActivity::class.java)
+            intent.putExtra("dataSet", true)
+            startActivity(intent)
+        }
+    }
+
+    private fun setCustomToast() {
+        val toast = Toast(this)
+        val view = layoutInflater.inflate(R.layout.toast_havit_complete, null)
+        toast.view = view
+        toast.show()
+    }
+
+    private fun setToast(){
+        contentsAdapter.setHavitClickListener(object : ContentsAdapter.OnHavitClickListener {
+            override fun onHavitClick() {
+                setCustomToast()
+            }
+        })
     }
 
     companion object {

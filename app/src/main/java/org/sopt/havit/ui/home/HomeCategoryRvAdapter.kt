@@ -27,7 +27,6 @@ class HomeCategoryRvAdapter :
     class HomeCategoryRvViewHolder(private val binding: ItemHomeCategoryListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: CategoryResponse.AllCategoryData, position: Int, view: View) {
-            Log.d("HOMECATEGORYRVADAPTER", data.url)
             binding.dataHomeCategory = data
             binding.tvTitle.text = data.title
             if (position == isFirst) {

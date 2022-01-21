@@ -7,17 +7,23 @@ import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.sopt.havit.MainActivity
 import org.sopt.havit.R
+import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.databinding.ActivityCategoryOrderModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.util.MySharedPreference
 
 class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderModifyBinding>(R.layout.activity_category_order_modify) {
     private lateinit var getResult: ActivityResultLauncher<Intent>
 
     private lateinit var categoryOrderModifyAdapter: CategoryOrderModifyAdapter
-    private val categoryViewModel: CategoryViewModel by viewModels()
+    private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
     lateinit var holder: RecyclerView.ViewHolder
     private var SET = false
 
@@ -27,6 +33,7 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
         binding.categoryViewModel = categoryViewModel
         setContentView(binding.root)
 
+        SERVER = false
         initAdapter()
         setResult()
         clickItem()
@@ -34,6 +41,7 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
         clickBack()
         initDrag()
         dataObserve()
+        setOrder()
     }
 
     private fun initAdapter() {
@@ -54,6 +62,12 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
             categoryList.observe(this@CategoryOrderModifyActivity) {
                 categoryOrderModifyAdapter.categoryList.addAll(it)
                 categoryOrderModifyAdapter.notifyDataSetChanged()
+
+                val list = mutableListOf<Int>()
+                for(i in categoryOrderModifyAdapter.categoryList){
+                    list.add(i.id)
+                }
+                Log.d("CategoryOrderList", "변경 전 : ${list}")
             }
         }
     }
@@ -63,14 +77,25 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             if(it.resultCode == RESULT_OK){
                 val position = it.data?.getIntExtra("position", 0) ?: 0
+                val id = it.data?.getIntExtra("id", 0) ?: 0
+                categoryViewModel.requestCategoryDelete(id)
                 categoryOrderModifyAdapter.removeData(position)
+                categoryOrderModifyAdapter.notifyDataSetChanged()
             }
             else if(it.resultCode == RESULT_FIRST_USER){
-                val position = it.data?.getIntExtra("position2", 0) ?: 0
-                val name = it.data?.getStringExtra("categoryName")
-                Log.d("CategoryNameTest", "$name")
-                //categoryViewModel.modifyValue(position, name.toString())
-                categoryOrderModifyAdapter.categoryList[position].title = name.toString()
+                val position = it.data?.getIntExtra("position", 0) ?: 0
+                val name = it.data?.getStringExtra("categoryName") ?: "null"
+                var imageId = it.data?.getIntExtra("imageId", 0) ?: 0
+                val id = it.data?.getIntExtra("id", 0) ?: 0
+                imageId = imageId+1
+                Log.d("CategoryTest", "네임 : $name")
+                Log.d("CategoryTest", "아이디 : $id")
+                Log.d("CategoryTest", "이미지 : $imageId")
+                categoryViewModel.requestCategoryContent(id, imageId, name)
+                categoryOrderModifyAdapter.categoryList[position].title = name
+                categoryOrderModifyAdapter.categoryList[position].imageId = imageId
+                categoryOrderModifyAdapter.categoryList[position].url = "https://havit-bucket.s3.ap-northeast-2.amazonaws.com/category_image/3d_icon_${imageId}.png"
+
                 categoryOrderModifyAdapter.notifyDataSetChanged()
             }
         }
@@ -81,9 +106,10 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
             override fun onClick(v: View, position: Int) {
                 val intent = Intent(v.context, CategoryContentModifyActivity::class.java)
                 categoryViewModel.categoryList.value?.get(position)
-                    ?.let { intent.putExtra("categoryId", it.id)
+                    ?.let { intent.putExtra("categoryId", categoryOrderModifyAdapter.categoryList[position].id)
                         intent.putExtra("position", position)
-                    intent.putExtra("categoryName", categoryOrderModifyAdapter.categoryList[position].title)}
+                        intent.putExtra("categoryName", categoryOrderModifyAdapter.categoryList[position].title)
+                        intent.putExtra("imageId", categoryOrderModifyAdapter.categoryList[position].imageId)}
                 Log.d("CategoryContentsData", "전달 전 포지션 : ${position}")
                 getResult.launch(intent)
             }
@@ -140,5 +166,26 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
         ItemTouchHelper(itemTouchCallback).attachToRecyclerView(binding.rvContents)
     }
 
+    private fun setOrder(){
+        binding.tvComplete.setOnClickListener {
+            val mlist = mutableListOf<Int>()
+            for(i in categoryOrderModifyAdapter.categoryList){
+                mlist.add(i.id)
+            }
+            Log.d("CategoryOrderList", "${mlist.toList()}")
 
+            categoryViewModel.requestCategoryOrder(mlist.toList())
+
+            categoryViewModel.delay.observe(this@CategoryOrderModifyActivity){
+                if(it == true){
+                    categoryViewModel.setDelay(false)
+                    finish()
+                }
+            }
+        }
+    }
+
+    companion object{
+        var SERVER = false
+    }
 }

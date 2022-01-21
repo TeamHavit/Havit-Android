@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.repository.ContentsRepository
 
@@ -21,7 +22,7 @@ class WebViewModel(private val contentsRepository: ContentsRepository) : ViewMod
 
         isHavit.value = !isHavit.value!!
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             contentsRepository.isSeen(contentsId)
         }
 
