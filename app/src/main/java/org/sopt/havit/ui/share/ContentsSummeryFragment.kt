@@ -26,6 +26,7 @@ class ContentsSummeryFragment : Fragment() {
         binding.ivOgImage.clipToOutline = true
 
         initListener()
+        toolbarClickListener()
 
         return binding.root
     }
@@ -39,6 +40,16 @@ class ContentsSummeryFragment : Fragment() {
         }
         binding.tvSetAlarm.setOnClickListener {
             findNavController().navigate(R.id.action_contentsSummeryFragment_to_setNotificationFragment)
+        }
+    }
+
+    private fun toolbarClickListener(){
+        binding.icBack.setOnClickListener {
+            findNavController().navigate(R.id.action_contentsSummeryFragment_to_selectCategoryFragment)
+        }
+
+        binding.icClose.setOnClickListener {
+            requireActivity().finish()
         }
     }
 

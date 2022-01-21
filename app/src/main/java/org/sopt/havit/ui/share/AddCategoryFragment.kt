@@ -33,6 +33,7 @@ class AddCategoryFragment : Fragment() {
         initClickListener()
         setTextWatcher()
         setKeyBoardUp()
+        toolbarClickListener()
 
         // 키보드에 맞게 뷰 조절 (다음 버튼 키보드 위 배치)
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -71,6 +72,16 @@ class AddCategoryFragment : Fragment() {
                     binding.etCategoryTitle.text.toString()
                 )
             )
+        }
+    }
+
+    private fun toolbarClickListener(){
+        binding.icBack.setOnClickListener {
+            findNavController().navigate(R.id.action_addCategoryFragment_to_selectCategoryFragment)
+        }
+
+        binding.icClose.setOnClickListener {
+            requireActivity().finish()
         }
     }
 

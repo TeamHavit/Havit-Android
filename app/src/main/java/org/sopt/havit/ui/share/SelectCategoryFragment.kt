@@ -36,6 +36,13 @@ class SelectCategoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         initListener()
+        toolbarClickListener()
+    }
+
+    private fun toolbarClickListener(){
+        binding.icClose.setOnClickListener {
+            requireActivity().finish()
+        }
     }
 
     private fun initView() {
