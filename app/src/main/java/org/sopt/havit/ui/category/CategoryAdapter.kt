@@ -3,6 +3,7 @@ package org.sopt.havit.ui.category
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemCategoryBinding
@@ -10,6 +11,7 @@ import org.sopt.havit.databinding.ItemCategoryBinding
 class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
     val categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
     private lateinit var itemClickListener: OnItemClickListener
+    var POSITION: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val binding = ItemCategoryBinding.inflate(
@@ -45,5 +47,37 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
         fun onBind(data: CategoryResponse.AllCategoryData) {
             binding.category = data
         }
+    }
+
+    fun updateList(items: List<CategoryResponse.AllCategoryData>?) {
+        items?.let {
+            val diffCallback = DiffUtilCallback(this.categoryList, items)
+            val diffResult = DiffUtil.calculateDiff(diffCallback)
+
+            this.categoryList.run {
+                clear()
+                addAll(items)
+                diffResult.dispatchUpdatesTo(this@CategoryAdapter)
+            }
+        }
+    }
+
+    inner class DiffUtilCallback(
+        private val oldData: List<CategoryResponse.AllCategoryData>,
+        private val newData: List<CategoryResponse.AllCategoryData>
+    ) : DiffUtil.Callback() {
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldItem = oldData[oldItemPosition]
+            val newItem = newData[newItemPosition]
+
+            return oldItem.id == newItem.id
+        }
+
+        override fun getOldListSize(): Int = oldData.size
+
+        override fun getNewListSize(): Int = newData.size
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldData[oldItemPosition] == newData[newItemPosition]
     }
 }
