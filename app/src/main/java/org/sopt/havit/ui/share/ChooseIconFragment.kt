@@ -17,20 +17,19 @@ import org.sopt.havit.R
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.CategoryAddRequest
 import org.sopt.havit.databinding.FragmentChooseIconBinding
+import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.util.MySharedPreference
 
-class ChooseIconFragment : Fragment() {
+class ChooseIconFragment : BaseBindingFragment<FragmentChooseIconBinding>(R.layout.fragment_choose_icon) {
     private lateinit var iconAdapter: IconAdapter
-    private var _binding: FragmentChooseIconBinding? = null
-    private val binding get() = _binding!!
     private val args by navArgs<ChooseIconFragmentArgs>()
     private var categoryIndex = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentChooseIconBinding.inflate(layoutInflater, container, false)
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
 
         return binding.root
     }
@@ -60,21 +59,10 @@ class ChooseIconFragment : Fragment() {
         binding.rvIcon.adapter = iconAdapter
         iconAdapter.iconList.addAll(
             listOf(
-                R.drawable.ic_category1,
-                R.drawable.ic_category2,
-                R.drawable.ic_category3,
-                R.drawable.ic_category4,
-                R.drawable.ic_category5,
-                R.drawable.ic_category6,
-                R.drawable.ic_category7,
-                R.drawable.ic_category8,
-                R.drawable.ic_category9,
-                R.drawable.ic_category10,
-                R.drawable.ic_category11,
-                R.drawable.ic_category12,
-                R.drawable.ic_category13,
-                R.drawable.ic_category14,
-                R.drawable.ic_category15
+                R.drawable.ic_category1, R.drawable.ic_category2, R.drawable.ic_category3, R.drawable.ic_category4,
+                R.drawable.ic_category5, R.drawable.ic_category6, R.drawable.ic_category7, R.drawable.ic_category8,
+                R.drawable.ic_category9, R.drawable.ic_category10,R.drawable.ic_category11,R.drawable.ic_category12,
+                R.drawable.ic_category13,R.drawable.ic_category14,R.drawable.ic_category15
             )
         )
         iconAdapter.notifyDataSetChanged()
@@ -104,7 +92,6 @@ class ChooseIconFragment : Fragment() {
             initNetwork()
             findNavController().navigate(R.id.action_chooseIconFragment_to_selectCategoryFragment)
             showCustomToast()
-
         }
     }
 
@@ -132,5 +119,4 @@ class ChooseIconFragment : Fragment() {
         toast.view = view
         toast.show()
     }
-
 }
