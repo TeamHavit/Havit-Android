@@ -66,7 +66,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             override fun onWebClick(v: View, position: Int) {
                 val intent = Intent(v.context, WebActivity::class.java)
                 homeViewModel.contentsList.value?.get(position)
-                    ?.let { intent.putExtra("url", it.url) }
+                    ?.let { intent.putExtra("url", it.url)
+                    intent.putExtra("contentsId",-1)}
                 startActivity(intent)
             }
         })
