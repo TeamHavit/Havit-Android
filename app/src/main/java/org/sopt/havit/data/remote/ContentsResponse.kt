@@ -7,13 +7,13 @@ data class ContentsResponse(
     val success: Boolean
 ) {
     data class ContentsData(
-        val createdAt: String,
+        var createdAt: String,
         val description: String,
         val id: Int,
         val image: String,
         val isNotified: Boolean,
-        val isSeen: Boolean,
-        val notificationTime: String,
+        var isSeen: Boolean,
+        var notificationTime: String,
         val seenAt: String,
         val title: String,
         val url: String

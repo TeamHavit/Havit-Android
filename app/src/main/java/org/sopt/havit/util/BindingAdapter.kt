@@ -2,14 +2,11 @@ package org.sopt.havit.util
 
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import org.sopt.havit.R
-import org.sopt.havit.util.BindingAdapter.defaultImageGrid
-import org.sopt.havit.util.BindingAdapter.defaultImageLinearMax
 
 
 object BindingAdapter {
@@ -17,15 +14,26 @@ object BindingAdapter {
     // item_category
     @BindingAdapter("imageUrl")
     @JvmStatic
-    fun ImageView.loadImage(url: String) {
+    fun ImageView.loadImage(url: String?) {
         Glide.with(context)
             .load(url)
+            .placeholder(R.drawable.img_contents_dummy)
             .into(this)
     }
 
     @BindingAdapter("iconSrc")
     @JvmStatic
-    fun ImageView.loadIcon(url: String) {
+    fun ImageView.loadIcon(url: String?) {
+        Glide.with(context)
+            .load(url)
+            .placeholder(R.drawable.img_contents_dummy)
+            .circleCrop()
+            .into(this)
+    }
+
+    @BindingAdapter("localIcon")
+    @JvmStatic
+    fun ImageView.loadIcon(url: Int) {
         Glide.with(context)
             .load(url)
             .circleCrop()
@@ -51,7 +59,7 @@ object BindingAdapter {
 
     @BindingAdapter("imageSearch")
     @JvmStatic
-    fun ImageView.loadSearch(url: String) {
+    fun ImageView.loadSearch(url: String?) {
         Glide.with(context)
             .load(url)
             .placeholder(R.drawable.img_contents_dummy)
@@ -61,7 +69,7 @@ object BindingAdapter {
 
     @BindingAdapter("imageDefaultLinearMin")
     @JvmStatic
-    fun ImageView.defaultImageLinearMin(url: String) {
+    fun ImageView.defaultImageLinearMin(url: String?) {
         Glide.with(context)
             .load(url)
             .placeholder(R.drawable.img_contents_dummy)
@@ -70,7 +78,7 @@ object BindingAdapter {
 
     @BindingAdapter("imageDefaultGrid")
     @JvmStatic
-    fun ImageView.defaultImageGrid(url: String) {
+    fun ImageView.defaultImageGrid(url: String?) {
         Glide.with(context)
             .load(url)
             .placeholder(R.drawable.img_contents_dummy_2)
@@ -79,7 +87,17 @@ object BindingAdapter {
 
     @BindingAdapter("imageDefaultLinearMax")
     @JvmStatic
-    fun ImageView.defaultImageLinearMax(url: String) {
+    fun ImageView.defaultImageLinearMax(url: String?) {
+        Glide.with(context)
+            .load(url)
+            .placeholder(R.drawable.img_contents_dummy_3)
+            .into(this)
+    }
+
+    // item_category
+    @BindingAdapter("ogImage")
+    @JvmStatic
+    fun ImageView.setOgImage(url: String?) {
         Glide.with(context)
             .load(url)
             .placeholder(R.drawable.img_contents_dummy_3)

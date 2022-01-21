@@ -22,15 +22,25 @@
         <action
             android:id="@+id/action_addCategoryFragment_to_chooseIconFragment"
             app:destination="@id/chooseIconFragment" />
+        <action
+            android:id="@+id/action_addCategoryFragment_to_selectCategoryFragment"
+            app:destination="@id/selectCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/chooseIconFragment"
         android:name="org.sopt.havit.ui.share.ChooseIconFragment"
         android:label="fragment_choose_icon"
         tools:layout="@layout/fragment_choose_icon" >
+        <argument
+            android:name="category_title"
+            app:argType="string"
+            android:defaultValue="카테고리 제목" />
         <action
             android:id="@+id/action_chooseIconFragment_to_selectCategoryFragment"
             app:destination="@id/selectCategoryFragment" />
+        <action
+            android:id="@+id/action_chooseIconFragment_to_addCategoryFragment"
+            app:destination="@id/addCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/selectCategoryFragment"
@@ -49,18 +59,29 @@
         android:name="org.sopt.havit.ui.share.ContentsSummeryFragment"
         android:label="fragment_contents_summery"
         tools:layout="@layout/fragment_contents_summery" >
+        <argument
+            android:name="contents_categoryIds"
+            app:argType="string"
+            android:defaultValue="" />
         <action
             android:id="@+id/action_contentsSummeryFragment_to_setNotificationFragment"
             app:destination="@id/setNotificationFragment" />
         <action
             android:id="@+id/action_contentsSummeryFragment_to_editTitleFragment"
             app:destination="@id/editTitleFragment" />
+        <action
+            android:id="@+id/action_contentsSummeryFragment_to_selectCategoryFragment"
+            app:destination="@id/selectCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/editTitleFragment"
         android:name="org.sopt.havit.ui.share.EditTitleFragment"
         android:label="fragment_edit_title"
         tools:layout="@layout/fragment_edit_title" >
+        <argument
+            android:name="contents_modified_title"
+            app:argType="string"
+            android:defaultValue="" />
         <action
             android:id="@+id/action_editTitleFragment_to_contentsSummeryFragment"
             app:destination="@id/contentsSummeryFragment" />

@@ -25,7 +25,13 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         if(intent.getIntExtra("contentsId",-1)==-1){
             binding.llWebBottom.isVisible=false
         }
+        //webViewModel.init(intent.getBooleanExtra("isSeen", false))
         setListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        webViewModel.init(intent.getBooleanExtra("isSeen", false))
     }
 
     private fun setUrlLaunch(url: String) {
@@ -39,6 +45,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
     private fun setListeners() {
         binding.llWebview.setOnClickListener {
+            Log.d("eeee",intent!!.getIntExtra("contentsId", 0).toString())
             webViewModel.setHavit(intent!!.getIntExtra("contentsId", 0))
             if(webViewModel.isHavit.value==true){
                 setCustomToast()
@@ -51,7 +58,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
             val intent = Intent(Intent.ACTION_SEND)
             intent.putExtra(Intent.EXTRA_TEXT, "https://www.naver.co.kr/")
             intent.type = "text/plain"
-            startActivity(Intent.createChooser(intent, "앱을 선택하든 말든지"))
+            startActivity(Intent.createChooser(intent, "앱을 선택 해 주세요."))
         }
         binding.ibWebReload.setOnClickListener {
             binding.wbCustom.reload()

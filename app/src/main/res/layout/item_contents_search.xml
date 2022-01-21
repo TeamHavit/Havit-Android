@@ -159,17 +159,17 @@
             android:layout_marginEnd="7dp"
             android:layout_marginBottom="1dp"
             imgRes="@{content.isSeen == true ? @drawable/ic_contents_read_2 : @drawable/ic_contents_unread}"
-            android:tag="unseen"
+            android:tag="@{content.isSeen == true ? `seen` : `unseen`}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageButton
             android:id="@+id/iv_setting"
-            android:layout_width="32dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginTop="8dp"
             android:background="@android:color/transparent"
+            android:padding="10dp"
             android:src="@drawable/ic_more"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

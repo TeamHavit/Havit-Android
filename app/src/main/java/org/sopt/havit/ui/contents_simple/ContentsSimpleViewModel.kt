@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.contents_simple
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,8 +10,11 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.ContentsSimpleResponse
+import org.sopt.havit.util.MySharedPreference
 
-class ContentsSimpleViewModel : ViewModel() {
+class ContentsSimpleViewModel(context: Context) : ViewModel() {
+
+    private val token = MySharedPreference.getXAuthToken(context)
 
     private val _contentsList = MutableLiveData<List<ContentsSimpleResponse.ContentsSimpleData>>()
     val contentsList: LiveData<List<ContentsSimpleResponse.ContentsSimpleData>> = _contentsList
@@ -19,12 +23,12 @@ class ContentsSimpleViewModel : ViewModel() {
             try {
                 if (contentsType == "unseen") {
                     val response =
-                        RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
+                        RetrofitObject.provideHavitApi(token)
                             .getContentsUnseen()
                     _contentsList.postValue(response.data)
                 } else {
                     val response =
-                        RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
+                        RetrofitObject.provideHavitApi(token)
                             .getContentsRecent()
                     _contentsList.postValue(response.data)
                 }
@@ -54,7 +58,7 @@ class ContentsSimpleViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response =
-                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MjEzOTgwMCwiZXhwIjoxNjQ0NzMxODAwLCJpc3MiOiJoYXZpdCJ9.-VsZ4c5mU96GRwGSLjf-hSiU8HD-LVK8V3a5UszUAWk")
+                    RetrofitObject.provideHavitApi(token)
                         .isHavit(ContentsHavitRequest(contentsId))
                 _isHavit.postValue(response.data.isSeen)
             } catch (e: Exception) {

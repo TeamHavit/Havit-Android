@@ -4,9 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
+import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsSimpleBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
@@ -16,7 +17,7 @@ import org.sopt.havit.ui.web.WebActivity
 class ContentsSimpleActivity :
     BaseBindingActivity<ActivityContentsSimpleBinding>(R.layout.activity_contents_simple) {
 
-    private val contentsViewModel: ContentsSimpleViewModel by viewModels()
+    private val contentsViewModel: ContentsSimpleViewModel by lazy { ContentsSimpleViewModel(this) }
     private lateinit var contentsAdapter: ContentsSimpleRvAdapter
     private lateinit var contentsType: String
 
@@ -30,11 +31,29 @@ class ContentsSimpleActivity :
         dataObserve()
         decorationView()
         clickBtnBack()
+        setToast()
+    }
+
+    private fun setCustomToast() {
+        val toast = Toast(this)
+        val view = layoutInflater.inflate(R.layout.toast_havit_complete, null)
+        toast.view = view
+        toast.show()
+    }
+
+    private fun setToast() {
+        contentsAdapter.setHavitClickListener(object :
+            ContentsSimpleRvAdapter.OnHavitClickListener {
+            override fun onHavitClick() {
+                setCustomToast()
+            }
+        })
     }
 
     private fun clickBtnBack() {
         binding.ivBack.setOnClickListener {
             finish()
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 
@@ -45,7 +64,7 @@ class ContentsSimpleActivity :
     }
 
     private fun initAdapter() {
-        contentsAdapter = ContentsSimpleRvAdapter(contentsViewModel)
+        contentsAdapter = ContentsSimpleRvAdapter(contentsViewModel, supportFragmentManager)
         binding.rvContents.adapter = contentsAdapter
     }
 
@@ -73,7 +92,11 @@ class ContentsSimpleActivity :
             override fun onWebClick(v: View, position: Int) {
                 val intent = Intent(v.context, WebActivity::class.java)
                 contentsViewModel.contentsList.value?.get(position)
-                    ?.let { intent.putExtra("url", it.url) }
+                    ?.let {
+                        intent.putExtra("url", it.url)
+                        intent.putExtra("contentsId", it.id)
+                        intent.putExtra("isSeen", it.isSeen)
+                    }
                 startActivity(intent)
             }
         })

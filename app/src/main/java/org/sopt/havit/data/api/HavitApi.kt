@@ -1,6 +1,7 @@
 package org.sopt.havit.data.api
 
 import org.sopt.havit.data.remote.*
+import retrofit2.Call
 import retrofit2.http.*
 
 interface HavitApi {
@@ -27,6 +28,11 @@ interface HavitApi {
     @GET("category")
     suspend fun getCategoryNum(): CategoryResponse
 
+    @POST("category")
+    suspend fun addCategory(
+        @Body body: CategoryAddRequest
+    ): BasicResponse
+
     @GET("category/{categoryId}?option=&filter=")
     suspend fun getCategoryContents(
         @Path("categoryId") categoryId: Int,
@@ -40,12 +46,36 @@ interface HavitApi {
     @GET("content/unseen")
     suspend fun getContentsUnseen(): ContentsSimpleResponse
 
-    @GET("category/{categoryId}")
+
+    @DELETE("category/{categoryId}")
     suspend fun deleteCategory(
         @Path("categoryId") categoryId: Int
-    ): ContentsResponse
+    ): CategoryDeleteResponse
 
     @GET("recommendation")
     suspend fun getRecommendation(): RecommendationResponse
 
+    @PATCH("category/order")
+    suspend fun modifyCategoryOrder(
+        @Body body : CategoryOrderRequest
+    ): CategoryOrderResponse
+
+    @PATCH("category/{categoryId}")
+    suspend fun modifyCategoryContent(
+        @Path("categoryId") categoryId: Int,
+        @Body body : CategoryModifyRequest
+    ): CategoryModifyResponse
+
+    @GET("content?option=&filter=")
+    suspend fun getAllContents(
+        @Query("option") option: String,
+        @Query("filter") filter: String
+    ): ContentsResponse
+
+    @GET("user")
+    suspend fun getUserData(): UserResponse
+    @GET("content/scrap?link=")
+    fun getOgData(
+        @Query("link") link: String
+    ): Call<ContentsScrapResponse>
 }

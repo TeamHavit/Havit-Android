@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.contents
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,8 +9,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.CategoryResponse
+import org.sopt.havit.util.MySharedPreference
 
-class ContentsCategoryViewModel : ViewModel() {
+class ContentsCategoryViewModel (context: Context) : ViewModel() {
+    private val token = MySharedPreference.getXAuthToken(context)
     private val _contentsCategoryList = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
     val contentsCategoryList: LiveData<List<CategoryResponse.AllCategoryData>> = _contentsCategoryList
 
@@ -17,8 +20,7 @@ class ContentsCategoryViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response =
-                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
-                        .getAllCategory()
+                    RetrofitObject.provideHavitApi(token).getAllCategory()
                 _contentsCategoryList.postValue(response.data)
             } catch (e: Exception) {
             }

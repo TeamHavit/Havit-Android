@@ -37,7 +37,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_more" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/iv_more"
             android:layout_width="63dp"
             android:layout_height="63dp"
             android:layout_marginStart="19dp"
@@ -48,7 +48,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_more" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tv_more_discription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="13dp"
@@ -56,40 +56,52 @@
             android:maxLines="2"
             android:textAppearance="@style/Text14Semibold"
             android:textColor="@color/gray_3"
-            android:text="@{vm.contentsMore.description}"
+            android:text="@{vm.contentsMore.title}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="@+id/imageView2" />
+            app:layout_constraintStart_toEndOf="@+id/iv_more"
+            app:layout_constraintTop_toTopOf="@+id/iv_more" />
 
 
         <TextView
             android:id="@+id/tv_edit_create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:text="@{vm.contentsMore.createdAt}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
-            android:text="@{vm.contentsMore.createdAt}"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintBottom_toBottomOf="@+id/iv_more"
+            app:layout_constraintStart_toStartOf="@+id/tv_more_discription" />
+
+        <TextView
+            android:id="@+id/tv_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="·"
+            android:includeFontPadding="false"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/Mini9Regular"
+            android:textColor="@color/gray_2"
+            app:layout_constraintStart_toEndOf="@id/tv_edit_create"
+            android:layout_marginStart="5dp"
+            app:layout_constraintTop_toTopOf="@id/tv_edit_create"
+            app:layout_constraintBottom_toBottomOf="@id/tv_edit_create"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="8dp"
+            android:text="@{vm.contentsMore.url}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
-            android:text="@{vm.contentsMore.url}"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_edit_create"
-            app:layout_constraintStart_toEndOf="@+id/tv_edit_create"
-            app:layout_constraintTop_toTopOf="@+id/tv_edit_create" />
+            app:layout_constraintBottom_toBottomOf="@+id/iv_more"
+            app:layout_constraintStart_toEndOf="@+id/tv_dot" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_edit"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2">
+            app:layout_constraintTop_toBottomOf="@+id/iv_more">
 
             <ImageView
                 android:id="@+id/imageView3"

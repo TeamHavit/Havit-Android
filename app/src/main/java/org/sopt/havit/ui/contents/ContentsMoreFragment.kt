@@ -14,7 +14,7 @@ import org.sopt.havit.databinding.FragmentContentsMoreBinding
 class ContentsMoreFragment(contents: ContentsSearchResponse.Data) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentContentsMoreBinding
-    private val contentsViewModel: ContentsViewModel by viewModels()
+    private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(requireContext()) }
 
     private var data = contents
 

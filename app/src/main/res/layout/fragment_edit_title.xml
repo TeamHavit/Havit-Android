@@ -38,13 +38,13 @@
             android:id="@+id/tv_complete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/complete"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="19dp"
+            android:text="@string/complete"
+            android:textAppearance="@style/Text14Medium"
             android:textColor="@color/havit_purple"
-            android:textAppearance="@style/Text14Medium"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -73,11 +73,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/edit_title_description"
+            android:textAppearance="@style/Button15Medium"
             android:textColor="@color/gray_3"
             app:layout_constraintStart_toStartOf="@id/tv_edit_title"
             app:layout_constraintTop_toBottomOf="@id/tv_edit_title" />
 
         <EditText
+            android:id="@+id/et_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="22dp"
@@ -88,7 +90,7 @@
             android:importantForAutofill="auto"
             android:inputType="textMultiLine"
             android:scrollHorizontally="false"
-            android:text="콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈 테스트으으ㅡ으"
+            tools:text="콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈 테스트으으ㅡ으"
             android:textAppearance="@style/Text20Medium"
             android:textColor="@color/gray_4"
             android:theme="@style/PurpleEditTextStyle"

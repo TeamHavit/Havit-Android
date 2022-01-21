@@ -1,151 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.share.ContentsSummeryFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_tool_bar"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        app:layout_constraintTop_toTopOf="parent">
+    <data>
 
-        <ImageView
-            android:id="@+id/ic_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:contentDescription="@string/back_button"
-            android:src="@drawable/ic_back_black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save_contents_toolbar"
-            android:textAppearance="@style/Header16Bold"
-            android:textColor="@color/havit_gray"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/ic_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:contentDescription="@string/button_close"
-            android:src="@drawable/ic_close_black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <variable
+            name="contentsTitleImageData"
+            type="org.sopt.havit.data.ContentsTitleImageData" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_tool_bar">
-
-        <ImageView
-            android:id="@+id/iv_og_image"
-            android:layout_width="match_parent"
-            android:layout_height="173dp"
-            android:layout_marginHorizontal="26dp"
-            android:layout_marginTop="70dp"
-            android:contentDescription="@string/og_image"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_dummy"
-            app:civ_border_color="@color/black"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/et_og_title"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginHorizontal="26dp"
-            android:layout_marginTop="27dp"
-            android:ellipsize="end"
-            android:text="콘텐츠 제목은 우리 몇글자까지 할까ㅇ..어카지어카지 "
-            android:textAppearance="@style/Header20Semibold"
-            android:textColor="@color/gray_4"
-            app:layout_constraintTop_toBottomOf="@id/iv_og_image" />
-
-        <TextView
-            android:id="@+id/tv_url"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="19dp"
-            android:gravity="center"
-            android:text="m.blog.naver.com..."
-            android:textAppearance="@style/Sub12Regular"
-            android:textColor="@color/gray_2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_og_title" />
-
-        <ImageButton
-            android:id="@+id/ib_edit_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="19dp"
-            android:background="@drawable/img_edit_title_btn"
-            android:contentDescription="@string/edit_title"
-            app:layout_constraintEnd_toEndOf="@id/iv_og_image"
-            app:layout_constraintStart_toStartOf="@id/iv_og_image"
-            app:layout_constraintTop_toBottomOf="@id/tv_url" />
-
+        android:layout_height="match_parent"
+        tools:context=".ui.share.ContentsSummeryFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_complete"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:id="@+id/cl_tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/iv_alarm"
+                android:id="@+id/ic_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="139dp"
-                android:layout_marginEnd="3dp"
-                android:contentDescription="TODO"
-                android:src="@drawable/ic_alarm_purple"
+                android:layout_marginStart="10dp"
+                android:contentDescription="@string/back_button"
+                android:src="@drawable/ic_back_black"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tv_set_alarm"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_set_alarm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="알림 설정"
-                android:textAppearance="@style/Text15Semibold"
-                android:textColor="@color/havit_purple"
-                app:layout_constraintBottom_toBottomOf="@id/iv_alarm"
-                app:layout_constraintStart_toEndOf="@id/iv_alarm"
-                app:layout_constraintTop_toTopOf="@id/iv_alarm" />
+                android:text="@string/save_contents_toolbar"
+                android:textAppearance="@style/Header16Bold"
+                android:textColor="@color/havit_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ic_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:contentDescription="@string/button_close"
+                android:src="@drawable/ic_close_black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <Button
-            android:id="@+id/btn_complete"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="85dp"
-            android:background="@drawable/rectangle_purple"
-            android:paddingBottom="22dp"
-            android:text="@string/complete"
-            android:textAppearance="@style/Text16Semibold"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_tool_bar">
 
+            <ImageView
+                android:id="@+id/iv_og_image"
+                android:layout_width="match_parent"
+                android:layout_height="173dp"
+                android:layout_marginHorizontal="26dp"
+                android:layout_marginTop="70dp"
+                android:background="@drawable/rectangle_imageview_radius_6"
+                android:contentDescription="@string/og_image"
+                android:scaleType="centerCrop"
+                app:civ_border_color="@color/black"
+                ogImage="@{contentsTitleImageData.imgUrl}"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/img_contents_dummy_3" />
+
+            <TextView
+                android:id="@+id/tv_og_title"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="26dp"
+                android:layout_marginTop="27dp"
+                android:ellipsize="end"
+                android:text="@{contentsTitleImageData.title}"
+                android:textAppearance="@style/Header20Semibold"
+                android:textColor="@color/gray_4"
+                app:layout_constraintTop_toBottomOf="@id/iv_og_image"
+                tools:text="콘텐츠 제목은 우리 몇글자까지 할까ㅇ..어카지어카지 " />
+
+            <TextView
+                android:id="@+id/tv_url"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="19dp"
+                android:gravity="center"
+                android:textAppearance="@style/Sub12Regular"
+                android:textColor="@color/gray_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_og_title"
+                tools:text="m.blog.naver.com..." />
+
+            <ImageButton
+                android:id="@+id/ib_edit_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="19dp"
+                android:background="@drawable/img_edit_title_btn"
+                android:contentDescription="@string/edit_title"
+                app:layout_constraintEnd_toEndOf="@id/iv_og_image"
+                app:layout_constraintStart_toStartOf="@id/iv_og_image"
+                app:layout_constraintTop_toBottomOf="@id/tv_url" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toTopOf="@id/btn_complete"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_alarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="139dp"
+                    android:layout_marginEnd="3dp"
+                    android:contentDescription="TODO"
+                    android:src="@drawable/ic_alarm_purple"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_set_alarm"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_set_alarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="알림 설정"
+                    android:textAppearance="@style/Text15Semibold"
+                    android:textColor="@color/havit_purple"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_alarm"
+                    app:layout_constraintStart_toEndOf="@id/iv_alarm"
+                    app:layout_constraintTop_toTopOf="@id/iv_alarm" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <Button
+                android:id="@+id/btn_complete"
+                android:layout_width="match_parent"
+                android:layout_height="85dp"
+                android:background="@drawable/rectangle_purple"
+                android:paddingBottom="22dp"
+                android:text="@string/complete"
+                android:textAppearance="@style/Text16Semibold"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
