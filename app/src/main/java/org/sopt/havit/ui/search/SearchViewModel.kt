@@ -5,12 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.data.repository.ContentsRepository
 import org.sopt.havit.data.repository.SearchRepository
 
-class SearchViewModel(private val searchRepository: SearchRepository,private val contentsRepository: ContentsRepository) : ViewModel() {
+class SearchViewModel(
+    private val searchRepository: SearchRepository,
+    private val contentsRepository: ContentsRepository
+) : ViewModel() {
 
     private val _searchResult = MutableLiveData<List<ContentsSearchResponse.Data>>()
     var searchResult: LiveData<List<ContentsSearchResponse.Data>> = _searchResult
@@ -22,7 +26,9 @@ class SearchViewModel(private val searchRepository: SearchRepository,private val
     var searchIng = MutableLiveData<Boolean>()
 
     var isSearchFirst = MutableLiveData<Boolean>()
-    var isRead = MutableLiveData<Boolean>()
+
+    private var _isRead = MutableLiveData<Boolean>()
+    var isRead: LiveData<Boolean> = _isRead
 
     init {
         searchImg.value = false
@@ -43,7 +49,7 @@ class SearchViewModel(private val searchRepository: SearchRepository,private val
     }
 
     fun getSearchContents(keyWord: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = searchRepository.getSearchContents(keyWord)
                 Log.d("fff", response.toString())
@@ -56,14 +62,20 @@ class SearchViewModel(private val searchRepository: SearchRepository,private val
         }
     }
 
-    fun setIsSeen(contentsId:Int){
-        viewModelScope.launch {
-            try{
+    fun setIsSeen(contentsId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
                 val response = contentsRepository.isSeen(contentsId)
-            }catch (e:Exception){
+                Log.d("siiiiin", response.success.toString())
+                //isRead.postValue(seen)
+            } catch (e: Exception) {
 
             }
         }
+    }
+
+    fun setHavitToast(havit: Boolean) {
+        _isRead.value = havit
     }
 
 

@@ -59,7 +59,7 @@ object BindingAdapter {
 
     @BindingAdapter("imageSearch")
     @JvmStatic
-    fun ImageView.loadSearch(url: String) {
+    fun ImageView.loadSearch(url: String?) {
         Glide.with(context)
             .load(url)
             .placeholder(R.drawable.img_contents_dummy)
@@ -69,7 +69,7 @@ object BindingAdapter {
 
     @BindingAdapter("imageDefaultLinearMin")
     @JvmStatic
-    fun ImageView.defaultImageLinearMin(url: String) {
+    fun ImageView.defaultImageLinearMin(url: String?) {
         Glide.with(context)
             .load(url)
             .placeholder(R.drawable.img_contents_dummy)

@@ -47,17 +47,33 @@ interface HavitApi {
     suspend fun getContentsUnseen(): ContentsSimpleResponse
 
 
-    @GET("category/{categoryId}")
+    @DELETE("category/{categoryId}")
     suspend fun deleteCategory(
         @Path("categoryId") categoryId: Int
-    ): ContentsResponse
+    ): CategoryDeleteResponse
 
     @GET("recommendation")
     suspend fun getRecommendation(): RecommendationResponse
 
+    @PATCH("category/order")
+    suspend fun modifyCategoryOrder(
+        @Body body : CategoryOrderRequest
+    ): CategoryOrderResponse
+
+    @PATCH("category/{categoryId}")
+    suspend fun modifyCategoryContent(
+        @Path("categoryId") categoryId: Int,
+        @Body body : CategoryModifyRequest
+    ): CategoryModifyResponse
+
+    @GET("content?option=&filter=")
+    suspend fun getAllContents(
+        @Query("option") option: String,
+        @Query("filter") filter: String
+    ): ContentsResponse
+
     @GET("user")
     suspend fun getUserData(): UserResponse
-
     @GET("content/scrap?link=")
     fun getOgData(
         @Query("link") link: String

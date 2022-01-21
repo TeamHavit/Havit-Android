@@ -11,9 +11,9 @@ data class CategoryResponse(
     data class AllCategoryData(
         val contentNumber: Int,
         val id: Int,
-        val imageId: Int,
+        var imageId: Int,
         @SerializedName("imageUrl")
-        val url: String,
+        var url: String,
         val orderIndex: Int,
         var title: String
     )
