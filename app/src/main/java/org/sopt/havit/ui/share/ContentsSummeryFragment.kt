@@ -9,13 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import kotlinx.coroutines.launch
 import org.sopt.havit.R
+import org.sopt.havit.data.ContentsTitleImageData
+import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
+import org.sopt.havit.util.MySharedPreference
 
 class ContentsSummeryFragment : Fragment() {
-    private var _binding :FragmentContentsSummeryBinding? = null
+    private var _binding: FragmentContentsSummeryBinding? = null
     private val binding get() = _binding!!
     private val args by navArgs<ContentsSummeryFragmentArgs>()
 
@@ -36,6 +41,31 @@ class ContentsSummeryFragment : Fragment() {
         return binding.root
     }
 
+    private fun setContents(url: String) {
+        lifecycleScope.launch {
+            try {
+                // 서버 통신
+                val response =
+                    RetrofitObject.provideHavitApi(
+                        MySharedPreference
+                            .getXAuthToken(requireContext())
+                    ).getOgData(url)
+
+                Log.d("ContentsSummeryFragment", response.toString())
+
+                val contentsTitleImageData =
+                    ContentsTitleImageData(response.data.ogTitle, response.data.ogImage)
+                binding.contentsTitleImageData = contentsTitleImageData
+
+
+            } catch (e: Exception) {
+                Log.d("ContentsSummeryFragment", e.toString())
+
+                // 서버 통신 실패 시
+            }
+        }
+    }
+
     private fun initIntent() {
         val intent = activity?.intent
         val action = intent?.action
@@ -49,6 +79,7 @@ class ContentsSummeryFragment : Fragment() {
     private fun handleSendText(intent: Intent): String? {
         val url = intent.getStringExtra(Intent.EXTRA_TEXT)
         binding.tvUrl.text = url
+        setContents(url!!)
         return url
     }
 
@@ -60,7 +91,7 @@ class ContentsSummeryFragment : Fragment() {
         binding.btnComplete.setOnClickListener {
             setCustomToast()
         }
-        binding.ibEditTitle.setOnClickListener{
+        binding.ibEditTitle.setOnClickListener {
             findNavController().navigate(R.id.action_contentsSummeryFragment_to_editTitleFragment)
         }
         binding.tvSetAlarm.setOnClickListener {
@@ -68,7 +99,7 @@ class ContentsSummeryFragment : Fragment() {
         }
     }
 
-    private fun toolbarClickListener(){
+    private fun toolbarClickListener() {
         binding.icBack.setOnClickListener {
             findNavController().navigate(R.id.action_contentsSummeryFragment_to_selectCategoryFragment)
         }
