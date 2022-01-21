@@ -23,7 +23,7 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
     private lateinit var getResult: ActivityResultLauncher<Intent>
 
     private lateinit var categoryOrderModifyAdapter: CategoryOrderModifyAdapter
-    private val categoryViewModel: CategoryViewModel by viewModels()
+    private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
     lateinit var holder: RecyclerView.ViewHolder
     private var SET = false
 

@@ -27,7 +27,7 @@ class CategoryIconFragment : Fragment() {
     private val binding get() = _binding!!
     private val args by navArgs<CategoryIconFragmentArgs>()
     private var categoryIndex = -1
-    private val categoryViewModel: CategoryViewModel by viewModels()
+    private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

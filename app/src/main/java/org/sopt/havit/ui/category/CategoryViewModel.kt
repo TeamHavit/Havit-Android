@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.category
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.*
 import com.bumptech.glide.load.HttpException
@@ -12,7 +13,9 @@ import org.sopt.havit.data.remote.CategoryOrderRequest
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.util.MySharedPreference
 
-class CategoryViewModel : ViewModel() {
+class CategoryViewModel(context: Context) : ViewModel() {
+    private val token = MySharedPreference.getXAuthToken(context)
+
     private val _categoryCount = MutableLiveData<Int>()
     val categoryCount: LiveData<Int> = _categoryCount
     private val _categoryList = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
@@ -26,8 +29,7 @@ class CategoryViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response =
-                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
-                        .getAllCategory()
+                    RetrofitObject.provideHavitApi(token).getAllCategory()
                 _categoryList.postValue(response.data)
                 _categoryCount.postValue(response.data.size)
             } catch (e: Exception) {
@@ -39,8 +41,7 @@ class CategoryViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val list = CategoryOrderRequest(list)
-                val response = RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
-                    .modifyCategoryOrder(list)
+                val response = RetrofitObject.provideHavitApi(token) .modifyCategoryOrder(list)
                 _delay.postValue(true)
                 Log.d("testtestest", "$response.success")
             } catch (e: Exception) {
@@ -53,8 +54,7 @@ class CategoryViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val content = CategoryModifyRequest(title, imageId)
-                val response =RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
-                    .modifyCategoryContent(id, content)
+                val response =RetrofitObject.provideHavitApi(token).modifyCategoryContent(id, content)
 
                 Log.d("testtestest", "$response.success")
             } catch (e: Exception) {
@@ -66,8 +66,7 @@ class CategoryViewModel : ViewModel() {
     fun requestCategoryDelete(id:Int){
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response =RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
-                    .deleteCategory(id)
+                val response =RetrofitObject.provideHavitApi(token) .deleteCategory(id)
 
                 Log.d("testtestest", "$response.success")
             } catch (e: Exception) {
@@ -89,8 +88,7 @@ class CategoryViewModel : ViewModel() {
             try {
                 // 서버 통신
                 val response =
-                    RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
-                        .addCategory(CategoryAddRequest(t, i))
+                    RetrofitObject.provideHavitApi(token).addCategory(CategoryAddRequest(t, i))
                 _addDelay.postValue(true)
                 Log.d("CreateCategory", response.success.toString())
             } catch (e: Exception) {

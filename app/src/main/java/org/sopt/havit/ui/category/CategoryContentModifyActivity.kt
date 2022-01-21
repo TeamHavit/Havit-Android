@@ -13,10 +13,11 @@ import androidx.navigation.navArgs
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.home.HomeViewModel
 import org.sopt.havit.ui.share.ChooseIconFragmentArgs
 
 class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryContentModifyBinding>(R.layout.activity_category_content_modify) {
-    private val categoryContentModifyViewModel: CategoryContentModifyViewModel by viewModels()
+    private val categoryContentModifyViewModel: CategoryContentModifyViewModel by lazy { CategoryContentModifyViewModel(this) }
     var position = -1
     var id = -1
     private lateinit var categoryIconAdapter : CategoryIconAdapter

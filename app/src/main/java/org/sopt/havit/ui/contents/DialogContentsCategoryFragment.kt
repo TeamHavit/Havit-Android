@@ -21,7 +21,7 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
     private var _contentsCategoryAdapter: ContentsCategoryAdapter? = null
     private val contentsCategoryAdapter get() = _contentsCategoryAdapter ?: error("adapter error")
 
-    private val contentsCategoryViewModel: ContentsCategoryViewModel by viewModels()
+    private val contentsCategoryViewModel: ContentsCategoryViewModel by lazy { ContentsCategoryViewModel(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

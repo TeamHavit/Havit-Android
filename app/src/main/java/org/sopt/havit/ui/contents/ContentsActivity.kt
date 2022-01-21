@@ -24,7 +24,7 @@ import org.sopt.havit.ui.web.WebActivity
 
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
-    private val contentsViewModel: ContentsViewModel by viewModels()
+    private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
