@@ -40,10 +40,6 @@
             android:name=".ui.web.WebActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.save.SaveActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".ui.contents.ContentsActivity"
             android:exported="false" />
         <activity
