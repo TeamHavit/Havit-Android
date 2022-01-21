@@ -147,6 +147,7 @@ class ContentsSummeryFragment : Fragment() {
     private fun toolbarClickListener() {
         binding.icBack.setOnClickListener {
             findNavController().navigate(R.id.action_contentsSummeryFragment_to_selectCategoryFragment)
+            MySharedPreference.clearNotificationTime(requireContext())
         }
 
         binding.icClose.setOnClickListener {
