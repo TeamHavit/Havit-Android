@@ -114,17 +114,19 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private fun categoryDataObserve() {
         with(homeViewModel) {
-            categoryData.observe(viewLifecycleOwner) { data ->
-                with(binding) {
-                    if (data.isEmpty()) {
-                        layoutCategory.clHomeCategory.visibility = View.GONE
-                        clickAddCategory()
-                    } else {
-                        layoutCategoryEmpty.clHomeCategoryEmpty.visibility = View.GONE
-                        categoryVpAdapter.categoryList.clear()
-                        val list = setList(data)
-                        categoryVpAdapter.categoryList.addAll(list)
-                        categoryVpAdapter.notifyDataSetChanged()
+            userData.observe(viewLifecycleOwner) { userData ->
+                categoryData.observe(viewLifecycleOwner) { data ->
+                    with(binding) {
+                        if (data.isEmpty()) {
+                            layoutCategory.clHomeCategory.visibility = View.GONE
+                            clickAddCategory()
+                        } else {
+                            layoutCategoryEmpty.clHomeCategoryEmpty.visibility = View.GONE
+                            categoryVpAdapter.categoryList.clear()
+                            val list = setList(data, userData.totalContentNumber)
+                            categoryVpAdapter.categoryList.addAll(list)
+                            categoryVpAdapter.notifyDataSetChanged()
+                        }
                     }
                 }
             }

@@ -7,6 +7,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsSimpleBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
@@ -35,6 +36,7 @@ class ContentsSimpleActivity :
     private fun clickBtnBack() {
         binding.ivBack.setOnClickListener {
             finish()
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 
