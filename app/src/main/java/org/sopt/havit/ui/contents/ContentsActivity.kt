@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -15,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.category.CategoryAdapter
 import org.sopt.havit.ui.category.CategoryOrderModifyActivity
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
@@ -46,6 +48,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         setChipOrder()
         setCategoryListDialog()
         clickModify()
+        setToast()
     }
 
     override fun onStart() {
@@ -296,6 +299,21 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             intent.putExtra("dataSet", true)
             startActivity(intent)
         }
+    }
+
+    private fun setCustomToast() {
+        val toast = Toast(this)
+        val view = layoutInflater.inflate(R.layout.toast_havit_complete, null)
+        toast.view = view
+        toast.show()
+    }
+
+    private fun setToast(){
+        contentsAdapter.setHavitClickListener(object : ContentsAdapter.OnHavitClickListener {
+            override fun onHavitClick() {
+                setCustomToast()
+            }
+        })
     }
 
     companion object {
