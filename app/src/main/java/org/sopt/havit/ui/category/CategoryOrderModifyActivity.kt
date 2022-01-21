@@ -77,8 +77,10 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             if(it.resultCode == RESULT_OK){
                 val position = it.data?.getIntExtra("position", 0) ?: 0
+                val id = it.data?.getIntExtra("id", 0) ?: 0
+                categoryViewModel.requestCategoryDelete(id)
                 categoryOrderModifyAdapter.removeData(position)
-                finish()
+                categoryOrderModifyAdapter.notifyDataSetChanged()
             }
             else if(it.resultCode == RESULT_FIRST_USER){
                 val position = it.data?.getIntExtra("position", 0) ?: 0
@@ -90,13 +92,11 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
                 Log.d("CategoryTest", "아이디 : $id")
                 Log.d("CategoryTest", "이미지 : $imageId")
                 categoryViewModel.requestCategoryContent(id, imageId, name)
-                categoryOrderModifyAdapter.notifyDataSetChanged()
+                categoryOrderModifyAdapter.categoryList[position].title = name
+                categoryOrderModifyAdapter.categoryList[position].imageId = imageId
+                categoryOrderModifyAdapter.categoryList[position].url = "https://havit-bucket.s3.ap-northeast-2.amazonaws.com/category_image/3d_icon_${imageId}.png"
 
-                categoryViewModel._asdf.observe(this@CategoryOrderModifyActivity){
-                    if(it) {
-                        finish()
-                    }
-                }
+                categoryOrderModifyAdapter.notifyDataSetChanged()
             }
         }
     }

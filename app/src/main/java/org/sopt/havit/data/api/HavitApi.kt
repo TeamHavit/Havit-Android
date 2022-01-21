@@ -46,10 +46,10 @@ interface HavitApi {
     suspend fun getContentsUnseen(): ContentsSimpleResponse
 
 
-    @GET("category/{categoryId}")
+    @DELETE("category/{categoryId}")
     suspend fun deleteCategory(
         @Path("categoryId") categoryId: Int
-    ): ContentsResponse
+    ): CategoryDeleteResponse
 
     @GET("recommendation")
     suspend fun getRecommendation() : RecommendationResponse
