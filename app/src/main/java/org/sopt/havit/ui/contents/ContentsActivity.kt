@@ -48,7 +48,15 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     override fun onStart() {
         super.onStart()
-        contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+        setContentsData()
+    }
+
+    private fun setContentsData() {
+        if (ID == -1) {
+            contentsViewModel.requestContentsAllTaken(OPTION, FILTER, CATEGORY_NAME)
+        } else {
+            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+        }
     }
 
     private fun initAdapter() {
@@ -75,17 +83,16 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun setData() {
         ID = intent.getIntExtra("categoryId", 0)
-        if (ID == 0) {
-            Log.d("categoryId", "error")
-        } else {
-            intent.getStringExtra("categoryName")?.let {
-                CATEGORY_NAME = it
-            }
-            //contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
-            Log.d("categoryName", "$CATEGORY_NAME")
+        if (ID == -1) {
+            binding.tvModify.visibility = View.GONE
+            binding.ivCategoryDrop.visibility = View.GONE
         }
+        intent.getStringExtra("categoryName")?.let {
+            CATEGORY_NAME = it
+        }
+        //contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+        Log.d("categoryName", "$CATEGORY_NAME")
     }
-
 
     private fun dataObserve() {
         with(contentsViewModel) {
@@ -213,27 +220,21 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent).setOnClickListener {
             FILTER = "created_at"
             binding.tvOrder.text = "최신순"
-            setOrderContent(bottomSheetDialog)
+            setContentsData()
+            bottomSheetDialog.dismiss()
         }
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past).setOnClickListener {
             FILTER = "reverse"
             binding.tvOrder.text = "과거순"
-            setOrderContent(bottomSheetDialog)
+            setContentsData()
+            bottomSheetDialog.dismiss()
         }
         bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view).setOnClickListener {
             FILTER = "seen_at"
             binding.tvOrder.text = "최근 조회순"
-            setOrderContent(bottomSheetDialog)
+            setContentsData()
+            bottomSheetDialog.dismiss()
         }
-    }
-
-    private fun setOrderContent(bottomSheetDialog: BottomSheetDialog) {
-        if (ID == -1) {
-            contentsViewModel.requestContentsAllTaken(OPTION, FILTER, CATEGORY_NAME)
-        } else {
-            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
-        }
-        bottomSheetDialog.dismiss()
     }
 
     private fun setCategoryListDialog() {
@@ -270,19 +271,19 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         with(binding) {
             chAll.setOnClickListener {
                 OPTION = "all"
-                contentsViewModel?.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+                setContentsData()
             }
             chSeen.setOnClickListener {
                 OPTION = "true"
-                contentsViewModel?.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+                setContentsData()
             }
             chUnseen.setOnClickListener {
                 OPTION = "false"
-                contentsViewModel?.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+                setContentsData()
             }
             chAlarm.setOnClickListener {
                 OPTION = "notified"
-                contentsViewModel?.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+                setContentsData()
             }
         }
     }
