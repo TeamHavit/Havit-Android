@@ -11,13 +11,29 @@ import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.databinding.ItemContentsSimpleBinding
 import org.sopt.havit.ui.contents.ContentsMoreFragment
 
-class ContentsSimpleRvAdapter(contentsViewModel: ContentsSimpleViewModel,fragmentManager: FragmentManager) :
+class ContentsSimpleRvAdapter(
+    contentsViewModel: ContentsSimpleViewModel,
+    fragmentManager: FragmentManager
+) :
     RecyclerView.Adapter<ContentsSimpleRvAdapter.ContentsSimpleViewHolder>() {
 
     var contentsList = mutableListOf<ContentsSimpleResponse.ContentsSimpleData>()
-    private var mFragmentManager : FragmentManager = fragmentManager
+    private var mFragmentManager: FragmentManager = fragmentManager
     private lateinit var itemClickListener: OnItemClickListener
     private var viewModel = contentsViewModel
+
+    // setItemClickListener로 설정한 함수 실행
+    private lateinit var havitClickListener: OnHavitClickListener
+
+    // 리스너 인터페이스
+    interface OnHavitClickListener {
+        fun onHavitClick()
+    }
+
+    // 외부에서 클릭 시 이벤트 설정
+    fun setHavitClickListener(onItemClickListener: OnHavitClickListener) {
+        this.havitClickListener = onItemClickListener
+    }
 
     inner class ContentsSimpleViewHolder(private val binding: ItemContentsSimpleBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -41,15 +57,29 @@ class ContentsSimpleRvAdapter(contentsViewModel: ContentsSimpleViewModel,fragmen
             }
         }
 
-        fun onHavitClick(data: ContentsSimpleResponse.ContentsSimpleData) {
+        fun onClick(data: ContentsSimpleResponse.ContentsSimpleData, pos: Int) {
             binding.ivHavit.setOnClickListener {
+                if (!contentsList[pos].isSeen) {
+                    havitClickListener.onHavitClick()
+                }
+                contentsList[pos].isSeen = !contentsList[pos].isSeen
                 viewModel.setIsSeen(data.id)
                 setIvHavit(binding.ivHavit.tag == "unseen")
             }
 
             binding.ivSetting.setOnClickListener {
-                val dataMore = ContentsSearchResponse.Data(data.createdAt,data.description,data.id,data.image,data.isNotified,data.isSeen,data.notificationTime,data.title,data.url)
-                ContentsMoreFragment(dataMore).show(mFragmentManager,"setting")
+                val dataMore = ContentsSearchResponse.Data(
+                    data.createdAt,
+                    data.description,
+                    data.id,
+                    data.image,
+                    data.isNotified,
+                    data.isSeen,
+                    data.notificationTime,
+                    data.title,
+                    data.url
+                )
+                ContentsMoreFragment(dataMore).show(mFragmentManager, "setting")
             }
         }
 
@@ -83,7 +113,7 @@ class ContentsSimpleRvAdapter(contentsViewModel: ContentsSimpleViewModel,fragmen
         position: Int
     ) {
         holder.onBind(contentsList[position])
-        holder.onHavitClick(contentsList[position])
+        holder.onClick(contentsList[position], position)
 
         holder.itemView.setOnClickListener {
             itemClickListener.onWebClick(it, position)

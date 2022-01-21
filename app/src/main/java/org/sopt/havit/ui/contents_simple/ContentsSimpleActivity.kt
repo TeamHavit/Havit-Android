@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.MainActivity
@@ -30,6 +31,23 @@ class ContentsSimpleActivity :
         dataObserve()
         decorationView()
         clickBtnBack()
+        setToast()
+    }
+
+    private fun setCustomToast() {
+        val toast = Toast(this)
+        val view = layoutInflater.inflate(R.layout.toast_havit_complete, null)
+        toast.view = view
+        toast.show()
+    }
+
+    private fun setToast() {
+        contentsAdapter.setHavitClickListener(object :
+            ContentsSimpleRvAdapter.OnHavitClickListener {
+            override fun onHavitClick() {
+                setCustomToast()
+            }
+        })
     }
 
     private fun clickBtnBack() {
