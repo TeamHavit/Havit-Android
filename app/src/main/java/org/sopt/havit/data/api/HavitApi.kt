@@ -61,4 +61,10 @@ interface HavitApi {
     suspend fun modifyCategoryOrder(
         @Body body : CategoryOrderRequest
     ): CategoryOrderResponse
+
+    @PATCH("category/{categoryId}")
+    suspend fun modifyCategoryContent(
+        @Path("categoryId") categoryId: Int,
+        @Body body : CategoryModifyRequest
+    ): CategoryModifyResponse
 }

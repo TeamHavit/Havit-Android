@@ -18,8 +18,8 @@ import org.sopt.havit.ui.share.ChooseIconFragmentArgs
 class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryContentModifyBinding>(R.layout.activity_category_content_modify) {
     private val categoryContentModifyViewModel: CategoryContentModifyViewModel by viewModels()
     var position = -1
+    var id = -1
     private lateinit var categoryIconAdapter : CategoryIconAdapter
-    private val args by navArgs<ChooseIconFragmentArgs>()
     private var categoryIndex = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +41,7 @@ class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryConten
         val name = intent.getStringExtra("categoryName")
         binding.etCategory.setText(name)
         position = intent.getIntExtra("position", 0)
+        id = intent.getIntExtra("categoryId", 0)
         Log.d("CategoryContentsData", "name : ${name}")
         Log.d("CategoryContentsData", "position : ${position}")
     }
@@ -71,6 +72,7 @@ class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryConten
             val intent = Intent(this, CategoryOrderModifyActivity::class.java).apply {
                 putExtra("position", position)
                 putExtra("categoryName", binding.etCategory.text)
+                putExtra("id", id)
             }
             setResult(RESULT_OK, intent)
             finish()
@@ -86,9 +88,10 @@ class CategoryContentModifyActivity : BaseBindingActivity<ActivityCategoryConten
     private fun clickComplete(){
         binding.tvComplete.setOnClickListener {
             val intentName = Intent(this, CategoryOrderModifyActivity::class.java)
-            intentName.putExtra("position2", position)
+            intentName.putExtra("position", position)
             intentName.putExtra("categoryName", binding.etCategory.text.toString())
             intentName.putExtra("imageId", CHECKED_IMAGE)
+            intentName.putExtra("id", id)
             Log.d("CategoryNameTest", "전달 전 : ${binding.etCategory.text}")
             setResult(RESULT_FIRST_USER, intentName)
             finish()

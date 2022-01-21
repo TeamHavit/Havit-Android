@@ -33,6 +33,7 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
         binding.categoryViewModel = categoryViewModel
         setContentView(binding.root)
 
+        SERVER = false
         initAdapter()
         setResult()
         clickItem()
@@ -77,15 +78,25 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
             if(it.resultCode == RESULT_OK){
                 val position = it.data?.getIntExtra("position", 0) ?: 0
                 categoryOrderModifyAdapter.removeData(position)
+                finish()
             }
             else if(it.resultCode == RESULT_FIRST_USER){
-                val position = it.data?.getIntExtra("position2", 0) ?: 0
-                val name = it.data?.getStringExtra("categoryName")
-                val imagePos = it.data?.getIntExtra("imageId", 0)
-                Log.d("CategoryNameTest", "$name")
-                //categoryViewModel.modifyValue(position, name.toString())
-                categoryOrderModifyAdapter.categoryList[position].title = name.toString()
+                val position = it.data?.getIntExtra("position", 0) ?: 0
+                val name = it.data?.getStringExtra("categoryName") ?: "null"
+                var imageId = it.data?.getIntExtra("imageId", 0) ?: 0
+                val id = it.data?.getIntExtra("id", 0) ?: 0
+                imageId = imageId+1
+                Log.d("CategoryTest", "네임 : $name")
+                Log.d("CategoryTest", "아이디 : $id")
+                Log.d("CategoryTest", "이미지 : $imageId")
+                categoryViewModel.requestCategoryContent(id, imageId, name)
                 categoryOrderModifyAdapter.notifyDataSetChanged()
+
+                categoryViewModel._asdf.observe(this@CategoryOrderModifyActivity){
+                    if(it) {
+                        finish()
+                    }
+                }
             }
         }
     }
@@ -166,5 +177,9 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
 
             finish()
         }
+    }
+
+    companion object{
+        var SERVER = false
     }
 }
