@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
@@ -19,6 +20,18 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
     private var mFragmentManager: FragmentManager = fragmentManager
     private lateinit var itemClickListener: OnItemClickListener
     private var viewModel = contentsViewModel
+    // setItemClickListener로 설정한 함수 실행
+    private lateinit var havitClickListener: OnHavitClickListener
+
+    // 리스너 인터페이스
+    interface OnHavitClickListener {
+        fun onHavitClick()
+    }
+
+    // 외부에서 클릭 시 이벤트 설정
+    fun setHavitClickListener(onItemClickListener: OnHavitClickListener) {
+        this.havitClickListener = onItemClickListener
+    }
 
     private fun setTime(time: String): String {
         val date = time.substring(0 until 10)
@@ -55,6 +68,9 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
 
         fun onClick(data: ContentsResponse.ContentsData, pos: Int) {
             binding.ivHavit.setOnClickListener {
+                if(!contentsList[pos].isSeen) {
+                    havitClickListener.onHavitClick()
+                }
                 contentsList[pos].isSeen = !contentsList[pos].isSeen
                 viewModel.setIsSeen(data.id)
                 if (binding.ivHavit.tag == "unseen") {
@@ -108,6 +124,9 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
 
         fun onClick(data: ContentsResponse.ContentsData, pos: Int) {
             binding.ivHavit.setOnClickListener {
+                if(!contentsList[pos].isSeen) {
+                    havitClickListener.onHavitClick()
+                }
                 contentsList[pos].isSeen = !contentsList[pos].isSeen
                 viewModel.setIsSeen(data.id)
                 if (binding.ivHavit.tag == "unseen") {
@@ -161,6 +180,9 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
 
         fun onClick(data: ContentsResponse.ContentsData, pos: Int) {
             binding.ivHavit.setOnClickListener {
+                if(!contentsList[pos].isSeen) {
+                    havitClickListener.onHavitClick()
+                }
                 contentsList[pos].isSeen = !contentsList[pos].isSeen
                 viewModel.setIsSeen(data.id)
                 if (binding.ivHavit.tag == "unseen") {
