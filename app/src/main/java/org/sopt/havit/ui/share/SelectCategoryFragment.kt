@@ -19,7 +19,6 @@ class SelectCategoryFragment : Fragment() {
     private lateinit var categorySelectableAdapter: CategorySelectableAdapter
     private var _binding: FragmentSelectCategoryBinding? = null
     private val binding get() = _binding!!
-    private lateinit var clickedCategory :Array<Boolean>
     lateinit var categoryData: List<CategoryResponse.AllCategoryData>
 
 
@@ -29,13 +28,13 @@ class SelectCategoryFragment : Fragment() {
     ): View? {
         _binding = FragmentSelectCategoryBinding.inflate(layoutInflater, container, false)
 
-        initView()
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
         initListener()
     }
 
@@ -45,7 +44,10 @@ class SelectCategoryFragment : Fragment() {
             try {
                 // 서버 통신
                 val response =
-                    RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
+                    RetrofitObject.provideHavitApi(
+                        MySharedPreference
+                            .getXAuthToken(requireContext())
+                    )
                         .getCategoryNum()
                 categoryData = response.data
 
@@ -58,19 +60,15 @@ class SelectCategoryFragment : Fragment() {
                 categorySelectableAdapter.categorySelectableList.addAll(categoryData)
                 categorySelectableAdapter.notifyDataSetChanged()
 
-                clickedCategory = Array(categoryData.size+1) { _ -> false }
-                Log.d("SelectCategoryFragment_array_size", clickedCategory.size.toString())
+                // Adapter 내의 clickCategory 초기화
+                categorySelectableAdapter.clickedCategory = Array(categoryData.size) { _ -> false }
+
+
 
                 categorySelectableAdapter.setItemClickListener(object :
                     CategorySelectableAdapter.OnItemClickListener {
                     override fun onClick(v: View, position: Int) {
                         Log.d("categorySelectableAdapter", "$position clicked in Fragment")
-                        Log.d("SelectCategoryFragment_array_size", clickedCategory.size.toString())
-                        clickedCategory[position + 1] = !clickedCategory[position + 1]
-
-                        clickedCategory.forEach{
-                            Log.d("SelectCategoryFragment_for","$it")
-                        }
                     }
                 })
             } catch (e: Exception) {

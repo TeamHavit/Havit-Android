@@ -13,22 +13,36 @@ import org.sopt.havit.databinding.ItemCategorySelectableBinding
 class CategorySelectableAdapter :
     RecyclerView.Adapter<CategorySelectableAdapter.CategorySelectableViewHolder>() {
     val categorySelectableList = mutableListOf<CategoryResponse.AllCategoryData>()
+    lateinit var clickedCategory : Array<Boolean>
+//    var clickedCategory = Array(categorySelectableList.size) { _ -> false }
 
-    override fun onCreateViewHolder( parent: ViewGroup, viewType: Int ): CategorySelectableViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): CategorySelectableViewHolder {
         val binding: ItemCategorySelectableBinding =
-            DataBindingUtil.inflate( LayoutInflater.from(parent.context),
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
                 R.layout.item_category_selectable,
                 parent,
-                false )
+                false
+            )
 
         return CategorySelectableViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CategorySelectableViewHolder, position: Int) {
-        holder.onBind(categorySelectableList[position])
+
+        holder.onBind(categorySelectableList[position], position)
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
-            Log.d("CategoryAdapter", "$position clicked in Adapter")
+            Log.d("CategoryAdapter_", "$position clicked in Adapter")
+            clickedCategory[position] = !clickedCategory[position]  //0부터 시작
+            notifyItemChanged(position)
+
+            clickedCategory.forEach {
+                Log.d("CategoryAdapter_for", it.toString())
+            }
         }
     }
 
@@ -47,10 +61,21 @@ class CategorySelectableAdapter :
 
     override fun getItemCount(): Int = categorySelectableList.size
 
-    class CategorySelectableViewHolder(private val binding: ItemCategorySelectableBinding) :
+    inner class CategorySelectableViewHolder(private val binding: ItemCategorySelectableBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: CategoryResponse.AllCategoryData) {
+
+        fun onBind(data: CategoryResponse.AllCategoryData, position: Int) {
+
             binding.selectableCategory = data
+
+            if (clickedCategory[position]) {
+                binding.ivCheck.visibility = View.VISIBLE
+                binding.clCategoryList.setBackgroundResource(R.drawable.rectangle_purple_2_radius_6)
+            } else {
+                binding.ivCheck.visibility = View.GONE
+                binding.clCategoryList.setBackgroundResource(R.drawable.rectangle_purple_category_radius_6)
+            }
         }
     }
+
 }
