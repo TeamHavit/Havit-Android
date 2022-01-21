@@ -41,7 +41,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="18dp"
+                android:layout_marginStart="18dp"
                 android:layout_marginTop="7dp"
                 android:ellipsize="end"
                 android:maxLines="1"
