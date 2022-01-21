@@ -47,14 +47,13 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
             }
         }
         binding.ibWebBack.setOnClickListener {
-
             finish()
         }
         binding.llWebShare.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND)
             intent.putExtra(Intent.EXTRA_TEXT, "https://www.naver.co.kr/")
             intent.type = "text/plain"
-            startActivity(Intent.createChooser(intent, "앱을 선택하든 말든지"))
+            startActivity(Intent.createChooser(intent, "앱을 선택 해 주세요."))
         }
         binding.ibWebReload.setOnClickListener {
             binding.wbCustom.reload()
