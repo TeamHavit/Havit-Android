@@ -19,6 +19,8 @@ class CategoryViewModel : ViewModel() {
     val categoryCount: LiveData<Int> = _categoryCount
     private val _categoryList = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
     val categoryList: LiveData<List<CategoryResponse.AllCategoryData>> = _categoryList
+    private val _delay = MutableLiveData(false)
+    val delay: LiveData<Boolean> = _delay
 
     fun requestCategoryTaken() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -37,14 +39,15 @@ class CategoryViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val list = CategoryOrderRequest(list)
-                RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
+                val response = RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
                     .modifyCategoryOrder(list)
-            } catch (e: Exception) { }
+                _delay.postValue(true)
+                Log.d("testtestest", "$response.success")
+            } catch (e: Exception) {
+                Log.d("testtestest", "${e.toString()}")
+            }
         }
     }
-
-    private val asdf=MutableLiveData(false)
-    val _asdf :LiveData<Boolean> = asdf
 
     fun requestCategoryContent(id: Int, imageId: Int, title:String){
         viewModelScope.launch(Dispatchers.IO) {
@@ -52,7 +55,7 @@ class CategoryViewModel : ViewModel() {
                 val content = CategoryModifyRequest(title, imageId)
                 val response =RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
                     .modifyCategoryContent(id, content)
-                //asdf.postValue(true)
+
                 Log.d("testtestest", "$response.success")
             } catch (e: Exception) {
                 Log.d("testtestest", "${e.toString()}")
@@ -65,10 +68,15 @@ class CategoryViewModel : ViewModel() {
             try {
                 val response =RetrofitObject.provideHavitApi("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo")
                     .deleteCategory(id)
+
                 Log.d("testtestest", "$response.success")
             } catch (e: Exception) {
                 Log.d("testtestest", "${e.toString()}")
             }
         }
+    }
+
+    fun setDelay(v: Boolean){
+        _delay.value= v
     }
 }

@@ -173,9 +173,15 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
                 mlist.add(i.id)
             }
             Log.d("CategoryOrderList", "${mlist.toList()}")
+
             categoryViewModel.requestCategoryOrder(mlist.toList())
 
-            finish()
+            categoryViewModel.delay.observe(this@CategoryOrderModifyActivity){
+                if(it == true){
+                    categoryViewModel.setDelay(false)
+                    finish()
+                }
+            }
         }
     }
 

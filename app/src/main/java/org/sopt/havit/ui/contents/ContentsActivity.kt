@@ -15,6 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.category.CategoryOrderModifyActivity
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
@@ -44,6 +45,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         clickItemView()
         setChipOrder()
         setCategoryListDialog()
+        clickModify()
     }
 
     override fun onStart() {
@@ -285,6 +287,14 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 OPTION = "notified"
                 setContentsData()
             }
+        }
+    }
+
+    private fun clickModify(){
+        binding.tvModify.setOnClickListener {
+            val intent = Intent(this, CategoryOrderModifyActivity::class.java)
+            intent.putExtra("dataSet", true)
+            startActivity(intent)
         }
     }
 
