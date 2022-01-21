@@ -56,4 +56,11 @@ interface HavitApi {
 
     @GET("user")
     suspend fun getUserData() : UserResponse
+
+    @GET("content?option=&filter=")
+    suspend fun getAllContents(
+        @Query("option") option: String,
+        @Query("filter") filter: String
+    ): ContentsResponse
+
 }
