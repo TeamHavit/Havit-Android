@@ -6,6 +6,7 @@ import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.core.view.isVisible
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityWebBinding
@@ -20,6 +21,10 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         setContentView(binding.root)
         binding.vm = webViewModel
         intent.getStringExtra("url")?.let { setUrlLaunch(it) }
+        webViewModel.init(intent.getBooleanExtra("isSeen", false))
+        if(intent.getIntExtra("contentsId",-1)==-1){
+            binding.llWebBottom.isVisible=false
+        }
         //webViewModel.init(intent.getBooleanExtra("isSeen", false))
         setListeners()
     }
