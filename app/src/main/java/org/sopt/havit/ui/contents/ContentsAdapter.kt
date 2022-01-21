@@ -13,10 +13,10 @@ import org.sopt.havit.databinding.ItemContentsGridBinding
 import org.sopt.havit.databinding.ItemContentsLinearMaxBinding
 import org.sopt.havit.databinding.ItemContentsLinearMinBinding
 
-class ContentsAdapter(contentsViewModel: ContentsViewModel,fragmentManager: FragmentManager) :
+class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: FragmentManager) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var contentsList = mutableListOf<ContentsResponse.ContentsData>()
-    private var mFragmentManager : FragmentManager = fragmentManager
+    private var mFragmentManager: FragmentManager = fragmentManager
     private lateinit var itemClickListener: OnItemClickListener
     private var viewModel = contentsViewModel
     private var available_1 = true
@@ -58,17 +58,39 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel,fragmentManager: Frag
                     Log.d("HavitButtonTest", "1. click - seen 2 : ${binding.ivHavit.tag}")
                 }
                 available_1 = false
-                viewModel.requestContentsTaken(
-                    ContentsActivity.ID,
-                    ContentsActivity.OPTION,
-                    ContentsActivity.FILTER,
-                    ContentsActivity.CATEGORY_NAME
-                )
+                setContentsData()
             }
             binding.ivSetting.setOnClickListener {
-                val dataMore = ContentsSearchResponse.Data(data.createdAt,data.description,data.id,data.image,data.isNotified,data.isSeen,data.notificationTime,data.title,data.url)
-                ContentsMoreFragment(dataMore).show(mFragmentManager,"setting")
+                val dataMore = ContentsSearchResponse.Data(
+                    data.createdAt,
+                    data.description,
+                    data.id,
+                    data.image,
+                    data.isNotified,
+                    data.isSeen,
+                    data.notificationTime,
+                    data.title,
+                    data.url
+                )
+                ContentsMoreFragment(dataMore).show(mFragmentManager, "setting")
             }
+        }
+    }
+
+    fun setContentsData() {
+        if (ContentsActivity.ID == -1) {
+            viewModel.requestContentsAllTaken(
+                ContentsActivity.OPTION,
+                ContentsActivity.FILTER,
+                ContentsActivity.CATEGORY_NAME
+            )
+        } else {
+            viewModel.requestContentsTaken(
+                ContentsActivity.ID,
+                ContentsActivity.OPTION,
+                ContentsActivity.FILTER,
+                ContentsActivity.CATEGORY_NAME
+            )
         }
     }
 
@@ -107,17 +129,21 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel,fragmentManager: Frag
                     Log.d("HavitButtonTest", "2. click - seen 2 : ${binding.ivHavit.tag}")
                 }
                 available_2 = false
-                viewModel.requestContentsTaken(
-                    ContentsActivity.ID,
-                    ContentsActivity.OPTION,
-                    ContentsActivity.FILTER,
-                    ContentsActivity.CATEGORY_NAME
-                )
-
+                setContentsData()
             }
             binding.ivSetting.setOnClickListener {
-                val dataMore = ContentsSearchResponse.Data(data.createdAt,data.description,data.id,data.image,data.isNotified,data.isSeen,data.notificationTime,data.title,data.url)
-                ContentsMoreFragment(dataMore).show(mFragmentManager,"setting")
+                val dataMore = ContentsSearchResponse.Data(
+                    data.createdAt,
+                    data.description,
+                    data.id,
+                    data.image,
+                    data.isNotified,
+                    data.isSeen,
+                    data.notificationTime,
+                    data.title,
+                    data.url
+                )
+                ContentsMoreFragment(dataMore).show(mFragmentManager, "setting")
             }
         }
     }
@@ -157,16 +183,21 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel,fragmentManager: Frag
                     Log.d("HavitButtonTest", "3. click - unseen 2 : ${binding.ivHavit.tag}")
                 }
                 available_3 = false
-                viewModel.requestContentsTaken(
-                    ContentsActivity.ID,
-                    ContentsActivity.OPTION,
-                    ContentsActivity.FILTER,
-                    ContentsActivity.CATEGORY_NAME
-                )
+                setContentsData()
             }
             binding.ivSetting.setOnClickListener {
-                val dataMore = ContentsSearchResponse.Data(data.createdAt,data.description,data.id,data.image,data.isNotified,data.isSeen,data.notificationTime,data.title,data.url)
-                ContentsMoreFragment(dataMore).show(mFragmentManager,"setting")
+                val dataMore = ContentsSearchResponse.Data(
+                    data.createdAt,
+                    data.description,
+                    data.id,
+                    data.image,
+                    data.isNotified,
+                    data.isSeen,
+                    data.notificationTime,
+                    data.title,
+                    data.url
+                )
+                ContentsMoreFragment(dataMore).show(mFragmentManager, "setting")
             }
         }
     }
