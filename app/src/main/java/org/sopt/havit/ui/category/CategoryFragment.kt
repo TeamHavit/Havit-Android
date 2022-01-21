@@ -14,6 +14,11 @@ import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentCategoryBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsActivity
+import androidx.recyclerview.widget.SimpleItemAnimator
+
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemAnimator
+
 
 class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.fragment_category) {
     private lateinit var getResult: ActivityResultLauncher<Intent>
@@ -55,6 +60,10 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     private fun initAdapter() {
         _categoryAdapter = CategoryAdapter()
         binding.rvContents.adapter = categoryAdapter
+        val animator: ItemAnimator? = binding.rvContents.itemAnimator
+        if (animator is SimpleItemAnimator) {
+            animator.supportsChangeAnimations = false
+        }
     }
 
     private fun setData() {
