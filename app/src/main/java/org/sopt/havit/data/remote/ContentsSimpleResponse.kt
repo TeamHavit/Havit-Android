@@ -12,7 +12,7 @@ data class ContentsSimpleResponse(
         val id: Int,
         val image: String,
         val isNotified: Boolean,
-        val isSeen: Boolean,
+        var isSeen: Boolean,
         var notificationTime: String,
         val title: String,
         val url: String
