@@ -14,17 +14,19 @@ object BindingAdapter {
     // item_category
     @BindingAdapter("imageUrl")
     @JvmStatic
-    fun ImageView.loadImage(url: String) {
+    fun ImageView.loadImage(url: String?) {
         Glide.with(context)
             .load(url)
+            .placeholder(R.drawable.img_contents_dummy)
             .into(this)
     }
 
     @BindingAdapter("iconSrc")
     @JvmStatic
-    fun ImageView.loadIcon(url: String) {
+    fun ImageView.loadIcon(url: String?) {
         Glide.with(context)
             .load(url)
+            .placeholder(R.drawable.img_contents_dummy)
             .circleCrop()
             .into(this)
     }
@@ -76,7 +78,7 @@ object BindingAdapter {
 
     @BindingAdapter("imageDefaultGrid")
     @JvmStatic
-    fun ImageView.defaultImageGrid(url: String) {
+    fun ImageView.defaultImageGrid(url: String?) {
         Glide.with(context)
             .load(url)
             .placeholder(R.drawable.img_contents_dummy_2)
@@ -85,7 +87,7 @@ object BindingAdapter {
 
     @BindingAdapter("imageDefaultLinearMax")
     @JvmStatic
-    fun ImageView.defaultImageLinearMax(url: String) {
+    fun ImageView.defaultImageLinearMax(url: String?) {
         Glide.with(context)
             .load(url)
             .placeholder(R.drawable.img_contents_dummy_3)

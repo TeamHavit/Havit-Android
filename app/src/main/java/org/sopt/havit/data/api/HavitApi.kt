@@ -1,6 +1,7 @@
 package org.sopt.havit.data.api
 
 import org.sopt.havit.data.remote.*
+import retrofit2.Call
 import retrofit2.http.*
 
 interface HavitApi {
@@ -58,7 +59,7 @@ interface HavitApi {
     suspend fun getUserData(): UserResponse
 
     @GET("content/scrap?link=")
-    suspend fun getOgData(
+    fun getOgData(
         @Query("link") link: String
-    ): ContentsScrapResponse
+    ): Call<ContentsScrapResponse>
 }
