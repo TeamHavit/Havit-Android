@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.share
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -27,11 +28,32 @@ class ContentsSummeryFragment : Fragment() {
 
         initListener()
         toolbarClickListener()
+        initIntent()
 
         return binding.root
     }
 
+    private fun initIntent() {
+        val intent = activity?.intent
+        val action = intent?.action
+        val type = intent?.type
+
+        if ((action == Intent.ACTION_SEND) && (type == "text/plain")) {
+            handleSendText(intent)
+        }
+    }
+
+    private fun handleSendText(intent: Intent): String? {
+        val url = intent.getStringExtra(Intent.EXTRA_TEXT)
+        binding.tvUrl.text = url
+        return url
+    }
+
     private fun initListener() {
+        binding.tvOgTitle.setOnClickListener {
+            findNavController().navigate(R.id.action_contentsSummeryFragment_to_editTitleFragment)
+        }
+
         binding.btnComplete.setOnClickListener {
             setCustomToast()
         }
