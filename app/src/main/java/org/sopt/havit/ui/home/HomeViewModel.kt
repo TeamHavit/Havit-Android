@@ -19,6 +19,8 @@ class HomeViewModel() : ViewModel() {
     private val token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6IiIsImlhdCI6MTY0MTk5ODM0MCwiZXhwIjoxNjQ0NTkwMzQwLCJpc3MiOiJoYXZpdCJ9.w1hhe2g29wGzF5nokiil8KFf_c3qqPCXdVIU-vZt7Wo"
 
+    val contentsAllNum=MutableLiveData<Int>()
+
     private val _contentsList = MutableLiveData<List<ContentsSimpleResponse.ContentsSimpleData>>()
     val contentsList: LiveData<List<ContentsSimpleResponse.ContentsSimpleData>> = _contentsList
     fun requestContentsTaken() {
@@ -33,6 +35,10 @@ class HomeViewModel() : ViewModel() {
         }
     }
 
+    private val _categoryList = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
+    val categoryList: LiveData<List<CategoryResponse.AllCategoryData>> = _categoryList
+
+
     private val _categoryData = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
     val categoryData: LiveData<List<CategoryResponse.AllCategoryData>> = _categoryData
     fun requestCategoryTaken() {
@@ -41,7 +47,11 @@ class HomeViewModel() : ViewModel() {
                 val response =
                     RetrofitObject.provideHavitApi(token)
                         .getAllCategory()
+
                 _categoryData.postValue(response.data)
+//                _categoryList.postValue(response.data)
+//                _categoryData.postValue(setList(categoryList.value))
+////                _categoryData.postValue(response.data)
             } catch (e: Exception) {
             }
         }
@@ -64,19 +74,26 @@ class HomeViewModel() : ViewModel() {
 
     fun setList(
         data:
-        List<CategoryResponse.AllCategoryData>
+        List<CategoryResponse.AllCategoryData>, totalNum: Int
     ): MutableList<List<CategoryResponse.AllCategoryData>> {
         val list = mutableListOf(listOf<CategoryResponse.AllCategoryData>())
         var count = 0
+        val firstData = CategoryResponse.AllCategoryData(
+            totalNum,
+            -1,
+            -1,
+            "",
+            -1,
+            "모든 콘텐츠"
+        )
         list.clear()
-        val firstData = CategoryResponse.AllCategoryData(-1, -1, -1, "", -1, "모든 콘텐츠")
         while (data.size > count) {
             if (data.size - count >= 6) {
                 if (count == 0) {
                     val firstPage = mutableListOf<CategoryResponse.AllCategoryData>()
                     firstPage.clear()
                     firstPage.add(firstData)
-                    val min = if (data.size < 4) data.size else 4
+                    val min = if (data.size < 5) data.size else 4
                     for (i in 0..min) {
                         firstPage.add(data[i])
                     }
@@ -95,6 +112,8 @@ class HomeViewModel() : ViewModel() {
         return list
     }
 
+
+
     private val _userData = MutableLiveData<UserResponse.UserData>()
     val userData: LiveData<UserResponse.UserData> = _userData
     fun requestUserDataTaken() {
@@ -104,6 +123,7 @@ class HomeViewModel() : ViewModel() {
                     RetrofitObject.provideHavitApi(token)
                         .getUserData()
                 _userData.postValue(response.data)
+                contentsAllNum.postValue(response.data.totalContentNumber)
 //                val rate =
 //                    (_userData.value!!.totalSeenContentNumber.toDouble() / _userData.value!!.totalSeenContentNumber.toDouble() * 100).toInt()
 //                Log.d("HOMEVIEWMODEL", "val rate: $rate")
