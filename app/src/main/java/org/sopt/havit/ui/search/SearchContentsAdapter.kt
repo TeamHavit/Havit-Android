@@ -1,6 +1,7 @@
 package org.sopt.havit.ui.search
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
@@ -47,25 +48,26 @@ class SearchContentsAdapter(searchViewModel: SearchViewModel,fragmentManager: Fr
     ) {
         fun bind(position: Int, data: ContentsSearchResponse.Data) {
             binding.content = data
-            contentsHavitClick(data)
+            contentsHavitClick(position,data)
             isRead = data.isSeen
         }
 
-        fun contentsHavitClick(data: ContentsSearchResponse.Data) {
+        fun contentsHavitClick(position: Int,data: ContentsSearchResponse.Data) {
             binding.ivHavit.setOnClickListener {
-                viewModel.setIsSeen(data.id)
+                 if(it.tag == "seen"){
+                      Glide.with(binding.ivHavit.context)
+                          .load(R.drawable.ic_contents_unread)
+                          .into(binding.ivHavit)
+                      it.tag="unseen"
+                      viewModel.setIsSeen(data.id)
+                  }else{
+                      Glide.with(binding.ivHavit.context)
+                          .load(R.drawable.ic_contents_read_2)
+                          .into(binding.ivHavit)
+                      it.tag="seen"
+                      viewModel.setIsSeen(data.id)
+                  }
 
-                isRead = if (isRead) {
-                    Glide.with(binding.ivHavit.context)
-                        .load(R.drawable.ic_contents_unread)
-                        .into(binding.ivHavit)
-                    false
-                } else {
-                    Glide.with(binding.ivHavit.context)
-                        .load(R.drawable.ic_contents_read_2)
-                        .into(binding.ivHavit)
-                    true
-                }
             }
             binding.clSearchItem.setOnClickListener {
                 var intent = Intent(it.context,WebActivity::class.java)
