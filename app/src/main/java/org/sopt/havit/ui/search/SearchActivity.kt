@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View.GONE
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.core.view.isVisible
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.sopt.havit.R
@@ -17,19 +18,35 @@ import org.sopt.havit.util.KeyBoardUtil
 class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activity_search) {
 
     private val searchViewModel: SearchViewModel by viewModel()
-    private val searchContentsAdapter: SearchContentsAdapter by lazy { SearchContentsAdapter(searchViewModel,supportFragmentManager) }
+    private val searchContentsAdapter: SearchContentsAdapter by lazy {
+        SearchContentsAdapter(
+            searchViewModel,
+            supportFragmentManager
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        searchViewModel.getSearchContents(binding.etSearch.text.toString())
+        observers()
+        setAdapter()
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.vm = searchViewModel
         setListeners()
-        observers()
-        setAdapter()
     }
+
 
     private fun setAdapter() {
         binding.rvSearch.adapter = searchContentsAdapter
+        //searchContentsAdapter.notifyDataSetChanged()
     }
 
     private fun setListeners() {
@@ -73,6 +90,13 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
         }
     }
 
+    private fun setCustomToast() {
+        val toast = Toast(this)
+        val view = layoutInflater.inflate(R.layout.toast_havit_complete, null)
+        toast.view = view
+        toast.show()
+    }
+
     private fun observers() {
         searchViewModel.searchResult.observe(this) {
             binding.tvSearchCount.text = it.size.toString()
@@ -90,6 +114,16 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
 
             }
         }
+        searchViewModel.isRead.observe(this) {
+            if (it) {
+                setCustomToast()
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        searchViewModel.getSearchContents(binding.etSearch.text.toString())
     }
 
 

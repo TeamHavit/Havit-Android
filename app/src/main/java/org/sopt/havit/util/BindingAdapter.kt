@@ -2,14 +2,11 @@ package org.sopt.havit.util
 
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import org.sopt.havit.R
-import org.sopt.havit.util.BindingAdapter.defaultImageGrid
-import org.sopt.havit.util.BindingAdapter.defaultImageLinearMax
 
 
 object BindingAdapter {
@@ -20,6 +17,7 @@ object BindingAdapter {
     fun ImageView.loadImage(url: String?) {
         Glide.with(context)
             .load(url)
+            .placeholder(R.drawable.img_contents_dummy)
             .into(this)
     }
 
@@ -28,6 +26,7 @@ object BindingAdapter {
     fun ImageView.loadIcon(url: String?) {
         Glide.with(context)
             .load(url)
+            .placeholder(R.drawable.img_contents_dummy)
             .circleCrop()
             .into(this)
     }
@@ -89,6 +88,16 @@ object BindingAdapter {
     @BindingAdapter("imageDefaultLinearMax")
     @JvmStatic
     fun ImageView.defaultImageLinearMax(url: String?) {
+        Glide.with(context)
+            .load(url)
+            .placeholder(R.drawable.img_contents_dummy_3)
+            .into(this)
+    }
+
+    // item_category
+    @BindingAdapter("ogImage")
+    @JvmStatic
+    fun ImageView.setOgImage(url: String?) {
         Glide.with(context)
             .load(url)
             .placeholder(R.drawable.img_contents_dummy_3)

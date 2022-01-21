@@ -60,21 +60,9 @@
         android:label="fragment_contents_summery"
         tools:layout="@layout/fragment_contents_summery" >
         <argument
-            android:name="contents_title"
+            android:name="contents_categoryIds"
             app:argType="string"
-            android:defaultValue="제목없음" />
-        <argument
-            android:name="contents_alarm_time"
-            app:argType="string"
-            android:defaultValue="알림설정" />
-        <argument
-            android:name="is_notified"
-            app:argType="boolean"
-            android:defaultValue="false"/>
-        <argument
-            android:name="notification_time"
-            app:argType="string"
-            android:defaultValue=""/>
+            android:defaultValue="" />
         <action
             android:id="@+id/action_contentsSummeryFragment_to_setNotificationFragment"
             app:destination="@id/setNotificationFragment" />
@@ -90,6 +78,10 @@
         android:name="org.sopt.havit.ui.share.EditTitleFragment"
         android:label="fragment_edit_title"
         tools:layout="@layout/fragment_edit_title" >
+        <argument
+            android:name="contents_modified_title"
+            app:argType="string"
+            android:defaultValue="" />
         <action
             android:id="@+id/action_editTitleFragment_to_contentsSummeryFragment"
             app:destination="@id/contentsSummeryFragment" />
