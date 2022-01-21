@@ -40,8 +40,18 @@ class ChooseIconFragment : Fragment() {
 
         initAdapter()
         initClickNext()
+        toolbarClickListener()
         Log.d("ChooseIconFragment", "${args.categoryTitle}")
 
+    }
+    
+    private fun toolbarClickListener(){
+        binding.icBack.setOnClickListener { 
+            findNavController().navigate(R.id.action_chooseIconFragment_to_addCategoryFragment)
+        }
+        binding.icClose.setOnClickListener {
+            requireActivity().finish()
+        }
     }
 
     private fun initAdapter() {

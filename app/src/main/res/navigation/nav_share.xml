@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_addCategoryFragment_to_chooseIconFragment"
             app:destination="@id/chooseIconFragment" />
+        <action
+            android:id="@+id/action_addCategoryFragment_to_selectCategoryFragment"
+            app:destination="@id/selectCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/chooseIconFragment"
@@ -35,6 +38,9 @@
         <action
             android:id="@+id/action_chooseIconFragment_to_selectCategoryFragment"
             app:destination="@id/selectCategoryFragment" />
+        <action
+            android:id="@+id/action_chooseIconFragment_to_addCategoryFragment"
+            app:destination="@id/addCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/selectCategoryFragment"
@@ -75,6 +81,9 @@
         <action
             android:id="@+id/action_contentsSummeryFragment_to_editTitleFragment"
             app:destination="@id/editTitleFragment" />
+        <action
+            android:id="@+id/action_contentsSummeryFragment_to_selectCategoryFragment"
+            app:destination="@id/selectCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/editTitleFragment"
