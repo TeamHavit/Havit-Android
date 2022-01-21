@@ -68,6 +68,7 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
             else if(it.resultCode == RESULT_FIRST_USER){
                 val position = it.data?.getIntExtra("position2", 0) ?: 0
                 val name = it.data?.getStringExtra("categoryName")
+                val imagePos = it.data?.getIntExtra("imageId", 0)
                 Log.d("CategoryNameTest", "$name")
                 //categoryViewModel.modifyValue(position, name.toString())
                 categoryOrderModifyAdapter.categoryList[position].title = name.toString()
@@ -81,9 +82,10 @@ class CategoryOrderModifyActivity : BaseBindingActivity<ActivityCategoryOrderMod
             override fun onClick(v: View, position: Int) {
                 val intent = Intent(v.context, CategoryContentModifyActivity::class.java)
                 categoryViewModel.categoryList.value?.get(position)
-                    ?.let { intent.putExtra("categoryId", it.id)
+                    ?.let { intent.putExtra("categoryId", categoryOrderModifyAdapter.categoryList[position].id)
                         intent.putExtra("position", position)
-                    intent.putExtra("categoryName", categoryOrderModifyAdapter.categoryList[position].title)}
+                        intent.putExtra("categoryName", categoryOrderModifyAdapter.categoryList[position].title)
+                        intent.putExtra("imageId", categoryOrderModifyAdapter.categoryList[position].imageId)}
                 Log.d("CategoryContentsData", "전달 전 포지션 : ${position}")
                 getResult.launch(intent)
             }
