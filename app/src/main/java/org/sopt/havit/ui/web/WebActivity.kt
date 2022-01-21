@@ -20,8 +20,13 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         setContentView(binding.root)
         binding.vm = webViewModel
         intent.getStringExtra("url")?.let { setUrlLaunch(it) }
-        webViewModel.init(intent.getBooleanExtra("isSeen", false))
+        //webViewModel.init(intent.getBooleanExtra("isSeen", false))
         setListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        webViewModel.init(intent.getBooleanExtra("isSeen", false))
     }
 
     private fun setUrlLaunch(url: String) {
@@ -35,12 +40,14 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
     private fun setListeners() {
         binding.llWebview.setOnClickListener {
+            Log.d("eeee",intent!!.getIntExtra("contentsId", 0).toString())
             webViewModel.setHavit(intent!!.getIntExtra("contentsId", 0))
             if(webViewModel.isHavit.value==true){
                 setCustomToast()
             }
         }
         binding.ibWebBack.setOnClickListener {
+
             finish()
         }
         binding.llWebShare.setOnClickListener {
