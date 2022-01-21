@@ -60,10 +60,7 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
         })
         binding.etSearch.setOnEditorActionListener { _, i, _ ->
             if (i == EditorInfo.IME_ACTION_SEARCH) {
-                //searchViewModel.setSearchNoImage(false)
                 searchViewModel.getSearchContents(binding.etSearch.text.toString())
-
-
                 Log.d("search", binding.etSearch.text.toString())
                 KeyBoardUtil.hideKeyBoard(this)
 
