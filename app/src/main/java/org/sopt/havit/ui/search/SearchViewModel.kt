@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.data.repository.ContentsRepository
@@ -48,7 +49,7 @@ class SearchViewModel(
     }
 
     fun getSearchContents(keyWord: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = searchRepository.getSearchContents(keyWord)
                 Log.d("fff", response.toString())
@@ -62,7 +63,7 @@ class SearchViewModel(
     }
 
     fun setIsSeen(contentsId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = contentsRepository.isSeen(contentsId)
                 Log.d("siiiiin", response.success.toString())

@@ -25,17 +25,28 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+        searchViewModel.getSearchContents(binding.etSearch.text.toString())
+        observers()
+        setAdapter()
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.vm = searchViewModel
         setListeners()
-        observers()
-        setAdapter()
     }
+
 
     private fun setAdapter() {
         binding.rvSearch.adapter = searchContentsAdapter
+        //searchContentsAdapter.notifyDataSetChanged()
     }
 
     private fun setListeners() {
@@ -108,6 +119,11 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
                 setCustomToast()
             }
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        searchViewModel.getSearchContents(binding.etSearch.text.toString())
     }
 
 

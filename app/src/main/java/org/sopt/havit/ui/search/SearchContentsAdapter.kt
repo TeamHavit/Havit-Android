@@ -60,6 +60,7 @@ class SearchContentsAdapter(searchViewModel: SearchViewModel, fragmentManager: F
                     it.tag = "unseen"
                     viewModel.setIsSeen(data.id)
                     viewModel.setHavitToast(false)
+                    isRead= false
                 } else {
                     Glide.with(binding.ivHavit.context)
                         .load(R.drawable.ic_contents_read_2)
@@ -67,12 +68,15 @@ class SearchContentsAdapter(searchViewModel: SearchViewModel, fragmentManager: F
                     it.tag = "seen"
                     viewModel.setIsSeen(data.id)
                     viewModel.setHavitToast(true)
+                    isRead= true
                 }
 
             }
             binding.clSearchItem.setOnClickListener {
                 var intent = Intent(it.context, WebActivity::class.java)
                 intent.putExtra("url", data.url)
+                intent.putExtra("isSeen",isRead)
+                intent.putExtra("contentsId",data.id)
                 it.context.startActivity(intent)
             }
             binding.ivSetting.setOnClickListener {
