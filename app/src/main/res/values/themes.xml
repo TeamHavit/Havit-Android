@@ -308,4 +308,10 @@
         <item name="android:letterSpacing">-0.016</item>
         <item name="android:lineSpacingExtra">5sp</item>
     </style>
+    <style name="Theme.Havit.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.Havit.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Havit.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
