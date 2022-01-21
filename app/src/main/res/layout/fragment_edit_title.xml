@@ -38,13 +38,13 @@
             android:id="@+id/tv_complete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/complete"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="19dp"
+            android:text="@string/complete"
+            android:textAppearance="@style/Text14Medium"
             android:textColor="@color/havit_purple"
-            android:textAppearance="@style/Text14Medium"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -73,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/edit_title_description"
+            android:textAppearance="@style/Button15Medium"
             android:textColor="@color/gray_3"
             app:layout_constraintStart_toStartOf="@id/tv_edit_title"
             app:layout_constraintTop_toBottomOf="@id/tv_edit_title" />
