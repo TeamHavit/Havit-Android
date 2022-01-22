@@ -17,7 +17,6 @@ class EditTitleFragment : Fragment() {
     private val binding get() = _binding!!
     private val args by navArgs<EditTitleFragmentArgs>()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,11 +38,6 @@ class EditTitleFragment : Fragment() {
         binding.tvComplete.setOnClickListener {
             MySharedPreference.setTitle(requireContext(), binding.etTitle.text.toString())
             findNavController().navigate(R.id.action_editTitleFragment_to_contentsSummeryFragment)
-//            findNavController().navigate(
-//                EditTitleFragmentDirections.actionEditTitleFragmentToContentsSummeryFragment(
-//                    binding.etTitle.text.toString()
-//                )
-//            )
         }
     }
 
