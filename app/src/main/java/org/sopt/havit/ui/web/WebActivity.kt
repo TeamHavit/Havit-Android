@@ -7,6 +7,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityWebBinding
@@ -21,17 +22,28 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         setContentView(binding.root)
         binding.vm = webViewModel
         intent.getStringExtra("url")?.let { setUrlLaunch(it) }
-        webViewModel.init(intent.getBooleanExtra("isSeen", false))
+        //webViewModel.init(intent.getBooleanExtra("isSeen", false))
         if(intent.getIntExtra("contentsId",-1)==-1){
             binding.llWebBottom.isVisible=false
         }
-        //webViewModel.init(intent.getBooleanExtra("isSeen", false))
+        if(!intent.getBooleanExtra("isSeen", false)){
+            Log.d("issssss",intent.getBooleanExtra("isSeen", false).toString())
+            Glide.with(this).load(R.drawable.ic_contents_unread).into(binding.ivWebviewUnread)
+            binding.tvWebviewUnread.text="콘텐츠 확인 완료"
+        }else{
+            Glide.with(this).load(R.drawable.ic_contents_read_2).into(binding.ivWebviewUnread)
+            binding.tvWebviewUnread.text="콘텐츠 확인하기"
+        }
+        webViewModel.init(intent.getBooleanExtra("isSeen", false))
         setListeners()
     }
 
     override fun onResume() {
         super.onResume()
+        Log.d("issssss",intent.getBooleanExtra("isSeen", false).toString())
         webViewModel.init(intent.getBooleanExtra("isSeen", false))
+
+
     }
 
     private fun setUrlLaunch(url: String) {
@@ -55,10 +67,10 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
             finish()
         }
         binding.llWebShare.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SEND)
-            intent.putExtra(Intent.EXTRA_TEXT, "https://www.naver.co.kr/")
-            intent.type = "text/plain"
-            startActivity(Intent.createChooser(intent, "앱을 선택 해 주세요."))
+            val intentShare = Intent(Intent.ACTION_SEND)
+            intentShare.putExtra(Intent.EXTRA_TEXT, intent.getStringExtra("url"))
+            intentShare.type = "text/plain"
+            startActivity(Intent.createChooser(intentShare, "앱을 선택 해 주세요."))
         }
         binding.ibWebReload.setOnClickListener {
             binding.wbCustom.reload()

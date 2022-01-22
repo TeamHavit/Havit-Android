@@ -73,6 +73,7 @@ class SearchContentsAdapter(searchViewModel: SearchViewModel, fragmentManager: F
 
             }
             binding.clSearchItem.setOnClickListener {
+                isRead = data.isSeen
                 var intent = Intent(it.context, WebActivity::class.java)
                 intent.putExtra("url", data.url)
                 intent.putExtra("isSeen",isRead)

@@ -33,9 +33,10 @@
 
             <ImageView
                 android:id="@+id/iv_thumbnail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                imageSearch="@{content.url}" />
+                android:layout_width="102dp"
+                android:scaleType="centerCrop"
+                android:layout_height="104dp"
+                imageSearch="@{content.image}" />
 
             <ImageView
                 android:id="@+id/iv_alarm"
