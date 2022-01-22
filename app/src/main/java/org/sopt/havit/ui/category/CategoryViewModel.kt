@@ -7,10 +7,7 @@ import com.bumptech.glide.load.HttpException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.CategoryAddRequest
-import org.sopt.havit.data.remote.CategoryModifyRequest
-import org.sopt.havit.data.remote.CategoryOrderRequest
-import org.sopt.havit.data.remote.CategoryResponse
+import org.sopt.havit.data.remote.*
 import org.sopt.havit.util.MySharedPreference
 
 class CategoryViewModel(context: Context) : ViewModel() {
@@ -102,5 +99,22 @@ class CategoryViewModel(context: Context) : ViewModel() {
 
     fun setShareDelay(v: Boolean){
         _shareDelay.value= v
+    }
+
+    fun setnetwork(title: String,image:String,des:String,url:String,noti:Boolean,time:String,id:List<Int>){
+        viewModelScope.launch {
+
+            try{
+
+                val body = CreateContentsRequest(title,des,image,url ,noti,time,id)
+                val response =
+                    RetrofitObject.provideHavitApi(token)
+                        .createContents(body)
+            }catch (e :java.lang.Exception){
+
+        }
+
+
+        }
     }
 }

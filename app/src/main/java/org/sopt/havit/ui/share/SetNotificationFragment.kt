@@ -77,8 +77,9 @@ class SetNotificationFragment :
             findNavController().navigate(R.id.action_setNotificationFragment_to_contentsSummeryFragment)
         }
         binding.tvComplete.setOnClickListener {
-            findNavController().navigate(R.id.action_setNotificationFragment_to_contentsSummeryFragment)
+
             MySharedPreference.setNotificationTime(requireContext(), notificationTime)
+            findNavController().navigate(R.id.action_setNotificationFragment_to_contentsSummeryFragment)
         }
     }
 
