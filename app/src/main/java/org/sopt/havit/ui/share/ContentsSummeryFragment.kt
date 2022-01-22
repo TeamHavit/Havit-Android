@@ -33,6 +33,7 @@ class ContentsSummeryFragment : Fragment() {
     private val binding get() = _binding!!
     private val args by navArgs<ContentsSummeryFragmentArgs>()
     private lateinit var cateIdString: List<String>
+    private  var cateIdNum= arrayListOf<Int>()
     private lateinit var cateIdInt: MutableList<Int>
     private lateinit var responseContents: ContentsSummeryData
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(requireContext()) }
@@ -43,11 +44,19 @@ class ContentsSummeryFragment : Fragment() {
     ): View? {
         _binding = FragmentContentsSummeryBinding.inflate(layoutInflater, container, false)
 
-        gerNotificationTime()
 
+        // 선택된 카테고리 배열 생성
         cateIdString = args.contentsCategoryIds.split(" ")
-        Log.d("CateIdString", cateIdString.size.toString())
-        cateIdInt = MutableList(cateIdString.size - 1) { _ -> 0 }
+        //args.contentsCategoryIds.tr
+
+      /*  cateIdString.forEach {
+//            var data = it.replace(" ","").toInt()
+            cateIdNum.add(it.toInt())
+        }*/
+       // cateIdNum.addAll(ca)
+        Log.d("CateIdString111", cateIdString.toString())
+        cateIdInt = MutableList(cateIdString.size -1) { _ -> 0 }
+
 
         for (i in 0..cateIdString.size - 2) {
             Log.d("cateIdString", cateIdString[i])
@@ -66,6 +75,8 @@ class ContentsSummeryFragment : Fragment() {
         initListener()
         toolbarClickListener()
         initIntent()
+        gerNotificationTime()
+
 
     }
 
@@ -123,7 +134,7 @@ class ContentsSummeryFragment : Fragment() {
                         if (MySharedPreference.getTitle(requireContext()).isNotEmpty()) {
                             Log.d("shared_title", MySharedPreference.getTitle(requireContext()))
                             binding.tvOgTitle.text = MySharedPreference.getTitle(requireContext())
-                            MySharedPreference.clearTitle(requireContext())
+//                            MySharedPreference.clearTitle(requireContext())
                         } else {
                             binding.tvOgTitle.text = response?.data?.ogTitle
                             Log.d("shared_title", "No Shared Preference data")
@@ -156,16 +167,19 @@ class ContentsSummeryFragment : Fragment() {
         }
 
         binding.btnComplete.setOnClickListener {
+            Log.d("CateIdString222", cateIdString.toString())
             setCustomToast()
-            MySharedPreference.clearTitle(requireContext())
-            MySharedPreference.clearNotificationTime(requireContext())
             initNetwork()
             categoryViewModel.shareDelay.observe(viewLifecycleOwner) {
                 if(it) {
                     categoryViewModel.setShareDelay(false)
-                    requireActivity().finish()
-                } else {}
+                    MySharedPreference.clearTitle(requireContext())
+                    MySharedPreference.clearNotificationTime(requireContext())
+
+                }
             }
+            requireActivity().finish()
+
         }
 
         binding.tvSetAlarm.setOnClickListener {
@@ -173,34 +187,74 @@ class ContentsSummeryFragment : Fragment() {
         }
     }
 
+    private fun network(){
+
+    }
+
     private fun initNetwork() {
         lifecycleScope.launch {
             try {
 
-                var createContentsRequest = CreateContentsRequest(
+                var title:String
+                var des:String
+                var image:String
+                var url:String
+                var noti:Boolean
+                var time:String
+                var id:List<Int>
+
+                if (MySharedPreference.getTitle(requireContext()).isNotEmpty()) {
+                    Log.d("shared_title", MySharedPreference.getTitle(requireContext()))
+                    title = MySharedPreference.getTitle(requireContext())
+                } else {
+                    title = responseContents.ogTitle
+                    Log.d("shared_title", "No Shared Preference data")
+                }
+
+                if (MySharedPreference.getNotificationTime(requireContext()).isNotEmpty()){
+                    var timestamp = MySharedPreference.getNotificationTime(requireContext())
+                    Log.d("timestamp", timestamp)
+
+                    timestamp = timestamp.replace(".","-")
+
+
+                    time = timestamp.substring(0,16)
+                    Log.d("timestamp_substring", timestamp)
+                    //time = timestamp.replace(".","-").dropLast(3)
+                    //Log.d("timestamp_replace", time.toString())
+                   noti = true
+                } else {
+                    Log.d("timestamp", "not setted")
+                    time = ""
+                    noti = false
+                }
+
+                //Log.d("createContentsRequest", createContentsRequest.toString())
+
+                var body= CreateContentsRequest(title,responseContents.ogDescription,responseContents.ogImage,responseContents.ogUrl,noti,time,
+                   arrayListOf<Int>(1,3))
+               /* var createContentsRequest = CreateContentsRequest(
                     binding.tvOgTitle.text as String,
                     responseContents.ogDescription,
                     responseContents.ogImage,
                     responseContents.ogUrl,
                     true,
                     "2022-01-23 03:12",
-                            cateIdInt
-                )
-
-//                if (MySharedPreference.getNotificationTime(requireContext()).isNotEmpty()){
-////                    createContentsRequest.notificationTime = "MySharedPreference.getNotificationTime(requireContext())"
-////                    createContentsRequest.isNotified = true
-//                } else {
-//                    createContentsRequest.notificationTime = ""
-//                    createContentsRequest.isNotified = false
-//                }
-
-                Log.d("createContentsRequest", createContentsRequest.toString())
-
+                    cateIdInt
+                )*/
+                Log.d("createContentsRequest", title.toString())
+                Log.d("createContentsRequest", responseContents.ogUrl.toString())
+                Log.d("createContentsRequest", responseContents.ogDescription.toString())
+                Log.d("createContentsRequest", responseContents.ogImage.toString())
+                Log.d("createContentsRequest", noti.toString())
+                Log.d("createContentsRequest", time.toString())
+                Log.d("createContentsRequest", cateIdNum.toString())
 
                 val response =
                     RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
-                        .createContents(createContentsRequest)
+                        .createContents(body)
+                Log.d("createContentsRequest", body.toString())
+
                 categoryViewModel.setShareDelay(true)
                 Log.d("CreateContents", response.success.toString())
             } catch (e: Exception) {
@@ -231,5 +285,10 @@ class ContentsSummeryFragment : Fragment() {
         val view = layoutInflater.inflate(R.layout.toast_contents_added, null)
         toast.view = view
         toast.show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+//        MySharedPreference.clearNotificationTime(requireContext())
     }
 }
