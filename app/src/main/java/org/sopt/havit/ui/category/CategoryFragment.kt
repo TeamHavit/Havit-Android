@@ -2,6 +2,7 @@ package org.sopt.havit.ui.category
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat.FontCallback.getHandler
 import androidx.fragment.app.viewModels
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentCategoryBinding
@@ -19,6 +21,10 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemAnimator
 import org.sopt.havit.ui.home.HomeViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
+
+
+
 
 
 class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.fragment_category) {
@@ -88,9 +94,9 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                         Log.d("visibility", " fail")
                     }
                 }
-                categoryAdapter.categoryList.clear()
-                categoryAdapter.categoryList.addAll(it)
-                categoryAdapter.notifyDataSetChanged()
+                // 리싸이클러뷰 업데이트하는 코드
+                categoryAdapter.updateList(it.toList())
+
                 Log.d("TestTest", "${categoryViewModel.categoryList.value?.get(0)?.id}")
             }
             categoryCount.observe(viewLifecycleOwner) {
