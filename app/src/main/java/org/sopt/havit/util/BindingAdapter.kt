@@ -33,7 +33,7 @@ object BindingAdapter {
 
     @BindingAdapter("localIcon")
     @JvmStatic
-    fun ImageView.loadIcon(url: Int) {
+    fun ImageView.loadIcon(url: Int?) {
         Glide.with(context)
             .load(url)
             .circleCrop()
