@@ -175,10 +175,11 @@ class ContentsSummeryFragment : Fragment() {
                     categoryViewModel.setShareDelay(false)
                     MySharedPreference.clearTitle(requireContext())
                     MySharedPreference.clearNotificationTime(requireContext())
+                    requireActivity().finish()
 
                 }
             }
-            requireActivity().finish()
+//            requireActivity().finish()
 
         }
 
