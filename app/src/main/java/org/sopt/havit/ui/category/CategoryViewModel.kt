@@ -24,6 +24,8 @@ class CategoryViewModel(context: Context) : ViewModel() {
     val delay: LiveData<Boolean> = _delay
     private val _addDelay = MutableLiveData(false)
     val addDelay: LiveData<Boolean> = _addDelay
+    private val _shareDelay = MutableLiveData(false)
+    val shareDelay: LiveData<Boolean> = _shareDelay
 
     fun requestCategoryTaken() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -96,5 +98,9 @@ class CategoryViewModel(context: Context) : ViewModel() {
                 Log.d("CreateCategory", e.toString())
             }
         }
+    }
+
+    fun setShareDelay(v: Boolean){
+        _shareDelay.value= v
     }
 }

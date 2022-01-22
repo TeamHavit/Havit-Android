@@ -9,13 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.launch
 import org.sopt.havit.R
+import org.sopt.havit.data.ContentsSummeryData
 import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.remote.CategoryAddRequest
 import org.sopt.havit.data.remote.ContentsScrapResponse
+import org.sopt.havit.data.remote.CreateContentsRequest
+import org.sopt.havit.data.remote.CreateContentsResponse
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
+import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.util.MySharedPreference
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,6 +34,8 @@ class ContentsSummeryFragment : Fragment() {
     private val args by navArgs<ContentsSummeryFragmentArgs>()
     private lateinit var cateIdString: List<String>
     private lateinit var cateIdInt: MutableList<Int>
+    private lateinit var responseContents: ContentsSummeryData
+    private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,15 +44,16 @@ class ContentsSummeryFragment : Fragment() {
         _binding = FragmentContentsSummeryBinding.inflate(layoutInflater, container, false)
 
         gerNotificationTime()
+
         cateIdString = args.contentsCategoryIds.split(" ")
         Log.d("CateIdString", cateIdString.size.toString())
-        cateIdInt = MutableList(cateIdString.size-1) { _ -> 0 }
+        cateIdInt = MutableList(cateIdString.size - 1) { _ -> 0 }
 
-        for (i in 0..cateIdString.size -2) {
+        for (i in 0..cateIdString.size - 2) {
             Log.d("cateIdString", cateIdString[i])
-            cateIdInt[i] = (cateIdString[i].toInt())
+            cateIdInt[i] = ((cateIdString[i]).toInt() + 1)
         }
-        for (i in 0..cateIdString.size -2) {
+        for (i in 0..cateIdString.size - 2) {
             Log.d("cateIdInt", cateIdInt[i].toString())
         }
 
@@ -103,6 +113,7 @@ class ContentsSummeryFragment : Fragment() {
                     response: Response<ContentsScrapResponse>
                 ) {
                     if (response.isSuccessful) {
+                        responseContents = response.body()!!.data
                         val response = response.body()
                         Log.d("ContentsSummeryFragment", response.toString())
 
@@ -148,12 +159,54 @@ class ContentsSummeryFragment : Fragment() {
             setCustomToast()
             MySharedPreference.clearTitle(requireContext())
             MySharedPreference.clearNotificationTime(requireContext())
-            //서버연동
-            requireActivity().finish()
+            initNetwork()
+            categoryViewModel.shareDelay.observe(viewLifecycleOwner) {
+                if(it) {
+                    categoryViewModel.setShareDelay(false)
+                    requireActivity().finish()
+                } else {}
+            }
         }
 
         binding.tvSetAlarm.setOnClickListener {
             findNavController().navigate(R.id.action_contentsSummeryFragment_to_setNotificationFragment)
+        }
+    }
+
+    private fun initNetwork() {
+        lifecycleScope.launch {
+            try {
+
+                var createContentsRequest = CreateContentsRequest(
+                    binding.tvOgTitle.text as String,
+                    responseContents.ogDescription,
+                    responseContents.ogImage,
+                    responseContents.ogUrl,
+                    true,
+                    "2022-01-23 03:12",
+                            cateIdInt
+                )
+
+//                if (MySharedPreference.getNotificationTime(requireContext()).isNotEmpty()){
+////                    createContentsRequest.notificationTime = "MySharedPreference.getNotificationTime(requireContext())"
+////                    createContentsRequest.isNotified = true
+//                } else {
+//                    createContentsRequest.notificationTime = ""
+//                    createContentsRequest.isNotified = false
+//                }
+
+                Log.d("createContentsRequest", createContentsRequest.toString())
+
+
+                val response =
+                    RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
+                        .createContents(createContentsRequest)
+                categoryViewModel.setShareDelay(true)
+                Log.d("CreateContents", response.success.toString())
+            } catch (e: Exception) {
+                Log.d("Server Failed", e.toString())
+                // 서버 통신 실패 시
+            }
         }
     }
 

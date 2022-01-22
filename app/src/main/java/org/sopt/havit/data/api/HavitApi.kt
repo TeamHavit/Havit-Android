@@ -33,6 +33,11 @@ interface HavitApi {
         @Body body: CategoryAddRequest
     ): BasicResponse
 
+    @POST("content")
+    suspend fun createContents(
+        @Body body: CreateContentsRequest
+    ): CreateContentsResponse
+
     @GET("category/{categoryId}?option=&filter=")
     suspend fun getCategoryContents(
         @Path("categoryId") categoryId: Int,
