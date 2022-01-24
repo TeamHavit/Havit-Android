@@ -100,8 +100,8 @@ class ContentsSummeryFragment : Fragment() {
             "${originTime[2]}${originTime[2]}.${originTime[5]}${originTime[6]}.${originTime[8]}${originTime[9]}"
         val min = "${originTime[14]}${originTime[15]}분에 알림 예정"
         val newHour = when (val hour = "${originTime[11]}${originTime[12]}".toInt()) {
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 -> "오전 $hour "
-            else -> " 오후 ${hour - 12} "
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 -> "오전 {$hour}시 "
+            else -> " 오후 ${hour - 12}시 "
         }
 
         return date + newHour + min
