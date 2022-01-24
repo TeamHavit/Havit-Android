@@ -94,15 +94,18 @@ class ContentsSummeryFragment : Fragment() {
     }
 
     private fun setDateFormat(originTime: String): String {
-        Log.d("originTime", originTime)
+        Log.d("originTime", originTime) //2022.01.25 00:04:54
 
-        val date =
+        val date =      //2022.01.25
             "${originTime[2]}${originTime[2]}.${originTime[5]}${originTime[6]}.${originTime[8]}${originTime[9]}"
-        val min = "${originTime[14]}${originTime[15]}분에 알림 예정"
-        val newHour = when (val hour = "${originTime[11]}${originTime[12]}".toInt()) {
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 -> "오전 {$hour}시 "
-            else -> " 오후 ${hour - 12}시 "
-        }
+
+        val min = "${originTime[14]}${originTime[15]}".toInt().toString() + "분" // 자릿수 재졍렬을 위한 형변환 03분 -> 3분
+
+        val newHour =
+            when (val hour = "${originTime[11]}${originTime[12]}".toInt()) {
+                in 0..12 -> "오전 ${hour}시 "
+                else -> " 오후 ${hour - 12}시 "
+            }
 
         return date + newHour + min
     }
