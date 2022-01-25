@@ -10,9 +10,9 @@
         android:name="org.sopt.havit.ui.share.SetNotificationFragment"
         android:label="fragment_set_notification"
         tools:layout="@layout/fragment_set_notification" >
-        <action
-            android:id="@+id/action_setNotificationFragment_to_contentsSummeryFragment"
-            app:destination="@id/contentsSummeryFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_setNotificationFragment_to_contentsSummeryFragment"-->
+<!--            app:destination="@id/contentsSummeryFragment" />-->
     </fragment>
     <fragment
         android:id="@+id/addCategoryFragment"
@@ -65,9 +65,11 @@
             android:defaultValue="" />
         <action
             android:id="@+id/action_contentsSummeryFragment_to_setNotificationFragment"
+            app:popUpTo="@id/contentsSummeryFragment"
             app:destination="@id/setNotificationFragment" />
         <action
             android:id="@+id/action_contentsSummeryFragment_to_editTitleFragment"
+            app:popUpTo="@id/contentsSummeryFragment"
             app:destination="@id/editTitleFragment" />
         <action
             android:id="@+id/action_contentsSummeryFragment_to_selectCategoryFragment"
@@ -82,9 +84,9 @@
             android:name="contents_modified_title"
             app:argType="string"
             android:defaultValue="" />
-        <action
-            android:id="@+id/action_editTitleFragment_to_contentsSummeryFragment"
-            app:destination="@id/contentsSummeryFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_editTitleFragment_to_contentsSummeryFragment"-->
+<!--            app:destination="@id/contentsSummeryFragment" />-->
     </fragment>
     <fragment
         android:id="@+id/noCategoryFragment"
