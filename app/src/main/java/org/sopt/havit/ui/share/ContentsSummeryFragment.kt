@@ -32,18 +32,15 @@ class ContentsSummeryFragment : Fragment() {
     private val binding get() = _binding!!
     private val args by navArgs<ContentsSummeryFragmentArgs>()
     private lateinit var cateIdString: List<String>
-    private var cateIdNum = arrayListOf<Int>()
     private lateinit var url: String
     private lateinit var cateIdInt: MutableList<Int>
     private lateinit var responseContents: ContentsSummeryData
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(requireContext()) }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentContentsSummeryBinding.inflate(layoutInflater, container, false)
-
         return binding.root
     }
 
@@ -74,15 +71,14 @@ class ContentsSummeryFragment : Fragment() {
 
         // 선택된 카테고리 배열 생성
         cateIdString = args.contentsCategoryIds.split(" ")
-        cateIdString =
-            cateIdString.subList(0, cateIdString.size - 1)  // split 이후 마지막 값에 공백이 들어가는 문제 해결
-        Log.d("CateIdString", cateIdString.toString())
+        // split 이후 마지막 값에 공백이 들어가는 문제 해결
+        cateIdString = cateIdString.subList(0, cateIdString.size - 1)
 
+        // 배열 초기화 및 값 할당
         cateIdInt = MutableList(cateIdString.size) { _ -> 0 }
         for (i in cateIdString.indices) {
-            cateIdInt[i] = ((cateIdString[i]).toInt() + 1)
+            cateIdInt[i] = ((cateIdString[i]).toInt())
         }
-        Log.d("CateIdInt", cateIdInt.toString())
     }
 
     private fun gerNotificationTime() {

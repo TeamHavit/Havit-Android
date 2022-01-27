@@ -134,8 +134,10 @@ class SelectCategoryFragment : Fragment() {
     private fun getSelectedCategoryNum() : String{
         var selectedCategory = ""
         for (i in clickCountList.indices){
-            if (clickCountList[i])
-                selectedCategory += ("$i ")
+            if (clickCountList[i]){
+                val cateId = categoryData[i].id
+                selectedCategory += ("$cateId ")
+            }
         }
         return selectedCategory
     }
