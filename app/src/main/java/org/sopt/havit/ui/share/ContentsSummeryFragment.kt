@@ -107,7 +107,7 @@ class ContentsSummeryFragment : Fragment() {
         // 분 (3분 :: 자릿수 재졍렬을 위한 이중 형변환 사용)
         val min = "${originTime[14]}${originTime[15]}".toInt().toString() + "분"
 
-        return date + newHour + min
+        return "$date$newHour$min 알림 예정"
     }
 
     private fun setContents(url: String) {
