@@ -128,7 +128,7 @@ class ContentsSummeryFragment : Fragment() {
 
     private fun initListener() {
 
-        // 제목 수정 (TextView & ImageButton)
+        // 제목 수정 (TextView)
         binding.tvOgTitle.setOnClickListener {
             findNavController().navigate(
                 ContentsSummeryFragmentDirections.actionContentsSummeryFragmentToEditTitleFragment(
@@ -137,6 +137,8 @@ class ContentsSummeryFragment : Fragment() {
             )
             MySharedPreference.clearTitle(requireContext())
         }
+
+        // 제목 수정 (ImageView)
         binding.ibEditTitle.setOnClickListener {
             findNavController().navigate(
                 ContentsSummeryFragmentDirections.actionContentsSummeryFragmentToEditTitleFragment(
@@ -173,11 +175,13 @@ class ContentsSummeryFragment : Fragment() {
                 val notification: Boolean
                 val time: String
 
-                if (MySharedPreference.getNotificationTime(requireContext()).isEmpty()) {
+                val reservedNotification = MySharedPreference.getNotificationTime(requireContext())
+
+                if (reservedNotification.isEmpty()) {
                     time = ""
                     notification = false
                 } else {
-                    time = MySharedPreference.getNotificationTime(requireContext())
+                    time = reservedNotification
                         .replace(".", "-")
                         .substring(0, 16)
                     notification = true
@@ -197,7 +201,6 @@ class ContentsSummeryFragment : Fragment() {
                     time,
                     cateIdInt
                 )
-                Log.d("CreateContentsBody", createContentsRequest.toString())
 
 
                 RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
