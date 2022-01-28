@@ -33,11 +33,11 @@ class EditTitleFragment : Fragment() {
 
     private fun initClickListener(){
         binding.icBack.setOnClickListener {
-            findNavController().navigate(R.id.action_editTitleFragment_to_contentsSummeryFragment)
+            findNavController().popBackStack()
         }
         binding.tvComplete.setOnClickListener {
             MySharedPreference.setTitle(requireContext(), binding.etTitle.text.toString())
-            findNavController().navigate(R.id.action_editTitleFragment_to_contentsSummeryFragment)
+            findNavController().popBackStack()
         }
     }
 

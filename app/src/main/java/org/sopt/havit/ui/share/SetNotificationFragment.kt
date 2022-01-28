@@ -74,12 +74,12 @@ class SetNotificationFragment :
 
     private fun initToolbarListener() {
         binding.icBack.setOnClickListener {
-            findNavController().navigate(R.id.action_setNotificationFragment_to_contentsSummeryFragment)
+            findNavController().popBackStack()
         }
         binding.tvComplete.setOnClickListener {
 
             MySharedPreference.setNotificationTime(requireContext(), notificationTime)
-            findNavController().navigate(R.id.action_setNotificationFragment_to_contentsSummeryFragment)
+            findNavController().popBackStack()
         }
     }
 

@@ -63,6 +63,7 @@
             android:background="@drawable/rectangle_imageview_radius_6"
             android:contentDescription="@string/og_image"
             android:scaleType="centerCrop"
+            android:src="@drawable/img_contents_dummy_3"
             app:civ_border_color="@color/black"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/img_contents_dummy_3" />
@@ -70,10 +71,11 @@
         <TextView
             android:id="@+id/tv_og_title"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="26dp"
             android:layout_marginTop="27dp"
             android:ellipsize="end"
+            android:lines="2"
             android:textAppearance="@style/Header20Semibold"
             android:textColor="@color/gray_4"
             app:layout_constraintTop_toBottomOf="@id/iv_og_image"
