@@ -17,15 +17,11 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.data.ContentsSummeryData
 import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.ContentsScrapResponse
 import org.sopt.havit.data.remote.CreateContentsRequest
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
 import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.util.CallbackUtil.enqueueUtil
 import org.sopt.havit.util.MySharedPreference
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class ContentsSummeryFragment : Fragment() {
     private var _binding: FragmentContentsSummeryBinding? = null
@@ -59,8 +55,13 @@ class ContentsSummeryFragment : Fragment() {
     // Initialize url on Global var url
     private fun getUrl() {
         val intent = activity?.intent
-        if ((intent?.action == Intent.ACTION_SEND) && (intent.type == "text/plain"))
+        if ((intent?.action == Intent.ACTION_SEND) && (intent.type == "text/plain")) {
+            // 공유하기 버튼으로 진입시
             url = intent.getStringExtra(Intent.EXTRA_TEXT).toString()
+        } else {
+            // MainActivity FIB 로 진입시
+            url = intent?.getStringExtra("url").toString()
+        }
     }
 
     private fun setUrl(url: String) {

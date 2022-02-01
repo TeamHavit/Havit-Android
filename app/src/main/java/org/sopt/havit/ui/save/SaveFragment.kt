@@ -72,9 +72,9 @@ class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
             dismiss()
         }
         binding.btnSaveNext.setOnClickListener {
-            var intent = Intent(requireContext(), ShareActivity::class.java)
-            intent.putExtra("url", binding.etSaveUrl.text.toString())
-            intent.action = Intent.ACTION_SEND
+            val intent = Intent(requireContext(), ShareActivity::class.java).apply {
+                putExtra("url", binding.etSaveUrl.text.toString())
+            }
             startActivity(intent)
             dismiss()
         }
