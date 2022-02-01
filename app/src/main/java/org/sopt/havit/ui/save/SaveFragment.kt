@@ -74,7 +74,9 @@ class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
         binding.btnSaveNext.setOnClickListener {
             var intent = Intent(requireContext(), ShareActivity::class.java)
             intent.putExtra("url", binding.etSaveUrl.text.toString())
+            intent.action = Intent.ACTION_SEND
             startActivity(intent)
+            dismiss()
         }
         binding.etSaveUrl.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
