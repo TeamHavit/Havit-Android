@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.share.ContentsSummeryFragment">
 
+    <!-- Toolbar-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_tool_bar"
         android:layout_width="match_parent"
@@ -16,8 +17,9 @@
             android:id="@+id/ic_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="8dp"
             android:contentDescription="@string/back_button"
+            android:padding="4dp"
             android:src="@drawable/ic_back_black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,13 +42,13 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:contentDescription="@string/button_close"
+            android:padding="4dp"
             android:src="@drawable/ic_close_black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -99,17 +101,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="19dp"
-            android:background="@drawable/img_edit_title_btn"
+            android:background="@null"
             android:contentDescription="@string/edit_title"
+            android:padding="4dp"
+            android:scaleType="center"
+            android:src="@drawable/img_edit_title_btn"
             app:layout_constraintEnd_toEndOf="@id/iv_og_image"
+            app:layout_constraintHeight_max="wrap"
             app:layout_constraintStart_toStartOf="@id/iv_og_image"
-            app:layout_constraintTop_toBottomOf="@id/tv_url" />
-
+            app:layout_constraintTop_toBottomOf="@id/tv_url"
+            app:layout_constraintWidth_max="wrap" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="8dp"
             app:layout_constraintBottom_toTopOf="@id/btn_complete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
