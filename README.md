@@ -1,15 +1,24 @@
 # Havit-Android 🤳
 
-콘텐츠를 저장하는 가장 쉬운 방법, Want it? Save it, Have it!
 
-![image](https://user-images.githubusercontent.com/48551119/148033420-2eb6cda6-1de5-4cc6-9333-2a8363ca3d4a.png)
+  
+**기억하고 싶은 콘텐츠를 저장하는 가장 쉬운 방법, HAVIT을 소개합니다 :)**
+  
+
+https://user-images.githubusercontent.com/55099365/150919289-52d35f31-c658-433a-8ffa-d84c8e6e85d8.mp4
 
 
-## 역할 💡
-- **효림** : SaveActivity(Url 저장 프로세스) + Push Notification(FCM)
-- **유빈** : HomeFragment(메인 뷰) 작업 
-- **혜인** : CategoryFragment(카테고리 선택 및 수정), ContentsFragment(컨텐츠 리스트) 및 파생 다이얼로그
-- **나영** : WebviewFragment(인앱브라우저), 글 검색, FIB(Url 수동 추가) 소셜 로그인
+
+
+## 팀원 소개 및 역할 💡
+
+
+| [@kxxhyorim](https://github.com/kxxhyorim)                   | [@yubinquitous](https://github.com/yubinquitous)             | [@sdu07024](https://github.com/sdu07024)                     | [@ny2060](https://github.com/ny2060)                         |
+| :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| ![image](https://user-images.githubusercontent.com/59546818/152497193-bb9d38ac-7b2e-420a-97be-f1341d9f4d31.png) | ![image](https://user-images.githubusercontent.com/59546818/152497219-690171c5-5f05-42c9-baf2-628efe657f09.png) | ![image](https://user-images.githubusercontent.com/59546818/152497241-fb52e7bb-5150-40db-be90-587b6dd92c7b.png) | ![image](https://user-images.githubusercontent.com/59546818/152497211-ac7fc3a1-79c0-4075-a3ac-30739bdae42f.png) |
+| - **`URL 저장 프로세스`**<br />- **`푸시알림(Firebase Cloud Messaging)`** | - **`메인 뷰 (HomeFragment)`**<br />- **`알림설정 뷰`**      | - **`카테고리별 컨텐츠 뷰`**<br />- **`카테고리 수정 뷰`**<br /> | - **`컨텐츠 검색 뷰`**<br />- **`마이페이지 뷰`**<br />- **`Bottom Navigation + Floating Action Button`** |
+
+
 
 
 ## 기술 스택 💻
