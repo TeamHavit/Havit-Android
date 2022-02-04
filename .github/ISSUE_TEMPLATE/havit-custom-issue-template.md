@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **📝 DESCRIPTION**
-- Date : 2022.01.
+- Date : 2022.02.
 
 **☑ TODO**
 - [ ]
