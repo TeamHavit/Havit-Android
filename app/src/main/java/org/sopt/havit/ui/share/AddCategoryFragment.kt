@@ -21,9 +21,8 @@ class AddCategoryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAddCategoryBinding.inflate(layoutInflater, container, false)
-
         return binding.root
     }
 
@@ -47,6 +46,7 @@ class AddCategoryFragment : Fragment() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 setBtnColor()
+                setTextCount()
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -65,6 +65,10 @@ class AddCategoryFragment : Fragment() {
         }
     }
 
+    private fun setTextCount() {
+        binding.tvCategoryLengthCount.text = binding.etCategoryTitle.text.length.toString()
+    }
+
     private fun initClickListener() {
         binding.btnNext.setOnClickListener {
             findNavController().navigate(
@@ -75,7 +79,7 @@ class AddCategoryFragment : Fragment() {
         }
     }
 
-    private fun toolbarClickListener(){
+    private fun toolbarClickListener() {
         binding.icBack.setOnClickListener {
             findNavController().navigate(R.id.action_addCategoryFragment_to_selectCategoryFragment)
         }

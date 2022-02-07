@@ -115,4 +115,6 @@
     <string name="previous">Previous</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="category_length_limit">/12</string>
+    <string name="category_length_count_zero">0</string>
 </resources>
