@@ -314,6 +314,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:orientation="vertical"
+                    android:overScrollMode="never"
                     android:paddingHorizontal="10dp"
                     android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
