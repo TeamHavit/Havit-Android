@@ -34,6 +34,10 @@ class ContentsSimpleActivity :
         setToast()
     }
 
+    override fun onStart() {
+        super.onStart()
+        setContents()
+    }
     private fun setCustomToast() {
         val toast = Toast(this)
         val view = layoutInflater.inflate(R.layout.toast_havit_complete, null)
@@ -72,7 +76,6 @@ class ContentsSimpleActivity :
         intent?.let {
             it.getStringExtra("before")?.let { before ->
                 contentsType = before
-                setContents()
             }
         }
     }
@@ -121,8 +124,7 @@ class ContentsSimpleActivity :
                         val min = if (data.size < 20) data.size else 20
                         val list = data.subList(0, min)
                         clickItemView()
-                        contentsAdapter.contentsList.addAll(list)
-                        contentsAdapter.notifyDataSetChanged()
+                        contentsAdapter.updateList(list)
                     }
                 }
             }
