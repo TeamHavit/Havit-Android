@@ -2,34 +2,16 @@ package org.sopt.havit.ui.category
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat.FontCallback.getHandler
-import androidx.fragment.app.viewModels
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentCategoryBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsActivity
-import androidx.recyclerview.widget.SimpleItemAnimator
-
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ItemAnimator
-import org.sopt.havit.ui.home.HomeViewModel
-import androidx.recyclerview.widget.LinearLayoutManager
-
-
-
-
 
 class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.fragment_category) {
-    private lateinit var getResult: ActivityResultLauncher<Intent>
-
     private var _categoryAdapter: CategoryAdapter? = null
     private val categoryAdapter get() = _categoryAdapter ?: error("adapter error")
 
@@ -45,7 +27,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
 
         initAdapter()
         //setData()
-        //dataObserve()
+        dataObserve()
         moveManage()
         clickBack()
         clickItemView()
@@ -57,7 +39,6 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     override fun onResume() {
         super.onResume()
         setData()
-        dataObserve()
     }
 
     override fun onDestroyView() {
@@ -68,10 +49,6 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     private fun initAdapter() {
         _categoryAdapter = CategoryAdapter()
         binding.rvContents.adapter = categoryAdapter
-        val animator: ItemAnimator? = binding.rvContents.itemAnimator
-        if (animator is SimpleItemAnimator) {
-            animator.supportsChangeAnimations = false
-        }
     }
 
     private fun setData() {
@@ -83,21 +60,18 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
             categoryList.observe(viewLifecycleOwner) {
                 with(binding) {
                     if (it.isEmpty()) {
-                        Log.d("count ", "${categoryAdapter.categoryList.size}")
                         Log.d("visibility", " success")
                         rvContents.visibility = View.GONE
                         clEmpty.visibility = View.VISIBLE
                     } else {
                         rvContents.visibility = View.VISIBLE
                         clEmpty.visibility = View.GONE
-                        Log.d("count ", "${categoryAdapter.categoryList.size}")
                         Log.d("visibility", " fail")
                     }
                 }
                 // 리싸이클러뷰 업데이트하는 코드
-                categoryAdapter.updateList(it.toList())
+                categoryAdapter.submitList(it.toList())
 
-                Log.d("TestTest", "${categoryViewModel.categoryList.value?.get(0)?.id}")
             }
             categoryCount.observe(viewLifecycleOwner) {
                 binding.tvCount.text = it.toString()
