@@ -4,21 +4,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
-import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.data.remote.ContentsResponse
 import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ItemContentsGridBinding
 import org.sopt.havit.databinding.ItemContentsLinearMaxBinding
 import org.sopt.havit.databinding.ItemContentsLinearMinBinding
+import org.sopt.havit.util.ContentsDiffCallback
 
 class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: FragmentManager) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var contentsList = mutableListOf<ContentsResponse.ContentsData>()
+    ListAdapter<ContentsResponse.ContentsData, RecyclerView.ViewHolder>(ContentsDiffCallback) {
     private var mFragmentManager: FragmentManager = fragmentManager
     private lateinit var itemClickListener: OnItemClickListener
     private var viewModel = contentsViewModel
@@ -70,10 +68,10 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
 
         fun onClick(data: ContentsResponse.ContentsData, pos: Int) {
             binding.ivHavit.setOnClickListener {
-                if(!contentsList[pos].isSeen) {
+                if(!currentList[pos].isSeen) {
                     havitClickListener.onHavitClick()
                 }
-                contentsList[pos].isSeen = !contentsList[pos].isSeen
+                currentList[pos].isSeen = !currentList[pos].isSeen
                 viewModel.setIsSeen(data.id)
                 if (binding.ivHavit.tag == "unseen") {
                     Log.d("HavitButtonTest", "1. click - unseen 1 : ${binding.ivHavit.tag}")
@@ -126,10 +124,10 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
 
         fun onClick(data: ContentsResponse.ContentsData, pos: Int) {
             binding.ivHavit.setOnClickListener {
-                if(!contentsList[pos].isSeen) {
+                if(!currentList[pos].isSeen) {
                     havitClickListener.onHavitClick()
                 }
-                contentsList[pos].isSeen = !contentsList[pos].isSeen
+                currentList[pos].isSeen = !currentList[pos].isSeen
                 viewModel.setIsSeen(data.id)
                 if (binding.ivHavit.tag == "unseen") {
                     Log.d("HavitButtonTest", "2. click - unseen 1 : ${binding.ivHavit.tag}")
@@ -182,10 +180,10 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
 
         fun onClick(data: ContentsResponse.ContentsData, pos: Int) {
             binding.ivHavit.setOnClickListener {
-                if(!contentsList[pos].isSeen) {
+                if(!currentList[pos].isSeen) {
                     havitClickListener.onHavitClick()
                 }
-                contentsList[pos].isSeen = !contentsList[pos].isSeen
+                currentList[pos].isSeen = !currentList[pos].isSeen
                 viewModel.setIsSeen(data.id)
                 if (binding.ivHavit.tag == "unseen") {
                     Log.d("HavitButtonTest", "3. click - unseen 1 : ${binding.ivHavit.tag}")
@@ -245,16 +243,16 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (ContentsActivity.layout) {
             ContentsActivity.LINEAR_MIN_LAYOUT -> {
-                (holder as LinearMinViewHolder).onBind(contentsList[position])
-                holder.onClick(contentsList[position], position)
+                (holder as LinearMinViewHolder).onBind(getItem(position))
+                holder.onClick(currentList[position], position)
             }
             ContentsActivity.GRID_LAYOUT -> {
-                (holder as GridViewHolder).onBind(contentsList[position])
-                holder.onClick(contentsList[position], position)
+                (holder as GridViewHolder).onBind(getItem(position))
+                holder.onClick(currentList[position], position)
             }
             ContentsActivity.LINEAR_MAX_LAYOUT -> {
-                (holder as LinearMaxViewHolder).onBind(contentsList[position])
-                holder.onClick(contentsList[position], position)
+                (holder as LinearMaxViewHolder).onBind(getItem(position))
+                holder.onClick(currentList[position], position)
             }
         }
         // (1) 리스트 내 항목 클릭 시 onClick() 호출
@@ -273,42 +271,7 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
         this.itemClickListener = onItemClickListener
     }
 
-
-    override fun getItemCount(): Int = contentsList.size
-
     override fun getItemViewType(position: Int): Int {
         return ContentsActivity.layout
-    }
-
-    fun updateList(items: List<ContentsResponse.ContentsData>?) {
-        items?.let {
-            val diffCallback = DiffUtilCallback(this.contentsList, items)
-            val diffResult = DiffUtil.calculateDiff(diffCallback)
-
-            this.contentsList.run {
-                clear()
-                addAll(items)
-                diffResult.dispatchUpdatesTo(this@ContentsAdapter)
-            }
-        }
-    }
-
-    inner class DiffUtilCallback(
-        private val oldData: List<ContentsResponse.ContentsData>,
-        private val newData: List<ContentsResponse.ContentsData>
-    ) : DiffUtil.Callback() {
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val oldItem = oldData[oldItemPosition]
-            val newItem = newData[newItemPosition]
-
-            return oldItem.id == newItem.id
-        }
-
-        override fun getOldListSize(): Int = oldData.size
-
-        override fun getNewListSize(): Int = newData.size
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-            oldData[oldItemPosition] == newData[newItemPosition]
     }
 }

@@ -7,16 +7,13 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
-import org.sopt.havit.ui.category.CategoryAdapter
 import org.sopt.havit.ui.category.CategoryOrderModifyActivity
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
@@ -94,18 +91,17 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             contentsList.observe(this@ContentsActivity) {
                 with(binding) {
                     if (it.isEmpty()) {
-                        Log.d("count ", "${contentsAdapter.contentsList.size}")
                         Log.d("visibility", " success")
                         rvContents.visibility = View.GONE
                         clEmpty.visibility = View.VISIBLE
                     } else {
                         rvContents.visibility = View.VISIBLE
                         clEmpty.visibility = View.GONE
-                        Log.d("count ", "${contentsAdapter.contentsList.size}")
                         Log.d("visibility", " fail")
                     }
                 }
-                contentsAdapter.updateList(it.toList())
+                // 콘텐츠 데이터 업데이트
+                contentsAdapter.submitList(it.toList())
             }
         }
     }
