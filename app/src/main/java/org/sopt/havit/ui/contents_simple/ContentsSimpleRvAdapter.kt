@@ -39,16 +39,34 @@ class ContentsSimpleRvAdapter(
     inner class ContentsSimpleViewHolder(private val binding: ItemContentsSimpleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsSimpleResponse.ContentsSimpleData) {
-            if (data.notificationTime.isNotEmpty()) {
-                data.notificationTime = setTime(data.notificationTime)
-            }
-            data.createdAt = data.createdAt.substring(0 until 10)
-                .replace("-", ". ")
-            setIvHavit(data.isSeen)
+            changeTimeFormat(data)      // 시간 형식 변경
+            setIvHavit(data.isSeen)     // 해빗 버튼 초기 설정
             binding.content = data
         }
 
-        fun setIvHavit(isSeen: Boolean) {
+        private fun changeTimeFormat(data: ContentsSimpleResponse.ContentsSimpleData) {
+            // 알림 예정 시각 형식 변경
+            if (data.notificationTime.isNotEmpty() && data.notificationTime.length == 16) {
+                val time = data.notificationTime
+                val date = time.substring(0 until 10)
+                    .replace("-", ". ")
+                val hour = time.substring(11 until 13)
+                val minute = time.substring(14 until 16)
+                if (hour < "12") {
+                    data.notificationTime = "$date 오전 ${hour}:${minute} "
+                } else {
+                    data.notificationTime = "$date 오후 ${hour}:${minute} "
+                }
+            }
+
+            // 글 생성 시각 형식 변경
+            if (data.createdAt.length == 16) {
+                data.createdAt = data.createdAt.substring(0 until 10)
+                    .replace("-", ". ")
+            }
+        }
+
+        private fun setIvHavit(isSeen: Boolean) {
             if (isSeen) {
                 binding.ivHavit.tag = "seen"
                 binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
@@ -81,18 +99,6 @@ class ContentsSimpleRvAdapter(
                     data.url
                 )
                 ContentsMoreFragment(dataMore).show(mFragmentManager, "setting")
-            }
-        }
-
-        private fun setTime(time: String): String {
-            val date = time.substring(0 until 10)
-                .replace("-", ". ")
-            val hour = time.substring(11 until 13)
-            val minute = time.substring(14 until 16)
-            return if (hour < "12") {
-                "$date 오전 ${hour}:${minute} "
-            } else {
-                "$date 오후 ${hour}:${minute} "
             }
         }
     }
