@@ -1,3 +1,7 @@
 package org.sopt.havit.data.repository
 
-class MyPageRepository
+import org.sopt.havit.data.remote.UserResponse
+
+interface MyPageRepository{
+    suspend fun getUserInfo(): UserResponse.UserData
+}
