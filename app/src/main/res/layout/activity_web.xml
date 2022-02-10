@@ -127,7 +127,7 @@
                     android:layout_gravity="center"
                     android:text="@{vm.isHavit == true ? @string/webview_read: @string/webview_unread}"
                     android:textAppearance="@style/Sub13Regular"
-                    android:textColor="@color/gray_2"
+                    android:textColor="@{vm.isHavit == true ? @color/havit_gray : @color/gray_2}"
                      />
 
 
