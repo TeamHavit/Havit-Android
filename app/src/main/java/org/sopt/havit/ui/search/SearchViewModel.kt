@@ -34,6 +34,7 @@ class SearchViewModel(
         searchImg.value = false
         searchTv.value = false
         searchIng.value = false
+        isSearchFirst.value=false
     }
 
     fun setSearchNoImage(search: Boolean) {

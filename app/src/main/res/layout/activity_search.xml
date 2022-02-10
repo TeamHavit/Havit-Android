@@ -110,6 +110,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
                 android:text="@string/search_no_result"
+                android:textAppearance="@style/Text14Medium"
+                android:textColor="@color/gray_2"
                 android:visibility="@{vm.searchTv == true ? View.INVISIBLE :View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
