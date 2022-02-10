@@ -11,6 +11,7 @@ import org.sopt.havit.data.repository.ContentsRepository
 import org.sopt.havit.data.repository.MyPageRepository
 import org.sopt.havit.data.repository.SearchRepository
 import org.sopt.havit.domain.repository.ContentsRepositoryImpl
+import org.sopt.havit.domain.repository.MyPageRepositoryImpl
 import org.sopt.havit.domain.repository.SearchRepositoryImpl
 import org.sopt.havit.ui.mypage.MyPageViewModel
 import org.sopt.havit.ui.search.SearchViewModel
@@ -45,7 +46,7 @@ class MainApplication :Application() {
     }
 
     private val myModule = module{
-        single { MyPageRepository() }
+        single<MyPageRepository> { MyPageRepositoryImpl(get()) }
         single<SearchRepository> { SearchRepositoryImpl(get()) }
         single<ContentsRepository>{ ContentsRepositoryImpl(get()) }
     }
