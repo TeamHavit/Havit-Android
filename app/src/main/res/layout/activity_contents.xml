@@ -220,9 +220,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="13dp"
                         android:layout_marginBottom="8dp"
+                        app:checkedChip="@id/ch_all"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/tv_entire"
                         app:layout_constraintTop_toBottomOf="@+id/tv_entire"
+                        app:selectionRequired="true"
                         app:singleSelection="true">
 
                         <com.google.android.material.chip.Chip
