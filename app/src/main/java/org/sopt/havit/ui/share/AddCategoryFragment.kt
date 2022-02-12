@@ -17,7 +17,6 @@ import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.databinding.FragmentAddCategoryBinding
 import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.MySharedPreference
-import java.lang.Exception
 
 class AddCategoryFragment : Fragment() {
 
@@ -46,17 +45,19 @@ class AddCategoryFragment : Fragment() {
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
-    private fun initNetwork(){
+    private fun initNetwork() {
         lifecycleScope.launch {
             try {
-                val response = RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext())).getAllCategory()
+                val response =
+                    RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
+                        .getAllCategory()
                 val categoryData = response.data
 
-                for (element in categoryData){
+                for (element in categoryData) {
                     categoryTitleList += element.title
                 }
-            } catch (e : Exception){
-                Log.e("AddCategoryFragment", "Server Error/ $e")
+            } catch (e: Exception) {
+                Log.e(TAG, "Server Error/ $e")
             }
         }
     }
@@ -64,18 +65,32 @@ class AddCategoryFragment : Fragment() {
     private fun setTextWatcher() {
         binding.etCategoryTitle.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                setBtnColor()
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 setBtnColor()
                 setTextCount()
+                checkDuplicateCategory(p0.toString())
             }
 
             override fun afterTextChanged(p0: Editable?) {
-
             }
         })
+    }
+
+    private fun checkDuplicateCategory(title: String?) {
+        var isDuplicated = false
+        for (element in categoryTitleList) {
+            if (element == title) {
+                isDuplicated = true
+                if (isDuplicated) break
+            }
+        }
+        if (isDuplicated) {
+            binding.clDuplicateCategory.visibility = View.VISIBLE
+        } else {
+            binding.clDuplicateCategory.visibility = View.INVISIBLE
+        }
     }
 
     private fun setBtnColor() {
@@ -116,4 +131,8 @@ class AddCategoryFragment : Fragment() {
 
     private fun setKeyBoardUp() =
         KeyBoardUtil.openKeyBoard(requireContext(), binding.etCategoryTitle)
+
+    companion object {
+        const val TAG = "AddCategoryFragment"
+    }
 }
