@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.databinding.ItemHomeRecentContentsListBinding
-import org.sopt.havit.ui.contents.ContentsAdapter
 
 class HomeRecentContentsRvAdapter :
     RecyclerView.Adapter<HomeRecentContentsRvAdapter.HomeContentsViewHolder>() {
@@ -17,10 +16,16 @@ class HomeRecentContentsRvAdapter :
     inner class HomeContentsViewHolder(private val binding: ItemHomeRecentContentsListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsSimpleResponse.ContentsSimpleData) {
-            data.createdAt = data.createdAt.substring(0 until 10)
-                .replace("-", ". ")
+            if (data.createdAt.length == 16) {
+                changeTimeFormat(data)  // 시간 형식 변경
+            }
             data.description = data.description.replace(" ", "\u00a0") // tvHeader 단어 자동줄바꿈 막는 코드
             binding.dataHomeContents = data
+        }
+
+        private fun changeTimeFormat(data: ContentsSimpleResponse.ContentsSimpleData) {
+            data.createdAt = data.createdAt.substring(0 until 10)
+                .replace("-", ". ")
         }
     }
 
