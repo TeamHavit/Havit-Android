@@ -1,11 +1,11 @@
 package org.sopt.havit.ui.share
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -40,8 +40,23 @@ class AddCategoryFragment : Fragment() {
         setKeyBoardUp()
         toolbarClickListener()
 
+        // 키보드 띄우기 위해 뷰 높이 줄임
+        binding.addCategoryFragment.layoutParams.height =
+            (resources.displayMetrics.heightPixels * 0.55).toInt()
+
+        // 키보드 높이 구하기
+        val rootView = requireActivity().window.decorView
+        rootView.viewTreeObserver.addOnGlobalLayoutListener {
+
+            val screenHeight = rootView.height
+            val rectangle = Rect()
+            rootView.getWindowVisibleDisplayFrame(rectangle)
+
+            Log.d("Keyboard_manual", "$screenHeight / ${rectangle.bottom}")
+        }
+
         // 키보드에 맞게 뷰 조절 (다음 버튼 키보드 위 배치)
-        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        // requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     private fun initNetwork() {
