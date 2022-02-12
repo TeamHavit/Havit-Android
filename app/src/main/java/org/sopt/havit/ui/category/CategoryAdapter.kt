@@ -8,6 +8,15 @@ import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemCategoryBinding
 
 class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+    // id 기준 이전의 것과 같다면 onBindViewHolder 호출 제외 -> 깜빡임 사라짐
+    init {
+        setHasStableIds(true)
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong() // or data id
+    }
+
     val categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
     private lateinit var itemClickListener: OnItemClickListener
 
