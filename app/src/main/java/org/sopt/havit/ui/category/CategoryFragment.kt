@@ -70,8 +70,8 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                     }
                 }
                 // 리싸이클러뷰 업데이트하는 코드
-                categoryAdapter.submitList(it.toList())
-
+                categoryAdapter.categoryList.clear()
+                categoryAdapter.notifyDataSetChanged()
             }
             categoryCount.observe(viewLifecycleOwner) {
                 binding.tvCount.text = it.toString()
