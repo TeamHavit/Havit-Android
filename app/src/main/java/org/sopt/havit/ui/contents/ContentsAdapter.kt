@@ -20,6 +20,7 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
     private var mFragmentManager: FragmentManager = fragmentManager
     private lateinit var itemClickListener: OnItemClickListener
     private var viewModel = contentsViewModel
+
     // setItemClickListener로 설정한 함수 실행
     private lateinit var havitClickListener: OnHavitClickListener
 
@@ -33,27 +34,32 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
         this.havitClickListener = onItemClickListener
     }
 
-    private fun setTime(time: String): String {
-        val date = time.substring(0 until 10)
-            .replace("-", ". ")
-        val hour = time.substring(11 until 13)
-        val minute = time.substring(14 until 16)
-        return if (hour < "12") {
-            "$date 오전 ${hour}:${minute} "
-        } else {
-            "$date 오후 ${hour}:${minute} "
+    private fun changeTimeFormat(data: ContentsResponse.ContentsData) {
+        // 알림 예정 시각 형식 변경
+        if (data.notificationTime.isNotEmpty() && data.notificationTime.length == 16) {
+            val time = data.notificationTime
+            val date = time.substring(0 until 10)
+                .replace("-", ". ")
+            val hour = time.substring(11 until 13)
+            val minute = time.substring(14 until 16)
+            if (hour < "12") {
+                data.notificationTime = "$date 오전 ${hour}:${minute} "
+            } else {
+                data.notificationTime = "$date 오후 ${hour}:${minute} "
+            }
+        }
+
+        // 글 생성 시각 형식 변경
+        if (data.createdAt.length == 16) {
+            data.createdAt = data.createdAt.substring(0 until 10)
+                .replace("-", ". ")
         }
     }
 
     inner class LinearMinViewHolder(private val binding: ItemContentsLinearMinBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
-            if (data.notificationTime.isNotEmpty()) {
-                data.notificationTime = setTime(data.notificationTime)
-            }
-            data.createdAt = data.createdAt.substring(0 until 10)
-                .replace("-", ". ")
-
+            changeTimeFormat(data)      // 시간 형식 변경
             binding.content = data
             if (data.isSeen) {
                 Log.d("HavitButtonTest", "1. binding - seen ${data.title}")
@@ -68,7 +74,7 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
 
         fun onClick(data: ContentsResponse.ContentsData, pos: Int) {
             binding.ivHavit.setOnClickListener {
-                if(!currentList[pos].isSeen) {
+                if (!currentList[pos].isSeen) {
                     havitClickListener.onHavitClick()
                 }
                 currentList[pos].isSeen = !currentList[pos].isSeen
@@ -105,11 +111,7 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
     inner class GridViewHolder(private val binding: ItemContentsGridBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
-            if (data.notificationTime.isNotEmpty()) {
-                data.notificationTime = setTime(data.notificationTime)
-            }
-            data.createdAt = data.createdAt.substring(0 until 10)
-                .replace("-", ". ")
+            changeTimeFormat(data)      // 시간 형식 변경
             binding.content = data
             if (data.isSeen) {
                 Log.d("HavitButtonTest", "2. binding - seen ${data.title}")
@@ -124,7 +126,7 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
 
         fun onClick(data: ContentsResponse.ContentsData, pos: Int) {
             binding.ivHavit.setOnClickListener {
-                if(!currentList[pos].isSeen) {
+                if (!currentList[pos].isSeen) {
                     havitClickListener.onHavitClick()
                 }
                 currentList[pos].isSeen = !currentList[pos].isSeen
@@ -161,11 +163,7 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
     inner class LinearMaxViewHolder(private val binding: ItemContentsLinearMaxBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
-            if (data.notificationTime.isNotEmpty()) {
-                data.notificationTime = setTime(data.notificationTime)
-            }
-            data.createdAt = data.createdAt.substring(0 until 10)
-                .replace("-", ". ")
+            changeTimeFormat(data)      // 시간 형식 변경
             binding.content = data
             if (data.isSeen) {
                 Log.d("HavitButtonTest", "3. binding - seen ${data.title}")
@@ -180,7 +178,7 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
 
         fun onClick(data: ContentsResponse.ContentsData, pos: Int) {
             binding.ivHavit.setOnClickListener {
-                if(!currentList[pos].isSeen) {
+                if (!currentList[pos].isSeen) {
                     havitClickListener.onHavitClick()
                 }
                 currentList[pos].isSeen = !currentList[pos].isSeen
