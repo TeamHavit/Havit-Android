@@ -3,13 +3,21 @@ package org.sopt.havit.ui.category
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemCategoryBinding
-import org.sopt.havit.util.MyDiffCallback
 
-class CategoryAdapter : ListAdapter<CategoryResponse.AllCategoryData, CategoryAdapter.CategoryViewHolder>(MyDiffCallback) {
+class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+    // id 기준 이전의 것과 같다면 onBindViewHolder 호출 제외 -> 깜빡임 사라짐
+    init {
+        setHasStableIds(true)
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong() // or data id
+    }
+
+    val categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
     private lateinit var itemClickListener: OnItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
@@ -21,13 +29,15 @@ class CategoryAdapter : ListAdapter<CategoryResponse.AllCategoryData, CategoryAd
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.onBind(getItem(position))
+        holder.onBind(categoryList[position])
 
         // (1) 리스트 내 항목 클릭 시 onClick() 호출
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
         }
     }
+
+    override fun getItemCount(): Int = categoryList.size
 
     // (2) 리스너 인터페이스
     interface OnItemClickListener {
@@ -39,7 +49,7 @@ class CategoryAdapter : ListAdapter<CategoryResponse.AllCategoryData, CategoryAd
         this.itemClickListener = onItemClickListener
     }
 
-    inner class CategoryViewHolder(private val binding: ItemCategoryBinding) :
+    class CategoryViewHolder(private val binding: ItemCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: CategoryResponse.AllCategoryData) {
             binding.category = data
