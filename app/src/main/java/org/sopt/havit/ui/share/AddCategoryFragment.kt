@@ -1,13 +1,12 @@
 package org.sopt.havit.ui.share
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,7 +16,6 @@ import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.databinding.FragmentAddCategoryBinding
 import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.MySharedPreference
-import java.lang.Exception
 
 class AddCategoryFragment : Fragment() {
 
@@ -46,40 +44,48 @@ class AddCategoryFragment : Fragment() {
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
-    private fun initNetwork(){
+    private fun initNetwork() {
         lifecycleScope.launch {
             try {
-                val response = RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext())).getAllCategory()
+                val response =
+                    RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
+                        .getAllCategory()
                 val categoryData = response.data
 
-                for (element in categoryData){
+                for (element in categoryData) {
                     categoryTitleList += element.title
                 }
-            } catch (e : Exception){
-                Log.e("AddCategoryFragment", "Server Error/ $e")
+            } catch (e: Exception) {
+                Log.e(TAG, "Server Error/ $e")
             }
         }
     }
 
     private fun setTextWatcher() {
-        binding.etCategoryTitle.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                setBtnColor()
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                setBtnColor()
-                setTextCount()
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
+        binding.etCategoryTitle.addTextChangedListener {
+            setTextCount()
+            if (isTitleNull()) setBtnColor(false)
+            else checkDuplicateCategory(binding.etCategoryTitle.text.toString())
+        }
     }
 
-    private fun setBtnColor() {
-        if (isTitleNull()) {
+    private fun checkDuplicateCategory(title: String?) {
+        // 중복 된 카테고리가 있는지 검사
+        var isDuplicated = false
+        for (element in categoryTitleList) {
+            if (element == title) {
+                isDuplicated = true
+                if (isDuplicated) break
+            }
+        }
+        // 중복 카테고리 여부에 따른 UI 설정(중복 warning & 다음 버튼 색)
+        if (isDuplicated) binding.clDuplicateCategory.visibility = View.VISIBLE
+        else binding.clDuplicateCategory.visibility = View.INVISIBLE
+        setBtnColor(!isDuplicated)
+    }
+
+    private fun setBtnColor(isEnabled: Boolean) {
+        if (!isEnabled) {
             binding.btnNext.setBackgroundColor(resources.getColor(R.color.gray_2))
             binding.btnNext.isEnabled = false
         } else {
@@ -116,4 +122,8 @@ class AddCategoryFragment : Fragment() {
 
     private fun setKeyBoardUp() =
         KeyBoardUtil.openKeyBoard(requireContext(), binding.etCategoryTitle)
+
+    companion object {
+        const val TAG = "AddCategoryFragment"
+    }
 }
