@@ -3,20 +3,27 @@ package org.sopt.havit.ui.share
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.launch
 import org.sopt.havit.R
+import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.databinding.FragmentAddCategoryBinding
 import org.sopt.havit.util.KeyBoardUtil
+import org.sopt.havit.util.MySharedPreference
+import java.lang.Exception
 
 class AddCategoryFragment : Fragment() {
 
     private var _binding: FragmentAddCategoryBinding? = null
     private val binding get() = _binding!!
+    private val categoryTitleList = mutableListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +36,7 @@ class AddCategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initNetwork()
         initClickListener()
         setTextWatcher()
         setKeyBoardUp()
@@ -36,6 +44,21 @@ class AddCategoryFragment : Fragment() {
 
         // 키보드에 맞게 뷰 조절 (다음 버튼 키보드 위 배치)
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
+    private fun initNetwork(){
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext())).getAllCategory()
+                val categoryData = response.data
+
+                for (element in categoryData){
+                    categoryTitleList += element.title
+                }
+            } catch (e : Exception){
+                Log.e("AddCategoryFragment", "Server Error/ $e")
+            }
+        }
     }
 
     private fun setTextWatcher() {
