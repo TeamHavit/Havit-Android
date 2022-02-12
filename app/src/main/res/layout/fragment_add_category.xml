@@ -120,6 +120,36 @@
             app:layout_constraintTop_toTopOf="@id/tv_category_length_limit"
             tools:text="0" />
 
+        <!-- 중복 카테고리 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_duplicate_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@id/et_category_title"
+            app:layout_constraintTop_toBottomOf="@id/et_category_title">
+
+            <ImageView
+                android:id="@+id/iv_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_red_notice"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/duplicate_category"
+                android:textAppearance="@style/Sub12Regular"
+                android:textColor="@color/havit_red"
+                app:layout_constraintBottom_toBottomOf="@id/iv_notice"
+                app:layout_constraintStart_toEndOf="@id/iv_notice"
+                app:layout_constraintTop_toTopOf="@id/iv_notice" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <Button
             android:id="@+id/btn_next"

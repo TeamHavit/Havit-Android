@@ -117,4 +117,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="category_length_limit">/12</string>
     <string name="category_length_count_zero">0</string>
+    <string name="duplicate_category">중복된 카테고리 이름이 존재합니다</string>
 </resources>
