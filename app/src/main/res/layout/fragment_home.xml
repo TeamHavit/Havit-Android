@@ -441,6 +441,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="9dp"
                                     android:text="@string/home_contents_empty"
+                                    android:textAppearance="@style/Sub13Regular"
+                                    android:textColor="@color/gray_3"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toEndOf="@id/iv_chip_category"
