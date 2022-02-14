@@ -27,18 +27,20 @@
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
         android:backgroundTint="@color/havit_gray"
-        app:fabAlignmentMode="end" />
+        app:fabAlignmentMode="end" >
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@android:color/transparent"
-        app:itemBackground="@android:color/transparent"
-        app:itemIconTint="@color/bottom_item_color"
-        app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/nav_main_bottom" />
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@android:color/transparent"
+            app:itemBackground="@android:color/transparent"
+            app:itemIconTint="@color/bottom_item_color"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/nav_main_bottom" />
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_save"
