@@ -11,7 +11,6 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="?attr/actionBarSize"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_main" />
 
@@ -33,7 +32,6 @@
             app:itemIconTint="@color/bottom_item_color"
             app:labelVisibilityMode="unlabeled"
             app:menu="@menu/nav_main_bottom" />
-
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
