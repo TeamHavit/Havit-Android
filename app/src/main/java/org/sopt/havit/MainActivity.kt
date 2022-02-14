@@ -1,7 +1,6 @@
 package org.sopt.havit
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -22,31 +21,32 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        navView = binding.navView
 
-        navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
-        navController = navHostFragment.navController
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-
-        navView.setupWithNavController(navController)
-        binding.navView.background = null
-        navView.menu.getItem(3).isEnabled = false
-        binding.save.bringToFront()
-
+        setBottomNavi()
+        setListeners()
         setToken()
-
-        val fab: View = findViewById(R.id.save)
-        fab.setOnClickListener { view ->
-            SaveFragment("응가").show(supportFragmentManager, "save")
-            //startActivity(Intent(this,SaveActivity::class.java))
-        }
 
     }
 
+    private fun setBottomNavi() {
+        navView = binding.navView
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        navController = navHostFragment.navController
+        navView.setupWithNavController(navController)
+        binding.navView.background = null
+    }
+
+    private fun setListeners() {
+        binding.floatingSave.bringToFront()
+        binding.floatingSave.setOnClickListener {
+            SaveFragment("").show(supportFragmentManager, "save")
+            //startActivity(Intent(this,SaveActivity::class.java))
+        }
+    }
+
     private fun setToken() {
-        if (MySharedPreference.getXAuthToken(this) == ""){
+        if (MySharedPreference.getXAuthToken(this) == "") {
             MySharedPreference.setXAuthToken(this)
         }
     }
