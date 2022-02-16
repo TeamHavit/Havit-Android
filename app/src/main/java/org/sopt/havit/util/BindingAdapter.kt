@@ -36,7 +36,6 @@ object BindingAdapter {
     fun ImageView.loadIcon(url: Int?) {
         Glide.with(context)
             .load(url)
-            .circleCrop()
             .into(this)
     }
 
