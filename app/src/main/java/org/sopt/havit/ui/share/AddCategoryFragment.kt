@@ -42,7 +42,7 @@ class AddCategoryFragment : Fragment() {
 
         // 키보드 띄우기 위해 뷰 높이 줄임
         binding.addCategoryFragment.layoutParams.height =
-            (resources.displayMetrics.heightPixels * 0.55).toInt()
+            (resources.displayMetrics.heightPixels * 0.565).toInt()
 
         // 키보드 높이 구하기
         val rootView = requireActivity().window.decorView
