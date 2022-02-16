@@ -118,4 +118,5 @@
     <string name="category_length_limit">/12</string>
     <string name="category_length_count_zero">0</string>
     <string name="duplicate_category">중복된 카테고리 이름이 존재합니다</string>
+    <string name="max_category">카테고리 최대 개수를 초과했습니다.</string>
 </resources>
