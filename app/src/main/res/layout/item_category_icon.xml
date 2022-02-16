@@ -17,7 +17,7 @@
         android:layout_marginBottom="6dp"
         android:background="@drawable/oval_gray">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/iv_icon"
             localIcon="@{categoryIcon}"
             android:layout_width="44dp"
