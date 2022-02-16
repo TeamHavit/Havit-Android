@@ -104,9 +104,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_icon"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="17dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
@@ -114,9 +113,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_ic"
             app:spanCount="5"
             tools:itemCount="15"
-            tools:listitem="@layout/item_category_icon">
-        </androidx.recyclerview.widget.RecyclerView>
-
+            tools:listitem="@layout/item_category_icon"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_remove"
