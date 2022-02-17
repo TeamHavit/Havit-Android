@@ -12,7 +12,9 @@ import android.util.Log
 import android.view.*
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.inputmethod.InputMethodManager
+import android.webkit.URLUtil
 import android.widget.PopupWindow
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -22,6 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.ShareActivity
 import org.sopt.havit.databinding.FragmentSaveBinding
+import java.net.URL
 
 
 class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
@@ -54,6 +57,15 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         return binding.root
     }
 
+    fun isFullPath(potentialUrl: String): Boolean {
+        try {
+            URL(potentialUrl).toURI()
+            return true
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return false
+    }
 
     fun onKeyboardShown(keyboardSize: Int) {
         if (!isFirstKeyBoard) {
@@ -84,6 +96,13 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         setListeners()
     }
 
+    private fun setCustomToast() {
+        val toast = Toast(requireContext())
+        val view = layoutInflater.inflate(R.layout.toast_url_unavailable, null)
+        toast.view = view
+        toast.show()
+    }
+
     private fun openKeyBoard() {
         binding.etSaveUrl.requestFocus()
         val inputMethodManager =
@@ -104,11 +123,16 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
             dismiss()
         }
         binding.btnSaveNext.setOnClickListener {
-            val intent = Intent(requireContext(), ShareActivity::class.java).apply {
-                putExtra("url", binding.etSaveUrl.text.toString())
+            if(isFullPath(binding.etSaveUrl.text.toString())){
+                val intent = Intent(requireContext(), ShareActivity::class.java).apply {
+                    putExtra("url", binding.etSaveUrl.text.toString())
+                }
+                startActivity(intent)
+                dismiss()
+            }else{
+                setCustomToast()
             }
-            startActivity(intent)
-            dismiss()
+
         }
         binding.etSaveUrl.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
