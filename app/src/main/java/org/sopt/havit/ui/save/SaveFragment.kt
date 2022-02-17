@@ -1,15 +1,18 @@
 package org.sopt.havit.ui.save
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.util.Log
+import android.view.*
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.inputmethod.InputMethodManager
+import android.widget.PopupWindow
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -21,11 +24,17 @@ import org.sopt.havit.ShareActivity
 import org.sopt.havit.databinding.FragmentSaveBinding
 
 
-class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
+class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentSaveBinding
     private val saveViewModel: SaveViewModel by viewModels()
-    var categoryName=categoryName
+    private var categoryName = categoryName
+    private var isFirstKeyBoard = false
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        hideKeyBoard()
+    }
 
 
     override fun onCreateView(
@@ -35,20 +44,43 @@ class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_save, container, false)
         binding.vm = saveViewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        HeightProvider(requireActivity()).init()
+            .setHeightListener(object : HeightProvider.HeightListener {
+                override fun onHeightChanged(height: Int) {
+                    onKeyboardShown(height)
+                }
+            })
         return binding.root
+    }
+
+
+    fun onKeyboardShown(keyboardSize: Int) {
+        if (!isFirstKeyBoard) {
+            openKeyBoard()
+            isFirstKeyBoard = true
+        }
+        Log.d("KEYBOARD", keyboardSize.toString())
+
+        val param = binding.btnSaveNext.layoutParams as ViewGroup.MarginLayoutParams
+        param.setMargins(10, 10, 10, keyboardSize)
+        binding.btnSaveNext.layoutParams = param
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-            openKeyBoard()
-            //activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-             val behavior = BottomSheetBehavior.from<ConstraintLayout>(
-                 (dialog as BottomSheetDialog).findViewById(R.id.design_bottom_sheet)!!
-             )
-             behavior.state = BottomSheetBehavior.STATE_EXPANDED
-             behavior.skipCollapsed = true
-            binding.clSaveBottom.layoutParams.height = (resources.displayMetrics.heightPixels * 0.94).toInt()
+        (dialog as BottomSheetDialog).behavior.apply {
+            state = BottomSheetBehavior.STATE_EXPANDED      // 높이 고정
+            skipCollapsed = true                            // HALF_EXPANDED 안되게 설정
+        }
+        // behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        //  behavior.skipCollapsed = true
+        binding.clSaveBottom.layoutParams.height =
+            (resources.displayMetrics.heightPixels * 0.94).toInt()
+        (dialog as BottomSheetDialog).setOnDismissListener {
+            hideKeyBoard()
+        }
         setListeners()
     }
 
@@ -104,6 +136,67 @@ class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         hideKeyBoard()
+    }
+
+
+    class HeightProvider(private val mActivity: Activity) : PopupWindow(
+        mActivity
+    ),
+        OnGlobalLayoutListener {
+        private val rootView: View = View(mActivity)
+        private var listener: HeightListener? = null
+        private var heightMax // Record the maximum height of the pop content area
+                = 0
+
+        fun init(): HeightProvider {
+            if (!isShowing) {
+                val view = mActivity.window.decorView
+                // Delay loading popupwindow, if not, error will be reported
+                view.post { showAtLocation(view, Gravity.NO_GRAVITY, 0, 0) }
+            }
+            return this
+        }
+
+        fun setHeightListener(listener: HeightListener?): HeightProvider {
+            this.listener = listener
+            return this
+        }
+
+        override fun onGlobalLayout() {
+            val rect = Rect()
+            rootView.getWindowVisibleDisplayFrame(rect)
+            if (rect.bottom > heightMax) {
+                heightMax = rect.bottom
+            }
+
+            // The difference between the two is the height of the keyboard
+            val keyboardHeight = heightMax - rect.bottom
+            if (listener != null) {
+                listener!!.onHeightChanged(keyboardHeight)
+            }
+        }
+
+        interface HeightListener {
+            fun onHeightChanged(height: Int)
+        }
+
+        init {
+
+            // Basic configuration
+            contentView = rootView
+
+            // Monitor global Layout changes
+            rootView.viewTreeObserver.addOnGlobalLayoutListener(this)
+            setBackgroundDrawable(ColorDrawable(0))
+
+            // Set width to 0 and height to full screen
+            width = 0
+            height = ConstraintLayout.LayoutParams.MATCH_PARENT
+
+            // Set keyboard pop-up mode
+            softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+            inputMethodMode = INPUT_METHOD_NEEDED
+        }
     }
 
 }

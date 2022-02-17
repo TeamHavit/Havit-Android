@@ -94,11 +94,12 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_save_next"
+            btnColor="@{vm.isSaveClick}"
             android:layout_width="0dp"
             android:layout_height="58dp"
-            btnColor="@{vm.isSaveClick}"
-            android:text="@string/next"
             android:clickable="@{vm.isSaveClick == true ? true : false}"
+            android:fitsSystemWindows="true"
+            android:text="@string/next"
             android:textAppearance="@style/Text16Semibold"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
