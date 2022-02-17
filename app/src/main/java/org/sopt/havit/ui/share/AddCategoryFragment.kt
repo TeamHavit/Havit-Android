@@ -45,17 +45,14 @@ class AddCategoryFragment : Fragment() {
 
     private fun initNetwork() {
         lifecycleScope.launch {
-            try {
+            kotlin.runCatching {
                 val response =
                     RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
                         .getAllCategory()
                 val categoryData = response.data
 
-                for (element in categoryData) {
+                for (element in categoryData)
                     categoryTitleList += element.title
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "Server Error/ $e")
             }
         }
     }
@@ -79,7 +76,7 @@ class AddCategoryFragment : Fragment() {
         }
         // 중복 카테고리 여부에 따른 UI 설정(중복 warning & 다음 버튼 색)
         if (isDuplicated) binding.clDuplicateCategory.visibility = View.VISIBLE
-        else binding.clDuplicateCategory.visibility = View.INVISIBLE
+        else binding.clDuplicateCategory.visibility              = View.INVISIBLE
         setBtnColor(!isDuplicated)
     }
 
