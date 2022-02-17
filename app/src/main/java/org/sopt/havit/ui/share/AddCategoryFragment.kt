@@ -1,6 +1,5 @@
 package org.sopt.havit.ui.share
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +14,7 @@ import org.sopt.havit.R
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.databinding.FragmentAddCategoryBinding
 import org.sopt.havit.util.KeyBoardUtil
+import org.sopt.havit.util.KeyBoardUtil.setUpAsSoftKeyboard
 import org.sopt.havit.util.MySharedPreference
 
 class AddCategoryFragment : Fragment() {
@@ -39,24 +39,8 @@ class AddCategoryFragment : Fragment() {
         setTextWatcher()
         setKeyBoardUp()
         toolbarClickListener()
+        setUpAsSoftKeyboard(view) // 다음버튼 위/아래 움직이게
 
-        // 키보드 띄우기 위해 뷰 높이 줄임
-        binding.addCategoryFragment.layoutParams.height =
-            (resources.displayMetrics.heightPixels * 0.565).toInt()
-
-        // 키보드 높이 구하기
-        val rootView = requireActivity().window.decorView
-        rootView.viewTreeObserver.addOnGlobalLayoutListener {
-
-            val screenHeight = rootView.height
-            val rectangle = Rect()
-            rootView.getWindowVisibleDisplayFrame(rectangle)
-
-            Log.d("Keyboard_manual", "$screenHeight / ${rectangle.bottom}")
-        }
-
-        // 키보드에 맞게 뷰 조절 (다음 버튼 키보드 위 배치)
-        // requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     private fun initNetwork() {
