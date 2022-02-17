@@ -12,7 +12,6 @@ import android.util.Log
 import android.view.*
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.inputmethod.InputMethodManager
-import android.webkit.URLUtil
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -34,11 +33,6 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     private var categoryName = categoryName
     private var isFirstKeyBoard = false
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        hideKeyBoard()
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +51,8 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         return binding.root
     }
 
-    fun isFullPath(potentialUrl: String): Boolean {
+    // url 유효성 검사
+    private fun isFullPath(potentialUrl: String): Boolean {
         try {
             URL(potentialUrl).toURI()
             return true
@@ -67,15 +62,16 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         return false
     }
 
+    // 키보드가 올라왔을 때 실행되는 함수
     fun onKeyboardShown(keyboardSize: Int) {
-        if (!isFirstKeyBoard) {
+        if (!isFirstKeyBoard) { // 맨 처음에만 키보드 오픈
             openKeyBoard()
             isFirstKeyBoard = true
         }
         Log.d("KEYBOARD", keyboardSize.toString())
 
         val param = binding.btnSaveNext.layoutParams as ViewGroup.MarginLayoutParams
-        param.setMargins(10, 10, 10, keyboardSize)
+        param.setMargins(0, 0, 0, keyboardSize)
         binding.btnSaveNext.layoutParams = param
     }
 
@@ -123,13 +119,13 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
             dismiss()
         }
         binding.btnSaveNext.setOnClickListener {
-            if(isFullPath(binding.etSaveUrl.text.toString())){
+            if (isFullPath(binding.etSaveUrl.text.toString())) {
                 val intent = Intent(requireContext(), ShareActivity::class.java).apply {
                     putExtra("url", binding.etSaveUrl.text.toString())
                 }
                 startActivity(intent)
                 dismiss()
-            }else{
+            } else {
                 setCustomToast()
             }
 
@@ -157,11 +153,10 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         return R.style.AppBottomSheetDialogTheme
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         hideKeyBoard()
     }
-
 
     class HeightProvider(private val mActivity: Activity) : PopupWindow(
         mActivity
