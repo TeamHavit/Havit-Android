@@ -1,7 +1,6 @@
 package org.sopt.havit.ui.share
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,9 +44,7 @@ class ChooseIconFragment :
         binding.icBack.setOnClickListener {
             findNavController().navigate(R.id.action_chooseIconFragment_to_addCategoryFragment)
         }
-        binding.icClose.setOnClickListener {
-            requireActivity().finish()
-        }
+        binding.icClose.setOnClickListener { requireActivity().finish() }
     }
 
     private fun initAdapter() {
@@ -55,26 +52,8 @@ class ChooseIconFragment :
         // init data
         iconAdapter = IconAdapter()
         binding.rvIcon.adapter = iconAdapter
-        iconAdapter.iconList.addAll(
-            listOf(
-                R.drawable.ic_category1,
-                R.drawable.ic_category2,
-                R.drawable.ic_category3,
-                R.drawable.ic_category4,
-                R.drawable.ic_category5,
-                R.drawable.ic_category6,
-                R.drawable.ic_category7,
-                R.drawable.ic_category8,
-                R.drawable.ic_category9,
-                R.drawable.ic_category10,
-                R.drawable.ic_category11,
-                R.drawable.ic_category12,
-                R.drawable.ic_category13,
-                R.drawable.ic_category14,
-                R.drawable.ic_category15
-            )
-        )
-        iconAdapter.notifyItemRangeInserted(0, 15)
+        iconAdapter.iconList.addAll(iconDrawableList)
+        iconAdapter.notifyItemRangeInserted(0, iconDrawableList.size)
 
         // set clickListener
         iconAdapter.setItemClickListener(object : IconAdapter.OnItemClickListener {
@@ -99,7 +78,6 @@ class ChooseIconFragment :
                     RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
                         .addCategory(CategoryAddRequest(args.categoryTitle, categoryIndex + 1))
                 showCustomToast()
-                Log.d("CreateCategory", response.success.toString())
             }
         }
     }
@@ -113,5 +91,25 @@ class ChooseIconFragment :
         textView.text = args.categoryTitle
         toast.view = view
         toast.show()
+    }
+
+    companion object {
+        val iconDrawableList = listOf(
+            R.drawable.ic_category1,
+            R.drawable.ic_category2,
+            R.drawable.ic_category3,
+            R.drawable.ic_category4,
+            R.drawable.ic_category5,
+            R.drawable.ic_category6,
+            R.drawable.ic_category7,
+            R.drawable.ic_category8,
+            R.drawable.ic_category9,
+            R.drawable.ic_category10,
+            R.drawable.ic_category11,
+            R.drawable.ic_category12,
+            R.drawable.ic_category13,
+            R.drawable.ic_category14,
+            R.drawable.ic_category15
+        )
     }
 }
