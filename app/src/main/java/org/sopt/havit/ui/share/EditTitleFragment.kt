@@ -1,14 +1,14 @@
 package org.sopt.havit.ui.share
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentEditTitleBinding
+import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.MySharedPreference
 
 
@@ -20,18 +20,25 @@ class EditTitleFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentEditTitleBinding.inflate(layoutInflater, container, false)
-
-        val tempTitle = args.contentsModifiedTitle
-        binding.etTitle.setText(tempTitle)
-
-        initClickListener()
-
         return binding.root
     }
 
-    private fun initClickListener(){
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setOriginTitle()
+        setKeyBoardUp()
+        initClickListener()
+
+    }
+
+    private fun setOriginTitle() = binding.etTitle.setText(args.contentsOriginTitle)
+
+    private fun setKeyBoardUp() = KeyBoardUtil.openKeyBoard(requireContext(), binding.etTitle)
+
+    private fun initClickListener() {
         binding.icBack.setOnClickListener {
             findNavController().popBackStack()
         }
