@@ -57,7 +57,6 @@ class ContentsSimpleActivity :
     private fun clickBtnBack() {
         binding.ivBack.setOnClickListener {
             finish()
-            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 

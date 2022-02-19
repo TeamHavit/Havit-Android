@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentHomeBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
@@ -19,7 +18,7 @@ import org.sopt.havit.ui.web.WebActivity
 
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
-    private val homeViewModel: HomeViewModel by lazy { HomeViewModel(requireContext())}
+    private val homeViewModel: HomeViewModel by lazy { HomeViewModel(requireContext()) }
     private val contentsAdapter: HomeRecentContentsRvAdapter by lazy { HomeRecentContentsRvAdapter() }
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
     private lateinit var categoryVpAdapter: HomeCategoryVpAdapter
@@ -36,9 +35,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.layoutCategory.vmHome = homeViewModel
         binding.layoutCategoryEmpty.vmHome = homeViewModel
 
-        setData()
+//        setData()
         initSearchSticky()
-        initProgressBar()   // User reach graph
+//        initProgressBar()   // User reach graph
         // Category RecyclerView
         initVpAdapter()
         initIndicator()
@@ -57,16 +56,25 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        setData()
+        initProgressBar()   // User reach graph
+//        categoryDataObserve()
+//        recentContentsDataObserve()
+//        recommendationDataObserve()
+    }
+
     private fun clickContentsItemView() {
         contentsAdapter.setItemClickListener(object :
             HomeRecentContentsRvAdapter.OnItemClickListener {
             override fun onWebClick(v: View, position: Int) {
                 val intent = Intent(v.context, WebActivity::class.java)
                 homeViewModel.contentsList.value?.get(position)?.let {
-                        intent.putExtra("url", it.url)
-                        intent.putExtra("contentsId", it.id)
-                        intent.putExtra("isSeen", it.isSeen)
-                    }
+                    intent.putExtra("url", it.url)
+                    intent.putExtra("contentsId", it.id)
+                    intent.putExtra("isSeen", it.isSeen)
+                }
                 startActivity(intent)
             }
         })
@@ -80,7 +88,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                 homeViewModel.recommendList.value?.get(position)
                     ?.let {
                         intent.putExtra("url", it.url)
-                        intent.putExtra("contentsId",-1)
+                        intent.putExtra("contentsId", -1)
                     }
                 startActivity(intent)
             }
@@ -199,12 +207,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private fun initSearchSticky() {
         binding.svMain.run {
             header = binding.clStickyView
-            stickListener = { _ ->
-                Log.d("LOGGER_TAG", "stickListener")
-            }
-            freeListener = { _ ->
-                Log.d("LOGGER_TAG", "freeListener")
-            }
         }
     }
 
