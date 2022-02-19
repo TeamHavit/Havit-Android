@@ -1,20 +1,17 @@
 package org.sopt.havit.ui.save
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Rect
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.*
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.PopupWindow
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -23,6 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.ShareActivity
 import org.sopt.havit.databinding.FragmentSaveBinding
+import org.sopt.havit.util.KeyBoardHeightProvider
 import java.net.URL
 
 
@@ -42,13 +40,17 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         binding.vm = saveViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        HeightProvider(requireActivity()).init()
-            .setHeightListener(object : HeightProvider.HeightListener {
+        getKeyBoardHeight()
+        return binding.root
+    }
+
+    private fun getKeyBoardHeight() {
+        KeyBoardHeightProvider(requireActivity()).init()
+            .setHeightListener(object : KeyBoardHeightProvider.HeightListener {
                 override fun onHeightChanged(height: Int) {
                     onKeyboardShown(height)
                 }
             })
-        return binding.root
     }
 
     // url 유효성 검사
@@ -158,64 +160,5 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         hideKeyBoard()
     }
 
-    class HeightProvider(private val mActivity: Activity) : PopupWindow(
-        mActivity
-    ),
-        OnGlobalLayoutListener {
-        private val rootView: View = View(mActivity)
-        private var listener: HeightListener? = null
-        private var heightMax // Record the maximum height of the pop content area
-                = 0
-
-        fun init(): HeightProvider {
-            if (!isShowing) {
-                val view = mActivity.window.decorView
-                // Delay loading popupwindow, if not, error will be reported
-                view.post { showAtLocation(view, Gravity.NO_GRAVITY, 0, 0) }
-            }
-            return this
-        }
-
-        fun setHeightListener(listener: HeightListener?): HeightProvider {
-            this.listener = listener
-            return this
-        }
-
-        override fun onGlobalLayout() {
-            val rect = Rect()
-            rootView.getWindowVisibleDisplayFrame(rect)
-            if (rect.bottom > heightMax) {
-                heightMax = rect.bottom
-            }
-
-            // The difference between the two is the height of the keyboard
-            val keyboardHeight = heightMax - rect.bottom
-            if (listener != null) {
-                listener!!.onHeightChanged(keyboardHeight)
-            }
-        }
-
-        interface HeightListener {
-            fun onHeightChanged(height: Int)
-        }
-
-        init {
-
-            // Basic configuration
-            contentView = rootView
-
-            // Monitor global Layout changes
-            rootView.viewTreeObserver.addOnGlobalLayoutListener(this)
-            setBackgroundDrawable(ColorDrawable(0))
-
-            // Set width to 0 and height to full screen
-            width = 0
-            height = ConstraintLayout.LayoutParams.MATCH_PARENT
-
-            // Set keyboard pop-up mode
-            softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
-            inputMethodMode = INPUT_METHOD_NEEDED
-        }
-    }
 
 }
