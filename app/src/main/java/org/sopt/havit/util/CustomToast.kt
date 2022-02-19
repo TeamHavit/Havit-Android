@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.LayoutRes
+import org.sopt.havit.R
 
 object CustomToast {
 
@@ -20,8 +21,7 @@ object CustomToast {
         toast.show()
     }
 
-    @SuppressLint("ResourceType")
-    fun showTitleCustomToast(
+    fun showCategoryTitleCustomToast(
         context: Context,
         title: String,
         @LayoutRes layoutResId: Int,
@@ -29,7 +29,7 @@ object CustomToast {
         val inflator = LayoutInflater.from(context)
         val toast = Toast(context)
         val view = inflator.inflate(layoutResId, null)
-        val textView: TextView = view.findViewById(layoutResId)
+        val textView: TextView = view.findViewById(R.id.tv_toast_category1)
         textView.text = title
         toast.view = view
         toast.show()
