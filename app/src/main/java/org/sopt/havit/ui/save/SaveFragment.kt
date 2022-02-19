@@ -44,6 +44,13 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setBottomSheetShow()
+        setListeners()
+    }
+
     private fun getKeyBoardHeight() {
         KeyBoardHeightProvider(requireActivity()).init()
             .setHeightListener(object : KeyBoardHeightProvider.HeightListener {
@@ -77,21 +84,13 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         binding.btnSaveNext.layoutParams = param
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    private fun setBottomSheetShow() {
         (dialog as BottomSheetDialog).behavior.apply {
             state = BottomSheetBehavior.STATE_EXPANDED      // 높이 고정
             skipCollapsed = true                            // HALF_EXPANDED 안되게 설정
         }
-        // behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        //  behavior.skipCollapsed = true
         binding.clSaveBottom.layoutParams.height =
             (resources.displayMetrics.heightPixels * 0.94).toInt()
-        (dialog as BottomSheetDialog).setOnDismissListener {
-            hideKeyBoard()
-        }
-        setListeners()
     }
 
     private fun setCustomToast() {
@@ -149,6 +148,9 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
 
             }
         })
+        (dialog as BottomSheetDialog).setOnDismissListener {
+            hideKeyBoard()
+        }
     }
 
     override fun getTheme(): Int {
