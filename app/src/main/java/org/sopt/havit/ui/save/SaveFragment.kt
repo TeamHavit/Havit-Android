@@ -29,7 +29,7 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentSaveBinding
     private val saveViewModel: SaveViewModel by viewModels()
     private var categoryName = categoryName
-    private var isFirstKeyBoard = false
+    private var isFirstKeyBoard = true
 
 
     override fun onCreateView(
@@ -66,9 +66,9 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
 
     // 키보드가 올라왔을 때 실행되는 함수
     fun onKeyboardShown(keyboardSize: Int) {
-        if (!isFirstKeyBoard) { // 맨 처음에만 키보드 오픈
+        if (isFirstKeyBoard) { // 맨 처음에만 키보드 오픈
             openKeyBoard()
-            isFirstKeyBoard = true
+            isFirstKeyBoard = false
         }
         Log.d("KEYBOARD", keyboardSize.toString())
 
