@@ -20,6 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.ShareActivity
 import org.sopt.havit.databinding.FragmentSaveBinding
+import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.KeyBoardHeightProvider
 import java.net.URL
 
@@ -93,13 +94,6 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
             (resources.displayMetrics.heightPixels * 0.94).toInt()
     }
 
-    private fun setCustomToast() {
-        val toast = Toast(requireContext())
-        val view = layoutInflater.inflate(R.layout.toast_url_unavailable, null)
-        toast.view = view
-        toast.show()
-    }
-
     private fun openKeyBoard() {
         binding.etSaveUrl.requestFocus()
         val inputMethodManager =
@@ -127,7 +121,7 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
                 startActivity(intent)
                 dismiss()
             } else {
-                setCustomToast()
+                CustomToast.showNoTitleCustomToast(requireContext(),R.layout.toast_url_unavailable)
             }
 
         }
