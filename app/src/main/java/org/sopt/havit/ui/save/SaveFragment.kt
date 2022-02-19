@@ -142,9 +142,6 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
 
             }
         })
-        (dialog as BottomSheetDialog).setOnDismissListener {
-            hideKeyBoard()
-        }
     }
 
     override fun getTheme(): Int {
