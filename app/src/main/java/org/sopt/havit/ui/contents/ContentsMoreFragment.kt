@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsSearchResponse
@@ -12,7 +11,7 @@ import org.sopt.havit.databinding.FragmentContentsMoreBinding
 
 
 class ContentsMoreFragment(contents: ContentsSearchResponse.Data) : BottomSheetDialogFragment() {
-
+    private lateinit var onClickListener: OnClickListener
     private lateinit var binding: FragmentContentsMoreBinding
     private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(requireContext()) }
 
@@ -45,11 +44,19 @@ class ContentsMoreFragment(contents: ContentsSearchResponse.Data) : BottomSheetD
             // 콘텐츠 삭제 함수 호출
             with(contentsViewModel){
                 requestContentsDelete(data.id)
-                // 콘텐츠 삭제 완료 시 dialog dismiss
+                // 콘텐츠 삭제 완료 시 리스트 업데이트
                 deleteDelay.observe(viewLifecycleOwner){
-                    if(it){dismiss()}
+                    if(it){ onClickListener.onUpdate() }
                 }
             }
         }
+    }
+
+    interface OnClickListener{
+        fun onUpdate()
+    }
+
+    fun setClickListener(onClickListener : OnClickListener){
+        this.onClickListener = onClickListener
     }
 }

@@ -275,7 +275,15 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                         it.url
                     )
                 }
-                ContentsMoreFragment(dataMore).show(supportFragmentManager, "setting")
+                val dialog = ContentsMoreFragment(dataMore)
+                dialog.setClickListener(object: ContentsMoreFragment.OnClickListener{
+                    override fun onUpdate() {
+                        // 내용 변경 시 서버에서 데이터를 다시 불러온다
+                        setContentsData()
+                        dialog.dismiss()
+                    }
+                })
+                dialog.show(supportFragmentManager, "setting")
             }
         })
     }
