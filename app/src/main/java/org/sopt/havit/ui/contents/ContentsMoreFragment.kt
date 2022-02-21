@@ -21,12 +21,13 @@ class ContentsMoreFragment(contents: ContentsSearchResponse.Data) : BottomSheetD
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentContentsMoreBinding.inflate(layoutInflater, container, false)
         binding.vm = contentsViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         setMoreView()
+        deleteContents()
         return binding.root
     }
 
@@ -36,5 +37,19 @@ class ContentsMoreFragment(contents: ContentsSearchResponse.Data) : BottomSheetD
 
     private fun setMoreView() {
         contentsViewModel.setContentsView(data)
+    }
+
+    // 콘텐츠 삭제
+    private fun deleteContents(){
+        binding.clEditDelete.setOnClickListener {
+            // 콘텐츠 삭제 함수 호출
+            with(contentsViewModel){
+                requestContentsDelete(data.id)
+                // 콘텐츠 삭제 완료 시 dialog dismiss
+                deleteDelay.observe(viewLifecycleOwner){
+                    if(it){dismiss()}
+                }
+            }
+        }
     }
 }

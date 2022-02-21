@@ -29,6 +29,9 @@ class ContentsViewModel (context: Context) : ViewModel() {
 
     var contentsMore = MutableLiveData< ContentsSearchResponse.Data>()
 
+    private val _deleteDelay = MutableLiveData(false)
+    val deleteDelay: LiveData<Boolean> = _deleteDelay
+
     fun requestContentsTaken(categoryId: Int, option: String, filter: String, name: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try{
@@ -63,5 +66,16 @@ class ContentsViewModel (context: Context) : ViewModel() {
 
     fun setContentsView(data: ContentsSearchResponse.Data){
         contentsMore.value=data
+    }
+
+    // 콘텐츠 삭제를 서버에게 요청하는 코드
+    fun requestContentsDelete(contentsId: Int){
+        viewModelScope.launch(Dispatchers.IO){
+            try{
+                val response = RetrofitObject.provideHavitApi(token).deleteContents(contentsId)
+                // 삭제 job완료됨을 표시
+                _deleteDelay.postValue(true)
+            } catch (e: Exception){ }
+        }
     }
 }

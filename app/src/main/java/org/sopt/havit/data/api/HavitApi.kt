@@ -83,4 +83,9 @@ interface HavitApi {
     fun getOgData(
         @Query("link") link: String
     ): Call<ContentsScrapResponse>
+
+    @DELETE("content/{contentId}")
+    suspend fun deleteContents(
+        @Path("contentId") contentId: Int
+    ): ContentsDeleteResponse
 }
