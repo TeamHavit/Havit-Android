@@ -5,10 +5,10 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -46,7 +46,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         setChipOrder()
         setCategoryListDialog()
         clickModify()
-        setToast()
+        clickItemHavit()
         clickItemSetting()
     }
 
@@ -64,7 +64,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun initAdapter() {
-        contentsAdapter = ContentsAdapter(contentsViewModel)
+        contentsAdapter = ContentsAdapter()
         binding.rvContents.adapter = contentsAdapter
     }
 
@@ -85,7 +85,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         intent.getStringExtra("categoryName")?.let {
             CATEGORY_NAME = it
         }
-        //contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
         Log.d("categoryName", "$CATEGORY_NAME")
     }
 
@@ -263,8 +262,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun clickItemSetting(){
         contentsAdapter.setItemSetClickListner(object: ContentsAdapter.OnItemSetClickListener{
             override fun onSetClick(v: View, position: Int) {
-                val data = contentsViewModel.contentsList.value?.get(position)
-                val dataMore = data!!.let {
+                val dataMore = contentsViewModel.contentsList.value?.get(position)!!.let {
                     ContentsSearchResponse.Data(
                         it.createdAt,
                         it.description,
@@ -318,10 +316,31 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         toast.show()
     }
 
-    private fun setToast(){
-        contentsAdapter.setHavitClickListener(object : ContentsAdapter.OnHavitClickListener {
-            override fun onHavitClick() {
-                setCustomToast()
+    // 해빗 클릭 시 이벤트 함수 정의
+    private fun clickItemHavit(){
+        contentsAdapter.setHavitClickListener(object : ContentsAdapter.OnItemHavitClickListener {
+            override fun onHavitClick(v: ImageView, position: Int) {
+                with(contentsAdapter) {
+                    // 보지 않았던 콘텐츠의 경우 콘텐츠를 봤다는 토스트 띄우기
+                    if (!currentList[position].isSeen) {
+                        setCustomToast()
+                    }
+
+                    currentList[position].isSeen = !currentList[position].isSeen
+                    // 서버 호출
+                    contentsViewModel.setIsSeen(currentList[position].id)
+                    // 태그 바꾸기
+                    when(v.tag){
+                        "unseen" -> {
+                            v.tag = "seen"
+                            v.setImageResource(R.drawable.ic_contents_read_2)
+                        }
+                        else -> {
+                            v.tag = "unseen"
+                            v.setImageResource(R.drawable.ic_contents_unread)
+                        }
+                    }
+                }
             }
         })
     }
