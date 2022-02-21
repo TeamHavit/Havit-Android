@@ -15,10 +15,12 @@ import org.sopt.havit.databinding.ItemContentsLinearMaxBinding
 import org.sopt.havit.databinding.ItemContentsLinearMinBinding
 import org.sopt.havit.util.ContentsDiffCallback
 
-class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: FragmentManager) :
+class ContentsAdapter(contentsViewModel: ContentsViewModel) :
     ListAdapter<ContentsResponse.ContentsData, RecyclerView.ViewHolder>(ContentsDiffCallback) {
-    private var mFragmentManager: FragmentManager = fragmentManager
     private lateinit var itemClickListener: OnItemClickListener
+
+    private lateinit var itemSetClickListener: OnItemSetClickListener
+
     private var viewModel = contentsViewModel
 
     // setItemClickListener로 설정한 함수 실행
@@ -91,20 +93,6 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
                     Log.d("HavitButtonTest", "1. click - seen 2 : ${binding.ivHavit.tag}")
                 }
             }
-            binding.ivSetting.setOnClickListener {
-                val dataMore = ContentsSearchResponse.Data(
-                    data.createdAt,
-                    data.description,
-                    data.id,
-                    data.image,
-                    data.isNotified,
-                    data.isSeen,
-                    data.notificationTime,
-                    data.title,
-                    data.url
-                )
-                ContentsMoreFragment(dataMore).show(mFragmentManager, "setting")
-            }
         }
     }
 
@@ -143,20 +131,6 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
                     Log.d("HavitButtonTest", "2. click - seen 2 : ${binding.ivHavit.tag}")
                 }
             }
-            binding.ivSetting.setOnClickListener {
-                val dataMore = ContentsSearchResponse.Data(
-                    data.createdAt,
-                    data.description,
-                    data.id,
-                    data.image,
-                    data.isNotified,
-                    data.isSeen,
-                    data.notificationTime,
-                    data.title,
-                    data.url
-                )
-                ContentsMoreFragment(dataMore).show(mFragmentManager, "setting")
-            }
         }
     }
 
@@ -194,20 +168,6 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
                     binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
                     Log.d("HavitButtonTest", "3. click - unseen 2 : ${binding.ivHavit.tag}")
                 }
-            }
-            binding.ivSetting.setOnClickListener {
-                val dataMore = ContentsSearchResponse.Data(
-                    data.createdAt,
-                    data.description,
-                    data.id,
-                    data.image,
-                    data.isNotified,
-                    data.isSeen,
-                    data.notificationTime,
-                    data.title,
-                    data.url
-                )
-                ContentsMoreFragment(dataMore).show(mFragmentManager, "setting")
             }
         }
     }
@@ -253,20 +213,32 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
                 holder.onClick(currentList[position], position)
             }
         }
-        // (1) 리스트 내 항목 클릭 시 onClick() 호출
+        // 리스트 전체 클릭 시 onWebClick() 호출
         holder.itemView.setOnClickListener {
             itemClickListener.onWebClick(it, position)
         }
+        // 리스트의 더보기 클릭 시 onSetClick() 호출
+        holder.itemView.findViewById<View>(R.id.iv_setting).setOnClickListener {
+            itemSetClickListener.onSetClick(it, position)
+        }
     }
 
-    // (2) 리스너 인터페이스
+    // 아이템 전체 클릭 리스너 인터페이스
     interface OnItemClickListener {
         fun onWebClick(v: View, position: Int)
     }
+    // 아이템 더보기 클릭 리스너 인터페이스
+    interface OnItemSetClickListener{
+        fun onSetClick(v: View, position: Int)
+    }
 
-    // (3) 외부에서 클릭 시 이벤트 설정
+    // 외부에서 전체 클릭 시 이벤트 설정
     fun setItemClickListener(onItemClickListener: OnItemClickListener) {
         this.itemClickListener = onItemClickListener
+    }
+    // 외부에서 더보기 클릭 시 이벤트 설정
+    fun setItemSetClickListner(onItemSetClickListener: OnItemSetClickListener){
+        this.itemSetClickListener = onItemSetClickListener
     }
 
     override fun getItemViewType(position: Int): Int {

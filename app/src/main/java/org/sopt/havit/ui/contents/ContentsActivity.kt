@@ -8,10 +8,12 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.sopt.havit.R
+import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryOrderModifyActivity
@@ -45,6 +47,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         setCategoryListDialog()
         clickModify()
         setToast()
+        clickItemSetting()
     }
 
     override fun onStart() {
@@ -61,7 +64,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun initAdapter() {
-        contentsAdapter = ContentsAdapter(contentsViewModel, supportFragmentManager)
+        contentsAdapter = ContentsAdapter(contentsViewModel)
         binding.rvContents.adapter = contentsAdapter
     }
 
@@ -252,6 +255,29 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                         intent.putExtra("isSeen", it.isSeen)
                     }
                 startActivity(intent)
+            }
+        })
+    }
+
+    // 콘텐츠 더보기 클릭 시 이벤트
+    private fun clickItemSetting(){
+        contentsAdapter.setItemSetClickListner(object: ContentsAdapter.OnItemSetClickListener{
+            override fun onSetClick(v: View, position: Int) {
+                val data = contentsViewModel.contentsList.value?.get(position)
+                val dataMore = data!!.let {
+                    ContentsSearchResponse.Data(
+                        it.createdAt,
+                        it.description,
+                        it.id,
+                        it.image,
+                        it.isNotified,
+                        it.isSeen,
+                        it.notificationTime,
+                        it.title,
+                        it.url
+                    )
+                }
+                ContentsMoreFragment(dataMore).show(supportFragmentManager, "setting")
             }
         })
     }
