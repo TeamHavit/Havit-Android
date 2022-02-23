@@ -37,6 +37,16 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="4dp"
+                android:padding="3dp"
+                android:src="@drawable/ic_serviceguide"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_alarm" />
+
+            <ImageView
                 android:id="@+id/iv_alarm"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -530,7 +540,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:src="@drawable/ic_logo_small_gray"
+                        android:src="@drawable/ic_logo_small"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/iv_logo_box"
                         app:layout_constraintTop_toTopOf="parent" />
