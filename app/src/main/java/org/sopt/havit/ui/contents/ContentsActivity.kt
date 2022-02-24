@@ -47,7 +47,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         setCategoryListDialog()
         clickModify()
         clickItemHavit()
-        clickItemSetting()
+        clickItemMore()
     }
 
     override fun onStart() {
@@ -259,7 +259,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     // 콘텐츠 더보기 클릭 시 이벤트
-    private fun clickItemSetting(){
+    private fun clickItemMore(){
         contentsAdapter.setItemSetClickListner(object: ContentsAdapter.OnItemSetClickListener{
             override fun onSetClick(v: View, position: Int) {
                 val dataMore = contentsViewModel.contentsList.value?.get(position)!!.let {
