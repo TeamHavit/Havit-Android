@@ -15,14 +15,23 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp">
 
-        <ImageView
-            android:id="@+id/iv_contents"
-            imageUrl="@{data_home_contents.image}"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_thumbnail"
             android:layout_width="match_parent"
-            android:layout_height="82dp"
-            android:background="@drawable/bg_radius_6"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="0dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_thumbnail"
+                imageUrl="@{data_home_contents.image}"
+                android:layout_width="match_parent"
+                android:layout_height="82dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/img_contents_dummy_3" />
+        </androidx.cardview.widget.CardView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_title"
@@ -31,7 +40,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/rectangle_purple_1_radius_4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_contents">
+            app:layout_constraintTop_toBottomOf="@id/cv_thumbnail">
 
             <TextView
                 android:id="@+id/tv_title"
