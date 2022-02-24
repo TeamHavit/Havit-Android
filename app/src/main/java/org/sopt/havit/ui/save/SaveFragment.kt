@@ -121,7 +121,7 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
                 startActivity(intent)
                 dismiss()
             } else {
-                CustomToast.showNoTitleCustomToast(requireContext(),R.layout.toast_url_unavailable)
+                CustomToast.showTextToast(requireContext(),getString(R.string.url_unavailable))
             }
 
         }
