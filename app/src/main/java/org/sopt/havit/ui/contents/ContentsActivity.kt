@@ -338,16 +338,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                     // 서버 호출
                     contentsViewModel.setIsSeen(currentList[position].id)
                     // 태그 바꾸기
-                    when(v.tag){
-                        "unseen" -> {
-                            v.tag = "seen"
-                            v.setImageResource(R.drawable.ic_contents_read_2)
-                        }
-                        else -> {
-                            v.tag = "unseen"
-                            v.setImageResource(R.drawable.ic_contents_unread)
-                        }
-                    }
+                    val isSeen = (v.tag == "seen")
+                    v.tag =if (isSeen) "unseen" else "seen"
+                    v.setImageResource(if (isSeen) R.drawable.ic_contents_unread else R.drawable.ic_contents_read_2)
+
                 }
             }
         })
