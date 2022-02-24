@@ -160,7 +160,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         val bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(bottomSheetView)
 
-        binding.tvOrder.setOnClickListener {
+        binding.clOrder.setOnClickListener {
             when (binding.tvOrder.text) {
                 "최신순" -> {
                     bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent)
