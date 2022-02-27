@@ -16,6 +16,17 @@
         android:background="@drawable/bg_gradient_splash"
         tools:context=".ui.mypage.MyPageFragment">
 
+        <ImageButton
+            android:id="@+id/ib_my_page_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="49dp"
+            android:layout_marginEnd="17dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_setting"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="336dp"
