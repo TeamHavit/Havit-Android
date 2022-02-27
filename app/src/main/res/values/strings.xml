@@ -120,4 +120,5 @@
     <string name="duplicate_category">중복된 카테고리 이름이 존재합니다</string>
     <string name="max_category">카테고리 최대 개수를 초과했습니다.</string>
     <string name="url_unavailable">입력한 URL 링크 정보를 찾을 수 없습니다.</string>
+    <string name="contents_havit_complete">콘텐츠 보기 완료 !</string>
 </resources>
