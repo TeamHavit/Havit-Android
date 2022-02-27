@@ -74,9 +74,8 @@ class ChooseIconFragment :
     private fun initNetwork() {
         lifecycleScope.launch {
             kotlin.runCatching {
-                val response =
-                    RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
-                        .addCategory(CategoryAddRequest(args.categoryTitle, categoryIndex + 1))
+                RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
+                    .addCategory(CategoryAddRequest(args.categoryTitle, categoryIndex + 1))
                 showCustomToast()
             }
         }
