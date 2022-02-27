@@ -120,6 +120,7 @@ obj/
 .idea/gradle.xml
 .idea/jarRepositories.xml
 .idea/navEditor.xml
+.idea/discord.xml
 
 # OS-specific files
 .DS_Store
@@ -158,6 +159,10 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+
+# Release folder
+.release/
+
 
 ### AndroidStudio Patch ###
 
