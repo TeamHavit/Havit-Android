@@ -13,6 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.data.ContentsSummeryData
@@ -117,7 +119,10 @@ class ContentsSummeryFragment : Fragment() {
                 responseContents = it.data
 
                 // OgImage 설정
-                Glide.with(requireContext()).load(it.data.ogImage).into(binding.ivOgImage)
+                Glide.with(requireContext())
+                    .load(it.data.ogImage)
+                    .apply(RequestOptions.bitmapTransform(RoundedCorners(6)))
+                    .into(binding.ivOgImage)
                 // OgTitle 설정
                 if (MySharedPreference.getTitle(requireContext()).isEmpty())
                     binding.tvOgTitle.text = it.data.ogTitle
