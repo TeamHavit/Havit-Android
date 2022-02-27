@@ -4,35 +4,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
+import android.widget.ImageView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsResponse
-import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ItemContentsGridBinding
 import org.sopt.havit.databinding.ItemContentsLinearMaxBinding
 import org.sopt.havit.databinding.ItemContentsLinearMinBinding
 import org.sopt.havit.util.ContentsDiffCallback
 
-class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: FragmentManager) :
-    ListAdapter<ContentsResponse.ContentsData, RecyclerView.ViewHolder>(ContentsDiffCallback) {
-    private var mFragmentManager: FragmentManager = fragmentManager
+class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.ViewHolder>(ContentsDiffCallback) {
     private lateinit var itemClickListener: OnItemClickListener
-    private var viewModel = contentsViewModel
-
-    // setItemClickListener로 설정한 함수 실행
-    private lateinit var havitClickListener: OnHavitClickListener
-
-    // 리스너 인터페이스
-    interface OnHavitClickListener {
-        fun onHavitClick()
-    }
-
-    // 외부에서 클릭 시 이벤트 설정
-    fun setHavitClickListener(onItemClickListener: OnHavitClickListener) {
-        this.havitClickListener = onItemClickListener
-    }
+    private lateinit var itemSetClickListener: OnItemSetClickListener
+    private lateinit var itemHavitClickListener: OnItemHavitClickListener
 
     private fun changeTimeFormat(data: ContentsResponse.ContentsData) {
         // 알림 예정 시각 형식 변경
@@ -71,41 +56,6 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
                 binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
             }
         }
-
-        fun onClick(data: ContentsResponse.ContentsData, pos: Int) {
-            binding.ivHavit.setOnClickListener {
-                if (!currentList[pos].isSeen) {
-                    havitClickListener.onHavitClick()
-                }
-                currentList[pos].isSeen = !currentList[pos].isSeen
-                viewModel.setIsSeen(data.id)
-                if (binding.ivHavit.tag == "unseen") {
-                    Log.d("HavitButtonTest", "1. click - unseen 1 : ${binding.ivHavit.tag}")
-                    binding.ivHavit.tag = "seen"
-                    binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-                    Log.d("HavitButtonTest", "1. click - unseen 2 : ${binding.ivHavit.tag}")
-                } else {
-                    Log.d("HavitButtonTest", "1. click - seen 1 : ${binding.ivHavit.tag}")
-                    binding.ivHavit.tag = "unseen"
-                    binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
-                    Log.d("HavitButtonTest", "1. click - seen 2 : ${binding.ivHavit.tag}")
-                }
-            }
-            binding.ivSetting.setOnClickListener {
-                val dataMore = ContentsSearchResponse.Data(
-                    data.createdAt,
-                    data.description,
-                    data.id,
-                    data.image,
-                    data.isNotified,
-                    data.isSeen,
-                    data.notificationTime,
-                    data.title,
-                    data.url
-                )
-                ContentsMoreFragment(dataMore).show(mFragmentManager, "setting")
-            }
-        }
     }
 
     inner class GridViewHolder(private val binding: ItemContentsGridBinding) :
@@ -123,41 +73,6 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
                 binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
             }
         }
-
-        fun onClick(data: ContentsResponse.ContentsData, pos: Int) {
-            binding.ivHavit.setOnClickListener {
-                if (!currentList[pos].isSeen) {
-                    havitClickListener.onHavitClick()
-                }
-                currentList[pos].isSeen = !currentList[pos].isSeen
-                viewModel.setIsSeen(data.id)
-                if (binding.ivHavit.tag == "unseen") {
-                    Log.d("HavitButtonTest", "2. click - unseen 1 : ${binding.ivHavit.tag}")
-                    binding.ivHavit.tag = "seen"
-                    binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-                    Log.d("HavitButtonTest", "2. click - unseen 2 : ${binding.ivHavit.tag}")
-                } else {
-                    Log.d("HavitButtonTest", "2. click - seen 1 : ${binding.ivHavit.tag}")
-                    binding.ivHavit.tag = "unseen"
-                    binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
-                    Log.d("HavitButtonTest", "2. click - seen 2 : ${binding.ivHavit.tag}")
-                }
-            }
-            binding.ivSetting.setOnClickListener {
-                val dataMore = ContentsSearchResponse.Data(
-                    data.createdAt,
-                    data.description,
-                    data.id,
-                    data.image,
-                    data.isNotified,
-                    data.isSeen,
-                    data.notificationTime,
-                    data.title,
-                    data.url
-                )
-                ContentsMoreFragment(dataMore).show(mFragmentManager, "setting")
-            }
-        }
     }
 
     inner class LinearMaxViewHolder(private val binding: ItemContentsLinearMaxBinding) :
@@ -173,41 +88,6 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
                 Log.d("HavitButtonTest", "3. binding - unseen ${data.title}")
                 binding.ivHavit.tag = "unseen"
                 binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
-            }
-        }
-
-        fun onClick(data: ContentsResponse.ContentsData, pos: Int) {
-            binding.ivHavit.setOnClickListener {
-                if (!currentList[pos].isSeen) {
-                    havitClickListener.onHavitClick()
-                }
-                currentList[pos].isSeen = !currentList[pos].isSeen
-                viewModel.setIsSeen(data.id)
-                if (binding.ivHavit.tag == "unseen") {
-                    Log.d("HavitButtonTest", "3. click - unseen 1 : ${binding.ivHavit.tag}")
-                    binding.ivHavit.tag = "seen"
-                    binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-                    Log.d("HavitButtonTest", "3. click - unseen 2 : ${binding.ivHavit.tag}")
-                } else {
-                    Log.d("HavitButtonTest", "3. click - seen 1 : ${binding.ivHavit.tag}")
-                    binding.ivHavit.tag = "unseen"
-                    binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
-                    Log.d("HavitButtonTest", "3. click - unseen 2 : ${binding.ivHavit.tag}")
-                }
-            }
-            binding.ivSetting.setOnClickListener {
-                val dataMore = ContentsSearchResponse.Data(
-                    data.createdAt,
-                    data.description,
-                    data.id,
-                    data.image,
-                    data.isNotified,
-                    data.isSeen,
-                    data.notificationTime,
-                    data.title,
-                    data.url
-                )
-                ContentsMoreFragment(dataMore).show(mFragmentManager, "setting")
             }
         }
     }
@@ -242,31 +122,52 @@ class ContentsAdapter(contentsViewModel: ContentsViewModel, fragmentManager: Fra
         when (ContentsActivity.layout) {
             ContentsActivity.LINEAR_MIN_LAYOUT -> {
                 (holder as LinearMinViewHolder).onBind(getItem(position))
-                holder.onClick(currentList[position], position)
             }
             ContentsActivity.GRID_LAYOUT -> {
                 (holder as GridViewHolder).onBind(getItem(position))
-                holder.onClick(currentList[position], position)
             }
             ContentsActivity.LINEAR_MAX_LAYOUT -> {
                 (holder as LinearMaxViewHolder).onBind(getItem(position))
-                holder.onClick(currentList[position], position)
             }
         }
-        // (1) 리스트 내 항목 클릭 시 onClick() 호출
+        // 아이템 전체 클릭 시 onWebClick() 호출
         holder.itemView.setOnClickListener {
             itemClickListener.onWebClick(it, position)
         }
+        // 아이템의 더보기 클릭 시 onSetClick() 호출
+        holder.itemView.findViewById<View>(R.id.iv_setting).setOnClickListener {
+            itemSetClickListener.onSetClick(it, position)
+        }
+        // 아이템의 해빗 클릭 시 onHavitClick() 호출
+        holder.itemView.findViewById<ImageView>(R.id.iv_havit).setOnClickListener {
+            itemHavitClickListener.onHavitClick(holder.itemView.findViewById(R.id.iv_havit), position)
+        }
     }
 
-    // (2) 리스너 인터페이스
+    // 아이템 전체 클릭 리스너 인터페이스
     interface OnItemClickListener {
         fun onWebClick(v: View, position: Int)
     }
+    // 아이템 더보기 클릭 리스너 인터페이스
+    interface OnItemSetClickListener{
+        fun onSetClick(v: View, position: Int)
+    }
+    // 아이템 해빗 클릭 리스너 인터페이스
+    interface OnItemHavitClickListener {
+        fun onHavitClick(v: ImageView, position: Int)
+    }
 
-    // (3) 외부에서 클릭 시 이벤트 설정
+    // 외부에서 전체 클릭 시 이벤트 설정
     fun setItemClickListener(onItemClickListener: OnItemClickListener) {
         this.itemClickListener = onItemClickListener
+    }
+    // 외부에서 더보기 클릭 시 이벤트 설정
+    fun setItemSetClickListner(onItemSetClickListener: OnItemSetClickListener){
+        this.itemSetClickListener = onItemSetClickListener
+    }
+    // 외부에서 해빗 클릭 시 이벤트 설정
+    fun setHavitClickListener(onItemHavitClickListener: OnItemHavitClickListener) {
+        this.itemHavitClickListener = onItemHavitClickListener
     }
 
     override fun getItemViewType(position: Int): Int {
