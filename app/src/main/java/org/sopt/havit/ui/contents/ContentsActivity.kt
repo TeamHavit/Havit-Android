@@ -110,6 +110,9 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun changeLayout() {
         binding.ivLayout.setOnClickListener {
+            // 기존 viewholder를 binding하는 것을 막기 위해 제거
+            binding.rvContents.removeAllViews()
+
             when (layout) {
                 LINEAR_MIN_LAYOUT -> {
                     layout = GRID_LAYOUT
