@@ -224,7 +224,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         with(homeViewModel) {
             userData.observe(viewLifecycleOwner) {
                 var rate = 0
-                if (it.totalSeenContentNumber != 0 || it.totalContentNumber != 0) {
+                if (it.totalSeenContentNumber != 0 && it.totalContentNumber != 0) {
                     rate =
                         (it.totalSeenContentNumber.toDouble() / it.totalContentNumber.toDouble() * 100).toInt()
                 }
