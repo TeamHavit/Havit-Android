@@ -13,7 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_black_radius_20">
+        android:background="@drawable/rectangle_toast_black_radius_20">
 
         <ImageView
             android:id="@+id/iv_logo"

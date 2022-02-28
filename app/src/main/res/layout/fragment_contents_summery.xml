@@ -151,7 +151,7 @@
             android:id="@+id/btn_complete"
             android:layout_width="match_parent"
             android:layout_height="85dp"
-            android:background="@drawable/rectangle_purple"
+            android:background="@drawable/rectangle_havit_purple"
             android:paddingBottom="22dp"
             android:text="@string/complete"
             android:textAppearance="@style/Text16Semibold"
