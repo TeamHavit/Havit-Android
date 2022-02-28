@@ -35,9 +35,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.layoutCategory.vmHome = homeViewModel
         binding.layoutCategoryEmpty.vmHome = homeViewModel
 
-//        setData()
         initSearchSticky()
-//        initProgressBar()   // User reach graph
         // Category RecyclerView
         initVpAdapter()
         initIndicator()
@@ -48,10 +46,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         // Recommend RecyclerView
         recommendationDataObserve()
         setClickEvent() // Every clickEvent
-        // CATEGORY CLICK TEST
-        binding.clCategory.setOnClickListener {
-            Log.d("HOMEFRAGMENT_CATEGORY", "HOMEFRAGMENT")
-        }
 
         return binding.root
     }
@@ -60,9 +54,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         super.onStart()
         setData()
         initProgressBar()   // User reach graph
-//        categoryDataObserve()
-//        recentContentsDataObserve()
-//        recommendationDataObserve()
     }
 
     private fun clickContentsItemView() {
