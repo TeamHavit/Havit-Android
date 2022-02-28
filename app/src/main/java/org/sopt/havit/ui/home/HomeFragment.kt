@@ -157,7 +157,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             val intent = Intent(requireActivity(), NotificationActivity::class.java)
             startActivity(intent)
         }
-        binding.tvReachContents.setOnClickListener {
+        binding.clReachContents.setOnClickListener {
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
             intent.putExtra("before", "unseen")
             startActivity(intent)
