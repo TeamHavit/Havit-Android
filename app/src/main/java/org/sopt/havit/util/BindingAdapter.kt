@@ -50,12 +50,11 @@ object BindingAdapter {
     @JvmStatic
     fun setBtnColor(btn: Button, isNext: Boolean) {
         if (isNext) {
-            btn.setBackgroundColor(Color.parseColor("#8578ff"))
+            btn.setBackgroundColor(btn.context.getColor(R.color.havit_purple))
         } else {
-            btn.setBackgroundColor(Color.parseColor("#afafb7"))
+            btn.setBackgroundColor(btn.context.getColor(R.color.gray_2))
         }
     }
-
 
     @BindingAdapter("imageSearch")
     @JvmStatic
@@ -106,7 +105,7 @@ object BindingAdapter {
 
     @BindingAdapter("description")
     @JvmStatic
-    fun setDescription(textView: TextView, rate: Int?) {
+    fun setDescription(textView: TextView, rate: Int) {
         when (rate) {
             in 0..33 -> textView.text = textView.context.getString(R.string.mypage_description1)
             in 34..66 -> textView.text = textView.context.getString(R.string.mypage_description2)
@@ -117,7 +116,7 @@ object BindingAdapter {
 
     @BindingAdapter("descriptionImg")
     @JvmStatic
-    fun setDescriptionImg(imageView: ImageView,rate: Int?){
+    fun setDescriptionImg(imageView: ImageView,rate: Int){
         when (rate) {
             in 0..33 -> Glide.with(imageView).load(R.drawable.ic_illust_light_1).into(imageView)
             in 34..66 -> Glide.with(imageView).load(R.drawable.ic_illust_light_2).into(imageView)

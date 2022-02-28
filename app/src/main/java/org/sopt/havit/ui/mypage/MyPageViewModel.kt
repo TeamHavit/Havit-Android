@@ -24,7 +24,11 @@ class MyPageViewModel(private val myPageRepository: MyPageRepository) :
         viewModelScope.launch {
             val response = myPageRepository.getUserInfo()
             _user.postValue(response)
-            _rate.postValue((response.totalSeenContentNumber.toDouble() / response.totalContentNumber.toDouble() * 100).toInt())
+            try{
+                _rate.postValue((response.totalSeenContentNumber.toDouble() / response.totalContentNumber.toDouble() * 100).toInt())
+            }catch (e:Exception){
+                _rate.postValue(0)
+            }
         }
     }
 }

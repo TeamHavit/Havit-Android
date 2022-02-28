@@ -17,6 +17,54 @@
         android:background="@drawable/bg_gradient_splash"
         tools:context=".ui.mypage.MyPageFragment">
 
+        <TextView
+            android:id="@+id/tv_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="58dp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:includeFontPadding="false"
+            android:text="@{vm.rate.toString()}"
+            android:textColor="@color/havit_white"
+            android:textSize="45dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_rate_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="58dp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:includeFontPadding="false"
+            android:text="@string/mypage_percent"
+            android:textColor="@color/havit_white"
+            android:textSize="45dp"
+            app:layout_constraintStart_toEndOf="@+id/tv_rate"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_my_page_illust"
+            android:layout_width="316dp"
+            android:layout_height="302dp"
+            android:layout_marginTop="27dp"
+            descriptionImg ="@{vm.rate}"
+            android:src="@drawable/ic_mypage_frame"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_my_page_description" />
+
+        <TextView
+            android:id="@+id/tv_my_page_description"
+            description="@{vm.rate}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/Header16Medium"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@+id/tv_rate"
+            app:layout_constraintTop_toBottomOf="@+id/tv_rate" />
+
         <ImageButton
             android:id="@+id/ib_my_page_setting"
             android:layout_width="wrap_content"
@@ -224,53 +272,5 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:id="@+id/iv_my_page_illust"
-            android:layout_width="316dp"
-            android:layout_height="302dp"
-            android:layout_marginTop="27dp"
-            descriptionImg ="@{vm.rate}"
-            android:src="@drawable/ic_mypage_frame"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_my_page_description" />
-
-        <TextView
-            android:id="@+id/tv_my_page_percent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="58dp"
-            android:fontFamily="@font/pretendard_semibold"
-            android:includeFontPadding="false"
-            android:text="@{vm.rate.toString()}"
-            android:textColor="@color/havit_white"
-            android:textSize="45dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_my_page_percent_mark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="58dp"
-            android:fontFamily="@font/pretendard_semibold"
-            android:includeFontPadding="false"
-            android:text="@string/mypage_percent"
-            android:textColor="@color/havit_white"
-            android:textSize="45dp"
-            app:layout_constraintStart_toEndOf="@+id/tv_my_page_percent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/tv_my_page_description"
-            description="@{vm.rate}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textAppearance="@style/Header16Medium"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@+id/tv_my_page_percent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_my_page_percent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
