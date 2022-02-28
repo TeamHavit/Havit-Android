@@ -225,10 +225,11 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/iv_my_page_frame"
+            android:id="@+id/iv_my_page_illust"
             android:layout_width="316dp"
             android:layout_height="302dp"
             android:layout_marginTop="27dp"
+            descriptionImg ="@{vm.rate}"
             android:src="@drawable/ic_mypage_frame"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_my_page_description" />

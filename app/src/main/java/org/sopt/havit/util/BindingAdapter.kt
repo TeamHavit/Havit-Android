@@ -114,4 +114,15 @@ object BindingAdapter {
             100 -> textView.text = textView.context.getString(R.string.mypage_description4)
         }
     }
+
+    @BindingAdapter("descriptionImg")
+    @JvmStatic
+    fun setDescriptionImg(imageView: ImageView,rate: Int?){
+        when (rate) {
+            in 0..33 -> Glide.with(imageView).load(R.drawable.ic_illust_light_1).into(imageView)
+            in 34..66 -> Glide.with(imageView).load(R.drawable.ic_illust_light_2).into(imageView)
+            in 67..99 -> Glide.with(imageView).load(R.drawable.ic_illust_light_3).into(imageView)
+            100 -> Glide.with(imageView).load(R.drawable.ic_illust_light_4).into(imageView)
+        }
+    }
 }
