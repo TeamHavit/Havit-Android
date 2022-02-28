@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentMyPageBinding
@@ -29,10 +30,22 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setMyPageView()
+        setListeners()
     }
 
     private fun setMyPageView(){
         myPageViewModel.requestUserInfo()
+    }
+
+    private fun setListeners(){
+        binding.clMyPageCategory.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_my_page_to_navigation_my_page_to_category)
+        }
+        binding.clMyPageSave.setOnClickListener {
+
+        }
+        binding.clMyPageSeen.setOnClickListener {
+        }
     }
 
 

@@ -44,16 +44,6 @@
             app:layout_constraintStart_toEndOf="@+id/tv_rate"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_my_page_illust"
-            android:layout_width="316dp"
-            android:layout_height="302dp"
-            android:layout_marginTop="27dp"
-            descriptionImg ="@{vm.rate}"
-            android:src="@drawable/ic_mypage_frame"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_my_page_description" />
-
         <TextView
             android:id="@+id/tv_my_page_description"
             description="@{vm.rate}"
@@ -218,6 +208,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_my_page_seen"
                 android:layout_width="100dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="10dp"
@@ -271,6 +262,16 @@
                     app:layout_constraintTop_toTopOf="@+id/tv_check_count" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/iv_my_page_illust"
+            descriptionImg="@{vm.rate}"
+            android:layout_width="316dp"
+            android:layout_height="302dp"
+            android:layout_marginTop="27dp"
+            android:src="@drawable/ic_mypage_frame"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_my_page_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
