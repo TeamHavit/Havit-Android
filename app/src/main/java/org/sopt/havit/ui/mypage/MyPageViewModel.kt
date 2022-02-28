@@ -8,20 +8,21 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.data.remote.UserResponse
 import org.sopt.havit.data.repository.MyPageRepository
 
-class MyPageViewModel(val myPageRepository: MyPageRepository) :
+class MyPageViewModel(private val myPageRepository: MyPageRepository) :
     ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
-    }
-    val text: LiveData<String> = _text
 
     private val _user = MutableLiveData<UserResponse.UserData>()
     val user : LiveData<UserResponse.UserData> = _user
 
+    private val _rate = MutableLiveData<String>()
+    val rate : LiveData<String> = _rate
+
     fun requestUserInfo(){
         viewModelScope.launch {
-            _user.postValue(myPageRepository.getUserInfo())
+            val response = myPageRepository.getUserInfo()
+            _user.postValue(response)
+            _rate.postValue((response.totalSeenContentNumber.toDouble() / response.totalContentNumber.toDouble() * 100).toInt().toString())
+
         }
     }
 }

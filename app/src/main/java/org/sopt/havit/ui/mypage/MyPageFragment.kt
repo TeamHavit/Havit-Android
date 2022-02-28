@@ -23,8 +23,16 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
         super.onCreateView(inflater, container, savedInstanceState)
         binding.vm = myPageViewModel
         binding.lifecycleOwner=viewLifecycleOwner
-        myPageViewModel.requestUserInfo()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setMyPageView()
+    }
+
+    private fun setMyPageView(){
+        myPageViewModel.requestUserInfo()
     }
 
 

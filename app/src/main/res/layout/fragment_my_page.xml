@@ -240,10 +240,23 @@
             android:layout_marginTop="58dp"
             android:fontFamily="@font/pretendard_semibold"
             android:includeFontPadding="false"
-            android:text="@string/mypage_percent"
+            android:text="@{vm.rate}"
             android:textColor="@color/havit_white"
             android:textSize="45dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_my_page_percent_mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="58dp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:includeFontPadding="false"
+            android:text="@string/mypage_percent"
+            android:textColor="@color/havit_white"
+            android:textSize="45dp"
+            app:layout_constraintStart_toEndOf="@+id/tv_my_page_percent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
