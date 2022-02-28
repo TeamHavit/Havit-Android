@@ -12,17 +12,19 @@ class MyPageViewModel(private val myPageRepository: MyPageRepository) :
     ViewModel() {
 
     private val _user = MutableLiveData<UserResponse.UserData>()
-    val user : LiveData<UserResponse.UserData> = _user
+    val user: LiveData<UserResponse.UserData> = _user
 
-    private val _rate = MutableLiveData<String>()
-    val rate : LiveData<String> = _rate
+    private val _rate = MutableLiveData<Int>()
+    val rate: LiveData<Int> = _rate
 
-    fun requestUserInfo(){
+    private val _description = MutableLiveData<String>()
+    val description: LiveData<String> = _description
+
+    fun requestUserInfo() {
         viewModelScope.launch {
             val response = myPageRepository.getUserInfo()
             _user.postValue(response)
-            _rate.postValue((response.totalSeenContentNumber.toDouble() / response.totalContentNumber.toDouble() * 100).toInt().toString())
-
+            _rate.postValue((response.totalSeenContentNumber.toDouble() / response.totalContentNumber.toDouble() * 100).toInt())
         }
     }
 }

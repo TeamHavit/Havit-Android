@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="org.sopt.havit.ui.mypage.MyPageViewModel" />
@@ -240,7 +241,7 @@
             android:layout_marginTop="58dp"
             android:fontFamily="@font/pretendard_semibold"
             android:includeFontPadding="false"
-            android:text="@{vm.rate}"
+            android:text="@{vm.rate.toString()}"
             android:textColor="@color/havit_white"
             android:textSize="45dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -262,10 +263,10 @@
 
         <TextView
             android:id="@+id/tv_my_page_description"
+            description="@{vm.rate}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/mypage_description"
             android:textAppearance="@style/Header16Medium"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="@+id/tv_my_page_percent"

@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import org.sopt.havit.R
@@ -41,16 +42,16 @@ object BindingAdapter {
 
     @BindingAdapter("imgRes")
     @JvmStatic
-    fun imgLoad(imageView:ImageView, resid:Drawable) {
+    fun imgLoad(imageView: ImageView, resid: Drawable) {
         imageView.setImageDrawable(resid)
     }
 
     @BindingAdapter("btnColor")
     @JvmStatic
-    fun setBtnColor(btn:Button,isNext:Boolean){
-        if(isNext){
+    fun setBtnColor(btn: Button, isNext: Boolean) {
+        if (isNext) {
             btn.setBackgroundColor(Color.parseColor("#8578ff"))
-        }else{
+        } else {
             btn.setBackgroundColor(Color.parseColor("#afafb7"))
         }
     }
@@ -101,5 +102,16 @@ object BindingAdapter {
             .load(url)
             .placeholder(R.drawable.img_contents_dummy_3)
             .into(this)
+    }
+
+    @BindingAdapter("description")
+    @JvmStatic
+    fun setDescription(textView: TextView, rate: Int?) {
+        when (rate) {
+            in 0..33 -> textView.text = textView.context.getString(R.string.mypage_description1)
+            in 34..66 -> textView.text = textView.context.getString(R.string.mypage_description2)
+            in 67..99 -> textView.text = textView.context.getString(R.string.mypage_description3)
+            100 -> textView.text = textView.context.getString(R.string.mypage_description4)
+        }
     }
 }
