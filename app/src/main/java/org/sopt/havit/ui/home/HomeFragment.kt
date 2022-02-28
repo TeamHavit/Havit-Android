@@ -175,7 +175,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
             startActivity((intent))
         }
-        binding.clSearch.setOnClickListener {
+        binding.clSearchClickable.setOnClickListener {
             val intent = Intent(requireActivity(), SearchActivity::class.java)
             startActivity(intent)
         }
