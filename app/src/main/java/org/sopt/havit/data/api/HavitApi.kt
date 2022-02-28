@@ -55,7 +55,7 @@ interface HavitApi {
     @DELETE("category/{categoryId}")
     suspend fun deleteCategory(
         @Path("categoryId") categoryId: Int
-    ): CategoryDeleteResponse
+    ): BasicResponse
 
     @GET("recommendation")
     suspend fun getRecommendation(): RecommendationResponse
@@ -63,13 +63,13 @@ interface HavitApi {
     @PATCH("category/order")
     suspend fun modifyCategoryOrder(
         @Body body : CategoryOrderRequest
-    ): CategoryOrderResponse
+    ): BasicResponse
 
     @PATCH("category/{categoryId}")
     suspend fun modifyCategoryContent(
         @Path("categoryId") categoryId: Int,
         @Body body : CategoryModifyRequest
-    ): CategoryModifyResponse
+    ): BasicResponse
 
     @GET("content?option=&filter=")
     suspend fun getAllContents(
@@ -83,4 +83,9 @@ interface HavitApi {
     fun getOgData(
         @Query("link") link: String
     ): Call<ContentsScrapResponse>
+
+    @DELETE("content/{contentId}")
+    suspend fun deleteContents(
+        @Path("contentId") contentId: Int
+    ): BasicResponse
 }

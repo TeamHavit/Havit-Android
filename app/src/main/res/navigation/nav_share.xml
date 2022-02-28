@@ -78,7 +78,7 @@
         android:label="fragment_edit_title"
         tools:layout="@layout/fragment_edit_title" >
         <argument
-            android:name="contents_modified_title"
+            android:name="contents_origin_title"
             app:argType="string"
             android:defaultValue="" />
     </fragment>

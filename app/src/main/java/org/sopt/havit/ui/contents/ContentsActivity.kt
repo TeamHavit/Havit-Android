@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.sopt.havit.R
+import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryOrderModifyActivity
@@ -44,7 +46,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         setChipOrder()
         setCategoryListDialog()
         clickModify()
-        setToast()
+        clickItemHavit()
+        clickItemMore()
     }
 
     override fun onStart() {
@@ -61,7 +64,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun initAdapter() {
-        contentsAdapter = ContentsAdapter(contentsViewModel, supportFragmentManager)
+        contentsAdapter = ContentsAdapter()
         binding.rvContents.adapter = contentsAdapter
     }
 
@@ -82,7 +85,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         intent.getStringExtra("categoryName")?.let {
             CATEGORY_NAME = it
         }
-        //contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
         Log.d("categoryName", "$CATEGORY_NAME")
     }
 
@@ -158,7 +160,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         val bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(bottomSheetView)
 
-        binding.tvOrder.setOnClickListener {
+        binding.clOrder.setOnClickListener {
             when (binding.tvOrder.text) {
                 "최신순" -> {
                     bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent)
@@ -256,6 +258,36 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         })
     }
 
+    // 콘텐츠 더보기 클릭 시 이벤트
+    private fun clickItemMore(){
+        contentsAdapter.setItemSetClickListner(object: ContentsAdapter.OnItemSetClickListener{
+            override fun onSetClick(v: View, position: Int) {
+                val dataMore = contentsViewModel.contentsList.value?.get(position)!!.let {
+                    ContentsSearchResponse.Data(
+                        it.createdAt,
+                        it.description,
+                        it.id,
+                        it.image,
+                        it.isNotified,
+                        it.isSeen,
+                        it.notificationTime,
+                        it.title,
+                        it.url
+                    )
+                }
+                val dialog = ContentsMoreFragment(dataMore)
+                dialog.setClickListener(object: ContentsMoreFragment.OnClickListener{
+                    override fun onUpdate() {
+                        // 내용 변경 시 서버에서 데이터를 다시 불러온다
+                        setContentsData()
+                        dialog.dismiss()
+                    }
+                })
+                dialog.show(supportFragmentManager, "setting")
+            }
+        })
+    }
+
     private fun setChipOrder() {
         with(binding) {
             chAll.setOnClickListener {
@@ -292,10 +324,25 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         toast.show()
     }
 
-    private fun setToast(){
-        contentsAdapter.setHavitClickListener(object : ContentsAdapter.OnHavitClickListener {
-            override fun onHavitClick() {
-                setCustomToast()
+    // 해빗 클릭 시 이벤트 함수 정의
+    private fun clickItemHavit(){
+        contentsAdapter.setHavitClickListener(object : ContentsAdapter.OnItemHavitClickListener {
+            override fun onHavitClick(v: ImageView, position: Int) {
+                with(contentsAdapter) {
+                    // 보지 않았던 콘텐츠의 경우 콘텐츠를 봤다는 토스트 띄우기
+                    if (!currentList[position].isSeen) {
+                        setCustomToast()
+                    }
+
+                    currentList[position].isSeen = !currentList[position].isSeen
+                    // 서버 호출
+                    contentsViewModel.setIsSeen(currentList[position].id)
+                    // 태그 바꾸기
+                    val isSeen = (v.tag == "seen")
+                    v.tag =if (isSeen) "unseen" else "seen"
+                    v.setImageResource(if (isSeen) R.drawable.ic_contents_unread else R.drawable.ic_contents_read_2)
+
+                }
             }
         })
     }

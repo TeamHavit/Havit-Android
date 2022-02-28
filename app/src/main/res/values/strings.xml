@@ -31,11 +31,11 @@
     <string name="home_more_contents">더보기</string>
     <string name="home_service_use">콘텐츠 저장을 위한 해빗 서비스 이용 방법</string>
     <string name="home_recommend_site">오늘의 추천 사이트</string>
-    <string name="home_recommend_havit">다양한 사이트에서 해빗 할 컨텐츠를 탐색해보세요!</string>
+    <string name="home_recommend_havit">다양한 사이트에서 해빗 할 콘텐츠를 탐색해보세요!</string>
     <string name="home_category_empty">아직 카테고리가 없습니다</string>
     <string name="home_category_empty_recommend_create_category">HAVIT에 콘텐츠를 쉽게 저장할 수 있습니다.\n카테고리를 생성하려면 아래를 누르세요.</string>
     <string name="home_category_empty_create_category">카테고리 추가</string>
-    <string name="home_contents_empty">저장한 컨텐츠가 없습니다</string>
+    <string name="home_contents_empty">저장한 콘텐츠가 없습니다</string>
     <string name="home_category_save">저장 콘텐츠</string>
     <string name="contents_divider">·</string>
     <string name="contents_alarm_plan"> 알림 예정</string>
@@ -53,12 +53,12 @@
     <string name="set_alarm">알림설정</string>
     <string name="edit_title">edit_title</string>
     <string name="edit_title_description">TIP. 알아보기 쉬운 제목은 어때요?</string>
-    <string name="edit_title_kor">컨텐츠 제목을 수정하세요</string>
+    <string name="edit_title_kor">콘텐츠 제목을 수정하세요</string>
     <string name="is_selected">isSelected</string>
     <string name="choose_category">카테고리를 선택하세요</string>
     <string name="set_notification_time">알림 받을 시간을 설정하세요</string>
     <string name="logo">logo</string>
-    <string name="save_contents">새로운 컨텐츠를 추가했습니다.\nHAVIT은 당신의 성장과 함께해요!</string>
+    <string name="save_contents">새로운 콘텐츠를 추가했습니다.\nHAVIT은 당신의 성장과 함께해요!</string>
     <string name="contents_empty">아직 저장된 콘텐츠가 없습니다</string>
     <string name="contents_add">콘텐츠 추가</string>
     <string name="webview_unread">콘텐츠 확인하기</string>
@@ -86,7 +86,7 @@
     <string name="back_button">back_button</string>
     <string name="button_close">button_close</string>
     <string name="enter_category_title">카테고리 제목 입력</string>
-    <string name="save_contents_toolbar">컨텐츠 저장</string>
+    <string name="save_contents_toolbar">콘텐츠 저장</string>
     <string name="set_alarm_space">알림 설정</string>
     <string name="contents_edit_title">제목 수정</string>
     <string name="contents_edit_share">공유하기</string>
