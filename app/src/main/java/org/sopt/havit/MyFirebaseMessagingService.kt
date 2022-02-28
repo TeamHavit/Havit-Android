@@ -27,21 +27,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         Log.d("MyFirebaseMessagingService", "Refreshed token: $token")
     }
 
-    fun getDeviceToken() {
-
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.d("TokenTest", "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
-
-            // Get new FCM registration token
-            val token = task.result
-            Log.d("TokenTest", token)
-
-        })
-    }
-
     // 1. push 알림 들어옴
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
@@ -155,6 +140,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     companion object {
+        fun getDeviceToken() {
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.d("TokenTest", "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                // Get new FCM registration token
+                val token = task.result
+                Log.d("TokenTest", token)
+
+            })
+        }
+
         const val TAG = "MyFirebaseMessagingService"
     }
 

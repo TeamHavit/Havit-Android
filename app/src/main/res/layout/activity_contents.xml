@@ -29,9 +29,10 @@
                 android:id="@+id/iv_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="17dp"
-                android:layout_marginTop="11dp"
-                android:layout_marginBottom="14dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="11dp"
+                android:padding="3dp"
                 android:src="@drawable/ic_back_black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,9 +42,11 @@
                 android:id="@+id/tv_modify"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="21dp"
-                android:layout_marginEnd="23dp"
-                android:layout_marginBottom="19dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginBottom="13dp"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="6dp"
                 android:text="@string/modify"
                 android:textAppearance="@style/Text14Regular"
                 android:textColor="@color/gray_3"
@@ -55,8 +58,10 @@
                 android:id="@+id/cl_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="21dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginBottom="8dp"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -121,9 +126,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
-                        android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
                         android:background="@color/white_gray"
+                        android:paddingTop="9dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -208,8 +213,9 @@
                         android:id="@+id/iv_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="10dp"
+                        android:padding="6dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_layout_3" />
@@ -284,30 +290,39 @@
 
                     </com.google.android.material.chip.ChipGroup>
 
-                    <TextView
-                        android:id="@+id/tv_order"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_order"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="14dp"
-                        android:layout_marginBottom="18dp"
-                        android:text="@string/contents_recent_order"
-                        android:textAppearance="@style/Sub12Medium"
-                        android:textColor="@color/gray_3"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="5dp"
+                        android:paddingHorizontal="6dp"
+                        android:paddingVertical="3dp"
                         app:layout_constraintEnd_toEndOf="@+id/iv_layout"
-                        app:layout_constraintTop_toBottomOf="@+id/iv_layout" />
+                        app:layout_constraintTop_toBottomOf="@+id/iv_layout">
 
-                    <ImageView
-                        android:id="@+id/iv_order"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="3dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_order"
-                        app:layout_constraintEnd_toStartOf="@+id/tv_order"
-                        app:layout_constraintTop_toTopOf="@+id/tv_order"
-                        app:srcCompat="@drawable/ic_updown" />
+                        <TextView
+                            android:id="@+id/tv_order"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/contents_recent_order"
+                            android:textAppearance="@style/Sub12Medium"
+                            android:textColor="@color/gray_3"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/iv_order"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="3dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_order"
+                            app:layout_constraintEnd_toStartOf="@+id/tv_order"
+                            app:layout_constraintTop_toTopOf="@+id/tv_order"
+                            app:srcCompat="@drawable/ic_updown" />
 
 
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView

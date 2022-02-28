@@ -5,12 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -19,13 +20,17 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.ShareActivity
 import org.sopt.havit.databinding.FragmentSaveBinding
+import org.sopt.havit.util.CustomToast
+import org.sopt.havit.util.KeyBoardHeightProvider
+import java.net.URL
 
 
-class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
+class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentSaveBinding
     private val saveViewModel: SaveViewModel by viewModels()
-    var categoryName=categoryName
+    private var categoryName = categoryName
+    private var isFirstKeyBoard = true
 
 
     override fun onCreateView(
@@ -35,21 +40,58 @@ class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_save, container, false)
         binding.vm = saveViewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        getKeyBoardHeight()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-            openKeyBoard()
-            //activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-             val behavior = BottomSheetBehavior.from<ConstraintLayout>(
-                 (dialog as BottomSheetDialog).findViewById(R.id.design_bottom_sheet)!!
-             )
-             behavior.state = BottomSheetBehavior.STATE_EXPANDED
-             behavior.skipCollapsed = true
-            binding.clSaveBottom.layoutParams.height = (resources.displayMetrics.heightPixels * 0.94).toInt()
+        setBottomSheetShow()
         setListeners()
+    }
+
+    private fun getKeyBoardHeight() {
+        KeyBoardHeightProvider(requireActivity()).init()
+            .setHeightListener(object : KeyBoardHeightProvider.HeightListener {
+                override fun onHeightChanged(height: Int) {
+                    onKeyboardShown(height)
+                }
+            })
+    }
+
+    // url 유효성 검사
+    private fun isFullPath(potentialUrl: String): Boolean {
+        try {
+            URL(potentialUrl).toURI()
+            return true
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return false
+    }
+
+    // 키보드가 올라왔을 때 실행되는 함수
+    fun onKeyboardShown(keyboardSize: Int) {
+        if (isFirstKeyBoard) { // 맨 처음에만 키보드 오픈
+            openKeyBoard()
+            isFirstKeyBoard = false
+        }
+        Log.d("KEYBOARD", keyboardSize.toString())
+
+        val param = binding.btnSaveNext.layoutParams as ViewGroup.MarginLayoutParams
+        param.setMargins(0, 0, 0, keyboardSize)
+        binding.btnSaveNext.layoutParams = param
+    }
+
+    private fun setBottomSheetShow() {
+        (dialog as BottomSheetDialog).behavior.apply {
+            state = BottomSheetBehavior.STATE_EXPANDED      // 높이 고정
+            skipCollapsed = true                            // HALF_EXPANDED 안되게 설정
+        }
+        binding.clSaveBottom.layoutParams.height =
+            (resources.displayMetrics.heightPixels * 0.94).toInt()
     }
 
     private fun openKeyBoard() {
@@ -72,11 +114,16 @@ class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
             dismiss()
         }
         binding.btnSaveNext.setOnClickListener {
-            val intent = Intent(requireContext(), ShareActivity::class.java).apply {
-                putExtra("url", binding.etSaveUrl.text.toString())
+            if (isFullPath(binding.etSaveUrl.text.toString())) {
+                val intent = Intent(requireContext(), ShareActivity::class.java).apply {
+                    putExtra("url", binding.etSaveUrl.text.toString())
+                }
+                startActivity(intent)
+                dismiss()
+            } else {
+                CustomToast.showTextToast(requireContext(),getString(R.string.url_unavailable))
             }
-            startActivity(intent)
-            dismiss()
+
         }
         binding.etSaveUrl.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -101,9 +148,10 @@ class SaveFragment(categoryName:String) : BottomSheetDialogFragment() {
         return R.style.AppBottomSheetDialogTheme
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         hideKeyBoard()
     }
+
 
 }

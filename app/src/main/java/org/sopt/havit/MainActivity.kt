@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         binding.floatingSave.bringToFront()
         binding.floatingSave.setOnClickListener {
             SaveFragment("").show(supportFragmentManager, "save")
-            //startActivity(Intent(this,SaveActivity::class.java))
         }
     }
 

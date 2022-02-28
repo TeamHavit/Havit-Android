@@ -14,6 +14,7 @@ import org.sopt.havit.domain.repository.ContentsRepositoryImpl
 import org.sopt.havit.domain.repository.MyPageRepositoryImpl
 import org.sopt.havit.domain.repository.SearchRepositoryImpl
 import org.sopt.havit.ui.mypage.MyPageViewModel
+import org.sopt.havit.ui.save.SaveViewModel
 import org.sopt.havit.ui.search.SearchViewModel
 import org.sopt.havit.ui.web.WebViewModel
 
@@ -43,6 +44,7 @@ class MainApplication :Application() {
         viewModel { SearchViewModel(get(),get()) }
         viewModel { MyPageViewModel(get()) }
         viewModel { WebViewModel(get()) }
+        viewModel { SaveViewModel() }
     }
 
     private val myModule = module{
