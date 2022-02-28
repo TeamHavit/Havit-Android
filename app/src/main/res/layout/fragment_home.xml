@@ -183,40 +183,51 @@
                             app:layout_constraintTop_toBottomOf="@id/tv_reach_user"
                             tools:text="/ 145" />
 
-                        <TextView
-                            android:id="@+id/tv_reach_contents"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/cl_reach_contents"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginEnd="16dp"
-                            android:background="@drawable/rectangle_white_purple_light_radius_6"
-                            android:paddingVertical="5dp"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="9dp"
-                            android:text="@string/home_reach_contents"
-                            android:textAppearance="@style/Sub12Medium"
-                            android:textColor="@color/gray_3"
+                            android:layout_marginTop="9dp"
+                            android:layout_marginEnd="9dp"
+                            android:padding="6dp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/tv_reach_contents"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/rectangle_white_purple_light_radius_6"
+                                android:paddingVertical="5dp"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="9dp"
+                                android:text="@string/home_reach_contents"
+                                android:textAppearance="@style/Sub12Medium"
+                                android:textColor="@color/gray_3"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
                             android:id="@+id/tv_reach_percent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="35dp"
+                            android:layout_marginTop="29dp"
                             android:layout_marginBottom="16dp"
                             android:text="@string/home_reach_percent"
                             android:textAppearance="@style/Light20"
                             android:textColor="@color/havit_purple"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="@id/tv_reach_contents"
-                            app:layout_constraintTop_toBottomOf="@id/tv_reach_contents" />
+                            app:layout_constraintEnd_toEndOf="@id/cl_reach_contents"
+                            app:layout_constraintTop_toBottomOf="@id/cl_reach_contents" />
 
                         <TextView
                             android:id="@+id/tv_reach_rate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="22dp"
+                            android:layout_marginTop="16dp"
                             android:layout_marginEnd="3dp"
                             android:layout_marginBottom="14dp"
                             android:text="@{String.valueOf(vm_home.reachRate)}"
@@ -224,7 +235,7 @@
                             android:textColor="@color/havit_purple"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/tv_reach_percent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_reach_contents"
+                            app:layout_constraintTop_toBottomOf="@id/cl_reach_contents"
                             tools:text="100" />
 
                         <ProgressBar
@@ -251,7 +262,6 @@
                         app:layout_constraintTop_toBottomOf="@id/cl_reach" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_sticky_view"
                     android:layout_width="match_parent"
@@ -265,44 +275,54 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white_gray"
-                        android:paddingHorizontal="16dp"
-                        android:paddingTop="18dp"
                         android:paddingBottom="15dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <ImageView
-                            android:id="@+id/iv_search"
-                            android:layout_width="19dp"
-                            android:layout_height="17dp"
-                            android:layout_marginStart="1dp"
-                            android:layout_marginTop="1dp"
-                            android:src="@drawable/ic_search"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/tv_search"
-                            android:layout_width="0dp"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/cl_search_clickable"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:text="@string/home_search"
-                            android:textAppearance="@style/Text14Medium"
-                            android:textColor="@color/gray_2"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/iv_search"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <View
-                            android:id="@+id/view_search"
-                            android:layout_width="0dp"
-                            android:layout_height="2dp"
-                            android:layout_marginTop="8dp"
-                            android:background="@color/gray_1"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginTop="10dp"
+                            android:paddingTop="9dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/iv_search" />
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/iv_search"
+                                android:layout_width="19dp"
+                                android:layout_height="17dp"
+                                android:layout_marginStart="1dp"
+                                android:src="@drawable/ic_search"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_search"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:text="@string/home_search"
+                                android:textAppearance="@style/Text14Medium"
+                                android:textColor="@color/gray_2"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/iv_search"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <View
+                                android:id="@+id/view_search_line"
+                                android:layout_width="0dp"
+                                android:layout_height="2dp"
+                                android:layout_marginTop="8dp"
+                                android:background="@color/gray_1"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/iv_search" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <ImageView
