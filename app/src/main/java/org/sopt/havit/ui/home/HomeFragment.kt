@@ -35,9 +35,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.layoutCategory.vmHome = homeViewModel
         binding.layoutCategoryEmpty.vmHome = homeViewModel
 
-//        setData()
         initSearchSticky()
-//        initProgressBar()   // User reach graph
         // Category RecyclerView
         initVpAdapter()
         initIndicator()
@@ -48,10 +46,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         // Recommend RecyclerView
         recommendationDataObserve()
         setClickEvent() // Every clickEvent
-        // CATEGORY CLICK TEST
-        binding.clCategory.setOnClickListener {
-            Log.d("HOMEFRAGMENT_CATEGORY", "HOMEFRAGMENT")
-        }
 
         return binding.root
     }
@@ -60,9 +54,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         super.onStart()
         setData()
         initProgressBar()   // User reach graph
-//        categoryDataObserve()
-//        recentContentsDataObserve()
-//        recommendationDataObserve()
     }
 
     private fun clickContentsItemView() {
@@ -96,7 +87,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun initRecentContentsRvAdapter() {
-        //contentsAdapter = HomeRecentContentsRvAdapter()
         binding.rvContents.adapter = contentsAdapter
     }
 
@@ -166,7 +156,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             val intent = Intent(requireActivity(), NotificationActivity::class.java)
             startActivity(intent)
         }
-        binding.tvReachContents.setOnClickListener {
+        binding.clReachContents.setOnClickListener {
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
             intent.putExtra("before", "unseen")
             startActivity(intent)
@@ -175,7 +165,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
             startActivity((intent))
         }
-        binding.clSearch.setOnClickListener {
+        binding.clSearchClickable.setOnClickListener {
             val intent = Intent(requireActivity(), SearchActivity::class.java)
             startActivity(intent)
         }
@@ -233,8 +223,12 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private fun initProgressBar() {
         with(homeViewModel) {
             userData.observe(viewLifecycleOwner) {
-                val rate =
-                    (it.totalSeenContentNumber.toDouble() / it.totalContentNumber.toDouble() * 100).toInt()
+                // 전체 콘텐츠 수 or 본 콘텐츠 수가 0일 경우 예외처리
+                var rate = 0
+                if (it.totalSeenContentNumber != 0 && it.totalContentNumber != 0) { // 콘텐츠 수가 0이 아니라면 rate 계산
+                    rate =
+                        (it.totalSeenContentNumber.toDouble() / it.totalContentNumber.toDouble() * 100).toInt()
+                }
                 requestReachRate(rate)
             }
         }
