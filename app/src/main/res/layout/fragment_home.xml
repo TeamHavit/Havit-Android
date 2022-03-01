@@ -182,7 +182,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="9dp"
                         android:layout_marginEnd="9dp"
-                        android:padding="6dp"
+                        android:paddingVertical="6dp"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="7dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -208,12 +210,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="29dp"
+                        android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         android:text="@string/home_reach_percent"
                         android:textAppearance="@style/Light20"
                         android:textColor="@color/havit_purple"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/cl_reach_contents"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/cl_reach_contents" />
 
                     <TextView
@@ -348,9 +351,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-30dp"
+                    android:background="@drawable/rectangle_white_radius_16"
                     android:clipToPadding="false"
                     android:paddingTop="30dp"
-                    android:background="@drawable/rectangle_white_radius_16"
                     app:layout_constraintTop_toBottomOf="@id/cl_sticky_view">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
