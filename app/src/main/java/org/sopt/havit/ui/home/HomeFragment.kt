@@ -223,8 +223,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private fun initProgressBar() {
         with(homeViewModel) {
             userData.observe(viewLifecycleOwner) {
+                // 전체 콘텐츠 수 or 본 콘텐츠 수가 0일 경우 예외처리
                 var rate = 0
-                if (it.totalSeenContentNumber != 0 && it.totalContentNumber != 0) {
+                if (it.totalSeenContentNumber != 0 && it.totalContentNumber != 0) { // 콘텐츠 수가 0이 아니라면 rate 계산
                     rate =
                         (it.totalSeenContentNumber.toDouble() / it.totalContentNumber.toDouble() * 100).toInt()
                 }
