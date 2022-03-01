@@ -350,6 +350,7 @@
                     android:layout_marginTop="-30dp"
                     android:clipToPadding="false"
                     android:paddingTop="30dp"
+                    android:background="@drawable/rectangle_white_radius_16"
                     app:layout_constraintTop_toBottomOf="@id/cl_sticky_view">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
