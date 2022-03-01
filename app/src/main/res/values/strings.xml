@@ -120,5 +120,9 @@
     <string name="duplicate_category">중복된 카테고리 이름이 존재합니다</string>
     <string name="max_category">카테고리 최대 개수를 초과했습니다.</string>
     <string name="url_unavailable">입력한 URL 링크 정보를 찾을 수 없습니다.</string>
+    <string name="cancel_edit_title">제목 수정 취소</string>
+    <string name="cancel_edit_title_description">제목 수정을 취소하고 나가시겠습니까? \n입력한 내용은 저장되지 않습니다.</string>
+    <string name="cancel">취소</string>
+    <string name="exit">나가기</string>
     <string name="contents_havit_complete">콘텐츠 보기 완료 !</string>
 </resources>
