@@ -1,5 +1,7 @@
 package org.sopt.havit.ui.save
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,9 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -22,6 +22,7 @@ import org.sopt.havit.ShareActivity
 import org.sopt.havit.databinding.FragmentSaveBinding
 import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.KeyBoardHeightProvider
+import org.sopt.havit.util.KeyBoardUtil
 import java.net.URL
 
 
@@ -31,6 +32,8 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     private val saveViewModel: SaveViewModel by viewModels()
     private var categoryName = categoryName
     private var isFirstKeyBoard = true
+    private lateinit var clipboard: ClipboardManager
+    private lateinit var clipDate: ClipData
 
 
     override fun onCreateView(
@@ -47,9 +50,23 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setBottomSheetShow()
+        setUrlPaste()
         setListeners()
+    }
+
+    private fun setUrlPaste() {
+        clipboard = activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipDate = clipboard.primaryClip!!
+
+        if (clipboard.hasPrimaryClip()) {
+            clipDate.apply {
+                val textToPaste: String = this.getItemAt(0).text.toString().trim()
+                binding.tvSaveUrl.text = textToPaste
+            }
+        } else {
+            binding.clSaveUrl.isVisible = false
+        }
     }
 
     private fun getKeyBoardHeight() {
@@ -95,33 +112,38 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     }
 
     private fun openKeyBoard() {
-        binding.etSaveUrl.requestFocus()
-        val inputMethodManager =
-            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.toggleSoftInput(
-            InputMethodManager.SHOW_FORCED,
-            InputMethodManager.SHOW_IMPLICIT
-        )
+        KeyBoardUtil.openKeyBoard(requireContext(), binding.etSaveUrl)
     }
 
     private fun hideKeyBoard() {
-        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+        KeyBoardUtil.hideKeyBoard(requireActivity())
     }
 
     private fun setListeners() {
+        binding.clSaveUrl.setOnClickListener {
+            clipDate.apply {
+                val textToPaste: String = this.getItemAt(0).text.toString().trim()
+                binding.etSaveUrl.setText(textToPaste)
+            }
+            binding.clSaveUrl.isVisible = false
+        }
+        binding.ibSaveUrlDelete.setOnClickListener {
+            binding.clSaveUrl.isVisible = false
+        }
         binding.btnSaveClose.setOnClickListener {
             hideKeyBoard()
             dismiss()
         }
         binding.btnSaveNext.setOnClickListener {
             if (isFullPath(binding.etSaveUrl.text.toString())) {
+                hideKeyBoard()
+                dismiss()
                 val intent = Intent(requireContext(), ShareActivity::class.java).apply {
                     putExtra("url", binding.etSaveUrl.text.toString())
                 }
                 startActivity(intent)
-                dismiss()
             } else {
-                CustomToast.showTextToast(requireContext(),getString(R.string.url_unavailable))
+                CustomToast.showTextToast(requireContext(), getString(R.string.url_unavailable))
             }
 
         }

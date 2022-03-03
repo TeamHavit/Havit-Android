@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="org.sopt.havit.ui.save.SaveViewModel" />
@@ -15,7 +16,6 @@
         android:id="@+id/cl_save_bottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         android:background="@drawable/rectangle_white_radius_20"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -78,19 +78,71 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/rectangle_white_gray_radius_4"
             android:backgroundTint="@null"
-            android:padding="12dp"
+            android:focusable="true"
+            android:windowSoftInputMode="stateVisible"
             android:focusableInTouchMode="true"
             android:inputType="textMultiLine"
             android:maxLines="6"
-            android:focusable="true"
-            android:textAppearance="@style/Sub13Regular"
-            android:textColor="@color/gray_4"
+            android:padding="12dp"
             android:paddingHorizontal="12dp"
             android:scrollbars="vertical"
+            android:textAppearance="@style/Sub13Regular"
+            android:textColor="@color/gray_4"
             android:textCursorDrawable="@drawable/rectangle_havit_purple_cursor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_save_info1"
             app:layout_constraintTop_toBottomOf="@+id/tv_save_info1" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_save_url"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:layout_marginHorizontal="17dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_save_paste_toast"
+            android:elevation="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_save_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/tv_save_url"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginTop="15dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text=""
+                android:textAppearance="@style/Sub12Regular"
+                android:textColor="@color/gray_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_save_url_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/save_paste_title"
+                android:textAppearance="@style/Text14Semibold"
+                android:textColor="@color/gray_4"
+                app:layout_constraintEnd_toEndOf="@+id/tv_save_url"
+                app:layout_constraintStart_toStartOf="@+id/tv_save_url"
+                app:layout_constraintTop_toBottomOf="@+id/tv_save_url" />
+
+            <ImageView
+                android:id="@+id/ib_save_url_delete"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_marginEnd="17dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_delete_toast"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_save_next"
@@ -98,7 +150,6 @@
             android:layout_width="0dp"
             android:layout_height="58dp"
             android:clickable="@{vm.isSaveClick == true ? true : false}"
-            android:fitsSystemWindows="true"
             android:text="@string/next"
             android:textAppearance="@style/Text16Semibold"
             android:textColor="@color/white"

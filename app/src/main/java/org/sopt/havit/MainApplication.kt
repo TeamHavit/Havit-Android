@@ -1,6 +1,7 @@
 package org.sopt.havit
 
 import android.app.Application
+import android.util.Log.ERROR
 import com.kakao.sdk.common.KakaoSdk
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -17,6 +18,7 @@ import org.sopt.havit.ui.mypage.MyPageViewModel
 import org.sopt.havit.ui.save.SaveViewModel
 import org.sopt.havit.ui.search.SearchViewModel
 import org.sopt.havit.ui.web.WebViewModel
+import java.util.logging.Level
 
 class MainApplication :Application() {
 
@@ -32,7 +34,7 @@ class MainApplication :Application() {
         KakaoSdk.init(this, "6069fb41c205cbbf8f213b32eec7f2c8")
         startKoin {
             // Koin Android logger
-            androidLogger()
+            androidLogger(if (BuildConfig.DEBUG) org.koin.core.logger.Level.ERROR else org.koin.core.logger.Level.NONE)
             //inject Android context
             androidContext(this@MainApplication)
             // use modules
