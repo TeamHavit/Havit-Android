@@ -147,7 +147,6 @@
                 android:layout_marginTop="15dp"
                 android:ellipsize="end"
                 android:lines="1"
-                android:text=""
                 android:textAppearance="@style/Sub12Regular"
                 android:textColor="@color/gray_2"
                 app:layout_constraintEnd_toEndOf="parent"

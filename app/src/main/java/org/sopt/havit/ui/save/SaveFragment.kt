@@ -54,16 +54,17 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         setListeners()
     }
 
+    // url 붙여넣기 팝업 생성
     private fun setUrlPaste() {
         clipboard = activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         clipDate = clipboard.primaryClip!!
 
-        if (clipboard.hasPrimaryClip()) {
+        if (clipboard.hasPrimaryClip()) { // 클립보드에 내용이 있으면 팝업을 보여줌.
             clipDate.apply {
                 val textToPaste: String = this.getItemAt(0).text.toString().trim()
                 binding.tvSaveUrl.text = textToPaste
             }
-        } else {
+        } else { // 없으면 팝업 안보이기.
             binding.clSaveUrl.isVisible = false
         }
     }
@@ -119,17 +120,17 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     }
 
     private fun setListeners() {
-        binding.clSaveUrl.setOnClickListener {
+        binding.clSaveUrl.setOnClickListener { // url 붙여넣기 팝업 클릭시 editText에 url 보여주기
             clipDate.apply {
                 val textToPaste: String = this.getItemAt(0).text.toString().trim()
                 binding.etSaveUrl.setText(textToPaste)
             }
             binding.clSaveUrl.isVisible = false
         }
-        binding.ivSaveUrlDelete.setOnClickListener {
+        binding.ivSaveUrlDelete.setOnClickListener { // 팝업창 닫기
             binding.clSaveUrl.isVisible = false
         }
-        binding.ivSaveUrlTextDelete.setOnClickListener {
+        binding.ivSaveUrlTextDelete.setOnClickListener { // 사용자가 작성한 url 지우기
             binding.etSaveUrl.setText("")
         }
         binding.btnSaveClose.setOnClickListener {
@@ -145,9 +146,10 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
                 }
                 startActivity(intent)
             } else {
-                binding.ivSaveUrlValid.isVisible = true
-                binding.tvSaveUrlValid.isVisible = true
-                //CustomToast.showTextToast(requireContext(), getString(R.string.url_unavailable))
+                with(binding){
+                    ivSaveUrlValid.isVisible = true
+                    tvSaveUrlValid.isVisible = true
+                }
             }
 
         }
@@ -162,9 +164,11 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
                     binding.ivSaveUrlTextDelete.isVisible = true
                 } else {
                     saveViewModel.setClick(false)
-                    binding.ivSaveUrlTextDelete.isVisible = false
-                    binding.tvSaveUrlValid.isVisible = false
-                    binding.ivSaveUrlValid.isVisible = false
+                    with(binding){
+                        ivSaveUrlTextDelete.isVisible = false
+                        ivSaveUrlTextDelete.isVisible = false
+                        ivSaveUrlValid.isVisible = false
+                    }
                 }
             }
 
