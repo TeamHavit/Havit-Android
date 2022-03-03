@@ -60,12 +60,10 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
                         searchViewModel.setSearchNoImage(false)
                         searchViewModel.setSearchNoText(true)
                         searchViewModel.setSearchImage(true)
-                        Log.d("inging","Asdfasdf")
                     } else {
                         searchViewModel.setSearchNoImage(false)
                         searchViewModel.setSearchNoText(false)
                         searchViewModel.setSearchImage(false)
-                        Log.d("inging2222","Asdfasdf")
                     }
                 }
 
@@ -102,7 +100,7 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
     private fun observers() {
         searchViewModel.searchResult.observe(this) {
             binding.tvSearchCount.text = it.size.toString()
-            if (it.isNullOrEmpty()) { // 데이터 없응ㄹ
+            if (it.isNullOrEmpty()) { // 데이터 없음
                 searchViewModel.setSearchNoText(false)
                 searchViewModel.setSearchNoImage(false)
                 binding.rvSearch.visibility = GONE
