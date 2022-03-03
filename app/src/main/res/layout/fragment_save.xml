@@ -79,7 +79,6 @@
             android:background="@drawable/rectangle_white_gray_radius_4"
             android:backgroundTint="@null"
             android:focusable="true"
-            android:windowSoftInputMode="stateVisible"
             android:focusableInTouchMode="true"
             android:inputType="textMultiLine"
             android:maxLines="6"
@@ -89,9 +88,44 @@
             android:textAppearance="@style/Sub13Regular"
             android:textColor="@color/gray_4"
             android:textCursorDrawable="@drawable/rectangle_havit_purple_cursor"
+            android:windowSoftInputMode="stateVisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_save_info1"
             app:layout_constraintTop_toBottomOf="@+id/tv_save_info1" />
+
+        <ImageView
+            android:id="@+id/iv_save_url_text_delete"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_delete_text"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/et_save_url"
+            app:layout_constraintEnd_toEndOf="@+id/et_save_url"
+            app:layout_constraintTop_toTopOf="@+id/et_save_url" />
+
+        <ImageView
+            android:id="@+id/iv_save_url_valid"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_notice"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@+id/et_save_url"
+            app:layout_constraintTop_toBottomOf="@+id/et_save_url" />
+
+        <TextView
+            android:id="@+id/tv_save_url_valid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/save_url_valid"
+            android:textAppearance="@style/Sub12Regular"
+            android:textColor="@color/havit_red"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_save_url_valid"
+            app:layout_constraintStart_toEndOf="@+id/iv_save_url_valid"
+            app:layout_constraintTop_toTopOf="@+id/iv_save_url_valid" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_save_url"
@@ -133,7 +167,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_save_url" />
 
             <ImageView
-                android:id="@+id/ib_save_url_delete"
+                android:id="@+id/iv_save_url_delete"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
                 android:layout_marginEnd="17dp"

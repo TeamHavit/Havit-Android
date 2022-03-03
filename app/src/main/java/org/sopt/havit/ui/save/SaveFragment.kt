@@ -20,7 +20,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.ShareActivity
 import org.sopt.havit.databinding.FragmentSaveBinding
-import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.KeyBoardHeightProvider
 import org.sopt.havit.util.KeyBoardUtil
 import java.net.URL
@@ -127,8 +126,11 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
             }
             binding.clSaveUrl.isVisible = false
         }
-        binding.ibSaveUrlDelete.setOnClickListener {
+        binding.ivSaveUrlDelete.setOnClickListener {
             binding.clSaveUrl.isVisible = false
+        }
+        binding.ivSaveUrlTextDelete.setOnClickListener {
+            binding.etSaveUrl.setText("")
         }
         binding.btnSaveClose.setOnClickListener {
             hideKeyBoard()
@@ -143,7 +145,9 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
                 }
                 startActivity(intent)
             } else {
-                CustomToast.showTextToast(requireContext(), getString(R.string.url_unavailable))
+                binding.ivSaveUrlValid.isVisible = true
+                binding.tvSaveUrlValid.isVisible = true
+                //CustomToast.showTextToast(requireContext(), getString(R.string.url_unavailable))
             }
 
         }
@@ -155,8 +159,12 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
             override fun onTextChanged(c: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (binding.etSaveUrl.text.isNotEmpty()) {
                     saveViewModel.setClick(true)
+                    binding.ivSaveUrlTextDelete.isVisible = true
                 } else {
                     saveViewModel.setClick(false)
+                    binding.ivSaveUrlTextDelete.isVisible = false
+                    binding.tvSaveUrlValid.isVisible = false
+                    binding.ivSaveUrlValid.isVisible = false
                 }
             }
 
