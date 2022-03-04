@@ -87,31 +87,31 @@
             android:layout_marginHorizontal="12dp"
             android:hint="@string/enter_category_title"
             android:lines="1"
-            android:maxLength="12"
+            android:maxLength="15"
             android:singleLine="true"
-            android:theme="@style/PurpleEditTextStyle"
             android:textAppearance="@style/Header19Medium"
             android:textColor="@color/havit_gray"
             android:textColorHint="@color/gray_2"
+            android:theme="@style/PurpleEditTextStyle"
             app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
         <TextView
             android:id="@+id/tv_category_length_limit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:text="@string/category_length_limit"
-            android:textAppearance="@style/Text12Semibold"
-            app:layout_constraintBottom_toBottomOf="@id/et_category_title"
+            android:textAppearance="@style/Mini10Regular"
             app:layout_constraintEnd_toEndOf="@id/et_category_title"
-            app:layout_constraintTop_toTopOf="@id/et_category_title" />
+            app:layout_constraintTop_toBottomOf="@id/et_category_title" />
 
         <TextView
             android:id="@+id/tv_category_length_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
             android:text="@string/category_length_count_zero"
-            android:textAppearance="@style/Text12Semibold"
+            android:textAppearance="@style/Mini10Regular"
             android:textColor="@color/havit_purple"
             app:layout_constraintBottom_toBottomOf="@id/tv_category_length_limit"
             app:layout_constraintEnd_toStartOf="@id/tv_category_length_limit"
