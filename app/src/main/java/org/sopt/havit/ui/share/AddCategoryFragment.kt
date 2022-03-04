@@ -49,49 +49,26 @@ class AddCategoryFragment : Fragment() {
                 val response =
                     RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
                         .getAllCategory()
-                val categoryData = response.data
-
-                for (element in categoryData)
-                    categoryTitleList += element.title
+                for (element in response.data) categoryTitleList += element.title
             }
         }
     }
 
     private fun setTextWatcher() {
         binding.etCategoryTitle.addTextChangedListener {
-            setTextCount()
-            if (isTitleNull()) setBtnColor(false)
-            else checkDuplicateCategory(binding.etCategoryTitle.text.toString())
+            binding.categoryLength = binding.etCategoryTitle.text.length
+            binding.isEnabled = isTitleNotEmpty()
+            binding.isDuplicated = isTitleDuplicated()
+            binding.isEnabled = !isTitleDuplicated()
         }
     }
 
-    private fun checkDuplicateCategory(title: String?) {
-        // 중복 된 카테고리가 있는지 검사
-        var isDuplicated = false
-        for (element in categoryTitleList) {
-            if (element == title) {
-                isDuplicated = true
-                if (isDuplicated) break
-            }
-        }
-        // 중복 카테고리 여부에 따른 UI 설정(중복 warning & 다음 버튼 색)
-        if (isDuplicated) binding.clDuplicateCategory.visibility = View.VISIBLE
-        else binding.clDuplicateCategory.visibility              = View.INVISIBLE
-        setBtnColor(!isDuplicated)
-    }
-
-    private fun setBtnColor(isEnabled: Boolean) {
-        if (!isEnabled) {
-            binding.btnNext.setBackgroundColor(resources.getColor(R.color.gray_2))
-            binding.btnNext.isEnabled = false
-        } else {
-            binding.btnNext.setBackgroundColor(resources.getColor(R.color.havit_purple))
-            binding.btnNext.isEnabled = true
-        }
-    }
-
-    private fun setTextCount() {
-        binding.tvCategoryLengthCount.text = binding.etCategoryTitle.text.length.toString()
+    private fun isTitleDuplicated(): Boolean {
+        val title = binding.etCategoryTitle.text.toString()
+        if (title.isEmpty()) return false   // 입력값 없을 때
+        for (element in categoryTitleList)
+            if (element == title) return true
+        return false
     }
 
     private fun initClickListener() {
@@ -103,9 +80,7 @@ class AddCategoryFragment : Fragment() {
             )
         }
 
-        binding.ivDeleteText.setOnClickListener {
-            binding.etCategoryTitle.text.clear()
-        }
+        binding.ivDeleteText.setOnClickListener { binding.etCategoryTitle.text.clear() }
     }
 
     private fun toolbarClickListener() {
@@ -118,7 +93,9 @@ class AddCategoryFragment : Fragment() {
         }
     }
 
-    private fun isTitleNull(): Boolean = binding.etCategoryTitle.text.isEmpty()
+    private fun isTitleNotEmpty(): Boolean {
+        return binding.etCategoryTitle.text.isNotEmpty()
+    }
 
     private fun setKeyBoardUp() =
         KeyBoardUtil.openKeyBoard(requireContext(), binding.etCategoryTitle)
