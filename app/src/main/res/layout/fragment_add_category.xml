@@ -95,6 +95,17 @@
             android:theme="@style/PurpleEditTextStyle"
             app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
+        <ImageView
+            android:id="@+id/iv_delete_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete_text"
+            app:layout_constraintEnd_toEndOf="@id/et_category_title"
+            app:layout_constraintTop_toTopOf="@id/et_category_title"
+            app:layout_constraintBottom_toBottomOf="@id/et_category_title"
+            android:padding="6dp"/>
+
+
         <TextView
             android:id="@+id/tv_category_length_limit"
             android:layout_width="wrap_content"

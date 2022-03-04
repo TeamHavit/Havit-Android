@@ -102,6 +102,10 @@ class AddCategoryFragment : Fragment() {
                 )
             )
         }
+
+        binding.ivDeleteText.setOnClickListener {
+            binding.etCategoryTitle.text.clear()
+        }
     }
 
     private fun toolbarClickListener() {
