@@ -1,34 +1,22 @@
 package org.sopt.havit.ui.share
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.databinding.FragmentAddCategoryBinding
+import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.KeyBoardUtil.setUpAsSoftKeyboard
 import org.sopt.havit.util.MySharedPreference
 
-class AddCategoryFragment : Fragment() {
+class AddCategoryFragment : BaseBindingFragment<FragmentAddCategoryBinding>(R.layout.fragment_add_category) {
 
-    private var _binding: FragmentAddCategoryBinding? = null
-    private val binding get() = _binding!!
     private val categoryTitleList = mutableListOf<String>()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentAddCategoryBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
