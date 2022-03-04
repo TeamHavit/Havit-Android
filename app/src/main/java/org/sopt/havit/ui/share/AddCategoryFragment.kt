@@ -1,7 +1,6 @@
 package org.sopt.havit.ui.share
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,9 +56,8 @@ class AddCategoryFragment : Fragment() {
     private fun setTextWatcher() {
         binding.etCategoryTitle.addTextChangedListener {
             binding.categoryLength = binding.etCategoryTitle.text.length
-            binding.isEnabled = isTitleNotEmpty()
             binding.isDuplicated = isTitleDuplicated()
-            binding.isEnabled = !isTitleDuplicated()
+            binding.isEnabled = isTitleNotEmpty() && !isTitleDuplicated()
         }
     }
 
@@ -88,9 +86,7 @@ class AddCategoryFragment : Fragment() {
             findNavController().navigate(R.id.action_addCategoryFragment_to_selectCategoryFragment)
         }
 
-        binding.icClose.setOnClickListener {
-            requireActivity().finish()
-        }
+        binding.icClose.setOnClickListener { requireActivity().finish() }
     }
 
     private fun isTitleNotEmpty(): Boolean {
