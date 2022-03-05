@@ -127,4 +127,6 @@
     <string name="cancel">취소</string>
     <string name="exit">나가기</string>
     <string name="contents_havit_complete">콘텐츠 보기 완료 !</string>
+    <string name="notification_will_alarm">알림 예정</string>
+    <string name="notification_done_alarm">지난 알람</string>
 </resources>
