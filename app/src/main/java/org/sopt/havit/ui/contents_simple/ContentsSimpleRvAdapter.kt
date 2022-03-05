@@ -145,7 +145,6 @@ class ContentsSimpleRvAdapter(
         items?.let {
             val diffCallback = DiffUtilCallback(this.contentsList, items)
             val diffResult = DiffUtil.calculateDiff(diffCallback)
-
             this.contentsList.run {
                 clear()
                 addAll(items)

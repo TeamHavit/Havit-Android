@@ -56,21 +56,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         initProgressBar()   // 도달률 data 초기화
     }
 
-    private fun clickContentsItemView() {
-        contentsAdapter.setItemClickListener(object :
-            HomeRecentContentsRvAdapter.OnItemClickListener {
-            override fun onWebClick(v: View, position: Int) {
-                val intent = Intent(v.context, WebActivity::class.java)
-                homeViewModel.contentsList.value?.get(position)?.let {
-                    intent.putExtra("url", it.url)
-                    intent.putExtra("contentsId", it.id)
-                    intent.putExtra("isSeen", it.isSeen)
-                }
-                startActivity(intent)
-            }
-        })
-    }
-
     private fun clickRecommendItemView() {
         recommendRvAdapter.setItemClickListener(object :
             HomeRecommendRvAdapter.OnItemClickListener {
