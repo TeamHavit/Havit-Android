@@ -50,12 +50,10 @@ class ContentsMoreFragment(
             with(contentsViewModel) {
                 requestContentsDelete(data.id)
             }
-            // ContentsMoreFragment 삭제
-            val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
-            fragmentManager.beginTransaction().remove(this@ContentsMoreFragment).commit()
-            fragmentManager.popBackStack()
             // 각 어댑터의 notifyItemRemoved(position) 수행
             notifyItemRemoved(pos)
+            // ContentsMoreFragment 삭제
+            this.dismiss()
         }
     }
 }
