@@ -72,7 +72,7 @@ object MySharedPreference {
         val editor: SharedPreferences.Editor = prefs.edit()
         editor.putString(
             X_AUTH_TOKEN_1,
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWRGaXJlYmFzZSI6MSwiaWF0IjoxNjQ0NjU1NjYyLCJleHAiOjE2NDcyNDc2NjIsImlzcyI6Imhhdml0In0.tS58nqjFnoWA7zWqvXRpDTGbe7FYNZLa2OuIM8peOFM"
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlkRmlyZWJhc2UiOjEsImlhdCI6MTY0NjU2NjQxNSwiZXhwIjoxNjQ5MTU4NDE1LCJpc3MiOiJoYXZpdCJ9.rfUcnbUB_qORiASHRzfZ7ETjAuUluSdpa772H-cZCwI"
         )
         editor.apply()
     }
