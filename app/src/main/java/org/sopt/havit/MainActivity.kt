@@ -34,15 +34,6 @@ class MainActivity : AppCompatActivity() {
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         navController = navHostFragment.navController
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            if(destination.id==R.id.navigation_my_page_to_category){
-                binding.bottomAppBar.visibility= View.INVISIBLE
-                navView.visibility=View.INVISIBLE
-            }else{
-                binding.bottomAppBar.visibility= View.VISIBLE
-                navView.visibility=View.VISIBLE
-            }
-        }
         navView.setupWithNavController(navController)
         binding.navView.background = null
     }
