@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_alarmtag_purple"
-                android:visibility="@{content.notified? View.VISIBLE : View.GONE}" />
+                android:visibility="invisible" />
         </FrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -138,7 +138,7 @@
             android:text="@string/contents_alarm_plan"
             android:textAppearance="@style/Semibold9"
             android:textColor="@color/havit_purple"
-            android:visibility="@{content.notified? View.VISIBLE : View.GONE}"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/tv_alarm"
             app:layout_constraintStart_toEndOf="@+id/tv_alarm"
             app:layout_constraintTop_toTopOf="@+id/tv_alarm" />

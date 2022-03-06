@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_black_radius_40"
+        android:background="@drawable/rectangle_toast_black_radius_40"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -29,9 +29,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
+            android:layout_marginStart="7dp"
             android:layout_marginEnd="34dp"
-            android:text="컨텐츠 확인 완료!"
+            android:text="@string/contents_havit_complete"
             android:textAppearance="@style/Sub12Medium"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/iv_check"

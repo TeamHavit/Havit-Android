@@ -28,4 +28,5 @@
     <color name="havit_green">#5fec86</color>
     <color name="purple_main">#8578ff</color>
     <color name="purple_main2">#6a5bff</color>
+    <color name="toast_black">#d9212225</color>
 </resources>

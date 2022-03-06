@@ -85,7 +85,7 @@ class SelectCategoryFragment : Fragment() {
 
                         if (isSelectedLeastOneCategory()) {
                             binding.btnNext.isEnabled = true
-                            binding.btnNext.setBackgroundResource(R.drawable.rectangle_purple)
+                            binding.btnNext.setBackgroundResource(R.drawable.rectangle_havit_purple)
                         } else {
                             binding.btnNext.isEnabled = false
                             binding.btnNext.setBackgroundResource(R.drawable.rectangle_gray_2)

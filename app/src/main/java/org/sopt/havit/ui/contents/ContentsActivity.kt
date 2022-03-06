@@ -110,6 +110,9 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun changeLayout() {
         binding.ivLayout.setOnClickListener {
+            // 기존 viewholder를 binding하는 것을 막기 위해 제거
+            binding.rvContents.removeAllViews()
+
             when (layout) {
                 LINEAR_MIN_LAYOUT -> {
                     layout = GRID_LAYOUT
@@ -259,8 +262,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     // 콘텐츠 더보기 클릭 시 이벤트
-    private fun clickItemMore(){
-        contentsAdapter.setItemSetClickListner(object: ContentsAdapter.OnItemSetClickListener{
+    private fun clickItemMore() {
+        contentsAdapter.setItemSetClickListner(object : ContentsAdapter.OnItemSetClickListener {
             override fun onSetClick(v: View, position: Int) {
                 val dataMore = contentsViewModel.contentsList.value?.get(position)!!.let {
                     ContentsSearchResponse.Data(
@@ -275,14 +278,11 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                         it.url
                     )
                 }
-                val dialog = ContentsMoreFragment(dataMore)
-                dialog.setClickListener(object: ContentsMoreFragment.OnClickListener{
-                    override fun onUpdate() {
-                        // 내용 변경 시 서버에서 데이터를 다시 불러온다
-                        setContentsData()
-                        dialog.dismiss()
-                    }
-                })
+                // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
+                val removeItem: (Int) -> Unit = {
+                    contentsAdapter.notifyItemRemoved(it)
+                }
+                val dialog = ContentsMoreFragment(dataMore, removeItem, position)
                 dialog.show(supportFragmentManager, "setting")
             }
         })
@@ -309,7 +309,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         }
     }
 
-    private fun clickModify(){
+    private fun clickModify() {
         binding.tvModify.setOnClickListener {
             val intent = Intent(this, CategoryOrderModifyActivity::class.java)
             intent.putExtra("dataSet", true)
@@ -325,7 +325,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     // 해빗 클릭 시 이벤트 함수 정의
-    private fun clickItemHavit(){
+    private fun clickItemHavit() {
         contentsAdapter.setHavitClickListener(object : ContentsAdapter.OnItemHavitClickListener {
             override fun onHavitClick(v: ImageView, position: Int) {
                 with(contentsAdapter) {
@@ -339,7 +339,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                     contentsViewModel.setIsSeen(currentList[position].id)
                     // 태그 바꾸기
                     val isSeen = (v.tag == "seen")
-                    v.tag =if (isSeen) "unseen" else "seen"
+                    v.tag = if (isSeen) "unseen" else "seen"
                     v.setImageResource(if (isSeen) R.drawable.ic_contents_unread else R.drawable.ic_contents_read_2)
 
                 }
