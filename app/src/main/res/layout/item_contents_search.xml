@@ -10,6 +10,7 @@
         <variable
             name="content"
             type="org.sopt.havit.data.remote.ContentsSearchResponse.Data" />
+
         <variable
             name="vm"
             type="org.sopt.havit.ui.search.SearchViewModel" />
@@ -31,12 +32,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/iv_thumbnail"
-                android:layout_width="102dp"
-                android:scaleType="centerCrop"
-                android:layout_height="104dp"
-                imageSearch="@{content.image}" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:id="@+id/iv_thumbnail"
+                    imageSearch="@{content.image}"
+                    android:layout_width="102dp"
+                    android:layout_height="104dp"
+                    android:scaleType="centerCrop" />
+            </androidx.cardview.widget.CardView>
 
             <ImageView
                 android:id="@+id/iv_alarm"
@@ -155,11 +163,11 @@
 
         <ImageView
             android:id="@+id/iv_havit"
+            imgRes="@{content.isSeen == true ? @drawable/ic_contents_read_2 : @drawable/ic_contents_unread}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="7dp"
             android:layout_marginBottom="1dp"
-            imgRes="@{content.isSeen == true ? @drawable/ic_contents_read_2 : @drawable/ic_contents_unread}"
             android:tag="@{content.isSeen == true ? `seen` : `unseen`}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
