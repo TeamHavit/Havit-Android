@@ -576,9 +576,7 @@
                             app:layout_constraintStart_toEndOf="@id/iv_logo_box"
                             app:layout_constraintTop_toTopOf="@id/iv_logo_box" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </org.sopt.havit.util.StickyScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
