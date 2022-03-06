@@ -115,7 +115,7 @@
 
 
             <ImageView
-                android:id="@+id/iv_save_url_valid"
+                android:id="@+id/iv_unvalid_url"
                 android:layout_width="11dp"
                 android:layout_height="12dp"
                 android:src="@drawable/ic_notice"
@@ -123,20 +123,20 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_save_url_valid"
+                android:id="@+id/tv_unvalid_url"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:text="@string/save_url_valid"
                 android:textAppearance="@style/Sub12Regular"
                 android:textColor="@color/havit_red"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_save_url_valid"
-                app:layout_constraintStart_toEndOf="@+id/iv_save_url_valid"
-                app:layout_constraintTop_toTopOf="@+id/iv_save_url_valid" />
+                app:layout_constraintBottom_toBottomOf="@+id/iv_unvalid_url"
+                app:layout_constraintStart_toEndOf="@+id/iv_unvalid_url"
+                app:layout_constraintTop_toTopOf="@+id/iv_unvalid_url" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_save_url_toast"
+            android:id="@+id/cl_paste_clip_board"
             android:layout_width="0dp"
             android:layout_height="65dp"
             android:layout_marginHorizontal="17dp"

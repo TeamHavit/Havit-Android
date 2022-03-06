@@ -60,7 +60,7 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         clipData = clipboard.primaryClip!!
 
         if (clipboard.hasPrimaryClip()) { // 클립보드에 내용이 있으면 팝업을 보여줌.
-            binding.clSaveUrlToast.isVisible = true
+            binding.clPasteClipBoard.isVisible = true
             clipData.apply {
                 val textToPaste: String =
                     this.getItemAt(0).text.toString().trim() // 클립보드에 저장된 첫번째 데이터
@@ -120,15 +120,15 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     }
 
     private fun setListeners() {
-        binding.clSaveUrlToast.setOnClickListener { // url 붙여넣기 팝업 클릭시 editText에 url 보여주기
+        binding.clPasteClipBoard.setOnClickListener { // url 붙여넣기 팝업 클릭시 editText에 url 보여주기
             clipData.apply {
                 val textToPaste: String = this.getItemAt(0).text.toString().trim()
                 binding.etSaveUrl.setText(textToPaste)
             }
-            binding.clSaveUrlToast.isVisible = false
+            binding.clPasteClipBoard.isVisible = false
         }
         binding.ivSaveUrlDelete.setOnClickListener { // 팝업창 닫기
-            binding.clSaveUrlToast.isVisible = false
+            binding.clPasteClipBoard.isVisible = false
         }
         binding.ivSaveUrlTextDelete.setOnClickListener { // 사용자가 작성한 url 지우기
             binding.etSaveUrl.setText("")
