@@ -39,10 +39,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         // Category RecyclerView
         initVpAdapter()
         initIndicator()
-        categoryDataObserve()
         // Recent Save RecyclerView
         initRecentContentsRvAdapter()
-        recentContentsDataObserve()
         // Recommend RecyclerView
         recommendationDataObserve()
         setClickEvent() // Every clickEvent
@@ -53,22 +51,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     override fun onStart() {
         super.onStart()
         setData()
-        initProgressBar()   // User reach graph
-    }
-
-    private fun clickContentsItemView() {
-        contentsAdapter.setItemClickListener(object :
-            HomeRecentContentsRvAdapter.OnItemClickListener {
-            override fun onWebClick(v: View, position: Int) {
-                val intent = Intent(v.context, WebActivity::class.java)
-                homeViewModel.contentsList.value?.get(position)?.let {
-                    intent.putExtra("url", it.url)
-                    intent.putExtra("contentsId", it.id)
-                    intent.putExtra("isSeen", it.isSeen)
-                }
-                startActivity(intent)
-            }
-        })
+        categoryDataObserve()       // 카테고리 초기화
+        recentContentsDataObserve() // 추천콘텐츠 초기화
+        initProgressBar()   // 도달률 data 초기화
     }
 
     private fun clickRecommendItemView() {
@@ -91,10 +76,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun setData() {
-        homeViewModel.requestUserDataTaken()
-        homeViewModel.requestContentsTaken()
-        homeViewModel.requestCategoryTaken()
-        homeViewModel.requestRecommendTaken()
+        homeViewModel.requestUserDataTaken()    // 도달률
+        homeViewModel.requestContentsTaken()    // 최근 저장 콘텐츠
+        homeViewModel.requestCategoryTaken()    // 카테고리
+        homeViewModel.requestRecommendTaken()   // 추천 콘텐츠
     }
 
     private fun clickAddCategory() {
@@ -211,9 +196,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                         clContentsEmpty.visibility = View.GONE
                         val min = if (data.size < 10) data.size else 10
                         val list = data.subList(0, min)
-                        contentsAdapter.contentsList.addAll(list)
-                        contentsAdapter.notifyDataSetChanged()
-                        clickContentsItemView()
+                        contentsAdapter.updateList(list)
                     }
                 }
             }

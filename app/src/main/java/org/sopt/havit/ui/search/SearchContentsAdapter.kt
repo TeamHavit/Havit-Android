@@ -60,7 +60,7 @@ class SearchContentsAdapter(searchViewModel: SearchViewModel, fragmentManager: F
                     it.tag = "unseen"
                     viewModel.setIsSeen(data.id)
                     viewModel.setHavitToast(false)
-                    isRead= false
+                    isRead = false
                 } else {
                     Glide.with(binding.ivHavit.context)
                         .load(R.drawable.ic_contents_read_2)
@@ -68,20 +68,23 @@ class SearchContentsAdapter(searchViewModel: SearchViewModel, fragmentManager: F
                     it.tag = "seen"
                     viewModel.setIsSeen(data.id)
                     viewModel.setHavitToast(true)
-                    isRead= true
+                    isRead = true
                 }
-
             }
             binding.clSearchItem.setOnClickListener {
                 isRead = data.isSeen
                 var intent = Intent(it.context, WebActivity::class.java)
                 intent.putExtra("url", data.url)
-                intent.putExtra("isSeen",isRead)
-                intent.putExtra("contentsId",data.id)
+                intent.putExtra("isSeen", isRead)
+                intent.putExtra("contentsId", data.id)
                 it.context.startActivity(intent)
             }
             binding.ivSetting.setOnClickListener {
-                ContentsMoreFragment(data).show(mFragmentManager, "setting")
+                // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
+                val removeItem: (Int) -> Unit = {
+                    notifyItemRemoved(it)
+                }
+                ContentsMoreFragment(data, removeItem, position).show(mFragmentManager, "setting")
             }
         }
     }

@@ -17,7 +17,6 @@ class ContentsSimpleRvAdapter(
     fragmentManager: FragmentManager
 ) :
     RecyclerView.Adapter<ContentsSimpleRvAdapter.ContentsSimpleViewHolder>() {
-
     var contentsList = mutableListOf<ContentsSimpleResponse.ContentsSimpleData>()
     private var mFragmentManager: FragmentManager = fragmentManager
     private lateinit var itemClickListener: OnItemClickListener
@@ -66,6 +65,7 @@ class ContentsSimpleRvAdapter(
             }
         }
 
+        // havit 버튼 설정값 초기화
         private fun setIvHavit(isSeen: Boolean) {
             if (isSeen) {
                 binding.ivHavit.tag = "seen"
@@ -98,7 +98,11 @@ class ContentsSimpleRvAdapter(
                     data.title,
                     data.url
                 )
-                ContentsMoreFragment(dataMore).show(mFragmentManager, "setting")
+                // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
+                val removeItem: (Int) -> Unit = {
+                    notifyItemRemoved(it)
+                }
+                ContentsMoreFragment(dataMore, removeItem, pos).show(mFragmentManager, "setting")
             }
         }
     }
@@ -141,7 +145,6 @@ class ContentsSimpleRvAdapter(
         items?.let {
             val diffCallback = DiffUtilCallback(this.contentsList, items)
             val diffResult = DiffUtil.calculateDiff(diffCallback)
-
             this.contentsList.run {
                 clear()
                 addAll(items)
