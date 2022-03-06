@@ -1,35 +1,22 @@
 package org.sopt.havit.ui.share
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.databinding.FragmentAddCategoryBinding
+import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.KeyBoardUtil.setUpAsSoftKeyboard
 import org.sopt.havit.util.MySharedPreference
 
-class AddCategoryFragment : Fragment() {
+class AddCategoryFragment : BaseBindingFragment<FragmentAddCategoryBinding>(R.layout.fragment_add_category) {
 
-    private var _binding: FragmentAddCategoryBinding? = null
-    private val binding get() = _binding!!
     private val categoryTitleList = mutableListOf<String>()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentAddCategoryBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,49 +36,25 @@ class AddCategoryFragment : Fragment() {
                 val response =
                     RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
                         .getAllCategory()
-                val categoryData = response.data
-
-                for (element in categoryData)
-                    categoryTitleList += element.title
+                for (element in response.data) categoryTitleList += element.title
             }
         }
     }
 
     private fun setTextWatcher() {
         binding.etCategoryTitle.addTextChangedListener {
-            setTextCount()
-            if (isTitleNull()) setBtnColor(false)
-            else checkDuplicateCategory(binding.etCategoryTitle.text.toString())
+            binding.categoryLength = binding.etCategoryTitle.text.length
+            binding.isDuplicated = isTitleDuplicated()
+            binding.isEnabled = isTitleNotEmpty() && !isTitleDuplicated()
         }
     }
 
-    private fun checkDuplicateCategory(title: String?) {
-        // 중복 된 카테고리가 있는지 검사
-        var isDuplicated = false
-        for (element in categoryTitleList) {
-            if (element == title) {
-                isDuplicated = true
-                if (isDuplicated) break
-            }
-        }
-        // 중복 카테고리 여부에 따른 UI 설정(중복 warning & 다음 버튼 색)
-        if (isDuplicated) binding.clDuplicateCategory.visibility = View.VISIBLE
-        else binding.clDuplicateCategory.visibility              = View.INVISIBLE
-        setBtnColor(!isDuplicated)
-    }
-
-    private fun setBtnColor(isEnabled: Boolean) {
-        if (!isEnabled) {
-            binding.btnNext.setBackgroundColor(resources.getColor(R.color.gray_2))
-            binding.btnNext.isEnabled = false
-        } else {
-            binding.btnNext.setBackgroundColor(resources.getColor(R.color.havit_purple))
-            binding.btnNext.isEnabled = true
-        }
-    }
-
-    private fun setTextCount() {
-        binding.tvCategoryLengthCount.text = binding.etCategoryTitle.text.length.toString()
+    private fun isTitleDuplicated(): Boolean {
+        val title = binding.etCategoryTitle.text.toString()
+        if (title.isEmpty()) return false   // 입력값 없을 때
+        for (element in categoryTitleList)
+            if (element == title) return true
+        return false
     }
 
     private fun initClickListener() {
@@ -102,6 +65,8 @@ class AddCategoryFragment : Fragment() {
                 )
             )
         }
+
+        binding.ivDeleteText.setOnClickListener { binding.etCategoryTitle.text.clear() }
     }
 
     private fun toolbarClickListener() {
@@ -109,12 +74,12 @@ class AddCategoryFragment : Fragment() {
             findNavController().navigate(R.id.action_addCategoryFragment_to_selectCategoryFragment)
         }
 
-        binding.icClose.setOnClickListener {
-            requireActivity().finish()
-        }
+        binding.icClose.setOnClickListener { requireActivity().finish() }
     }
 
-    private fun isTitleNull(): Boolean = binding.etCategoryTitle.text.isEmpty()
+    private fun isTitleNotEmpty(): Boolean {
+        return binding.etCategoryTitle.text.isNotEmpty()
+    }
 
     private fun setKeyBoardUp() =
         KeyBoardUtil.openKeyBoard(requireContext(), binding.etCategoryTitle)

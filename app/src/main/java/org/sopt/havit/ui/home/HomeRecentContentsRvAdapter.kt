@@ -3,6 +3,7 @@ package org.sopt.havit.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.databinding.ItemHomeRecentContentsListBinding
@@ -55,4 +56,37 @@ class HomeRecentContentsRvAdapter :
     }
 
     override fun getItemCount(): Int = contentsList.size
+
+    // diffUtil을 이용해 변경사항 적용
+    fun updateList(items: List<ContentsSimpleResponse.ContentsSimpleData>?) {
+        items?.let {
+            val diffCallback = DiffUtilCallback(this.contentsList, items)
+            val diffResult = DiffUtil.calculateDiff(diffCallback)
+
+            this.contentsList.run {
+                clear()
+                addAll(items)
+                diffResult.dispatchUpdatesTo(this@HomeRecentContentsRvAdapter)
+            }
+        }
+    }
+
+    inner class DiffUtilCallback(
+        private val oldData: List<ContentsSimpleResponse.ContentsSimpleData>,
+        private val newData: List<ContentsSimpleResponse.ContentsSimpleData>
+    ) : DiffUtil.Callback() {
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldItem = oldData[oldItemPosition]
+            val newItem = newData[newItemPosition]
+
+            return oldItem.id == newItem.id
+        }
+
+        override fun getOldListSize(): Int = oldData.size
+
+        override fun getNewListSize(): Int = newData.size
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldData[oldItemPosition] == newData[newItemPosition]
+    }
 }

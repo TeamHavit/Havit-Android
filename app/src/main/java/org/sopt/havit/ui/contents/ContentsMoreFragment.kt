@@ -9,13 +9,17 @@ import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.FragmentContentsMoreBinding
 
-
-class ContentsMoreFragment(contents: ContentsSearchResponse.Data) : BottomSheetDialogFragment() {
-    private lateinit var onClickListener: OnClickListener
+class ContentsMoreFragment(
+    contents: ContentsSearchResponse.Data,
+    removeItem: (Int) -> Unit,
+    position: Int
+) :
+    BottomSheetDialogFragment() {
     private lateinit var binding: FragmentContentsMoreBinding
     private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(requireContext()) }
-
     private var data = contents
+    private val notifyItemRemoved = removeItem
+    private val pos = position
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,24 +43,16 @@ class ContentsMoreFragment(contents: ContentsSearchResponse.Data) : BottomSheetD
     }
 
     // 콘텐츠 삭제
-    private fun deleteContents(){
+    private fun deleteContents() {
         binding.clEditDelete.setOnClickListener {
             // 콘텐츠 삭제 함수 호출
-            with(contentsViewModel){
+            with(contentsViewModel) {
                 requestContentsDelete(data.id)
-                // 콘텐츠 삭제 완료 시 리스트 업데이트
-                deleteDelay.observe(viewLifecycleOwner){
-                    if(it){ onClickListener.onUpdate() }
-                }
             }
+            // 각 어댑터의 notifyItemRemoved(position) 수행
+            notifyItemRemoved(pos)
+            // ContentsMoreFragment 삭제
+            this.dismiss()
         }
-    }
-
-    interface OnClickListener{
-        fun onUpdate()
-    }
-
-    fun setClickListener(onClickListener : OnClickListener){
-        this.onClickListener = onClickListener
     }
 }
