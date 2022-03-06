@@ -19,8 +19,10 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.category.CategoryAddActivity"
+            android:configChanges="orientation"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar" />
 
         <service
             android:name=".MyFirebaseMessagingService"
@@ -40,28 +42,44 @@
 
         <activity
             android:name=".ui.web.WebActivity"
-            android:exported="false" />
+            android:configChanges="orientation"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.contents.ContentsActivity"
-            android:exported="false" />
+            android:configChanges="orientation"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.category.CategoryContentModifyActivity"
-            android:exported="false" />
+            android:configChanges="orientation"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.category.CategoryOrderModifyActivity"
-            android:exported="false" />
+            android:configChanges="orientation"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.contents_simple.ContentsSimpleActivity"
-            android:exported="true" />
+            android:configChanges="orientation"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.notification.NotificationActivity"
-            android:exported="true" />
+            android:configChanges="orientation"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.home.HomeCategoryAllActivity"
-            android:exported="true" />
+            android:configChanges="orientation"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ShareActivity"
+            android:configChanges="orientation"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Transparent.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -73,7 +91,9 @@
         </activity>
         <activity
             android:name=".ui.kakao.SignInActivity"
-            android:exported="true">
+            android:configChanges="orientation"
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -85,11 +105,19 @@
                     android:scheme="kakao6069fb41c205cbbf8f213b32eec7f2c8" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".ui.search.SearchActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.splash.SplashActivity"
-            android:exported="true">
+            android:configChanges="orientation"
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
