@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.mypage
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,7 +40,7 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
 
     private fun setListeners(){
         binding.clMyPageCategory.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_my_page_to_navigation_my_page_to_category)
+            startActivity(Intent(requireContext(),ContentsFromMyPageActivity::class.java).apply { putExtra("PageId",1) })
         }
         binding.clMyPageSave.setOnClickListener {
 
