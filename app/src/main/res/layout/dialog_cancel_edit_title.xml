@@ -42,6 +42,7 @@
             android:background="@drawable/rectangle_gray_0_radius_8"
             android:paddingVertical="17dp"
             android:text="@string/cancel"
+            android:textColor="@color/gray_3"
             android:textAppearance="@style/Header17Semibold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_exit"
