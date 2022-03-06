@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm_home"
             type="org.sopt.havit.ui.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
         android:id="@+id/cl_home_category"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
@@ -39,14 +40,15 @@
         <TextView
             android:id="@+id/tv_category_all"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="2dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="7dp"
+            android:gravity="center"
             android:paddingHorizontal="9dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="7dp"
             android:text="@string/home_category_all"
             android:textAppearance="@style/Sub12Regular"
             android:textColor="@color/gray_3"
-            app:layout_constraintBottom_toTopOf="@id/cl_category"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,11 +56,11 @@
             android:id="@+id/cl_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="7dp"
             android:layout_marginBottom="34dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_category_user_name">
+            app:layout_constraintTop_toBottomOf="@id/tv_category_all">
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vp_category"

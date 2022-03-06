@@ -35,23 +35,15 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.layoutCategory.vmHome = homeViewModel
         binding.layoutCategoryEmpty.vmHome = homeViewModel
 
-//        setData()
         initSearchSticky()
-//        initProgressBar()   // User reach graph
         // Category RecyclerView
         initVpAdapter()
         initIndicator()
-        categoryDataObserve()
         // Recent Save RecyclerView
         initRecentContentsRvAdapter()
-        recentContentsDataObserve()
         // Recommend RecyclerView
         recommendationDataObserve()
         setClickEvent() // Every clickEvent
-        // CATEGORY CLICK TEST
-        binding.clCategory.setOnClickListener {
-            Log.d("HOMEFRAGMENT_CATEGORY", "HOMEFRAGMENT")
-        }
 
         return binding.root
     }
@@ -59,25 +51,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     override fun onStart() {
         super.onStart()
         setData()
-        initProgressBar()   // User reach graph
-//        categoryDataObserve()
-//        recentContentsDataObserve()
-//        recommendationDataObserve()
-    }
-
-    private fun clickContentsItemView() {
-        contentsAdapter.setItemClickListener(object :
-            HomeRecentContentsRvAdapter.OnItemClickListener {
-            override fun onWebClick(v: View, position: Int) {
-                val intent = Intent(v.context, WebActivity::class.java)
-                homeViewModel.contentsList.value?.get(position)?.let {
-                    intent.putExtra("url", it.url)
-                    intent.putExtra("contentsId", it.id)
-                    intent.putExtra("isSeen", it.isSeen)
-                }
-                startActivity(intent)
-            }
-        })
+        categoryDataObserve()       // 카테고리 초기화
+        recentContentsDataObserve() // 추천콘텐츠 초기화
+        initProgressBar()   // 도달률 data 초기화
     }
 
     private fun clickRecommendItemView() {
@@ -96,15 +72,14 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun initRecentContentsRvAdapter() {
-        //contentsAdapter = HomeRecentContentsRvAdapter()
         binding.rvContents.adapter = contentsAdapter
     }
 
     private fun setData() {
-        homeViewModel.requestUserDataTaken()
-        homeViewModel.requestContentsTaken()
-        homeViewModel.requestCategoryTaken()
-        homeViewModel.requestRecommendTaken()
+        homeViewModel.requestUserDataTaken()    // 도달률
+        homeViewModel.requestContentsTaken()    // 최근 저장 콘텐츠
+        homeViewModel.requestCategoryTaken()    // 카테고리
+        homeViewModel.requestRecommendTaken()   // 추천 콘텐츠
     }
 
     private fun clickAddCategory() {
@@ -166,7 +141,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             val intent = Intent(requireActivity(), NotificationActivity::class.java)
             startActivity(intent)
         }
-        binding.tvReachContents.setOnClickListener {
+        binding.clReachContents.setOnClickListener {
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
             intent.putExtra("before", "unseen")
             startActivity(intent)
@@ -175,7 +150,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
             startActivity((intent))
         }
-        binding.clSearch.setOnClickListener {
+        binding.clSearchClickable.setOnClickListener {
             val intent = Intent(requireActivity(), SearchActivity::class.java)
             startActivity(intent)
         }
@@ -221,9 +196,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                         clContentsEmpty.visibility = View.GONE
                         val min = if (data.size < 10) data.size else 10
                         val list = data.subList(0, min)
-                        contentsAdapter.contentsList.addAll(list)
-                        contentsAdapter.notifyDataSetChanged()
-                        clickContentsItemView()
+                        contentsAdapter.updateList(list)
                     }
                 }
             }
@@ -233,8 +206,12 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private fun initProgressBar() {
         with(homeViewModel) {
             userData.observe(viewLifecycleOwner) {
-                val rate =
-                    (it.totalSeenContentNumber.toDouble() / it.totalContentNumber.toDouble() * 100).toInt()
+                // 전체 콘텐츠 수 or 본 콘텐츠 수가 0일 경우 예외처리
+                var rate = 0
+                if (it.totalSeenContentNumber != 0 && it.totalContentNumber != 0) { // 콘텐츠 수가 0이 아니라면 rate 계산
+                    rate =
+                        (it.totalSeenContentNumber.toDouble() / it.totalContentNumber.toDouble() * 100).toInt()
+                }
                 requestReachRate(rate)
             }
         }

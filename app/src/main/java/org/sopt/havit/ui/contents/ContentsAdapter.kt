@@ -1,8 +1,9 @@
 package org.sopt.havit.ui.contents
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.ListAdapter
@@ -45,15 +46,12 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
             changeTimeFormat(data)      // 시간 형식 변경
-            binding.content = data
-            if (data.isSeen) {
-                Log.d("HavitButtonTest", "1. binding - seen ${data.title}")
-                binding.ivHavit.tag = "seen"
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-            } else {
-                Log.d("HavitButtonTest", "1. binding - unseen ${data.title}")
-                binding.ivHavit.tag = "unseen"
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+            with(binding) {
+                content = data
+                ivHavit.tag = if (data.isSeen) "seen" else "unseen"
+                ivHavit.setImageResource(if (data.isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
+                ivAlarm.visibility = if (data.isNotified) VISIBLE else INVISIBLE
+                tvAlarmDescription.visibility = if (data.isNotified) VISIBLE else INVISIBLE
             }
         }
     }
@@ -62,15 +60,12 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
             changeTimeFormat(data)      // 시간 형식 변경
-            binding.content = data
-            if (data.isSeen) {
-                Log.d("HavitButtonTest", "2. binding - seen ${data.title}")
-                binding.ivHavit.tag = "seen"
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-            } else {
-                Log.d("HavitButtonTest", "2. binding - unseen ${data.title}")
-                binding.ivHavit.tag = "unseen"
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+            with(binding) {
+                content = data
+                ivHavit.tag = if (data.isSeen) "seen" else "unseen"
+                ivHavit.setImageResource(if (data.isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
+                ivAlarm.visibility = if (data.isNotified) VISIBLE else INVISIBLE
+                tvAlarmDescription.visibility = if (data.isNotified) VISIBLE else INVISIBLE
             }
         }
     }
@@ -79,15 +74,12 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
             changeTimeFormat(data)      // 시간 형식 변경
-            binding.content = data
-            if (data.isSeen) {
-                Log.d("HavitButtonTest", "3. binding - seen ${data.title}")
-                binding.ivHavit.tag = "seen"
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-            } else {
-                Log.d("HavitButtonTest", "3. binding - unseen ${data.title}")
-                binding.ivHavit.tag = "unseen"
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
+            with(binding) {
+                content = data
+                ivHavit.tag = if (data.isSeen) "seen" else "unseen"
+                ivHavit.setImageResource(if (data.isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
+                ivAlarm.visibility = if (data.isNotified) VISIBLE else INVISIBLE
+                tvAlarmDescription.visibility = if (data.isNotified) VISIBLE else INVISIBLE
             }
         }
     }
@@ -119,7 +111,7 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (ContentsActivity.layout) {
+        when (holder.itemViewType) {
             ContentsActivity.LINEAR_MIN_LAYOUT -> {
                 (holder as LinearMinViewHolder).onBind(getItem(position))
             }

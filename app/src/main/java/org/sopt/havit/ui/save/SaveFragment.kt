@@ -1,5 +1,7 @@
 package org.sopt.havit.ui.save
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,9 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -20,8 +20,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.ShareActivity
 import org.sopt.havit.databinding.FragmentSaveBinding
-import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.KeyBoardHeightProvider
+import org.sopt.havit.util.KeyBoardUtil
 import java.net.URL
 
 
@@ -31,6 +31,8 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     private val saveViewModel: SaveViewModel by viewModels()
     private var categoryName = categoryName
     private var isFirstKeyBoard = true
+    private lateinit var clipboard: ClipboardManager
+    private lateinit var clipDate: ClipData
 
 
     override fun onCreateView(
@@ -47,9 +49,24 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setBottomSheetShow()
+        setUrlPaste()
         setListeners()
+    }
+
+    // url 붙여넣기 팝업 생성
+    private fun setUrlPaste() {
+        clipboard = activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipDate = clipboard.primaryClip!!
+
+        if (clipboard.hasPrimaryClip()) { // 클립보드에 내용이 있으면 팝업을 보여줌.
+            clipDate.apply {
+                val textToPaste: String = this.getItemAt(0).text.toString().trim()
+                binding.tvSaveUrl.text = textToPaste
+            }
+        } else { // 없으면 팝업 안보이기.
+            binding.clSaveUrl.isVisible = false
+        }
     }
 
     private fun getKeyBoardHeight() {
@@ -95,33 +112,44 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     }
 
     private fun openKeyBoard() {
-        binding.etSaveUrl.requestFocus()
-        val inputMethodManager =
-            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.toggleSoftInput(
-            InputMethodManager.SHOW_FORCED,
-            InputMethodManager.SHOW_IMPLICIT
-        )
+        KeyBoardUtil.openKeyBoard(requireContext(), binding.etSaveUrl)
     }
 
     private fun hideKeyBoard() {
-        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+        KeyBoardUtil.hideKeyBoard(requireActivity())
     }
 
     private fun setListeners() {
+        binding.clSaveUrl.setOnClickListener { // url 붙여넣기 팝업 클릭시 editText에 url 보여주기
+            clipDate.apply {
+                val textToPaste: String = this.getItemAt(0).text.toString().trim()
+                binding.etSaveUrl.setText(textToPaste)
+            }
+            binding.clSaveUrl.isVisible = false
+        }
+        binding.ivSaveUrlDelete.setOnClickListener { // 팝업창 닫기
+            binding.clSaveUrl.isVisible = false
+        }
+        binding.ivSaveUrlTextDelete.setOnClickListener { // 사용자가 작성한 url 지우기
+            binding.etSaveUrl.setText("")
+        }
         binding.btnSaveClose.setOnClickListener {
             hideKeyBoard()
             dismiss()
         }
         binding.btnSaveNext.setOnClickListener {
             if (isFullPath(binding.etSaveUrl.text.toString())) {
+                hideKeyBoard()
+                dismiss()
                 val intent = Intent(requireContext(), ShareActivity::class.java).apply {
                     putExtra("url", binding.etSaveUrl.text.toString())
                 }
                 startActivity(intent)
-                dismiss()
             } else {
-                CustomToast.showTextToast(requireContext(),getString(R.string.url_unavailable))
+                with(binding){
+                    ivSaveUrlValid.isVisible = true
+                    tvSaveUrlValid.isVisible = true
+                }
             }
 
         }
@@ -133,8 +161,14 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
             override fun onTextChanged(c: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (binding.etSaveUrl.text.isNotEmpty()) {
                     saveViewModel.setClick(true)
+                    binding.ivSaveUrlTextDelete.isVisible = true
                 } else {
                     saveViewModel.setClick(false)
+                    with(binding){
+                        ivSaveUrlTextDelete.isVisible = false
+                        ivSaveUrlTextDelete.isVisible = false
+                        ivSaveUrlValid.isVisible = false
+                    }
                 }
             }
 

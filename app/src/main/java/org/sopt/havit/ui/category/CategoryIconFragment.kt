@@ -9,17 +9,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import kotlinx.coroutines.launch
 import org.sopt.havit.R
-import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.CategoryAddRequest
 import org.sopt.havit.databinding.FragmentCategoryIconBinding
 import org.sopt.havit.ui.share.IconAdapter
-import org.sopt.havit.util.MySharedPreference
 
 class CategoryIconFragment : Fragment() {
     private lateinit var iconAdapter: IconAdapter
@@ -97,7 +91,7 @@ class CategoryIconFragment : Fragment() {
     private fun checkIsSelected() {
         if (categoryIndex != -1) {
             Log.d("categoryButtonTest", "ok")
-            binding.btnNext.setBackgroundResource(R.drawable.rectangle_purple)
+            binding.btnNext.setBackgroundResource(R.drawable.rectangle_havit_purple)
             binding.btnNext.isEnabled = true
         }
     }
