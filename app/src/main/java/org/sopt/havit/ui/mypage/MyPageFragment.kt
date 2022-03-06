@@ -10,6 +10,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentMyPageBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.ui.contents.ContentsActivity
 
 
 class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
@@ -43,9 +44,10 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
             startActivity(Intent(requireContext(),ContentsFromMyPageActivity::class.java).apply { putExtra("PageId",1) })
         }
         binding.clSavedContents.setOnClickListener {
-
+            startActivity(Intent(requireContext(), ContentsActivity::class.java))
         }
         binding.clSeenContents.setOnClickListener {
+            startActivity(Intent(requireContext(), ContentsActivity::class.java))
         }
     }
 

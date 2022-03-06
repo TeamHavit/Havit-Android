@@ -67,6 +67,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="336dp"
             android:background="@drawable/rectangle_white_gray_radius_20"
@@ -266,11 +267,14 @@
         <ImageView
             android:id="@+id/iv_my_page_stage"
             descriptionImg="@{vm.rate}"
-            android:layout_width="316dp"
-            android:layout_height="302dp"
-            android:layout_marginTop="27dp"
-            android:src="@drawable/ic_mypage_frame"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="23dp"
+            android:layout_marginBottom="26dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            app:layout_constraintEnd_toEndOf="@+id/ib_my_page_setting"
+            app:layout_constraintStart_toStartOf="@+id/tv_my_page_description"
             app:layout_constraintTop_toBottomOf="@+id/tv_my_page_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
