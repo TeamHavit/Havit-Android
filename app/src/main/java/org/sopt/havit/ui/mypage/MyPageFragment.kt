@@ -39,13 +39,13 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
     }
 
     private fun setListeners(){
-        binding.clMyPageCategory.setOnClickListener {
+        binding.clCategoryNum.setOnClickListener {
             startActivity(Intent(requireContext(),ContentsFromMyPageActivity::class.java).apply { putExtra("PageId",1) })
         }
-        binding.clMyPageSave.setOnClickListener {
+        binding.clSavedContents.setOnClickListener {
 
         }
-        binding.clMyPageSeen.setOnClickListener {
+        binding.clSeenContents.setOnClickListener {
         }
     }
 

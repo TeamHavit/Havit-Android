@@ -96,12 +96,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_my_page_save"
+                android:id="@+id/cl_saved_contents"
                 android:layout_width="100dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="17dp"
                 android:background="@drawable/rectangle_white_radius_all_20"
-                app:layout_constraintBottom_toBottomOf="@+id/cl_my_page_category"
+                app:layout_constraintBottom_toBottomOf="@+id/cl_category_num"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_my_page_nickname">
@@ -152,7 +152,7 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_my_page_category"
+                android:id="@+id/cl_category_num"
                 android:layout_width="100dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="17dp"
@@ -160,7 +160,7 @@
                 android:layout_marginBottom="83dp"
                 android:background="@drawable/rectangle_white_radius_all_20"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/cl_my_page_save"
+                app:layout_constraintEnd_toStartOf="@+id/cl_saved_contents"
                 app:layout_constraintTop_toBottomOf="@+id/tv_my_page_nickname">
 
                 <ImageView
@@ -208,14 +208,14 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_my_page_seen"
+                android:id="@+id/cl_seen_contents"
                 android:layout_width="100dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="17dp"
                 android:background="@drawable/rectangle_white_radius_all_20"
-                app:layout_constraintBottom_toBottomOf="@+id/cl_my_page_save"
-                app:layout_constraintStart_toEndOf="@+id/cl_my_page_save"
+                app:layout_constraintBottom_toBottomOf="@+id/cl_saved_contents"
+                app:layout_constraintStart_toEndOf="@+id/cl_saved_contents"
                 app:layout_constraintTop_toBottomOf="@+id/tv_my_page_nickname">
 
                 <ImageView
@@ -264,7 +264,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/iv_my_page_illust"
+            android:id="@+id/iv_my_page_stage"
             descriptionImg="@{vm.rate}"
             android:layout_width="316dp"
             android:layout_height="302dp"
