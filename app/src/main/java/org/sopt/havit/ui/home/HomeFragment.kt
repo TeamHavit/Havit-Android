@@ -35,13 +35,11 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.layoutCategory.vmHome = homeViewModel
         binding.layoutCategoryEmpty.vmHome = homeViewModel
 
+        // 스크롤 시 검색뷰 상단에 고정시킴
         initSearchSticky()
-        // Category RecyclerView
-        initVpAdapter()
-        initIndicator()
-        // Recent Save RecyclerView
-        initRecentContentsRvAdapter()
-        // Recommend RecyclerView
+        // adapter 초기화
+        initAdpater()
+        // 추천 콘텐츠
         recommendationDataObserve()
         setClickEvent() // Every clickEvent
 
@@ -56,6 +54,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         initProgressBar()   // 도달률 data 초기화
     }
 
+    // 추천 콘텐츠 클릭 -> 웹뷰로 이동
     private fun clickRecommendItemView() {
         recommendRvAdapter.setItemClickListener(object :
             HomeRecommendRvAdapter.OnItemClickListener {
@@ -71,8 +70,21 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         })
     }
 
-    private fun initRecentContentsRvAdapter() {
-        binding.rvContents.adapter = contentsAdapter
+    // 최근 저장 콘텐츠 클릭 -> 웹뷰로 이동
+    private fun clickRecentContentsItemView() {
+        contentsAdapter.setItemClickListener(object :
+            HomeRecentContentsRvAdapter.OnItemClickListener {
+            override fun onWebClick(v: View, position: Int) {
+                val intent = Intent(v.context, WebActivity::class.java)
+                homeViewModel.contentsList.value?.get(position)
+                    ?.let {
+                        intent.putExtra("url", it.url)
+                        intent.putExtra("contentsId", it.id)
+                        intent.putExtra("isSeen", it.isSeen)
+                    }
+                startActivity(intent)
+            }
+        })
     }
 
     private fun setData() {
@@ -88,9 +100,15 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
-    private fun initVpAdapter() {
+    private fun initAdpater() {
+        // 카테고리 adapter 초기화
         categoryVpAdapter = HomeCategoryVpAdapter()
         binding.layoutCategory.vpCategory.adapter = categoryVpAdapter
+        // 카테고리 indicator 초기화
+        val indicator = binding.layoutCategory.indicatorCategory
+        indicator.setViewPager2(binding.layoutCategory.vpCategory)
+        // 최근저장 콘텐츠 adapter 초기화
+        binding.rvContents.adapter = contentsAdapter
     }
 
     private fun categoryDataObserve() {
@@ -112,11 +130,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                 }
             }
         }
-    }
-
-    private fun initIndicator() {
-        val indicator = binding.layoutCategory.indicatorCategory
-        indicator.setViewPager2(binding.layoutCategory.vpCategory)
     }
 
     // popUp 삭제 버튼 클릭 시 수행되는 animation + popUp.visibility.GONE
@@ -165,14 +178,12 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         with(homeViewModel) {
             recommendList.observe(viewLifecycleOwner) { data ->
                 with(binding) {
-                    Log.d("HOMEFRAGMENT_RECOMMENDATION", "recommendation data: $data")
                     if (data.isNotEmpty()) {
-                        Log.d("HOMEFRAGMENT_RECOMMENDATION", "recommendation data: $data")
                         recommendRvAdapter = HomeRecommendRvAdapter()
                         rvRecommend.adapter = recommendRvAdapter
+                        clickRecommendItemView()
                         recommendRvAdapter.recommendList.addAll(data)
                         recommendRvAdapter.notifyDataSetChanged()
-                        clickRecommendItemView()
                     }
                 }
             }
@@ -196,6 +207,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                         clContentsEmpty.visibility = View.GONE
                         val min = if (data.size < 10) data.size else 10
                         val list = data.subList(0, min)
+                        clickRecentContentsItemView()
                         contentsAdapter.updateList(list)
                     }
                 }
