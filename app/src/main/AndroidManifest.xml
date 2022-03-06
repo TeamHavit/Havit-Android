@@ -111,6 +111,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.search.SearchActivity"
+            android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity

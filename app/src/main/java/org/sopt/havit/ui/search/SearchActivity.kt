@@ -32,15 +32,17 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
         setAdapter()
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setOpenKeyBoard()
         setContentView(binding.root)
         binding.vm = searchViewModel
         setListeners()
+        setOpenKeyBoard()
+    }
+
+    private fun setOpenKeyBoard() {
+        KeyBoardUtil.openKeyBoard(this, binding.etSearch)
     }
 
 
