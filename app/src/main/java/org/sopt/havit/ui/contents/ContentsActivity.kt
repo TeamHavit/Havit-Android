@@ -1,17 +1,13 @@
 package org.sopt.havit.ui.contents
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ActivityContentsBinding
@@ -159,75 +155,25 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     // 최신순, 과거순, 최근 조회순 다이얼로그별 화면 설정
     private fun setOrderDialog() {
-        val bottomSheetView = layoutInflater.inflate(R.layout.dialog_contents_order, null)
-        val bottomSheetDialog = BottomSheetDialog(this)
-        bottomSheetDialog.setContentView(bottomSheetView)
-
         binding.clOrder.setOnClickListener {
-            when (binding.tvOrder.text) {
-                "최신순" -> {
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent)
-                        .setBackgroundColor(Color.parseColor("#f7f6ff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_recent)
-                        .setTextColor(Color.parseColor("#8578ff"))
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past)
-                        .setBackgroundColor(Color.parseColor("#ffffff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_past)
-                        .setTextColor(Color.parseColor("#424247"))
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view)
-                        .setBackgroundColor(Color.parseColor("#ffffff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_view)
-                        .setTextColor(Color.parseColor("#424247"))
-                }
-                "과거순" -> {
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past)
-                        .setBackgroundColor(Color.parseColor("#f7f6ff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_past)
-                        .setTextColor(Color.parseColor("#8578ff"))
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent)
-                        .setBackgroundColor(Color.parseColor("#ffffff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_recent)
-                        .setTextColor(Color.parseColor("#424247"))
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view)
-                        .setBackgroundColor(Color.parseColor("#ffffff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_view)
-                        .setTextColor(Color.parseColor("#424247"))
-                }
-                else -> {
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view)
-                        .setBackgroundColor(Color.parseColor("#f7f6ff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_view)
-                        .setTextColor(Color.parseColor("#8578ff"))
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent)
-                        .setBackgroundColor(Color.parseColor("#ffffff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_recent)
-                        .setTextColor(Color.parseColor("#424247"))
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past)
-                        .setBackgroundColor(Color.parseColor("#ffffff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_past)
-                        .setTextColor(Color.parseColor("#424247"))
-                }
-            }
-            bottomSheetDialog.show()
-        }
+            val dialog = DialogContentsFilterFragment(FILTER)
+            dialog.show(supportFragmentManager, "contentsOrder")
 
-        bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent).setOnClickListener {
-            FILTER = "created_at"
-            binding.tvOrder.text = "최신순"
-            setContentsData()
-            bottomSheetDialog.dismiss()
-        }
-        bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past).setOnClickListener {
-            FILTER = "reverse"
-            binding.tvOrder.text = "과거순"
-            setContentsData()
-            bottomSheetDialog.dismiss()
-        }
-        bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view).setOnClickListener {
-            FILTER = "seen_at"
-            binding.tvOrder.text = "최근 조회순"
-            setContentsData()
-            bottomSheetDialog.dismiss()
+            // 순서 클릭 시 이벤트 정의
+            dialog.setFilterClickListener(object :
+                DialogContentsFilterFragment.OnFilterClickListener {
+                override fun onClick(filter: String) {
+                    FILTER = filter
+                    binding.tvOrder.text = when (filter) {
+                        "created_at" -> "최신순"
+                        "reverse" -> "과거순"
+                        else -> "최근 조회순"
+                    }
+                    // 서버 호출
+                    setContentsData()
+                    dialog.dismiss()
+                }
+            })
         }
     }
 
@@ -343,11 +289,11 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                     v.setImageResource(if (isSeen) R.drawable.ic_contents_unread else R.drawable.ic_contents_read_2)
 
                     // 본 콘텐츠 목록에서 해빗 해제 시 제거
-                    if((OPTION == "true" || FILTER == "seen_at") && v.tag=="unseen"){
+                    if ((OPTION == "true" || FILTER == "seen_at") && v.tag == "unseen") {
                         contentsAdapter.notifyItemRemoved(position)
                     }
                     // 안 본 콘텐츠 목록에서 해빗 등록 시 제거
-                    else if(OPTION == "false" && v.tag == "seen"){
+                    else if (OPTION == "false" && v.tag == "seen") {
                         contentsAdapter.notifyItemRemoved(position)
                     }
                 }
