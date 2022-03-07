@@ -118,7 +118,7 @@
                 android:id="@+id/iv_unvalid_url"
                 android:layout_width="11dp"
                 android:layout_height="12dp"
-                android:src="@drawable/ic_notice"
+                android:src="@drawable/ic_notice_red"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
