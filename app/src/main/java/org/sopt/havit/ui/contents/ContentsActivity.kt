@@ -342,6 +342,14 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                     v.tag = if (isSeen) "unseen" else "seen"
                     v.setImageResource(if (isSeen) R.drawable.ic_contents_unread else R.drawable.ic_contents_read_2)
 
+                    // 본 콘텐츠 목록에서 해빗 해제 시 제거
+                    if((OPTION == "true" || FILTER == "seen_at") && v.tag=="unseen"){
+                        contentsAdapter.notifyItemRemoved(position)
+                    }
+                    // 안 본 콘텐츠 목록에서 해빗 등록 시 제거
+                    else if(OPTION == "false" && v.tag == "seen"){
+                        contentsAdapter.notifyItemRemoved(position)
+                    }
                 }
             }
         })
