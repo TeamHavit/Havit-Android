@@ -32,7 +32,7 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     private var categoryName = categoryName
     private var isFirstKeyBoard = true
     private lateinit var clipboard: ClipboardManager
-    private lateinit var clipDate: ClipData
+    private lateinit var clipData: ClipData
 
 
     override fun onCreateView(
@@ -57,15 +57,15 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     // url 붙여넣기 팝업 생성
     private fun setUrlPaste() {
         clipboard = activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipDate = clipboard.primaryClip!!
+        clipData = clipboard.primaryClip!!
 
         if (clipboard.hasPrimaryClip()) { // 클립보드에 내용이 있으면 팝업을 보여줌.
-            clipDate.apply {
-                val textToPaste: String = this.getItemAt(0).text.toString().trim()
+            binding.clPasteClipBoard.isVisible = true
+            clipData.apply {
+                val textToPaste: String =
+                    this.getItemAt(0).text.toString().trim() // 클립보드에 저장된 첫번째 데이터
                 binding.tvSaveUrl.text = textToPaste
             }
-        } else { // 없으면 팝업 안보이기.
-            binding.clSaveUrl.isVisible = false
         }
     }
 
@@ -120,15 +120,15 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     }
 
     private fun setListeners() {
-        binding.clSaveUrl.setOnClickListener { // url 붙여넣기 팝업 클릭시 editText에 url 보여주기
-            clipDate.apply {
+        binding.clPasteClipBoard.setOnClickListener { // url 붙여넣기 팝업 클릭시 editText에 url 보여주기
+            clipData.apply {
                 val textToPaste: String = this.getItemAt(0).text.toString().trim()
                 binding.etSaveUrl.setText(textToPaste)
             }
-            binding.clSaveUrl.isVisible = false
+            binding.clPasteClipBoard.isVisible = false
         }
         binding.ivSaveUrlDelete.setOnClickListener { // 팝업창 닫기
-            binding.clSaveUrl.isVisible = false
+            binding.clPasteClipBoard.isVisible = false
         }
         binding.ivSaveUrlTextDelete.setOnClickListener { // 사용자가 작성한 url 지우기
             binding.etSaveUrl.setText("")
@@ -146,10 +146,7 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
                 }
                 startActivity(intent)
             } else {
-                with(binding){
-                    ivSaveUrlValid.isVisible = true
-                    tvSaveUrlValid.isVisible = true
-                }
+                binding.clSaveUrlValid.isVisible = true
             }
 
         }
@@ -164,10 +161,9 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
                     binding.ivSaveUrlTextDelete.isVisible = true
                 } else {
                     saveViewModel.setClick(false)
-                    with(binding){
+                    with(binding) {
                         ivSaveUrlTextDelete.isVisible = false
-                        ivSaveUrlTextDelete.isVisible = false
-                        ivSaveUrlValid.isVisible = false
+                        clSaveUrlValid.isVisible = false
                     }
                 }
             }

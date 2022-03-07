@@ -117,7 +117,7 @@
     <string name="previous">Previous</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="category_length_limit">/12</string>
+    <string name="category_length_limit">/ 15</string>
     <string name="category_length_count_zero">0</string>
     <string name="duplicate_category">중복된 카테고리 이름이 존재합니다</string>
     <string name="max_category">카테고리 최대 개수를 초과했습니다.</string>
@@ -126,6 +126,8 @@
     <string name="cancel_edit_title_description">제목 수정을 취소하고 나가시겠습니까? \n입력한 내용은 저장되지 않습니다.</string>
     <string name="cancel">취소</string>
     <string name="exit">나가기</string>
+    <string name="cancel_set_alarm">알림 설정 취소</string>
+    <string name="cancel_alarm_description">알림 설정을 취소하고 나가시겠습니까? \n진행한 내용은 저장되지 않습니다.</string>
     <string name="contents_havit_complete">콘텐츠 보기 완료 !</string>
     <string name="notification_will_alarm">알림 예정</string>
     <string name="notification_done_alarm">지난 알람</string>
