@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="org.sopt.havit.ui.mypage.MyPageViewModel" />
@@ -16,7 +17,57 @@
         android:background="@drawable/bg_gradient_splash"
         tools:context=".ui.mypage.MyPageFragment">
 
+        <TextView
+            android:id="@+id/tv_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="58dp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:includeFontPadding="false"
+            android:text="@{vm.rate.toString()}"
+            android:textColor="@color/havit_white"
+            android:textSize="45dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_rate_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="58dp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:includeFontPadding="false"
+            android:text="@string/mypage_percent"
+            android:textColor="@color/havit_white"
+            android:textSize="45dp"
+            app:layout_constraintStart_toEndOf="@+id/tv_rate"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_my_page_description"
+            description="@{vm.rate}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/Header16Medium"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@+id/tv_rate"
+            app:layout_constraintTop_toBottomOf="@+id/tv_rate" />
+
+        <ImageButton
+            android:id="@+id/ib_my_page_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="49dp"
+            android:layout_marginEnd="17dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_setting"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="336dp"
             android:background="@drawable/rectangle_white_gray_radius_20"
@@ -46,12 +97,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_my_page_save"
+                android:id="@+id/cl_saved_contents"
                 android:layout_width="100dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="17dp"
                 android:background="@drawable/rectangle_white_radius_all_20"
-                app:layout_constraintBottom_toBottomOf="@+id/cl_my_page_category"
+                app:layout_constraintBottom_toBottomOf="@+id/cl_category_num"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_my_page_nickname">
@@ -102,7 +153,7 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_my_page_category"
+                android:id="@+id/cl_category_num"
                 android:layout_width="100dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="17dp"
@@ -110,7 +161,7 @@
                 android:layout_marginBottom="83dp"
                 android:background="@drawable/rectangle_white_radius_all_20"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/cl_my_page_save"
+                app:layout_constraintEnd_toStartOf="@+id/cl_saved_contents"
                 app:layout_constraintTop_toBottomOf="@+id/tv_my_page_nickname">
 
                 <ImageView
@@ -158,13 +209,14 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_seen_contents"
                 android:layout_width="100dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="17dp"
                 android:background="@drawable/rectangle_white_radius_all_20"
-                app:layout_constraintBottom_toBottomOf="@+id/cl_my_page_save"
-                app:layout_constraintStart_toEndOf="@+id/cl_my_page_save"
+                app:layout_constraintBottom_toBottomOf="@+id/cl_saved_contents"
+                app:layout_constraintStart_toEndOf="@+id/cl_saved_contents"
                 app:layout_constraintTop_toBottomOf="@+id/tv_my_page_nickname">
 
                 <ImageView
@@ -213,38 +265,17 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/iv_my_page_frame"
-            android:layout_width="316dp"
-            android:layout_height="302dp"
-            android:layout_marginTop="27dp"
-            android:src="@drawable/ic_mypage_frame"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/iv_my_page_stage"
+            descriptionImg="@{vm.rate}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="23dp"
+            android:layout_marginBottom="26dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            app:layout_constraintEnd_toEndOf="@+id/ib_my_page_setting"
+            app:layout_constraintStart_toStartOf="@+id/tv_my_page_description"
             app:layout_constraintTop_toBottomOf="@+id/tv_my_page_description" />
 
-        <TextView
-            android:id="@+id/tv_my_page_percent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="58dp"
-            android:fontFamily="@font/pretendard_semibold"
-            android:includeFontPadding="false"
-            android:text="@string/mypage_percent"
-            android:textColor="@color/havit_white"
-            android:textSize="45dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/tv_my_page_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/mypage_description"
-            android:textAppearance="@style/Header16Medium"
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="@+id/tv_my_page_percent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_my_page_percent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
