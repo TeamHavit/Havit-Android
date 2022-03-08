@@ -121,10 +121,10 @@
 
             <ImageView
                 android:id="@+id/iv_search_no"
-                imgRes="@{vm.searchIng == true ? @drawable/ic_search_is :@drawable/img_search}"
+                imgRes="@{vm.searchIng == true ? @drawable/ic_search_is :@drawable/ic_search_no}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="138dp"
+                android:layout_marginTop="106dp"
                 android:visibility="@{vm.searchImg == true ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="@+id/tv_search_no"
                 app:layout_constraintStart_toStartOf="@+id/tv_search_no"
