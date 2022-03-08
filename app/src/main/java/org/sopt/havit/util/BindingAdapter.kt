@@ -7,7 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.sopt.havit.R
+import org.sopt.havit.util.DpToPxUtil.px
 
 
 object BindingAdapter {
@@ -61,6 +64,7 @@ object BindingAdapter {
     fun ImageView.loadSearch(url: String?) {
         Glide.with(context)
             .load(url)
+            .transform(CenterCrop(),RoundedCorners(px(4)))
             .placeholder(R.drawable.img_contents_dummy)
             .into(this)
     }
