@@ -4,15 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ItemContentsSearchBinding
 
 class SearchContentsAdapter :
     RecyclerView.Adapter<SearchContentsAdapter.SearchContentsViewHolder>() {
 
-    private var searchContents = mutableListOf<ContentsSearchResponse.Data>()
+    var searchContents = mutableListOf<ContentsSearchResponse.Data>()
     private var isRead = false
 
     private lateinit var itemClickListener: OnItemClickListener // 콘텐츠 아이템 클릭리스너
@@ -36,7 +34,7 @@ class SearchContentsAdapter :
     }
 
     interface OnItemHavitClickListener {
-        fun onHavitClick(v: View, data: ContentsSearchResponse.Data, isSeen: String)
+        fun onHavitClick(v: View, data: ContentsSearchResponse.Data, pos: Int)
     }
 
     fun setItemHavitClickListener(listener: OnItemHavitClickListener) {
@@ -44,7 +42,8 @@ class SearchContentsAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchContentsViewHolder {
-        val binding = ItemContentsSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemContentsSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SearchContentsViewHolder(binding)
     }
 
@@ -72,21 +71,7 @@ class SearchContentsAdapter :
 
         private fun contentsClick(position: Int, data: ContentsSearchResponse.Data) {
             binding.ivHavit.setOnClickListener {
-                if (it.tag == "seen") {
-                    itemHavitClickListener.onHavitClick(it, data, it.tag as String)
-                    Glide.with(binding.ivHavit.context)
-                        .load(R.drawable.ic_contents_unread)
-                        .into(binding.ivHavit)
-                    it.tag = "unseen"
-                    isRead = false
-                } else {
-                    itemHavitClickListener.onHavitClick(it, data, it.tag as String)
-                    Glide.with(binding.ivHavit.context)
-                        .load(R.drawable.ic_contents_read_2)
-                        .into(binding.ivHavit)
-                    it.tag = "seen"
-                    isRead = true
-                }
+                itemHavitClickListener.onHavitClick(it, data, position)
             }
             binding.clSearchItem.setOnClickListener {
                 itemClickListener.onClick(it, data)

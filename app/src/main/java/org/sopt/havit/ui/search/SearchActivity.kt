@@ -8,8 +8,10 @@ import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.inputmethod.EditorInfo
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.isVisible
+import com.bumptech.glide.Glide
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsSearchResponse
@@ -24,21 +26,27 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
 
     private val searchViewModel: SearchViewModel by viewModel()
     private val searchContentsAdapter: SearchContentsAdapter by lazy { SearchContentsAdapter() }
+    private var isRead = false
 
-    override fun onResume() {
-        super.onResume()
-        searchViewModel.getSearchContents(binding.etSearch.text.toString())
-        observers()
-        setAdapter()
+    override fun onStart() {
+        super.onStart()
+        setSearchContents()
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setOpenKeyBoard()
         setContentView(binding.root)
         binding.vm = searchViewModel
+        setAdapter()
         setListeners()
         setOpenKeyBoard()
+        observers()
+    }
+
+    private fun setSearchContents() {
+        searchViewModel.getSearchContents(binding.etSearch.text.toString())
     }
 
     private fun setOpenKeyBoard() {
@@ -118,12 +126,21 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
                 override fun onHavitClick(
                     v: View,
                     data: ContentsSearchResponse.Data,
-                    isSeen: String
+                    pos: Int
                 ) {
+                    searchContentsAdapter.searchContents[pos].isSeen = !(data.isSeen)
                     searchViewModel.setIsSeen(data.id)
-                    if (isSeen == "seen") {
+                    if (v.tag == "seen") {
+                        Glide.with(v.context)
+                            .load(R.drawable.ic_contents_unread)
+                            .into(v as ImageView)
+                        v.tag = "unseen"
                         searchViewModel.setHavitToast(false)
                     } else {
+                        Glide.with(v.context)
+                            .load(R.drawable.ic_contents_read_2)
+                            .into(v as ImageView)
+                        v.tag = "seen"
                         searchViewModel.setHavitToast(true)
                     }
                 }
@@ -154,7 +171,6 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
                 searchViewModel.setSearchNoText(true)
                 searchViewModel.setSearchNoImage(true)
                 binding.rvSearch.isVisible = true
-
             }
         }
         searchViewModel.isRead.observe(this) {
@@ -164,10 +180,10 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
         }
     }
 
-    override fun onBackPressed() {
+    /*override fun onBackPressed() {
         super.onBackPressed()
         searchViewModel.getSearchContents(binding.etSearch.text.toString())
-    }
+    }*/
 
 
 }
