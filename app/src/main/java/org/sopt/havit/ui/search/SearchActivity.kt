@@ -1,29 +1,29 @@
 package org.sopt.havit.ui.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.view.View.GONE
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.view.isVisible
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.sopt.havit.R
+import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ActivitySearchBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.contents.ContentsMoreFragment
+import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.KeyBoardUtil
 
 
 class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activity_search) {
 
     private val searchViewModel: SearchViewModel by viewModel()
-    private val searchContentsAdapter: SearchContentsAdapter by lazy {
-        SearchContentsAdapter(
-            searchViewModel,
-            supportFragmentManager
-        )
-    }
+    private val searchContentsAdapter: SearchContentsAdapter by lazy { SearchContentsAdapter() }
 
     override fun onResume() {
         super.onResume()
@@ -90,6 +90,47 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
         binding.tvSearchCancel.setOnClickListener {
             finish()
         }
+        with(searchContentsAdapter) {
+            setItemSettingClickListener(object : SearchContentsAdapter.OnItemSettingClickListener {
+                override fun onSettingClick(v: View, data: ContentsSearchResponse.Data, pos: Int) {
+                    val removeItem: (Int) -> Unit = {
+                        searchContentsAdapter.notifyItemRemoved(it)
+                    }
+                    ContentsMoreFragment(data, removeItem, pos).show(
+                        supportFragmentManager,
+                        "setting"
+                    )
+                }
+
+            })
+            setItemClickListener(object : SearchContentsAdapter.OnItemClickListener {
+                override fun onClick(v: View, data: ContentsSearchResponse.Data) {
+
+                    var intent = Intent(this@SearchActivity, WebActivity::class.java).apply {
+                        putExtra("url", data.url)
+                        putExtra("isSeen", data.isSeen)
+                        putExtra("contentsId", data.id)
+                    }
+                    startActivity(intent)
+                }
+            })
+            setItemHavitClickListener(object : SearchContentsAdapter.OnItemHavitClickListener {
+                override fun onHavitClick(
+                    v: View,
+                    data: ContentsSearchResponse.Data,
+                    isSeen: String
+                ) {
+                    searchViewModel.setIsSeen(data.id)
+                    if (isSeen == "seen") {
+                        searchViewModel.setHavitToast(false)
+                    } else {
+                        searchViewModel.setHavitToast(true)
+                    }
+                }
+
+            })
+        }
+
     }
 
     private fun setCustomToast() {
