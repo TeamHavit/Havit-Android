@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="29dp"
                 android:layout_marginBottom="16dp"
-                android:src="@drawable/ic_notice"
+                android:src="@drawable/ic_notice_gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

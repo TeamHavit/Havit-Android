@@ -2,6 +2,7 @@ package org.sopt.havit.ui.search
 
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,7 @@ import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ItemContentsSearchBinding
 import org.sopt.havit.ui.contents.ContentsMoreFragment
+import org.sopt.havit.ui.contents_simple.ContentsSimpleRvAdapter
 import org.sopt.havit.ui.web.WebActivity
 
 class SearchContentsAdapter(searchViewModel: SearchViewModel, fragmentManager: FragmentManager) :
@@ -18,6 +20,16 @@ class SearchContentsAdapter(searchViewModel: SearchViewModel, fragmentManager: F
     private var searchContents = mutableListOf<ContentsSearchResponse.Data>()
     private var isRead = false
     private var viewModel = searchViewModel
+
+    private lateinit var itemClickListener: OnItemClickListener
+
+    interface OnItemClickListener {
+        fun onClick(v: View, position: Int)
+    }
+
+    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.itemClickListener = onItemClickListener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchContentsViewHolder {
         val binding =
