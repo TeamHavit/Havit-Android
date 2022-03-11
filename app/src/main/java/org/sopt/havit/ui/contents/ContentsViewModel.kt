@@ -81,4 +81,9 @@ class ContentsViewModel(context: Context) : ViewModel() {
             }
         }
     }
+
+    // 콘텐츠 개수 감소시키는 함수
+    fun decreaseContentsCount(count: Int){
+        _contentsCount.value = contentsCount.value?.minus(count)
+    }
 }

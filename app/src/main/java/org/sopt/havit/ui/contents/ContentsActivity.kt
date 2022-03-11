@@ -245,9 +245,11 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
                 val removeItem: (Int) -> Unit = {
                     contentsAdapter.notifyItemRemoved(it)
+                    contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
                 }
                 val dialog = ContentsMoreFragment(dataMore, removeItem, position)
                 dialog.show(supportFragmentManager, "setting")
+
             }
         })
     }
