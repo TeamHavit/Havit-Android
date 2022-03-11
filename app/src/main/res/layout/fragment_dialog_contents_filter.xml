@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="data"
+            type="org.sopt.havit.ui.contents.ContentsActivity.Companion" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <TextView
+            android:id="@+id/tv_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/contents_order"
+            android:textAppearance="@style/Order18Semibold"
+            android:textColor="@color/havit_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/rg_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="46dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_order">
+
+            <View
+                android:id="@+id/v_top"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_0"
+                android:visibility="@{data.FILTER.equals(`created_at`) ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <RadioButton
+                android:id="@+id/rb_recent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/selector_contents_order"
+                android:button="@null"
+                android:checked="@{data.FILTER.equals(`created_at`) ? true : false}"
+                android:paddingHorizontal="31dp"
+                android:paddingVertical="15dp"
+                android:text="@string/contents_recent_order"
+                android:textAppearance="@style/Order16Semibold"
+                android:textColor="@color/selector_contents_order_text" />
+
+            <View
+                android:id="@+id/v_recent"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_0"
+                android:visibility="@{data.FILTER.equals(`seen_at`) ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <RadioButton
+                android:id="@+id/rb_past"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/selector_contents_order"
+                android:button="@null"
+                android:checked="@{data.FILTER.equals(`reverse`) ? true : false}"
+                android:paddingHorizontal="31dp"
+                android:paddingVertical="15dp"
+                android:text="@string/contents_past_order"
+                android:textAppearance="@style/Order16Semibold"
+                android:textColor="@color/selector_contents_order_text" />
+
+            <View
+                android:id="@+id/v_past"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_0"
+                android:visibility="@{data.FILTER.equals(`created_at`) ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <RadioButton
+                android:id="@+id/rb_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/selector_contents_order"
+                android:button="@null"
+                android:checked="@{data.FILTER.equals(`seen_at`) ? true : false}"
+                android:paddingHorizontal="31dp"
+                android:paddingVertical="15dp"
+                android:text="@string/contents_recent_view_order"
+                android:textAppearance="@style/Order16Semibold"
+                android:textColor="@color/selector_contents_order_text" />
+
+            <View
+                android:id="@+id/v_view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_0"
+                android:visibility="@{data.FILTER.equals(`seen_at`) ? View.INVISIBLE : View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </RadioGroup>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
