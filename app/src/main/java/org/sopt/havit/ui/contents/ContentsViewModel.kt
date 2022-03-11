@@ -89,12 +89,6 @@ class ContentsViewModel(context: Context) : ViewModel() {
 
     // 카테고리 이름 설정
     fun setCategoryName(name: String) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            try {
-//                _categoryName.postValue(name)
-//            } catch (e: Exception) {
-//            }
-//        }
         _categoryName.value = name
     }
 }
