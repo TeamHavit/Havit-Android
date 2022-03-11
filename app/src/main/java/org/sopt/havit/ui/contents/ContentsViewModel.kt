@@ -13,7 +13,7 @@ import org.sopt.havit.data.remote.ContentsResponse
 import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.util.MySharedPreference
 
-class ContentsViewModel (context: Context) : ViewModel() {
+class ContentsViewModel(context: Context) : ViewModel() {
     private val token = MySharedPreference.getXAuthToken(context)
     private val _contentsList = MutableLiveData<List<ContentsResponse.ContentsData>>()
     val contentsList: LiveData<List<ContentsResponse.ContentsData>> = _contentsList
@@ -24,58 +24,61 @@ class ContentsViewModel (context: Context) : ViewModel() {
     private val _categoryName = MutableLiveData<String>()
     val categoryName: LiveData<String> = _categoryName
 
-    private val _orderState = MutableLiveData<String>()
-    val orderState: LiveData<String> = _orderState
+    // 로딩 상태를 나타내는 변수
+    private val _loadState = MutableLiveData(true)
+    val loadState: LiveData<Boolean> = _loadState
 
-    var contentsMore = MutableLiveData< ContentsSearchResponse.Data>()
-
-    private val _deleteDelay = MutableLiveData(false)
-    val deleteDelay: LiveData<Boolean> = _deleteDelay
+    var contentsMore = MutableLiveData<ContentsSearchResponse.Data>()
 
     fun requestContentsTaken(categoryId: Int, option: String, filter: String, name: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            try{
-                val response = RetrofitObject.provideHavitApi(token).getCategoryContents(categoryId, option, filter)
+            try {
+                val response = RetrofitObject.provideHavitApi(token)
+                    .getCategoryContents(categoryId, option, filter)
                 _contentsList.postValue(response.data)
                 _contentsCount.postValue(response.data.size)
                 _categoryName.postValue(name)
-            } catch (e: Exception) { }
+                _loadState.postValue(false)
+            } catch (e: Exception) {
+            }
         }
     }
 
     fun requestContentsAllTaken(option: String, filter: String, name: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            try{
+            try {
                 val response = RetrofitObject.provideHavitApi(token).getAllContents(option, filter)
                 _contentsList.postValue(response.data)
                 _contentsCount.postValue(response.data.size)
                 _categoryName.postValue(name)
-            } catch (e: Exception) { }
+                _loadState.postValue(false)
+            } catch (e: Exception) {
+            }
         }
     }
 
-    fun setIsSeen(contentsId:Int){
+    fun setIsSeen(contentsId: Int) {
         viewModelScope.launch {
-            try{
-                val response = RetrofitObject.provideHavitApi(token).isHavit(ContentsHavitRequest(contentsId))
-            }catch (e:Exception){
+            try {
+                val response =
+                    RetrofitObject.provideHavitApi(token).isHavit(ContentsHavitRequest(contentsId))
+            } catch (e: Exception) {
 
             }
         }
     }
 
-    fun setContentsView(data: ContentsSearchResponse.Data){
-        contentsMore.value=data
+    fun setContentsView(data: ContentsSearchResponse.Data) {
+        contentsMore.value = data
     }
 
     // 콘텐츠 삭제를 서버에게 요청하는 코드
-    fun requestContentsDelete(contentsId: Int){
-        viewModelScope.launch(Dispatchers.IO){
-            try{
+    fun requestContentsDelete(contentsId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
                 val response = RetrofitObject.provideHavitApi(token).deleteContents(contentsId)
-                // 삭제 job완료됨을 표시
-                _deleteDelay.postValue(true)
-            } catch (e: Exception){ }
+            } catch (e: Exception) {
+            }
         }
     }
 }

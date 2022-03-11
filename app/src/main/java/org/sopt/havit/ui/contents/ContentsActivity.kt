@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
@@ -75,8 +77,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun setData() {
         ID = intent.getIntExtra("categoryId", 0)
         if (ID == -1) {
-            binding.tvModify.visibility = View.GONE
-            binding.ivCategoryDrop.visibility = View.GONE
+            binding.tvModify.visibility = GONE
+            binding.ivCategoryDrop.visibility = GONE
         }
         intent.getStringExtra("categoryName")?.let {
             CATEGORY_NAME = it
@@ -86,18 +88,34 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun dataObserve() {
         with(contentsViewModel) {
-            contentsList.observe(this@ContentsActivity) {
+            loadState.observe(this@ContentsActivity) {
+                // 서버 불러오는 중이라면 스켈레톤 화면 및 shimmer 효과를 보여줌
                 with(binding) {
-                    if (it.isEmpty()) {
-                        Log.d("visibility", " success")
-                        rvContents.visibility = View.GONE
-                        clEmpty.visibility = View.VISIBLE
+                    if (it) {
+                        sflContents.startShimmer()
+                        sfLCategory.startShimmer()
+                        sfLCount.startShimmer()
                     } else {
-                        rvContents.visibility = View.VISIBLE
-                        clEmpty.visibility = View.GONE
-                        Log.d("visibility", " fail")
+                        sfLCategory.stopShimmer()
+                        sflContents.stopShimmer()
+                        sfLCount.stopShimmer()
                     }
                 }
+            }
+
+            contentsCount.observe(this@ContentsActivity) {
+                // 콘텐츠 개수에 따른 visibility 조정
+                with(binding) {
+                    if (it == 0) {
+                        rvContents.visibility = GONE
+                        clEmpty.visibility = VISIBLE
+                    } else {
+                        rvContents.visibility = VISIBLE
+                        clEmpty.visibility = GONE
+                    }
+                }
+            }
+            contentsList.observe(this@ContentsActivity) {
                 // 콘텐츠 데이터 업데이트
                 contentsAdapter.submitList(it.toList())
             }
