@@ -83,7 +83,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         intent.getStringExtra("categoryName")?.let {
             CATEGORY_NAME = it
         }
-        Log.d("categoryName", "$CATEGORY_NAME")
+        contentsViewModel.setCategoryName(CATEGORY_NAME)
     }
 
     private fun dataObserve() {
@@ -93,10 +93,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 with(binding) {
                     if (it) {
                         sflContents.startShimmer()
-                        sfLCategory.startShimmer()
                         sfLCount.startShimmer()
                     } else {
-                        sfLCategory.stopShimmer()
                         sflContents.stopShimmer()
                         sfLCount.stopShimmer()
                     }
@@ -249,7 +247,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 }
                 val dialog = ContentsMoreFragment(dataMore, removeItem, position)
                 dialog.show(supportFragmentManager, "setting")
-
             }
         })
     }
@@ -329,7 +326,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         var ID = 0
         var CATEGORY_NAME = "error"
-        var OPTION: String = "all"
-        var FILTER: String = "created_at"
+        var OPTION: String = "all" // chip의 옵션 (전체/안봤어요/봤어요/알람)
+        var FILTER: String = "created_at" // 정렬 필터 (최신순/과거순/최근조회순)
     }
 }

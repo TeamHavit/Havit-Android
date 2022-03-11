@@ -65,7 +65,6 @@
                 android:layout_marginBottom="8dp"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
-                android:visibility="@{contentsViewModel.loadState ? View.GONE : View.VISIBLE, default = gone}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -94,26 +93,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_drop_black" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- 카테고리 로딩 중 -->
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/sfL_category"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginHorizontal="80dp"
-                android:layout_marginTop="19dp"
-                android:layout_marginBottom="12dp"
-                android:visibility="@{contentsViewModel.loadState ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tv_modify"
-                app:layout_constraintStart_toEndOf="@+id/iv_back"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/rectangle_gray_0_radius_6" />
-            </com.facebook.shimmer.ShimmerFrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <org.sopt.havit.util.StickyScrollView
