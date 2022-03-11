@@ -156,7 +156,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     // 최신순, 과거순, 최근 조회순 다이얼로그별 화면 설정
     private fun setOrderDialog() {
         binding.clOrder.setOnClickListener {
-            val dialog = DialogContentsFilterFragment(FILTER)
+            val dialog = DialogContentsFilterFragment()
             dialog.show(supportFragmentManager, "contentsOrder")
 
             // 순서 클릭 시 이벤트 정의
