@@ -1,9 +1,8 @@
 package org.sopt.havit.ui.share
 
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
@@ -23,44 +22,27 @@ class ChooseIconFragment :
     private val args by navArgs<ChooseIconFragmentArgs>()
     private var categoryIndex = 0   // default 로 첫번째 아이콘 선택
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        super.onCreateView(inflater, container, savedInstanceState)
-
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initAdapter()
         initClickNext()
         toolbarClickListener()
-
     }
 
     private fun toolbarClickListener() {
-        binding.icBack.setOnClickListener {
-            findNavController().navigate(R.id.action_chooseIconFragment_to_addCategoryFragment)
-        }
+        binding.icBack.setOnClickListener { findNavController().navigate(R.id.action_chooseIconFragment_to_addCategoryFragment) }
         binding.icClose.setOnClickListener { requireActivity().finish() }
     }
 
     private fun initAdapter() {
+        binding.rvIcon.adapter = IconAdapter(::onIconClick).also { iconAdapter = it }
+    }
 
-        // init data
-        iconAdapter = IconAdapter()
-        binding.rvIcon.adapter = iconAdapter
-        iconAdapter.iconList.addAll(iconDrawableList)
-        iconAdapter.notifyItemRangeInserted(0, iconDrawableList.size)
-
-        // set clickListener
-        iconAdapter.setItemClickListener(object : IconAdapter.OnItemClickListener {
-            override fun onClick(v: View, position: Int) {
-                categoryIndex = position
-            }
-        })
+    private fun onIconClick(position: Int) {
+        categoryIndex = position
+        iconAdapter.clickedPosition = position
+        for (i in 0..IconAdapter.iconList.size) iconAdapter.notifyItemChanged(i)
+        Log.d("ChooseIconFragment_position", position.toString())
     }
 
 
@@ -82,33 +64,11 @@ class ChooseIconFragment :
     }
 
     private fun showCustomToast() {
-        // TODO: snack bar로 custom (release)
         val toast = Toast(requireContext())
-        // set text
         val view = layoutInflater.inflate(R.layout.toast_category_added, null)
         val textView: TextView = view.findViewById(R.id.tv_toast_category1)
         textView.text = args.categoryTitle
         toast.view = view
         toast.show()
-    }
-
-    companion object {
-        val iconDrawableList = listOf(
-            R.drawable.ic_category1,
-            R.drawable.ic_category2,
-            R.drawable.ic_category3,
-            R.drawable.ic_category4,
-            R.drawable.ic_category5,
-            R.drawable.ic_category6,
-            R.drawable.ic_category7,
-            R.drawable.ic_category8,
-            R.drawable.ic_category9,
-            R.drawable.ic_category10,
-            R.drawable.ic_category11,
-            R.drawable.ic_category12,
-            R.drawable.ic_category13,
-            R.drawable.ic_category14,
-            R.drawable.ic_category15
-        )
     }
 }

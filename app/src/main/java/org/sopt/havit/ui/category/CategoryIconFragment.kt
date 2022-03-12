@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -52,40 +51,40 @@ class CategoryIconFragment : Fragment() {
     }
 
     private fun initAdapter() {
-
-        iconAdapter = IconAdapter()
-        binding.rvIcon.adapter = iconAdapter
-        iconAdapter.iconList.addAll(
-            listOf(
-                R.drawable.ic_category1,
-                R.drawable.ic_category2,
-                R.drawable.ic_category3,
-                R.drawable.ic_category4,
-                R.drawable.ic_category5,
-                R.drawable.ic_category6,
-                R.drawable.ic_category7,
-                R.drawable.ic_category8,
-                R.drawable.ic_category9,
-                R.drawable.ic_category10,
-                R.drawable.ic_category11,
-                R.drawable.ic_category12,
-                R.drawable.ic_category13,
-                R.drawable.ic_category14,
-                R.drawable.ic_category15
-            )
-        )
-        iconAdapter.notifyDataSetChanged()
-
-
-        iconAdapter.setItemClickListener(object : IconAdapter.OnItemClickListener {
-            override fun onClick(v: View, position: Int) {
-                Log.d("IconAdapter", "$position clicked in Fragment")
-                v.background =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.oval_gray_stroke_2)
-                categoryIndex = position + 1
-                checkIsSelected()
-            }
-        })
+        /** 코드 리팩토링에 따른 임시 주석처리*/
+//        iconAdapter = IconAdapter()
+//        binding.rvIcon.adapter = iconAdapter
+//        iconAdapter.iconList.addAll(
+//            listOf(
+//                R.drawable.ic_category1,
+//                R.drawable.ic_category2,
+//                R.drawable.ic_category3,
+//                R.drawable.ic_category4,
+//                R.drawable.ic_category5,
+//                R.drawable.ic_category6,
+//                R.drawable.ic_category7,
+//                R.drawable.ic_category8,
+//                R.drawable.ic_category9,
+//                R.drawable.ic_category10,
+//                R.drawable.ic_category11,
+//                R.drawable.ic_category12,
+//                R.drawable.ic_category13,
+//                R.drawable.ic_category14,
+//                R.drawable.ic_category15
+//            )
+//        )
+//        iconAdapter.notifyDataSetChanged()
+//
+//
+//        iconAdapter.setItemClickListener(object : IconAdapter.OnItemClickListener {
+//            override fun onClick(v: View, position: Int) {
+//                Log.d("IconAdapter", "$position clicked in Fragment")
+//                v.background =
+//                    ContextCompat.getDrawable(requireContext(), R.drawable.oval_gray_stroke_2)
+//                categoryIndex = position + 1
+//                checkIsSelected()
+//            }
+//        })
     }
 
     private fun checkIsSelected() {
