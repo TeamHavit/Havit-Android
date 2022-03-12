@@ -6,6 +6,22 @@ import android.content.SharedPreferences
 object PopupSharedPreference {
     private const val DELETE_POPUP_TIME = "delete_popup_time"
     private const val IS_POPUP = "is_popup"
+    private const val REACH_LEVEL = "reach_level"
+
+    fun setReachLevel(context: Context, level: Int) {
+        val prefs: SharedPreferences =
+            context.getSharedPreferences(REACH_LEVEL, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = prefs.edit()
+        editor.putInt(
+            REACH_LEVEL, level
+        ).apply()
+    }
+
+    fun getReachLevel(context: Context): Int {
+        val prefs: SharedPreferences =
+            context.getSharedPreferences(REACH_LEVEL, Context.MODE_PRIVATE)
+        return prefs.getInt(REACH_LEVEL, 0)
+    }
 
     fun setDeletePopupTime(context: Context, time: Long) {
         val prefs: SharedPreferences =
