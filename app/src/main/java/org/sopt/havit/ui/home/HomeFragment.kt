@@ -23,7 +23,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private val contentsAdapter: HomeRecentContentsRvAdapter by lazy { HomeRecentContentsRvAdapter() }
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
     private lateinit var categoryVpAdapter: HomeCategoryVpAdapter
-    private var reachLevel = 0
+    private var popupText = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,16 +61,18 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     // onCreateView에서 이루어지는 도달률 팝업 초기화
     private fun initPopup() {
-        reachLevel = PopupSharedPreference.getReachLevel(requireContext())
+        popupText = PopupSharedPreference.getPopupText(requireContext()).toString()
+        binding.tvPopup.text = popupText
         val isPopup = PopupSharedPreference.getIsPopup(requireContext())
         binding.clPopup.visibility = if (isPopup) View.VISIBLE else View.GONE
     }
 
     // onStart에서 이루어지는 userData 변화에 따른 도달률 팝업 업데이트
     private fun updatePopup() {
-        checkReachLevel()   // 구간 변화 업데이트
+        checkPopupText()   // 구간 변화 업데이트
         val isPopup = PopupSharedPreference.getIsPopup(requireContext())
         if (isPopup) {
+            binding.tvPopup.text = popupText
             binding.clPopup.visibility = View.VISIBLE
         } else {
             checkDeletePopupTime() // (현재 시간 - x버튼 누른 시간) 계산
@@ -78,23 +80,26 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     // 도달률 구간변화 업데이트
-    private fun checkReachLevel() {
-        val prevLevel = PopupSharedPreference.getReachLevel(requireContext())
+    private fun checkPopupText() {
+        val prevPopupText = PopupSharedPreference.getPopupText(requireContext())
         // 도달률 구간에 변경이 있을 경우 PopupSharedPrefence 저장값 변경
-        if (prevLevel != reachLevel) {
+        if (prevPopupText != popupText) {
             with(PopupSharedPreference) {
-                setReachLevel(requireContext(), reachLevel)
+                setPopupText(requireContext(), popupText)
                 setIsPopup(requireContext(), true)
             }
         }
     }
 
     private fun checkDeletePopupTime() {
-        val currentTime = System.currentTimeMillis() / (1000 * 60 * 60) // 1970.01.01부터 현재까지 흐른 시간
+        val currentTime = System.currentTimeMillis() / (1000 * 60) // 1970.01.01부터 현재까지 흐른 시간(분)
         val deletePopupTime =
             PopupSharedPreference.getDeletePopupTime(requireContext())   // deletePopup 버튼을 누른 시각
-        if ((currentTime - deletePopupTime) > 0) {  // 1시간이 지나면 도달률 팝업 VISIBLE :
+        Log.d("HOME_DELETE_POPUP", "currenttime : $currentTime")
+        Log.d("HOME_DELETE_POPUP", "delete popup time : $deletePopupTime")
+        if ((currentTime - deletePopupTime) > 60 * 24 * 3) {  // 3일이 지나면 팝업을 띄움
             binding.clPopup.visibility = View.VISIBLE
+            binding.tvPopup.text = popupText
             PopupSharedPreference.setIsPopup(requireContext(), true)
         } else {
             binding.clPopup.visibility = View.GONE
@@ -179,6 +184,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
+    // popUp 삭제 버튼 클릭 이벤트
     private fun clickDeletePopup() {
         // popUp 삭제 버튼 클릭 시 수행되는 animation
         val animation = TranslateAnimation(0.0f, 0.0f, 0.0f, binding.clPopup.height.toFloat() * -1)
@@ -191,7 +197,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }, 300)
 
         // MySharedPreference에 deletePopup버튼을 누른 현재 시각 저장
-        val deletePopupTime = System.currentTimeMillis() / (1000 * 60) // 1970.01.01부터 흐른 시간
+        val deletePopupTime = System.currentTimeMillis() / (1000 * 60) // 1970.01.01부터 흐른 시간(분)
         PopupSharedPreference.setDeletePopupTime(requireContext(), deletePopupTime)
         PopupSharedPreference.setIsPopup(requireContext(), false)
     }
@@ -265,13 +271,15 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
-    private fun initLevel(rate: Int) = when {
-        rate <= 33 -> 1
-        rate in 34..66 -> 2
-        rate in 67..99 -> 3
-        else -> 4
+    // 도달률 구간별 텍스트 설정
+    private fun updatePopupText(rate: Int) = when {
+        rate <= 33 -> getString(R.string.home_popup_level1)
+        rate in 34..66 -> getString(R.string.home_popup_level2)
+        rate in 67..99 -> getString(R.string.home_popup_level3)
+        else -> getString(R.string.home_popup_level4)
     }
 
+    // 도달률 그래프 초기화
     private fun initProgressBar() {
         with(homeViewModel) {
             userData.observe(viewLifecycleOwner) {
@@ -282,9 +290,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                         (it.totalSeenContentNumber.toDouble() / it.totalContentNumber.toDouble() * 100).toInt()
                 }
                 requestReachRate(rate)
-                reachLevel = initLevel(rate)    // 도달률 구간 설정
-                updatePopup()                   // 도달률 팝업 업데이트
-                Log.d("HOME_DELETE_POPUP", "reachLevel2: $reachLevel")
+                popupText = updatePopupText(rate)    // 도달률 구간별 텍스트 설정
+                updatePopup()   // 도달률 팝업 업데이트
             }
         }
     }

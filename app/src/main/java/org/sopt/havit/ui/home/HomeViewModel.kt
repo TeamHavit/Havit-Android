@@ -68,7 +68,6 @@ class HomeViewModel(context: Context) : ViewModel() {
             "모든 콘텐츠"
         )
         list.clear()
-        Log.d("HOMECATEGORY", "category_size: ${data.size}")
         while (data.size > count) {
             if (count == 0) {
                 val firstPage = mutableListOf<CategoryResponse.AllCategoryData>()
@@ -78,7 +77,6 @@ class HomeViewModel(context: Context) : ViewModel() {
                 for (i in 0..min) {
                     firstPage.add(data[i])
                 }
-                Log.d("HOMEFRAGMENT_TEMP", "temp : $firstPage")
                 list.add(firstPage)
                 count += 5
             } else {
@@ -120,8 +118,6 @@ class HomeViewModel(context: Context) : ViewModel() {
                     RetrofitObject.provideHavitApi(token)
                         .getUserData()
                 _userData.postValue(response.data)
-                Log.d("HOMEVIEWMODEL", "rate: ${_reachRate.value}")
-                Log.d("HOMEVIEWMODEL", "userdata: $userData")
             } catch (e: Exception) {
             }
         }
@@ -133,10 +129,4 @@ class HomeViewModel(context: Context) : ViewModel() {
     fun requestReachRate(rate: Int) {
         _reachRate.postValue(rate)
     }
-
-    // 도달률 팝업 더미 데이터
-    private val _popupData = MutableLiveData<String>().apply {
-        value = "도달률이 50% 이하로 떨어졌어요!"
-    }
-    val popupData: LiveData<String> = _popupData
 }

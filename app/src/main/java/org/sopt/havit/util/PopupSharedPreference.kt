@@ -6,21 +6,21 @@ import android.content.SharedPreferences
 object PopupSharedPreference {
     private const val DELETE_POPUP_TIME = "delete_popup_time"
     private const val IS_POPUP = "is_popup"
-    private const val REACH_LEVEL = "reach_level"
+    private const val POPUP_TEXT = "reach_level"
 
-    fun setReachLevel(context: Context, level: Int) {
+    fun setPopupText(context: Context, popupText: String) {
         val prefs: SharedPreferences =
-            context.getSharedPreferences(REACH_LEVEL, Context.MODE_PRIVATE)
+            context.getSharedPreferences(POPUP_TEXT, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = prefs.edit()
-        editor.putInt(
-            REACH_LEVEL, level
+        editor.putString(
+            POPUP_TEXT, popupText
         ).apply()
     }
 
-    fun getReachLevel(context: Context): Int {
+    fun getPopupText(context: Context): String? {
         val prefs: SharedPreferences =
-            context.getSharedPreferences(REACH_LEVEL, Context.MODE_PRIVATE)
-        return prefs.getInt(REACH_LEVEL, 0)
+            context.getSharedPreferences(POPUP_TEXT, Context.MODE_PRIVATE)
+        return prefs.getString(POPUP_TEXT, "비상이에요! 확인하지 않은 콘텐츠가 많이 있어요!")
     }
 
     fun setDeletePopupTime(context: Context, time: Long) {

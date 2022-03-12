@@ -20,7 +20,6 @@
     <string name="title">제목</string>
     <string name="next">다음</string>
     <string name="icon">icon</string>
-    <string name="home_popup">도달률이 50% 이하로 떨어졌어요!</string>
     <string name="home_reach_user">님의 도달률</string>
     <string name="home_reach_contents">봐야 하는 콘텐츠</string>
     <string name="home_reach_percent">%</string>
@@ -134,4 +133,8 @@
     <string name="contents_havit_complete">콘텐츠 보기 완료 !</string>
     <string name="notification_will_alarm">알림 예정</string>
     <string name="notification_done_alarm">지난 알람</string>
+    <string name="home_popup_level1">비상이에요! 확인하지 않은 콘텐츠가 많이 있어요!</string>
+    <string name="home_popup_level2">밀린 콘텐츠를 확인해 보는 건 어떨까요?</string>
+    <string name="home_popup_level3">저장한 콘텐츠가 밀리지 않도록 조심하세요!</string>
+    <string name="home_popup_level4">축하드려요! 저장한 콘텐츠를 전부 확인했어요!</string>
 </resources>
