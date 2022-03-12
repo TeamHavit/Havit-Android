@@ -1,13 +1,14 @@
 package org.sopt.havit.ui.home
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.TranslateAnimation
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentHomeBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
@@ -15,6 +16,7 @@ import org.sopt.havit.ui.contents_simple.ContentsSimpleActivity
 import org.sopt.havit.ui.notification.NotificationActivity
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
+import org.sopt.havit.util.PopupSharedPreference
 
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
@@ -41,7 +43,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         initAdpater()
         // 추천 콘텐츠
         recommendationDataObserve()
-        setClickEvent() // Every clickEvent
+        // Every clickEvent
+        setClickEvent()
 
         return binding.root
     }
@@ -51,7 +54,29 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         setData()
         categoryDataObserve()       // 카테고리 초기화
         recentContentsDataObserve() // 추천콘텐츠 초기화
-        initProgressBar()   // 도달률 data 초기화
+        initProgressBar()           // 도달률 data 초기화
+        initPopup()                 // 도달률 팝업 초기화
+    }
+
+    private fun initPopup() {
+        val isPopup = PopupSharedPreference.getIsPopup(requireContext())
+        binding.clPopup.visibility = if (isPopup) View.VISIBLE else View.GONE
+
+        // (현재 시간 - x버튼 누른 시간) 계산
+        checkDeletePopupTime()
+    }
+
+    private fun checkDeletePopupTime() {
+        val currentTime = System.currentTimeMillis() / (1000 * 60 * 60) // 1970.01.01부터 현재까지 흐른 시간
+        val deletePopupTime =
+            PopupSharedPreference.getDeletePopupTime(requireContext())   // deletePopup 버튼을 누른 시각
+        val threeDays = 3 * 24
+        Log.d("HOME_DELETE_POPUP", "checkDeletePopuptime() current time : $currentTime")
+        Log.d("HOME_DELETE_POPUP", "checkDeletePopuptime() deletePopup time : $deletePopupTime")
+        if ((currentTime - deletePopupTime) > 0) {  // test용. 추후 `> threeDays`로 바꿀 것.
+            binding.clPopup.visibility = View.VISIBLE
+            PopupSharedPreference.setIsPopup(requireContext(), true)
+        }
     }
 
     // 추천 콘텐츠 클릭 -> 웹뷰로 이동
@@ -96,7 +121,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private fun clickAddCategory() {
         binding.layoutCategoryEmpty.tvAddCategory.setOnClickListener {
-            Log.d("HomeFragment", "home_add_category")
+
         }
     }
 
@@ -132,23 +157,26 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
-    // popUp 삭제 버튼 클릭 시 수행되는 animation + popUp.visibility.GONE
-    private fun deletePopup() {
-        binding.clPopup.animate()
-            .translationY(binding.clPopup.height.toFloat() * -1)
-            .alpha(0.0f)
-            .setDuration(200)
-            .setListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
-                    super.onAnimationEnd(animation)
-                    binding.clPopup.visibility = View.GONE
-                }
-            })
+    private fun clickDeletePopup() {
+        // popUp 삭제 버튼 클릭 시 수행되는 animation
+        val animation = TranslateAnimation(0.0f, 0.0f, 0.0f, binding.clPopup.height.toFloat() * -1)
+        animation.duration = 300        // 300 millis 동안 수행
+        animation.fillAfter = false     // fillAfter = false : 애니메이션 수행 후 view 원위치로
+        binding.clPopup.startAnimation(animation)
+        Handler(Looper.getMainLooper()).postDelayed({
+            //딜레이 후 시작할 코드 작성 : animation 수행 후 팝업 vibility GONE으로 처리
+            binding.clPopup.visibility = View.GONE
+        }, 300)
+
+        // MySharedPreference에 deletePopup버튼을 누른 현재 시각 저장
+        val deletePopupTime = System.currentTimeMillis() / (1000 * 60 * 60) // 1970.01.01부터 흐른 시간
+        PopupSharedPreference.setDeletePopupTime(requireContext(), deletePopupTime)
+        PopupSharedPreference.setIsPopup(requireContext(), false)
     }
 
     private fun setClickEvent() {
         binding.ivDeletePopup.setOnClickListener {
-            deletePopup()
+            clickDeletePopup()
         }
         binding.ivAlarm.setOnClickListener {
             val intent = Intent(requireActivity(), NotificationActivity::class.java)
