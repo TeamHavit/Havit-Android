@@ -140,10 +140,12 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun setData() {
-        homeViewModel.requestUserDataTaken()    // 도달률
-        homeViewModel.requestContentsTaken()    // 최근 저장 콘텐츠
-        homeViewModel.requestCategoryTaken()    // 카테고리
-        homeViewModel.requestRecommendTaken()   // 추천 콘텐츠
+        with(homeViewModel) {
+            requestUserDataTaken()  // 도달률
+            requestContentsTaken()  // 최근 저장 콘텐츠
+            requestCategoryTaken()  // 카테고리
+            requestRecommendTaken() // 추천 콘텐츠
+        }
     }
 
     private fun clickAddCategory() {
