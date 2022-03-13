@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
-                android:layout_marginTop="31dp"
+                android:layout_marginTop="29dp"
                 android:hint="@string/enter_category_title"
                 android:lines="1"
                 android:maxLength="15"
@@ -121,8 +121,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:text="@string/category_length_limit"
-                android:textColor="@color/gray_3"
                 android:textAppearance="@style/Mini10Regular"
+                android:textColor="@color/gray_3"
                 app:layout_constraintEnd_toEndOf="@id/et_category_title"
                 app:layout_constraintTop_toBottomOf="@id/et_category_title" />
 
@@ -160,7 +160,6 @@
                 app:layout_constraintBottom_toBottomOf="@id/iv_notice"
                 app:layout_constraintStart_toEndOf="@id/iv_notice"
                 app:layout_constraintTop_toTopOf="@id/iv_notice" />
-
 
             <Button
                 android:id="@+id/btn_next"
