@@ -137,4 +137,5 @@
     <string name="home_popup_level2">밀린 콘텐츠를 확인해 보는 건 어떨까요?</string>
     <string name="home_popup_level3">저장한 콘텐츠가 밀리지 않도록 조심하세요!</string>
     <string name="home_popup_level4">축하드려요! 저장한 콘텐츠를 전부 확인했어요!</string>
+    <string name="contents_order">정렬</string>
 </resources>
