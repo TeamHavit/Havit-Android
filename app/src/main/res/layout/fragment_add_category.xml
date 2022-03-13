@@ -144,7 +144,7 @@
                 android:id="@+id/iv_notice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_red_notice"
+                android:src="@drawable/ic_notice_red"
                 android:visibility="@{isDuplicated ? View.VISIBLE : View.INVISIBLE, default = gone}"
                 app:layout_constraintStart_toStartOf="@id/tv_enter_title"
                 app:layout_constraintTop_toBottomOf="@id/et_category_title" />

@@ -171,11 +171,11 @@
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="46dp"
+                android:layout_marginTop="56dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_suggestion"
-                app:srcCompat="@drawable/img_graphic_nocontents" />
+                app:srcCompat="@drawable/img_graphic_nocategory" />
 
             <TextView
                 android:id="@+id/tv_suggestion"
@@ -197,7 +197,7 @@
                 android:id="@+id/tv_no_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:text="아직 카테고리가 없습니다"
                 android:textAppearance="@style/Header16Bold"
                 android:textColor="@color/havit_gray"
@@ -210,12 +210,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="196dp"
                 android:gravity="center"
                 android:text="HAVIT에 콘텐츠를 쉽게 저장할 수 있습니다.\n카테고리를 생성하려면 아래를 누르세요."
                 android:textAppearance="@style/Sub13Regular"
                 android:textColor="@color/gray_3"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_no_category" />

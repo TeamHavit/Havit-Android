@@ -22,12 +22,5 @@
         android:name="org.sopt.havit.ui.mypage.MyPageFragment"
         android:label="@string/title_my_page"
         tools:layout="@layout/fragment_my_page">
-        <action
-            android:id="@+id/action_navigation_my_page_to_webFragment"
-            app:destination="@id/webFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/webFragment"
-        android:name="org.sopt.havit.ui.web.WebFragment"
-        android:label="WebFragment" />
 </navigation>
