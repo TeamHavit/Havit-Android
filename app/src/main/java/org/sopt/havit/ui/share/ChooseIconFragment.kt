@@ -1,7 +1,6 @@
 package org.sopt.havit.ui.share
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -14,13 +13,13 @@ import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.CategoryAddRequest
 import org.sopt.havit.databinding.FragmentChooseIconBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.ui.share.IconAdapter.Companion.clickedPosition
 import org.sopt.havit.util.MySharedPreference
 
 class ChooseIconFragment :
     BaseBindingFragment<FragmentChooseIconBinding>(R.layout.fragment_choose_icon) {
     private lateinit var iconAdapter: IconAdapter
     private val args by navArgs<ChooseIconFragmentArgs>()
-    private var categoryIndex = 0   // default 로 첫번째 아이콘 선택
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,21 +29,19 @@ class ChooseIconFragment :
     }
 
     private fun toolbarClickListener() {
-        binding.icBack.setOnClickListener { findNavController().navigate(R.id.action_chooseIconFragment_to_addCategoryFragment) }
+        binding.icBack.setOnClickListener { findNavController().popBackStack() }
         binding.icClose.setOnClickListener { requireActivity().finish() }
     }
 
     private fun initAdapter() {
+        clickedPosition = 0 // navigation 백스택 관리코드 작성하면 지우기
         binding.rvIcon.adapter = IconAdapter(::onIconClick).also { iconAdapter = it }
     }
 
     private fun onIconClick(position: Int) {
-        categoryIndex = position
-        iconAdapter.clickedPosition = position
+        clickedPosition = position
         for (i in 0..IconAdapter.iconList.size) iconAdapter.notifyItemChanged(i)
-        Log.d("ChooseIconFragment_position", position.toString())
     }
-
 
     private fun initClickNext() {
         binding.btnNext.setOnClickListener {
@@ -57,7 +54,7 @@ class ChooseIconFragment :
         lifecycleScope.launch {
             kotlin.runCatching {
                 RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
-                    .addCategory(CategoryAddRequest(args.categoryTitle, categoryIndex + 1))
+                    .addCategory(CategoryAddRequest(args.categoryTitle, clickedPosition + 1))
                 showCustomToast()
             }
         }
