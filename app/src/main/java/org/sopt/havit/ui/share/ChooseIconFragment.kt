@@ -2,8 +2,6 @@ package org.sopt.havit.ui.share
 
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -14,6 +12,7 @@ import org.sopt.havit.data.remote.CategoryAddRequest
 import org.sopt.havit.databinding.FragmentChooseIconBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.share.IconAdapter.Companion.clickedPosition
+import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.MySharedPreference
 
 class ChooseIconFragment :
@@ -61,11 +60,6 @@ class ChooseIconFragment :
     }
 
     private fun showCustomToast() {
-        val toast = Toast(requireContext())
-        val view = layoutInflater.inflate(R.layout.toast_category_added, null)
-        val textView: TextView = view.findViewById(R.id.tv_toast_category1)
-        textView.text = args.categoryTitle
-        toast.view = view
-        toast.show()
+        CustomToast.categoryAddedToast(requireContext(), args.categoryTitle)
     }
 }
