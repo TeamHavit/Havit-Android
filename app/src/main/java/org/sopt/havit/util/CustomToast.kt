@@ -1,12 +1,14 @@
 package org.sopt.havit.util
 
 import android.content.Context
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ToastCategoryAddedBinding
+import org.sopt.havit.databinding.ToastContentsAddedBinding
 
 object CustomToast {
 
@@ -27,6 +29,14 @@ object CustomToast {
         val toast = Toast(context)
         val binding = ToastCategoryAddedBinding.inflate(LayoutInflater.from(context))
         binding.categoryName = title
+        toast.view = binding.root
+        toast.show()
+    }
+
+    fun contentsAddedToast(context: Context) {
+        val toast = Toast(context)
+        val binding = ToastContentsAddedBinding.inflate(LayoutInflater.from(context))
+        toast.setGravity(Gravity.TOP, 0, 54)
         toast.view = binding.root
         toast.show()
     }
