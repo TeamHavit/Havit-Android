@@ -116,4 +116,7 @@ dependencies {
     // gson
     implementation "com.google.code.gson:gson:2.8.8" //to use SerializedName
 
+    // 스켈레톤 shimmer
+    implementation "com.facebook.shimmer:shimmer:0.5.0"
+
 }
