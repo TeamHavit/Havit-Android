@@ -3,24 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_category_add"
-    app:startDestination="@id/categoryNameFragment">
+    app:startDestination="@id/addCategoryFragment">
     <fragment
-        android:id="@+id/categoryNameFragment"
-        android:name="org.sopt.havit.ui.category.CategoryNameFragment"
+        android:id="@+id/addCategoryFragment"
+        android:name="org.sopt.havit.ui.share.AddCategoryFragment"
         android:label="fragment_category_name"
-        tools:layout="@layout/fragment_category_name" >
+        tools:layout="@layout/fragment_add_category" >
         <action
-            android:id="@+id/action_categoryNameFragment_to_categoryIconFragment"
-            app:destination="@id/categoryIconFragment" />
+            android:id="@+id/action_addCategoryFragment_to_chooseIconFragment"
+            app:destination="@id/chooseIconFragment" />
     </fragment>
     <fragment
-        android:id="@+id/categoryIconFragment"
-        android:name="org.sopt.havit.ui.category.CategoryIconFragment"
-        android:label="fragment_category_icon"
-        tools:layout="@layout/fragment_category_icon" >
+        android:id="@+id/chooseIconFragment"
+        android:name="org.sopt.havit.ui.share.ChooseIconFragment"
+        android:label="fragment_choose_icon"
+        tools:layout="@layout/fragment_choose_icon" >
         <argument
             android:name="category_title"
             app:argType="string"
             android:defaultValue="카테고리 제목" />
+        <action
+            android:id="@+id/action_chooseIconFragment_to_selectCategoryFragment"
+            app:popUpTo="@id/chooseIconFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 </navigation>

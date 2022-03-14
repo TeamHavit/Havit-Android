@@ -3,11 +3,9 @@ package org.sopt.havit.ui.share
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -23,6 +21,7 @@ import org.sopt.havit.data.remote.CreateContentsRequest
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
 import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.util.CallbackUtil.enqueueUtil
+import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.MySharedPreference
 
 class ContentsSummeryFragment : Fragment() {
@@ -231,13 +230,6 @@ class ContentsSummeryFragment : Fragment() {
         }
     }
 
-    private fun setCustomToast() {
-        // TODO: snack bar 로 custom (release)
-        val toast = Toast(requireContext())
-        toast.setGravity(Gravity.TOP, 0, 54)
-        // set text
-        val view = layoutInflater.inflate(R.layout.toast_contents_added, null)
-        toast.view = view
-        toast.show()
-    }
+    private fun setCustomToast() = CustomToast.contentsAddedToast(requireContext())
+
 }
