@@ -57,9 +57,9 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     // url 붙여넣기 팝업 생성
     private fun setUrlPaste() {
         clipboard = activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipData = clipboard.primaryClip!!
 
         if (clipboard.hasPrimaryClip()) { // 클립보드에 내용이 있으면 팝업을 보여줌.
+            clipData = clipboard.primaryClip!!
             binding.clPasteClipBoard.isVisible = true
             clipData.apply {
                 val textToPaste: String =
