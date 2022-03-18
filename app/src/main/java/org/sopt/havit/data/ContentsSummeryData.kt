@@ -1,8 +1,8 @@
 package org.sopt.havit.data
 
 data class ContentsSummeryData(
-    val ogTitle: String,
-    val ogDescription: String,
-    val ogUrl: String,
-    val ogImage: String
+    var ogTitle: String = "",
+    var ogDescription: String= "",
+    var ogUrl: String= "",
+    var ogImage: String= ""
 )
