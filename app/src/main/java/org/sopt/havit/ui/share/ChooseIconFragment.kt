@@ -39,8 +39,10 @@ class ChooseIconFragment :
     }
 
     private fun onIconClick(position: Int) {
+        val previousPosition = clickedPosition
         clickedPosition = position
-        for (i in 0..IconAdapter.iconList.size) iconAdapter.notifyItemChanged(i)
+        iconAdapter.notifyItemChanged(previousPosition)
+        iconAdapter.notifyItemChanged(clickedPosition)
     }
 
     private fun initClickNext() {
