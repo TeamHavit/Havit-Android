@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.sopt.havit.R
-import org.sopt.havit.data.ContentsSummeryData
 import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.remote.ContentsSummeryData
 import org.sopt.havit.data.remote.CreateContentsRequest
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
 import org.sopt.havit.ui.category.CategoryViewModel

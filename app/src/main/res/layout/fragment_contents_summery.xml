@@ -7,7 +7,7 @@
 
         <variable
             name="ContentsSummeryData"
-            type="org.sopt.havit.data.ContentsSummeryData" />
+            type="org.sopt.havit.data.remote.ContentsSummeryData" />
 
         <variable
             name="alarm"

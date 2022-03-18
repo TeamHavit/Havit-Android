@@ -1,4 +1,4 @@
-package org.sopt.havit.data
+package org.sopt.havit.data.remote
 
 data class ContentsSummeryData(
     var ogTitle: String = "",
