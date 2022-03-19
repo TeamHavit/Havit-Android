@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="isPopup"
             type="Boolean" />
@@ -84,8 +86,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="11dp"
-                    android:visibility="@{isPopup? View.VISIBLE : View.GONE}"
                     android:background="@drawable/rectangle_purple_radius_6"
+                    android:visibility="@{isPopup? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -97,7 +99,7 @@
                         android:layout_marginStart="22dp"
                         android:layout_marginTop="13dp"
                         android:layout_marginBottom="14dp"
-                        android:text="@string/home_popup_level1"
+                        android:text="@{vm_home.popup}"
                         android:textAppearance="@style/Text14Regular"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"

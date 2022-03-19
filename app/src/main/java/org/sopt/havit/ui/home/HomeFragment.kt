@@ -42,7 +42,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         // 스크롤 시 검색뷰 상단에 고정시킴
         initSearchSticky()
         // adapter 초기화
-        initAdpater()
+        initAdapter()
         // 추천 콘텐츠
         recommendationDataObserve()
         // Every clickEvent
@@ -61,8 +61,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     // onCreateView에서 이루어지는 도달률 팝업 초기화
     private fun initPopup() {
-        popupText = PopupSharedPreference.getPopupText(requireContext()).toString()
-        binding.tvPopup.text = popupText
+        homeViewModel.setPopupText(PopupSharedPreference.getPopupText(requireContext()).toString())
         val isPopup = PopupSharedPreference.getIsPopup(requireContext())
         binding.isPopup = isPopup
     }
@@ -71,12 +70,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private fun updatePopup() {
         checkPopupText()   // 구간 변화 업데이트
         val isPopup = PopupSharedPreference.getIsPopup(requireContext())
-        if (isPopup) {
-            binding.tvPopup.text = popupText
-            binding.isPopup = isPopup
-        } else {
-            checkDeletePopupTime() // (현재 시간 - x버튼 누른 시간) 계산
-        }
+        homeViewModel.setPopupText(popupText)
+        binding.isPopup = isPopup
+        if (!isPopup)
+            checkDeletePopupTime()
     }
 
     // 도달률 구간변화 업데이트
@@ -98,11 +95,11 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         Log.d("HOME_DELETE_POPUP", "currenttime : $currentTime")
         Log.d("HOME_DELETE_POPUP", "delete popup time : $deletePopupTime")
         if ((currentTime - deletePopupTime) > 60 * 24 * 3) {  // 3일이 지나면 팝업을 띄움
-            binding.clPopup.visibility = View.VISIBLE
-            binding.tvPopup.text = popupText
+            binding.isPopup = true
+            homeViewModel.setPopupText(popupText)
             PopupSharedPreference.setIsPopup(requireContext(), true)
         } else {
-            binding.clPopup.visibility = View.GONE
+            binding.isPopup = false
         }
     }
 
@@ -154,7 +151,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
-    private fun initAdpater() {
+    private fun initAdapter() {
         // 카테고리 adapter 초기화
         categoryVpAdapter = HomeCategoryVpAdapter()
         binding.layoutCategory.vpCategory.adapter = categoryVpAdapter
