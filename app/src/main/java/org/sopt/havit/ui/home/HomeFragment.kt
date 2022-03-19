@@ -168,10 +168,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                 categoryData.observe(viewLifecycleOwner) { data ->
                     with(binding) {
                         if (data.isEmpty()) {
-                            layoutCategory.clHomeCategory.visibility = View.GONE
+                            hasCategory = false
                             clickAddCategory()
                         } else {
-                            layoutCategoryEmpty.clHomeCategoryEmpty.visibility = View.GONE
+                            hasCategory = true
                             categoryVpAdapter.categoryList.clear()
                             val list = setList(data, userData.totalContentNumber)
                             categoryVpAdapter.categoryList.addAll(list)
@@ -192,7 +192,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.clPopup.startAnimation(animation)
         Handler(Looper.getMainLooper()).postDelayed({
             //딜레이 후 시작할 코드 작성 : animation 수행 후 팝업 vibility GONE으로 처리
-            binding.clPopup.visibility = View.GONE
+            binding.isPopup = false
         }, 300)
 
         // MySharedPreference에 deletePopup버튼을 누른 현재 시각 저장
@@ -256,10 +256,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             contentsList.observe(viewLifecycleOwner) { data ->
                 with(binding) {
                     if (data.isEmpty()) {
-                        rvContents.visibility = View.GONE
-                        tvMoreContents.visibility = View.INVISIBLE
+                        hasContents = false
                     } else {
-                        clContentsEmpty.visibility = View.GONE
+                        hasContents = true
                         val min = if (data.size < 10) data.size else 10
                         val list = data.subList(0, min)
                         clickRecentContentsItemView()
