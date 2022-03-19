@@ -69,7 +69,7 @@
     <string name="contents_simple_recent_save_empty">최근 저장 콘텐츠가 없습니다.\n새로운 콘텐츠를 저장해 보세요!</string>
     <string name="contents_simple_unseen_empty">봐야 하는 콘텐츠가 없습니다.\n새로운 콘텐츠를 저장해 보세요!</string>
     <string name="contents_simple_add_contents">콘텐츠 추가</string>
-    <string name="choose_icon">아이콘을 선택하세요</string>
+    <string name="choose_icon">카테고리 아이콘을 선택하세요</string>
     <string name="icon_kr">아이콘</string>
     <string name="search_title">검색된 콘텐츠</string>
     <string name="search_cancel">취소</string>
@@ -137,5 +137,6 @@
     <string name="home_popup_level2">밀린 콘텐츠를 확인해 보는 건 어떨까요?</string>
     <string name="home_popup_level3">저장한 콘텐츠가 밀리지 않도록 조심하세요!</string>
     <string name="home_popup_level4">축하드려요! 저장한 콘텐츠를 전부 확인했어요!</string>
+    <string name="category_added">&#160;카테고리가 추가되었습니다.</string>    <!-- &#160;는 띄어쓰기를 위한 문자열입니다-->
     <string name="contents_order">정렬</string>
 </resources>

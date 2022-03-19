@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
@@ -75,29 +77,43 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun setData() {
         ID = intent.getIntExtra("categoryId", 0)
         if (ID == -1) {
-            binding.tvModify.visibility = View.GONE
-            binding.ivCategoryDrop.visibility = View.GONE
+            binding.tvModify.visibility = GONE
+            binding.ivCategoryDrop.visibility = GONE
         }
         intent.getStringExtra("categoryName")?.let {
             CATEGORY_NAME = it
         }
-        Log.d("categoryName", "$CATEGORY_NAME")
+        contentsViewModel.setCategoryName(CATEGORY_NAME)
     }
 
     private fun dataObserve() {
         with(contentsViewModel) {
-            contentsList.observe(this@ContentsActivity) {
+            loadState.observe(this@ContentsActivity) {
+                // 서버 불러오는 중이라면 스켈레톤 화면 및 shimmer 효과를 보여줌
                 with(binding) {
-                    if (it.isEmpty()) {
-                        Log.d("visibility", " success")
-                        rvContents.visibility = View.GONE
-                        clEmpty.visibility = View.VISIBLE
+                    if (it) {
+                        sflContents.startShimmer()
+                        sfLCount.startShimmer()
                     } else {
-                        rvContents.visibility = View.VISIBLE
-                        clEmpty.visibility = View.GONE
-                        Log.d("visibility", " fail")
+                        sflContents.stopShimmer()
+                        sfLCount.stopShimmer()
                     }
                 }
+            }
+
+            contentsCount.observe(this@ContentsActivity) {
+                // 콘텐츠 개수에 따른 visibility 조정
+                with(binding) {
+                    if (it == 0) {
+                        rvContents.visibility = GONE
+                        clEmpty.visibility = VISIBLE
+                    } else {
+                        rvContents.visibility = VISIBLE
+                        clEmpty.visibility = GONE
+                    }
+                }
+            }
+            contentsList.observe(this@ContentsActivity) {
                 // 콘텐츠 데이터 업데이트
                 contentsAdapter.submitList(it.toList())
             }
@@ -227,6 +243,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
                 val removeItem: (Int) -> Unit = {
                     contentsAdapter.notifyItemRemoved(it)
+                    contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
                 }
                 val dialog = ContentsMoreFragment(dataMore, removeItem, position)
                 dialog.show(supportFragmentManager, "setting")
@@ -309,7 +326,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         var ID = 0
         var CATEGORY_NAME = "error"
-        var OPTION: String = "all"
-        var FILTER: String = "created_at"
+        var OPTION: String = "all" // chip의 옵션 (전체/안봤어요/봤어요/알람)
+        var FILTER: String = "created_at" // 정렬 필터 (최신순/과거순/최근조회순)
     }
 }
