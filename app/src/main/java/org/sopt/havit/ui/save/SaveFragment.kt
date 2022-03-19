@@ -60,11 +60,14 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
 
         if (clipboard.hasPrimaryClip()) { // 클립보드에 내용이 있으면 팝업을 보여줌.
             clipData = clipboard.primaryClip!!
-            binding.clPasteClipBoard.isVisible = true
+
             clipData.apply {
-                val textToPaste: String =
-                    this.getItemAt(0).text.toString().trim() // 클립보드에 저장된 첫번째 데이터
-                binding.tvSaveUrl.text = textToPaste
+                val textToPaste = this.getItemAt(0).text.toString().trim() // 클립보드에 저장된 첫번째 데이터
+                if (isFullPath(textToPaste)) {
+                    binding.clPasteClipBoard.isVisible = true
+                    binding.tvSaveUrl.text = textToPaste
+                }
+
             }
         }
     }
