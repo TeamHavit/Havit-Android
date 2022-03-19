@@ -1,6 +1,5 @@
 package org.sopt.havit.util
 
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.widget.Button
 import android.widget.ImageView
@@ -98,11 +97,12 @@ object BindingAdapter {
     }
 
     // item_category
-    @BindingAdapter("ogImage")
+    @BindingAdapter("app:ogImage")
     @JvmStatic
     fun ImageView.setOgImage(url: String?) {
         Glide.with(context)
             .load(url)
+            .transform(CenterCrop(),RoundedCorners(px(6)))
             .placeholder(R.drawable.img_contents_dummy_3)
             .into(this)
     }

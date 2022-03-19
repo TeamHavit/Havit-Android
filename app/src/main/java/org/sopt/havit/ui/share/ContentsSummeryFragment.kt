@@ -10,17 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.sopt.havit.R
-import org.sopt.havit.data.ContentsSummeryData
 import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.remote.ContentsSummeryData
 import org.sopt.havit.data.remote.CreateContentsRequest
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
 import org.sopt.havit.ui.category.CategoryViewModel
-import org.sopt.havit.util.CallbackUtil.enqueueUtil
 import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.MySharedPreference
 
@@ -29,9 +28,8 @@ class ContentsSummeryFragment : Fragment() {
     private val binding get() = _binding!!
     private val args by navArgs<ContentsSummeryFragmentArgs>()
     private lateinit var cateIdString: List<String>
-    private lateinit var url: String
     private lateinit var cateIdInt: MutableList<Int>
-    private lateinit var responseContents: ContentsSummeryData
+    private lateinit var ogData: ContentsSummeryData
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(requireContext()) }
 
     override fun onCreateView(
@@ -44,50 +42,40 @@ class ContentsSummeryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getUrl()
-        setUrl(url)
-        setContents(url)        // get()을 통해 정보 받아와서 UI 띄움
+        setContents()
         getCategoryList()
         initListener()
         toolbarClickListener()
-        gerNotificationTime()
+        getNotificationTime()
     }
 
-    // Initialize url on Global var url
-    private fun getUrl() {
+    private fun getUrl(): String {
         val intent = activity?.intent
-        if ((intent?.action == Intent.ACTION_SEND) && (intent.type == "text/plain")) {
-            // 공유하기 버튼으로 진입시
-            url = intent.getStringExtra(Intent.EXTRA_TEXT).toString()
-        } else {
-            // MainActivity FIB 로 진입시
-            url = intent?.getStringExtra("url").toString()
-        }
+        if (isEnterWithShareBtn(intent))                       // 공유하기 버튼으로 진입시
+            return intent?.getStringExtra(Intent.EXTRA_TEXT).toString()
+        return intent?.getStringExtra("url").toString() // MainActivity FIB 로 진입시
     }
 
-    private fun setUrl(url: String) {
-        binding.tvUrl.text = url
+    private fun isEnterWithShareBtn(intent: Intent?): Boolean {
+        return (intent?.action == Intent.ACTION_SEND) && (intent.type == "text/plain")
     }
+
 
     private fun getCategoryList() {
-
         // 선택된 카테고리 배열 생성
         cateIdString = args.contentsCategoryIds.split(" ")
         // split 이후 마지막 값에 공백이 들어가는 문제 해결
         cateIdString = cateIdString.subList(0, cateIdString.size - 1)
 
         // 배열 초기화 및 값 할당
-        cateIdInt = MutableList(cateIdString.size) { _ -> 0 }
-        for (i in cateIdString.indices) {
-            cateIdInt[i] = ((cateIdString[i]).toInt())
-        }
+        cateIdInt = MutableList(cateIdString.size) { 0 }
+        for (i in cateIdString.indices) cateIdInt[i] = ((cateIdString[i]).toInt())
     }
 
-    private fun gerNotificationTime() {
+    private fun getNotificationTime() {
         // 알림을 설정 했다면 tv_set_alarm 값을 알림설정한 시간으로 변경
         val setTime = MySharedPreference.getNotificationTime(requireContext())
-        if (setTime.isNotEmpty())
-            binding.tvSetAlarm.text = setDateFormat(setTime)
+        binding.alarm = if (setTime.isNotEmpty()) setDateFormat(setTime) else "알림 설정"
     }
 
     private fun setDateFormat(originTime: String): String {
@@ -108,28 +96,37 @@ class ContentsSummeryFragment : Fragment() {
         return "$date$newHour$min 알림 예정"
     }
 
-    private fun setContents(url: String) {
-        val call = RetrofitObject.provideHavitApi(
-            MySharedPreference.getXAuthToken(requireContext())
-        ).getOgData(url)
-
-        call.enqueueUtil(
-            onSuccess = {
-                responseContents = it.data
-
-                // OgImage 설정
-                Glide.with(requireContext())
-                    .load(it.data.ogImage)
-                    .apply(RequestOptions.bitmapTransform(RoundedCorners(6)))
-                    .into(binding.ivOgImage)
-                // OgTitle 설정
-                if (MySharedPreference.getTitle(requireContext()).isEmpty())
-                    binding.tvOgTitle.text = it.data.ogTitle
-                else   // 제목 수정 시
-                    binding.tvOgTitle.text = MySharedPreference.getTitle(requireContext())
-            }
-        )
+    private fun setContents() {
+        val url = getUrl()
+        ogData = ContentsSummeryData(ogUrl = url)
+        GlobalScope.launch {
+            getOgData(url)
+            if (MySharedPreference.getTitle(requireContext()).isNotEmpty())
+                ogData.ogTitle = MySharedPreference.getTitle(requireContext())
+            binding.contentsSummeryData = ogData
+        }
     }
+
+    private suspend fun getOgData(url: String) {
+        GlobalScope.launch {
+            kotlin.runCatching {
+                val doc: Document = Jsoup.connect(url).get()
+                val ogTags = doc.select("meta[property^=og:]")
+                ogData.apply {
+                    if (ogTags.size == 0) return@apply
+                    ogTags.forEachIndexed { index, _ ->
+                        val tag = ogTags[index]
+                        when (tag.attr("property")) {
+                            "og:image" -> this.ogImage = tag.attr("content")
+                            "og:description" -> this.ogDescription = tag.attr("content")
+                            "og:title" -> this.ogTitle = tag.attr("content")
+                        }
+                    }
+                }
+            }
+        }.join()
+    }
+
 
     private fun initListener() {
 
@@ -180,7 +177,8 @@ class ContentsSummeryFragment : Fragment() {
                 val notification: Boolean
                 val time: String
 
-                val reservedNotification = MySharedPreference.getNotificationTime(requireContext())
+                val reservedNotification =
+                    MySharedPreference.getNotificationTime(requireContext())
 
                 if (reservedNotification.isEmpty()) {
                     time = ""
@@ -192,21 +190,15 @@ class ContentsSummeryFragment : Fragment() {
                     notification = true
                 }
 
-
                 val createContentsRequest = CreateContentsRequest(
-                    if (MySharedPreference.getTitle(requireContext()).isNotEmpty()) {   // title
-                        MySharedPreference.getTitle(requireContext())
-                    } else {
-                        responseContents.ogTitle
-                    },
-                    responseContents.ogDescription,
-                    responseContents.ogImage,
-                    responseContents.ogUrl,
-                    notification,
-                    time,
-                    cateIdInt
+                    ogData.ogTitle,
+                    ogData.ogDescription,
+                    ogData.ogImage,
+                    ogData.ogUrl,
+                    isNotified = notification,
+                    notificationTime = time,
+                    categoryIds = cateIdInt
                 )
-
 
                 RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
                     .createContents(createContentsRequest)
