@@ -12,6 +12,7 @@ import android.view.animation.TranslateAnimation
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentHomeBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.ui.category.CategoryAddActivity
 import org.sopt.havit.ui.contents_simple.ContentsSimpleActivity
 import org.sopt.havit.ui.notification.NotificationActivity
 import org.sopt.havit.ui.search.SearchActivity
@@ -145,12 +146,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
-    private fun clickAddCategory() {
-        binding.layoutCategoryEmpty.tvAddCategory.setOnClickListener {
-
-        }
-    }
-
     private fun initAdapter() {
         // 카테고리 adapter 초기화
         categoryVpAdapter = HomeCategoryVpAdapter()
@@ -169,7 +164,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                     with(binding) {
                         if (data.isEmpty()) {
                             hasCategory = false
-                            clickAddCategory()
                         } else {
                             hasCategory = true
                             categoryVpAdapter.categoryList.clear()
@@ -202,6 +196,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun setClickEvent() {
+        binding.layoutCategoryEmpty.tvAddCategory.setOnClickListener {
+            val intent = Intent(requireActivity(), CategoryAddActivity::class.java)
+            startActivity(intent)
+        }
         binding.ivDeletePopup.setOnClickListener {
             clickDeletePopup()
         }
