@@ -38,21 +38,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_notification_time">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="4dp"
-                app:cardElevation="0dp">
-
-                <ImageView
-                    android:id="@+id/iv_thumbnail"
-                    imageDefaultLinearMax="@{notificationData.image}"
-                    android:layout_width="102dp"
-                    android:layout_height="104dp"
-                    android:scaleType="centerCrop"
-                    tools:src="@drawable/img_contents_dummy" />
-            </androidx.cardview.widget.CardView>
-
+            <ImageView
+                android:id="@+id/iv_thumbnail"
+                imageDefaultLinearMax="@{notificationData.image}"
+                android:layout_width="102dp"
+                android:layout_height="104dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/img_contents_dummy" />
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
