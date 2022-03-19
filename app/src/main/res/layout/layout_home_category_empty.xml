@@ -74,9 +74,10 @@
 
             <ImageView
                 android:id="@+id/iv_category"
-                android:layout_width="95dp"
-                android:layout_height="88dp"
-                android:layout_marginTop="12dp"
+                android:layout_width="102dp"
+                android:layout_height="102dp"
+                android:layout_marginTop="5dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_category_empty"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +88,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="51dp"
-                android:layout_marginTop="11dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="36dp"
                 android:background="@drawable/rectangle_purple_category_radius_44"
                 android:gravity="center"
