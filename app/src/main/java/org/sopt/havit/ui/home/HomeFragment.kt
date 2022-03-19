@@ -54,10 +54,14 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     override fun onStart() {
         super.onStart()
-        setData()
         categoryDataObserve()       // 카테고리 초기화
         recentContentsDataObserve() // 추천콘텐츠 초기화
         initProgressBar()           // 도달률 data 초기화
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setData()
     }
 
     // onCreateView에서 이루어지는 도달률 팝업 초기화
@@ -157,6 +161,24 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.rvContents.adapter = contentsAdapter
     }
 
+    private fun recentContentsDataObserve() {
+        with(homeViewModel) {
+            contentsList.observe(viewLifecycleOwner) { data ->
+                with(binding) {
+                    if (data.isEmpty()) {
+                        hasContents = false
+                    } else {
+                        hasContents = true
+                        val min = if (data.size < 10) data.size else 10
+                        val list = data.subList(0, min)
+                        clickRecentContentsItemView()
+                        contentsAdapter.updateList(list)
+                    }
+                }
+            }
+        }
+    }
+
     private fun categoryDataObserve() {
         with(homeViewModel) {
             userData.observe(viewLifecycleOwner) { userData ->
@@ -246,24 +268,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private fun initSearchSticky() {
         binding.svMain.run {
             header = binding.clStickyView
-        }
-    }
-
-    private fun recentContentsDataObserve() {
-        with(homeViewModel) {
-            contentsList.observe(viewLifecycleOwner) { data ->
-                with(binding) {
-                    if (data.isEmpty()) {
-                        hasContents = false
-                    } else {
-                        hasContents = true
-                        val min = if (data.size < 10) data.size else 10
-                        val list = data.subList(0, min)
-                        clickRecentContentsItemView()
-                        contentsAdapter.updateList(list)
-                    }
-                }
-            }
         }
     }
 
