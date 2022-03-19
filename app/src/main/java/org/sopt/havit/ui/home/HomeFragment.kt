@@ -64,7 +64,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         popupText = PopupSharedPreference.getPopupText(requireContext()).toString()
         binding.tvPopup.text = popupText
         val isPopup = PopupSharedPreference.getIsPopup(requireContext())
-        binding.clPopup.visibility = if (isPopup) View.VISIBLE else View.GONE
+        binding.isPopup = isPopup
     }
 
     // onStart에서 이루어지는 userData 변화에 따른 도달률 팝업 업데이트
@@ -73,7 +73,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         val isPopup = PopupSharedPreference.getIsPopup(requireContext())
         if (isPopup) {
             binding.tvPopup.text = popupText
-            binding.clPopup.visibility = View.VISIBLE
+            binding.isPopup = isPopup
         } else {
             checkDeletePopupTime() // (현재 시간 - x버튼 누른 시간) 계산
         }

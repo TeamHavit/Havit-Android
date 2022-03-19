@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
+        <variable
+            name="isPopup"
+            type="Boolean" />
 
         <variable
             name="vm_home"
@@ -80,6 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="11dp"
+                    android:visibility="@{isPopup? View.VISIBLE : View.GONE}"
                     android:background="@drawable/rectangle_purple_radius_6"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
