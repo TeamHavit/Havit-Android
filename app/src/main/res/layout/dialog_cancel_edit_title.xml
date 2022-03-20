@@ -53,7 +53,7 @@
             android:id="@+id/btn_exit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/rectangle_havit_gray"
+            android:background="@drawable/rectangle_havit_gray_bottom_right_radius_8"
             android:text="@string/exit"
             android:textAppearance="@style/Header17Semibold"
             android:textColor="@color/white"

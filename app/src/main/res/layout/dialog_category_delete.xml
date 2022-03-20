@@ -35,7 +35,7 @@
             android:id="@+id/btn_delete"
             android:layout_width="160dp"
             android:layout_height="54dp"
-            android:background="@drawable/rectangle_havit_red_radius_8"
+            android:background="@drawable/rectangle_havit_red_bottom_right_radius_8"
             android:text="@string/category_delete"
             android:textAppearance="@style/Header17Semibold"
             android:textColor="@color/white"

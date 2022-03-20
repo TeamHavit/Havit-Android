@@ -72,7 +72,7 @@
             android:id="@+id/btn_confirm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/rectangle_havit_gray"
+            android:background="@drawable/rectangle_havit_gray_bottom_right_radius_8"
             android:paddingVertical="17dp"
             android:text="@{confirmText}"
             android:textAppearance="@style/Header17Semibold"

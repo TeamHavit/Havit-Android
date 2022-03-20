@@ -42,6 +42,7 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
                     (resources.displayMetrics.widthPixels * 0.91).toInt(),
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 )
+                setBackgroundDrawableResource(android.R.color.transparent)
             }
         }
     }
@@ -85,9 +86,9 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
         binding.btnCancel.background
         when (dialogMode) {
             CANCEL_EDIT_CATEGORY, CANCEL_SAVE_CONTENTS, CANCEL_EDIT_TITLE, CANCEL_SET_NOTIFICATION
-            -> binding.btnCancel.setBackgroundResource(R.drawable.rectangle_havit_red_radius_8)
+            -> binding.btnConfirm.setBackgroundResource(R.drawable.rectangle_havit_red_bottom_right_radius_8)
             REMOVE_CATEGORY, REMOVE_NOTIFICATION, REMOVE_CONTENTS
-            -> binding.btnCancel.setBackgroundResource(R.drawable.rectangle_havit_gray)
+            -> binding.btnConfirm.setBackgroundResource(R.drawable.rectangle_havit_gray_bottom_right_radius_8)
             else -> throw IllegalStateException()
         }
     }
@@ -97,7 +98,7 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
     }
 
     private fun clickConfirmListener() {
-        binding.btnCancel.setOnClickListener {
+        binding.btnConfirm.setOnClickListener {
             doAfterConfirm()
             dismiss()
         }
