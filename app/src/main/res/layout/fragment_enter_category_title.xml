@@ -8,16 +8,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="isEnabled"
-            type="Boolean" />
-
-        <variable
             name="isDuplicated"
             type="Boolean" />
-
-        <variable
-            name="categoryLength"
-            type="Integer" />
 
         <variable
             name="categoryTitle"
@@ -137,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
-                android:text="@{String.valueOf(categoryLength)}"
+                android:text="@{String.valueOf(categoryTitle.length())}"
                 android:textAppearance="@style/Mini10Regular"
                 android:textColor="@color/havit_purple"
                 app:layout_constraintBottom_toBottomOf="@id/tv_category_length_limit"
@@ -171,8 +163,8 @@
                 android:id="@+id/btn_next"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="@{isEnabled ? @drawable/rectangle_havit_purple : @drawable/rectangle_gray_2}"
-                android:enabled="@{isEnabled}"
+                android:background="@{(!isDuplicated &amp;&amp; (categoryTitle.length() != 0)) ? @drawable/rectangle_havit_purple : @drawable/rectangle_gray_2}"
+                android:enabled="@{(!isDuplicated &amp;&amp; (categoryTitle.length() != 0)) }"
                 android:text="@string/next"
                 android:textAppearance="@style/Text16Semibold"
                 android:textColor="@color/white"

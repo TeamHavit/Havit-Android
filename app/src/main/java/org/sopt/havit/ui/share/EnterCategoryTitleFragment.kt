@@ -44,18 +44,9 @@ class EnterCategoryTitleFragment :
 
     private fun setTextWatcher() {
         binding.etCategoryTitle.addTextChangedListener {
-            binding.categoryLength = binding.etCategoryTitle.text.length
-            binding.isDuplicated = isTitleDuplicated()
-            binding.isEnabled = isTitleNotEmpty() && !isTitleDuplicated()
+            val title = binding.etCategoryTitle.text.toString()
+            binding.isDuplicated = if (title in categoryTitleList) true else false
         }
-    }
-
-    private fun isTitleDuplicated(): Boolean {
-        val title = binding.etCategoryTitle.text.toString()
-        if (title.isEmpty()) return false   // 입력값 없을 때
-        for (element in categoryTitleList)
-            if (element == title) return true
-        return false
     }
 
     private fun initClickListener() {
@@ -74,9 +65,6 @@ class EnterCategoryTitleFragment :
         binding.icBack.setOnClickListener { findNavController().backStack }
         binding.icClose.setOnClickListener { requireActivity().finish() }
     }
-
-    private fun isTitleNotEmpty() = binding.etCategoryTitle.text.isNotEmpty()
-
 
     private fun setKeyBoardUp() =
         KeyBoardUtil.openKeyBoard(requireContext(), binding.etCategoryTitle)
