@@ -8,14 +8,14 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.databinding.FragmentAddCategoryBinding
+import org.sopt.havit.databinding.FragmentEnterCategoryTitleBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.KeyBoardUtil.setUpAsSoftKeyboard
 import org.sopt.havit.util.MySharedPreference
 
 class EnterCategoryTitleFragment :
-    BaseBindingFragment<FragmentAddCategoryBinding>(R.layout.fragment_add_category) {
+    BaseBindingFragment<FragmentEnterCategoryTitleBinding>(R.layout.fragment_enter_category_title) {
 
     private val categoryTitleList = mutableListOf<String>()
 

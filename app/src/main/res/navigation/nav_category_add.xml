@@ -8,7 +8,7 @@
         android:id="@+id/enterCategoryTitleFragment"
         android:name="org.sopt.havit.ui.share.EnterCategoryTitleFragment"
         android:label="fragment_category_name"
-        tools:layout="@layout/fragment_add_category">
+        tools:layout="@layout/fragment_enter_category_title">
         <action
             android:id="@+id/action_enterCategoryTitleFragment_to_chooseIconFragment"
             app:destination="@id/chooseIconFragment" />
