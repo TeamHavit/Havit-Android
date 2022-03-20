@@ -2,7 +2,6 @@ package org.sopt.havit.ui.category
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,11 +15,10 @@ import org.sopt.havit.ui.base.BaseBindingActivity
 class CategoryOrderModifyActivity :
     BaseBindingActivity<ActivityCategoryOrderModifyBinding>(R.layout.activity_category_order_modify) {
     private lateinit var getResult: ActivityResultLauncher<Intent>
-
     private lateinit var categoryOrderModifyAdapter: CategoryOrderModifyAdapter
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
     lateinit var holder: RecyclerView.ViewHolder
-    private var SET = false
+    private var set = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +26,6 @@ class CategoryOrderModifyActivity :
         binding.categoryViewModel = categoryViewModel
         setContentView(binding.root)
 
-        SERVER = false
         initAdapter()
         setResult()
         clickItem()
@@ -36,7 +33,7 @@ class CategoryOrderModifyActivity :
         clickBack()
         initDrag()
         dataObserve()
-        setOrder()
+        setCompleteOrder()
     }
 
     private fun initAdapter() {
@@ -45,10 +42,11 @@ class CategoryOrderModifyActivity :
     }
 
     private fun setData() {
-        SET = intent.getBooleanExtra("dataSet", false)
-        if (SET) {
+        // 처음 진입한 경우만 서버 호출
+        set = intent.getBooleanExtra("dataSet", false)
+        if (set) { // 처음 진입한 경우
             categoryViewModel.requestCategoryTaken()
-            SET = false
+            set = false
         }
     }
 
@@ -57,12 +55,6 @@ class CategoryOrderModifyActivity :
             categoryList.observe(this@CategoryOrderModifyActivity) {
                 categoryOrderModifyAdapter.categoryList.addAll(it)
                 categoryOrderModifyAdapter.notifyDataSetChanged()
-
-                val list = mutableListOf<Int>()
-                for (i in categoryOrderModifyAdapter.categoryList) {
-                    list.add(i.id)
-                }
-                Log.d("CategoryOrderList", "변경 전 : ${list}")
             }
         }
     }
@@ -70,28 +62,34 @@ class CategoryOrderModifyActivity :
     private fun setResult() {
         // 데이터 받아옴 (카테고리 내용 수정 뷰에서)
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == RESULT_OK) {
-                val position = it.data?.getIntExtra("position", 0) ?: 0
-                val id = it.data?.getIntExtra("id", 0) ?: 0
-                categoryViewModel.requestCategoryDelete(id)
-                categoryOrderModifyAdapter.removeData(position)
-                categoryOrderModifyAdapter.notifyDataSetChanged()
-            } else if (it.resultCode == RESULT_FIRST_USER) {
-                val position = it.data?.getIntExtra("position", 0) ?: 0
-                val name = it.data?.getStringExtra("categoryName") ?: "null"
-                var imageId = it.data?.getIntExtra("imageId", 0) ?: 0
-                val id = it.data?.getIntExtra("id", 0) ?: 0
-                imageId = imageId + 1
-                Log.d("CategoryTest", "네임 : $name")
-                Log.d("CategoryTest", "아이디 : $id")
-                Log.d("CategoryTest", "이미지 : $imageId")
-                categoryViewModel.requestCategoryContent(id, imageId, name)
-                categoryOrderModifyAdapter.categoryList[position].title = name
-                categoryOrderModifyAdapter.categoryList[position].imageId = imageId
-                categoryOrderModifyAdapter.categoryList[position].url =
-                    "https://havit-bucket.s3.ap-northeast-2.amazonaws.com/category_image/3d_icon_${imageId}.png"
+            when(it.resultCode){
+                RESULT_OK -> { // 삭제
+                    // 삭제할 카테고리의 정보를 받아옴
+                    val position = it.data?.getIntExtra("position", 0) ?: 0
+                    val id = it.data?.getIntExtra("id", 0) ?: 0
+                    // 서버에 삭제 요청
+                    categoryViewModel.requestCategoryDelete(id)
+                    // 리사이클러뷰 변경
+                    categoryOrderModifyAdapter.removeData(position)
+                }
+                RESULT_FIRST_USER -> { // 카테고리 이름 & 아이콘 수정
+                    // 수정할 카테고리의 정보를 받아옴
+                    val position = it.data?.getIntExtra("position", 0) ?: 0
+                    val name = it.data?.getStringExtra("categoryName") ?: "null"
+                    var image = it.data?.getIntExtra("imageId", 0) ?: 0
+                    val id = it.data?.getIntExtra("id", 0) ?: 0
+                    image += 1 // url에 넣기 위해 1을 더해주는 작업을 진행
 
-                categoryOrderModifyAdapter.notifyDataSetChanged()
+                    // 서버에 수정된 내용 전달
+                    categoryViewModel.requestCategoryContent(id, image, name)
+                    // 리사이클러뷰 변경
+                    with(categoryOrderModifyAdapter.categoryList[position]){
+                        title = name
+                        imageId = image
+                        url = "https://havit-bucket.s3.ap-northeast-2.amazonaws.com/category_image/3d_icon_${image}.png"
+                    }
+                    categoryOrderModifyAdapter.notifyItemChanged(position)
+                }
             }
         }
     }
@@ -101,23 +99,14 @@ class CategoryOrderModifyActivity :
             CategoryOrderModifyAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 val intent = Intent(v.context, CategoryContentModifyActivity::class.java)
-                categoryViewModel.categoryList.value?.get(position)
-                    ?.let {
-                        intent.putExtra(
-                            "categoryId",
-                            categoryOrderModifyAdapter.categoryList[position].id
-                        )
-                        intent.putExtra("position", position)
-                        intent.putExtra(
-                            "categoryName",
-                            categoryOrderModifyAdapter.categoryList[position].title
-                        )
-                        intent.putExtra(
-                            "imageId",
-                            categoryOrderModifyAdapter.categoryList[position].imageId
-                        )
-                    }
-                Log.d("CategoryContentsData", "전달 전 포지션 : ${position}")
+
+                categoryOrderModifyAdapter.categoryList[position].let {
+                    intent.putExtra("categoryId", it.id)
+                    intent.putExtra("categoryName", it.title)
+                    intent.putExtra("imageId", it.imageId)
+                }
+                intent.putExtra("position", position)
+                // 데이터를 담고 전달
                 getResult.launch(intent)
             }
         })
@@ -127,6 +116,7 @@ class CategoryOrderModifyActivity :
         binding.ivBack.setOnClickListener { finish() }
     }
 
+    // drag & drop 코드
     private fun initDrag() {
         val itemTouchCallback = object : ItemTouchHelper.Callback(
         ) {
@@ -146,8 +136,7 @@ class CategoryOrderModifyActivity :
             ): Boolean {
                 val fromPosition: Int = viewHolder.adapterPosition
                 val toPosition: Int = target.adapterPosition
-                categoryOrderModifyAdapter.swapData(fromPosition, toPosition)
-                Log.d("CategoryContentsData", "${viewHolder.layoutPosition}")
+                categoryOrderModifyAdapter.swapData(fromPosition, toPosition) // 카테고리 순서 변경
                 return true
             }
 
@@ -158,12 +147,12 @@ class CategoryOrderModifyActivity :
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
                 super.onSelectedChanged(viewHolder, actionState)
                 when(actionState){
-                    ItemTouchHelper.ACTION_STATE_DRAG -> {
+                    ItemTouchHelper.ACTION_STATE_DRAG -> { // 순서변경 중
                         holder = viewHolder!!
                         viewHolder.itemView.findViewById<View>(R.id.cl_category_list)
                             .setBackgroundResource(R.drawable.rectangle_purple_light_radius_6)
                     }
-                    ItemTouchHelper.ACTION_STATE_IDLE->{
+                    ItemTouchHelper.ACTION_STATE_IDLE->{ // 순서변경이 끝나면 해당 아이템 레이아웃 변경
                         holder.itemView.findViewById<View>(R.id.cl_category_list)
                             .setBackgroundResource(R.drawable.rectangle_purple_category_radius_6)
                     }
@@ -173,26 +162,24 @@ class CategoryOrderModifyActivity :
         ItemTouchHelper(itemTouchCallback).attachToRecyclerView(binding.rvContents)
     }
 
-    private fun setOrder() {
+    // 완료 시 변경 된 순서 서버에 보내는 함수
+    private fun setCompleteOrder() {
         binding.tvComplete.setOnClickListener {
-            val mlist = mutableListOf<Int>()
-            for (i in categoryOrderModifyAdapter.categoryList) {
-                mlist.add(i.id)
+            // id만 담긴 list 추출
+            val idList = mutableListOf<Int>()
+            for (item in categoryOrderModifyAdapter.categoryList) {
+                idList.add(item.id)
             }
-            Log.d("CategoryOrderList", "${mlist.toList()}")
+            // 서버에 순서 변경 요청
+            categoryViewModel.requestCategoryOrder(idList.toList())
 
-            categoryViewModel.requestCategoryOrder(mlist.toList())
-
+            // 서버 post 완료 시 종료
             categoryViewModel.delay.observe(this@CategoryOrderModifyActivity) {
-                if (it == true) {
+                if (it) {
                     categoryViewModel.setDelay(false)
                     finish()
                 }
             }
         }
-    }
-
-    companion object {
-        var SERVER = false
     }
 }
