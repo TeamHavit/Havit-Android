@@ -159,6 +159,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         indicator.setViewPager2(binding.layoutCategory.vpCategory)
         // 최근저장 콘텐츠 adapter 초기화
         binding.rvContents.adapter = contentsAdapter
+        // 추천 콘텐츠 adapter 초기화
+        recommendRvAdapter = HomeRecommendRvAdapter()
+        binding.rvRecommend.adapter = recommendRvAdapter
     }
 
     private fun recentContentsDataObserve() {
@@ -167,7 +170,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                 if (data.isNotEmpty()) {
                     val min = if (data.size < 10) data.size else 10
                     val list = data.subList(0, min)
-                    clickRecentContentsItemView()
                     contentsAdapter.updateList(list)
                 }
             }
@@ -237,19 +239,16 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             intent.putExtra("before", "recent")
             startActivity(intent)
         }
+        clickRecommendItemView()        // 추천콘텐츠 클릭->웹뷰로 이동
+        clickRecentContentsItemView()   // 최근저장 콘텐츠 클릭->웹뷰로 이동
     }
 
     private fun recommendationDataObserve() {
         with(homeViewModel) {
             recommendList.observe(viewLifecycleOwner) { data ->
-                with(binding) {
-                    if (data.isNotEmpty()) {
-                        recommendRvAdapter = HomeRecommendRvAdapter()
-                        rvRecommend.adapter = recommendRvAdapter
-                        clickRecommendItemView()
-                        recommendRvAdapter.recommendList.addAll(data)
-                        recommendRvAdapter.notifyDataSetChanged()
-                    }
+                if (data.isNotEmpty()) {
+                    recommendRvAdapter.recommendList.addAll(data)
+                    recommendRvAdapter.notifyDataSetChanged()
                 }
             }
         }
