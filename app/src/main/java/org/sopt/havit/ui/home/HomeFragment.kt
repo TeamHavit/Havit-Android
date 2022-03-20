@@ -164,16 +164,11 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private fun recentContentsDataObserve() {
         with(homeViewModel) {
             contentsList.observe(viewLifecycleOwner) { data ->
-                with(binding) {
-                    if (data.isEmpty()) {
-                        hasContents = false
-                    } else {
-                        hasContents = true
-                        val min = if (data.size < 10) data.size else 10
-                        val list = data.subList(0, min)
-                        clickRecentContentsItemView()
-                        contentsAdapter.updateList(list)
-                    }
+                if (data.isNotEmpty()) {
+                    val min = if (data.size < 10) data.size else 10
+                    val list = data.subList(0, min)
+                    clickRecentContentsItemView()
+                    contentsAdapter.updateList(list)
                 }
             }
         }
@@ -183,16 +178,11 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         with(homeViewModel) {
             userData.observe(viewLifecycleOwner) { userData ->
                 categoryData.observe(viewLifecycleOwner) { data ->
-                    with(binding) {
-                        if (data.isEmpty()) {
-                            hasCategory = false
-                        } else {
-                            hasCategory = true
-                            categoryVpAdapter.categoryList.clear()
-                            val list = setList(data, userData.totalContentNumber)
-                            categoryVpAdapter.categoryList.addAll(list)
-                            categoryVpAdapter.notifyDataSetChanged()
-                        }
+                    if (data.isNotEmpty()) {
+                        categoryVpAdapter.categoryList.clear()
+                        val list = setList(data, userData.totalContentNumber)
+                        categoryVpAdapter.categoryList.addAll(list)
+                        categoryVpAdapter.notifyDataSetChanged()
                     }
                 }
             }

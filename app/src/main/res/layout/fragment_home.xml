@@ -14,14 +14,6 @@
         <variable
             name="isPopup"
             type="Boolean" />
-
-        <variable
-            name="hasCategory"
-            type="Boolean" />
-
-        <variable
-            name="hasContents"
-            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -382,7 +374,7 @@
                             layout="@layout/layout_home_category"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="@{hasCategory? View.VISIBLE : View.GONE}" />
+                            android:visibility="@{vm_home.categoryData.isEmpty()? View.GONE : View.VISIBLE}" />
 
                         <include
                             android:id="@+id/layout_category_empty"
@@ -390,7 +382,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
-                            android:visibility="@{hasCategory? View.GONE : View.VISIBLE}"
+                            android:visibility="@{vm_home.categoryData.isEmpty()? View.VISIBLE : View.GONE}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -426,7 +418,7 @@
                             android:text="@string/home_more_contents"
                             android:textAppearance="@style/Sub12Regular"
                             android:textColor="@color/gray_3"
-                            android:visibility="@{hasCategory? View.VISIBLE : View.GONE}"
+                            android:visibility="@{vm_home.contentsList.isEmpty()? View.VISIBLE : View.GONE}"
                             app:layout_constraintBottom_toBottomOf="@id/tv_recent_contents"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/tv_recent_contents" />
@@ -441,7 +433,7 @@
                             android:orientation="horizontal"
                             android:paddingStart="16dp"
                             android:paddingEnd="8dp"
-                            android:visibility="@{hasCategory? View.VISIBLE : View.GONE}"
+                            android:visibility="@{vm_home.contentsList.isEmpty()? View.GONE : View.VISIBLE}"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -457,7 +449,7 @@
                             android:layout_marginBottom="31dp"
                             android:background="@color/white_gray"
                             android:paddingVertical="40dp"
-                            android:visibility="@{hasCategory? View.GONE : View.VISIBLE}"
+                            android:visibility="@{vm_home.contentsList.isEmpty() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
