@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
+    <data />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,6 +11,7 @@
         tools:context=".ui.share.SetNotificationFragment">
 
 
+        <!-- 툴바 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_tool_bar"
             android:layout_width="match_parent"
@@ -62,6 +61,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_tool_bar">
 
+
             <TextView
                 android:id="@+id/tv_set_alarm"
                 android:layout_width="wrap_content"
@@ -74,70 +74,87 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/btn_1h"
+            <RadioGroup
+                android:id="@+id/rg_notification_time"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginHorizontal="16dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:background="@drawable/rectangle_purple_category_radius_6"
-                android:gravity="center"
-                android:text="@string/after_1h"
-                android:textAppearance="@style/List16Semibold"
-                android:textColor="@color/gray_3"
-                app:layout_constraintTop_toBottomOf="@id/tv_set_alarm" />
+                app:layout_constraintTop_toBottomOf="@id/tv_set_alarm">
 
-            <TextView
-                android:id="@+id/btn_2h"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/rectangle_purple_category_radius_6"
-                android:gravity="center"
-                android:text="@string/after_2h"
-                android:textAppearance="@style/List16Semibold"
-                android:textColor="@color/gray_3"
-                app:layout_constraintTop_toBottomOf="@id/btn_1h" />
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/btn_1h"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/selector_noti_time_background"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/after_1h"
+                    android:textAppearance="@style/List16Semibold"
+                    android:textColor="@drawable/selector_noti_time_text"
+                    app:buttonCompat="@null"
+                    app:layout_constraintTop_toBottomOf="@id/tv_set_alarm" />
 
-            <TextView
-                android:id="@+id/btn_3h"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/rectangle_purple_category_radius_6"
-                android:gravity="center"
-                android:text="@string/after_3h"
-                android:textAppearance="@style/List16Semibold"
-                android:textColor="@color/gray_3"
-                app:layout_constraintTop_toBottomOf="@id/btn_2h" />
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/btn_2h"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="11dp"
+                    android:background="@drawable/selector_noti_time_background"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/after_2h"
+                    android:textAppearance="@style/List16Semibold"
+                    android:textColor="@drawable/selector_noti_time_text"
+                    app:buttonCompat="@null"
+                    app:layout_constraintTop_toBottomOf="@id/btn_1h" />
 
-            <TextView
-                android:id="@+id/btn_tomorrow"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/rectangle_purple_category_radius_6"
-                android:gravity="center"
-                android:text="@string/tomorrow_this_time"
-                android:textAppearance="@style/List16Semibold"
-                android:textColor="@color/gray_3"
-                app:layout_constraintTop_toBottomOf="@id/btn_3h" />
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/btn_3h"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="11dp"
+                    android:background="@drawable/selector_noti_time_background"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/after_3h"
+                    android:textAppearance="@style/List16Semibold"
+                    android:textColor="@drawable/selector_noti_time_text"
+                    app:buttonCompat="@null"
+                    app:layout_constraintTop_toBottomOf="@id/btn_2h" />
 
-            <TextView
-                android:id="@+id/btn_1min"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/rectangle_purple_category_radius_6"
-                android:gravity="center"
-                android:text="@string/after_1_min"
-                android:textAppearance="@style/List16Semibold"
-                android:textColor="@color/gray_3"
-                app:layout_constraintTop_toBottomOf="@id/btn_tomorrow" />
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/btn_tomorrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="11dp"
+                    android:background="@drawable/selector_noti_time_background"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/after_24hr"
+                    android:textAppearance="@style/List16Semibold"
+                    android:textColor="@drawable/selector_noti_time_text"
+                    app:buttonCompat="@null"
+                    app:layout_constraintTop_toBottomOf="@id/btn_3h" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/btn_choose_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="11dp"
+                    android:background="@drawable/selector_noti_time_background"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/choose_time"
+                    android:textAppearance="@style/List16Semibold"
+                    android:textColor="@drawable/selector_noti_time_text"
+                    app:buttonCompat="@null"
+                    app:layout_constraintTop_toBottomOf="@id/btn_tomorrow" />
+            </RadioGroup>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
