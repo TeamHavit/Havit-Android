@@ -72,8 +72,8 @@ class ContentsSummeryFragment : Fragment() {
         for (i in cateIdString.indices) cateIdInt[i] = ((cateIdString[i]).toInt())
     }
 
+    // 알림을 설정 했다면 tv_set_alarm 값을 알림설정한 시간으로 변경
     private fun getNotificationTime() {
-        // 알림을 설정 했다면 tv_set_alarm 값을 알림설정한 시간으로 변경
         val setTime = MySharedPreference.getNotificationTime(requireContext())
         binding.alarm = setTime.ifEmpty { getString(R.string.set_alarm_space) }
     }
@@ -120,7 +120,6 @@ class ContentsSummeryFragment : Fragment() {
                     binding.tvOgTitle.text.toString()
                 )
             )
-            MySharedPreference.clearTitle(requireContext())
         }
 
         // 제목 수정 (ImageView)
@@ -130,26 +129,23 @@ class ContentsSummeryFragment : Fragment() {
                     binding.tvOgTitle.text.toString()
                 )
             )
-            MySharedPreference.clearTitle(requireContext())
-        }
-
-        // 완료 버튼
-        binding.btnComplete.setOnClickListener {
-            setCustomToast()
-            initNetwork()
-            categoryViewModel.shareDelay.observe(viewLifecycleOwner) {
-                if (it) {
-                    categoryViewModel.setShareDelay(false)
-                    MySharedPreference.clearTitle(requireContext())
-                    MySharedPreference.clearNotificationTime(requireContext())
-                    requireActivity().finish()
-                }
-            }
         }
 
         // 알림 설정 ImageView
         binding.tvSetAlarm.setOnClickListener {
             findNavController().navigate(R.id.action_contentsSummeryFragment_to_setNotificationFragment)
+        }
+
+        // 완료 버튼
+        binding.btnComplete.setOnClickListener {
+            initNetwork()
+            categoryViewModel.shareDelay.observe(viewLifecycleOwner) {
+                if (it) {
+                    categoryViewModel.setShareDelay(false)
+                    requireActivity().finish()
+                    setCustomToast()
+                }
+            }
         }
     }
 
@@ -194,8 +190,8 @@ class ContentsSummeryFragment : Fragment() {
 
     private fun toolbarClickListener() {
         binding.icBack.setOnClickListener {
-            findNavController().navigate(R.id.action_contentsSummeryFragment_to_selectCategoryFragment)
-            MySharedPreference.clearNotificationTime(requireContext())
+            findNavController().popBackStack()
+//            MySharedPreference.clearNotificationTime(requireContext())
         }
 
         binding.icClose.setOnClickListener {

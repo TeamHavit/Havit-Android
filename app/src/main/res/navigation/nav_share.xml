@@ -63,12 +63,10 @@
             app:argType="string" />
         <action
             android:id="@+id/action_contentsSummeryFragment_to_setNotificationFragment"
-            app:destination="@id/setNotificationFragment"
-            app:popUpTo="@id/contentsSummeryFragment" />
+            app:destination="@id/setNotificationFragment" />
         <action
             android:id="@+id/action_contentsSummeryFragment_to_editTitleFragment"
-            app:destination="@id/editTitleFragment"
-            app:popUpTo="@id/contentsSummeryFragment" />
+            app:destination="@id/editTitleFragment" />
         <action
             android:id="@+id/action_contentsSummeryFragment_to_selectCategoryFragment"
             app:destination="@id/selectCategoryFragment" />
