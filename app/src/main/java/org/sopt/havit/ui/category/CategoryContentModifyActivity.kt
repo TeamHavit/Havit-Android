@@ -61,7 +61,7 @@ class CategoryContentModifyActivity :
     }
 
     private fun changeTextColor() {
-        // 포커그사 있을 시 색 바꿈
+        // 포커스가 있을 시 색 바꿈
         binding.etCategory.setOnFocusChangeListener { view, b ->
             binding.etCategory.setTextColor(
                 Color.parseColor("#272b30")
