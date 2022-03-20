@@ -51,6 +51,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     override fun onStart() {
         super.onStart()
         setContentsData()
+        setCategoryName()
     }
 
     private fun setContentsData() {
@@ -83,6 +84,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         intent.getStringExtra("categoryName")?.let {
             CATEGORY_NAME = it
         }
+        setCategoryName()
+    }
+
+    private fun setCategoryName(){
         contentsViewModel.setCategoryName(CATEGORY_NAME)
     }
 

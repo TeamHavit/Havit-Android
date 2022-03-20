@@ -9,15 +9,14 @@ import android.view.View
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.contents.ContentsActivity
 import org.sopt.havit.ui.share.IconAdapter
 import org.sopt.havit.ui.share.IconAdapter.Companion.clickedPosition
 
 class CategoryContentModifyActivity :
     BaseBindingActivity<ActivityCategoryContentModifyBinding>(R.layout.activity_category_content_modify) {
     private val categoryContentModifyViewModel: CategoryContentModifyViewModel by lazy {
-        CategoryContentModifyViewModel(
-            this
-        )
+        CategoryContentModifyViewModel(this)
     }
     var position = -1
     var id = -1
@@ -106,12 +105,19 @@ class CategoryContentModifyActivity :
     // 완료 버튼 클릭 시
     private fun clickComplete() {
         binding.tvComplete.setOnClickListener {
-            val intentName = Intent(this, CategoryOrderModifyActivity::class.java)
-            intentName.putExtra("position", position)
-            intentName.putExtra("categoryName", binding.etCategory.text.toString())
-            intentName.putExtra("imageId", clickedPosition)
-            intentName.putExtra("id", id)
-            setResult(RESULT_FIRST_USER, intentName) // 내용 수정에 필요한 데이터
+            val intent = Intent(this, CategoryOrderModifyActivity::class.java)
+            val name = binding.etCategory.text.toString()
+
+            intent.putExtra("position", position)
+            intent.putExtra("categoryName", name)
+            intent.putExtra("imageId", clickedPosition)
+            intent.putExtra("id", id)
+            setResult(RESULT_FIRST_USER, intent) // 내용 수정에 필요한 데이터
+
+            // 만약 카테고리 아이디가 같다면 카테고리 이름을 변경해준다.
+            if(ContentsActivity.ID == id) {
+                ContentsActivity.CATEGORY_NAME = name
+            }
             finish()
         }
     }
