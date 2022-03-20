@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="isDuplicated"
+            type="Boolean" />
+
         <variable
             name="categoryViewModel"
             type="org.sopt.havit.ui.category.CategoryContentModifyViewModel" />
@@ -90,6 +96,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
+        <!-- 중복 카테고리 -->
+        <ImageView
+            android:id="@+id/iv_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:src="@drawable/ic_notice_red"
+            android:visibility="@{isDuplicated ? View.VISIBLE : View.INVISIBLE, default = gone}"
+            app:layout_constraintStart_toStartOf="@+id/et_category"
+            app:layout_constraintTop_toBottomOf="@+id/et_category" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/duplicate_category"
+            android:textAppearance="@style/Sub12Regular"
+            android:textColor="@color/havit_red"
+            android:visibility="@{isDuplicated ? View.VISIBLE : View.INVISIBLE, default = gone}"
+            app:layout_constraintBottom_toBottomOf="@id/iv_notice"
+            app:layout_constraintStart_toEndOf="@id/iv_notice"
+            app:layout_constraintTop_toTopOf="@id/iv_notice" />
+
         <TextView
             android:id="@+id/tv_ic"
             android:layout_width="wrap_content"
@@ -113,7 +142,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_ic"
             app:spanCount="5"
             tools:itemCount="15"
-            tools:listitem="@layout/item_category_icon"/>
+            tools:listitem="@layout/item_category_icon" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_remove"

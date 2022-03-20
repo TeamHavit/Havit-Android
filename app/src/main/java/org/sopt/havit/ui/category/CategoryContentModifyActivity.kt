@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.core.widget.addTextChangedListener
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
@@ -21,6 +22,7 @@ class CategoryContentModifyActivity :
     var position = -1
     var id = -1
     private lateinit var iconAdapter: IconAdapter
+    private lateinit var categoryTitleList : ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +35,7 @@ class CategoryContentModifyActivity :
         clickBack()
         clickDelete()
         changeTextColor()
+        setTextWatcher()
         clickComplete()
     }
 
@@ -53,10 +56,18 @@ class CategoryContentModifyActivity :
         binding.etCategory.setText(name)
         position = intent.getIntExtra("position", 0)
         id = intent.getIntExtra("categoryId", 0)
+        categoryTitleList = intent.getStringArrayListExtra("categoryNameList") as ArrayList<String>
     }
 
     private fun clickBack() {
         binding.ivBack.setOnClickListener { finish() }
+    }
+
+    private fun setTextWatcher() {
+        binding.etCategory.addTextChangedListener {
+            // 중복된 카테고리 명인지 검사
+            binding.isDuplicated = (binding.etCategory.text.toString() in categoryTitleList)
+        }
     }
 
     private fun changeTextColor() {

@@ -106,6 +106,12 @@ class CategoryOrderModifyActivity :
                     intent.putExtra("imageId", it.imageId)
                 }
                 intent.putExtra("position", position)
+                // 카테고리 이름 list
+                val list = ArrayList<String>()
+                for (item in categoryOrderModifyAdapter.categoryList)
+                    list.add(item.title)
+                intent.putStringArrayListExtra("categoryNameList", list)
+
                 // 데이터를 담고 전달
                 getResult.launch(intent)
             }
