@@ -18,6 +18,7 @@ import org.sopt.havit.ui.category.CategoryOrderModifyActivity
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
+import org.sopt.havit.util.CustomToast
 
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
@@ -280,13 +281,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         }
     }
 
-    private fun setCustomToast() {
-        val toast = Toast(this)
-        val view = layoutInflater.inflate(R.layout.toast_havit_complete, null)
-        toast.view = view
-        toast.show()
-    }
-
     // 해빗 클릭 시 이벤트 함수 정의
     private fun clickItemHavit() {
         contentsAdapter.setHavitClickListener(object : ContentsAdapter.OnItemHavitClickListener {
@@ -294,7 +288,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 with(contentsAdapter) {
                     // 보지 않았던 콘텐츠의 경우 콘텐츠를 봤다는 토스트 띄우기
                     if (!currentList[position].isSeen) {
-                        setCustomToast()
+                        CustomToast.showDesignatedToast(this@ContentsActivity, R.layout.toast_havit_complete)
                     }
 
                     currentList[position].isSeen = !currentList[position].isSeen
