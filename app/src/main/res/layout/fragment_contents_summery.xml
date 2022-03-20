@@ -97,7 +97,7 @@
                 android:textAppearance="@style/Header20Semibold"
                 android:textColor="@color/gray_4"
                 app:layout_constraintTop_toBottomOf="@id/iv_og_image"
-                tools:text="콘텐츠 제목은 우리 몇글자까지 할까ㅇ..어카지어카지 " />
+                tools:text="@tools:sample/lorem/random" />
 
             <TextView
                 android:id="@+id/tv_url"
@@ -105,6 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="19dp"
                 android:gravity="center"
+                android:lines="1"
                 android:text="@{ContentsSummeryData.ogUrl}"
                 android:textAppearance="@style/Sub12Regular"
                 android:textColor="@color/gray_2"
