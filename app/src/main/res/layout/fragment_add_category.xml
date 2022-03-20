@@ -22,10 +22,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/addCategoryFragment"
+        android:id="@+id/enterCategoryTitleFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.share.AddCategoryFragment">
+        tools:context=".ui.share.EnterCategoryTitleFragment">
 
         <!-- Toolbar -->
         <androidx.constraintlayout.widget.ConstraintLayout

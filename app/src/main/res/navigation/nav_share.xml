@@ -11,15 +11,15 @@
         android:label="fragment_set_notification"
         tools:layout="@layout/fragment_set_notification" />
     <fragment
-        android:id="@+id/addCategoryFragment"
-        android:name="org.sopt.havit.ui.share.AddCategoryFragment"
+        android:id="@+id/enterCategoryTitleFragment"
+        android:name="org.sopt.havit.ui.share.EnterCategoryTitleFragment"
         android:label="fragment_add_category"
         tools:layout="@layout/fragment_add_category">
         <action
-            android:id="@+id/action_addCategoryFragment_to_chooseIconFragment"
+            android:id="@+id/action_enterCategoryTitleFragment_to_chooseIconFragment"
             app:destination="@id/chooseIconFragment" />
         <action
-            android:id="@+id/action_addCategoryFragment_to_selectCategoryFragment"
+            android:id="@+id/action_enterCategoryTitleFragment_to_selectCategoryFragment"
             app:destination="@id/selectCategoryFragment" />
     </fragment>
     <fragment
@@ -34,11 +34,11 @@
         <action
             android:id="@+id/action_chooseIconFragment_to_selectCategoryFragment"
             app:destination="@id/selectCategoryFragment"
-            app:popUpTo="@id/addCategoryFragment"
+            app:popUpTo="@id/enterCategoryTitleFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_chooseIconFragment_to_addCategoryFragment"
-            app:destination="@id/addCategoryFragment" />
+            android:id="@+id/action_chooseIconFragment_to_enterCategoryTitleFragment"
+            app:destination="@id/enterCategoryTitleFragment" />
     </fragment>
     <fragment
         android:id="@+id/selectCategoryFragment"
@@ -49,8 +49,8 @@
             android:id="@+id/action_selectCategoryFragment_to_contentsSummeryFragment"
             app:destination="@id/contentsSummeryFragment" />
         <action
-            android:id="@+id/action_selectCategoryFragment_to_addCategoryFragment"
-            app:destination="@id/addCategoryFragment" />
+            android:id="@+id/action_selectCategoryFragment_to_enterCategoryTitleFragment"
+            app:destination="@id/enterCategoryTitleFragment" />
     </fragment>
     <fragment
         android:id="@+id/contentsSummeryFragment"
@@ -87,8 +87,8 @@
         android:label="fragment_no_category"
         tools:layout="@layout/fragment_no_category">
         <action
-            android:id="@+id/action_noCategoryFragment_to_addCategoryFragment"
-            app:destination="@id/addCategoryFragment" />
+            android:id="@+id/action_noCategoryFragment_to_enterCategoryTitleFragment"
+            app:destination="@id/enterCategoryTitleFragment" />
         <action
             android:id="@+id/action_noCategoryFragment_to_selectCategoryFragment"
             app:destination="@id/selectCategoryFragment" />

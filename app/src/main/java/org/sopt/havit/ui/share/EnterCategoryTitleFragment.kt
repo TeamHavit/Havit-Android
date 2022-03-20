@@ -14,7 +14,8 @@ import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.KeyBoardUtil.setUpAsSoftKeyboard
 import org.sopt.havit.util.MySharedPreference
 
-class AddCategoryFragment : BaseBindingFragment<FragmentAddCategoryBinding>(R.layout.fragment_add_category) {
+class EnterCategoryTitleFragment :
+    BaseBindingFragment<FragmentAddCategoryBinding>(R.layout.fragment_add_category) {
 
     private val categoryTitleList = mutableListOf<String>()
 
@@ -60,7 +61,7 @@ class AddCategoryFragment : BaseBindingFragment<FragmentAddCategoryBinding>(R.la
     private fun initClickListener() {
         binding.btnNext.setOnClickListener {
             findNavController().navigate(
-                AddCategoryFragmentDirections.actionAddCategoryFragmentToChooseIconFragment(
+                EnterCategoryTitleFragmentDirections.actionEnterCategoryTitleFragmentToChooseIconFragment(
                     binding.etCategoryTitle.text.toString()
                 )
             )
@@ -70,16 +71,12 @@ class AddCategoryFragment : BaseBindingFragment<FragmentAddCategoryBinding>(R.la
     }
 
     private fun toolbarClickListener() {
-        binding.icBack.setOnClickListener {
-            findNavController().navigate(R.id.action_addCategoryFragment_to_selectCategoryFragment)
-        }
-
+        binding.icBack.setOnClickListener { findNavController().backStack }
         binding.icClose.setOnClickListener { requireActivity().finish() }
     }
 
-    private fun isTitleNotEmpty(): Boolean {
-        return binding.etCategoryTitle.text.isNotEmpty()
-    }
+    private fun isTitleNotEmpty() = binding.etCategoryTitle.text.isNotEmpty()
+
 
     private fun setKeyBoardUp() =
         KeyBoardUtil.openKeyBoard(requireContext(), binding.etCategoryTitle)
