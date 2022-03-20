@@ -18,6 +18,7 @@ import org.sopt.havit.ui.category.CategoryOrderModifyActivity
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
+import org.sopt.havit.util.CustomToast
 
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
@@ -50,6 +51,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     override fun onStart() {
         super.onStart()
+        deletedCategory()
         setContentsData()
         setCategoryName()
     }
@@ -89,6 +91,15 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun setCategoryName(){
         contentsViewModel.setCategoryName(CATEGORY_NAME)
+    }
+
+    // 삭제된 카테고리라면 종료하는 함수
+    private fun deletedCategory(){
+        if(DELETE){
+            DELETE = false
+            finish()
+            CustomToast.showTextToast(this, "카테고리가 삭제되었습니다")
+        }
     }
 
     private fun dataObserve() {
@@ -333,5 +344,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         var CATEGORY_NAME = "error"
         var OPTION: String = "all" // chip의 옵션 (전체/안봤어요/봤어요/알람)
         var FILTER: String = "created_at" // 정렬 필터 (최신순/과거순/최근조회순)
+
+        var DELETE: Boolean = false
     }
 }

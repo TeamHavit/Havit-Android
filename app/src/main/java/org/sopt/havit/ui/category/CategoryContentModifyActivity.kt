@@ -92,6 +92,10 @@ class CategoryContentModifyActivity :
             }
             setResult(RESULT_OK, intent) // 삭제에 필요한 데이터
             alertDialog.dismiss() // window leak 방지
+
+            // 만약 카테고리 아이디가 같다면 DELETE 변수를 true로 만들어준다.
+            ContentsActivity.DELETE = ContentsActivity.ID == id
+
             finish()
         }
 
