@@ -77,7 +77,7 @@
                 android:layout_width="102dp"
                 android:layout_height="102dp"
                 android:layout_marginTop="5dp"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_category_empty"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
