@@ -8,7 +8,7 @@
         <import type="android.view.View" />
 
         <variable
-            name="vm_home"
+            name="vmHome"
             type="org.sopt.havit.ui.home.HomeViewModel" />
 
         <variable
@@ -99,7 +99,7 @@
                         android:layout_marginStart="22dp"
                         android:layout_marginTop="13dp"
                         android:layout_marginBottom="14dp"
-                        android:text="@{vm_home.popup}"
+                        android:text="@{vmHome.popup}"
                         android:textAppearance="@style/Text14Regular"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -139,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="16dp"
-                        android:text="@{vm_home.userData.nickname}"
+                        android:text="@{vmHome.userData.nickname}"
                         android:textAppearance="@style/Header19Semibold"
                         android:textColor="@color/gray_4"
                         app:layout_constraintStart_toStartOf="parent"
@@ -163,7 +163,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="25dp"
-                        android:text="@{String.valueOf(vm_home.userData.totalSeenContentNumber)}"
+                        android:text="@{String.valueOf(vmHome.userData.totalSeenContentNumber)}"
                         android:textAppearance="@style/Extrabold16"
                         android:textColor="@color/gray_3"
                         app:layout_constraintStart_toStartOf="parent"
@@ -176,7 +176,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="3dp"
                         android:layout_marginTop="29dp"
-                        android:text="@{`/ `+String.valueOf(vm_home.userData.totalContentNumber)}"
+                        android:text="@{`/ `+String.valueOf(vmHome.userData.totalContentNumber)}"
                         android:textAppearance="@style/Mini10Regular"
                         android:textColor="@color/gray_3"
                         app:layout_constraintStart_toEndOf="@+id/tv_reach_read"
@@ -233,7 +233,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="3dp"
                         android:layout_marginBottom="14dp"
-                        android:text="@{String.valueOf(vm_home.reachRate)}"
+                        android:text="@{String.valueOf(vmHome.reachRate)}"
                         android:textAppearance="@style/Bold38"
                         android:textColor="@color/havit_purple"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -249,7 +249,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="74dp"
                         android:max="100"
-                        android:progress="@{vm_home.reachRate}"
+                        android:progress="@{vmHome.reachRate}"
                         android:progressDrawable="@drawable/bg_home_reach_progress"
                         app:layout_constraintEnd_toStartOf="@id/tv_reach_percent"
                         app:layout_constraintStart_toStartOf="@id/tv_reach_read"
@@ -374,7 +374,7 @@
                             layout="@layout/layout_home_category"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="@{vm_home.categoryData.isEmpty()? View.GONE : View.VISIBLE}" />
+                            android:visibility="@{vmHome.categoryData.isEmpty()? View.GONE : View.VISIBLE}" />
 
                         <include
                             android:id="@+id/layout_category_empty"
@@ -382,7 +382,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
-                            android:visibility="@{vm_home.categoryData.isEmpty()? View.VISIBLE : View.GONE}"
+                            android:visibility="@{vmHome.categoryData.isEmpty()? View.VISIBLE : View.GONE}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -418,7 +418,7 @@
                             android:text="@string/home_more_contents"
                             android:textAppearance="@style/Sub12Regular"
                             android:textColor="@color/gray_3"
-                            android:visibility="@{vm_home.contentsList.isEmpty()? View.VISIBLE : View.GONE}"
+                            android:visibility="@{vmHome.contentsList.isEmpty()? View.VISIBLE : View.GONE}"
                             app:layout_constraintBottom_toBottomOf="@id/tv_recent_contents"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/tv_recent_contents" />
@@ -433,7 +433,7 @@
                             android:orientation="horizontal"
                             android:paddingStart="16dp"
                             android:paddingEnd="8dp"
-                            android:visibility="@{vm_home.contentsList.isEmpty()? View.GONE : View.VISIBLE}"
+                            android:visibility="@{vmHome.contentsList.isEmpty()? View.GONE : View.VISIBLE}"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -449,7 +449,7 @@
                             android:layout_marginBottom="31dp"
                             android:background="@color/white_gray"
                             android:paddingVertical="40dp"
-                            android:visibility="@{vm_home.contentsList.isEmpty() ? View.VISIBLE : View.GONE}"
+                            android:visibility="@{vmHome.contentsList.isEmpty() ? View.VISIBLE : View.GONE}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
