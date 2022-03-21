@@ -105,7 +105,7 @@ class CategoryContentModifyActivity :
             alertDialog.dismiss() // window leak 방지
 
             // 만약 카테고리 아이디가 같다면 DELETE 변수를 true로 만들어준다.
-            ContentsActivity.DELETE = ContentsActivity.ID == id
+            ContentsActivity.isDelete = ContentsActivity.categoryId == id
 
             finish()
         }
@@ -130,8 +130,8 @@ class CategoryContentModifyActivity :
             setResult(RESULT_FIRST_USER, intent) // 내용 수정에 필요한 데이터
 
             // 만약 카테고리 아이디가 같다면 카테고리 이름을 변경해준다.
-            if(ContentsActivity.ID == id) {
-                ContentsActivity.CATEGORY_NAME = name
+            if(ContentsActivity.categoryId == id) {
+                ContentsActivity.categoryName = name
             }
             finish()
         }
