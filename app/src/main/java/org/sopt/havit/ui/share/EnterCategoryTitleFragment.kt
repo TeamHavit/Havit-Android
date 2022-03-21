@@ -45,7 +45,7 @@ class EnterCategoryTitleFragment :
     private fun setTextWatcher() {
         binding.etCategoryTitle.addTextChangedListener {
             val title = binding.etCategoryTitle.text.toString()
-            binding.isDuplicated = if (title in categoryTitleList) true else false
+            binding.isDuplicated = title in categoryTitleList
         }
     }
 

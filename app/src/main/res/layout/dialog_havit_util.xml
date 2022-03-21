@@ -6,10 +6,6 @@
     <data>
 
         <variable
-            name="util"
-            type="org.sopt.havit.util.DialogUtil" />
-
-        <variable
             name="title"
             type="String" />
 
