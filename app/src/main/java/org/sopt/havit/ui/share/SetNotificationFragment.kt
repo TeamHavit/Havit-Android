@@ -33,10 +33,10 @@ class SetNotificationFragment :
     private fun initRadioGroupListener() {
         binding.rgNotificationTime.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.btn_1h -> getNotificationTime(ONE_HOUR)
-                R.id.btn_2h -> getNotificationTime(TWO_HOUR)
-                R.id.btn_3h -> getNotificationTime(THREE_HOUR)
-                R.id.btn_tomorrow -> getNotificationTime(TWENTY_FOUR_HOUR)
+                R.id.rbtn_1h -> getNotificationTime(ONE_HOUR)
+                R.id.rbtn_2h -> getNotificationTime(TWO_HOUR)
+                R.id.rbtn_3h -> getNotificationTime(THREE_HOUR)
+                R.id.rbtn_tomorrow -> getNotificationTime(TWENTY_FOUR_HOUR)
                 else -> getNotificationTime(ONE_MIN) // DatePicker Dialog 로 변경 예정
             }
         }

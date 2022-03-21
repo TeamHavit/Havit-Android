@@ -82,7 +82,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_set_alarm">
 
                 <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/btn_1h"
+                    android:id="@+id/rbtn_1h"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginHorizontal="16dp"
@@ -96,7 +96,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_set_alarm" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/btn_2h"
+                    android:id="@+id/rbtn_2h"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginHorizontal="16dp"
@@ -108,10 +108,10 @@
                     android:textAppearance="@style/List16Semibold"
                     android:textColor="@drawable/selector_noti_time_text"
                     app:buttonCompat="@null"
-                    app:layout_constraintTop_toBottomOf="@id/btn_1h" />
+                    app:layout_constraintTop_toBottomOf="@id/rbtn_1h" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/btn_3h"
+                    android:id="@+id/rbtn_3h"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginHorizontal="16dp"
@@ -123,10 +123,10 @@
                     android:textAppearance="@style/List16Semibold"
                     android:textColor="@drawable/selector_noti_time_text"
                     app:buttonCompat="@null"
-                    app:layout_constraintTop_toBottomOf="@id/btn_2h" />
+                    app:layout_constraintTop_toBottomOf="@id/rbtn_2h" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/btn_tomorrow"
+                    android:id="@+id/rbtn_tomorrow"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginHorizontal="16dp"
@@ -138,10 +138,10 @@
                     android:textAppearance="@style/List16Semibold"
                     android:textColor="@drawable/selector_noti_time_text"
                     app:buttonCompat="@null"
-                    app:layout_constraintTop_toBottomOf="@id/btn_3h" />
+                    app:layout_constraintTop_toBottomOf="@id/rbtn_3h" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/btn_choose_time"
+                    android:id="@+id/rbtn_choose_time"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginHorizontal="16dp"
@@ -153,7 +153,7 @@
                     android:textAppearance="@style/List16Semibold"
                     android:textColor="@drawable/selector_noti_time_text"
                     app:buttonCompat="@null"
-                    app:layout_constraintTop_toBottomOf="@id/btn_tomorrow" />
+                    app:layout_constraintTop_toBottomOf="@id/rbtn_tomorrow" />
             </RadioGroup>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
