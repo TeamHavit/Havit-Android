@@ -30,6 +30,22 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
         clickConfirmListener()
     }
 
+    override fun onStart() {
+        super.onStart()
+        setLayout()
+    }
+
+    private fun setLayout() {
+        requireNotNull(dialog).apply {
+            requireNotNull(window).apply {
+                setLayout(
+                    (resources.displayMetrics.widthPixels * 0.88).toInt(),  // width
+                    ViewGroup.LayoutParams.WRAP_CONTENT     // height
+                )
+            }
+        }
+    }
+
     private fun setTitle() {
         binding.title = when (dialogMode) {
             CANCEL_EDIT_CATEGORY -> getString(R.string.cancel_edit_category_title)
