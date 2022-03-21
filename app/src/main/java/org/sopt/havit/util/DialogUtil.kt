@@ -82,7 +82,6 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
     }
 
     private fun setConfirmBackground() {
-        binding.btnCancel.background
         when (dialogMode) {
             CANCEL_EDIT_CATEGORY, CANCEL_SAVE_CONTENTS, CANCEL_EDIT_TITLE, CANCEL_SET_NOTIFICATION
             -> binding.btnConfirm.setBackgroundResource(R.drawable.rectangle_havit_red_bottom_right_radius_8)
