@@ -2,8 +2,10 @@ package org.sopt.havit.ui.category
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.*
-import com.bumptech.glide.load.HttpException
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
@@ -19,8 +21,6 @@ class CategoryViewModel(context: Context) : ViewModel() {
     val categoryList: LiveData<List<CategoryResponse.AllCategoryData>> = _categoryList
     private val _delay = MutableLiveData(false)
     val delay: LiveData<Boolean> = _delay
-    private val _addDelay = MutableLiveData(false)
-    val addDelay: LiveData<Boolean> = _addDelay
     private val _shareDelay = MutableLiveData(false)
     val shareDelay: LiveData<Boolean> = _shareDelay
 
@@ -42,9 +42,9 @@ class CategoryViewModel(context: Context) : ViewModel() {
                 val list = CategoryOrderRequest(list)
                 val response = RetrofitObject.provideHavitApi(token) .modifyCategoryOrder(list)
                 _delay.postValue(true)
-                Log.d("testtestest", "$response.success")
+                Log.d("requestCategoryOrder", "$response.success")
             } catch (e: Exception) {
-                Log.d("testtestest", "${e.toString()}")
+                Log.d("requestCategoryOrder", "$e")
             }
         }
     }
@@ -53,11 +53,11 @@ class CategoryViewModel(context: Context) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val content = CategoryModifyRequest(title, imageId)
-                val response =RetrofitObject.provideHavitApi(token).modifyCategoryContent(id, content)
+                val response = RetrofitObject.provideHavitApi(token).modifyCategoryContent(id, content)
 
-                Log.d("testtestest", "$response.success")
+                Log.d("requestCategoryContent", "$response.success")
             } catch (e: Exception) {
-                Log.d("testtestest", "${e.toString()}")
+                Log.d("requestCategoryContent", "$e")
             }
         }
     }
@@ -67,9 +67,9 @@ class CategoryViewModel(context: Context) : ViewModel() {
             try {
                 val response =RetrofitObject.provideHavitApi(token) .deleteCategory(id)
 
-                Log.d("testtestest", "$response.success")
+                Log.d("requestCategoryDelete", "$response.success")
             } catch (e: Exception) {
-                Log.d("testtestest", "${e.toString()}")
+                Log.d("requestCategoryDelete", "$e")
             }
         }
     }
@@ -78,43 +78,7 @@ class CategoryViewModel(context: Context) : ViewModel() {
         _delay.value= v
     }
 
-    fun setAddDelay(v: Boolean){
-        _addDelay.value= v
-    }
-
-    fun requestAddCategory(t: String, i: Int){
-        viewModelScope.launch {
-            try {
-                // 서버 통신
-                val response =
-                    RetrofitObject.provideHavitApi(token).addCategory(CategoryAddRequest(t, i))
-                _addDelay.postValue(true)
-                Log.d("CreateCategory", response.success.toString())
-            } catch (e: Exception) {
-                // 서버 통신 실패 시
-                Log.d("CreateCategory", e.toString())
-            }
-        }
-    }
-
     fun setShareDelay(v: Boolean){
         _shareDelay.value= v
-    }
-
-    fun setnetwork(title: String,image:String,des:String,url:String,noti:Boolean,time:String,id:List<Int>){
-        viewModelScope.launch {
-
-            try{
-
-                val body = CreateContentsRequest(title,des,image,url ,noti,time,id)
-                val response =
-                    RetrofitObject.provideHavitApi(token)
-                        .createContents(body)
-            }catch (e :java.lang.Exception){
-
-        }
-
-
-        }
     }
 }
