@@ -39,10 +39,9 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
         requireNotNull(dialog).apply {
             requireNotNull(window).apply {
                 setLayout(
-                    (resources.displayMetrics.widthPixels * 0.91).toInt(),
-                    ViewGroup.LayoutParams.WRAP_CONTENT
+                    (resources.displayMetrics.widthPixels * 0.88).toInt(),  // width
+                    ViewGroup.LayoutParams.WRAP_CONTENT     // height
                 )
-                setBackgroundDrawableResource(android.R.color.transparent)
             }
         }
     }
