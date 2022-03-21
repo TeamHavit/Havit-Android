@@ -18,7 +18,6 @@ class CategoryOrderModifyActivity :
     private lateinit var categoryOrderModifyAdapter: CategoryOrderModifyAdapter
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
     lateinit var holder: RecyclerView.ViewHolder
-    private var set = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +28,7 @@ class CategoryOrderModifyActivity :
         initAdapter()
         setResult()
         clickItem()
-        setData()
+        requestServer()
         clickBack()
         initDrag()
         dataObserve()
@@ -41,13 +40,8 @@ class CategoryOrderModifyActivity :
         binding.rvContents.adapter = categoryOrderModifyAdapter
     }
 
-    private fun setData() {
-        // 처음 진입한 경우만 서버 호출
-        set = intent.getBooleanExtra("dataSet", false)
-        if (set) { // 처음 진입한 경우
-            categoryViewModel.requestCategoryTaken()
-            set = false
-        }
+    private fun requestServer() {
+        categoryViewModel.requestCategoryTaken()
     }
 
     private fun dataObserve() {

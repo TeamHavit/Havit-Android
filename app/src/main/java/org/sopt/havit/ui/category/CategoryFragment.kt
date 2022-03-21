@@ -82,9 +82,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
 
     private fun moveManage() {
         binding.tvModify.setOnClickListener {
-            Log.d("setClick", " success")
             val intent = Intent(activity, CategoryOrderModifyActivity::class.java)
-            intent.putExtra("dataSet", true)
             startActivity(intent)
         }
     }
