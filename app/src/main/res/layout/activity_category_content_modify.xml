@@ -91,7 +91,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:textAppearance="@style/Header19Medium"
-            android:textColor="@color/gray_3"
+            android:textColor="@color/selector_category_modify_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />

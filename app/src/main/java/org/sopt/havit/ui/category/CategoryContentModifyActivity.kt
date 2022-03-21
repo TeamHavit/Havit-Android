@@ -34,7 +34,6 @@ class CategoryContentModifyActivity :
         setData()
         clickBack()
         clickDelete()
-        changeTextColor()
         setTextWatcher()
         clickComplete()
     }
@@ -67,15 +66,6 @@ class CategoryContentModifyActivity :
         binding.etCategory.addTextChangedListener {
             // 중복된 카테고리 명인지 검사
             binding.isDuplicated = (binding.etCategory.text.toString() in categoryTitleList)
-        }
-    }
-
-    private fun changeTextColor() {
-        // 포커스가 있을 시 색 바꿈
-        binding.etCategory.setOnFocusChangeListener { view, b ->
-            binding.etCategory.setTextColor(
-                Color.parseColor("#272b30")
-            )
         }
     }
 
