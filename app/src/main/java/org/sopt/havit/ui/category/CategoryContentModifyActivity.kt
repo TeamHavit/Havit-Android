@@ -2,7 +2,6 @@ package org.sopt.havit.ui.category
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,9 +15,6 @@ import org.sopt.havit.ui.share.IconAdapter.Companion.clickedPosition
 
 class CategoryContentModifyActivity :
     BaseBindingActivity<ActivityCategoryContentModifyBinding>(R.layout.activity_category_content_modify) {
-    private val categoryContentModifyViewModel: CategoryContentModifyViewModel by lazy {
-        CategoryContentModifyViewModel(this)
-    }
     var position = -1
     var id = -1
     private lateinit var iconAdapter: IconAdapter
@@ -26,8 +22,6 @@ class CategoryContentModifyActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding.categoryViewModel = categoryContentModifyViewModel
         setContentView(binding.root)
 
         initAdapter()

@@ -10,10 +10,6 @@
         <variable
             name="isDuplicated"
             type="Boolean" />
-
-        <variable
-            name="categoryViewModel"
-            type="org.sopt.havit.ui.category.CategoryContentModifyViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
