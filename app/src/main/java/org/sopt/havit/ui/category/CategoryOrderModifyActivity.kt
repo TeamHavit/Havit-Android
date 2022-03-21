@@ -70,7 +70,7 @@ class CategoryOrderModifyActivity :
                     // 수정할 카테고리의 정보를 받아옴
                     val position = it.data?.getIntExtra("position", 0) ?: 0
                     val name = it.data?.getStringExtra("categoryName") ?: "null"
-                    var image = it.data?.getIntExtra("imageId", 0) ?: 0
+                    val image = it.data?.getIntExtra("imageId", 0) ?: 0
                     val id = it.data?.getIntExtra("id", 0) ?: 0
 
                     // 서버에 수정된 내용 전달
