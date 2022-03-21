@@ -72,7 +72,6 @@ class CategoryOrderModifyActivity :
                     val name = it.data?.getStringExtra("categoryName") ?: "null"
                     var image = it.data?.getIntExtra("imageId", 0) ?: 0
                     val id = it.data?.getIntExtra("id", 0) ?: 0
-                    image += 1 // url에 넣기 위해 1을 더해주는 작업을 진행
 
                     // 서버에 수정된 내용 전달
                     categoryViewModel.requestCategoryContent(id, image, name)

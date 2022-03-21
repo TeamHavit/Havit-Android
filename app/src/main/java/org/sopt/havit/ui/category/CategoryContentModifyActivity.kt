@@ -125,7 +125,7 @@ class CategoryContentModifyActivity :
 
             intent.putExtra("position", position)
             intent.putExtra("categoryName", name)
-            intent.putExtra("imageId", clickedPosition)
+            intent.putExtra("imageId", clickedPosition + 1)
             intent.putExtra("id", id)
             setResult(RESULT_FIRST_USER, intent) // 내용 수정에 필요한 데이터
 
