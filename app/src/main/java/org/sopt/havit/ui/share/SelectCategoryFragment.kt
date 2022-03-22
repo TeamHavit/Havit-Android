@@ -36,7 +36,6 @@ class SelectCategoryFragment : Fragment() {
         initView()
         initListener()
         toolbarClickListener()
-        binding.hasCategory = true
     }
 
     private fun toolbarClickListener() {
@@ -46,7 +45,7 @@ class SelectCategoryFragment : Fragment() {
     }
 
     private fun initView() {
-
+        binding.hasCategory = false
         lifecycleScope.launch {
             try {
                 // 서버 통신
