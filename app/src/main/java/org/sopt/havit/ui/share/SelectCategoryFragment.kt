@@ -128,10 +128,8 @@ class SelectCategoryFragment : Fragment() {
 
         // 카테고리 추가 버튼
         binding.ivCategoryAdd.setOnClickListener {
-            if (categoryNum >= MAX_CATEGORY_NUM)       // 카테고리 추가 불가 Toast
-                showCategoryMaxToast()
-            else                                       // 카테고리 추가 뷰로 이동
-                findNavController().navigate(R.id.action_selectCategoryFragment_to_addCategoryFragment)
+            if (categoryNum >= MAX_CATEGORY_NUM) showCategoryMaxToast()
+            else findNavController().navigate(R.id.action_selectCategoryFragment_to_enterCategoryTitleFragment)
         }
     }
 

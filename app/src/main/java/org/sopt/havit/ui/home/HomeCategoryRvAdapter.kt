@@ -1,13 +1,11 @@
 package org.sopt.havit.ui.home
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemHomeCategoryListBinding
@@ -26,7 +24,7 @@ class HomeCategoryRvAdapter :
 
     class HomeCategoryRvViewHolder(private val binding: ItemHomeCategoryListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: CategoryResponse.AllCategoryData, position: Int, view: View) {
+        fun onBind(data: CategoryResponse.AllCategoryData, position: Int) {
             binding.dataHomeCategory = data
             binding.tvTitle.text = data.title
             if (position == isFirst) {
@@ -65,7 +63,7 @@ class HomeCategoryRvAdapter :
         holder: HomeCategoryRvViewHolder,
         position: Int
     ) {
-        holder.onBind(categoryList[position], position, holder.itemView)
+        holder.onBind(categoryList[position], position)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, ContentsActivity::class.java)
