@@ -93,16 +93,18 @@
         <activity
             android:name=".ui.kakao.SignInActivity"
             android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="oauth"
+                <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth“ -->
+                <data android:host="oauth"
                     android:scheme="kakao6069fb41c205cbbf8f213b32eec7f2c8" />
             </intent-filter>
         </activity>
