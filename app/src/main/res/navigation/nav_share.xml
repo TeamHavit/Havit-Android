@@ -18,9 +18,6 @@
         <action
             android:id="@+id/action_enterCategoryTitleFragment_to_chooseIconFragment"
             app:destination="@id/chooseIconFragment" />
-        <action
-            android:id="@+id/action_enterCategoryTitleFragment_to_selectCategoryFragment"
-            app:destination="@id/selectCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/chooseIconFragment"
@@ -36,9 +33,6 @@
             app:destination="@id/selectCategoryFragment"
             app:popUpTo="@id/enterCategoryTitleFragment"
             app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_chooseIconFragment_to_enterCategoryTitleFragment"
-            app:destination="@id/enterCategoryTitleFragment" />
     </fragment>
     <fragment
         android:id="@+id/selectCategoryFragment"
@@ -67,9 +61,6 @@
         <action
             android:id="@+id/action_contentsSummeryFragment_to_editTitleFragment"
             app:destination="@id/editTitleFragment" />
-        <action
-            android:id="@+id/action_contentsSummeryFragment_to_selectCategoryFragment"
-            app:destination="@id/selectCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/editTitleFragment"
@@ -89,8 +80,5 @@
         <action
             android:id="@+id/action_noCategoryFragment_to_enterCategoryTitleFragment"
             app:destination="@id/enterCategoryTitleFragment" />
-        <action
-            android:id="@+id/action_noCategoryFragment_to_selectCategoryFragment"
-            app:destination="@id/selectCategoryFragment" />
     </fragment>
 </navigation>
