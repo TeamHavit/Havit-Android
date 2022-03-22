@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="55dp"
         android:paddingVertical="14dp"
-        android:textAppearance="@style/Text14Semibold"
+        android:textAppearance="@style/Text14Medium"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
