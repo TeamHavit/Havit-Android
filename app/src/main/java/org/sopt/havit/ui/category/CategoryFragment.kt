@@ -35,9 +35,14 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         setData()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d("onViewCreatedStart", "okay")
     }
 
     override fun onDestroyView() {
