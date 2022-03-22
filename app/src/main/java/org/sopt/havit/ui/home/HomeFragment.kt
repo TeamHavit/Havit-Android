@@ -12,6 +12,7 @@ import android.view.animation.TranslateAnimation
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentHomeBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.ui.category.CategoryAddActivity
 import org.sopt.havit.ui.contents_simple.ContentsSimpleActivity
 import org.sopt.havit.ui.notification.NotificationActivity
 import org.sopt.havit.ui.search.SearchActivity
@@ -53,10 +54,14 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     override fun onStart() {
         super.onStart()
-        setData()
         categoryDataObserve()       // 카테고리 초기화
         recentContentsDataObserve() // 추천콘텐츠 초기화
         initProgressBar()           // 도달률 data 초기화
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setData()
     }
 
     // onCreateView에서 이루어지는 도달률 팝업 초기화
@@ -145,12 +150,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
-    private fun clickAddCategory() {
-        binding.layoutCategoryEmpty.tvAddCategory.setOnClickListener {
-
-        }
-    }
-
     private fun initAdapter() {
         // 카테고리 adapter 초기화
         categoryVpAdapter = HomeCategoryVpAdapter()
@@ -160,23 +159,32 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         indicator.setViewPager2(binding.layoutCategory.vpCategory)
         // 최근저장 콘텐츠 adapter 초기화
         binding.rvContents.adapter = contentsAdapter
+        // 추천 콘텐츠 adapter 초기화
+        recommendRvAdapter = HomeRecommendRvAdapter()
+        binding.rvRecommend.adapter = recommendRvAdapter
+    }
+
+    private fun recentContentsDataObserve() {
+        with(homeViewModel) {
+            contentsList.observe(viewLifecycleOwner) { data ->
+                if (data.isNotEmpty()) {
+                    val min = if (data.size < 10) data.size else 10
+                    val list = data.subList(0, min)
+                    contentsAdapter.updateList(list)
+                }
+            }
+        }
     }
 
     private fun categoryDataObserve() {
         with(homeViewModel) {
             userData.observe(viewLifecycleOwner) { userData ->
                 categoryData.observe(viewLifecycleOwner) { data ->
-                    with(binding) {
-                        if (data.isEmpty()) {
-                            hasCategory = false
-                            clickAddCategory()
-                        } else {
-                            hasCategory = true
-                            categoryVpAdapter.categoryList.clear()
-                            val list = setList(data, userData.totalContentNumber)
-                            categoryVpAdapter.categoryList.addAll(list)
-                            categoryVpAdapter.notifyDataSetChanged()
-                        }
+                    if (data.isNotEmpty()) {
+                        categoryVpAdapter.categoryList.clear()
+                        val list = setList(data, userData.totalContentNumber)
+                        categoryVpAdapter.categoryList.addAll(list)
+                        categoryVpAdapter.notifyDataSetChanged()
                     }
                 }
             }
@@ -202,6 +210,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     private fun setClickEvent() {
+        binding.layoutCategoryEmpty.tvAddCategory.setOnClickListener {
+            val intent = Intent(requireActivity(), CategoryAddActivity::class.java)
+            startActivity(intent)
+        }
         binding.ivDeletePopup.setOnClickListener {
             clickDeletePopup()
         }
@@ -227,19 +239,16 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             intent.putExtra("before", "recent")
             startActivity(intent)
         }
+        clickRecommendItemView()        // 추천콘텐츠 클릭->웹뷰로 이동
+        clickRecentContentsItemView()   // 최근저장 콘텐츠 클릭->웹뷰로 이동
     }
 
     private fun recommendationDataObserve() {
         with(homeViewModel) {
             recommendList.observe(viewLifecycleOwner) { data ->
-                with(binding) {
-                    if (data.isNotEmpty()) {
-                        recommendRvAdapter = HomeRecommendRvAdapter()
-                        rvRecommend.adapter = recommendRvAdapter
-                        clickRecommendItemView()
-                        recommendRvAdapter.recommendList.addAll(data)
-                        recommendRvAdapter.notifyDataSetChanged()
-                    }
+                if (data.isNotEmpty()) {
+                    recommendRvAdapter.recommendList.addAll(data)
+                    recommendRvAdapter.notifyDataSetChanged()
                 }
             }
         }
@@ -248,24 +257,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private fun initSearchSticky() {
         binding.svMain.run {
             header = binding.clStickyView
-        }
-    }
-
-    private fun recentContentsDataObserve() {
-        with(homeViewModel) {
-            contentsList.observe(viewLifecycleOwner) { data ->
-                with(binding) {
-                    if (data.isEmpty()) {
-                        hasContents = false
-                    } else {
-                        hasContents = true
-                        val min = if (data.size < 10) data.size else 10
-                        val list = data.subList(0, min)
-                        clickRecentContentsItemView()
-                        contentsAdapter.updateList(list)
-                    }
-                }
-            }
         }
     }
 
