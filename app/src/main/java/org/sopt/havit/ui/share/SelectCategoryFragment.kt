@@ -25,13 +25,9 @@ class SelectCategoryFragment : Fragment() {
     lateinit var clickCountList: Array<Boolean>
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSelectCategoryBinding.inflate(layoutInflater, container, false)
-
-        initView()
-
         return binding.root
     }
 
@@ -65,7 +61,7 @@ class SelectCategoryFragment : Fragment() {
 
                 // Adapter 설정
                 categorySelectableAdapter = CategorySelectableAdapter()
-                binding.rvCategory.adapter = categorySelectableAdapter
+                binding.selectCategory.rvCategory.adapter = categorySelectableAdapter
                 categorySelectableAdapter.categorySelectableList.addAll(categoryData)
                 categorySelectableAdapter.notifyDataSetChanged()
 
@@ -84,11 +80,11 @@ class SelectCategoryFragment : Fragment() {
                         Log.d("clickCountList", booleanLog.toString())
 
                         if (isSelectedLeastOneCategory()) {
-                            binding.btnNext.isEnabled = true
-                            binding.btnNext.setBackgroundResource(R.drawable.rectangle_havit_purple)
+                            binding.selectCategory.btnNext.isEnabled = true
+                            binding.selectCategory.btnNext.setBackgroundResource(R.drawable.rectangle_havit_purple)
                         } else {
-                            binding.btnNext.isEnabled = false
-                            binding.btnNext.setBackgroundResource(R.drawable.rectangle_gray_2)
+                            binding.selectCategory.btnNext.isEnabled = false
+                            binding.selectCategory.btnNext.setBackgroundResource(R.drawable.rectangle_gray_2)
                         }
                     }
                 })
@@ -116,7 +112,7 @@ class SelectCategoryFragment : Fragment() {
 
     private fun initListener() {
         // 하단 다음 버튼
-        binding.btnNext.setOnClickListener {
+        binding.selectCategory.btnNext.setOnClickListener {
             Log.d("getSelectedCategoryNum", getSelectedCategoryNum())
             // 카테고리 리스트 스트링으로 변경하여 전송
             findNavController().navigate(
@@ -127,7 +123,7 @@ class SelectCategoryFragment : Fragment() {
         }
 
         // 카테고리 추가 버튼
-        binding.ivCategoryAdd.setOnClickListener {
+        binding.selectCategory.ivCategoryAdd.setOnClickListener {
             if (categoryNum >= MAX_CATEGORY_NUM) showCategoryMaxToast()
             else findNavController().navigate(R.id.action_selectCategoryFragment_to_enterCategoryTitleFragment)
         }
