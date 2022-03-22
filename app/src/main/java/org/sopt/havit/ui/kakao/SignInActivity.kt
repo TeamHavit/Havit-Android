@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.kakao.sdk.auth.LoginClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
@@ -47,10 +46,10 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
 
 
     private fun setLogin() {
-        if (LoginClient.instance.isKakaoTalkLoginAvailable(this)) {
-            LoginClient.instance.loginWithKakaoTalk(this, callback = callback)
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+            UserApiClient.instance.loginWithKakaoTalk(this, callback = callback)
         } else {
-            LoginClient.instance.loginWithKakaoAccount(this, callback = callback)
+            UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
         }
     }
 
@@ -107,7 +106,7 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
 
                     var email = user.kakaoAccount?.email
                     if (email == null) {
-                        LoginClient.instance.loginWithNewScopes(this, scopes) { _, error2 ->
+                        UserApiClient.instance.loginWithNewScopes(this, scopes) { _, error2 ->
                             email = token.scopes.toString()
 
                         }
