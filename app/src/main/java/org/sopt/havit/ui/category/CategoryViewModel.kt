@@ -15,7 +15,7 @@ import org.sopt.havit.util.MySharedPreference
 class CategoryViewModel(context: Context) : ViewModel() {
     private val token = MySharedPreference.getXAuthToken(context)
 
-    private val _categoryCount = MutableLiveData<Int>()
+    private val _categoryCount = MutableLiveData(-1)
     val categoryCount: LiveData<Int> = _categoryCount
     private val _categoryList = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
     val categoryList: LiveData<List<CategoryResponse.AllCategoryData>> = _categoryList

@@ -26,7 +26,6 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         binding.categoryViewModel = categoryViewModel
 
         initAdapter()
-        //setData()
         dataObserve()
         moveManage()
         clickBack()
@@ -36,8 +35,8 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         setData()
     }
 
@@ -58,24 +57,13 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     private fun dataObserve() {
         with(categoryViewModel) {
             categoryList.observe(viewLifecycleOwner) {
-                with(binding) {
-                    if (it.isEmpty()) {
-                        Log.d("visibility", " success")
-                        rvContents.visibility = View.GONE
-                        clEmpty.visibility = View.VISIBLE
-                    } else {
-                        rvContents.visibility = View.VISIBLE
-                        clEmpty.visibility = View.GONE
-                        Log.d("visibility", " fail")
-                    }
-                }
                 // 리싸이클러뷰 업데이트하는 코드
                 categoryAdapter.categoryList.clear()
                 categoryAdapter.categoryList.addAll(it)
                 categoryAdapter.notifyDataSetChanged()
             }
             categoryCount.observe(viewLifecycleOwner) {
-                binding.tvCount.text = it.toString()
+                binding.categoryCount = it
             }
         }
     }
@@ -115,12 +103,14 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         })
     }
 
-    private fun addCategory(){
+    private fun addCategory() {
         binding.clAdd.setOnClickListener {
-            if(categoryViewModel.categoryCount.value == CATEGORY_MAX){
-                CustomToast.showTextToast(requireContext(), resources.getString(R.string.max_category))
-            }
-            else {
+            if (categoryViewModel.categoryCount.value == CATEGORY_MAX) {
+                CustomToast.showTextToast(
+                    requireContext(),
+                    resources.getString(R.string.max_category)
+                )
+            } else {
                 val intent = Intent(requireActivity(), CategoryAddActivity::class.java)
                 startActivity(intent)
             }

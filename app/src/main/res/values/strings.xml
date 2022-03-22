@@ -78,7 +78,7 @@
     <string name="category_delete_description">해당 카테고리를 삭제하시겠습니까?\n카테고리 내 콘텐츠도 함께 삭제됩니다.</string>
     <string name="category_cancel">취소</string>
     <string name="category_delete">삭제</string>
-    <string name="category_suggestion">카테고리로 콘텐츠를 정리해보세요.</string>
+    <string name="category_suggestion">카테고리를 추가해보세요</string>
     <string name="havit_capital_letter">HAVIT</string>
     <string name="now">지금</string>
     <string name="contents_recent_order">최신순</string>
@@ -140,4 +140,5 @@
     <string name="home_popup_level4">축하드려요! 저장한 콘텐츠를 전부 확인했어요!</string>
     <string name="category_added">&#160;카테고리가 추가되었습니다.</string>    <!-- &#160;는 띄어쓰기를 위한 문자열입니다-->
     <string name="contents_order">정렬</string>
+    <string name="category_create_recommend">카테고리를 생성하여 콘텐츠를 쉽게 정리해보세요.</string>
 </resources>
