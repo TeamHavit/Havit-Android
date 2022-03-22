@@ -15,8 +15,9 @@ import org.sopt.havit.ui.share.IconAdapter.Companion.clickedPosition
 
 class CategoryContentModifyActivity :
     BaseBindingActivity<ActivityCategoryContentModifyBinding>(R.layout.activity_category_content_modify) {
-    var position = -1
-    var id = -1
+    private var position = -1
+    private var id = -1
+    private lateinit var categoryName: String
     private lateinit var iconAdapter: IconAdapter
     private lateinit var categoryTitleList : ArrayList<String>
 
@@ -27,7 +28,8 @@ class CategoryContentModifyActivity :
         initAdapter()
         setData()
         clickBack()
-        clickDelete()
+        deleteText()
+        clickDeleteCategory()
         setTextWatcher()
         clickComplete()
     }
@@ -45,8 +47,7 @@ class CategoryContentModifyActivity :
     }
 
     private fun setData() {
-        val name = intent.getStringExtra("categoryName")
-        binding.etCategory.setText(name)
+        binding.categoryTitle = intent.getStringExtra("categoryName").toString().also { categoryName = it }
         position = intent.getIntExtra("position", 0)
         id = intent.getIntExtra("categoryId", 0)
         categoryTitleList = intent.getStringArrayListExtra("categoryNameList") as ArrayList<String>
@@ -56,10 +57,14 @@ class CategoryContentModifyActivity :
         binding.ivBack.setOnClickListener { finish() }
     }
 
+    private fun deleteText(){
+        binding.ivDeleteText.setOnClickListener { binding.etCategory.text.clear() }
+    }
+
     private fun setTextWatcher() {
         binding.etCategory.addTextChangedListener {
-            // 중복된 카테고리 명인지 검사
-            binding.isDuplicated = (binding.etCategory.text.toString() in categoryTitleList)
+            // 중복된 카테고리 명인지 검사 & 현재 카테고리 명인지 검사(현재 카테고리 명이라면 중복이 아님을 명시)
+            binding.isDuplicated = (binding.categoryTitle in categoryTitleList && binding.categoryTitle != categoryName)
         }
     }
 
@@ -97,7 +102,7 @@ class CategoryContentModifyActivity :
         alertDialog.show()
     }
 
-    private fun clickDelete() {
+    private fun clickDeleteCategory() {
         binding.btnRemove.setOnClickListener { setAlertDialog() }
     }
 
@@ -105,17 +110,16 @@ class CategoryContentModifyActivity :
     private fun clickComplete() {
         binding.tvComplete.setOnClickListener {
             val intent = Intent(this, CategoryOrderModifyActivity::class.java)
-            val name = binding.etCategory.text.toString()
 
             intent.putExtra("position", position)
-            intent.putExtra("categoryName", name)
+            intent.putExtra("categoryName", binding.categoryTitle)
             intent.putExtra("imageId", clickedPosition + 1)
             intent.putExtra("id", id)
             setResult(RESULT_FIRST_USER, intent) // 내용 수정에 필요한 데이터
 
             // 만약 카테고리 아이디가 같다면 카테고리 이름을 변경해준다.
             if(ContentsActivity.categoryId == id) {
-                ContentsActivity.categoryName = name
+                ContentsActivity.categoryName = binding.categoryTitle!!
             }
             finish()
         }
