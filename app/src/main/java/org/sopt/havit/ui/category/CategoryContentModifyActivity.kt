@@ -63,7 +63,7 @@ class CategoryContentModifyActivity :
 
     private fun setTextWatcher() {
         binding.etCategory.addTextChangedListener {
-            // 중복된 카테고리 명인지 검사
+            // 중복된 카테고리 명인지 검사 & 현재 카테고리 명인지 검사(현재 카테고리 명이라면 중복이 아님을 명시)
             binding.isDuplicated = (binding.categoryTitle in categoryTitleList && binding.categoryTitle != categoryName)
         }
     }
