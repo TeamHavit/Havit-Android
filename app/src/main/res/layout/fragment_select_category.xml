@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.share.SelectCategoryFragment">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_tool_bar"
         android:layout_width="match_parent"
@@ -36,64 +35,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <include
+        android:id="@+id/select_category"
+        layout="@layout/layout_share_select_category"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_tool_bar">
+        app:layout_constraintTop_toBottomOf="@id/cl_tool_bar" />
 
-        <TextView
-            android:id="@+id/tv_choose_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="17dp"
-            android:layout_marginTop="39dp"
-            android:text="@string/choose_category"
-            android:textAppearance="@style/Header22Semibold"
-            android:textColor="@color/gray_5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/iv_category_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="13dp"
-            android:contentDescription="@string/contents_add"
-            android:paddingHorizontal="4dp"
-            android:paddingVertical="6dp"
-            android:src="@drawable/img_category_plus"
-            app:layout_constraintBottom_toBottomOf="@id/tv_choose_category"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_choose_category" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_category"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="28dp"
-            android:paddingHorizontal="16dp"
-            android:paddingBottom="10dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/btn_next"
-            app:layout_constraintTop_toBottomOf="@+id/tv_choose_category"
-            tools:itemCount="3"
-            tools:listitem="@layout/item_category_selectable" />
-
-        <Button
-            android:id="@+id/btn_next"
-            android:layout_width="match_parent"
-            android:layout_height="85dp"
-            android:background="@drawable/rectangle_gray_2"
-            android:paddingBottom="22dp"
-            android:text="@string/next"
-            android:textAppearance="@style/Text16Semibold"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
