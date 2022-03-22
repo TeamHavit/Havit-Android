@@ -2,6 +2,7 @@ package org.sopt.havit.ui.kakao
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.kakao.sdk.auth.model.OAuthToken
@@ -20,8 +21,6 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
         binding.vm = viewModel
         setListeners()
         setAutoLogin()
-
-
     }
 
     private fun setListeners() {
@@ -30,7 +29,13 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
         }
     }
 
-    private fun setAutoLogin() {
+    private fun startMainActivity(){
+        val intent = Intent(this, org.sopt.havit.MainActivity::class.java)
+        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        finish()
+    }
+
+    private fun setAutoLogin() { // 자동 로그인.
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
             if (error != null) {
                 Toast.makeText(this, "토큰 정보 보기 실패", Toast.LENGTH_SHORT).show()
@@ -46,10 +51,10 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
 
 
     private fun setLogin() {
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
-            UserApiClient.instance.loginWithKakaoTalk(this, callback = callback)
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) { // 카카오톡이 설치되어 있으면
+            UserApiClient.instance.loginWithKakaoTalk(this, callback = callback) // 카카오 로그인
         } else {
-            UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
+            UserApiClient.instance.loginWithKakaoAccount(this, callback = callback) // 카카오 계정 로그인(웹)
         }
     }
 
@@ -86,7 +91,7 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
             }
         } else if (token != null) {
 
-            UserApiClient.instance.me { user, _ ->
+            UserApiClient.instance.me { user, _ -> // 사용자의 정보를 가져오는 코드.
 
                 if (user != null) {
                     val scopes = mutableListOf<String>()
@@ -104,28 +109,33 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
                         scopes.add("gender")
                     }
 
-                    var email = user.kakaoAccount?.email
-                    if (email == null) {
-                        UserApiClient.instance.loginWithNewScopes(this, scopes) { _, error2 ->
-                            email = token.scopes.toString()
+                    if (scopes.count() > 0) {
+                        // 사용자 추가 정보 요청 코드.
+                        UserApiClient.instance.loginWithNewScopes(this, scopes) { token, error2 ->
+                            if (error2 != null) {
+                                Log.e("PASS", "사용자 추가 정보 획득 로그인 실패", error2)
+                            }else{
+                                // 사용자 정보 재요청.
+                                UserApiClient.instance.me { user, _ ->
+                                    if(user != null) {
+                                        startMainActivity() // 로그인 성공.
+                                    }
+                                }
+                            }
 
                         }
 
+
+                    } else {
+                        startMainActivity()
                     }
 
-                    Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, org.sopt.havit.MainActivity::class.java)
-                    startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                    finish()
 
                 }
-
-
             }
 
 
         }
     }
-
 
 }
