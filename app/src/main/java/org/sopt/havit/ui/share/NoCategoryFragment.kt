@@ -21,7 +21,7 @@ class NoCategoryFragment : Fragment() {
         _binding = FragmentNoCategoryBinding.inflate(layoutInflater, container, false)
 
 //        getCategoryNum()
-        initTransaction(1)
+//        initTransaction(1)
         initClickListener()
 
         return binding.root
@@ -41,10 +41,10 @@ class NoCategoryFragment : Fragment() {
 //        }
 //    }
 
-    private fun initTransaction(categoryNum: Int) {
-        if (categoryNum != 0)
-            findNavController().navigate(R.id.action_noCategoryFragment_to_selectCategoryFragment)
-    }
+//    private fun initTransaction(categoryNum: Int) {
+//        if (categoryNum != 0)
+//            findNavController().navigate(R.id.action_noCategoryFragment_to_selectCategoryFragment)
+//    }
 
     private fun initClickListener() {
         binding.btnAddCategory.setOnClickListener {

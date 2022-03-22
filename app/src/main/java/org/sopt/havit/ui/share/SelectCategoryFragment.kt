@@ -36,6 +36,7 @@ class SelectCategoryFragment : Fragment() {
         initView()
         initListener()
         toolbarClickListener()
+        binding.hasCategory = true
     }
 
     private fun toolbarClickListener() {
@@ -55,6 +56,10 @@ class SelectCategoryFragment : Fragment() {
                     ).getCategoryNum()
                 categoryData = response.data
                 categoryNum = categoryData.size
+
+                if (categoryNum != 0) {
+                    binding.hasCategory = true
+                }
 
                 Log.d("SelectCategoryFragment", categoryData.toString())
                 Log.d("SelectCategoryFragment_len", categoryData.size.toString())
@@ -126,6 +131,10 @@ class SelectCategoryFragment : Fragment() {
         binding.selectCategory.ivCategoryAdd.setOnClickListener {
             if (categoryNum >= MAX_CATEGORY_NUM) showCategoryMaxToast()
             else findNavController().navigate(R.id.action_selectCategoryFragment_to_enterCategoryTitleFragment)
+        }
+
+        binding.noCategory.btnAddCategory.setOnClickListener {
+            findNavController().navigate(R.id.action_selectCategoryFragment_to_enterCategoryTitleFragment)
         }
     }
 
