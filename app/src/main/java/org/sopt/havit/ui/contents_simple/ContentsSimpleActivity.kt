@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsSimpleBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
@@ -28,16 +27,18 @@ class ContentsSimpleActivity :
 
         initContents()
         initAdapter()
-        dataObserve()
         decorationView()
         clickBtnBack()
+        clickItemView()
         setToast()
     }
 
     override fun onStart() {
         super.onStart()
         setContents()
+        dataObserve()
     }
+
     private fun setCustomToast() {
         val toast = Toast(this)
         val view = layoutInflater.inflate(R.layout.toast_havit_complete, null)
@@ -67,7 +68,7 @@ class ContentsSimpleActivity :
     }
 
     private fun initAdapter() {
-        contentsAdapter = ContentsSimpleRvAdapter(contentsViewModel, supportFragmentManager)
+        contentsAdapter = ContentsSimpleRvAdapter(contentsViewModel, supportFragmentManager, contentsType)
         binding.rvContents.adapter = contentsAdapter
     }
 
@@ -122,7 +123,6 @@ class ContentsSimpleActivity :
                         binding.clContentsEmpty.visibility = View.GONE
                         val min = if (data.size < 20) data.size else 20
                         val list = data.subList(0, min)
-                        clickItemView()
                         contentsAdapter.updateList(list)
                     }
                 }
