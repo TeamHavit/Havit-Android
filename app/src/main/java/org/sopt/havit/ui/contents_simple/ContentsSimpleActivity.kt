@@ -30,13 +30,13 @@ class ContentsSimpleActivity :
         decorationView()
         clickBtnBack()
         clickItemView()
+        dataObserve()
         setToast()
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         setContents()
-        dataObserve()
     }
 
     private fun setCustomToast() {
@@ -111,7 +111,7 @@ class ContentsSimpleActivity :
                 contentsList.observe(it) { data ->
                     Log.d("contentsSimple", "contentsList data : $data")
                     if (data.isEmpty()) {
-                        binding.rvContents.visibility = View.GONE
+                        Log.d("CONTENTS_SIMPLE", "data empty")
                         if (contentsType == "unseen")
                             requestEmptyContents(getString(R.string.contents_simple_unseen_empty))
                         else
@@ -120,7 +120,7 @@ class ContentsSimpleActivity :
                             SaveFragment("").show(supportFragmentManager, "save")
                         }
                     } else {
-                        binding.clContentsEmpty.visibility = View.GONE
+                        Log.d("CONTENTS_SIMPLE", "data not empty")
                         val min = if (data.size < 20) data.size else 20
                         val list = data.subList(0, min)
                         contentsAdapter.updateList(list)
