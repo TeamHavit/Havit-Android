@@ -247,6 +247,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         with(homeViewModel) {
             recommendList.observe(viewLifecycleOwner) { data ->
                 if (data.isNotEmpty()) {
+                    recommendRvAdapter.recommendList.clear()
                     recommendRvAdapter.recommendList.addAll(data)
                     recommendRvAdapter.notifyDataSetChanged()
                 }
