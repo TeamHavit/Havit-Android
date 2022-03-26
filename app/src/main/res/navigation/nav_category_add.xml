@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_category_add"
-    app:startDestination="@id/addCategoryFragment">
+    app:startDestination="@id/enterCategoryTitleFragment">
     <fragment
-        android:id="@+id/addCategoryFragment"
-        android:name="org.sopt.havit.ui.share.AddCategoryFragment"
+        android:id="@+id/enterCategoryTitleFragment"
+        android:name="org.sopt.havit.ui.share.EnterCategoryTitleFragment"
         android:label="fragment_category_name"
-        tools:layout="@layout/fragment_add_category" >
+        tools:layout="@layout/fragment_enter_category_title">
         <action
-            android:id="@+id/action_addCategoryFragment_to_chooseIconFragment"
+            android:id="@+id/action_enterCategoryTitleFragment_to_chooseIconFragment"
             app:destination="@id/chooseIconFragment" />
     </fragment>
     <fragment
