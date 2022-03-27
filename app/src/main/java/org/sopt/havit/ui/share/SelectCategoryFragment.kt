@@ -45,7 +45,7 @@ class SelectCategoryFragment : Fragment() {
     }
 
     private fun initView() {
-        binding.hasCategory = false
+        binding.hasCategory = true  // skeleton 붙이면 없앨 코드
         lifecycleScope.launch {
             try {
                 // 서버 통신
@@ -56,9 +56,7 @@ class SelectCategoryFragment : Fragment() {
                 categoryData = response.data
                 categoryNum = categoryData.size
 
-                if (categoryNum != 0) {
-                    binding.hasCategory = true
-                }
+                binding.hasCategory = (categoryNum != 0)
 
                 Log.d("SelectCategoryFragment", categoryData.toString())
                 Log.d("SelectCategoryFragment_len", categoryData.size.toString())

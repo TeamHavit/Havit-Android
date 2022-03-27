@@ -72,13 +72,4 @@
             android:defaultValue=""
             app:argType="string" />
     </fragment>
-    <fragment
-        android:id="@+id/noCategoryFragment"
-        android:name="org.sopt.havit.ui.share.NoCategoryFragment"
-        android:label="fragment_no_category"
-        tools:layout="@layout/fragment_no_category">
-        <action
-            android:id="@+id/action_noCategoryFragment_to_enterCategoryTitleFragment"
-            app:destination="@id/enterCategoryTitleFragment" />
-    </fragment>
 </navigation>
