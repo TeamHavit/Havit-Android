@@ -27,13 +27,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/save_contents_toolbar"
+                android:text="@{hasCategory? @string/save_contents_toolbar : @string/add_category , default = gone}"
                 android:textAppearance="@style/Header16Bold"
                 android:textColor="@color/havit_gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="컨텐츠 저장" />
 
             <ImageView
                 android:id="@+id/ic_close"
@@ -53,7 +54,7 @@
             layout="@layout/layout_share_select_category"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:visibility="@{hasCategory ? View.VISIBLE : View.GONE}"
+            android:visibility="@{hasCategory ? View.VISIBLE : View.GONE, default = gone}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_tool_bar" />
 
@@ -62,7 +63,7 @@
             layout="@layout/layout_share_no_category"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:visibility="@{hasCategory ? View.GONE :View.VISIBLE}"
+            android:visibility="@{ !hasCategory ?View.VISIBLE : View.GONE, default = gone}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_tool_bar" />
 
