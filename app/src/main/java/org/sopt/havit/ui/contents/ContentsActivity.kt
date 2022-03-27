@@ -51,14 +51,16 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     override fun onStart() {
         super.onStart()
+        deletedCategory()
         setContentsData()
+        setCategoryName()
     }
 
     private fun setContentsData() {
-        if (ID == -1) {
-            contentsViewModel.requestContentsAllTaken(OPTION, FILTER, CATEGORY_NAME)
+        if (categoryId == -1) {
+            contentsViewModel.requestContentsAllTaken(contentsOption, contentsFilter, categoryName)
         } else {
-            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+            contentsViewModel.requestContentsTaken(categoryId, contentsOption, contentsFilter, categoryName)
         }
     }
 
@@ -71,20 +73,33 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         // 레이아웃 초기화
         layout = LINEAR_MIN_LAYOUT
         // 옵션 및 필터 초기화
-        OPTION = "all"
-        FILTER = "created_at"
+        contentsOption = "all"
+        contentsFilter = "created_at"
     }
 
     private fun setData() {
-        ID = intent.getIntExtra("categoryId", 0)
-        if (ID == -1) {
+        categoryId = intent.getIntExtra("categoryId", 0)
+        if (categoryId == -1) {
             binding.tvModify.visibility = GONE
             binding.ivCategoryDrop.visibility = GONE
         }
         intent.getStringExtra("categoryName")?.let {
-            CATEGORY_NAME = it
+            categoryName = it
         }
-        contentsViewModel.setCategoryName(CATEGORY_NAME)
+        setCategoryName()
+    }
+
+    private fun setCategoryName(){
+        contentsViewModel.setCategoryName(categoryName)
+    }
+
+    // 삭제된 카테고리라면 종료하는 함수
+    private fun deletedCategory(){
+        if(isDelete){
+            isDelete = false
+            finish()
+            CustomToast.showTextToast(this, "카테고리가 삭제되었습니다")
+        }
     }
 
     private fun dataObserve() {
@@ -166,7 +181,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun clickAddContents() {
         binding.tvAddContents.setOnClickListener {
-            SaveFragment(CATEGORY_NAME).show(supportFragmentManager, "언니 사랑해")
+            SaveFragment(categoryName).show(supportFragmentManager, "언니 사랑해")
         }
     }
 
@@ -180,7 +195,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             dialog.setFilterClickListener(object :
                 DialogContentsFilterFragment.OnFilterClickListener {
                 override fun onClick(filter: String) {
-                    FILTER = filter
+                    contentsFilter = filter
                     binding.tvOrder.text = when (filter) {
                         "created_at" -> "최신순"
                         "reverse" -> "과거순"
@@ -255,19 +270,19 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun setChipOrder() {
         with(binding) {
             chAll.setOnClickListener {
-                OPTION = "all"
+                contentsOption = "all"
                 setContentsData()
             }
             chSeen.setOnClickListener {
-                OPTION = "true"
+                contentsOption = "true"
                 setContentsData()
             }
             chUnseen.setOnClickListener {
-                OPTION = "false"
+                contentsOption = "false"
                 setContentsData()
             }
             chAlarm.setOnClickListener {
-                OPTION = "notified"
+                contentsOption = "notified"
                 setContentsData()
             }
         }
@@ -300,11 +315,11 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                     v.setImageResource(if (isSeen) R.drawable.ic_contents_unread else R.drawable.ic_contents_read_2)
 
                     // 본 콘텐츠 목록에서 해빗 해제 시 제거
-                    if ((OPTION == "true" || FILTER == "seen_at") && v.tag == "unseen") {
+                    if ((contentsOption == "true" || contentsFilter == "seen_at") && v.tag == "unseen") {
                         contentsAdapter.notifyItemRemoved(position)
                     }
                     // 안 본 콘텐츠 목록에서 해빗 등록 시 제거
-                    else if (OPTION == "false" && v.tag == "seen") {
+                    else if (contentsOption == "false" && v.tag == "seen") {
                         contentsAdapter.notifyItemRemoved(position)
                     }
                 }
@@ -318,9 +333,11 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         const val LINEAR_MAX_LAYOUT = 3
         var layout = 1
 
-        var ID = 0
-        var CATEGORY_NAME = "error"
-        var OPTION: String = "all" // chip의 옵션 (전체/안봤어요/봤어요/알람)
-        var FILTER: String = "created_at" // 정렬 필터 (최신순/과거순/최근조회순)
+        var categoryId = 0
+        var categoryName = "error"
+        var contentsOption = "all" // chip의 옵션 (전체/안봤어요/봤어요/알람)
+        var contentsFilter = "created_at" // 정렬 필터 (최신순/과거순/최근조회순)
+
+        var isDelete = false // 삭제된 카테고리인지 판별하는 변수
     }
 }
