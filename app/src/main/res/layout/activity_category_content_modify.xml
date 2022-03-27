@@ -5,9 +5,15 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
-            name="categoryViewModel"
-            type="org.sopt.havit.ui.category.CategoryContentModifyViewModel" />
+            name="isDuplicated"
+            type="Boolean" />
+
+        <variable
+            name="categoryTitle"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,10 +58,13 @@
                 android:id="@+id/tv_complete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="23dp"
+                android:layout_marginEnd="8dp"
+                android:enabled="@{(!isDuplicated &amp;&amp; (categoryTitle.length() != 0))}"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="6dp"
                 android:text="@string/category_complete"
                 android:textAppearance="@style/Text14Medium"
-                android:textColor="@color/white"
+                android:textColor="@{(!isDuplicated &amp;&amp; (categoryTitle.length() != 0)) ? @color/white : @color/gray_1, default = @color/white}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -76,19 +85,78 @@
 
         <EditText
             android:id="@+id/et_category"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/havit_purple"
-            android:ems="10"
-            android:inputType="textPersonName"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:lines="1"
+            android:maxLength="15"
+            android:text="@={categoryTitle}"
             android:textAppearance="@style/Header19Medium"
-            android:textColor="@color/gray_3"
+            android:textColor="@color/selector_category_modify_text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+        <ImageView
+            android:id="@+id/iv_delete_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:src="@drawable/ic_delete_text"
+            android:visibility="@{categoryTitle.length() == 0? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/et_category"
+            app:layout_constraintEnd_toEndOf="@+id/et_category"
+            app:layout_constraintTop_toTopOf="@+id/et_category" />
+
+
+        <TextView
+            android:id="@+id/tv_category_length_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_length_limit_space"
+            android:textAppearance="@style/Mini10Regular"
+            android:textColor="@color/gray_3"
+            app:layout_constraintEnd_toEndOf="@+id/et_category"
+            app:layout_constraintTop_toBottomOf="@+id/et_category" />
+
+        <TextView
+            android:id="@+id/tv_category_length_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(categoryTitle.length())}"
+            android:textAppearance="@style/Mini10Regular"
+            android:textColor="@color/havit_purple"
+            app:layout_constraintBottom_toBottomOf="@id/tv_category_length_limit"
+            app:layout_constraintEnd_toStartOf="@id/tv_category_length_limit"
+            app:layout_constraintTop_toTopOf="@id/tv_category_length_limit"
+            tools:text="0" />
+
+        <!-- 중복 카테고리 -->
+        <ImageView
+            android:id="@+id/iv_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:src="@drawable/ic_notice_red"
+            android:visibility="@{isDuplicated ? View.VISIBLE : View.INVISIBLE, default = gone}"
+            app:layout_constraintStart_toStartOf="@+id/et_category"
+            app:layout_constraintTop_toBottomOf="@+id/et_category" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/duplicate_category"
+            android:textAppearance="@style/Sub12Regular"
+            android:textColor="@color/havit_red"
+            android:visibility="@{isDuplicated ? View.VISIBLE : View.INVISIBLE, default = gone}"
+            app:layout_constraintBottom_toBottomOf="@id/iv_notice"
+            app:layout_constraintStart_toEndOf="@id/iv_notice"
+            app:layout_constraintTop_toTopOf="@id/iv_notice" />
 
         <TextView
             android:id="@+id/tv_ic"
@@ -113,7 +181,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_ic"
             app:spanCount="5"
             tools:itemCount="15"
-            tools:listitem="@layout/item_category_icon"/>
+            tools:listitem="@layout/item_category_icon" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_remove"

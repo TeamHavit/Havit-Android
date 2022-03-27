@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/gray_0"
-                android:visibility="@{data.FILTER.equals(`created_at`) ? View.INVISIBLE : View.VISIBLE}"
+                android:visibility="@{data.contentsFilter.equals(`created_at`) ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/selector_contents_order"
                 android:button="@null"
-                android:checked="@{data.FILTER.equals(`created_at`) ? true : false}"
+                android:checked="@{data.contentsFilter.equals(`created_at`) ? true : false}"
                 android:paddingHorizontal="31dp"
                 android:paddingVertical="15dp"
                 android:text="@string/contents_recent_order"
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/gray_0"
-                android:visibility="@{data.FILTER.equals(`seen_at`) ? View.VISIBLE : View.INVISIBLE}"
+                android:visibility="@{data.contentsFilter.equals(`seen_at`) ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/selector_contents_order"
                 android:button="@null"
-                android:checked="@{data.FILTER.equals(`reverse`) ? true : false}"
+                android:checked="@{data.contentsFilter.equals(`reverse`) ? true : false}"
                 android:paddingHorizontal="31dp"
                 android:paddingVertical="15dp"
                 android:text="@string/contents_past_order"
@@ -88,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/gray_0"
-                android:visibility="@{data.FILTER.equals(`created_at`) ? View.VISIBLE : View.INVISIBLE}"
+                android:visibility="@{data.contentsFilter.equals(`created_at`) ? View.VISIBLE : View.INVISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/selector_contents_order"
                 android:button="@null"
-                android:checked="@{data.FILTER.equals(`seen_at`) ? true : false}"
+                android:checked="@{data.contentsFilter.equals(`seen_at`) ? true : false}"
                 android:paddingHorizontal="31dp"
                 android:paddingVertical="15dp"
                 android:text="@string/contents_recent_view_order"
@@ -110,7 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/gray_0"
-                android:visibility="@{data.FILTER.equals(`seen_at`) ? View.INVISIBLE : View.VISIBLE}"
+                android:visibility="@{data.contentsFilter.equals(`seen_at`) ? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
         </RadioGroup>

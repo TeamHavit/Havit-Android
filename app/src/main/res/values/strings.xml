@@ -44,7 +44,7 @@
     <string name="contents_unseen">안 봤어요</string>
     <string name="contents_seen">봤어요</string>
     <string name="save_title">콘텐츠 저장</string>
-    <string name="save_info1">URL 링크</string>
+    <string name="save_info1">링크</string>
     <string name="save_info2">를 입력 및 붙여넣기 해주세요</string>
     <string name="save_paste_title">복사한 링크 붙여넣기</string>
     <string name="save_url_valid">입력한 링크의 정보를 찾을 수 없습니다</string>
@@ -76,7 +76,7 @@
     <string name="search_no_result">검색 결과가 없습니다</string>
     <string name="category_cancel">취소</string>
     <string name="category_delete">삭제</string>
-    <string name="category_suggestion">카테고리로 콘텐츠를 정리해보세요.</string>
+    <string name="category_suggestion">카테고리를 추가해보세요</string>
     <string name="havit_capital_letter">HAVIT</string>
     <string name="now">지금</string>
     <string name="contents_recent_order">최신순</string>
@@ -119,6 +119,7 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="category_length_limit">/ 15</string>
+    <string name="category_length_limit_space">&#160;/ 15</string>
     <string name="category_length_count_zero">0</string>
     <string name="duplicate_category">중복된 카테고리 이름이 존재합니다</string>
     <string name="max_category">카테고리 최대 개수를 초과했습니다.</string>
@@ -132,7 +133,7 @@
     <string name="home_popup_level4">축하드려요! 저장한 콘텐츠를 전부 확인했어요!</string>
     <string name="category_added">&#160;카테고리가 추가되었습니다.</string>    <!-- &#160;는 띄어쓰기를 위한 문자열입니다-->
     <string name="contents_order">정렬</string>
-
+    <string name="category_create_recommend">카테고리를 생성하여 콘텐츠를 쉽게 정리해보세요.</string>
     <!-- Dialog 작업용 -->
     <string name="cancel">취소</string>
     <string name="exit">나가기</string>

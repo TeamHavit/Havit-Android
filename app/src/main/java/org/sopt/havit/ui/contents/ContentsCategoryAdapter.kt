@@ -46,7 +46,7 @@ class ContentsCategoryAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: CategoryResponse.AllCategoryData) {
             binding.category = data
-            if(data.id == ContentsActivity.ID){
+            if(data.id == ContentsActivity.categoryId){
                 binding.tvCategory.setTextColor(Color.parseColor("#8578ff"))
                 binding.ivChecked.visibility = View.VISIBLE
             }
