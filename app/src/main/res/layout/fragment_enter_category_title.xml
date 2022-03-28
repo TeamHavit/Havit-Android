@@ -8,24 +8,20 @@
         <import type="android.view.View" />
 
         <variable
-            name="isEnabled"
-            type="Boolean" />
-
-        <variable
             name="isDuplicated"
             type="Boolean" />
 
         <variable
-            name="categoryLength"
-            type="Integer" />
+            name="categoryTitle"
+            type="String" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/addCategoryFragment"
+        android:id="@+id/enterCategoryTitleFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.share.AddCategoryFragment">
+        tools:context=".ui.share.EnterCategoryTitleFragment">
 
         <!-- Toolbar -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -93,10 +89,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
-                android:layout_marginTop="31dp"
+                android:layout_marginTop="29dp"
                 android:hint="@string/enter_category_title"
                 android:lines="1"
                 android:maxLength="15"
+                android:text="@={categoryTitle}"
                 android:singleLine="true"
                 android:textAppearance="@style/Header19Medium"
                 android:textColor="@color/havit_gray"
@@ -110,6 +107,7 @@
                 android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:src="@drawable/ic_delete_text"
+                android:visibility="@{categoryTitle.length() == 0? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="@id/et_category_title"
                 app:layout_constraintEnd_toEndOf="@id/et_category_title"
                 app:layout_constraintTop_toTopOf="@id/et_category_title" />
@@ -121,8 +119,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:text="@string/category_length_limit"
-                android:textColor="@color/gray_3"
                 android:textAppearance="@style/Mini10Regular"
+                android:textColor="@color/gray_3"
                 app:layout_constraintEnd_toEndOf="@id/et_category_title"
                 app:layout_constraintTop_toBottomOf="@id/et_category_title" />
 
@@ -131,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
-                android:text="@{String.valueOf(categoryLength)}"
+                android:text="@{String.valueOf(categoryTitle.length())}"
                 android:textAppearance="@style/Mini10Regular"
                 android:textColor="@color/havit_purple"
                 app:layout_constraintBottom_toBottomOf="@id/tv_category_length_limit"
@@ -161,13 +159,12 @@
                 app:layout_constraintStart_toEndOf="@id/iv_notice"
                 app:layout_constraintTop_toTopOf="@id/iv_notice" />
 
-
             <Button
                 android:id="@+id/btn_next"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="@{isEnabled ? @drawable/rectangle_havit_purple : @drawable/rectangle_gray_2}"
-                android:enabled="@{isEnabled}"
+                android:background="@{(!isDuplicated &amp;&amp; (categoryTitle.length() != 0)) ? @drawable/rectangle_havit_purple : @drawable/rectangle_gray_2}"
+                android:enabled="@{(!isDuplicated &amp;&amp; (categoryTitle.length() != 0)) }"
                 android:text="@string/next"
                 android:textAppearance="@style/Text16Semibold"
                 android:textColor="@color/white"

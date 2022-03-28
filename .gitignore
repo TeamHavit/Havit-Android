@@ -121,6 +121,7 @@ obj/
 .idea/jarRepositories.xml
 .idea/navEditor.xml
 .idea/discord.xml
+.idea/git_toolbox_prj.xml
 
 # OS-specific files
 .DS_Store

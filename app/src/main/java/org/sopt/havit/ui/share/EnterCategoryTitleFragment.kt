@@ -8,13 +8,14 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.databinding.FragmentAddCategoryBinding
+import org.sopt.havit.databinding.FragmentEnterCategoryTitleBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.KeyBoardUtil.setUpAsSoftKeyboard
 import org.sopt.havit.util.MySharedPreference
 
-class AddCategoryFragment : BaseBindingFragment<FragmentAddCategoryBinding>(R.layout.fragment_add_category) {
+class EnterCategoryTitleFragment :
+    BaseBindingFragment<FragmentEnterCategoryTitleBinding>(R.layout.fragment_enter_category_title) {
 
     private val categoryTitleList = mutableListOf<String>()
 
@@ -43,24 +44,15 @@ class AddCategoryFragment : BaseBindingFragment<FragmentAddCategoryBinding>(R.la
 
     private fun setTextWatcher() {
         binding.etCategoryTitle.addTextChangedListener {
-            binding.categoryLength = binding.etCategoryTitle.text.length
-            binding.isDuplicated = isTitleDuplicated()
-            binding.isEnabled = isTitleNotEmpty() && !isTitleDuplicated()
+            val title = binding.etCategoryTitle.text.toString()
+            binding.isDuplicated = title in categoryTitleList
         }
-    }
-
-    private fun isTitleDuplicated(): Boolean {
-        val title = binding.etCategoryTitle.text.toString()
-        if (title.isEmpty()) return false   // 입력값 없을 때
-        for (element in categoryTitleList)
-            if (element == title) return true
-        return false
     }
 
     private fun initClickListener() {
         binding.btnNext.setOnClickListener {
             findNavController().navigate(
-                AddCategoryFragmentDirections.actionAddCategoryFragmentToChooseIconFragment(
+                EnterCategoryTitleFragmentDirections.actionEnterCategoryTitleFragmentToChooseIconFragment(
                     binding.etCategoryTitle.text.toString()
                 )
             )
@@ -70,15 +62,8 @@ class AddCategoryFragment : BaseBindingFragment<FragmentAddCategoryBinding>(R.la
     }
 
     private fun toolbarClickListener() {
-        binding.icBack.setOnClickListener {
-            findNavController().navigate(R.id.action_addCategoryFragment_to_selectCategoryFragment)
-        }
-
+        binding.icBack.setOnClickListener { findNavController().popBackStack() }
         binding.icClose.setOnClickListener { requireActivity().finish() }
-    }
-
-    private fun isTitleNotEmpty(): Boolean {
-        return binding.etCategoryTitle.text.isNotEmpty()
     }
 
     private fun setKeyBoardUp() =

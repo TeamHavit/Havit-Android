@@ -55,7 +55,8 @@
             android:name=".ui.category.CategoryContentModifyActivity"
             android:configChanges="orientation"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ui.category.CategoryOrderModifyActivity"
             android:configChanges="orientation"
@@ -77,7 +78,7 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ShareActivity"
+            android:name=".ui.share.ShareActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -112,9 +113,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.search.SearchActivity"
-            android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.splash.SplashActivity"
             android:configChanges="orientation"
