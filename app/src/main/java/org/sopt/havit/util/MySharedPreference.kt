@@ -12,20 +12,6 @@ object MySharedPreference {
     private const val NOTI_TIME = "notification_time"
 
 
-    fun setHavit(context: Context, isHavit: Boolean) {
-        val prefs: SharedPreferences =
-            context.getSharedPreferences(STORAGE_KEY, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = prefs.edit()
-        editor.putBoolean("isHavit", isHavit)
-        editor.apply()
-    }
-
-    fun getHavit(context: Context): Boolean {
-        val prefs: SharedPreferences =
-            context.getSharedPreferences(STORAGE_KEY, Context.MODE_PRIVATE)
-        return prefs.getBoolean("isHavit", false)
-    }
-
     fun setTitle(context: Context, title: String) {
         val prefs: SharedPreferences =
             context.getSharedPreferences(CONTENTS_TITLE, Context.MODE_PRIVATE)
@@ -46,22 +32,22 @@ object MySharedPreference {
         pref.edit().clear().apply()
     }
 
-    fun setNotificationTime(context: Context, time : String){
-        val prefs : SharedPreferences =
+    fun setNotificationTime(context: Context, time: String) {
+        val prefs: SharedPreferences =
             context.getSharedPreferences(NOTI_TIME, Context.MODE_PRIVATE)
-        val editor : SharedPreferences.Editor = prefs.edit()
+        val editor: SharedPreferences.Editor = prefs.edit()
         editor.putString(NOTI_TIME, time)
         editor.apply()
     }
 
-    fun getNotificationTime(context: Context) : String{
-        val pref : SharedPreferences =
+    fun getNotificationTime(context: Context): String {
+        val pref: SharedPreferences =
             context.getSharedPreferences(NOTI_TIME, Context.MODE_PRIVATE)
         return pref.getString(NOTI_TIME, "").toString()
     }
 
-    fun clearNotificationTime(context: Context){
-        val pref : SharedPreferences =
+    fun clearNotificationTime(context: Context) {
+        val pref: SharedPreferences =
             context.getSharedPreferences(NOTI_TIME, Context.MODE_PRIVATE)
         pref.edit().clear().apply()
     }
