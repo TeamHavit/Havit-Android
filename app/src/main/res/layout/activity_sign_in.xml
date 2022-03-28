@@ -5,13 +5,13 @@
     <data>
         <variable
             name="vm"
-            type="org.sopt.havit.ui.kakao.SignInViewModel" />
+            type="org.sopt.havit.ui.sign.SignInViewModel" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.kakao.SignInActivity">
+    tools:context=".ui.sign.SignInActivity">
 
     <ImageButton
         android:id="@+id/kakao_login_button"

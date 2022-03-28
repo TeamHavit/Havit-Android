@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.kakao
+package org.sopt.havit.ui.sign
 
 import android.content.Intent
 import android.os.Bundle
