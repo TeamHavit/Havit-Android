@@ -1,8 +1,6 @@
 package org.sopt.havit.ui.home
 
 import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,9 +15,9 @@ import org.sopt.havit.data.remote.UserResponse
 import org.sopt.havit.util.MySharedPreference
 
 class HomeViewModel(context: Context) : ViewModel() {
-
     private val token = MySharedPreference.getXAuthToken(context)
 
+    // 최근저장 콘텐츠
     private val _contentsList = MutableLiveData<List<ContentsSimpleResponse.ContentsSimpleData>>()
     val contentsList: LiveData<List<ContentsSimpleResponse.ContentsSimpleData>> = _contentsList
     fun requestContentsTaken() {
@@ -34,10 +32,11 @@ class HomeViewModel(context: Context) : ViewModel() {
         }
     }
 
+    // 카테고리 전체 데이터
     private val _categoryList = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
     val categoryList: LiveData<List<CategoryResponse.AllCategoryData>> = _categoryList
 
-
+    // 카테고리 탭별로 들어가게 6개씩 자른 데이터
     private val _categoryData = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
     val categoryData: LiveData<List<CategoryResponse.AllCategoryData>> = _categoryData
     fun requestCategoryTaken() {
@@ -52,21 +51,7 @@ class HomeViewModel(context: Context) : ViewModel() {
         }
     }
 
-    private val _recommendList = MutableLiveData<List<RecommendationResponse.RecommendationData>>()
-    val recommendList: LiveData<List<RecommendationResponse.RecommendationData>> = _recommendList
-    fun requestRecommendTaken() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response =
-                    RetrofitObject.provideHavitApi(token)
-                        .getRecommendation()
-                _recommendList.postValue(response.data)
-            } catch (e: Exception) {
-
-            }
-        }
-    }
-
+    // category 전체 데이터를 6개씩 잘라 List로 묶는 함수
     fun setList(
         data:
         List<CategoryResponse.AllCategoryData>, totalNum: Int
@@ -82,7 +67,6 @@ class HomeViewModel(context: Context) : ViewModel() {
             "모든 콘텐츠"
         )
         list.clear()
-        Log.d("HOMECATEGORY", "category_size: ${data.size}")
         while (data.size > count) {
             if (count == 0) {
                 val firstPage = mutableListOf<CategoryResponse.AllCategoryData>()
@@ -92,7 +76,6 @@ class HomeViewModel(context: Context) : ViewModel() {
                 for (i in 0..min) {
                     firstPage.add(data[i])
                 }
-                Log.d("HOMEFRAGMENT_TEMP", "temp : $firstPage")
                 list.add(firstPage)
                 count += 5
             } else {
@@ -105,11 +88,26 @@ class HomeViewModel(context: Context) : ViewModel() {
                 }
             }
         }
-
         return list
     }
 
+    // 추천 콘텐츠
+    private val _recommendList = MutableLiveData<List<RecommendationResponse.RecommendationData>>()
+    val recommendList: LiveData<List<RecommendationResponse.RecommendationData>> = _recommendList
+    fun requestRecommendTaken() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response =
+                    RetrofitObject.provideHavitApi(token)
+                        .getRecommendation()
+                _recommendList.postValue(response.data)
+            } catch (e: Exception) {
 
+            }
+        }
+    }
+
+    // 유저 데이터
     private val _userData = MutableLiveData<UserResponse.UserData>()
     val userData: LiveData<UserResponse.UserData> = _userData
     fun requestUserDataTaken() {
@@ -119,22 +117,22 @@ class HomeViewModel(context: Context) : ViewModel() {
                     RetrofitObject.provideHavitApi(token)
                         .getUserData()
                 _userData.postValue(response.data)
-                Log.d("HOMEVIEWMODEL", "rate: ${_reachRate.value}")
-                Log.d("HOMEVIEWMODEL", "userdata: $userData")
             } catch (e: Exception) {
             }
         }
     }
 
+    // 도달률 데이터
     private val _reachRate = MutableLiveData<Int>()
     var reachRate: LiveData<Int> = _reachRate
     fun requestReachRate(rate: Int) {
         _reachRate.postValue(rate)
     }
 
-    //    dummy data
-    private val _popupData = MutableLiveData<String>().apply {
-        value = "도달률이 50% 이하로 떨어졌어요!"
+    // 도달률 팝업 문장
+    private val _popup = MutableLiveData<String>()
+    val popup: LiveData<String> = _popup
+    fun setPopupText(popupText: String) {
+        _popup.postValue(popupText)
     }
-    val popupData: LiveData<String> = _popupData
 }

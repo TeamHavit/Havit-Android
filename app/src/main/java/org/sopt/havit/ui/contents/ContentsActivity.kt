@@ -1,17 +1,15 @@
 package org.sopt.havit.ui.contents
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ActivityContentsBinding
@@ -20,6 +18,7 @@ import org.sopt.havit.ui.category.CategoryOrderModifyActivity
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
+import org.sopt.havit.util.CustomToast
 
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
@@ -52,14 +51,16 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     override fun onStart() {
         super.onStart()
+        deletedCategory()
         setContentsData()
+        setCategoryName()
     }
 
     private fun setContentsData() {
-        if (ID == -1) {
-            contentsViewModel.requestContentsAllTaken(OPTION, FILTER, CATEGORY_NAME)
+        if (categoryId == -1) {
+            contentsViewModel.requestContentsAllTaken(contentsOption, contentsFilter, categoryName)
         } else {
-            contentsViewModel.requestContentsTaken(ID, OPTION, FILTER, CATEGORY_NAME)
+            contentsViewModel.requestContentsTaken(categoryId, contentsOption, contentsFilter, categoryName)
         }
     }
 
@@ -72,36 +73,63 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         // 레이아웃 초기화
         layout = LINEAR_MIN_LAYOUT
         // 옵션 및 필터 초기화
-        OPTION = "all"
-        FILTER = "created_at"
+        contentsOption = "all"
+        contentsFilter = "created_at"
     }
 
     private fun setData() {
-        ID = intent.getIntExtra("categoryId", 0)
-        if (ID == -1) {
-            binding.tvModify.visibility = View.GONE
-            binding.ivCategoryDrop.visibility = View.GONE
+        categoryId = intent.getIntExtra("categoryId", 0)
+        if (categoryId == -1) {
+            binding.tvModify.visibility = GONE
+            binding.ivCategoryDrop.visibility = GONE
         }
         intent.getStringExtra("categoryName")?.let {
-            CATEGORY_NAME = it
+            categoryName = it
         }
-        Log.d("categoryName", "$CATEGORY_NAME")
+        setCategoryName()
+    }
+
+    private fun setCategoryName(){
+        contentsViewModel.setCategoryName(categoryName)
+    }
+
+    // 삭제된 카테고리라면 종료하는 함수
+    private fun deletedCategory(){
+        if(isDelete){
+            isDelete = false
+            finish()
+            CustomToast.showTextToast(this, "카테고리가 삭제되었습니다")
+        }
     }
 
     private fun dataObserve() {
         with(contentsViewModel) {
-            contentsList.observe(this@ContentsActivity) {
+            loadState.observe(this@ContentsActivity) {
+                // 서버 불러오는 중이라면 스켈레톤 화면 및 shimmer 효과를 보여줌
                 with(binding) {
-                    if (it.isEmpty()) {
-                        Log.d("visibility", " success")
-                        rvContents.visibility = View.GONE
-                        clEmpty.visibility = View.VISIBLE
+                    if (it) {
+                        sflContents.startShimmer()
+                        sfLCount.startShimmer()
                     } else {
-                        rvContents.visibility = View.VISIBLE
-                        clEmpty.visibility = View.GONE
-                        Log.d("visibility", " fail")
+                        sflContents.stopShimmer()
+                        sfLCount.stopShimmer()
                     }
                 }
+            }
+
+            contentsCount.observe(this@ContentsActivity) {
+                // 콘텐츠 개수에 따른 visibility 조정
+                with(binding) {
+                    if (it == 0) {
+                        rvContents.visibility = GONE
+                        clEmpty.visibility = VISIBLE
+                    } else {
+                        rvContents.visibility = VISIBLE
+                        clEmpty.visibility = GONE
+                    }
+                }
+            }
+            contentsList.observe(this@ContentsActivity) {
                 // 콘텐츠 데이터 업데이트
                 contentsAdapter.submitList(it.toList())
             }
@@ -153,81 +181,31 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun clickAddContents() {
         binding.tvAddContents.setOnClickListener {
-            SaveFragment(CATEGORY_NAME).show(supportFragmentManager, "언니 사랑해")
+            SaveFragment(categoryName).show(supportFragmentManager, "언니 사랑해")
         }
     }
 
     // 최신순, 과거순, 최근 조회순 다이얼로그별 화면 설정
     private fun setOrderDialog() {
-        val bottomSheetView = layoutInflater.inflate(R.layout.dialog_contents_order, null)
-        val bottomSheetDialog = BottomSheetDialog(this)
-        bottomSheetDialog.setContentView(bottomSheetView)
-
         binding.clOrder.setOnClickListener {
-            when (binding.tvOrder.text) {
-                "최신순" -> {
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent)
-                        .setBackgroundColor(Color.parseColor("#f7f6ff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_recent)
-                        .setTextColor(Color.parseColor("#8578ff"))
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past)
-                        .setBackgroundColor(Color.parseColor("#ffffff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_past)
-                        .setTextColor(Color.parseColor("#424247"))
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view)
-                        .setBackgroundColor(Color.parseColor("#ffffff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_view)
-                        .setTextColor(Color.parseColor("#424247"))
-                }
-                "과거순" -> {
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past)
-                        .setBackgroundColor(Color.parseColor("#f7f6ff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_past)
-                        .setTextColor(Color.parseColor("#8578ff"))
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent)
-                        .setBackgroundColor(Color.parseColor("#ffffff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_recent)
-                        .setTextColor(Color.parseColor("#424247"))
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view)
-                        .setBackgroundColor(Color.parseColor("#ffffff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_view)
-                        .setTextColor(Color.parseColor("#424247"))
-                }
-                else -> {
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view)
-                        .setBackgroundColor(Color.parseColor("#f7f6ff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_view)
-                        .setTextColor(Color.parseColor("#8578ff"))
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent)
-                        .setBackgroundColor(Color.parseColor("#ffffff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_recent)
-                        .setTextColor(Color.parseColor("#424247"))
-                    bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past)
-                        .setBackgroundColor(Color.parseColor("#ffffff"))
-                    bottomSheetView.findViewById<TextView>(R.id.tv_past)
-                        .setTextColor(Color.parseColor("#424247"))
-                }
-            }
-            bottomSheetDialog.show()
-        }
+            val dialog = DialogContentsFilterFragment()
+            dialog.show(supportFragmentManager, "contentsOrder")
 
-        bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_recent).setOnClickListener {
-            FILTER = "created_at"
-            binding.tvOrder.text = "최신순"
-            setContentsData()
-            bottomSheetDialog.dismiss()
-        }
-        bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_past).setOnClickListener {
-            FILTER = "reverse"
-            binding.tvOrder.text = "과거순"
-            setContentsData()
-            bottomSheetDialog.dismiss()
-        }
-        bottomSheetView.findViewById<ConstraintLayout>(R.id.cl_view).setOnClickListener {
-            FILTER = "seen_at"
-            binding.tvOrder.text = "최근 조회순"
-            setContentsData()
-            bottomSheetDialog.dismiss()
+            // 순서 클릭 시 이벤트 정의
+            dialog.setFilterClickListener(object :
+                DialogContentsFilterFragment.OnFilterClickListener {
+                override fun onClick(filter: String) {
+                    contentsFilter = filter
+                    binding.tvOrder.text = when (filter) {
+                        "created_at" -> "최신순"
+                        "reverse" -> "과거순"
+                        else -> "최근 조회순"
+                    }
+                    // 서버 호출
+                    setContentsData()
+                    dialog.dismiss()
+                }
+            })
         }
     }
 
@@ -281,6 +259,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
                 val removeItem: (Int) -> Unit = {
                     contentsAdapter.notifyItemRemoved(it)
+                    contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
                 }
                 val dialog = ContentsMoreFragment(dataMore, removeItem, position)
                 dialog.show(supportFragmentManager, "setting")
@@ -291,19 +270,19 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun setChipOrder() {
         with(binding) {
             chAll.setOnClickListener {
-                OPTION = "all"
+                contentsOption = "all"
                 setContentsData()
             }
             chSeen.setOnClickListener {
-                OPTION = "true"
+                contentsOption = "true"
                 setContentsData()
             }
             chUnseen.setOnClickListener {
-                OPTION = "false"
+                contentsOption = "false"
                 setContentsData()
             }
             chAlarm.setOnClickListener {
-                OPTION = "notified"
+                contentsOption = "notified"
                 setContentsData()
             }
         }
@@ -342,6 +321,14 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                     v.tag = if (isSeen) "unseen" else "seen"
                     v.setImageResource(if (isSeen) R.drawable.ic_contents_unread else R.drawable.ic_contents_read_2)
 
+                    // 본 콘텐츠 목록에서 해빗 해제 시 제거
+                    if ((contentsOption == "true" || contentsFilter == "seen_at") && v.tag == "unseen") {
+                        contentsAdapter.notifyItemRemoved(position)
+                    }
+                    // 안 본 콘텐츠 목록에서 해빗 등록 시 제거
+                    else if (contentsOption == "false" && v.tag == "seen") {
+                        contentsAdapter.notifyItemRemoved(position)
+                    }
                 }
             }
         })
@@ -353,9 +340,11 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         const val LINEAR_MAX_LAYOUT = 3
         var layout = 1
 
-        var ID = 0
-        var CATEGORY_NAME = "error"
-        var OPTION: String = "all"
-        var FILTER: String = "created_at"
+        var categoryId = 0
+        var categoryName = "error"
+        var contentsOption = "all" // chip의 옵션 (전체/안봤어요/봤어요/알람)
+        var contentsFilter = "created_at" // 정렬 필터 (최신순/과거순/최근조회순)
+
+        var isDelete = false // 삭제된 카테고리인지 판별하는 변수
     }
 }

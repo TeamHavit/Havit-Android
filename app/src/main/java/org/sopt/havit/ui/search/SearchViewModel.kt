@@ -1,6 +1,5 @@
 package org.sopt.havit.ui.search
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,6 +25,7 @@ class SearchViewModel(
     var searchIng = MutableLiveData<Boolean>()
 
     var isSearchFirst = MutableLiveData<Boolean>()
+    var isSeenCheck = MutableLiveData<Boolean>()
 
     private var _isRead = MutableLiveData<Boolean>()
     var isRead: LiveData<Boolean> = _isRead
@@ -34,7 +34,8 @@ class SearchViewModel(
         searchImg.value = false
         searchTv.value = false
         searchIng.value = false
-        isSearchFirst.value=false
+        isSearchFirst.value = false
+        isSeenCheck.value=false
     }
 
     fun setSearchNoImage(search: Boolean) {
@@ -53,10 +54,8 @@ class SearchViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = searchRepository.getSearchContents(keyWord)
-                Log.d("fff", response.toString())
                 _searchResult.postValue(response)
                 _searchCount.postValue(response.size)
-                Log.d("fffdd", response.size.toString())
             } catch (e: Exception) {
             }
 
@@ -67,8 +66,7 @@ class SearchViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = contentsRepository.isSeen(contentsId)
-                Log.d("siiiiin", response.success.toString())
-                //isRead.postValue(seen)
+                isSeenCheck.postValue(response.success)
             } catch (e: Exception) {
 
             }

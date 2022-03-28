@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="contentsViewModel"
             type="org.sopt.havit.ui.contents.ContentsViewModel" />
@@ -54,6 +56,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <!-- 카테고리 명 -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_category"
                 android:layout_width="wrap_content"
@@ -173,26 +176,48 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+                <!-- 옵션 -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_order_option"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_search"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cl_tab">
 
+                    <!-- 카테고리 개수 로딩 중 -->
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/sfL_count"
+                        android:layout_width="40dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginBottom="13dp"
+                        android:visibility="@{contentsViewModel.loadState ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toTopOf="@+id/cg_status"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/rectangle_gray_0_radius_6" />
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+                    <!-- 카테고리 개수 -->
                     <TextView
                         android:id="@+id/tv_entire"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="14dp"
+                        android:layout_marginBottom="13dp"
                         android:text="@string/contents_entire"
                         android:textAppearance="@style/Mini10Regular"
                         android:textColor="@color/gray_3"
+                        android:visibility="@{contentsViewModel.loadState ? View.GONE : View.VISIBLE, default = gone}"
+                        app:layout_constraintBottom_toTopOf="@+id/cg_status"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -204,6 +229,7 @@
                         android:text="@{String.valueOf(contentsViewModel.contentsCount)}"
                         android:textAppearance="@style/Mini10Regular"
                         android:textColor="@color/gray_3"
+                        android:visibility="@{contentsViewModel.loadState ? View.GONE : View.VISIBLE, default = gone}"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_entire"
                         app:layout_constraintStart_toEndOf="@+id/tv_entire"
                         app:layout_constraintTop_toTopOf="@+id/tv_entire"
@@ -224,12 +250,11 @@
                         android:id="@+id/cg_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="13dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginBottom="8dp"
                         app:checkedChip="@id/ch_all"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/tv_entire"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_entire"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:selectionRequired="true"
                         app:singleSelection="true">
 
@@ -325,6 +350,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <!--비지 않은 경우-->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_contents"
                     android:layout_width="match_parent"
@@ -342,7 +368,6 @@
                     tools:itemCount="3"
                     tools:listitem="@layout/item_contents_linear_min">
 
-
                 </androidx.recyclerview.widget.RecyclerView>
 
                 <!-- 빈 경우 -->
@@ -351,7 +376,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -384,19 +409,50 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="32dp"
-                        android:layout_marginBottom="109dp"
                         android:background="@drawable/rectangle_purple_main_radius_44"
                         android:paddingHorizontal="82dp"
                         android:paddingVertical="14dp"
                         android:text="@string/contents_add"
                         android:textAppearance="@style/Button15Medium"
                         android:textColor="@color/havit_purple"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/imageView" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <!-- 로딩 중 -->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/sfl_contents"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{contentsViewModel.loadState ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_order_option">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/item_contents_skeleton_linear_min" />
+
+                        <include layout="@layout/item_contents_skeleton_linear_min" />
+
+                        <include layout="@layout/item_contents_skeleton_linear_min" />
+
+                        <include layout="@layout/item_contents_skeleton_linear_min" />
+
+                        <include layout="@layout/item_contents_skeleton_linear_min" />
+
+                        <include layout="@layout/item_contents_skeleton_linear_min" />
+
+                        <include layout="@layout/item_contents_skeleton_linear_min" />
+
+                        <include layout="@layout/item_contents_skeleton_linear_min" />
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </org.sopt.havit.util.StickyScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -57,14 +57,17 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     // url 붙여넣기 팝업 생성
     private fun setUrlPaste() {
         clipboard = activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipData = clipboard.primaryClip!!
 
         if (clipboard.hasPrimaryClip()) { // 클립보드에 내용이 있으면 팝업을 보여줌.
-            binding.clPasteClipBoard.isVisible = true
+            clipData = clipboard.primaryClip!!
+
             clipData.apply {
-                val textToPaste: String =
-                    this.getItemAt(0).text.toString().trim() // 클립보드에 저장된 첫번째 데이터
-                binding.tvSaveUrl.text = textToPaste
+                val textToPaste = this.getItemAt(0).text.toString().trim() // 클립보드에 저장된 첫번째 데이터
+                if (isFullPath(textToPaste)) {
+                    binding.clPasteClipBoard.isVisible = true
+                    binding.tvSaveUrl.text = textToPaste
+                }
+
             }
         }
     }

@@ -3,95 +3,73 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_share"
-    app:startDestination="@id/noCategoryFragment">
+    app:startDestination="@id/selectCategoryFragment">
 
     <fragment
         android:id="@+id/setNotificationFragment"
         android:name="org.sopt.havit.ui.share.SetNotificationFragment"
         android:label="fragment_set_notification"
-        tools:layout="@layout/fragment_set_notification" >
-    </fragment>
+        tools:layout="@layout/fragment_set_notification" />
     <fragment
-        android:id="@+id/addCategoryFragment"
-        android:name="org.sopt.havit.ui.share.AddCategoryFragment"
-        android:label="fragment_add_category"
-        tools:layout="@layout/fragment_add_category" >
+        android:id="@+id/enterCategoryTitleFragment"
+        android:name="org.sopt.havit.ui.share.EnterCategoryTitleFragment"
+        android:label="fragment_enter_category_title"
+        tools:layout="@layout/fragment_enter_category_title">
         <action
-            android:id="@+id/action_addCategoryFragment_to_chooseIconFragment"
+            android:id="@+id/action_enterCategoryTitleFragment_to_chooseIconFragment"
             app:destination="@id/chooseIconFragment" />
-        <action
-            android:id="@+id/action_addCategoryFragment_to_selectCategoryFragment"
-            app:destination="@id/selectCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/chooseIconFragment"
         android:name="org.sopt.havit.ui.share.ChooseIconFragment"
         android:label="fragment_choose_icon"
-        tools:layout="@layout/fragment_choose_icon" >
+        tools:layout="@layout/fragment_choose_icon">
         <argument
             android:name="category_title"
-            app:argType="string"
-            android:defaultValue="카테고리 제목" />
+            android:defaultValue="카테고리 제목"
+            app:argType="string" />
         <action
             android:id="@+id/action_chooseIconFragment_to_selectCategoryFragment"
-            app:destination="@id/selectCategoryFragment" />
-        <action
-            android:id="@+id/action_chooseIconFragment_to_addCategoryFragment"
-            app:destination="@id/addCategoryFragment" />
+            app:destination="@id/selectCategoryFragment"
+            app:popUpTo="@id/enterCategoryTitleFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/selectCategoryFragment"
         android:name="org.sopt.havit.ui.share.SelectCategoryFragment"
         android:label="fragment_select_category"
-        tools:layout="@layout/fragment_select_category" >
+        tools:layout="@layout/fragment_select_category">
         <action
             android:id="@+id/action_selectCategoryFragment_to_contentsSummeryFragment"
             app:destination="@id/contentsSummeryFragment" />
         <action
-            android:id="@+id/action_selectCategoryFragment_to_addCategoryFragment"
-            app:destination="@id/addCategoryFragment" />
+            android:id="@+id/action_selectCategoryFragment_to_enterCategoryTitleFragment"
+            app:destination="@id/enterCategoryTitleFragment" />
     </fragment>
     <fragment
         android:id="@+id/contentsSummeryFragment"
         android:name="org.sopt.havit.ui.share.ContentsSummeryFragment"
         android:label="fragment_contents_summery"
-        tools:layout="@layout/fragment_contents_summery" >
+        tools:layout="@layout/fragment_contents_summery">
         <argument
             android:name="contents_categoryIds"
-            app:argType="string"
-            android:defaultValue="" />
+            android:defaultValue=""
+            app:argType="string" />
         <action
             android:id="@+id/action_contentsSummeryFragment_to_setNotificationFragment"
-            app:popUpTo="@id/contentsSummeryFragment"
             app:destination="@id/setNotificationFragment" />
         <action
             android:id="@+id/action_contentsSummeryFragment_to_editTitleFragment"
-            app:popUpTo="@id/contentsSummeryFragment"
             app:destination="@id/editTitleFragment" />
-        <action
-            android:id="@+id/action_contentsSummeryFragment_to_selectCategoryFragment"
-            app:destination="@id/selectCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/editTitleFragment"
         android:name="org.sopt.havit.ui.share.EditTitleFragment"
         android:label="fragment_edit_title"
-        tools:layout="@layout/fragment_edit_title" >
+        tools:layout="@layout/fragment_edit_title">
         <argument
             android:name="contents_origin_title"
-            app:argType="string"
-            android:defaultValue="" />
-    </fragment>
-    <fragment
-        android:id="@+id/noCategoryFragment"
-        android:name="org.sopt.havit.ui.share.NoCategoryFragment"
-        android:label="fragment_no_category"
-        tools:layout="@layout/fragment_no_category" >
-        <action
-            android:id="@+id/action_noCategoryFragment_to_addCategoryFragment"
-            app:destination="@id/addCategoryFragment" />
-        <action
-            android:id="@+id/action_noCategoryFragment_to_selectCategoryFragment"
-            app:destination="@id/selectCategoryFragment" />
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
 </navigation>

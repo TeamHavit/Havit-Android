@@ -23,9 +23,8 @@ class DialogCategoryAddFragment : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDialogCategoryAddBinding.inflate(layoutInflater, container, false)
-
         return binding.root
     }
 
@@ -34,16 +33,14 @@ class DialogCategoryAddFragment : BottomSheetDialogFragment() {
         setBottomSheetHeight()
     }
 
-
     private fun setBottomSheetHeight() {
         (dialog as BottomSheetDialog).behavior.apply {
             state = BottomSheetBehavior.STATE_EXPANDED      // 높이 고정
             skipCollapsed = true                            // HALF_EXPANDED 안되게 설정
         }
 
-        // 휴대폰 화면의 0.94배 높이
         binding.bottomSheetAdd.layoutParams.height =
-            (resources.displayMetrics.heightPixels * 0.94).toInt()
+            (resources.displayMetrics.heightPixels * 0.94).toInt() // 휴대폰 화면의 0.94배 높이
     }
 
     override fun onDestroy() {

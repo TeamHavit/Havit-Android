@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="vmNotification"
+            type="org.sopt.havit.ui.notification.NotificationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,6 +15,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.notification.NotificationActivity">
 
+        <!-- 상단 바-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_topbar"
             android:layout_width="match_parent"
@@ -45,35 +49,63 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginVertical="10dp"
+            android:layout_marginStart="16dp"
+            app:checkedChip="@id/chip_will_alarm"
+            app:chipSpacingHorizontal="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cl_topbar">
+            app:layout_constraintTop_toBottomOf="@+id/cl_topbar"
+            app:selectionRequired="true"
+            app:singleSelection="true">
 
-            <TextView
-                android:id="@+id/tv_no_alarm"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_will_alarm"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/notification_no_alarm"
-                android:textAppearance="@style/Text14Medium"
-                android:textColor="@color/gray_2"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:checked="true"
+                android:paddingVertical="7dp"
+                android:text="@string/notification_will_alarm"
+                android:textAppearance="@style/Text12Semibold"
+                android:textColor="@color/selector_chip_text"
+                app:chipBackgroundColor="@color/selector_chip"
+                app:chipMinTouchTargetSize="0dp"
+                app:textEndPadding="14dp"
+                app:textStartPadding="14dp" />
 
-            <ImageView
-                android:id="@+id/iv_no_alarm"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_done_alarm"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_noalarm"
-                android:layout_marginTop="23dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_no_alarm" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:paddingVertical="7dp"
+                android:text="@string/notification_done_alarm"
+                android:textAppearance="@style/Text12Semibold"
+                android:textColor="@color/selector_chip_text"
+                app:chipBackgroundColor="@color/selector_chip"
+                app:chipMinTouchTargetSize="0dp"
+                app:textEndPadding="14dp"
+                app:textStartPadding="14dp" />
+        </com.google.android.material.chip.ChipGroup>
 
+        <View
+            android:id="@+id/line_between_chip_rv"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray_0"
+            app:layout_constraintTop_toBottomOf="@id/cg_status" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/line_between_chip_rv" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,45 +1,51 @@
 package org.sopt.havit.ui.search
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ItemContentsSearchBinding
-import org.sopt.havit.ui.contents.ContentsMoreFragment
-import org.sopt.havit.ui.contents_simple.ContentsSimpleRvAdapter
-import org.sopt.havit.ui.web.WebActivity
 
-class SearchContentsAdapter(searchViewModel: SearchViewModel, fragmentManager: FragmentManager) :
+class SearchContentsAdapter :
     RecyclerView.Adapter<SearchContentsAdapter.SearchContentsViewHolder>() {
 
-    private var searchContents = mutableListOf<ContentsSearchResponse.Data>()
+    var searchContents = mutableListOf<ContentsSearchResponse.Data>()
     private var isRead = false
-    private var viewModel = searchViewModel
 
-    private lateinit var itemClickListener: OnItemClickListener
+    private lateinit var itemClickListener: OnItemClickListener // 콘텐츠 아이템 클릭리스너
+    private lateinit var itemSettingClickListener: OnItemSettingClickListener // 더보기 아이템 클릭리스너
+    private lateinit var itemHavitClickListener: OnItemHavitClickListener // 해빗하기 클릭 리스너
 
     interface OnItemClickListener {
-        fun onClick(v: View, position: Int)
+        fun onClick(v: View, data: ContentsSearchResponse.Data)
     }
 
-    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
-        this.itemClickListener = onItemClickListener
+    fun setItemClickListener(listener: OnItemClickListener) {
+        this.itemClickListener = listener
+    }
+
+    interface OnItemSettingClickListener {
+        fun onSettingClick(v: View, data: ContentsSearchResponse.Data, pos: Int)
+    }
+
+    fun setItemSettingClickListener(listener: OnItemSettingClickListener) {
+        this.itemSettingClickListener = listener
+    }
+
+    interface OnItemHavitClickListener {
+        fun onHavitClick(v: View, data: ContentsSearchResponse.Data, pos: Int)
+    }
+
+    fun setItemHavitClickListener(listener: OnItemHavitClickListener) {
+        this.itemHavitClickListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchContentsViewHolder {
         val binding =
             ItemContentsSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        binding.vm = viewModel
         return SearchContentsViewHolder(binding)
     }
-
-    private var mFragmentManager: FragmentManager = fragmentManager
-
 
     override fun onBindViewHolder(holder: SearchContentsViewHolder, position: Int) {
         holder.bind(position, searchContents[position])
@@ -59,44 +65,19 @@ class SearchContentsAdapter(searchViewModel: SearchViewModel, fragmentManager: F
     ) {
         fun bind(position: Int, data: ContentsSearchResponse.Data) {
             binding.content = data
-            contentsHavitClick(position, data)
+            contentsClick(position, data)
             isRead = data.isSeen
         }
 
-        fun contentsHavitClick(position: Int, data: ContentsSearchResponse.Data) {
+        private fun contentsClick(position: Int, data: ContentsSearchResponse.Data) {
             binding.ivHavit.setOnClickListener {
-                if (it.tag == "seen") {
-                    Glide.with(binding.ivHavit.context)
-                        .load(R.drawable.ic_contents_unread)
-                        .into(binding.ivHavit)
-                    it.tag = "unseen"
-                    viewModel.setIsSeen(data.id)
-                    viewModel.setHavitToast(false)
-                    isRead = false
-                } else {
-                    Glide.with(binding.ivHavit.context)
-                        .load(R.drawable.ic_contents_read_2)
-                        .into(binding.ivHavit)
-                    it.tag = "seen"
-                    viewModel.setIsSeen(data.id)
-                    viewModel.setHavitToast(true)
-                    isRead = true
-                }
+                itemHavitClickListener.onHavitClick(it, data, position)
             }
             binding.clSearchItem.setOnClickListener {
-                isRead = data.isSeen
-                var intent = Intent(it.context, WebActivity::class.java)
-                intent.putExtra("url", data.url)
-                intent.putExtra("isSeen", isRead)
-                intent.putExtra("contentsId", data.id)
-                it.context.startActivity(intent)
+                itemClickListener.onClick(it, data)
             }
             binding.ivSetting.setOnClickListener {
-                // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
-                val removeItem: (Int) -> Unit = {
-                    notifyItemRemoved(it)
-                }
-                ContentsMoreFragment(data, removeItem, position).show(mFragmentManager, "setting")
+                itemSettingClickListener.onSettingClick(it, data, position)
             }
         }
     }
