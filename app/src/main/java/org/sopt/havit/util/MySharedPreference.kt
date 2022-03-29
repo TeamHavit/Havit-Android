@@ -10,19 +10,6 @@ object MySharedPreference {
     private const val CONTENTS_TITLE = "TITLE"
     private const val NOTI_TIME = "notification_time"
 
-    fun setHavit(context: Context, isHavit: Boolean) {
-        val prefs: SharedPreferences =
-            context.getSharedPreferences(STORAGE_KEY, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = prefs.edit()
-        editor.putBoolean("isHavit", isHavit)
-        editor.apply()
-    }
-
-    fun getHavit(context: Context): Boolean {
-        val prefs: SharedPreferences =
-            context.getSharedPreferences(STORAGE_KEY, Context.MODE_PRIVATE)
-        return prefs.getBoolean("isHavit", false)
-    }
 
     fun setTitle(context: Context, title: String) {
         val prefs: SharedPreferences =

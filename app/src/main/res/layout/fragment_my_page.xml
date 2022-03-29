@@ -271,7 +271,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="23dp"
             android:layout_marginBottom="26dp"
-            android:scaleType="fitXY"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
             app:layout_constraintEnd_toEndOf="@+id/ib_my_page_setting"
             app:layout_constraintStart_toStartOf="@+id/tv_my_page_description"
