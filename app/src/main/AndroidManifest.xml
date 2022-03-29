@@ -79,7 +79,7 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ShareActivity"
+            android:name=".ui.share.ShareActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
