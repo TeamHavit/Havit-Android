@@ -60,7 +60,7 @@ dependencies {
     implementation 'androidx.browser:browser:1.4.0'
 
     //kakao
-    implementation "com.kakao.sdk:v2-user:2.3.0" // 카카오 로그인
+    implementation "com.kakao.sdk:v2-user:2.5.0" // 카카오 로그인
     implementation "com.kakao.sdk:v2-talk:2.3.0" // 친구, 메시지(카카오톡)
     implementation "com.kakao.sdk:v2-story:2.3.0" // 카카오스토리
     implementation "com.kakao.sdk:v2-link:2.3.0" // 메시지(카카오링크)

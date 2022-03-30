@@ -19,7 +19,8 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.mypage.ContentsFromMyPageActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.category.CategoryAddActivity"
             android:configChanges="orientation"
@@ -78,7 +79,7 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ShareActivity"
+            android:name=".ui.share.ShareActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -92,7 +93,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.kakao.SignInActivity"
+            android:name=".ui.sign.SignInActivity"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait">
@@ -102,6 +108,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
+                <!-- Redirect URI: "kakao{NATIVE_APP_KEY}://oauth“ -->
                 <data
                     android:host="oauth"
                     android:scheme="kakao6069fb41c205cbbf8f213b32eec7f2c8" />
