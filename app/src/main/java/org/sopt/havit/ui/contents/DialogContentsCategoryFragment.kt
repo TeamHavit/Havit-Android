@@ -1,12 +1,10 @@
 package org.sopt.havit.ui.contents
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.view.animation.Animation
@@ -68,13 +66,6 @@ class DialogContentsCategoryFragment(
     override fun onResume() {
         super.onResume()
         setTopSheetAttribute() // 크기 지정은 onResume에서 해야함
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        val fadeAnim: Animation =
-            AnimationUtils.loadAnimation(requireContext(), R.anim.slide_back_to_top)
-        binding.rvCategoryList.startAnimation(fadeAnim)
     }
 
     private fun initAdapter() {
@@ -142,9 +133,9 @@ class DialogContentsCategoryFragment(
         params.height = WindowManager.LayoutParams.WRAP_CONTENT
 
         // 리사이클러뷰에 대해 애니메이션 설정
-        val fadeAnim: Animation =
+        val fadeInAnim: Animation =
             AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_from_top)
-        binding.rvCategoryList.startAnimation(fadeAnim)
+        binding.rvCategoryList.startAnimation(fadeInAnim)
         //params.windowAnimations = R.style.TopSheet_DialogAnimation // 다이얼로그 전체에 애니메이션 적용
         dialog!!.window!!.attributes = params
     }
