@@ -122,6 +122,7 @@ obj/
 .idea/navEditor.xml
 .idea/discord.xml
 .idea/git_toolbox_prj.xml
+.idea/deploymentTargetDropDown.xml
 
 # OS-specific files
 .DS_Store
