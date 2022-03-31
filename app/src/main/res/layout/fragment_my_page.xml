@@ -133,6 +133,8 @@
                     android:id="@+id/tv_save_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    tools:text="30"
                     android:text="@{String.valueOf(vm.user.totalContentNumber)}"
                     android:textAppearance="@style/Header20Semibold"
                     android:textColor="@color/gray_4"
@@ -190,11 +192,13 @@
                     android:id="@+id/tv_category_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:text="@{String.valueOf(vm.user.totalCategoryNumber)}"
                     android:textAppearance="@style/Header20Semibold"
                     android:textColor="@color/gray_4"
                     app:layout_constraintStart_toStartOf="@+id/tv_category_title"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_category_title" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_category_title"
+                    tools:text="21" />
 
                 <TextView
                     android:id="@+id/tv_category_count_title"
@@ -245,9 +249,11 @@
                     android:id="@+id/tv_check_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:text="@{String.valueOf(vm.user.totalSeenContentNumber)}"
                     android:textAppearance="@style/Header20Semibold"
                     android:textColor="@color/gray_4"
+                    tools:text="20"
                     app:layout_constraintStart_toStartOf="@+id/tv_check_title"
                     app:layout_constraintTop_toBottomOf="@+id/tv_check_title" />
 
