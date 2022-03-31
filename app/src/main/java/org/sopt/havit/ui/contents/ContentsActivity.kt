@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.R
+import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
@@ -23,6 +24,7 @@ import org.sopt.havit.util.CustomToast
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
     private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(this) }
+    private val categoryList = ArrayList<CategoryResponse.AllCategoryData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +63,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             contentsViewModel.requestContentsAllTaken(contentsOption, contentsFilter, categoryName)
         } else {
             contentsViewModel.requestContentsTaken(categoryId, contentsOption, contentsFilter, categoryName)
+            contentsViewModel.requestCategoryTaken()
         }
     }
 
@@ -78,11 +81,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun setData() {
-        categoryId = intent.getIntExtra("categoryId", 0)
-        if (categoryId == -1) {
-            binding.tvModify.visibility = GONE
-            binding.ivCategoryDrop.visibility = GONE
-        }
+        categoryId = intent.getIntExtra("categoryId", 0).also {binding.categoryId = it}
         intent.getStringExtra("categoryName")?.let {
             categoryName = it
         }
@@ -132,6 +131,12 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             contentsList.observe(this@ContentsActivity) {
                 // 콘텐츠 데이터 업데이트
                 contentsAdapter.submitList(it.toList())
+            }
+
+            // 카테고리 제목
+            contentsCategoryList.observe(this@ContentsActivity) {
+                for (item in contentsCategoryList.value!!)
+                    categoryList.add(item)
             }
         }
     }
@@ -211,8 +216,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun setCategoryListDialog() {
         binding.clCategory.setOnClickListener {
-            binding.ivCategoryDrop.setImageResource(R.drawable.ic_dropback_black)
-            DialogContentsCategoryFragment().show(supportFragmentManager, "categoryList")
+            DialogContentsCategoryFragment(categoryList, categoryName).show(supportFragmentManager, "categoryList")
         }
     }
 

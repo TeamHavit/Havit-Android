@@ -1,27 +1,39 @@
 package org.sopt.havit.ui.contents
 
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
+import android.util.TypedValue
+import android.view.*
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
+import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentDialogContentsCategoryBinding
 
-class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
+
+class DialogContentsCategoryFragment(
+    private val categoryList: ArrayList<CategoryResponse.AllCategoryData>,
+    private val categoryName: String
+) : DialogFragment() {
     private var _binding: FragmentDialogContentsCategoryBinding? = null
     val binding get() = _binding!!
     private var _contentsCategoryAdapter: ContentsCategoryAdapter? = null
     private val contentsCategoryAdapter get() = _contentsCategoryAdapter ?: error("adapter error")
 
-    private val contentsCategoryViewModel: ContentsCategoryViewModel by lazy { ContentsCategoryViewModel(requireContext()) }
+    private val contentsCategoryViewModel: ContentsCategoryViewModel by lazy {
+        ContentsCategoryViewModel(
+            requireContext()
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,17 +51,30 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
 
         initAdapter()
         setData()
-        dataObserve()
         decorationView()
         clickCategory()
+        clickDialogClose()
+        clickBack()
+        initTopSheet()
+
         return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("dialogDestroy", "success")
-        requireActivity().findViewById<ImageView>(R.id.iv_category_drop).setImageResource(R.drawable.ic_drop_black)
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setTopSheetAttribute() // 크기 지정은 onResume에서 해야함
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        val fadeAnim: Animation =
+            AnimationUtils.loadAnimation(requireContext(), R.anim.slide_back_to_top)
+        binding.rvCategoryList.startAnimation(fadeAnim)
     }
 
     private fun initAdapter() {
@@ -58,16 +83,9 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
     }
 
     private fun setData() {
-        contentsCategoryViewModel.requestCategoryTaken()
-    }
-
-    private fun dataObserve() {
-        with(contentsCategoryViewModel) {
-            contentsCategoryList.observe(viewLifecycleOwner) {
-                contentsCategoryAdapter.contentsCategoryList.addAll(it)
-                contentsCategoryAdapter.notifyDataSetChanged()
-            }
-        }
+        binding.tvCategory.text = categoryName
+        contentsCategoryAdapter.contentsCategoryList.addAll(categoryList)
+        contentsCategoryAdapter.notifyDataSetChanged()
     }
 
     private fun decorationView() {
@@ -79,13 +97,14 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
         )
     }
 
+    // 클릭한 카테고리로 이동
     private fun clickCategory() {
         contentsCategoryAdapter.setItemCategoryClickListener(object :
             ContentsCategoryAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 val intent = Intent(requireActivity(), ContentsActivity::class.java)
-                contentsCategoryViewModel.contentsCategoryList.value?.get(position)
-                    ?.let {
+                contentsCategoryAdapter.contentsCategoryList[position]
+                    .let {
                         intent.putExtra("categoryId", it.id)
                         intent.putExtra("categoryName", it.title)
                     }
@@ -93,5 +112,49 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
                 requireActivity().finish()
             }
         })
+    }
+
+    // 다이얼로그 닫을 때
+    private fun clickDialogClose(){
+        binding.tvClose.setOnClickListener { this.dismiss() }
+        binding.clCategory.setOnClickListener { this.dismiss() }
+    }
+
+    // 콘텐츠 뷰 뒤로가기 시
+    private fun clickBack(){
+        binding.ivBack.setOnClickListener { requireActivity().finish() }
+    }
+
+    // TopSheetDialog 초기화
+    private fun initTopSheet() {
+        val window = dialog!!.window
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // 여백 제거
+        window?.setGravity(Gravity.TOP) // 위치 조정
+        val windowParams = window!!.attributes
+        //windowParams.y = dpToPx(requireContext(), 59).toInt() // 상단바 크기만큼 y위치 지정
+    }
+
+    // 크기, 애니메이션 설정
+    private fun setTopSheetAttribute() {
+        // 크기 조정
+        val params = dialog!!.window!!.attributes
+        params.width = WindowManager.LayoutParams.MATCH_PARENT
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT
+
+        // 리사이클러뷰에 대해 애니메이션 설정
+        val fadeAnim: Animation =
+            AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_from_top)
+        binding.rvCategoryList.startAnimation(fadeAnim)
+        //params.windowAnimations = R.style.TopSheet_DialogAnimation // 다이얼로그 전체에 애니메이션 적용
+        dialog!!.window!!.attributes = params
+    }
+
+    // dp를 px로 바꿔주는 함수
+    private fun dpToPx(context: Context, dp: Int): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp.toFloat(),
+            context.resources.displayMetrics
+        )
     }
 }
