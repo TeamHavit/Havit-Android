@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="org.sopt.havit.ui.contents.ContentsViewModel" />
@@ -40,50 +41,51 @@
             android:id="@+id/cv_more"
             android:layout_width="63dp"
             android:layout_height="63dp"
-            app:cardCornerRadius="4dp"
             android:layout_marginStart="19dp"
             android:layout_marginTop="29dp"
+            app:cardCornerRadius="4dp"
             app:cardElevation="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_more">
 
             <ImageView
                 android:id="@+id/iv_more"
+                imageSearch="@{vm.contentsMore.image}"
                 android:layout_width="63dp"
                 android:layout_height="63dp"
-                android:scaleType="centerCrop"
-                imageSearch="@{vm.contentsMore.image}" />
+                android:scaleType="centerCrop" />
         </androidx.cardview.widget.CardView>
 
 
         <TextView
-            android:id="@+id/tv_more_discription"
+            android:id="@+id/tv_more_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="13dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="24dp"
-            android:maxLines="2"
             android:ellipsize="end"
+            android:maxLines="2"
             android:text="@{vm.contentsMore.title}"
-            android:textAppearance="@style/Text14Semibold"
+            android:textAppearance="@style/Text14SemiboldLineSpacing"
             android:textColor="@color/gray_3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/cv_more"
             app:layout_constraintTop_toTopOf="@+id/cv_more"
-            tools:text="헤드라인입니다. 이것은 헤더라인입니당당 헤드라인 냥냥 넘어가면 점점점 처리합시당당 이것은 헤더라인입니당당 헤드라인 냥냥 넘어가면 점점점 처리합시당당"/>
+            tools:text="헤드라인입니다. 이것은 헤더라인입니당당 헤드라인 냥냥 넘어가면 점점점 처리합시당당 이것은 헤더라인입니당당 헤드라인 냥냥 넘어가면 점점점 처리합시당당" />
 
         <TextView
             android:id="@+id/tv_edit_create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="9dp"
             android:text="@{vm.contentsMore.createdAt}"
             android:textAppearance="@style/Mini9Regular"
-            android:layout_marginBottom="9dp"
             android:textColor="@color/gray_2"
             app:layout_constraintBottom_toBottomOf="@+id/cv_more"
-            app:layout_constraintStart_toStartOf="@+id/tv_more_discription"
-            tools:text="2021. 11. 24"/>
+            app:layout_constraintStart_toStartOf="@+id/tv_more_title"
+            tools:text="2021. 11. 24" />
 
         <TextView
             android:id="@+id/tv_dot"
@@ -111,7 +113,7 @@
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintBottom_toBottomOf="@+id/tv_dot"
-            app:layout_constraintEnd_toEndOf="@+id/tv_more_discription"
+            app:layout_constraintEnd_toEndOf="@+id/tv_more_title"
             app:layout_constraintStart_toEndOf="@+id/tv_dot"
             app:layout_constraintTop_toTopOf="@+id/tv_dot"
             tools:text="www.brunch.com.dididididididdidididdiddidiiidididididididididid" />
@@ -139,8 +141,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
                 android:text="@string/contents_edit_title"
-                android:textColor="@color/havit_gray"
                 android:textAppearance="@style/Text16Regular"
+                android:textColor="@color/havit_gray"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView3"
                 app:layout_constraintStart_toEndOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="@+id/imageView3" />
@@ -173,8 +175,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
                 android:text="@string/contents_edit_share"
-                android:textColor="@color/havit_gray"
                 android:textAppearance="@style/Text16Regular"
+                android:textColor="@color/havit_gray"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_edit_share"
                 app:layout_constraintStart_toEndOf="@+id/iv_edit_share"
                 app:layout_constraintTop_toTopOf="@+id/iv_edit_share" />
@@ -206,9 +208,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
-                android:textColor="@color/havit_gray"
                 android:text="@string/contents_edit_category_move"
                 android:textAppearance="@style/Text16Regular"
+                android:textColor="@color/havit_gray"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_edit_move"
                 app:layout_constraintStart_toEndOf="@+id/iv_edit_move"
                 app:layout_constraintTop_toTopOf="@+id/iv_edit_move" />
@@ -242,8 +244,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
                 android:text="@string/contents_edit_alarm"
-                android:textColor="@color/havit_gray"
                 android:textAppearance="@style/Text16Regular"
+                android:textColor="@color/havit_gray"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_edit_alarm"
                 app:layout_constraintStart_toEndOf="@+id/iv_edit_alarm"
                 app:layout_constraintTop_toTopOf="@+id/iv_edit_alarm" />
@@ -279,8 +281,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
                 android:text="@string/contents_edit_delete"
-                android:textColor="@color/havit_red"
                 android:textAppearance="@style/Text16Regular"
+                android:textColor="@color/havit_red"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_edit_delete"
                 app:layout_constraintStart_toEndOf="@+id/iv_edit_delete"
                 app:layout_constraintTop_toTopOf="@+id/iv_edit_delete" />
