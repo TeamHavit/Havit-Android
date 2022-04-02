@@ -35,7 +35,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         setCategoryInfo()
         initValue()
-        setSeenContents()
         initAdapter()
         dataObserve()
         changeLayout()
@@ -85,13 +84,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         // 레이아웃 초기화
         layout = LINEAR_MIN_LAYOUT
         // 옵션 및 필터 초기화, 카테고리아이디가 -2이면 확인한 콘텐츠만 확인
-        contentsOption = if (categoryId == -2) "true".also { setSeenContents() } else "all"
+        contentsOption = if (categoryId == -2) "true" else "all"
         contentsFilter = "created_at"
-    }
-
-    // 확인한 콘텐츠 임을 명시
-    private fun setSeenContents() {
-        binding.chSeen.isChecked = true
     }
 
     private fun setCategoryName() {
