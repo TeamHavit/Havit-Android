@@ -33,9 +33,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         setContentView(binding.root)
 
-        initData()
+        setCategoryInfo()
+        initValue()
+        setSeenContents()
         initAdapter()
-        setData()
         dataObserve()
         changeLayout()
         clickBack()
@@ -59,7 +60,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun setContentsData() {
-        if (categoryId == -1) {
+        if (categoryId <= -1) {
             contentsViewModel.requestContentsAllTaken(contentsOption, contentsFilter, categoryName)
         } else {
             contentsViewModel.requestContentsTaken(categoryId, contentsOption, contentsFilter, categoryName)
@@ -72,29 +73,34 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         binding.rvContents.adapter = contentsAdapter
     }
 
-    private fun initData() {
-        // 레이아웃 초기화
-        layout = LINEAR_MIN_LAYOUT
-        // 옵션 및 필터 초기화
-        contentsOption = "all"
-        contentsFilter = "created_at"
-    }
-
-    private fun setData() {
-        categoryId = intent.getIntExtra("categoryId", 0).also {binding.categoryId = it}
+    private fun setCategoryInfo() {
+        categoryId = intent.getIntExtra("categoryId", 0).also { binding.categoryId = it }
         intent.getStringExtra("categoryName")?.let {
             categoryName = it
         }
         setCategoryName()
     }
 
-    private fun setCategoryName(){
+    private fun initValue() {
+        // 레이아웃 초기화
+        layout = LINEAR_MIN_LAYOUT
+        // 옵션 및 필터 초기화, 카테고리아이디가 -2이면 확인한 콘텐츠만 확인
+        contentsOption = if (categoryId == -2) "true".also { setSeenContents() } else "all"
+        contentsFilter = "created_at"
+    }
+
+    // 확인한 콘텐츠 임을 명시
+    private fun setSeenContents() {
+        binding.chSeen.isChecked = true
+    }
+
+    private fun setCategoryName() {
         contentsViewModel.setCategoryName(categoryName)
     }
 
     // 삭제된 카테고리라면 종료하는 함수
-    private fun deletedCategory(){
-        if(isDelete){
+    private fun deletedCategory() {
+        if (isDelete) {
             isDelete = false
             finish()
             CustomToast.showTextToast(this, "카테고리가 삭제되었습니다")
@@ -216,7 +222,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun setCategoryListDialog() {
         binding.clCategory.setOnClickListener {
-            DialogContentsCategoryFragment(categoryList, categoryName).show(supportFragmentManager, "categoryList")
+            DialogContentsCategoryFragment(categoryList, categoryName).show(
+                supportFragmentManager,
+                "categoryList"
+            )
         }
     }
 
@@ -307,7 +316,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 with(contentsAdapter) {
                     // 보지 않았던 콘텐츠의 경우 콘텐츠를 봤다는 토스트 띄우기
                     if (!currentList[position].isSeen) {
-                        CustomToast.showDesignatedToast(this@ContentsActivity, R.layout.toast_havit_complete)
+                        CustomToast.showDesignatedToast(
+                            this@ContentsActivity,
+                            R.layout.toast_havit_complete
+                        )
                     }
 
                     currentList[position].isSeen = !currentList[position].isSeen
