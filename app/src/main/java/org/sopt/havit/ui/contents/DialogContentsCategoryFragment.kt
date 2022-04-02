@@ -27,12 +27,6 @@ class DialogContentsCategoryFragment(
     private var _contentsCategoryAdapter: ContentsCategoryAdapter? = null
     private val contentsCategoryAdapter get() = _contentsCategoryAdapter ?: error("adapter error")
 
-    private val contentsCategoryViewModel: ContentsCategoryViewModel by lazy {
-        ContentsCategoryViewModel(
-            requireContext()
-        )
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,7 +39,6 @@ class DialogContentsCategoryFragment(
             container,
             false
         )
-        binding.contentsCategoryViewModel = contentsCategoryViewModel
 
         initAdapter()
         setData()
@@ -75,6 +68,7 @@ class DialogContentsCategoryFragment(
 
     private fun setData() {
         binding.tvCategory.text = categoryName
+        binding.categoryCount = categoryList.size
         contentsCategoryAdapter.contentsCategoryList.addAll(categoryList)
         contentsCategoryAdapter.notifyDataSetChanged()
     }
