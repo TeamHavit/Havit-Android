@@ -62,7 +62,7 @@ class EnterCategoryTitleFragment :
     }
 
     private fun toolbarClickListener() {
-        binding.icBack.setOnClickListener { findNavController().backStack }
+        binding.icBack.setOnClickListener { findNavController().popBackStack() }
         binding.icClose.setOnClickListener { requireActivity().finish() }
     }
 

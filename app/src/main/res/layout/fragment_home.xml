@@ -128,7 +128,7 @@
                     android:layout_marginTop="13dp"
                     android:layout_marginBottom="13dp"
                     android:background="@drawable/rectangle_white_radius_6"
-                    android:elevation="11dp"
+                    android:elevation="9dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cl_popup">

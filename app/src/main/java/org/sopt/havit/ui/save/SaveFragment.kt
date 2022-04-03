@@ -18,8 +18,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
-import org.sopt.havit.ShareActivity
 import org.sopt.havit.databinding.FragmentSaveBinding
+import org.sopt.havit.ui.share.ShareActivity
 import org.sopt.havit.util.KeyBoardHeightProvider
 import org.sopt.havit.util.KeyBoardUtil
 import java.net.URL
