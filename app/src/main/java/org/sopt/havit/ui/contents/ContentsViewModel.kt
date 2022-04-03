@@ -19,7 +19,7 @@ class ContentsViewModel(context: Context) : ViewModel() {
     private val _contentsList = MutableLiveData<List<ContentsResponse.ContentsData>>()
     val contentsList: LiveData<List<ContentsResponse.ContentsData>> = _contentsList
 
-    private val _contentsCount = MutableLiveData<Int>()
+    private val _contentsCount = MutableLiveData(-1)
     val contentsCount: LiveData<Int> = _contentsCount
 
     private val _categoryName = MutableLiveData<String>()

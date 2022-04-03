@@ -62,8 +62,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         if (categoryId <= -1) {
             contentsViewModel.requestContentsAllTaken(contentsOption, contentsFilter, categoryName)
         } else {
-            contentsViewModel.requestContentsTaken(categoryId, contentsOption, contentsFilter, categoryName)
             contentsViewModel.requestCategoryTaken()
+            contentsViewModel.requestContentsTaken(categoryId, contentsOption, contentsFilter, categoryName)
         }
     }
 
@@ -112,19 +112,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                     } else {
                         sflContents.stopShimmer()
                         sfLCount.stopShimmer()
-                    }
-                }
-            }
-
-            contentsCount.observe(this@ContentsActivity) {
-                // 콘텐츠 개수에 따른 visibility 조정
-                with(binding) {
-                    if (it == 0) {
-                        rvContents.visibility = GONE
-                        clEmpty.visibility = VISIBLE
-                    } else {
-                        rvContents.visibility = VISIBLE
-                        clEmpty.visibility = GONE
                     }
                 }
             }
