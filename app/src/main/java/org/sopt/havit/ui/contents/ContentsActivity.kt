@@ -252,7 +252,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 }
                 // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
                 val removeItem: (Int) -> Unit = {
-                    contentsAdapter.notifyItemRemoved(it)
+                    val list = contentsAdapter.currentList.toMutableList() // mutable로 해주어야 삭제(수정) 가능
+                    list.removeAt(it)
+                    // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
+                    contentsViewModel.updateContentsList(list)
                     contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
                 }
                 val dialog = ContentsMoreFragment(dataMore, removeItem, position)

@@ -108,4 +108,8 @@ class ContentsViewModel(context: Context) : ViewModel() {
     fun setCategoryName(name: String) {
         _categoryName.value = name
     }
+
+    fun updateContentsList(list: List<ContentsResponse.ContentsData>){
+        _contentsList.value = list
+    }
 }
