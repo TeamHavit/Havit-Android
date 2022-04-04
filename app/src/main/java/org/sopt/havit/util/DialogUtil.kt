@@ -1,5 +1,6 @@
 package org.sopt.havit.util
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,10 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
     private var _binding: DialogHavitUtilBinding? = null
     val binding get() = _binding!!
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return Dialog(requireContext(), R.style.DisableDialogBackground)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
@@ -22,6 +27,8 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setLayout(view)
         setTitle()
         setDescription()
         setConfirmText()
@@ -30,20 +37,8 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
         clickConfirmListener()
     }
 
-    override fun onStart() {
-        super.onStart()
-        setLayout()
-    }
-
-    private fun setLayout() {
-        requireNotNull(dialog).apply {
-            requireNotNull(window).apply {
-                setLayout(
-                    (resources.displayMetrics.widthPixels * 0.88).toInt(),  // width
-                    ViewGroup.LayoutParams.WRAP_CONTENT     // height
-                )
-            }
-        }
+    private fun setLayout(view: View) {
+        view.layoutParams.width = (resources.displayMetrics.widthPixels * 0.88).toInt()
     }
 
     private fun setTitle() {
@@ -82,7 +77,6 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
     }
 
     private fun setConfirmBackground() {
-        binding.btnCancel.background
         when (dialogMode) {
             CANCEL_EDIT_CATEGORY, CANCEL_SAVE_CONTENTS, CANCEL_EDIT_TITLE, CANCEL_SET_NOTIFICATION
             -> binding.btnConfirm.setBackgroundResource(R.drawable.rectangle_havit_red_bottom_right_radius_8)

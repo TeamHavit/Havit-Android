@@ -1,9 +1,8 @@
-package org.sopt.havit
+package org.sopt.havit.ui.share
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import org.sopt.havit.databinding.ActivityShareBinding
-import org.sopt.havit.ui.share.BottomSheetShareFragment
 import org.sopt.havit.util.MySharedPreference
 
 class ShareActivity : AppCompatActivity() {
@@ -29,17 +28,17 @@ class ShareActivity : AppCompatActivity() {
         }
     }
 
-    private fun moveToLogin(){
+    private fun moveToLogin() {
 
     }
 
-    private fun startShareProcess(){
+    private fun startShareProcess() {
         val bottomSheet = BottomSheetShareFragment()
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
     private fun setToken() {
-        if (MySharedPreference.getXAuthToken(this) == ""){
+        if (MySharedPreference.getXAuthToken(this) == "") {
             MySharedPreference.setXAuthToken(this)
         }
     }
