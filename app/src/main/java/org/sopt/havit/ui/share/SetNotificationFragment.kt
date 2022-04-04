@@ -58,10 +58,15 @@ class SetNotificationFragment :
             TWO_HOUR -> cal.add(Calendar.HOUR, 2)
             THREE_HOUR -> cal.add(Calendar.HOUR, 3)
             TWENTY_FOUR_HOUR -> cal.add(Calendar.DATE, 1)
-            else -> cal.add(Calendar.MINUTE, 1)
+            else -> showPickerFragment()
         }
         Log.d("After  change : ", df.format(cal.time))
         notificationTime = df.format(cal.time)
+    }
+
+    private fun showPickerFragment() {
+        val bottomSheet = PickerFragment()
+        bottomSheet.show(childFragmentManager, bottomSheet.tag)
     }
 
 

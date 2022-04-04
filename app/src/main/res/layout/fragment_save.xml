@@ -80,18 +80,21 @@
             android:backgroundTint="@null"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:hint="@string/url_hint"
             android:inputType="textMultiLine"
             android:maxLines="6"
-            android:padding="12dp"
-            android:paddingHorizontal="12dp"
+            android:paddingVertical="12dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="38dp"
             android:scrollbars="vertical"
             android:textAppearance="@style/Sub13Regular"
             android:textColor="@color/gray_4"
-            android:textCursorDrawable="@drawable/rectangle_havit_purple_cursor"
+            android:theme="@style/PurpleEditTextStyle"
             android:windowSoftInputMode="stateVisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_save_info1"
-            app:layout_constraintTop_toBottomOf="@+id/tv_save_info1" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_save_info1"
+            tools:ignore="TextFields" />
 
         <ImageView
             android:id="@+id/iv_save_url_text_delete"

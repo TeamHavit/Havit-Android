@@ -194,6 +194,14 @@
         <item name="android:lineSpacingExtra">5sp</item>
     </style>
 
+    <style name="Text14SemiboldLineSpacing">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">-0.014</item>
+        <item name="android:lineSpacingExtra">15sp</item>
+    </style>
+
     <style name="Text14Medium">
         <item name="android:fontFamily">@font/pretendard_medium</item>
         <item name="android:textStyle">normal</item>

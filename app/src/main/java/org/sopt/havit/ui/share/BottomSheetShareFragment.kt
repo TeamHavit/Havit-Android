@@ -59,6 +59,7 @@ class BottomSheetShareFragment : BottomSheetDialogFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        _binding = null
         requireActivity().finish()
     }
 }
