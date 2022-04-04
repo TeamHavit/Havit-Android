@@ -68,7 +68,16 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                 categoryAdapter.notifyDataSetChanged()
             }
             categoryCount.observe(viewLifecycleOwner) {
-                binding.categoryCount = it
+                with(binding) {
+                    if (it < 0) {
+                        sflCategory.startShimmer()
+                        sflCount.startShimmer()
+                    } else {
+                        sflCategory.stopShimmer()
+                        sflCount.stopShimmer()
+                    }
+                    categoryCount = it
+                }
             }
         }
     }
