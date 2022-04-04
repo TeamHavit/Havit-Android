@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.R
@@ -12,6 +11,7 @@ import org.sopt.havit.databinding.ActivityContentsSimpleBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.web.WebActivity
+import org.sopt.havit.util.CustomToast
 
 class ContentsSimpleActivity :
     BaseBindingActivity<ActivityContentsSimpleBinding>(R.layout.activity_contents_simple) {
@@ -39,18 +39,14 @@ class ContentsSimpleActivity :
         setContents()
     }
 
-    private fun setCustomToast() {
-        val toast = Toast(this)
-        val view = layoutInflater.inflate(R.layout.toast_havit_complete, null)
-        toast.view = view
-        toast.show()
-    }
-
     private fun setToast() {
         contentsAdapter.setHavitClickListener(object :
             ContentsSimpleRvAdapter.OnHavitClickListener {
             override fun onHavitClick() {
-                setCustomToast()
+                CustomToast.showDesignatedToast(
+                    this@ContentsSimpleActivity,
+                    R.layout.toast_havit_complete
+                )
             }
         })
     }
@@ -68,7 +64,8 @@ class ContentsSimpleActivity :
     }
 
     private fun initAdapter() {
-        contentsAdapter = ContentsSimpleRvAdapter(contentsViewModel, supportFragmentManager, contentsType)
+        contentsAdapter =
+            ContentsSimpleRvAdapter(contentsViewModel, supportFragmentManager, contentsType)
         binding.rvContents.adapter = contentsAdapter
     }
 
