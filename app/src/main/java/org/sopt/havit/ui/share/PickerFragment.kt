@@ -45,7 +45,6 @@ class PickerFragment : BottomSheetDialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        requireActivity().finish()
     }
 
 }
