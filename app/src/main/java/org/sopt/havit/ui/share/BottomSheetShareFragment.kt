@@ -11,6 +11,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentBottomSheetShareBinding
+import org.sopt.havit.util.getTopmostFragmentOrNull
+
 
 class BottomSheetShareFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentBottomSheetShareBinding? = null
@@ -42,13 +44,16 @@ class BottomSheetShareFragment : BottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return object : BottomSheetDialog(requireContext(), R.style.AppBottomSheetDialogTheme) {
             override fun onBackPressed() {
-                val initialView = R.id.selectCategoryFragment
-                if (binding.fcvShare.findNavController().currentDestination?.id == initialView)
-                    requireActivity().finish()
-                binding.fcvShare.findNavController().popBackStack()
+                if ((getTopmostFragmentOrNull() as? OnBackPressedHandler)?.onBackPressed() == true) {
+                    return
+                }
+                val navController = binding.fcvShare.findNavController()
+                if (navController.graph.startDestination == navController.currentDestination?.id) super.onBackPressed()
+                else navController.popBackStack()
             }
         }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
