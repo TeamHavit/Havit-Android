@@ -8,14 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import org.sopt.havit.databinding.FragmentEditTitleBinding
-import org.sopt.havit.util.AutoClearedValue
-import org.sopt.havit.util.DialogUtil
-import org.sopt.havit.util.KeyBoardUtil
-import org.sopt.havit.util.MySharedPreference
-
-fun interface OnBackPressedHandler {
-    fun onBackPressed(): Boolean
-}
+import org.sopt.havit.util.*
 
 class EditTitleFragment : Fragment(), OnBackPressedHandler {
     private var binding: FragmentEditTitleBinding by AutoClearedValue()

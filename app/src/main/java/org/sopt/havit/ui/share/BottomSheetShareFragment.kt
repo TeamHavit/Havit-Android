@@ -11,8 +11,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentBottomSheetShareBinding
+import org.sopt.havit.util.OnBackPressedHandler
 import org.sopt.havit.util.getTopmostFragmentOrNull
-
 
 class BottomSheetShareFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentBottomSheetShareBinding? = null
