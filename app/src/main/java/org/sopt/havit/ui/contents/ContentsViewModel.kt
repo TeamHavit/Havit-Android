@@ -1,6 +1,7 @@
 package org.sopt.havit.ui.contents
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,18 +32,13 @@ class ContentsViewModel(context: Context) : ViewModel() {
 
     var contentsMore = MutableLiveData<ContentsSearchResponse.Data>()
 
-    // 카테고리 정보 저장
-    private val _contentsCategoryList = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
-    val contentsCategoryList: LiveData<List<CategoryResponse.AllCategoryData>> = _contentsCategoryList
-
-    fun requestContentsTaken(categoryId: Int, option: String, filter: String, name: String) {
+    fun requestContentsTaken(categoryId: Int, option: String, filter: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = RetrofitObject.provideHavitApi(token)
                     .getCategoryContents(categoryId, option, filter)
                 _contentsList.postValue(response.data)
                 _contentsCount.postValue(response.data.size)
-                _categoryName.postValue(name)
                 _loadState.postValue(false)
             } catch (e: Exception) {
             }
@@ -57,18 +53,6 @@ class ContentsViewModel(context: Context) : ViewModel() {
                 _contentsCount.postValue(response.data.size)
                 _categoryName.postValue(name)
                 _loadState.postValue(false)
-            } catch (e: Exception) {
-            }
-        }
-    }
-
-    // 카테고리 데이터를 불러오는 함수
-    fun requestCategoryTaken() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response =
-                    RetrofitObject.provideHavitApi(token).getAllCategory()
-                _contentsCategoryList.postValue(response.data)
             } catch (e: Exception) {
             }
         }
