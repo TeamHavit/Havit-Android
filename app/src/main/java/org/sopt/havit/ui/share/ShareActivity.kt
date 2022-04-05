@@ -11,13 +11,10 @@ class ShareActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityShareBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setToken()
         initView()
-
     }
 
     private fun initView() {

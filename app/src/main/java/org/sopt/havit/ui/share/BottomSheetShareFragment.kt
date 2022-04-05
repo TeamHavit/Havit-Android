@@ -44,16 +44,13 @@ class BottomSheetShareFragment : BottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return object : BottomSheetDialog(requireContext(), R.style.AppBottomSheetDialogTheme) {
             override fun onBackPressed() {
-                if ((getTopmostFragmentOrNull() as? OnBackPressedHandler)?.onBackPressed() == true) {
-                    return
-                }
+                if ((getTopmostFragmentOrNull() as? OnBackPressedHandler)?.onBackPressed() == true) return
                 val navController = binding.fcvShare.findNavController()
                 if (navController.graph.startDestination == navController.currentDestination?.id) super.onBackPressed()
                 else navController.popBackStack()
             }
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
