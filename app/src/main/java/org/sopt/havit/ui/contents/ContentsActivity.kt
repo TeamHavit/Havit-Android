@@ -32,6 +32,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         super.onCreate(savedInstanceState)
 
         binding.contentsViewModel = contentsViewModel
+        binding.vmCategory = categoryViewModel
 
         setContentView(binding.root)
 
