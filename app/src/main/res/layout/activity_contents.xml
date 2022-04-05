@@ -8,7 +8,7 @@
         <import type="android.view.View" />
 
         <variable
-            name="contentsViewModel"
+            name="vmContents"
             type="org.sopt.havit.ui.contents.ContentsViewModel" />
 
         <variable
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="13dp"
                 android:layout_marginBottom="8dp"
-                android:clickable="@{(categoryId >= 0 &amp;&amp; !contentsViewModel.loadState) ? true : false}"
+                android:clickable="@{(categoryId >= 0 &amp;&amp; !vmContents.loadState) ? true : false}"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -85,7 +85,7 @@
                     android:id="@+id/tv_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{contentsViewModel.categoryName}"
+                    android:text="@{vmContents.categoryName}"
                     android:textAppearance="@style/Header16Bold"
                     android:textColor="@color/havit_gray"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -200,13 +200,13 @@
 
                     <!-- 카테고리 개수 로딩 중 -->
                     <com.facebook.shimmer.ShimmerFrameLayout
-                        android:id="@+id/sfL_count"
+                        android:id="@+id/sfl_count"
                         android:layout_width="40dp"
                         android:layout_height="20dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="14dp"
                         android:layout_marginBottom="13dp"
-                        android:visibility="@{contentsViewModel.loadState ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{vmContents.loadState ? View.VISIBLE : View.GONE}"
                         app:layout_constraintBottom_toTopOf="@+id/cg_status"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
@@ -228,7 +228,7 @@
                         android:text="@string/contents_entire"
                         android:textAppearance="@style/Mini10Regular"
                         android:textColor="@color/gray_3"
-                        android:visibility="@{contentsViewModel.loadState ? View.GONE : View.VISIBLE, default = gone}"
+                        android:visibility="@{vmContents.loadState ? View.GONE : View.VISIBLE, default = gone}"
                         app:layout_constraintBottom_toTopOf="@+id/cg_status"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -238,10 +238,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="2dp"
-                        android:text="@{String.valueOf(contentsViewModel.contentsCount)}"
+                        android:text="@{String.valueOf(vmContents.contentsCount)}"
                         android:textAppearance="@style/Mini10Regular"
                         android:textColor="@color/gray_3"
-                        android:visibility="@{contentsViewModel.loadState ? View.GONE : View.VISIBLE, default = gone}"
+                        android:visibility="@{vmContents.loadState ? View.GONE : View.VISIBLE, default = gone}"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_entire"
                         app:layout_constraintStart_toEndOf="@+id/tv_entire"
                         app:layout_constraintTop_toTopOf="@+id/tv_entire"
@@ -372,7 +372,7 @@
                     android:orientation="vertical"
                     android:overScrollMode="never"
                     android:paddingHorizontal="10dp"
-                    android:visibility="@{contentsViewModel.contentsCount > 0 ? View.VISIBLE : View.GONE, default = gone}"
+                    android:visibility="@{vmContents.contentsCount > 0 ? View.VISIBLE : View.GONE, default = gone}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -389,7 +389,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:visibility="@{contentsViewModel.contentsCount == 0 ? View.VISIBLE : View.GONE, default = gone}"
+                    android:visibility="@{vmContents.contentsCount == 0 ? View.VISIBLE : View.GONE, default = gone}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -438,7 +438,7 @@
                     android:id="@+id/sfl_contents"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="@{contentsViewModel.loadState ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{vmContents.loadState ? View.VISIBLE : View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

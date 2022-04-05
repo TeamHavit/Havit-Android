@@ -31,7 +31,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.contentsViewModel = contentsViewModel
+        binding.vmContents = contentsViewModel
         binding.vmCategory = categoryViewModel
 
         setContentView(binding.root)
@@ -108,10 +108,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 with(binding) {
                     if (it) {
                         sflContents.startShimmer()
-                        sfLCount.startShimmer()
+                        sflCount.startShimmer()
                     } else {
                         sflContents.stopShimmer()
-                        sfLCount.stopShimmer()
+                        sflCount.stopShimmer()
                     }
                 }
             }
