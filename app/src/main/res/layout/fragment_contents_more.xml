@@ -70,7 +70,6 @@
             android:textAppearance="@style/Text14SemiboldLineSpacing"
             android:textColor="@color/gray_3"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/cv_more"
             app:layout_constraintTop_toTopOf="@+id/cv_more"
             tools:text="헤드라인입니다. 이것은 헤더라인입니당당 헤드라인 냥냥 넘어가면 점점점 처리합시당당 이것은 헤더라인입니당당 헤드라인 냥냥 넘어가면 점점점 처리합시당당" />

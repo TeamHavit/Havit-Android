@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.R
+import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
@@ -23,6 +24,7 @@ import org.sopt.havit.util.CustomToast
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
     private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(this) }
+    private val categoryList = ArrayList<CategoryResponse.AllCategoryData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +33,9 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         setContentView(binding.root)
 
-        initData()
+        setCategoryInfo()
+        initValue()
         initAdapter()
-        setData()
         dataObserve()
         changeLayout()
         clickBack()
@@ -57,9 +59,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun setContentsData() {
-        if (categoryId == -1) {
+        if (categoryId <= -1) {
             contentsViewModel.requestContentsAllTaken(contentsOption, contentsFilter, categoryName)
         } else {
+            contentsViewModel.requestCategoryTaken()
             contentsViewModel.requestContentsTaken(categoryId, contentsOption, contentsFilter, categoryName)
         }
     }
@@ -69,33 +72,29 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         binding.rvContents.adapter = contentsAdapter
     }
 
-    private fun initData() {
-        // 레이아웃 초기화
-        layout = LINEAR_MIN_LAYOUT
-        // 옵션 및 필터 초기화
-        contentsOption = "all"
-        contentsFilter = "created_at"
-    }
-
-    private fun setData() {
-        categoryId = intent.getIntExtra("categoryId", 0)
-        if (categoryId == -1) {
-            binding.tvModify.visibility = GONE
-            binding.ivCategoryDrop.visibility = GONE
-        }
+    private fun setCategoryInfo() {
+        categoryId = intent.getIntExtra("categoryId", 0).also { binding.categoryId = it }
         intent.getStringExtra("categoryName")?.let {
             categoryName = it
         }
         setCategoryName()
     }
 
-    private fun setCategoryName(){
+    private fun initValue() {
+        // 레이아웃 초기화
+        layout = LINEAR_MIN_LAYOUT
+        // 옵션 및 필터 초기화, 카테고리아이디가 -2이면 확인한 콘텐츠만 확인
+        contentsOption = if (categoryId == -2) "true" else "all"
+        contentsFilter = "created_at"
+    }
+
+    private fun setCategoryName() {
         contentsViewModel.setCategoryName(categoryName)
     }
 
     // 삭제된 카테고리라면 종료하는 함수
-    private fun deletedCategory(){
-        if(isDelete){
+    private fun deletedCategory() {
+        if (isDelete) {
             isDelete = false
             finish()
             CustomToast.showTextToast(this, "카테고리가 삭제되었습니다")
@@ -116,22 +115,15 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                     }
                 }
             }
-
-            contentsCount.observe(this@ContentsActivity) {
-                // 콘텐츠 개수에 따른 visibility 조정
-                with(binding) {
-                    if (it == 0) {
-                        rvContents.visibility = GONE
-                        clEmpty.visibility = VISIBLE
-                    } else {
-                        rvContents.visibility = VISIBLE
-                        clEmpty.visibility = GONE
-                    }
-                }
-            }
             contentsList.observe(this@ContentsActivity) {
                 // 콘텐츠 데이터 업데이트
                 contentsAdapter.submitList(it.toList())
+            }
+
+            // 카테고리 제목
+            contentsCategoryList.observe(this@ContentsActivity) {
+                for (item in contentsCategoryList.value!!)
+                    categoryList.add(item)
             }
         }
     }
@@ -211,8 +203,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun setCategoryListDialog() {
         binding.clCategory.setOnClickListener {
-            binding.ivCategoryDrop.setImageResource(R.drawable.ic_dropback_black)
-            DialogContentsCategoryFragment().show(supportFragmentManager, "categoryList")
+            DialogContentsCategoryFragment(categoryList, categoryName).show(
+                supportFragmentManager,
+                "categoryList"
+            )
         }
     }
 
@@ -258,7 +252,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 }
                 // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
                 val removeItem: (Int) -> Unit = {
-                    contentsAdapter.notifyItemRemoved(it)
+                    val list = contentsAdapter.currentList.toMutableList() // mutable로 해주어야 삭제(수정) 가능
+                    list.removeAt(it)
+                    // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
+                    contentsViewModel.updateContentsList(list)
                     contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
                 }
                 val dialog = ContentsMoreFragment(dataMore, removeItem, position)
@@ -296,13 +293,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         }
     }
 
-    private fun setCustomToast() {
-        val toast = Toast(this)
-        val view = layoutInflater.inflate(R.layout.toast_havit_complete, null)
-        toast.view = view
-        toast.show()
-    }
-
     // 해빗 클릭 시 이벤트 함수 정의
     private fun clickItemHavit() {
         contentsAdapter.setHavitClickListener(object : ContentsAdapter.OnItemHavitClickListener {
@@ -310,7 +300,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 with(contentsAdapter) {
                     // 보지 않았던 콘텐츠의 경우 콘텐츠를 봤다는 토스트 띄우기
                     if (!currentList[position].isSeen) {
-                        setCustomToast()
+                        CustomToast.showDesignatedToast(
+                            this@ContentsActivity,
+                            R.layout.toast_havit_complete
+                        )
                     }
 
                     currentList[position].isSeen = !currentList[position].isSeen

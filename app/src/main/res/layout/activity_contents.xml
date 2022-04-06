@@ -10,6 +10,10 @@
         <variable
             name="contentsViewModel"
             type="org.sopt.havit.ui.contents.ContentsViewModel" />
+
+        <variable
+            name="categoryId"
+            type="Integer" />
     </data>
     <!-- 전체 -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,6 +56,7 @@
                 android:text="@string/modify"
                 android:textAppearance="@style/Text14Regular"
                 android:textColor="@color/gray_3"
+                android:visibility="@{categoryId &lt; 0 ? View.GONE : View.VISIBLE, default = visible}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -63,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="8dp"
+                android:clickable="@{(categoryId >= 0 &amp;&amp; !contentsViewModel.loadState) ? true : false}"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -87,11 +93,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="7dp"
+                    android:src="@drawable/ic_drop_black"
+                    android:visibility="@{categoryId &lt; 0 ? View.GONE : View.VISIBLE, default = visible}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_category"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_drop_black" />
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -263,7 +270,7 @@
                             style="@style/Widget.MaterialComponents.Chip.Choice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:checked="true"
+                            android:checked="@{categoryId >= 0 ? true : false}"
                             android:text="@string/category_entire"
                             android:textAppearance="@style/Text12Semibold"
                             android:textColor="@color/selector_chip_text"
@@ -290,6 +297,7 @@
                             style="@style/Widget.MaterialComponents.Chip.Choice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:checked="@{categoryId == -2 ? true : false}"
                             android:text="@string/contents_seen"
                             android:textAppearance="@style/Text12Semibold"
                             android:textColor="@color/selector_chip_text"
@@ -359,7 +367,7 @@
                     android:orientation="vertical"
                     android:overScrollMode="never"
                     android:paddingHorizontal="10dp"
-                    android:visibility="gone"
+                    android:visibility="@{contentsViewModel.contentsCount > 0 ? View.VISIBLE : View.GONE, default = gone}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -376,7 +384,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:visibility="gone"
+                    android:visibility="@{contentsViewModel.contentsCount == 0 ? View.VISIBLE : View.GONE, default = gone}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -414,7 +422,7 @@
                         android:paddingVertical="14dp"
                         android:text="@string/contents_add"
                         android:textAppearance="@style/Button15Medium"
-                        android:textColor="@color/havit_purple"
+                        android:textColor="@color/white"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/imageView" />
