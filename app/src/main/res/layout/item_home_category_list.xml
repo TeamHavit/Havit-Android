@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="data_home_category"
+            name="homeCategoryData"
             type="org.sopt.havit.data.remote.CategoryResponse.AllCategoryData" />
     </data>
 
@@ -27,7 +27,7 @@
 
             <ImageView
                 android:id="@+id/iv_icon"
-                imageUrl="@{data_home_category.url}"
+                imageUrl="@{homeCategoryData.url}"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_marginTop="4dp"
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
-                android:text="@{String.valueOf(data_home_category.contentNumber)}"
+                android:text="@{String.valueOf(homeCategoryData.contentNumber)}"
                 android:textAppearance="@style/Sub12Regular"
                 android:textColor="@color/havit_purple"
                 app:layout_constraintStart_toEndOf="@id/tv_save_contents"
