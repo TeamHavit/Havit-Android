@@ -11,12 +11,13 @@ import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemHomeCategoryListBinding
 import org.sopt.havit.ui.contents.ContentsActivity
 
-class HomeCategoryRvAdapter :
+class HomeCategoryRvAdapter(page: Int) :
     RecyclerView.Adapter<HomeCategoryRvAdapter.HomeCategoryRvViewHolder>() {
 
     private lateinit var binding: ItemHomeCategoryListBinding
     val categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
     private var viewType = 1
+    private val pagePosition = page
 
     override fun getItemViewType(position: Int): Int {
         return viewType
@@ -69,6 +70,7 @@ class HomeCategoryRvAdapter :
             val intent = Intent(it.context, ContentsActivity::class.java)
             intent.putExtra("categoryId", categoryList[position].id)
             intent.putExtra("categoryName", categoryList[position].title)
+            intent.putExtra("position", pagePosition * 6 + position - 1)
             startActivity(holder.itemView.context, intent, null)
         }
     }
