@@ -18,6 +18,14 @@ class ContentsSimpleViewModel(context: Context) : ViewModel() {
 
     private val _contentsList = MutableLiveData<List<ContentsSimpleResponse.ContentsSimpleData>>()
     val contentsList: LiveData<List<ContentsSimpleResponse.ContentsSimpleData>> = _contentsList
+
+    private val _contentsCount = MutableLiveData(-1)
+    val contentsCount: LiveData<Int> = _contentsCount
+
+    // 상단 바에 들어갈 최근 저장 콘텐츠 / 봐야 하는 콘텐츠 text
+    private val _topBarName = MutableLiveData<String>()
+    val topBarName: LiveData<String> = _topBarName
+
     fun requestContentsTaken(contentsType: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -37,9 +45,6 @@ class ContentsSimpleViewModel(context: Context) : ViewModel() {
         }
     }
 
-    // 상단 바에 들어갈 최근 저장 콘텐츠 / 봐야 하는 콘텐츠 text
-    private val _topBarName = MutableLiveData<String>()
-    val topBarName: LiveData<String> = _topBarName
     fun requestTopBarName(name: String) {
         _topBarName.postValue(name)
     }
@@ -65,6 +70,15 @@ class ContentsSimpleViewModel(context: Context) : ViewModel() {
 
             }
         }
+    }
+
+    // 콘텐츠 개수 감소 함수
+    fun decreaseContentsCount(count: Int) {
+        _contentsCount.value = contentsCount.value?.minus(count)
+    }
+
+    fun updateContentsList(list: List<ContentsSimpleResponse.ContentsSimpleData>) {
+        _contentsList.value = list
     }
 
 }

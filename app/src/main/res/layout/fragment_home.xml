@@ -418,7 +418,7 @@
                             android:text="@string/home_more_contents"
                             android:textAppearance="@style/Sub12Regular"
                             android:textColor="@color/gray_3"
-                            android:visibility="@{vmHome.contentsList.isEmpty()? View.VISIBLE : View.GONE}"
+                            android:visibility="@{vmHome.contentsList.isEmpty()? View.GONE : View.VISIBLE}"
                             app:layout_constraintBottom_toBottomOf="@id/tv_recent_contents"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/tv_recent_contents" />
@@ -534,6 +534,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="29dp"
+                        android:layout_marginEnd="-6dp"
                         android:layout_marginBottom="77dp"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:layout_constraintBottom_toBottomOf="parent"
