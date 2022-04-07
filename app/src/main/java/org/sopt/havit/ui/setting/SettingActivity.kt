@@ -14,6 +14,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         setContentView(binding.root)
 
         binding.vmSetting = settingViewModel
+        setClickListeners()
     }
 
     override fun onStart() {
@@ -23,5 +24,38 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
     private fun setData() {
         settingViewModel.requestUserInfo()
+    }
+
+    private fun setClickListeners() {
+        // 뒤로가기
+        binding.ivBack.setOnClickListener {
+            finish()
+        }
+        // 내 정보 수정
+        binding.settingModify.setOnClickListener {
+            startActivity(Intent(this, SettingModifyActivity::class.java))
+        }
+        // 알림 설정
+        binding.clSettingAlarm.setOnClickListener {
+            startActivity(Intent(this, SettingActivity::class.java))
+        }
+        // 공지사항
+        binding.clNotice.setOnClickListener {
+            startActivity(Intent(this, SettingNoticeActivity::class.java))
+        }
+        // 약관 및 정책
+        binding.clPolicy.setOnClickListener {
+            startActivity(Intent(this, SettingPolicyActivity::class.java).apply {
+                putExtra("beforeActivity", "setting")
+            })
+        }
+        // 서비스 이용방법
+        binding.clHowToUse.setOnClickListener {
+            // 나중에 추가
+        }
+        // 개인정보 처리 방침
+        binding.clPersonalData.setOnClickListener { startActivity(Intent(this, SettingPersonalDataActivity::class.java).apply {
+            putExtra("beforeActivity", "setting")
+        }) }
     }
 }
