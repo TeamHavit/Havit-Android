@@ -3,22 +3,33 @@ package org.sopt.havit.ui.sign
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
+import org.sopt.havit.MainActivity
 import org.sopt.havit.R
-import org.sopt.havit.databinding.ActivitySignInBinding
-import org.sopt.havit.ui.base.BaseBindingActivity
-
-class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activity_sign_in) {
+import org.sopt.havit.databinding.FragmentSignInBinding
+import org.sopt.havit.ui.base.BaseBindingFragment
 
 
-    private val viewModel: SignInViewModel by viewModels()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding.vm = viewModel
+class SignInFragment : BaseBindingFragment<FragmentSignInBinding>(R.layout.fragment_sign_in) {
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+        // Inflate the layout for this fragment
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setListeners()
         setAutoLogin()
     }
@@ -30,17 +41,17 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
     }
 
     private fun startMainActivity() {
-        val intent = Intent(this, org.sopt.havit.MainActivity::class.java)
+        val intent = Intent(requireContext(), MainActivity::class.java)
         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-        finish()
+        activity?.finish()
     }
 
     private fun setAutoLogin() { // 자동 로그인.
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
             if (error != null) {
-                Toast.makeText(this, "토큰 정보 보기 실패", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "토큰 정보 보기 실패", Toast.LENGTH_SHORT).show()
             } else if (tokenInfo != null) {
-                Toast.makeText(this, "토큰 정보 보기 성공", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "토큰 정보 보기 성공", Toast.LENGTH_SHORT).show()
                 startMainActivity()
             }
         }
@@ -48,10 +59,16 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
 
 
     private fun setLogin() {
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) { // 카카오톡이 설치되어 있으면
-            UserApiClient.instance.loginWithKakaoTalk(this, callback = callback) // 카카오 로그인
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext())) { // 카카오톡이 설치되어 있으면
+            UserApiClient.instance.loginWithKakaoTalk(
+                requireContext(),
+                callback = callback
+            ) // 카카오 로그인
         } else {
-            UserApiClient.instance.loginWithKakaoAccount(this, callback = callback) // 카카오 계정 로그인(웹)
+            UserApiClient.instance.loginWithKakaoAccount(
+                requireContext(),
+                callback = callback
+            ) // 카카오 계정 로그인(웹)
         }
     }
 
@@ -68,7 +85,7 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
                 AuthErrorCause.Unauthorized.toString() -> "앱이 요청 권한이 없음"
                 else -> "기타 에러"
             }
-            Toast.makeText(this, authErrorToastMessage, Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), authErrorToastMessage, Toast.LENGTH_SHORT).show()
         } else if (token != null) {
 
             UserApiClient.instance.me { user, _ -> // 사용자의 정보를 가져오는 코드.
@@ -91,7 +108,10 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
 
                     if (scopes.count() > 0) {
                         // 사용자 추가 정보 요청 코드.
-                        UserApiClient.instance.loginWithNewScopes(this, scopes) { _, error ->
+                        UserApiClient.instance.loginWithNewScopes(
+                            requireContext(),
+                            scopes
+                        ) { _, error ->
                             if (error != null) {
                                 Log.e("PASS", "사용자 추가 정보 획득 로그인 실패", error)
                             } else {
@@ -113,5 +133,4 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
 
         }
     }
-
 }
