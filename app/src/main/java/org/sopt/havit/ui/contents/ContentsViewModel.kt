@@ -1,7 +1,6 @@
 package org.sopt.havit.ui.contents
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,10 +8,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.data.remote.ContentsHavitRequest
+import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.data.remote.ContentsResponse
-import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.util.MySharedPreference
 
 class ContentsViewModel(context: Context) : ViewModel() {
@@ -30,7 +28,7 @@ class ContentsViewModel(context: Context) : ViewModel() {
     private val _loadState = MutableLiveData(true)
     val loadState: LiveData<Boolean> = _loadState
 
-    var contentsMore = MutableLiveData<ContentsSearchResponse.Data>()
+    var contentsMore = MutableLiveData<ContentsMoreData>()
 
     fun requestContentsTaken(categoryId: Int, option: String, filter: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -69,7 +67,7 @@ class ContentsViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun setContentsView(data: ContentsSearchResponse.Data) {
+    fun setContentsView(data: ContentsMoreData) {
         contentsMore.value = data
     }
 
@@ -93,7 +91,7 @@ class ContentsViewModel(context: Context) : ViewModel() {
         _categoryName.value = name
     }
 
-    fun updateContentsList(list: List<ContentsResponse.ContentsData>){
+    fun updateContentsList(list: List<ContentsResponse.ContentsData>) {
         _contentsList.value = list
     }
 }

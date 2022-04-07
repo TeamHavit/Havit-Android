@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
-import org.sopt.havit.data.remote.ContentsSearchResponse
+import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentContentsMoreBinding
 
 class ContentsMoreFragment(
-    contents: ContentsSearchResponse.Data,
+    contents: ContentsMoreData,
     removeItem: (Int) -> Unit,
     position: Int
 ) :
