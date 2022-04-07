@@ -16,6 +16,7 @@ class SettingModifyActivity :
     }
 
     private fun setClickListeners() {
+        binding.ivBack.setOnClickListener { finish() }
         binding.clUnregister.setOnClickListener {
             startActivity(Intent(this, SettingUnregisterActivity::class.java))
         }

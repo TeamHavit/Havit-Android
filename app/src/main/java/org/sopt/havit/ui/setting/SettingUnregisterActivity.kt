@@ -13,11 +13,17 @@ class SettingUnregisterActivity :
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.vmSetting = settingViewModel
+
+        setClickListener()
     }
 
     override fun onStart() {
         super.onStart()
         setData()
+    }
+
+    private fun setClickListener() {
+        binding.ivBack.setOnClickListener { finish() }
     }
 
     private fun setData() {

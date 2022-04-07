@@ -31,9 +31,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
     private fun setClickListeners() {
         // 뒤로가기
-        binding.ivBack.setOnClickListener {
-            finish()
-        }
+        binding.ivBack.setOnClickListener { finish() }
         // 내 정보 수정
         binding.settingModify.setOnClickListener {
             startActivity(Intent(this, SettingModifyActivity::class.java))
