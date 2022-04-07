@@ -114,7 +114,6 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
             ContentsActivity.LINEAR_MIN_LAYOUT -> {
-                Log.d("CONTENTS_REMOVE", "onBind 호출 : $position")
                 (holder as LinearMinViewHolder).onBind(getItem(position))
             }
             ContentsActivity.GRID_LAYOUT -> {
