@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="vm"
+            type="org.sopt.havit.ui.sign.SignInViewModel" />
 
     </data>
 
@@ -134,6 +137,8 @@
             android:text="@string/sign_havit_start"
             android:textAppearance="@style/Text16Semibold"
             android:textColor="@color/white"
+            btnColor="@{vm.isSaveClick}"
+            android:clickable="@{vm.isSaveClick == true ? true : false}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
