@@ -2,6 +2,7 @@ package org.sopt.havit.ui.setting
 
 import android.content.Intent
 import android.os.Bundle
+import org.sopt.havit.BuildConfig
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
@@ -14,6 +15,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         setContentView(binding.root)
 
         binding.vmSetting = settingViewModel
+        setVersion()
         setClickListeners()
     }
 
@@ -22,8 +24,9 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         setData()
     }
 
-    private fun setData() {
-        settingViewModel.requestUserInfo()
+    private fun setVersion() {
+        val version = BuildConfig.VERSION_NAME  // build.gradle->defaultConfig에 있는 version_name
+        settingViewModel.setVersion(version)
     }
 
     private fun setClickListeners() {
@@ -59,5 +62,9 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
                 putExtra("beforeActivity", "setting")
             })
         }
+    }
+
+    private fun setData() {
+        settingViewModel.requestUserInfo()
     }
 }
