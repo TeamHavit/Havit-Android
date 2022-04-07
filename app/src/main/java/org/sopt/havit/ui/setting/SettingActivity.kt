@@ -37,7 +37,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         }
         // 알림 설정
         binding.clSettingAlarm.setOnClickListener {
-            startActivity(Intent(this, SettingActivity::class.java))
+            startActivity(Intent(this, SettingAlarmActivity::class.java))
         }
         // 공지사항
         binding.clNotice.setOnClickListener {
@@ -54,8 +54,10 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
             // 나중에 추가
         }
         // 개인정보 처리 방침
-        binding.clPersonalData.setOnClickListener { startActivity(Intent(this, SettingPersonalDataActivity::class.java).apply {
-            putExtra("beforeActivity", "setting")
-        }) }
+        binding.clPersonalData.setOnClickListener {
+            startActivity(Intent(this, SettingPersonalDataActivity::class.java).apply {
+                putExtra("beforeActivity", "setting")
+            })
+        }
     }
 }
