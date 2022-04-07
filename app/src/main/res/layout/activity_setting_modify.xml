@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="21dp"
-            android:text="@string/setting_modify_mydata"
+            android:text="@string/setting_modify"
             android:textAppearance="@style/Header16Bold"
             android:textColor="@color/havit_gray"
             app:layout_constraintEnd_toEndOf="parent"
