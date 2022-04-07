@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.sign.AddNickNameFragment">
+
+
+        <ImageButton
+            android:id="@+id/btn_nickname_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="19dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_back_black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_nickname_title"
+            android:textAppearance="@style/Header16Bold"
+            android:textColor="@color/havit_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_nickname_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btn_nickname_back" />
+
+        <TextView
+            android:id="@+id/tv_nickname_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="62dp"
+            android:text="@string/sign_nickname_subtitle"
+            android:textAppearance="@style/Header22Semibold"
+            android:textColor="@color/gray_5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_nickname_back" />
+
+        <EditText
+            android:id="@+id/et_nickname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="66dp"
+            android:layout_marginEnd="26dp"
+            android:background="@null"
+            android:lines="1"
+            android:maxLength="15"
+            android:paddingVertical="8dp"
+            android:textAppearance="@style/Header18Medium"
+            android:textColor="@color/havit_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_nickname_sub"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nickname_sub" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/gray_1"
+            app:layout_constraintEnd_toEndOf="@+id/et_nickname"
+            app:layout_constraintStart_toStartOf="@+id/et_nickname"
+            app:layout_constraintTop_toBottomOf="@+id/et_nickname" />
+
+        <TextView
+            android:id="@+id/tv_category_length_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/category_length_limit"
+            android:textAppearance="@style/Sub13Regular"
+            android:textColor="@color/gray_2"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_nickname_delete_text"
+            app:layout_constraintEnd_toStartOf="@id/iv_nickname_delete_text"
+            app:layout_constraintTop_toTopOf="@+id/iv_nickname_delete_text" />
+
+        <TextView
+            android:id="@+id/tv_category_length_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:textAppearance="@style/Sub13Regular"
+            android:textColor="@color/gray_2"
+            app:layout_constraintBottom_toBottomOf="@id/tv_category_length_limit"
+            app:layout_constraintEnd_toStartOf="@id/tv_category_length_limit"
+            app:layout_constraintTop_toTopOf="@id/tv_category_length_limit"
+            tools:text="0" />
+
+        <ImageView
+            android:id="@+id/iv_nickname_delete_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@drawable/ic_delete_text"
+            app:layout_constraintBottom_toBottomOf="@+id/et_nickname"
+            app:layout_constraintEnd_toEndOf="@+id/et_nickname"
+            app:layout_constraintTop_toTopOf="@+id/et_nickname" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_nickname_next"
+            android:layout_width="0dp"
+            android:layout_height="58dp"
+            android:text="@string/next"
+            android:textAppearance="@style/Text16Semibold"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
