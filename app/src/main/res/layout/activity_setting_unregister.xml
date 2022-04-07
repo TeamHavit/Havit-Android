@@ -42,8 +42,8 @@
             android:id="@+id/sv_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="13dp"
-            app:layout_constraintBottom_toTopOf="@id/cl_unregister"
+            android:layout_marginVertical="13dp"
+            app:layout_constraintBottom_toTopOf="@id/cl_check"
             app:layout_constraintTop_toBottomOf="@id/iv_back">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -211,41 +211,39 @@
                     android:textColor="@color/gray_2"
                     app:layout_constraintStart_toStartOf="@id/tv_save_state"
                     app:layout_constraintTop_toBottomOf="@id/tv_caution1" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="126dp"
-                    android:layout_marginBottom="21dp"
-                    android:tag="unchecked"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/tv_caution2"
-                    app:layout_constraintTop_toBottomOf="@id/tv_caution2">
-
-                    <ImageView
-                        android:id="@+id/iv_check"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_check_inactive"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_check"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="@string/unregister_caution_check"
-                        android:textAppearance="@style/Text14Medium"
-                        android:textColor="@color/gray_4"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_check"
-                        app:layout_constraintStart_toEndOf="@id/iv_check"
-                        app:layout_constraintTop_toTopOf="@id/iv_check" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="21dp"
+            android:tag="unchecked"
+            app:layout_constraintBottom_toTopOf="@id/cl_unregister"
+            app:layout_constraintStart_toStartOf="@id/iv_back">
+
+            <ImageView
+                android:id="@+id/iv_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_check_inactive"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/unregister_caution_check"
+                android:textAppearance="@style/Text14Medium"
+                android:textColor="@color/gray_4"
+                app:layout_constraintBottom_toBottomOf="@id/iv_check"
+                app:layout_constraintStart_toEndOf="@id/iv_check"
+                app:layout_constraintTop_toTopOf="@id/iv_check" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_unregister"
