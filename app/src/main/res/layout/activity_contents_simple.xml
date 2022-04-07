@@ -103,7 +103,7 @@
                 android:paddingVertical="14dp"
                 android:text="@string/contents_simple_add_contents"
                 android:textAppearance="@style/Button15Medium"
-                android:textColor="@color/havit_purple"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_contents_empty" />

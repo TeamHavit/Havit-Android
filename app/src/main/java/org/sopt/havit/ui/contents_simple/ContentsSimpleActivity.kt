@@ -2,13 +2,15 @@ package org.sopt.havit.ui.contents_simple
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.R
+import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ActivityContentsSimpleBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.contents.ContentsMoreFragment
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.CustomToast
@@ -30,8 +32,9 @@ class ContentsSimpleActivity :
         decorationView()
         clickBtnBack()
         clickItemView()
+        clickItemHavit()
+        clickItemMore()
         dataObserve()
-        setToast()
     }
 
     override fun onResume() {
@@ -39,14 +42,59 @@ class ContentsSimpleActivity :
         setContents()
     }
 
-    private fun setToast() {
+    private fun clickItemHavit() {
         contentsAdapter.setHavitClickListener(object :
-            ContentsSimpleRvAdapter.OnHavitClickListener {
-            override fun onHavitClick() {
-                CustomToast.showDesignatedToast(
-                    this@ContentsSimpleActivity,
-                    R.layout.toast_havit_complete
-                )
+            ContentsSimpleRvAdapter.OnItemHavitClickListener {
+            override fun onHavitClick(v: ImageView, position: Int) {
+                with(contentsAdapter) {
+                    // 보지 않은 콘텐츠의 경우 콘텐츠 봤다는 토스트 띄움
+                    if (!contentsList[position].isSeen) {
+                        CustomToast.showDesignatedToast(
+                            this@ContentsSimpleActivity,
+                            R.layout.toast_havit_complete
+                        )
+                    }
+
+                    contentsList[position].isSeen = !contentsList[position].isSeen
+                    contentsViewModel.setIsSeen(contentsList[position].id)
+
+                    // tag 바꾸기
+                    val isSeen = (v.tag == "seen")
+                    v.tag = if (isSeen) "unseen" else "seen"
+                    v.setImageResource(if (isSeen) R.drawable.ic_contents_unread else R.drawable.ic_contents_read_2)
+                }
+            }
+        })
+    }
+
+    private fun clickItemMore() {
+        contentsAdapter.setItemMoreClickListner(object :
+            ContentsSimpleRvAdapter.OnItemMoreClickListener {
+            override fun onMoreClick(v: View, position: Int) {
+                val dataMore = contentsViewModel.contentsList.value?.get(position)!!.let {
+                    ContentsSearchResponse.Data(
+                        it.createdAt,
+                        it.description,
+                        it.id,
+                        it.image,
+                        it.isNotified,
+                        it.isSeen,
+                        it.notificationTime,
+                        it.title,
+                        it.url
+                    )
+                }
+                // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
+                val removeItem: (Int) -> Unit = {
+//                    val list = contentsAdapter.contentsList.toMutableList()
+//                    list.removeAt(it)
+//                    contentsViewModel.updateContentsList(list)
+//                    contentsViewModel.decreaseContentsCount(1)
+                    contentsAdapter.notifyItemRemoved(it)
+                    contentsViewModel.requestContentsTaken(contentsType)
+                }
+                val dialog = ContentsMoreFragment(dataMore, removeItem, position)
+                dialog.show(supportFragmentManager, "setting")
             }
         })
     }
@@ -64,8 +112,7 @@ class ContentsSimpleActivity :
     }
 
     private fun initAdapter() {
-        contentsAdapter =
-            ContentsSimpleRvAdapter(contentsViewModel, supportFragmentManager, contentsType)
+        contentsAdapter = ContentsSimpleRvAdapter()
         binding.rvContents.adapter = contentsAdapter
     }
 
@@ -106,9 +153,7 @@ class ContentsSimpleActivity :
         with(contentsViewModel) {
             binding.lifecycleOwner?.let {
                 contentsList.observe(it) { data ->
-                    Log.d("contentsSimple", "contentsList data : $data")
                     if (data.isEmpty()) {
-                        Log.d("CONTENTS_SIMPLE", "data empty")
                         if (contentsType == "unseen")
                             requestEmptyContents(getString(R.string.contents_simple_unseen_empty))
                         else
@@ -117,7 +162,6 @@ class ContentsSimpleActivity :
                             SaveFragment("").show(supportFragmentManager, "save")
                         }
                     } else {
-                        Log.d("CONTENTS_SIMPLE", "data not empty")
                         val min = if (data.size < 20) data.size else 20
                         val list = data.subList(0, min)
                         contentsAdapter.updateList(list)
