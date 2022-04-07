@@ -4,15 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsSimpleBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.web.WebActivity
+import org.sopt.havit.util.CustomToast
 
 class ContentsSimpleActivity :
     BaseBindingActivity<ActivityContentsSimpleBinding>(R.layout.activity_contents_simple) {
@@ -28,28 +27,26 @@ class ContentsSimpleActivity :
 
         initContents()
         initAdapter()
-        dataObserve()
         decorationView()
         clickBtnBack()
+        clickItemView()
+        dataObserve()
         setToast()
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         setContents()
-    }
-    private fun setCustomToast() {
-        val toast = Toast(this)
-        val view = layoutInflater.inflate(R.layout.toast_havit_complete, null)
-        toast.view = view
-        toast.show()
     }
 
     private fun setToast() {
         contentsAdapter.setHavitClickListener(object :
             ContentsSimpleRvAdapter.OnHavitClickListener {
             override fun onHavitClick() {
-                setCustomToast()
+                CustomToast.showDesignatedToast(
+                    this@ContentsSimpleActivity,
+                    R.layout.toast_havit_complete
+                )
             }
         })
     }
@@ -67,7 +64,8 @@ class ContentsSimpleActivity :
     }
 
     private fun initAdapter() {
-        contentsAdapter = ContentsSimpleRvAdapter(contentsViewModel, supportFragmentManager)
+        contentsAdapter =
+            ContentsSimpleRvAdapter(contentsViewModel, supportFragmentManager, contentsType)
         binding.rvContents.adapter = contentsAdapter
     }
 
@@ -110,7 +108,7 @@ class ContentsSimpleActivity :
                 contentsList.observe(it) { data ->
                     Log.d("contentsSimple", "contentsList data : $data")
                     if (data.isEmpty()) {
-                        binding.rvContents.visibility = View.GONE
+                        Log.d("CONTENTS_SIMPLE", "data empty")
                         if (contentsType == "unseen")
                             requestEmptyContents(getString(R.string.contents_simple_unseen_empty))
                         else
@@ -119,10 +117,9 @@ class ContentsSimpleActivity :
                             SaveFragment("").show(supportFragmentManager, "save")
                         }
                     } else {
-                        binding.clContentsEmpty.visibility = View.GONE
+                        Log.d("CONTENTS_SIMPLE", "data not empty")
                         val min = if (data.size < 20) data.size else 20
                         val list = data.subList(0, min)
-                        clickItemView()
                         contentsAdapter.updateList(list)
                     }
                 }

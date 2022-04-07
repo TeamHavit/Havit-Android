@@ -14,13 +14,15 @@ import org.sopt.havit.ui.contents.ContentsMoreFragment
 
 class ContentsSimpleRvAdapter(
     contentsViewModel: ContentsSimpleViewModel,
-    fragmentManager: FragmentManager
+    fragmentManager: FragmentManager,
+    contentsType: String
 ) :
     RecyclerView.Adapter<ContentsSimpleRvAdapter.ContentsSimpleViewHolder>() {
     var contentsList = mutableListOf<ContentsSimpleResponse.ContentsSimpleData>()
     private var mFragmentManager: FragmentManager = fragmentManager
     private lateinit var itemClickListener: OnItemClickListener
     private var viewModel = contentsViewModel
+    private var contentsType = contentsType
 
     // setItemClickListener로 설정한 함수 실행
     private lateinit var havitClickListener: OnHavitClickListener
@@ -76,7 +78,11 @@ class ContentsSimpleRvAdapter(
             }
         }
 
-        fun onClick(data: ContentsSimpleResponse.ContentsSimpleData, pos: Int) {
+        fun onClick(
+            data: ContentsSimpleResponse.ContentsSimpleData,
+            pos: Int,
+            contentsType: String
+        ) {
             binding.ivHavit.setOnClickListener {
                 if (!contentsList[pos].isSeen) {
                     havitClickListener.onHavitClick()
@@ -101,6 +107,7 @@ class ContentsSimpleRvAdapter(
                 // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
                 val removeItem: (Int) -> Unit = {
                     notifyItemRemoved(it)
+                    viewModel.requestContentsTaken(contentsType)
                 }
                 ContentsMoreFragment(dataMore, removeItem, pos).show(mFragmentManager, "setting")
             }
@@ -124,7 +131,7 @@ class ContentsSimpleRvAdapter(
         position: Int
     ) {
         holder.onBind(contentsList[position])
-        holder.onClick(contentsList[position], position)
+        holder.onClick(contentsList[position], position, contentsType)
 
         holder.itemView.setOnClickListener {
             itemClickListener.onWebClick(it, position)
