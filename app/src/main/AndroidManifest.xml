@@ -18,6 +18,12 @@
         android:theme="@style/Theme.Havit"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.setting.SettingAlarmActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.setting.SettingModifyActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.setting.SettingActivity"
             android:configChanges="orientation"
             android:exported="false"
