@@ -5,8 +5,10 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
-            name="vm_home"
+            name="vmHome"
             type="org.sopt.havit.ui.home.HomeViewModel" />
     </data>
 
@@ -20,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@{vm_home.userData.nickname}"
+            android:text="@{vmHome.userData.nickname}"
             android:textAppearance="@style/Header17Semibold"
             android:textColor="@color/havit_gray"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,6 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="3dp"
                 android:layout_marginTop="10dp"
+                android:visibility="@{vmHome.userData.totalCategoryNumber > 5 ? View.VISIBLE : View.GONE}"
                 app:dotsColor="@color/havit_purple"
                 app:dotsCornerRadius="0dp"
                 app:dotsSize="12dp"

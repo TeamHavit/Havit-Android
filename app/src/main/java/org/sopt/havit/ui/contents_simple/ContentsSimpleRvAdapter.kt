@@ -3,37 +3,20 @@ package org.sopt.havit.ui.contents_simple
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
-import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.databinding.ItemContentsSimpleBinding
-import org.sopt.havit.ui.contents.ContentsMoreFragment
 
-class ContentsSimpleRvAdapter(
-    contentsViewModel: ContentsSimpleViewModel,
-    fragmentManager: FragmentManager
-) :
+class ContentsSimpleRvAdapter :
     RecyclerView.Adapter<ContentsSimpleRvAdapter.ContentsSimpleViewHolder>() {
+
     var contentsList = mutableListOf<ContentsSimpleResponse.ContentsSimpleData>()
-    private var mFragmentManager: FragmentManager = fragmentManager
     private lateinit var itemClickListener: OnItemClickListener
-    private var viewModel = contentsViewModel
-
-    // setItemClickListener로 설정한 함수 실행
-    private lateinit var havitClickListener: OnHavitClickListener
-
-    // 리스너 인터페이스
-    interface OnHavitClickListener {
-        fun onHavitClick()
-    }
-
-    // 외부에서 클릭 시 이벤트 설정
-    fun setHavitClickListener(onItemClickListener: OnHavitClickListener) {
-        this.havitClickListener = onItemClickListener
-    }
+    private lateinit var itemMoreClickListener: OnItemMoreClickListener
+    private lateinit var itemHavitClickListener: OnItemHavitClickListener
 
     inner class ContentsSimpleViewHolder(private val binding: ItemContentsSimpleBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -67,43 +50,8 @@ class ContentsSimpleRvAdapter(
 
         // havit 버튼 설정값 초기화
         private fun setIvHavit(isSeen: Boolean) {
-            if (isSeen) {
-                binding.ivHavit.tag = "seen"
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_read_2)
-            } else {
-                binding.ivHavit.tag = "unseen"
-                binding.ivHavit.setImageResource(R.drawable.ic_contents_unread)
-            }
-        }
-
-        fun onClick(data: ContentsSimpleResponse.ContentsSimpleData, pos: Int) {
-            binding.ivHavit.setOnClickListener {
-                if (!contentsList[pos].isSeen) {
-                    havitClickListener.onHavitClick()
-                }
-                contentsList[pos].isSeen = !contentsList[pos].isSeen
-                viewModel.setIsSeen(data.id)
-                setIvHavit(binding.ivHavit.tag == "unseen")
-            }
-
-            binding.ivSetting.setOnClickListener {
-                val dataMore = ContentsSearchResponse.Data(
-                    data.createdAt,
-                    data.description,
-                    data.id,
-                    data.image,
-                    data.isNotified,
-                    data.isSeen,
-                    data.notificationTime,
-                    data.title,
-                    data.url
-                )
-                // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
-                val removeItem: (Int) -> Unit = {
-                    notifyItemRemoved(it)
-                }
-                ContentsMoreFragment(dataMore, removeItem, pos).show(mFragmentManager, "setting")
-            }
+            binding.ivHavit.tag = if (isSeen) "seen" else "unseen"
+            binding.ivHavit.setImageResource(if (isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
         }
     }
 
@@ -124,19 +72,52 @@ class ContentsSimpleRvAdapter(
         position: Int
     ) {
         holder.onBind(contentsList[position])
-        holder.onClick(contentsList[position], position)
 
+        // 아이템 전체 클릭 시 onWebClick() 호출
         holder.itemView.setOnClickListener {
             itemClickListener.onWebClick(it, position)
         }
+        // 아이템 더보기 클릭 시 onMoreClick() 호출
+        holder.itemView.findViewById<View>(R.id.iv_setting).setOnClickListener {
+            itemMoreClickListener.onMoreClick(it, position)
+        }
+        // 아이템 해빗 클릭 시 onHavitClick() 호출
+        holder.itemView.findViewById<View>(R.id.iv_havit).setOnClickListener {
+            itemHavitClickListener.onHavitClick(
+                holder.itemView.findViewById(R.id.iv_havit),
+                position
+            )
+        }
     }
 
+    //아이템 전체 클릭 리스터 인터페이스
     interface OnItemClickListener {
         fun onWebClick(v: View, position: Int)
     }
 
+    // 아이템 더보기 클릭 리스너 인터페이스
+    interface OnItemMoreClickListener {
+        fun onMoreClick(v: View, position: Int)
+    }
+
+    // 아이템 해빗 클릭 리스너 인터페이스
+    interface OnItemHavitClickListener {
+        fun onHavitClick(v: ImageView, position: Int)
+    }
+
+    // 외부에서 전체 클릭 시 이벤트 설정
     fun setItemClickListener(onItemClickListener: OnItemClickListener) {
         this.itemClickListener = onItemClickListener
+    }
+
+    // 외부에서 더보기 클릭 시 이벤트 설정
+    fun setItemMoreClickListner(onItemMoreClickListener: OnItemMoreClickListener) {
+        this.itemMoreClickListener = onItemMoreClickListener
+    }
+
+    // 외부에서 해빗 클릭 시 이벤트 설정
+    fun setHavitClickListener(onItemHavitClickListener: OnItemHavitClickListener) {
+        this.itemHavitClickListener = onItemHavitClickListener
     }
 
     override fun getItemCount(): Int = contentsList.size

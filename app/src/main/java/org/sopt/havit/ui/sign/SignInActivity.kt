@@ -29,7 +29,7 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
         }
     }
 
-    private fun startMainActivity(){
+    private fun startMainActivity() {
         val intent = Intent(this, org.sopt.havit.MainActivity::class.java)
         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         finish()
@@ -39,12 +39,9 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
             if (error != null) {
                 Toast.makeText(this, "토큰 정보 보기 실패", Toast.LENGTH_SHORT).show()
-
             } else if (tokenInfo != null) {
                 Toast.makeText(this, "토큰 정보 보기 성공", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, org.sopt.havit.MainActivity::class.java)
-                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                finish()
+                startMainActivity()
             }
         }
     }
@@ -60,35 +57,18 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
 
     private val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
-            when {
-                error.toString() == AuthErrorCause.AccessDenied.toString() -> {
-                    Toast.makeText(this, "접근이 거부 됨(동의 취소)", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == AuthErrorCause.InvalidClient.toString() -> {
-                    Toast.makeText(this, "유효하지 않은 앱", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == AuthErrorCause.InvalidGrant.toString() -> {
-                    Toast.makeText(this, "인증 수단이 유효하지 않아 인증할 수 없는 상태", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == AuthErrorCause.InvalidRequest.toString() -> {
-                    Toast.makeText(this, "요청 파라미터 오류", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == AuthErrorCause.InvalidScope.toString() -> {
-                    Toast.makeText(this, "유효하지 않은 scope ID", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == AuthErrorCause.Misconfigured.toString() -> {
-                    Toast.makeText(this, "설정이 올바르지 않음(android key hash)", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == AuthErrorCause.ServerError.toString() -> {
-                    Toast.makeText(this, "서버 내부 에러", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == AuthErrorCause.Unauthorized.toString() -> {
-                    Toast.makeText(this, "앱이 요청 권한이 없음", Toast.LENGTH_SHORT).show()
-                }
-                else -> { // Unknown
-                    Toast.makeText(this, "기타 에러", Toast.LENGTH_SHORT).show()
-                }
+            val authErrorToastMessage = when (error.toString()) {
+                AuthErrorCause.AccessDenied.toString() -> "접근이 거부 됨(동의 취소)"
+                AuthErrorCause.InvalidClient.toString() -> "유효하지 않은 앱"
+                AuthErrorCause.InvalidGrant.toString() -> "인증 수단이 유효하지 않아 인증할 수 없는 상태"
+                AuthErrorCause.InvalidRequest.toString() -> "요청 파라미터 오류"
+                AuthErrorCause.InvalidScope.toString() -> "유효하지 않은 scope ID"
+                AuthErrorCause.Misconfigured.toString() -> "설정이 올바르지 않음(android key hash)"
+                AuthErrorCause.ServerError.toString() -> "서버 내부 에러"
+                AuthErrorCause.Unauthorized.toString() -> "앱이 요청 권한이 없음"
+                else -> "기타 에러"
             }
+            Toast.makeText(this, authErrorToastMessage, Toast.LENGTH_SHORT).show()
         } else if (token != null) {
 
             UserApiClient.instance.me { user, _ -> // 사용자의 정보를 가져오는 코드.
@@ -111,26 +91,22 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
 
                     if (scopes.count() > 0) {
                         // 사용자 추가 정보 요청 코드.
-                        UserApiClient.instance.loginWithNewScopes(this, scopes) { token, error2 ->
-                            if (error2 != null) {
-                                Log.e("PASS", "사용자 추가 정보 획득 로그인 실패", error2)
-                            }else{
-                                // 사용자 정보 재요청.
-                                UserApiClient.instance.me { user, _ ->
-                                    if(user != null) {
-                                        startMainActivity() // 로그인 성공.
-                                    }
+                        UserApiClient.instance.loginWithNewScopes(this, scopes) { _, error ->
+                            if (error != null) {
+                                Log.e("PASS", "사용자 추가 정보 획득 로그인 실패", error)
+                            } else {
+                                UserApiClient.instance.me { user, _ -> // 사용자 정보 재요청.
+                                    if (user != null) {
+                                        startMainActivity()
+                                    } // 로그인 성공.
                                 }
                             }
 
                         }
 
-
                     } else {
                         startMainActivity()
                     }
-
-
                 }
             }
 

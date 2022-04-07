@@ -21,7 +21,7 @@ class HomeRecentContentsRvAdapter :
                 changeTimeFormat(data)  // 시간 형식 변경
             }
             data.description = data.description.replace(" ", "\u00a0") // tvHeader 단어 자동줄바꿈 막는 코드
-            binding.dataHomeContents = data
+            binding.homeRecentData = data
         }
 
         private fun changeTimeFormat(data: ContentsSimpleResponse.ContentsSimpleData) {

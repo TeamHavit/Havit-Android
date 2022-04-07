@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="data_home_contents"
+            name="homeRecentData"
             type="org.sopt.havit.data.remote.ContentsSimpleResponse.ContentsSimpleData" />
     </data>
 
@@ -26,7 +26,7 @@
 
             <ImageView
                 android:id="@+id/iv_thumbnail"
-                imageUrl="@{data_home_contents.image}"
+                imageUrl="@{homeRecentData.image}"
                 android:layout_width="match_parent"
                 android:layout_height="82dp"
                 android:scaleType="centerCrop"
@@ -51,7 +51,7 @@
                 android:ellipsize="end"
                 android:gravity="start"
                 android:maxLines="1"
-                android:text="@{data_home_contents.title}"
+                android:text="@{homeRecentData.title}"
                 android:textAppearance="@style/Mini10Regular"
                 android:textColor="@color/purple_text"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -72,7 +72,7 @@
             android:gravity="start"
             android:maxLines="2"
             android:minLines="2"
-            android:text="@{data_home_contents.description}"
+            android:text="@{homeRecentData.description}"
             android:textAppearance="@style/Text14Medium"
             android:textColor="@color/havit_gray"
             app:layout_constraintBottom_toTopOf="@id/tv_time"
@@ -86,7 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="@{data_home_contents.createdAt}"
+            android:text="@{homeRecentData.createdAt}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintBottom_toBottomOf="parent"

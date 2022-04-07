@@ -13,7 +13,7 @@ class HomeCategoryVpAdapter : RecyclerView.Adapter<HomeCategoryVpAdapter.HomeCat
     class HomeCategoryViewHolder(private val binding: ItemHomeCategoryRecyclerviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: List<CategoryResponse.AllCategoryData>, position: Int) {
-            val rvCategoryAdapter = HomeCategoryRvAdapter()
+            val rvCategoryAdapter = HomeCategoryRvAdapter(position)
             binding.rvCategory.adapter = rvCategoryAdapter
             rvCategoryAdapter.categoryList.addAll(
                 data
