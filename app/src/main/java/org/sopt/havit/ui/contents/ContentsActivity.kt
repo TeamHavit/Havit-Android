@@ -55,8 +55,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         clickItemMore()
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         setContentsData()
     }
 
