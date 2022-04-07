@@ -124,11 +124,4 @@ class HomeViewModel(context: Context) : ViewModel() {
     fun requestReachRate(rate: Int) {
         _reachRate.postValue(rate)
     }
-
-    // 도달률 팝업 문장
-    private val _popup = MutableLiveData<String>()
-    val popup: LiveData<String> = _popup
-    fun setPopupText(popupText: String) {
-        _popup.postValue(popupText)
-    }
 }
