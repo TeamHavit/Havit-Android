@@ -18,6 +18,11 @@
         android:theme="@style/Theme.Havit"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.setting.SettingUnregisterActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.setting.SettingPersonalDataActivity"
             android:configChanges="orientation"
             android:exported="false"
@@ -32,7 +37,6 @@
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ui.setting.SettingAlarmActivity"
             android:configChanges="orientation"
