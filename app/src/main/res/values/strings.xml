@@ -155,4 +155,15 @@
     <string name="url_hint">https://www.example.com/</string>
     <string name="ic_alarm">ic_alarm</string>
     <string name="select_complete">선택 완료</string>
+    <!-- 환경설정뷰 -->
+    <string name="setting">설정</string>
+    <string name="setting_nickname_end">님</string>
+    <string name="setting_modify">정보 수정</string>
+    <string name="setting_alarm">알림 설정</string>
+    <string name="service_info">서비스 정보</string>
+    <string name="service_notice">공지사항</string>
+    <string name="service_policy">약관 및 정책</string>
+    <string name="service_how_to_use">서비스 이용방법</string>
+    <string name="service_personal_data">개인정보 처리 방침</string>
+    <string name="version_info">버전 정보</string>
 </resources>
