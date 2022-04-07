@@ -12,6 +12,11 @@
         <action
             android:id="@+id/action_addNickNameFragment_to_addTosFragment"
             app:destination="@id/addTosFragment" />
+        <argument
+            android:name="nickName"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue=""/>
     </fragment>
     <fragment
         android:id="@+id/addTosFragment"

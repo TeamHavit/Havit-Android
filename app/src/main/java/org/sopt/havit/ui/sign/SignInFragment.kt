@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
@@ -117,7 +118,11 @@ class SignInFragment : BaseBindingFragment<FragmentSignInBinding>(R.layout.fragm
                             } else {
                                 UserApiClient.instance.me { user, _ -> // 사용자 정보 재요청.
                                     if (user != null) {
-                                        startMainActivity()
+                                        findNavController().navigate(
+                                            SignInFragmentDirections.actionSignInFragmentToAddNickNameFragment(
+                                                user.kakaoAccount?.profile?.nickname
+                                            )
+                                        )
                                     } // 로그인 성공.
                                 }
                             }
