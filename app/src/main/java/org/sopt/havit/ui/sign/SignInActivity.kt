@@ -29,7 +29,7 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
         }
     }
 
-    private fun startMainActivity(){
+    private fun startMainActivity() {
         val intent = Intent(this, org.sopt.havit.MainActivity::class.java)
         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         finish()
@@ -57,7 +57,7 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
 
     private val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
-            val authErrorToastMessage =when(error.toString()) {
+            val authErrorToastMessage = when (error.toString()) {
                 AuthErrorCause.AccessDenied.toString() -> "접근이 거부 됨(동의 취소)"
                 AuthErrorCause.InvalidClient.toString() -> "유효하지 않은 앱"
                 AuthErrorCause.InvalidGrant.toString() -> "인증 수단이 유효하지 않아 인증할 수 없는 상태"
@@ -76,25 +76,37 @@ class SignInActivity : BaseBindingActivity<ActivitySignInBinding>(R.layout.activ
                 if (user != null) {
                     val scopes = mutableListOf<String>()
 
-                    if (user.kakaoAccount?.emailNeedsAgreement == true) { scopes.add("account_email") }
-                    if (user.kakaoAccount?.birthdayNeedsAgreement == true) { scopes.add("birthday") }
-                    if (user.kakaoAccount?.birthyearNeedsAgreement == true) { scopes.add("birthyear") }
-                    if (user.kakaoAccount?.genderNeedsAgreement == true) { scopes.add("gender") }
+                    if (user.kakaoAccount?.emailNeedsAgreement == true) {
+                        scopes.add("account_email")
+                    }
+                    if (user.kakaoAccount?.birthdayNeedsAgreement == true) {
+                        scopes.add("birthday")
+                    }
+                    if (user.kakaoAccount?.birthyearNeedsAgreement == true) {
+                        scopes.add("birthyear")
+                    }
+                    if (user.kakaoAccount?.genderNeedsAgreement == true) {
+                        scopes.add("gender")
+                    }
 
                     if (scopes.count() > 0) {
                         // 사용자 추가 정보 요청 코드.
                         UserApiClient.instance.loginWithNewScopes(this, scopes) { _, error ->
                             if (error != null) {
                                 Log.e("PASS", "사용자 추가 정보 획득 로그인 실패", error)
-                            }else{
+                            } else {
                                 UserApiClient.instance.me { user, _ -> // 사용자 정보 재요청.
-                                    if(user != null) { startMainActivity() } // 로그인 성공.
+                                    if (user != null) {
+                                        startMainActivity()
+                                    } // 로그인 성공.
                                 }
                             }
 
                         }
 
-                    } else { startMainActivity() }
+                    } else {
+                        startMainActivity()
+                    }
                 }
             }
 
