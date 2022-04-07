@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentMyPageBinding
@@ -25,7 +24,7 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         binding.vm = myPageViewModel
-        binding.lifecycleOwner=viewLifecycleOwner
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -35,20 +34,37 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
         setListeners()
     }
 
-    private fun setMyPageView(){
+    private fun setMyPageView() {
         myPageViewModel.requestUserInfo()
     }
 
-    private fun setListeners(){
+    private fun setListeners() {
         binding.clCategoryNum.setOnClickListener {
-            startActivity(Intent(requireContext(),ContentsFromMyPageActivity::class.java).apply { putExtra("PageId",1) })
+            startActivity(
+                Intent(
+                    requireContext(),
+                    ContentsFromMyPageActivity::class.java
+                ).apply { putExtra("PageId", 1) })
         }
         binding.clSavedContents.setOnClickListener {
-            startActivity(Intent(requireContext(), ContentsActivity::class.java))
+            startActivity(Intent(requireContext(), ContentsActivity::class.java).apply {
+                putExtra("categoryId", ALL_CONTENTS_ID)
+                putExtra("categoryName", ALL_CONTENTS_NAME)
+            })
         }
         binding.clSeenContents.setOnClickListener {
-            startActivity(Intent(requireContext(), ContentsActivity::class.java))
+            startActivity(Intent(requireContext(), ContentsActivity::class.java).apply {
+                putExtra("categoryId", SEEN_CONTENTS_ID)
+                putExtra("categoryName", SEEN_CONTENTS_NAME)
+            })
         }
+    }
+
+    companion object {
+        const val ALL_CONTENTS_ID = -1
+        const val SEEN_CONTENTS_ID = -2
+        const val ALL_CONTENTS_NAME = "모든 콘텐츠"
+        const val SEEN_CONTENTS_NAME = "확인한 콘텐츠"
     }
 
 
