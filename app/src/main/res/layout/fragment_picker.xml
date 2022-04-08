@@ -14,10 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
+        android:contentDescription="@string/ic_alarm"
         android:src="@drawable/ic_alarm_active"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/ic_alarm" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- text 임의 설정입니다! 곧 수정 예정>_< -->
     <TextView
@@ -32,13 +32,34 @@
         app:layout_constraintTop_toTopOf="@id/iv_alarm" />
 
     <View
+        android:id="@+id/view_top_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="7dp"
         android:background="@color/gray_1"
         app:layout_constraintTop_toBottomOf="@id/iv_alarm" />
 
+    <TimePicker
+        android:id="@+id/picker_time"
+        android:layout_width="240dp"
+        android:layout_height="150dp"
+        android:elevation="1dp"
+        android:numbersSelectorColor="@color/havit_purple"
+        android:theme="@style/CustomPickerTheme"
+        android:timePickerMode="spinner"
+        app:layout_constraintBottom_toTopOf="@id/view_under_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_top_line" />
+
     <View
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/gray_0"
+        app:layout_constraintBottom_toTopOf="@id/view_under_line"
+        app:layout_constraintTop_toBottomOf="@id/view_top_line" />
+
+    <View
+        android:id="@+id/view_under_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="7dp"
@@ -49,10 +70,10 @@
         android:id="@+id/btn_complete"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/select_complete"
         android:background="@null"
+        android:text="@string/select_complete"
+        android:textAppearance="@style/Text16Semibold"
         android:textColor="@color/havit_purple"
-        android:textAppearance="@style/Text16Semibold" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

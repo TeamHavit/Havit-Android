@@ -13,7 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/gray_4</item>
         <!-- Customize your theme here. -->
         <item name="android:includeFontPadding">false</item>
-        <item name="android:forceDarkAllowed" tools:targetApi="q"> false </item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
 
     </style>
 
@@ -321,10 +321,24 @@
         <item name="android:letterSpacing">-0.016</item>
         <item name="android:lineSpacingExtra">5sp</item>
     </style>
+
     <style name="Theme.Havit.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="Theme.Havit.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="Theme.Havit.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="CustomPickerTheme" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/havit_purple</item>
+        <item name="android:textColorPrimary">@color/havit_purple</item>
+        <item name="colorControlNormal">@android:color/transparent</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">-0.022</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+    </style>
 </resources>
