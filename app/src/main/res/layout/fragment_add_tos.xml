@@ -43,7 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="88dp"
-            android:src="@drawable/ic_un_check"
+            android:src="@{vm.isAllCheck == true ? @drawable/ic_check : @drawable/ic_un_check}"
+            tools:src="@drawable/ic_un_check"
             app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
             app:layout_constraintTop_toBottomOf="@+id/tv_tos_subtitle" />
 
@@ -74,7 +75,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="23dp"
-            android:src="@drawable/ic_un_check"
+            android:src="@{vm.isTos1Check == true ? @drawable/ic_check : @drawable/ic_un_check}"
+            tools:src="@drawable/ic_check"
             app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
             app:layout_constraintTop_toBottomOf="@+id/view_tos" />
 
@@ -94,7 +96,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:src="@drawable/ic_un_check"
+            android:src="@{vm.isTos2Check == true ? @drawable/ic_check : @drawable/ic_un_check}"
+            tools:src="@drawable/ic_un_check"
             app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
             app:layout_constraintTop_toBottomOf="@+id/iv_tos_1" />
 
@@ -114,7 +117,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:src="@drawable/ic_un_check"
+            android:src="@{vm.isTos3Check == true ? @drawable/ic_check : @drawable/ic_un_check}"
+            tools:src="@drawable/ic_un_check"
             app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
             app:layout_constraintTop_toBottomOf="@+id/iv_tos_2" />
 
@@ -137,8 +141,8 @@
             android:text="@string/sign_havit_start"
             android:textAppearance="@style/Text16Semibold"
             android:textColor="@color/white"
-            btnColor="@{vm.isSaveClick}"
-            android:clickable="@{vm.isSaveClick == true ? true : false}"
+            btnColor="@{vm.isNextClick()}"
+            android:clickable="@{vm.isNextClick == true ? true : false}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

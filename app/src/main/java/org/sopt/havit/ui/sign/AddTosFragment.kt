@@ -41,6 +41,18 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
         binding.btnTosBack.setOnClickListener {
             findNavController().popBackStack()
         }
+        binding.ivTosAll.setOnClickListener {
+            signInViewModel.setAllCheck()
+        }
+        binding.ivTos1.setOnClickListener {
+            signInViewModel.setTos1Check()
+        }
+        binding.ivTos2.setOnClickListener {
+            signInViewModel.setTos2Check()
+        }
+        binding.ivTos3.setOnClickListener {
+            signInViewModel.setTos3Check()
+        }
     }
 
 
