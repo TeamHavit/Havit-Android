@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="org.sopt.havit.ui.sign.SignInViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,7 +60,7 @@
             android:background="@null"
             android:lines="1"
             android:maxLength="15"
-            android:paddingVertical="8dp"
+            android:paddingVertical="4dp"
             android:textAppearance="@style/Header18Medium"
             android:textColor="@color/havit_gray"
             app:layout_constraintEnd_toEndOf="parent"
@@ -64,10 +68,11 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_nickname_sub" />
 
         <View
+            android:id="@+id/view"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="6dp"
-            android:background="@color/gray_1"
+            android:layout_marginTop="4dp"
+            android:background="@color/havit_purple"
             app:layout_constraintEnd_toEndOf="@+id/et_nickname"
             app:layout_constraintStart_toStartOf="@+id/et_nickname"
             app:layout_constraintTop_toBottomOf="@+id/et_nickname" />
@@ -76,20 +81,21 @@
             android:id="@+id/tv_category_length_limit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:text="@string/category_length_limit"
             android:textAppearance="@style/Sub13Regular"
             android:textColor="@color/gray_2"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_nickname_delete_text"
-            app:layout_constraintEnd_toStartOf="@id/iv_nickname_delete_text"
-            app:layout_constraintTop_toTopOf="@+id/iv_nickname_delete_text" />
+            app:layout_constraintEnd_toEndOf="@id/view"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <TextView
             android:id="@+id/tv_category_length_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
+            android:text="@{String.valueOf(vm.nickName.length())}"
             android:textAppearance="@style/Sub13Regular"
-            android:textColor="@color/gray_2"
+            android:textColor="@color/havit_purple"
             app:layout_constraintBottom_toBottomOf="@id/tv_category_length_limit"
             app:layout_constraintEnd_toStartOf="@id/tv_category_length_limit"
             app:layout_constraintTop_toTopOf="@id/tv_category_length_limit"
@@ -99,7 +105,8 @@
             android:id="@+id/iv_nickname_delete_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:paddingVertical="8dp"
+            android:paddingStart="8dp"
             android:src="@drawable/ic_delete_text"
             app:layout_constraintBottom_toBottomOf="@+id/et_nickname"
             app:layout_constraintEnd_toEndOf="@+id/et_nickname"
@@ -107,6 +114,7 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_nickname_next"
+            btnColor="@{vm.isSaveClick}"
             android:layout_width="0dp"
             android:layout_height="58dp"
             android:text="@string/next"

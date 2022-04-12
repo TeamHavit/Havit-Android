@@ -32,7 +32,7 @@ class SignInFragment : BaseBindingFragment<FragmentSignInBinding>(R.layout.fragm
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setListeners()
-        setAutoLogin()
+        //setAutoLogin()
     }
 
     private fun setListeners() {
@@ -45,6 +45,14 @@ class SignInFragment : BaseBindingFragment<FragmentSignInBinding>(R.layout.fragm
         val intent = Intent(requireContext(), MainActivity::class.java)
         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         activity?.finish()
+    }
+
+    private fun startAddNickNameFragment(nickName: String) {
+        findNavController().navigate(
+            SignInFragmentDirections.actionSignInFragmentToAddNickNameFragment(
+                nickName
+            )
+        )
     }
 
     private fun setAutoLogin() { // 자동 로그인.
@@ -118,11 +126,7 @@ class SignInFragment : BaseBindingFragment<FragmentSignInBinding>(R.layout.fragm
                             } else {
                                 UserApiClient.instance.me { user, _ -> // 사용자 정보 재요청.
                                     if (user != null) {
-                                        findNavController().navigate(
-                                            SignInFragmentDirections.actionSignInFragmentToAddNickNameFragment(
-                                                user.kakaoAccount?.profile?.nickname
-                                            )
-                                        )
+                                        startAddNickNameFragment(user.kakaoAccount?.profile?.nickname!!)
                                     } // 로그인 성공.
                                 }
                             }
@@ -130,7 +134,7 @@ class SignInFragment : BaseBindingFragment<FragmentSignInBinding>(R.layout.fragm
                         }
 
                     } else {
-                        startMainActivity()
+                        startAddNickNameFragment(user.kakaoAccount?.profile?.nickname!!)
                     }
                 }
             }

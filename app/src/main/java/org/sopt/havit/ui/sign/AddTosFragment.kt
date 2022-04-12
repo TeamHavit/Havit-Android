@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentAddTosBinding
@@ -36,6 +37,9 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
         binding.btnTosStart.setOnClickListener {
             activity?.finish()
             startActivity(Intent(requireContext(), MainActivity::class.java))
+        }
+        binding.btnTosBack.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
