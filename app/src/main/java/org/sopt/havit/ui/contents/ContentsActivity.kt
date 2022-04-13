@@ -297,6 +297,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 putExtra("categoryName", categoryName)
                 putExtra("imageId", imageId)
                 putStringArrayListExtra("categoryNameList", categoryTitleList)
+                putExtra("preActivity", "ContentsActivity")
             }
 
             getResult.launch(intent)
@@ -308,8 +309,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             when (it.resultCode) {
                 RESULT_OK -> { // 삭제
-                    // 서버에 삭제 요청
-                    categoryViewModel.requestCategoryDelete(categoryId)
                     finish()
                 }
                 RESULT_FIRST_USER -> { // 카테고리 이름 & 아이콘 수정
@@ -320,8 +319,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                         title = categoryName
                         imageId = Companion.imageId
                     }
-                    // 서버에 수정된 내용 전달
-                    categoryViewModel.requestCategoryContent(categoryId, imageId, categoryName)
                     // 카테고리 이름 수정
                     setCategoryName() // 뷰모델의 카테고리 이름 변수 재설정
                     binding.tvCategory.text = categoryName
