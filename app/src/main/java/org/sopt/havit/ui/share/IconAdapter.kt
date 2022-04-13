@@ -1,6 +1,7 @@
 package org.sopt.havit.ui.share
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
@@ -26,10 +27,7 @@ class IconAdapter(private val onIconClick: (Int) -> Unit) :
         fun onBind(position: Int, onIconClick: (Int) -> Unit) {
             binding.categoryIcon = iconList[position]
             binding.root.setOnClickListener { onIconClick(position) }
-            binding.clIcon.setBackgroundResource(
-                if (isClickedIcon(position)) R.drawable.oval_gray_stroke_2
-                else R.drawable.oval_gray
-            )
+            binding.ivCheck.visibility = if (isClickedIcon(position)) View.VISIBLE else View.GONE
         }
 
         private fun isClickedIcon(position: Int): Boolean = clickedPosition == position

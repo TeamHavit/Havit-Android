@@ -13,9 +13,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_icon"
         android:layout_width="59dp"
+        android:layout_height="59dp"
         android:layout_marginStart="3dp"
         android:layout_marginEnd="3dp"
-        android:layout_height="59dp"
         android:layout_marginBottom="6dp"
         android:background="@drawable/oval_gray">
 
@@ -30,6 +30,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_select_inactive" />
+
+        <ImageView
+            android:id="@+id/iv_check"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/show_when_icon_clicked"
+            android:src="@drawable/ic_oval_check_62_with_stroke_1_5"
+            android:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
