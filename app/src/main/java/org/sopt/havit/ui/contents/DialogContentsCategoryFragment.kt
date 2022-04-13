@@ -20,7 +20,8 @@ import org.sopt.havit.databinding.FragmentDialogContentsCategoryBinding
 
 class DialogContentsCategoryFragment(
     private val categoryList: ArrayList<CategoryResponse.AllCategoryData>,
-    private val categoryName: String
+    private val categoryName: String,
+    private val categoryId: Int
 ) : DialogFragment() {
     private var _binding: FragmentDialogContentsCategoryBinding? = null
     val binding get() = _binding!!
@@ -62,7 +63,7 @@ class DialogContentsCategoryFragment(
     }
 
     private fun initAdapter() {
-        _contentsCategoryAdapter = ContentsCategoryAdapter()
+        _contentsCategoryAdapter = ContentsCategoryAdapter(categoryId)
         binding.rvCategoryList.adapter = contentsCategoryAdapter
     }
 

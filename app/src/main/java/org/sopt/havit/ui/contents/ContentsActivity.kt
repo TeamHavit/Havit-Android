@@ -27,6 +27,12 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
     private var contentsCategoryList = ArrayList<CategoryResponse.AllCategoryData>()
     private lateinit var getResult: ActivityResultLauncher<Intent>
+    private var categoryId = 0
+    private var categoryName = "error"
+    private var categoryIconId = 0
+    private var categoryPosition = 0
+    private var contentsOption = "all" // chip의 옵션 (전체/안봤어요/봤어요/알람)
+    private var contentsFilter = "created_at" // 정렬 필터 (최신순/과거순/최근조회순)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +88,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         intent.getStringExtra("categoryName")?.let {
             categoryName = it
         }
-        imageId = intent.getIntExtra("imageId", 0)
+        categoryIconId = intent.getIntExtra("imageId", 0)
         categoryPosition = intent.getIntExtra("position", 0)
         // 카테고리 이름 재설정
         setCategoryName()
@@ -179,7 +185,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     // 최신순, 과거순, 최근 조회순 다이얼로그별 화면 설정
     private fun setOrderDialog() {
         binding.clOrder.setOnClickListener {
-            val dialog = DialogContentsFilterFragment()
+            val dialog = DialogContentsFilterFragment(contentsFilter)
             dialog.show(supportFragmentManager, "contentsOrder")
 
             // 순서 클릭 시 이벤트 정의
@@ -202,7 +208,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun setCategoryListDialog() {
         binding.clCategory.setOnClickListener {
-            DialogContentsCategoryFragment(contentsCategoryList, categoryName).show(
+            DialogContentsCategoryFragment(contentsCategoryList, categoryName, categoryId).show(
                 supportFragmentManager,
                 "categoryList"
             )
@@ -295,7 +301,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             val intent = Intent(this, CategoryContentModifyActivity::class.java).apply {
                 putExtra("categoryId", categoryId)
                 putExtra("categoryName", categoryName)
-                putExtra("imageId", imageId)
+                putExtra("imageId", categoryIconId)
                 putStringArrayListExtra("categoryNameList", categoryTitleList)
                 putExtra("preActivity", "ContentsActivity")
             }
@@ -314,10 +320,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 RESULT_FIRST_USER -> { // 카테고리 이름 & 아이콘 수정
                     // 수정할 카테고리의 정보를 받아옴
                     categoryName = it.data?.getStringExtra("categoryName") ?: "null"
-                    imageId = it.data?.getIntExtra("imageId", 0) ?: 0
+                    categoryIconId = it.data?.getIntExtra("imageId", 0) ?: 0
                     contentsCategoryList[categoryPosition].apply {
                         title = categoryName
-                        imageId = Companion.imageId
+                        imageId = categoryIconId
                     }
                     // 카테고리 이름 수정
                     setCategoryName() // 뷰모델의 카테고리 이름 변수 재설정
@@ -366,12 +372,5 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         const val GRID_LAYOUT = 2
         const val LINEAR_MAX_LAYOUT = 3
         var layout = 1
-
-        var categoryId = 0
-        var categoryName = "error"
-        var imageId = 0
-        var categoryPosition = 0
-        var contentsOption = "all" // chip의 옵션 (전체/안봤어요/봤어요/알람)
-        var contentsFilter = "created_at" // 정렬 필터 (최신순/과거순/최근조회순)
     }
 }
