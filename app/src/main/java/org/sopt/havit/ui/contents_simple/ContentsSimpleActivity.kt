@@ -7,7 +7,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.R
-import org.sopt.havit.data.remote.ContentsSearchResponse
+import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.ActivityContentsSimpleBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.contents.ContentsMoreFragment
@@ -72,16 +72,14 @@ class ContentsSimpleActivity :
             ContentsSimpleRvAdapter.OnItemMoreClickListener {
             override fun onMoreClick(v: View, position: Int) {
                 val dataMore = contentsViewModel.contentsList.value?.get(position)!!.let {
-                    ContentsSearchResponse.Data(
-                        it.createdAt,
-                        it.description,
+                    ContentsMoreData(
                         it.id,
                         it.image,
-                        it.isNotified,
-                        it.isSeen,
-                        it.notificationTime,
                         it.title,
-                        it.url
+                        it.createdAt,
+                        it.url,
+                        it.isNotified,
+                        it.notificationTime
                     )
                 }
                 // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
