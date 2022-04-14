@@ -158,7 +158,7 @@
     <!-- 환경설정뷰 -->
     <string name="setting">설정</string>
     <string name="setting_nickname_end">님</string>
-    <string name="setting_modify">내 정보 수정</string>
+    <string name="setting_modify">프로필 수정</string>
     <string name="setting_alarm">알림 설정</string>
     <string name="service_info">서비스 정보</string>
     <string name="service_notice">공지사항</string>
