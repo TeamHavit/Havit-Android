@@ -43,7 +43,7 @@
             android:id="@+id/sv_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_back">
 
@@ -80,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@{vmSetting.email}"
+                    android:text="@{vmSetting.user.email}"
                     android:textAppearance="@style/Text12Semibold"
                     android:textColor="@color/gray_2"
                     app:layout_constraintStart_toStartOf="@id/tv_nickname"

@@ -18,9 +18,6 @@ class SettingViewModel(context: Context) : ViewModel() {
     private val _version = MutableLiveData<String>()
     val version: LiveData<String> = _version
 
-    private val _email = MutableLiveData<String>()  // 임시변수
-    val email: LiveData<String> = _email
-
     // version 정보 가져옴
     fun setVersion(appVersion: String) {
         _version.postValue(appVersion)
@@ -33,7 +30,6 @@ class SettingViewModel(context: Context) : ViewModel() {
                 val response = RetrofitObject.provideHavitApi(token)
                     .getUserData()
                 _user.postValue(response.data)
-                _email.postValue("babotaejun@kakao.com")    // 임시로 넣음
             } catch (e: Exception) {
             }
         }
