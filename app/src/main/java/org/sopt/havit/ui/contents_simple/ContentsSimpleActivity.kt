@@ -84,12 +84,12 @@ class ContentsSimpleActivity :
                 }
                 // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
                 val removeItem: (Int) -> Unit = {
-//                    val list = contentsAdapter.contentsList.toMutableList()
-//                    list.removeAt(it)
-//                    contentsViewModel.updateContentsList(list)
-//                    contentsViewModel.decreaseContentsCount(1)
-                    contentsAdapter.notifyItemRemoved(it)
-                    contentsViewModel.requestContentsTaken(contentsType)
+                    val list =
+                        contentsAdapter.contentsList.toMutableList() // mutable로 해주어야 삭제(수정) 가능
+                    list.removeAt(it)
+                    // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
+                    contentsViewModel.updateContentsList(list)
+                    contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
                 }
                 val dialog = ContentsMoreFragment(dataMore, removeItem, position)
                 dialog.show(supportFragmentManager, "setting")
