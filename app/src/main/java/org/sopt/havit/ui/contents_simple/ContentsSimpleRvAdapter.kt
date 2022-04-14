@@ -75,17 +75,17 @@ class ContentsSimpleRvAdapter :
 
         // 아이템 전체 클릭 시 onWebClick() 호출
         holder.itemView.setOnClickListener {
-            itemClickListener.onWebClick(it, position)
+            itemClickListener.onWebClick(it, holder.layoutPosition)
         }
         // 아이템 더보기 클릭 시 onMoreClick() 호출
         holder.itemView.findViewById<View>(R.id.iv_setting).setOnClickListener {
-            itemMoreClickListener.onMoreClick(it, position)
+            itemMoreClickListener.onMoreClick(it, holder.layoutPosition)
         }
         // 아이템 해빗 클릭 시 onHavitClick() 호출
         holder.itemView.findViewById<View>(R.id.iv_havit).setOnClickListener {
             itemHavitClickListener.onHavitClick(
                 holder.itemView.findViewById(R.id.iv_havit),
-                position
+                holder.layoutPosition
             )
         }
     }
