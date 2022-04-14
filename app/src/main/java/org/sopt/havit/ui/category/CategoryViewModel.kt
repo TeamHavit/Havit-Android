@@ -23,6 +23,8 @@ class CategoryViewModel(context: Context) : ViewModel() {
     val delay: LiveData<Boolean> = _delay
     private val _shareDelay = MutableLiveData(false)
     val shareDelay: LiveData<Boolean> = _shareDelay
+    private val _categoryLoad = MutableLiveData(true)
+    val categoryLoad: LiveData<Boolean> = _categoryLoad
 
     fun requestCategoryTaken() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -31,6 +33,7 @@ class CategoryViewModel(context: Context) : ViewModel() {
                     RetrofitObject.provideHavitApi(token).getAllCategory()
                 _categoryList.postValue(response.data)
                 _categoryCount.postValue(response.data.size)
+                _categoryLoad.postValue(false)
             } catch (e: Exception) {
             }
         }
