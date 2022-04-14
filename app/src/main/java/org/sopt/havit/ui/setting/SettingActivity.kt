@@ -16,7 +16,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
         binding.vmSetting = settingViewModel
         setVersion()
-        setClickListeners()
+        setClickListener()
     }
 
     override fun onStart() {
@@ -29,7 +29,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         settingViewModel.setVersion(version)
     }
 
-    private fun setClickListeners() {
+    private fun setClickListener() {
         // 뒤로가기
         binding.ivBack.setOnClickListener { finish() }
         // 프로필 수정
@@ -59,6 +59,14 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
             startActivity(Intent(this, SettingPersonalDataActivity::class.java).apply {
                 putExtra("beforeActivity", "setting")
             })
+        }
+        // 로그아웃
+        binding.tvLogout.setOnClickListener {
+            // 나중에 추가
+        }
+        // 회원 탈퇴
+        binding.clUnregister.setOnClickListener {
+            startActivity(Intent(this, SettingUnregisterActivity::class.java))
         }
     }
 

@@ -358,7 +358,7 @@
                     android:layout_marginTop="34dp"
                     android:background="@color/white_gray"
                     app:layout_constraintTop_toBottomOf="@id/tv_version_num">
-
+                    <!-- 로그아웃 -->
                     <TextView
                         android:id="@+id/tv_logout"
                         android:layout_width="match_parent"
@@ -371,29 +371,39 @@
                         android:textAppearance="@style/Text15Semibold"
                         android:textColor="@color/gray_3"
                         app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_unregister"
+                    <!-- 회원 탈퇴 -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_unregister"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:layout_marginBottom="64dp"
-                        android:text="@string/unregister"
-                        android:textAppearance="@style/Text12Semibold"
-                        android:textColor="@color/gray_2"
+                        android:layout_marginBottom="61dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_logout" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_logout">
+                        <!-- 회원탈퇴 -->
+                        <TextView
+                            android:id="@+id/tv_unregister"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/unregister"
+                            android:textAppearance="@style/Text12Semibold"
+                            android:textColor="@color/gray_2"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="2dp"
-                        android:background="@color/gray_2"
-                        app:layout_constraintEnd_toEndOf="@id/tv_unregister"
-                        app:layout_constraintStart_toStartOf="@id/tv_unregister"
-                        app:layout_constraintTop_toBottomOf="@id/tv_unregister" />
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="2dp"
+                            android:background="@color/gray_2"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/tv_unregister"
+                            app:layout_constraintStart_toStartOf="@id/tv_unregister"
+                            app:layout_constraintTop_toBottomOf="@id/tv_unregister" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

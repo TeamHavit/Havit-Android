@@ -1,6 +1,5 @@
 package org.sopt.havit.ui.setting
 
-import android.content.Intent
 import android.os.Bundle
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingModifyBinding
@@ -12,13 +11,10 @@ class SettingModifyActivity :
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setClickListeners()
+        setClickListener()
     }
 
-    private fun setClickListeners() {
+    private fun setClickListener() {
         binding.ivBack.setOnClickListener { finish() }
-        binding.clUnregister.setOnClickListener {
-            startActivity(Intent(this, SettingUnregisterActivity::class.java))
-        }
     }
 }
