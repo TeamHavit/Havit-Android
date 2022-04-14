@@ -165,7 +165,11 @@
     <string name="service_policy">약관 및 정책</string>
     <string name="service_how_to_use">서비스 이용방법</string>
     <string name="service_personal_data">개인정보 처리 방침</string>
+    <string name="help_and_others">도움말 및 기타</string>
+    <string name="customer_center">고객 센터</string>
+    <string name="customer_center_email">havitcs@gmail.com</string>
     <string name="version_info">버전 정보</string>
+    <string name="logout">로그아웃</string>
     <!-- 환경설정 - 내 정보 수정 -->
     <string name="unregister">회원 탈퇴</string>
     <string name="save_contents_state">나의 콘텐츠 저장 현황</string>

@@ -87,27 +87,15 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_nickname"
                     tools:text="babotaejun@kakao.com" />
 
-                <TextView
-                    android:id="@+id/setting_modify"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ImageView
+                    android:id="@+id/iv_edit"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_marginEnd="16dp"
-                    android:text="@string/setting_modify"
-                    android:textAppearance="@style/Sub12Medium"
-                    android:textColor="@color/gray_2"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_email"
+                    android:src="@drawable/ic_edit_gray"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_nickname"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_email" />
-
-                <!-- 내 정보 수정 텍스트 아래의 선 -->
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="1dp"
-                    android:background="@color/gray_2"
-                    app:layout_constraintEnd_toEndOf="@id/setting_modify"
-                    app:layout_constraintStart_toStartOf="@id/setting_modify"
-                    app:layout_constraintTop_toBottomOf="@id/setting_modify" />
+                    app:layout_constraintTop_toTopOf="@id/tv_nickname" />
                 <!-- 유저 정보 아래의 회색 선 -->
                 <View
                     android:layout_width="0dp"
@@ -293,38 +281,120 @@
                     android:background="@color/gray_0"
                     app:layout_constraintTop_toBottomOf="@id/cl_personal_data" />
 
+                <!-- 도움말 및 기타 -->
+                <TextView
+                    android:id="@+id/tv_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="55dp"
+                    android:text="@string/help_and_others"
+                    android:textAppearance="@style/Text12Semibold"
+                    android:textColor="@color/gray_2"
+                    app:layout_constraintStart_toStartOf="@id/tv_nickname"
+                    app:layout_constraintTop_toBottomOf="@id/cl_personal_data" />
+
+                <!-- 고객센터 -->
+                <TextView
+                    android:id="@+id/tv_customer_center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/customer_center"
+                    android:textAppearance="@style/Text16Semibold"
+                    android:textColor="@color/gray_4"
+                    app:layout_constraintStart_toStartOf="@id/tv_nickname"
+                    app:layout_constraintTop_toBottomOf="@id/tv_help" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/customer_center_email"
+                    android:textAppearance="@style/Text15Semibold"
+                    android:textColor="@color/gray_3"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_customer_center"
+                    app:layout_constraintEnd_toEndOf="@id/iv_edit"
+                    app:layout_constraintTop_toTopOf="@id/tv_customer_center" />
+
                 <!-- 버전 정보 -->
                 <TextView
                     android:id="@+id/tv_version_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="59dp"
+                    android:layout_marginTop="34dp"
                     android:layout_marginBottom="31dp"
                     android:text="@string/version_info"
                     android:textAppearance="@style/List16Semibold"
                     android:textColor="@color/gray_4"
                     app:layout_constraintStart_toStartOf="@id/tv_nickname"
-                    app:layout_constraintTop_toBottomOf="@id/cl_personal_data" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_customer_center" />
 
                 <TextView
-                    android:id="@+id/tv_version"
+                    android:id="@+id/tv_version_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{vmSetting.version}"
+                    android:text="@{vmSetting.isLatest? `최신 버전` : `업데이트`}"
                     android:textAppearance="@style/Button15Medium"
                     android:textColor="@color/gray_3"
                     app:layout_constraintBottom_toBottomOf="@id/tv_version_info"
-                    app:layout_constraintEnd_toEndOf="@id/setting_modify"
+                    app:layout_constraintEnd_toEndOf="@id/iv_edit"
                     app:layout_constraintTop_toTopOf="@id/tv_version_info"
                     tools:text="최신 버전" />
 
-                <View
+                <TextView
+                    android:id="@+id/tv_version_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@{`현재 버전 `+ vmSetting.version}"
+                    android:textAppearance="@style/Sub12Regular"
+                    android:textColor="@color/gray_3"
+                    app:layout_constraintEnd_toEndOf="@id/tv_version_status"
+                    app:layout_constraintTop_toBottomOf="@id/tv_version_info"
+                    tools:text="현재 버전 1.0" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="97dp"
-                    android:layout_marginTop="31dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="34dp"
                     android:background="@color/white_gray"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_version_info" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_version_num">
+
+                    <TextView
+                        android:id="@+id/tv_logout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="17dp"
+                        android:background="@color/gray_1"
+                        android:gravity="center"
+                        android:paddingVertical="18dp"
+                        android:text="@string/logout"
+                        android:textAppearance="@style/Text15Semibold"
+                        android:textColor="@color/gray_3"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_unregister"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="64dp"
+                        android:text="@string/unregister"
+                        android:textAppearance="@style/Text12Semibold"
+                        android:textColor="@color/gray_2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_logout" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/gray_2"
+                        app:layout_constraintEnd_toEndOf="@id/tv_unregister"
+                        app:layout_constraintStart_toStartOf="@id/tv_unregister"
+                        app:layout_constraintTop_toBottomOf="@id/tv_unregister" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

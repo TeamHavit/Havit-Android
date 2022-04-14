@@ -33,7 +33,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         // 뒤로가기
         binding.ivBack.setOnClickListener { finish() }
         // 내 정보 수정
-        binding.settingModify.setOnClickListener {
+        binding.ivEdit.setOnClickListener {
             startActivity(Intent(this, SettingModifyActivity::class.java))
         }
         // 알림 설정
