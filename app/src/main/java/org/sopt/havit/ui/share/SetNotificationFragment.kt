@@ -40,9 +40,11 @@ class SetNotificationFragment :
                 R.id.rbtn_2h -> getNotificationTime(TWO_HOUR)
                 R.id.rbtn_3h -> getNotificationTime(THREE_HOUR)
                 R.id.rbtn_tomorrow -> getNotificationTime(TWENTY_FOUR_HOUR)
-                else -> getNotificationTime(ONE_MIN) // DatePicker Dialog 로 변경 예정
+                R.id.rbtn_choose_time -> return@setOnCheckedChangeListener
+                else -> throw IllegalStateException()
             }
         }
+        binding.rbtnChooseTime.setOnClickListener { showPickerFragment() }
     }
 
     private fun initToolbarListener() {
@@ -61,7 +63,7 @@ class SetNotificationFragment :
             TWO_HOUR -> cal.add(Calendar.HOUR, 2)
             THREE_HOUR -> cal.add(Calendar.HOUR, 3)
             TWENTY_FOUR_HOUR -> cal.add(Calendar.DATE, 1)
-            else -> showPickerFragment()
+            else -> throw IllegalStateException()
         }
         Log.d("After  change : ", df.format(cal.time))
         notificationTime = df.format(cal.time)
@@ -99,6 +101,5 @@ class SetNotificationFragment :
         const val TWO_HOUR = 2
         const val THREE_HOUR = 3
         const val TWENTY_FOUR_HOUR = 24
-        const val ONE_MIN = -1
     }
 }
