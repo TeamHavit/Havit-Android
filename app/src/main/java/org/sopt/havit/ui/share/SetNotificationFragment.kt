@@ -23,7 +23,9 @@ class SetNotificationFragment :
     private lateinit var notificationTime: String
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         initRadioGroupListener()
@@ -91,7 +93,6 @@ class SetNotificationFragment :
     private fun goBack() {
         findNavController().popBackStack()
     }
-
 
     companion object {
         const val ONE_HOUR = 1
