@@ -39,19 +39,33 @@
         android:background="@color/gray_1"
         app:layout_constraintTop_toBottomOf="@id/iv_alarm" />
 
+    <NumberPicker
+        android:id="@+id/picker_date"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:elevation="1dp"
+        android:theme="@style/CustomPickerTheme"
+        app:layout_constraintBottom_toTopOf="@id/view_under_line"
+        app:layout_constraintEnd_toStartOf="@+id/picker_time"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/view_spinner_focus"
+        app:layout_constraintTop_toBottomOf="@id/view_top_line" />
+
     <TimePicker
         android:id="@+id/picker_time"
-        android:layout_width="240dp"
+        android:layout_width="220dp"
         android:layout_height="150dp"
         android:elevation="1dp"
         android:numbersSelectorColor="@color/havit_purple"
         android:theme="@style/CustomPickerTheme"
         android:timePickerMode="spinner"
         app:layout_constraintBottom_toTopOf="@id/view_under_line"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/view_spinner_focus"
+        app:layout_constraintStart_toEndOf="@+id/picker_date"
         app:layout_constraintTop_toBottomOf="@id/view_top_line" />
 
     <View
+        android:id="@+id/view_spinner_focus"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/gray_0"
