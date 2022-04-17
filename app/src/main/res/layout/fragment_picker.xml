@@ -53,8 +53,8 @@
 
     <TimePicker
         android:id="@+id/picker_time"
-        android:layout_width="220dp"
-        android:layout_height="150dp"
+        android:layout_width="230dp"
+        android:layout_height="180dp"
         android:elevation="1dp"
         android:numbersSelectorColor="@color/havit_purple"
         android:theme="@style/CustomPickerTheme"
