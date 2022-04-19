@@ -12,41 +12,41 @@ class SignInViewModel : ViewModel() {
 
     var nickName = MutableLiveData<String>()
     var isAllCheck = MutableLiveData<Boolean>()
-    var isTos1Check = MutableLiveData<Boolean>()
-    var isTos2Check = MutableLiveData<Boolean>()
-    var isTos3Check = MutableLiveData<Boolean>()
+    var isTosUseCheck = MutableLiveData<Boolean>()
+    var isTosInfoCheck = MutableLiveData<Boolean>()
+    var isTosEventCheck = MutableLiveData<Boolean>()
 
     init {
         _isSaveClick.value = true
         isNextClick.value=false
         isAllCheck.value = false
-        isTos1Check.value = false
-        isTos2Check.value = false
-        isTos3Check.value = false
+        isTosUseCheck.value = false
+        isTosInfoCheck.value = false
+        isTosEventCheck.value = false
 
     }
 
     fun setAllCheck() {
         isAllCheck.value = !isAllCheck.value!!
-        isTos1Check.value = !isTos1Check.value!!
-        isTos2Check.value = !isTos2Check.value!!
-        isTos3Check.value = !isTos3Check.value!!
+        isTosUseCheck.value = !isTosUseCheck.value!!
+        isTosInfoCheck.value = !isTosInfoCheck.value!!
+        isTosEventCheck.value = !isTosEventCheck.value!!
         isNextClick.value = isAllCheck.value != false
     }
 
     fun setTos1Check() {
-        isTos1Check.value = !isTos1Check.value!!
-        isNextClick.value = isTos1Check.value != false
+        isTosUseCheck.value = !isTosUseCheck.value!!
+        isNextClick.value = isTosUseCheck.value != false
     }
 
     fun setTos2Check() {
-        isTos2Check.value = !isTos2Check.value!!
-        isNextClick.value = isTos2Check.value != false
+        isTosInfoCheck.value = !isTosInfoCheck.value!!
+        isNextClick.value = isTosInfoCheck.value != false
     }
 
     fun setTos3Check() {
-        isTos3Check.value = !isTos3Check.value!!
-        isNextClick.value = isTos3Check.value != false
+        isTosEventCheck.value = !isTosEventCheck.value!!
+        isNextClick.value = isTosEventCheck.value != false
     }
 
     fun setClick(click: Boolean) {
