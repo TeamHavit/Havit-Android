@@ -34,17 +34,17 @@ class SignInViewModel : ViewModel() {
         isNextClick.value = isAllCheck.value != false
     }
 
-    fun setTos1Check() {
+    fun setTosUseCheck() {
         isTosUseCheck.value = !isTosUseCheck.value!!
         isNextClick.value = isTosUseCheck.value != false
     }
 
-    fun setTos2Check() {
+    fun setTosInfoCheck() {
         isTosInfoCheck.value = !isTosInfoCheck.value!!
         isNextClick.value = isTosInfoCheck.value != false
     }
 
-    fun setTos3Check() {
+    fun setTosEventCheck() {
         isTosEventCheck.value = !isTosEventCheck.value!!
         isNextClick.value = isTosEventCheck.value != false
     }

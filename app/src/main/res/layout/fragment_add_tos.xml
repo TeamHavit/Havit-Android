@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="23dp"
-            android:src="@{vm.isTos1Check == true ? @drawable/ic_check : @drawable/ic_un_check}"
+            android:src="@{vm.isTosUseCheck == true ? @drawable/ic_check : @drawable/ic_un_check}"
             tools:src="@drawable/ic_check"
             app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
             app:layout_constraintTop_toBottomOf="@+id/view_tos" />
@@ -96,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:src="@{vm.isTos2Check == true ? @drawable/ic_check : @drawable/ic_un_check}"
+            android:src="@{vm.isTosInfoCheck == true ? @drawable/ic_check : @drawable/ic_un_check}"
             tools:src="@drawable/ic_un_check"
             app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
             app:layout_constraintTop_toBottomOf="@+id/iv_tos_use" />
@@ -117,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:src="@{vm.isTos3Check == true ? @drawable/ic_check : @drawable/ic_un_check}"
+            android:src="@{vm.isTosEventCheck == true ? @drawable/ic_check : @drawable/ic_un_check}"
             tools:src="@drawable/ic_un_check"
             app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
             app:layout_constraintTop_toBottomOf="@+id/iv_tos_info" />
