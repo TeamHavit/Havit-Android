@@ -35,7 +35,7 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
 
     private fun setListeners() {
         binding.btnTosStart.setOnClickListener {
-            activity?.finish()
+            requireActivity().finish()
             startActivity(Intent(requireContext(), MainActivity::class.java))
         }
         binding.btnTosBack.setOnClickListener {
@@ -44,13 +44,13 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
         binding.ivTosAll.setOnClickListener {
             signInViewModel.setAllCheck()
         }
-        binding.ivTos1.setOnClickListener {
+        binding.ivTosUse.setOnClickListener {
             signInViewModel.setTos1Check()
         }
-        binding.ivTos2.setOnClickListener {
+        binding.ivTosInfo.setOnClickListener {
             signInViewModel.setTos2Check()
         }
-        binding.ivTos3.setOnClickListener {
+        binding.ivTosEvent.setOnClickListener {
             signInViewModel.setTos3Check()
         }
     }

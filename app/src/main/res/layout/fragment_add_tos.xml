@@ -71,7 +71,7 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_tos_all" />
 
         <ImageView
-            android:id="@+id/iv_tos_1"
+            android:id="@+id/iv_tos_use"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="23dp"
@@ -87,19 +87,19 @@
             android:text="@string/sign_tos_1"
             android:textAppearance="@style/Text16Regular"
             android:textColor="@color/gray_3"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_tos_1"
-            app:layout_constraintStart_toEndOf="@+id/iv_tos_1"
-            app:layout_constraintTop_toTopOf="@+id/iv_tos_1" />
+            app:layout_constraintBottom_toBottomOf="@+id/iv_tos_use"
+            app:layout_constraintStart_toEndOf="@+id/iv_tos_use"
+            app:layout_constraintTop_toTopOf="@+id/iv_tos_use" />
 
         <ImageView
-            android:id="@+id/iv_tos_2"
+            android:id="@+id/iv_tos_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:src="@{vm.isTos2Check == true ? @drawable/ic_check : @drawable/ic_un_check}"
             tools:src="@drawable/ic_un_check"
             app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
-            app:layout_constraintTop_toBottomOf="@+id/iv_tos_1" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_tos_use" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -108,19 +108,19 @@
             android:text="@string/sign_tos_2"
             android:textAppearance="@style/Text16Regular"
             android:textColor="@color/gray_3"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_tos_2"
-            app:layout_constraintStart_toEndOf="@+id/iv_tos_2"
-            app:layout_constraintTop_toTopOf="@+id/iv_tos_2" />
+            app:layout_constraintBottom_toBottomOf="@+id/iv_tos_info"
+            app:layout_constraintStart_toEndOf="@+id/iv_tos_info"
+            app:layout_constraintTop_toTopOf="@+id/iv_tos_info" />
 
         <ImageView
-            android:id="@+id/iv_tos_3"
+            android:id="@+id/iv_tos_event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:src="@{vm.isTos3Check == true ? @drawable/ic_check : @drawable/ic_un_check}"
             tools:src="@drawable/ic_un_check"
             app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
-            app:layout_constraintTop_toBottomOf="@+id/iv_tos_2" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_tos_info" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -129,9 +129,9 @@
             android:text="@string/sign_tos_3"
             android:textAppearance="@style/Text16Regular"
             android:textColor="@color/gray_3"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_tos_3"
-            app:layout_constraintStart_toEndOf="@+id/iv_tos_3"
-            app:layout_constraintTop_toTopOf="@+id/iv_tos_3" />
+            app:layout_constraintBottom_toBottomOf="@+id/iv_tos_event"
+            app:layout_constraintStart_toEndOf="@+id/iv_tos_event"
+            app:layout_constraintTop_toTopOf="@+id/iv_tos_event" />
 
 
         <androidx.appcompat.widget.AppCompatButton
