@@ -45,13 +45,13 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
             signInViewModel.setAllCheck()
         }
         binding.ivTosUse.setOnClickListener {
-            signInViewModel.setTos1Check()
+            signInViewModel.setTosUseCheck()
         }
         binding.ivTosInfo.setOnClickListener {
-            signInViewModel.setTos2Check()
+            signInViewModel.setTosInfoCheck()
         }
         binding.ivTosEvent.setOnClickListener {
-            signInViewModel.setTos3Check()
+            signInViewModel.setTosEventCheck()
         }
     }
 
