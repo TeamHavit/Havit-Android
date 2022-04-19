@@ -35,8 +35,8 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
 
     private fun setListeners() {
         binding.btnTosStart.setOnClickListener {
-            requireActivity().finish()
             startActivity(Intent(requireContext(), MainActivity::class.java))
+            requireActivity().finish()
         }
         binding.btnTosBack.setOnClickListener {
             findNavController().popBackStack()

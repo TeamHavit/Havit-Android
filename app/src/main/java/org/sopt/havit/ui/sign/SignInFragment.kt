@@ -58,9 +58,8 @@ class SignInFragment : BaseBindingFragment<FragmentSignInBinding>(R.layout.fragm
     private fun setAutoLogin() { // 자동 로그인.
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
             if (error != null) {
-                Toast.makeText(requireContext(), "토큰 정보 보기 실패", Toast.LENGTH_SHORT).show()
+                setLogin()
             } else if (tokenInfo != null) {
-                Toast.makeText(requireContext(), "토큰 정보 보기 성공", Toast.LENGTH_SHORT).show()
                 startMainActivity()
             }
         }
@@ -126,7 +125,7 @@ class SignInFragment : BaseBindingFragment<FragmentSignInBinding>(R.layout.fragm
                             } else {
                                 UserApiClient.instance.me { user, _ -> // 사용자 정보 재요청.
                                     if (user != null) {
-                                        startAddNickNameFragment(user.kakaoAccount?.profile?.nickname!!)
+                                        startAddNickNameFragment(user.kakaoAccount?.profile?.nickname?:"")
                                     } // 로그인 성공.
                                 }
                             }
@@ -134,7 +133,7 @@ class SignInFragment : BaseBindingFragment<FragmentSignInBinding>(R.layout.fragm
                         }
 
                     } else {
-                        startAddNickNameFragment(user.kakaoAccount?.profile?.nickname!!)
+                        startAddNickNameFragment(user.kakaoAccount?.profile?.nickname?:"")
                     }
                 }
             }
