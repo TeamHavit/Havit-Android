@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_sign"
+    app:startDestination="@id/signInFragment">
+
+    <fragment
+        android:id="@+id/addNickNameFragment"
+        android:name="org.sopt.havit.ui.sign.AddNickNameFragment"
+        android:label="AddNickNameFragment" >
+        <action
+            android:id="@+id/action_addNickNameFragment_to_addTosFragment"
+            app:destination="@id/addTosFragment" />
+        <argument
+            android:name="nickName"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue=""/>
+    </fragment>
+    <fragment
+        android:id="@+id/addTosFragment"
+        android:name="org.sopt.havit.ui.sign.AddTosFragment"
+        android:label="AddTosFragment" />
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="org.sopt.havit.ui.sign.SignInFragment"
+        android:label="SignInFragment"
+        tools:layout="@layout/fragment_sign_in">
+        <action
+            android:id="@+id/action_signInFragment_to_addNickNameFragment"
+            app:destination="@id/addNickNameFragment" />
+    </fragment>
+</navigation>

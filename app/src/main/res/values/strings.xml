@@ -112,6 +112,14 @@
     <string name="after_1h">1시간 뒤</string>
     <string name="choose_time">직접 시간 선택</string>
     <string name="title_activity_category_add">CategoryAddActivity</string>
+    <string name="sign_nickname_title">프로필 설정</string>
+    <string name="sign_nickname_subtitle">사용하실\n닉네임을 입력하세요.</string>
+    <string name="sign_tos_subtitle">서비스 이용을 위해\n이용약관 동의가 필요합니다.</string>
+    <string name="sign_tos_agree_all">전체 동의</string>
+    <string name="sign_tos_1"><u>약관 및 정책</u></string>
+    <string name="sign_tos_2"><u>개인정보처리방침</u></string>
+    <string name="sign_tos_3">이벤트, 광고성 정보 안내 (선택)</string>
+    <string name="sign_havit_start">HAVIT 시작하기</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
