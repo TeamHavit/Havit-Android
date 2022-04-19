@@ -25,7 +25,6 @@ class SignInFragment : BaseBindingFragment<FragmentSignInBinding>(R.layout.fragm
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        // Inflate the layout for this fragment
         return binding.root
     }
 
