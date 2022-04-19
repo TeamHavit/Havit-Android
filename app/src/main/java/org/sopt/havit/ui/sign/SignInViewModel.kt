@@ -49,6 +49,14 @@ class SignInViewModel : ViewModel() {
         isNextClick.value = isTosEventCheck.value != false
     }
 
+    fun setNickName(name:String){
+        nickName.value=name
+    }
+
+    fun setClearNickName(){
+        nickName.value=""
+    }
+
     fun setClick(click: Boolean) {
         _isSaveClick.value = click
     }

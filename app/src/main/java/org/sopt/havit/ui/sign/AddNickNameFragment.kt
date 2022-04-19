@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentAddNickNameBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import kotlin.math.sign
 
 class AddNickNameFragment :
     BaseBindingFragment<FragmentAddNickNameBinding>(R.layout.fragment_add_nick_name) {
@@ -36,13 +37,12 @@ class AddNickNameFragment :
     }
 
     private fun setNickName() {
-        binding.etNickname.setText(args.nickName)
-        signInViewModel.nickName.value = args.nickName
+        signInViewModel.setNickName(args.nickName?:"")
     }
 
     private fun setTextWatcher() {
         binding.etNickname.addTextChangedListener {
-            signInViewModel.nickName.value = binding.etNickname.text.toString()
+            signInViewModel.setNickName(binding.etNickname.text.toString())
         }
     }
 
@@ -51,7 +51,7 @@ class AddNickNameFragment :
             findNavController().navigate(R.id.action_addNickNameFragment_to_addTosFragment)
         }
         binding.ivNicknameDeleteText.setOnClickListener {
-            binding.etNickname.setText("")
+            signInViewModel.setClearNickName()
         }
         binding.btnNicknameBack.setOnClickListener {
             findNavController().popBackStack()
