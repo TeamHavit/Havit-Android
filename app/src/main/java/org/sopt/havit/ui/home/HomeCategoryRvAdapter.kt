@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemHomeCategoryListBinding
+import org.sopt.havit.ui.category.CategoryFragment
 import org.sopt.havit.ui.contents.ContentsActivity
 
 class HomeCategoryRvAdapter(page: Int) :
@@ -68,9 +69,9 @@ class HomeCategoryRvAdapter(page: Int) :
 
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, ContentsActivity::class.java)
-            intent.putExtra(categoryId, categoryList[position].id)
-            intent.putExtra(categoryName, categoryList[position].title)
-            intent.putExtra(categoryPosition, pagePosition * 6 + position - 1 )
+            intent.putExtra(CategoryFragment.categoryId, categoryList[position].id)
+            intent.putExtra(CategoryFragment.categoryName, categoryList[position].title)
+            intent.putExtra(CategoryFragment.categoryPosition, pagePosition * 6 + position - 1)
             startActivity(holder.itemView.context, intent, null)
         }
     }
@@ -79,8 +80,5 @@ class HomeCategoryRvAdapter(page: Int) :
 
     companion object {
         const val isFirst = 0
-        const val categoryId = "categoryId"
-        const val categoryName = "categoryName"
-        const val categoryPosition = "position"
     }
 }

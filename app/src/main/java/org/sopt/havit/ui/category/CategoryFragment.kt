@@ -94,10 +94,10 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                 val intent = Intent(requireActivity(), ContentsActivity::class.java)
                 categoryViewModel.categoryList.value?.get(position)
                     ?.let {
-                        intent.putExtra("categoryId", it.id)
-                        intent.putExtra("categoryName", it.title)
-                        intent.putExtra("imageId", it.imageId)
-                        intent.putExtra("position", position)
+                        intent.putExtra(categoryId, it.id)
+                        intent.putExtra(categoryName, it.title)
+                        intent.putExtra(categoryImageId, it.imageId)
+                        intent.putExtra(categoryPosition, position)
                     }
                 startActivity(intent)
             }
@@ -120,5 +120,9 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
 
     companion object {
         const val CATEGORY_MAX = 23
+        const val categoryId = "categoryId"
+        const val categoryName = "categoryName"
+        const val categoryPosition = "position"
+        const val categoryImageId = "imageId"
     }
 }
