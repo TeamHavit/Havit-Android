@@ -72,7 +72,7 @@ class ContentsSimpleActivity :
         contentsAdapter.setItemMoreClickListner(object :
             ContentsSimpleRvAdapter.OnItemMoreClickListener {
             override fun onMoreClick(v: View, position: Int) {
-                val dataMore = contentsViewModel.contentsList.value?.get(position)!!.let {
+                val dataMore = contentsViewModel.contentsList.value?.get(position)?.let {
                     ContentsMoreData(
                         it.id,
                         it.image,
@@ -92,8 +92,8 @@ class ContentsSimpleActivity :
                     contentsViewModel.updateContentsList(list)
                     contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
                 }
-                val dialog = ContentsMoreFragment(dataMore, removeItem, position)
-                dialog.show(supportFragmentManager, "setting")
+                val dialog = dataMore?.let { ContentsMoreFragment(it, removeItem, position) }
+                dialog?.show(supportFragmentManager, "setting")
             }
         })
     }
