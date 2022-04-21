@@ -116,9 +116,9 @@ class ContentsSimpleActivity :
     }
 
     private fun initContents() {
-        intent?.let {
-            it.getStringExtra(HomeFragment.preActivity)?.let { preActivity ->
-                contentsType = preActivity
+        intent?.let { intent ->
+            intent.getStringExtra(HomeFragment.contentType)?.let {
+                contentsType = it
             }
         }
     }
