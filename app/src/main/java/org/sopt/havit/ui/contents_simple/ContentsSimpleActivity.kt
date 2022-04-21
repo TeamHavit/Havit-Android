@@ -11,6 +11,7 @@ import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.ActivityContentsSimpleBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.contents.ContentsMoreFragment
+import org.sopt.havit.ui.home.HomeFragment
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.CustomToast
@@ -116,8 +117,8 @@ class ContentsSimpleActivity :
 
     private fun initContents() {
         intent?.let {
-            it.getStringExtra("before")?.let { before ->
-                contentsType = before
+            it.getStringExtra(HomeFragment.preActivity)?.let { preActivity ->
+                contentsType = preActivity
             }
         }
     }
