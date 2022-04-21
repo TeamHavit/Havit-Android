@@ -67,10 +67,11 @@ class HomeCategoryRvAdapter(page: Int) :
         holder.onBind(categoryList[position], position)
 
         holder.itemView.setOnClickListener {
+            categoryPosition = pagePosition * 6 + position - 1
             val intent = Intent(it.context, ContentsActivity::class.java)
             intent.putExtra("categoryId", categoryList[position].id)
             intent.putExtra("categoryName", categoryList[position].title)
-            intent.putExtra("position", pagePosition * 6 + position - 1)
+            intent.putExtra("position", categoryPosition)
             startActivity(holder.itemView.context, intent, null)
         }
     }
@@ -79,5 +80,6 @@ class HomeCategoryRvAdapter(page: Int) :
 
     companion object {
         const val isFirst = 0
+        var categoryPosition = 1
     }
 }
