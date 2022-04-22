@@ -11,18 +11,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.sign.SignInActivity">
+    tools:context=".ui.sign.SignActivity">
 
-    <ImageButton
-        android:id="@+id/kakao_login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/kakao_login_medium_wide"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/nav_host_fragment_activity_sign"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_sign"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
