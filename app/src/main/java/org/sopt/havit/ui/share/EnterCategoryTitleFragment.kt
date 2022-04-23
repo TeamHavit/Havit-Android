@@ -28,7 +28,6 @@ class EnterCategoryTitleFragment :
         setKeyBoardUp()
         toolbarClickListener()
         setUpAsSoftKeyboard(view) // 다음버튼 위/아래 움직이게
-
     }
 
     private fun initNetwork() {

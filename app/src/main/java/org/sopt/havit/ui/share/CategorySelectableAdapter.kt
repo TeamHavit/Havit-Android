@@ -13,7 +13,7 @@ import org.sopt.havit.databinding.ItemCategorySelectableBinding
 class CategorySelectableAdapter :
     RecyclerView.Adapter<CategorySelectableAdapter.CategorySelectableViewHolder>() {
     val categorySelectableList = mutableListOf<CategoryResponse.AllCategoryData>()
-    lateinit var clickedCategory : Array<Boolean>
+    lateinit var clickedCategory: Array<Boolean>
 //    var clickedCategory = Array(categorySelectableList.size) { _ -> false }
 
     override fun onCreateViewHolder(
@@ -37,7 +37,7 @@ class CategorySelectableAdapter :
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
             Log.d("CategoryAdapter_", "$position clicked in Adapter")
-            clickedCategory[position] = !clickedCategory[position]  //0부터 시작
+            clickedCategory[position] = !clickedCategory[position] // 0부터 시작
             notifyItemChanged(position)
 
             clickedCategory.forEach {
@@ -77,5 +77,4 @@ class CategorySelectableAdapter :
             }
         }
     }
-
 }

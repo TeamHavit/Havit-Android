@@ -26,7 +26,6 @@ class ShareActivity : AppCompatActivity() {
     }
 
     private fun moveToLogin() {
-
     }
 
     private fun startShareProcess() {

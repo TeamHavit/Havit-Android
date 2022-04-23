@@ -15,7 +15,9 @@ class EditTitleFragment : Fragment(), OnBackPressedHandler {
     private val args by navArgs<EditTitleFragmentArgs>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentEditTitleBinding.inflate(layoutInflater, container, false)
         return binding.root

@@ -19,7 +19,9 @@ class BottomSheetShareFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentBottomSheetShareBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -31,8 +33,8 @@ class BottomSheetShareFragment : BottomSheetDialogFragment() {
 
     private fun setBottomSheetHeight() {
         (dialog as BottomSheetDialog).behavior.apply {
-            state = BottomSheetBehavior.STATE_EXPANDED      // 높이 고정
-            skipCollapsed = true                            // HALF_EXPANDED 안되게 설정
+            state = BottomSheetBehavior.STATE_EXPANDED // 높이 고정
+            skipCollapsed = true // HALF_EXPANDED 안되게 설정
         }
 
         // 휴대폰 화면의 0.94배 높이
