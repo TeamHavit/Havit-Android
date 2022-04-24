@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemDialogContentsTopBinding
 
-class ContentsCategoryAdapter :
+class ContentsCategoryAdapter(private val categoryId: Int) :
     RecyclerView.Adapter<ContentsCategoryAdapter.ContentsCategoryViewHolder>() {
     val contentsCategoryList = mutableListOf<CategoryResponse.AllCategoryData>()
     private lateinit var itemClickListener: OnItemClickListener
@@ -46,7 +46,7 @@ class ContentsCategoryAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: CategoryResponse.AllCategoryData) {
             binding.category = data
-            if(data.id == ContentsActivity.categoryId){
+            if(data.id == categoryId){
                 binding.tvCategory.setTextColor(Color.parseColor("#8578ff"))
                 binding.ivChecked.visibility = View.VISIBLE
             }
