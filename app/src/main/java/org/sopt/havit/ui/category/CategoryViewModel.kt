@@ -68,7 +68,7 @@ class CategoryViewModel(context: Context) : ViewModel() {
     fun requestCategoryDelete(id:Int){
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response =RetrofitObject.provideHavitApi(token) .deleteCategory(id)
+                val response = RetrofitObject.provideHavitApi(token).deleteCategory(id)
 
                 Log.d("requestCategoryDelete", "$response.success")
             } catch (e: Exception) {
