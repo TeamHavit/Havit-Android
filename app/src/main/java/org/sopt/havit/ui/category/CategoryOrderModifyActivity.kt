@@ -56,13 +56,11 @@ class CategoryOrderModifyActivity :
     private fun setResult() {
         // 데이터 받아옴 (카테고리 내용 수정 뷰에서)
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            when(it.resultCode){
+            when (it.resultCode) {
                 RESULT_OK -> { // 삭제
                     // 삭제할 카테고리의 정보를 받아옴
                     val position = it.data?.getIntExtra("position", 0) ?: 0
-                    val id = it.data?.getIntExtra("id", 0) ?: 0
-                    // 서버에 삭제 요청
-                    categoryViewModel.requestCategoryDelete(id)
+
                     // 리사이클러뷰 변경
                     categoryOrderModifyAdapter.removeData(position)
                 }
@@ -71,12 +69,9 @@ class CategoryOrderModifyActivity :
                     val position = it.data?.getIntExtra("position", 0) ?: 0
                     val name = it.data?.getStringExtra("categoryName") ?: "null"
                     val image = it.data?.getIntExtra("imageId", 0) ?: 0
-                    val id = it.data?.getIntExtra("id", 0) ?: 0
 
-                    // 서버에 수정된 내용 전달
-                    categoryViewModel.requestCategoryContent(id, image, name)
                     // 리사이클러뷰 변경
-                    with(categoryOrderModifyAdapter.categoryList[position]){
+                    with(categoryOrderModifyAdapter.categoryList[position]) {
                         title = name
                         imageId = image
                         url = "https://havit-bucket.s3.ap-northeast-2.amazonaws.com/category_image/3d_icon_${image}.png"
@@ -91,19 +86,21 @@ class CategoryOrderModifyActivity :
         categoryOrderModifyAdapter.setItemClickListener(object :
             CategoryOrderModifyAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
-                val intent = Intent(v.context, CategoryContentModifyActivity::class.java)
-
-                categoryOrderModifyAdapter.categoryList[position].let {
-                    intent.putExtra("categoryId", it.id)
-                    intent.putExtra("categoryName", it.title)
-                    intent.putExtra("imageId", it.imageId)
-                }
-                intent.putExtra("position", position)
                 // 카테고리 이름 list
                 val categoryTitleList = ArrayList<String>()
                 for (item in categoryOrderModifyAdapter.categoryList)
                     categoryTitleList.add(item.title)
-                intent.putStringArrayListExtra("categoryNameList", categoryTitleList)
+
+                val intent = Intent(v.context, CategoryContentModifyActivity::class.java).apply {
+                    categoryOrderModifyAdapter.categoryList[position].let {
+                        putExtra("categoryId", it.id)
+                        putExtra("categoryName", it.title)
+                        putExtra("imageId", it.imageId)
+                    }
+                    putExtra("position", position)
+                    putStringArrayListExtra("categoryNameList", categoryTitleList)
+                    putExtra("preActivity", "CategoryOrderModifyActivity")
+                }
 
                 // 데이터를 담고 전달
                 getResult.launch(intent)
@@ -145,13 +142,13 @@ class CategoryOrderModifyActivity :
 
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
                 super.onSelectedChanged(viewHolder, actionState)
-                when(actionState){
+                when (actionState) {
                     ItemTouchHelper.ACTION_STATE_DRAG -> { // 순서변경 중
                         holder = viewHolder!!
                         viewHolder.itemView.findViewById<View>(R.id.cl_category_list)
                             .setBackgroundResource(R.drawable.rectangle_purple_light_radius_6)
                     }
-                    ItemTouchHelper.ACTION_STATE_IDLE->{ // 순서변경이 끝나면 해당 아이템 레이아웃 변경
+                    ItemTouchHelper.ACTION_STATE_IDLE -> { // 순서변경이 끝나면 해당 아이템 레이아웃 변경
                         holder.itemView.findViewById<View>(R.id.cl_category_list)
                             .setBackgroundResource(R.drawable.rectangle_purple_category_radius_6)
                     }
