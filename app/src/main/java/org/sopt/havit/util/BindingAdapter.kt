@@ -64,7 +64,7 @@ object BindingAdapter {
     fun ImageView.loadSearch(url: String?) {
         Glide.with(context)
             .load(url)
-            .transform(CenterCrop(),RoundedCorners(px(4)))
+            .transform(CenterCrop(), RoundedCorners(px(4)))
             .placeholder(R.drawable.img_contents_dummy)
             .into(this)
     }
@@ -103,7 +103,7 @@ object BindingAdapter {
     fun ImageView.setOgImage(url: String?) {
         Glide.with(context)
             .load(url)
-            .transform(CenterCrop(),RoundedCorners(px(6)))
+            .transform(CenterCrop(), RoundedCorners(px(6)))
             .placeholder(R.drawable.img_contents_dummy_3)
             .into(this)
     }
@@ -127,6 +127,19 @@ object BindingAdapter {
             in 34..66 -> Glide.with(imageView).load(R.drawable.ic_illust_stage_2).into(imageView)
             in 67..99 -> Glide.with(imageView).load(R.drawable.ic_illust_stage_3).into(imageView)
             100 -> Glide.with(imageView).load(R.drawable.ic_illust_stage_4).into(imageView)
+        }
+    }
+
+    @BindingAdapter("popupDescription")
+    @JvmStatic
+    fun setPopupDescription(textView: TextView, rate: Int) {
+        when (rate) {
+            in 0..33 -> textView.text = textView.context.getString(R.string.home_popup_description1)
+            in 34..66 -> textView.text =
+                textView.context.getString(R.string.home_popup_description2)
+            in 67..99 -> textView.text =
+                textView.context.getString(R.string.home_popup_description3)
+            100 -> textView.text = textView.context.getString(R.string.home_popup_description4)
         }
     }
 

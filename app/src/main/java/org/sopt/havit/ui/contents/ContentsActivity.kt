@@ -15,6 +15,7 @@ import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryContentModifyActivity
+import org.sopt.havit.ui.category.CategoryFragment
 import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
@@ -84,12 +85,13 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         categoryViewModel.requestCategoryTaken()
 
         // 카테고리 뷰에서 넘겨받은 데이터를 ContentsActivity의 변수에 할당
-        categoryId = intent.getIntExtra("categoryId", 0).also { binding.categoryId = it }
-        intent.getStringExtra("categoryName")?.let {
+        categoryId =
+            intent.getIntExtra(CategoryFragment.CATEGORY_ID, 0).also { binding.categoryId = it }
+        intent.getStringExtra(CategoryFragment.CATEGORY_NAME)?.let {
             categoryName = it
         }
-        categoryIconId = intent.getIntExtra("imageId", 0)
-        categoryPosition = intent.getIntExtra("position", 0)
+        categoryIconId = intent.getIntExtra(CategoryFragment.CATEGORY_IMAGE_ID, 0)
+        categoryPosition = intent.getIntExtra(CategoryFragment.CATEGORY_POSITION, 0)
         // 카테고리 이름 재설정
         setCategoryName()
     }
@@ -218,7 +220,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun moveSearch() {
         binding.clSearch.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
-            intent.putExtra("categoryName", "${contentsViewModel.categoryName}")
+            intent.putExtra(CategoryFragment.CATEGORY_NAME, "${contentsViewModel.categoryName}")
             startActivity(intent)
         }
     }
@@ -299,9 +301,9 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
             // 카테고리 수정 뷰로 넘길 intent
             val intent = Intent(this, CategoryContentModifyActivity::class.java).apply {
-                putExtra("categoryId", categoryId)
-                putExtra("categoryName", categoryName)
-                putExtra("imageId", categoryIconId)
+                putExtra(CategoryFragment.CATEGORY_ID, categoryId)
+                putExtra(CategoryFragment.CATEGORY_NAME, categoryName)
+                putExtra(CategoryFragment.CATEGORY_IMAGE_ID, categoryIconId)
                 putStringArrayListExtra("categoryNameList", categoryTitleList)
                 putExtra("preActivity", "ContentsActivity")
             }
@@ -319,8 +321,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 }
                 RESULT_FIRST_USER -> { // 카테고리 이름 & 아이콘 수정
                     // 수정할 카테고리의 정보를 받아옴
-                    categoryName = it.data?.getStringExtra("categoryName") ?: "null"
-                    categoryIconId = it.data?.getIntExtra("imageId", 0) ?: 0
+                    categoryName = it.data?.getStringExtra(CategoryFragment.CATEGORY_NAME) ?: "null"
+                    categoryIconId = it.data?.getIntExtra(CategoryFragment.CATEGORY_IMAGE_ID, 0) ?: 0
                     contentsCategoryList[categoryPosition].apply {
                         title = categoryName
                         imageId = categoryIconId

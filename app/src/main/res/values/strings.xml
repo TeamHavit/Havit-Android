@@ -135,10 +135,10 @@
     <string name="contents_havit_complete">콘텐츠 확인 완료 !</string>
     <string name="notification_will_alarm">알림 예정</string>
     <string name="notification_done_alarm">지난 알람</string>
-    <string name="home_popup_level1">비상이에요! 확인하지 않은 콘텐츠가 많이 있어요!</string>
-    <string name="home_popup_level2">밀린 콘텐츠를 확인해 보는 건 어떨까요?</string>
-    <string name="home_popup_level3">저장한 콘텐츠가 밀리지 않도록 조심하세요!</string>
-    <string name="home_popup_level4">축하드려요! 저장한 콘텐츠를 전부 확인했어요!</string>
+    <string name="home_popup_description1">비상이에요! 확인하지 않은 콘텐츠가 많이 있어요!</string>
+    <string name="home_popup_description2">밀린 콘텐츠를 확인해 보는 건 어떨까요?</string>
+    <string name="home_popup_description3">저장한 콘텐츠가 밀리지 않도록 조심하세요!</string>
+    <string name="home_popup_description4">축하드려요! 저장한 콘텐츠를 전부 확인했어요!</string>
     <string name="category_added">&#160;카테고리가 추가되었습니다.</string>    <!-- &#160;는 띄어쓰기를 위한 문자열입니다-->
     <string name="contents_order">정렬</string>
     <string name="category_create_recommend">카테고리를 생성하여 콘텐츠를 쉽게 정리해보세요.</string>

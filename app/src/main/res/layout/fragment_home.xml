@@ -94,12 +94,12 @@
 
                     <TextView
                         android:id="@+id/tv_popup"
+                        popupDescription="@{vmHome.reachRate}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="22dp"
                         android:layout_marginTop="13dp"
                         android:layout_marginBottom="14dp"
-                        android:text="@{vmHome.popup}"
                         android:textAppearance="@style/Text14Regular"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
