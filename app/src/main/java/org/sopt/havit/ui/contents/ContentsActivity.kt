@@ -80,12 +80,12 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         // 카테고리 뷰에서 넘겨받은 데이터를 ContentsActivity의 변수에 할당
         categoryId =
-            intent.getIntExtra(CategoryFragment.categoryId, 0).also { binding.categoryId = it }
-        intent.getStringExtra(CategoryFragment.categoryName)?.let {
+            intent.getIntExtra(CategoryFragment.CATEGORY_ID, 0).also { binding.categoryId = it }
+        intent.getStringExtra(CategoryFragment.CATEGORY_NAME)?.let {
             categoryName = it
         }
-        imageId = intent.getIntExtra(CategoryFragment.categoryImageId, 0)
-        categoryPosition = intent.getIntExtra(CategoryFragment.categoryPosition, 0)
+        imageId = intent.getIntExtra(CategoryFragment.CATEGORY_IMAGE_ID, 0)
+        categoryPosition = intent.getIntExtra(CategoryFragment.CATEGORY_POSITION, 0)
         // 카테고리 이름 재설정
         setCategoryName()
     }
@@ -214,7 +214,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun moveSearch() {
         binding.clSearch.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
-            intent.putExtra(CategoryFragment.categoryName, "${contentsViewModel.categoryName}")
+            intent.putExtra(CategoryFragment.CATEGORY_NAME, "${contentsViewModel.categoryName}")
             startActivity(intent)
         }
     }
@@ -295,9 +295,9 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
             // 카테고리 수정 뷰로 넘길 intent
             val intent = Intent(this, CategoryContentModifyActivity::class.java).apply {
-                putExtra(CategoryFragment.categoryId, categoryId)
-                putExtra(CategoryFragment.categoryName, categoryName)
-                putExtra(CategoryFragment.categoryImageId, imageId)
+                putExtra(CategoryFragment.CATEGORY_ID, categoryId)
+                putExtra(CategoryFragment.CATEGORY_NAME, categoryName)
+                putExtra(CategoryFragment.CATEGORY_IMAGE_ID, imageId)
                 putStringArrayListExtra("categoryNameList", categoryTitleList)
             }
 
@@ -316,8 +316,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 }
                 RESULT_FIRST_USER -> { // 카테고리 이름 & 아이콘 수정
                     // 수정할 카테고리의 정보를 받아옴
-                    categoryName = it.data?.getStringExtra(CategoryFragment.categoryName) ?: "null"
-                    imageId = it.data?.getIntExtra(CategoryFragment.categoryImageId, 0) ?: 0
+                    categoryName = it.data?.getStringExtra(CategoryFragment.CATEGORY_NAME) ?: "null"
+                    imageId = it.data?.getIntExtra(CategoryFragment.CATEGORY_IMAGE_ID, 0) ?: 0
                     contentsCategoryList[categoryPosition].apply {
                         title = categoryName
                         imageId = Companion.imageId

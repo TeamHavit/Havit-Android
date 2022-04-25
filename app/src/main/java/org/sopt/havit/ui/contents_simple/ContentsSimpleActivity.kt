@@ -117,7 +117,7 @@ class ContentsSimpleActivity :
 
     private fun initContents() {
         intent?.let { intent ->
-            intent.getStringExtra(HomeFragment.contentType)?.let {
+            intent.getStringExtra(HomeFragment.CONTENT_TYPE)?.let {
                 contentsType = it
             }
         }

@@ -218,7 +218,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
         binding.clReachContents.setOnClickListener {
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
-            intent.putExtra(contentType, "unseen")
+            intent.putExtra(CONTENT_TYPE, "unseen")
             startActivity(intent)
         }
         binding.layoutCategory.tvCategoryAll.setOnClickListener {
@@ -231,7 +231,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
         binding.tvMoreContents.setOnClickListener {
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
-            intent.putExtra(contentType, "recent")
+            intent.putExtra(CONTENT_TYPE, "recent")
             startActivity(intent)
         }
         clickRecommendItemView()        // 추천콘텐츠 클릭->웹뷰로 이동
@@ -273,6 +273,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     }
 
     companion object {
-        const val contentType = "contentType"
+        const val CONTENT_TYPE = "contentType"
     }
 }

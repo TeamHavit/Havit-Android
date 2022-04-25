@@ -69,9 +69,9 @@ class HomeCategoryRvAdapter(page: Int) :
 
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, ContentsActivity::class.java)
-            intent.putExtra(CategoryFragment.categoryId, categoryList[position].id)
-            intent.putExtra(CategoryFragment.categoryName, categoryList[position].title)
-            intent.putExtra(CategoryFragment.categoryPosition, pagePosition * 6 + position - 1)
+            intent.putExtra(CategoryFragment.CATEGORY_ID, categoryList[position].id)
+            intent.putExtra(CategoryFragment.CATEGORY_NAME, categoryList[position].title)
+            intent.putExtra(CategoryFragment.CATEGORY_POSITION, pagePosition * 6 + position - 1)
             startActivity(holder.itemView.context, intent, null)
         }
     }
