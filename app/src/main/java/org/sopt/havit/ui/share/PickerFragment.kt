@@ -97,7 +97,7 @@ class PickerFragment : BottomSheetDialogFragment() {
 
     private fun setTimeText() {
         val hour = timePicker.hour
-        val hourDisplay = if (hour < 12) "오전 $hour" else "오후 ${hour - 12}:"
+        val hourDisplay = if (hour < 12) "오전 $hour:" else "오후 ${hour - 12}:"
         val min = timePicker.minute
         val minDF = DecimalFormat("00")
         val minDisplay = minDF.format(min * 5)
