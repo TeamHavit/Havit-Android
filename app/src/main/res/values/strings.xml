@@ -193,4 +193,6 @@
     <string name="edit_nickname">&#160;사용하실 닉네임을 입력하세요</string>
     <string name="nickname_length_limit">/15</string>
     <string name="show_when_icon_clicked">showWhenIconClicked</string>
+    <string name="app_notice">공지사항</string>
+    <string name="contents_noti">콘텐츠 알림</string>
 </resources>
