@@ -2,7 +2,6 @@ package org.sopt.havit.ui.share
 
 import android.app.Dialog
 import android.content.ContentValues.TAG
-import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +14,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentPickerBinding
-import java.text.DateFormat
+import org.sopt.havit.util.CalenderUtil.DURATION
+import org.sopt.havit.util.CalenderUtil.dateFormatMD
+import org.sopt.havit.util.CalenderUtil.dayStrMapper
+import org.sopt.havit.util.CalenderUtil.setTimePickerInterval
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,8 +26,11 @@ class PickerFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentPickerBinding? = null
     private val binding get() = _binding!!
+    private lateinit var datePicker: NumberPicker
+    private lateinit var timePicker: TimePicker
+    private val dateList = arrayOfNulls<String>(DURATION)
+    private val calList = arrayOfNulls<Calendar>(DURATION)
 
-    // Round Corner
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return BottomSheetDialog(requireContext(), R.style.AppBottomSheetDialogTheme)
     }
@@ -39,49 +45,82 @@ class PickerFragment : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initPicker()
         setBottomSheetHeight()
-        setDateByUsingNumberPicker()
-        setTimePickerInterval(binding.pickerTime)
+        setDatePickerData()
+        setTimePickerInterval(timePicker)
+        setTimePickerIdx()
+        setDateText()
+        setTimeText()
+        initCompleteBtnClick()
+        dateScrollListener()
+        timeScrollListener()
     }
 
-    private fun setDateByUsingNumberPicker() {
-        val datePicker = binding.pickerDate
-        val dateList = arrayOfNulls<String>(100)
+    private fun initPicker() {
+        datePicker = binding.pickerDate
+        timePicker = binding.pickerTime
+    }
 
-        val cal: Calendar = Calendar.getInstance().apply { time = Date() }
-        val dayStrMapper =
-            mapOf(1 to "일", 2 to "월", 3 to "화", 4 to "수", 5 to "목", 6 to "금", 7 to "토")
-        val df: DateFormat = SimpleDateFormat("M월 d일 ", Locale.getDefault())
-        dateList[0] = "${df.format(cal.time)}${dayStrMapper[cal.get(Calendar.DAY_OF_WEEK)]}"
-        for (i in 1..99) {
+    private fun setDatePickerData() {
+        val cal = Calendar.getInstance().apply { time = Date() }
+        for (i in 0 until DURATION) {
+            calList[i] = cal
+            val dateOfCal = dayStrMapper[cal.get(Calendar.DAY_OF_WEEK)]
+            dateList[i] = "${dateFormatMD.format(cal.time)}$dateOfCal"
             cal.add(Calendar.DATE, 1)
-            val todayDay = dayStrMapper[cal.get(Calendar.DAY_OF_WEEK)]
-            dateList[i] = "${df.format(cal.time)}$todayDay"
-            Log.d("time_string", "${df.format(cal.time)}$todayDay")
         }
-
         datePicker.displayedValues = dateList
         datePicker.minValue = 0
         datePicker.maxValue = dateList.size - 1
         datePicker.wrapSelectorWheel = false
     }
 
-    private fun setTimePickerInterval(timePicker: TimePicker) {
-        try {
-            val minutePicker = timePicker.findViewById(
-                Resources.getSystem().getIdentifier("minute", "id", "android")
-            ) as NumberPicker
+    private fun setTimePickerIdx() {
+        // 현재시간과 가까운 5분단위 분 설정
+        val cal = Calendar.getInstance().apply { time = Date() }
+        val df = SimpleDateFormat("m", Locale.getDefault())
+        val min = df.format(cal.time).toInt()
+        val quotient = min / 5
+        val idx = (quotient + (if (min % 5 != 0) 1 else 0)) % 12
+        binding.pickerTime.minute = idx
+        if (idx == 0 && idx != quotient) binding.pickerTime.hour += 1
+    }
 
-            minutePicker.minValue = 0
-            minutePicker.maxValue = 60 / 5 - 1
-            val displayedValues: MutableList<String> = ArrayList()
-            for (i in 0..59 step 5) {
-                displayedValues.add(String.format("%02d", i))
-            }
-            minutePicker.displayedValues = displayedValues.toTypedArray()
-        } catch (e: Exception) {
-            Log.e(TAG, "Exception: $e")
+    private fun setDateText() {
+        val idx = datePicker.value
+        val year = calList[idx]?.get(Calendar.YEAR)
+        val monthDay = dateList[idx]
+        val displayStr = year.toString() + monthDay.toString()
+        binding.tvNotiDate.text = displayStr
+    }
+
+    private fun setTimeText() {
+        val hour = timePicker.hour
+        val hourDisplay = if (hour < 12) "오전 $hour" else "오후 ${hour - 12}:"
+        val min = timePicker.minute
+        val minDF = DecimalFormat("00")
+        val minDisplay = minDF.format(min * 5)
+        val displayStr = hourDisplay + minDisplay
+        binding.tvNotiTime.text = displayStr
+    }
+
+    private fun initCompleteBtnClick() {
+        binding.btnComplete.setOnClickListener {
+            // index -> datePicker.value
+            // Log.d(TAG, "initListener:${datePicker.displayedValues[datePicker.value]}")
+            Log.d(TAG, "initListener:${dateList[datePicker.value]}")
+            Log.d(TAG, "initListener: ${calList[datePicker.value]?.get(Calendar.YEAR)}")
+            // Log.d(TAG, "initListener: ${datePicker.display}") // hardware display
         }
+    }
+
+    private fun dateScrollListener() {
+        binding.pickerDate.setOnValueChangedListener { _, _, _ -> setDateText() }
+    }
+
+    private fun timeScrollListener() {
+        binding.pickerTime.setOnTimeChangedListener { _, _, _ -> setTimeText() }
     }
 
     private fun setBottomSheetHeight() {

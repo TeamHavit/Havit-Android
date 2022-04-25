@@ -21,15 +21,35 @@
 
     <!-- text 임의 설정입니다! 곧 수정 예정>_< -->
     <TextView
-        android:id="@+id/tv_notification_time"
+        android:id="@+id/tv_noti_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:text="2022년 1월 4일 화 ㅣ 오후 9:00"
         android:textAppearance="@style/Button15Medium"
         app:layout_constraintBottom_toBottomOf="@id/iv_alarm"
         app:layout_constraintStart_toEndOf="@id/iv_alarm"
-        app:layout_constraintTop_toTopOf="@id/iv_alarm" />
+        app:layout_constraintTop_toTopOf="@id/iv_alarm"
+        tools:text="2022년 1월 4일 화 " />
+
+    <TextView
+        android:id="@+id/tv_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/noti_divider"
+        android:textAppearance="@style/Button15Medium"
+        app:layout_constraintBottom_toBottomOf="@id/tv_noti_date"
+        app:layout_constraintStart_toEndOf="@id/tv_noti_date"
+        app:layout_constraintTop_toTopOf="@id/tv_noti_date" />
+
+    <TextView
+        android:id="@+id/tv_noti_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Button15Medium"
+        app:layout_constraintBottom_toBottomOf="@id/tv_noti_date"
+        app:layout_constraintStart_toEndOf="@id/tv_divider"
+        app:layout_constraintTop_toTopOf="@id/tv_noti_date"
+        android:text="오후 9:00" />
 
     <View
         android:id="@+id/view_top_line"
