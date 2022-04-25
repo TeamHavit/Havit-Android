@@ -188,5 +188,9 @@
     <string name="unregister_caution">탈퇴 회원 유의사항</string>
     <string name="unregister_caution_check">회원 탈퇴에 관한 모든 내용을 숙지했습니다.</string>
     <string name="unregister_short">탈퇴</string>
+    <!-- 환경설정 - 프로필 수정 -->
+    <string name="nickname">닉네임</string>
+    <string name="edit_nickname">&#160;사용하실 닉네임을 입력하세요</string>
+    <string name="nickname_length_limit">/15</string>
     <string name="show_when_icon_clicked">showWhenIconClicked</string>
 </resources>

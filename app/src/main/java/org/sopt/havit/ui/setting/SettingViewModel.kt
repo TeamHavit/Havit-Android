@@ -1,17 +1,14 @@
 package org.sopt.havit.ui.setting
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import org.sopt.havit.MyFirebaseMessagingService.Companion.TAG
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.UserResponse
 import org.sopt.havit.util.MySharedPreference
-import java.security.KeyStore
 
 class SettingViewModel(context: Context) : ViewModel() {
     private val token = MySharedPreference.getXAuthToken(context)
@@ -22,6 +19,10 @@ class SettingViewModel(context: Context) : ViewModel() {
     val version: LiveData<String> = _version
     private val _isLatest = MutableLiveData<Boolean>()
     val isLatest: LiveData<Boolean> = _isLatest
+
+    // 환경설정_내정보수정
+    private val _nicknameLength = MutableLiveData<Int>()
+    val nicknameLength: LiveData<Int> = _nicknameLength
 
     // version 정보 가져옴
     fun setVersion(appVersion: String) {
@@ -42,5 +43,9 @@ class SettingViewModel(context: Context) : ViewModel() {
             } catch (e: Exception) {
             }
         }
+    }
+
+    fun setNicknameLength(length: Int) {
+        _nicknameLength.postValue(length)
     }
 }
