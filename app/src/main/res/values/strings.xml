@@ -145,6 +145,7 @@
     <!-- Dialog 작업용 -->
     <string name="cancel">취소</string>
     <string name="exit">나가기</string>
+    <string name="remove">삭제</string>
     <string name="cancel_edit_category_title">카테고리 수정 취소</string>
     <string name="cancel_edit_category_description">수정을 취소하고 나가시겠습니까?\n수정한 내용은 저장되지 않습니다.</string>
     <string name="cancel_save_contents_title">콘텐츠 저장 취소</string>
