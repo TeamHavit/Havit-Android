@@ -30,6 +30,7 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
         super.onViewCreated(view, savedInstanceState)
         binding.vm = signInViewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
         setListeners()
     }
 
