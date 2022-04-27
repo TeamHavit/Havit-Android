@@ -8,17 +8,15 @@ import javax.inject.Inject
 class SearchUseCase @Inject constructor(private val searchRepository: SearchRepository) {
 
 
-    suspend fun getSearchContents(keyword: String) =flow{
+    suspend fun getSearchContents(keyword: String) = flow {
         kotlin.runCatching {
             searchRepository.getSearchContents(keyword)
         }.onSuccess { list ->
-            list.collect {emit(it)}
+            list.collect { emit(it) }
         }.onFailure {
 
         }
     }
-
-
 
 
     suspend fun getSearchContentsInCategories(categoryId: String, keyword: String) =

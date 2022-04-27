@@ -4,19 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.remote.ContentsSearchResponse
+import org.sopt.havit.domain.entity.Contents
 import org.sopt.havit.domain.repository.ContentsRepository
-import org.sopt.havit.domain.repository.SearchRepository
+import org.sopt.havit.domain.usecase.SearchUseCase
+import javax.inject.Inject
 
-class SearchViewModel(
-    private val searchRepository: SearchRepository,
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+    private val searchUseCase: SearchUseCase,
     private val contentsRepository: ContentsRepository
 ) : ViewModel() {
 
-    private val _searchResult = MutableLiveData<List<ContentsSearchResponse.Data>>()
-    var searchResult: LiveData<List<ContentsSearchResponse.Data>> = _searchResult
+    private val _searchResult = MutableLiveData<List<Contents.Data>>()
+    var searchResult: LiveData<List<Contents.Data>> = _searchResult
 
     var _searchCount = MutableLiveData<Int>()
 
@@ -35,7 +39,7 @@ class SearchViewModel(
         searchTv.value = false
         searchIng.value = false
         isSearchFirst.value = false
-        isSeenCheck.value=false
+        isSeenCheck.value = false
     }
 
     fun setSearchNoImage(search: Boolean) {
@@ -51,14 +55,23 @@ class SearchViewModel(
     }
 
     fun getSearchContents(keyWord: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = searchRepository.getSearchContents(keyWord)
-                _searchResult.postValue(response)
-                _searchCount.postValue(response.size)
-            } catch (e: Exception) {
+        viewModelScope.launch {
+            searchUseCase.getSearchContents(keyWord).collect {
+                _searchResult.postValue(it)
             }
+        }
 
+    }
+
+    fun getSearchContentsInCategories(categoryId: String, keyWord: String) {
+        viewModelScope.launch {
+            try {
+                searchUseCase.getSearchContentsInCategories(categoryId, keyWord).collect {
+                    _searchResult.postValue(it)
+                }
+            } catch (e: Exception) {
+
+            }
         }
     }
 
