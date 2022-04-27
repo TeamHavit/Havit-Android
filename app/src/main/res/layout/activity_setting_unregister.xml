@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="isChecked"
+            type="Boolean" />
+
+        <variable
             name="vmSetting"
             type="org.sopt.havit.ui.setting.SettingViewModel" />
     </data>
@@ -239,7 +243,7 @@
                 android:id="@+id/iv_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_check_inactive"
+                android:src="@{isChecked? @drawable/ic_check_active : @drawable/ic_check_inactive}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

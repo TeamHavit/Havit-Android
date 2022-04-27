@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.setting
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingUnregisterBinding
@@ -13,6 +14,7 @@ class SettingUnregisterActivity :
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.vmSetting = settingViewModel
+        binding.isChecked = false
 
         setClickListener()
     }
@@ -22,8 +24,12 @@ class SettingUnregisterActivity :
         setData()
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun setClickListener() {
         binding.ivBack.setOnClickListener { finish() }
+        binding.ivCheck.setOnClickListener {
+            binding.isChecked = binding.isChecked == false
+        }
     }
 
     private fun setData() {
