@@ -1,4 +1,4 @@
-package org.sopt.havit.data.repository
+package org.sopt.havit.domain.repository
 
 import org.sopt.havit.data.remote.ContentsSearchResponse
 

@@ -1,24 +1,22 @@
 package org.sopt.havit
 
 import android.app.Application
-import android.util.Log.ERROR
 import com.kakao.sdk.common.KakaoSdk
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
-import org.sopt.havit.data.repository.ContentsRepository
-import org.sopt.havit.data.repository.MyPageRepository
-import org.sopt.havit.data.repository.SearchRepository
-import org.sopt.havit.domain.repository.ContentsRepositoryImpl
-import org.sopt.havit.domain.repository.MyPageRepositoryImpl
-import org.sopt.havit.domain.repository.SearchRepositoryImpl
+import org.sopt.havit.domain.repository.ContentsRepository
+import org.sopt.havit.domain.repository.MyPageRepository
+import org.sopt.havit.domain.repository.SearchRepository
+import org.sopt.havit.data.repository.ContentsRepositoryImpl
+import org.sopt.havit.data.repository.MyPageRepositoryImpl
+import org.sopt.havit.data.repository.SearchRepositoryImpl
 import org.sopt.havit.ui.mypage.MyPageViewModel
 import org.sopt.havit.ui.save.SaveViewModel
 import org.sopt.havit.ui.search.SearchViewModel
 import org.sopt.havit.ui.web.WebViewModel
-import java.util.logging.Level
 
 class MainApplication :Application() {
 

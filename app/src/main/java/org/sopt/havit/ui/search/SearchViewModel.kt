@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.remote.ContentsSearchResponse
-import org.sopt.havit.data.repository.ContentsRepository
-import org.sopt.havit.data.repository.SearchRepository
+import org.sopt.havit.domain.repository.ContentsRepository
+import org.sopt.havit.domain.repository.SearchRepository
 
 class SearchViewModel(
     private val searchRepository: SearchRepository,

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.remote.UserResponse
-import org.sopt.havit.data.repository.MyPageRepository
+import org.sopt.havit.domain.repository.MyPageRepository
 
 class MyPageViewModel(private val myPageRepository: MyPageRepository) :
     ViewModel() {

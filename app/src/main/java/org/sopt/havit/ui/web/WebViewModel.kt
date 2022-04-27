@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.repository.ContentsRepository
+import org.sopt.havit.domain.repository.ContentsRepository
 
 class WebViewModel(private val contentsRepository: ContentsRepository) : ViewModel() {
 
