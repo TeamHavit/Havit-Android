@@ -16,35 +16,45 @@
         tools:context=".ui.setting.SettingUnregisterActivity">
 
         <!-- 상단바 -->
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="17dp"
-            android:src="@drawable/ic_back_black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_unregister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="21dp"
-            android:text="@string/unregister"
-            android:textAppearance="@style/Header16Bold"
-            android:textColor="@color/havit_gray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginBottom="14dp"
+                android:src="@drawable/ic_back_black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_unregister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/unregister"
+                android:textAppearance="@style/Header16Bold"
+                android:textColor="@color/havit_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ScrollView
             android:id="@+id/sv_scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginVertical="13dp"
             app:layout_constraintBottom_toTopOf="@id/cl_check"
-            app:layout_constraintTop_toBottomOf="@id/iv_back">
+            app:layout_constraintTop_toBottomOf="@id/cl_tool_bar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -205,10 +215,11 @@
                     android:id="@+id/tv_caution2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginVertical="16dp"
                     android:text="유의사항 어쩌구~\n~\n~\n~\n~\n~\n~\n~\n~\n~\n~\n~\n~~~"
                     android:textAppearance="@style/Sub12Regular"
                     android:textColor="@color/gray_2"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tv_save_state"
                     app:layout_constraintTop_toBottomOf="@id/tv_caution1" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -218,10 +229,11 @@
             android:id="@+id/cl_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginBottom="21dp"
             android:tag="unchecked"
             app:layout_constraintBottom_toTopOf="@id/cl_unregister"
-            app:layout_constraintStart_toStartOf="@id/iv_back">
+            app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
                 android:id="@+id/iv_check"
