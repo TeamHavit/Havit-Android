@@ -14,6 +14,7 @@ import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.sopt.havit.R
+import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.databinding.ActivitySearchBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
@@ -104,7 +105,16 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
                     val removeItem: (Int) -> Unit = {
                         searchContentsAdapter.notifyItemRemoved(it)
                     }
-                    ContentsMoreFragment(data, removeItem, pos).show(
+                    val dataMore = ContentsMoreData(
+                        data.id,
+                        data.image,
+                        data.title,
+                        data.createdAt,
+                        data.url,
+                        data.isNotified,
+                        data.notificationTime
+                    )
+                    ContentsMoreFragment(dataMore, removeItem, pos).show(
                         supportFragmentManager,
                         "setting"
                     )

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="org.sopt.havit.ui.sign.SignInViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.sign.AddTosFragment">
+
+        <ImageButton
+            android:id="@+id/btn_tos_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="19dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_back_black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_tos_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="62dp"
+            android:text="@string/sign_tos_subtitle"
+            android:textAppearance="@style/Header22Semibold"
+            android:textColor="@color/gray_5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_tos_back" />
+
+        <ImageView
+            android:id="@+id/iv_tos_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="88dp"
+            android:src="@{vm.isAllCheck == true ? @drawable/ic_tos_check : @drawable/ic_un_check}"
+            tools:src="@drawable/ic_un_check"
+            app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/tv_tos_subtitle" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/sign_tos_agree_all"
+            android:textAppearance="@style/Header20Semibold"
+            android:textColor="@color/gray_5"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_tos_all"
+            app:layout_constraintStart_toEndOf="@+id/iv_tos_all"
+            app:layout_constraintTop_toTopOf="@+id/iv_tos_all" />
+
+        <View
+            android:id="@+id/view_tos"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:background="@color/gray_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/iv_tos_all"
+            app:layout_constraintTop_toBottomOf="@+id/iv_tos_all" />
+
+        <ImageView
+            android:id="@+id/iv_tos_use"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
+            android:src="@{vm.isTosUseCheck == true ? @drawable/ic_tos_check : @drawable/ic_un_check}"
+            tools:src="@drawable/ic_tos_check"
+            app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/view_tos" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/sign_tos_1"
+            android:textAppearance="@style/Text16Regular"
+            android:textColor="@color/gray_3"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_tos_use"
+            app:layout_constraintStart_toEndOf="@+id/iv_tos_use"
+            app:layout_constraintTop_toTopOf="@+id/iv_tos_use" />
+
+        <ImageView
+            android:id="@+id/iv_tos_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:src="@{vm.isTosInfoCheck == true ? @drawable/ic_tos_check : @drawable/ic_un_check}"
+            tools:src="@drawable/ic_un_check"
+            app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/iv_tos_use" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/sign_tos_2"
+            android:textAppearance="@style/Text16Regular"
+            android:textColor="@color/gray_3"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_tos_info"
+            app:layout_constraintStart_toEndOf="@+id/iv_tos_info"
+            app:layout_constraintTop_toTopOf="@+id/iv_tos_info" />
+
+        <ImageView
+            android:id="@+id/iv_tos_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:src="@{vm.isTosEventCheck == true ? @drawable/ic_tos_check : @drawable/ic_un_check}"
+            tools:src="@drawable/ic_un_check"
+            app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/iv_tos_info" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/sign_tos_3"
+            android:textAppearance="@style/Text16Regular"
+            android:textColor="@color/gray_3"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_tos_event"
+            app:layout_constraintStart_toEndOf="@+id/iv_tos_event"
+            app:layout_constraintTop_toTopOf="@+id/iv_tos_event" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_tos_start"
+            android:layout_width="0dp"
+            android:layout_height="58dp"
+            android:text="@string/sign_havit_start"
+            android:textAppearance="@style/Text16Semibold"
+            android:textColor="@color/white"
+            btnColor="@{vm.isNextClick()}"
+            android:clickable="@{vm.isNextClick == true ? true : false}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

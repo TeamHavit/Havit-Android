@@ -33,10 +33,6 @@ class HomeViewModel(context: Context) : ViewModel() {
     }
 
     // 카테고리 전체 데이터
-    private val _categoryList = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
-    val categoryList: LiveData<List<CategoryResponse.AllCategoryData>> = _categoryList
-
-    // 카테고리 탭별로 들어가게 6개씩 자른 데이터
     private val _categoryData = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
     val categoryData: LiveData<List<CategoryResponse.AllCategoryData>> = _categoryData
     fun requestCategoryTaken() {
@@ -127,12 +123,5 @@ class HomeViewModel(context: Context) : ViewModel() {
     var reachRate: LiveData<Int> = _reachRate
     fun requestReachRate(rate: Int) {
         _reachRate.postValue(rate)
-    }
-
-    // 도달률 팝업 문장
-    private val _popup = MutableLiveData<String>()
-    val popup: LiveData<String> = _popup
-    fun setPopupText(popupText: String) {
-        _popup.postValue(popupText)
     }
 }

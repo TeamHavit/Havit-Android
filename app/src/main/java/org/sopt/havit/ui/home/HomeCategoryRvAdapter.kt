@@ -9,14 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemHomeCategoryListBinding
+import org.sopt.havit.ui.category.CategoryFragment
 import org.sopt.havit.ui.contents.ContentsActivity
 
-class HomeCategoryRvAdapter :
+class HomeCategoryRvAdapter(page: Int) :
     RecyclerView.Adapter<HomeCategoryRvAdapter.HomeCategoryRvViewHolder>() {
 
     private lateinit var binding: ItemHomeCategoryListBinding
     val categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
     private var viewType = 1
+    private val pagePosition = page
 
     override fun getItemViewType(position: Int): Int {
         return viewType
@@ -25,7 +27,7 @@ class HomeCategoryRvAdapter :
     class HomeCategoryRvViewHolder(private val binding: ItemHomeCategoryListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: CategoryResponse.AllCategoryData, position: Int) {
-            binding.dataHomeCategory = data
+            binding.homeCategoryData = data
             binding.tvTitle.text = data.title
             if (position == isFirst) {
                 when (itemViewType) {
@@ -67,8 +69,9 @@ class HomeCategoryRvAdapter :
 
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, ContentsActivity::class.java)
-            intent.putExtra("categoryId", categoryList[position].id)
-            intent.putExtra("categoryName", categoryList[position].title)
+            intent.putExtra(CategoryFragment.CATEGORY_ID, categoryList[position].id)
+            intent.putExtra(CategoryFragment.CATEGORY_NAME, categoryList[position].title)
+            intent.putExtra(CategoryFragment.CATEGORY_POSITION, pagePosition * 6 + position - 1)
             startActivity(holder.itemView.context, intent, null)
         }
     }

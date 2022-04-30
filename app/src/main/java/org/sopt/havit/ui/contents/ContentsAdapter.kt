@@ -122,17 +122,19 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
                 (holder as LinearMaxViewHolder).onBind(getItem(position))
             }
         }
+
+        // item 삭제 시 position이 업데이트 되지 않고 초기 position으로 남아있기에 holder.layoutPosition으로 위치를 넘겨준다.
         // 아이템 전체 클릭 시 onWebClick() 호출
         holder.itemView.setOnClickListener {
-            itemClickListener.onWebClick(it, position)
+            itemClickListener.onWebClick(it, holder.layoutPosition)
         }
         // 아이템의 더보기 클릭 시 onSetClick() 호출
         holder.itemView.findViewById<View>(R.id.iv_setting).setOnClickListener {
-            itemSetClickListener.onSetClick(it, position)
+            itemSetClickListener.onSetClick(it, holder.layoutPosition)
         }
         // 아이템의 해빗 클릭 시 onHavitClick() 호출
         holder.itemView.findViewById<ImageView>(R.id.iv_havit).setOnClickListener {
-            itemHavitClickListener.onHavitClick(holder.itemView.findViewById(R.id.iv_havit), position)
+            itemHavitClickListener.onHavitClick(holder.itemView.findViewById(R.id.iv_havit), holder.layoutPosition)
         }
     }
 

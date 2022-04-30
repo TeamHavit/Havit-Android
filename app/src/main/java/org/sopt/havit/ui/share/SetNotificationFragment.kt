@@ -9,13 +9,16 @@ import androidx.navigation.fragment.findNavController
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentSetNotificationBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.util.OnBackPressedHandler
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 class SetNotificationFragment :
-    BaseBindingFragment<FragmentSetNotificationBinding>(R.layout.fragment_set_notification) {
+    BaseBindingFragment<FragmentSetNotificationBinding>(R.layout.fragment_set_notification),
+    OnBackPressedHandler {
 
     private lateinit var notificationTime: String
 
@@ -23,10 +26,8 @@ class SetNotificationFragment :
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-
         initRadioGroupListener()
         initToolbarListener()
-
         return binding.root
     }
 
@@ -43,10 +44,10 @@ class SetNotificationFragment :
     }
 
     private fun initToolbarListener() {
-        binding.icBack.setOnClickListener { findNavController().popBackStack() }
+        binding.icBack.setOnClickListener { onBackClicked() }
         binding.tvComplete.setOnClickListener {
             MySharedPreference.setNotificationTime(requireContext(), notificationTime)
-            findNavController().popBackStack()
+            goBack()
         }
     }
 
@@ -67,6 +68,28 @@ class SetNotificationFragment :
     private fun showPickerFragment() {
         val bottomSheet = PickerFragment()
         bottomSheet.show(childFragmentManager, bottomSheet.tag)
+    }
+
+    private fun onBackClicked() {
+        if (this::notificationTime.isInitialized) showEditTitleWarningDialog()
+        else goBack()
+    }
+
+    override fun onBackPressed(): Boolean {
+        if (this::notificationTime.isInitialized) {
+            showEditTitleWarningDialog()
+            return true
+        }
+        return false
+    }
+
+    private fun showEditTitleWarningDialog() {
+        val dialog = DialogUtil(DialogUtil.CANCEL_SET_NOTIFICATION, ::goBack)
+        dialog.show(requireActivity().supportFragmentManager, this.javaClass.name)
+    }
+
+    private fun goBack() {
+        findNavController().popBackStack()
     }
 
 

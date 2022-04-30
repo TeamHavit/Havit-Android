@@ -2,17 +2,19 @@ package org.sopt.havit.ui.contents_simple
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
+import android.widget.ImageView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import org.sopt.havit.MainActivity
 import org.sopt.havit.R
+import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.ActivityContentsSimpleBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.contents.ContentsMoreFragment
+import org.sopt.havit.ui.home.HomeFragment
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.web.WebActivity
+import org.sopt.havit.util.CustomToast
 
 class ContentsSimpleActivity :
     BaseBindingActivity<ActivityContentsSimpleBinding>(R.layout.activity_contents_simple) {
@@ -28,28 +30,70 @@ class ContentsSimpleActivity :
 
         initContents()
         initAdapter()
-        dataObserve()
         decorationView()
         clickBtnBack()
-        setToast()
+        clickItemView()
+        clickItemHavit()
+        clickItemMore()
+        dataObserve()
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         setContents()
     }
-    private fun setCustomToast() {
-        val toast = Toast(this)
-        val view = layoutInflater.inflate(R.layout.toast_havit_complete, null)
-        toast.view = view
-        toast.show()
+
+    private fun clickItemHavit() {
+        contentsAdapter.setHavitClickListener(object :
+            ContentsSimpleRvAdapter.OnItemHavitClickListener {
+            override fun onHavitClick(v: ImageView, position: Int) {
+                with(contentsAdapter) {
+                    // 보지 않은 콘텐츠의 경우 콘텐츠 봤다는 토스트 띄움
+                    if (!contentsList[position].isSeen) {
+                        CustomToast.showDesignatedToast(
+                            this@ContentsSimpleActivity,
+                            R.layout.toast_havit_complete
+                        )
+                    }
+
+                    contentsList[position].isSeen = !contentsList[position].isSeen
+                    contentsViewModel.setIsSeen(contentsList[position].id)
+
+                    // tag 바꾸기
+                    val isSeen = (v.tag == "seen")
+                    v.tag = if (isSeen) "unseen" else "seen"
+                    v.setImageResource(if (isSeen) R.drawable.ic_contents_unread else R.drawable.ic_contents_read_2)
+                }
+            }
+        })
     }
 
-    private fun setToast() {
-        contentsAdapter.setHavitClickListener(object :
-            ContentsSimpleRvAdapter.OnHavitClickListener {
-            override fun onHavitClick() {
-                setCustomToast()
+    private fun clickItemMore() {
+        contentsAdapter.setItemMoreClickListner(object :
+            ContentsSimpleRvAdapter.OnItemMoreClickListener {
+            override fun onMoreClick(v: View, position: Int) {
+                val dataMore = contentsViewModel.contentsList.value?.get(position)?.let {
+                    ContentsMoreData(
+                        it.id,
+                        it.image,
+                        it.title,
+                        it.createdAt,
+                        it.url,
+                        it.isNotified,
+                        it.notificationTime
+                    )
+                }
+                // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
+                val removeItem: (Int) -> Unit = {
+                    val list =
+                        contentsAdapter.contentsList.toMutableList() // mutable로 해주어야 삭제(수정) 가능
+                    list.removeAt(it)
+                    // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
+                    contentsViewModel.updateContentsList(list)
+                    contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
+                }
+                val dialog = dataMore?.let { ContentsMoreFragment(it, removeItem, position) }
+                dialog?.show(supportFragmentManager, "setting")
             }
         })
     }
@@ -67,14 +111,14 @@ class ContentsSimpleActivity :
     }
 
     private fun initAdapter() {
-        contentsAdapter = ContentsSimpleRvAdapter(contentsViewModel, supportFragmentManager)
+        contentsAdapter = ContentsSimpleRvAdapter()
         binding.rvContents.adapter = contentsAdapter
     }
 
     private fun initContents() {
-        intent?.let {
-            it.getStringExtra("before")?.let { before ->
-                contentsType = before
+        intent?.let { intent ->
+            intent.getStringExtra(HomeFragment.CONTENT_TYPE)?.let {
+                contentsType = it
             }
         }
     }
@@ -108,9 +152,7 @@ class ContentsSimpleActivity :
         with(contentsViewModel) {
             binding.lifecycleOwner?.let {
                 contentsList.observe(it) { data ->
-                    Log.d("contentsSimple", "contentsList data : $data")
                     if (data.isEmpty()) {
-                        binding.rvContents.visibility = View.GONE
                         if (contentsType == "unseen")
                             requestEmptyContents(getString(R.string.contents_simple_unseen_empty))
                         else
@@ -119,10 +161,8 @@ class ContentsSimpleActivity :
                             SaveFragment("").show(supportFragmentManager, "save")
                         }
                     } else {
-                        binding.clContentsEmpty.visibility = View.GONE
                         val min = if (data.size < 20) data.size else 20
                         val list = data.subList(0, min)
-                        clickItemView()
                         contentsAdapter.updateList(list)
                     }
                 }

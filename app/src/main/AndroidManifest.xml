@@ -93,7 +93,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.sign.SignInActivity"
+            android:name=".ui.sign.SignActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait" />

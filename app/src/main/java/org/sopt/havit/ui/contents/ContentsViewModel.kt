@@ -1,6 +1,7 @@
 package org.sopt.havit.ui.contents
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,10 +9,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.data.remote.ContentsHavitRequest
+import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.data.remote.ContentsResponse
-import org.sopt.havit.data.remote.ContentsSearchResponse
 import org.sopt.havit.util.MySharedPreference
 
 class ContentsViewModel(context: Context) : ViewModel() {
@@ -29,20 +29,15 @@ class ContentsViewModel(context: Context) : ViewModel() {
     private val _loadState = MutableLiveData(true)
     val loadState: LiveData<Boolean> = _loadState
 
-    var contentsMore = MutableLiveData<ContentsSearchResponse.Data>()
+    var contentsMore = MutableLiveData<ContentsMoreData>()
 
-    // 카테고리 정보 저장
-    private val _contentsCategoryList = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
-    val contentsCategoryList: LiveData<List<CategoryResponse.AllCategoryData>> = _contentsCategoryList
-
-    fun requestContentsTaken(categoryId: Int, option: String, filter: String, name: String) {
+    fun requestContentsTaken(categoryId: Int, option: String, filter: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = RetrofitObject.provideHavitApi(token)
                     .getCategoryContents(categoryId, option, filter)
                 _contentsList.postValue(response.data)
                 _contentsCount.postValue(response.data.size)
-                _categoryName.postValue(name)
                 _loadState.postValue(false)
             } catch (e: Exception) {
             }
@@ -62,18 +57,6 @@ class ContentsViewModel(context: Context) : ViewModel() {
         }
     }
 
-    // 카테고리 데이터를 불러오는 함수
-    fun requestCategoryTaken() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response =
-                    RetrofitObject.provideHavitApi(token).getAllCategory()
-                _contentsCategoryList.postValue(response.data)
-            } catch (e: Exception) {
-            }
-        }
-    }
-
     fun setIsSeen(contentsId: Int) {
         viewModelScope.launch {
             try {
@@ -85,7 +68,7 @@ class ContentsViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun setContentsView(data: ContentsSearchResponse.Data) {
+    fun setContentsView(data: ContentsMoreData) {
         contentsMore.value = data
     }
 
@@ -107,5 +90,9 @@ class ContentsViewModel(context: Context) : ViewModel() {
     // 카테고리 이름 설정
     fun setCategoryName(name: String) {
         _categoryName.value = name
+    }
+
+    fun updateContentsList(list: List<ContentsResponse.ContentsData>) {
+        _contentsList.value = list
     }
 }

@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vmContents"
             type="org.sopt.havit.ui.contents_simple.ContentsSimpleViewModel" />
@@ -56,6 +58,8 @@
             android:id="@+id/rv_contents"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:overScrollMode="never"
+            android:visibility="@{vmContents.contentsList.isEmpty()? View.GONE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_topbar"
@@ -66,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:visibility="@{vmContents.contentsList.isEmpty()? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_topbar">
 
@@ -99,7 +104,7 @@
                 android:paddingVertical="14dp"
                 android:text="@string/contents_simple_add_contents"
                 android:textAppearance="@style/Button15Medium"
-                android:textColor="@color/havit_purple"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_contents_empty" />
