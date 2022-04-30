@@ -88,47 +88,36 @@ class CategoryContentModifyActivity :
         }
     }
 
-    // dialog util이 만들어지면 수정될 코드입니당
-    private fun setAlertDialog() {
-        val layoutInflater = LayoutInflater.from(this)
-        val view = layoutInflater.inflate(R.layout.dialog_category_delete, null)
+    // 삭제 버튼 클릭 시
+    private fun clickDelete() {
+        val dialog = DialogUtil(DialogUtil.REMOVE_CATEGORY, ::deleteCategory)
+        dialog.show(supportFragmentManager, this.javaClass.name)
+    }
 
-        val alertDialog = AlertDialog.Builder(this, R.style.CustomAlertDialogStyle)
-            .setView(view)
-            .create()
+    // 카테고리 삭제를 실행하는 함수
+    private fun deleteCategory(){
+        // 서버에 해당 카테고리 삭제 요청
+        categoryViewModel.requestCategoryDelete(id)
 
-        val buttonClose = view.findViewById<View>(R.id.btn_cancel)
-        val buttonDelete = view.findViewById<View>(R.id.btn_delete)
-
-        buttonClose.setOnClickListener {
-            alertDialog.dismiss()
+        // 카테고리 수정 관리 뷰로 보내는 intent
+        val orderIntent = Intent(this, CategoryOrderModifyActivity::class.java).apply {
+            putExtra("position", position)
+            putExtra("categoryName", binding.etCategory.text)
+            putExtra("id", id)
         }
-        buttonDelete.setOnClickListener {
-            // 서버에 해당 카테고리 삭제 요청
-            categoryViewModel.requestCategoryDelete(id)
+        // 콘텐츠 뷰로 보내는 intent
+        val contentsIntent = Intent(this, ContentsActivity::class.java)
 
-            // 카테고리 수정 관리 뷰로 보내는 intent
-            val orderIntent = Intent(this, CategoryOrderModifyActivity::class.java).apply {
-                putExtra("position", position)
-                putExtra("categoryName", binding.etCategory.text)
-                putExtra("id", id)
-            }
-            // 콘텐츠 뷰로 보내는 intent
-            val contentsIntent = Intent(this, ContentsActivity::class.java)
-
-            when(preActivity){
-                "ContentsActivity" -> setResult(RESULT_OK, contentsIntent) // ContentsActivity로 데이터 전달
-                "CategoryOrderModifyActivity" -> setResult(RESULT_OK, orderIntent) // CategoryOrderModifyActivity로 데이터 전달
-            }
-            alertDialog.dismiss() // window leak 방지
-            finish()
+        when(preActivity){
+            "ContentsActivity" -> setResult(RESULT_OK, contentsIntent) // ContentsActivity로 데이터 전달
+            "CategoryOrderModifyActivity" -> setResult(RESULT_OK, orderIntent) // CategoryOrderModifyActivity로 데이터 전달
         }
 
-        alertDialog.show()
+        finish()
     }
 
     private fun clickDeleteCategory() {
-        binding.btnRemove.setOnClickListener { setAlertDialog() }
+        binding.btnRemove.setOnClickListener { clickDelete() }
     }
 
     // 완료 버튼 클릭 시
