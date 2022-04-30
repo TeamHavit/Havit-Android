@@ -220,7 +220,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun moveSearch() {
         binding.clSearch.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
-            intent.putExtra(CategoryFragment.CATEGORY_NAME, "${contentsViewModel.categoryName}")
+            intent.putExtra(CategoryFragment.CATEGORY_NAME, "${contentsViewModel.categoryName.value}")
             startActivity(intent)
         }
     }

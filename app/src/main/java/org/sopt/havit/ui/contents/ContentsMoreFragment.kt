@@ -8,6 +8,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentContentsMoreBinding
+import org.sopt.havit.util.DialogUtil
 
 class ContentsMoreFragment(
     contents: ContentsMoreData,
@@ -30,7 +31,7 @@ class ContentsMoreFragment(
         binding.vm = contentsViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         setMoreView()
-        deleteContents()
+        clickDelete()
         return binding.root
     }
 
@@ -42,17 +43,23 @@ class ContentsMoreFragment(
         contentsViewModel.setContentsView(data)
     }
 
-    // 콘텐츠 삭제
-    private fun deleteContents() {
+    // 콘텐츠 삭제 버튼 클릭 시 동작 정의
+    private fun clickDelete() {
         binding.clEditDelete.setOnClickListener {
-            // 콘텐츠 삭제 함수 호출
-            with(contentsViewModel) {
-                requestContentsDelete(data.id)
-            }
-            // 각 어댑터의 notifyItemRemoved(position) 수행
-            notifyItemRemoved(pos)
-            // ContentsMoreFragment 삭제
-            this.dismiss()
+            val dialog = DialogUtil(DialogUtil.REMOVE_CONTENTS, ::deleteContents)
+            dialog.show(requireActivity().supportFragmentManager, this.javaClass.name)
         }
+    }
+
+    // 콘텐츠 삭제 함수
+    private fun deleteContents() {
+        // 콘텐츠 삭제 서버에 요청
+        with(contentsViewModel) {
+            requestContentsDelete(data.id)
+        }
+        // 각 어댑터의 notifyItemRemoved(position) 수행
+        notifyItemRemoved(pos)
+        // ContentsMoreFragment 삭제
+        dismiss()
     }
 }
