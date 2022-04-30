@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryOrderModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.util.DialogUtil
 
 
 class CategoryOrderModifyActivity :
@@ -33,6 +34,20 @@ class CategoryOrderModifyActivity :
         initDrag()
         dataObserve()
         setCompleteOrder()
+    }
+
+    override fun onBackPressed() {
+        setBackDialog()
+    }
+
+    // 뒤로가기 시 뜨는 dialog
+    private fun setBackDialog(){
+        val dialog = DialogUtil(DialogUtil.CANCEL_EDIT_CATEGORY, ::setFinish)
+        dialog.show(supportFragmentManager, this.javaClass.name)
+    }
+
+    private fun setFinish(){
+        finish()
     }
 
     private fun initAdapter() {
@@ -109,7 +124,7 @@ class CategoryOrderModifyActivity :
     }
 
     private fun clickBack() {
-        binding.ivBack.setOnClickListener { finish() }
+        binding.ivBack.setOnClickListener { setBackDialog() }
     }
 
     // drag & drop 코드
