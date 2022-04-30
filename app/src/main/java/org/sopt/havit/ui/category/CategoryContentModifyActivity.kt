@@ -12,6 +12,7 @@ import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.contents.ContentsActivity
 import org.sopt.havit.ui.share.IconAdapter
 import org.sopt.havit.ui.share.IconAdapter.Companion.clickedPosition
+import org.sopt.havit.util.DialogUtil
 
 class CategoryContentModifyActivity :
     BaseBindingActivity<ActivityCategoryContentModifyBinding>(R.layout.activity_category_content_modify) {
@@ -36,6 +37,20 @@ class CategoryContentModifyActivity :
         clickComplete()
     }
 
+    override fun onBackPressed() {
+        setBackDialog()
+    }
+
+    // 뒤로가기 시 뜨는 dialog
+    private fun setBackDialog(){
+        val dialog = DialogUtil(DialogUtil.CANCEL_EDIT_CATEGORY, ::setFinish)
+        dialog.show(supportFragmentManager, this.javaClass.name)
+    }
+
+    private fun setFinish(){
+        finish()
+    }
+
     private fun initAdapter() {
         clickedPosition = intent.getIntExtra("imageId", 0) - 1
         binding.rvIcon.adapter = IconAdapter(::onIconClick).also { iconAdapter = it }
@@ -58,7 +73,7 @@ class CategoryContentModifyActivity :
     }
 
     private fun clickBack() {
-        binding.ivBack.setOnClickListener { finish() }
+        binding.ivBack.setOnClickListener { setBackDialog() }
     }
 
     private fun deleteText() {
