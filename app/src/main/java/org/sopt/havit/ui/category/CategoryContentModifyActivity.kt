@@ -9,6 +9,7 @@ import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.contents.ContentsActivity
 import org.sopt.havit.ui.share.IconAdapter
 import org.sopt.havit.ui.share.IconAdapter.Companion.clickedPosition
+import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.DialogUtil
 
 class CategoryContentModifyActivity :
@@ -140,6 +141,8 @@ class CategoryContentModifyActivity :
                 "CategoryOrderModifyActivity" -> setResult(RESULT_FIRST_USER, orderIntent) // CategoryOrderModifyActivity로 데이터 전달
             }
             finish()
+
+            CustomToast.showTextToast(this, resources.getString(R.string.category_modify_complete))
         }
     }
 }
