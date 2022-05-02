@@ -12,6 +12,8 @@ class SettingAlarmActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding.ivBack.setOnClickListener { super.onBackPressed() }
+
         binding.switchAppNoti.setOnClickListener {
             Log.d(TAG, "onCreate: app_noti ${binding.switchAppNoti.isChecked}")
         }
