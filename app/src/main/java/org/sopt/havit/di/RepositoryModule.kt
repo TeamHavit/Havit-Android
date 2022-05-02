@@ -21,10 +21,9 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideSearchRepository(
-        @ApplicationContext context: Context,
         searchRepositoryImpl: SearchRemoteDataSourceImpl
     ): SearchRepository =
-        SearchRepositoryImpl(context, searchRepositoryImpl)
+        SearchRepositoryImpl(searchRepositoryImpl)
 
     @Provides
     @Singleton

@@ -1,6 +1,7 @@
 package org.sopt.havit.data.repository
 
 import android.content.Context
+import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -13,17 +14,18 @@ import org.sopt.havit.util.MySharedPreference
 import javax.inject.Inject
 
 class SearchRepositoryImpl @Inject constructor(
-    @ApplicationContext context: Context,
     private val dataSource: SearchRemoteDataSource
 ) :
     SearchRepository {
 
-    private val pref = MySharedPreference.getXAuthToken(context)
-
-    override suspend fun getSearchContents(keyword: String): Flow<List<Contents.Data>> =
+    override suspend fun getSearchContents(keyword: String): Flow<List<Contents>> =
         flow {
-            dataSource.getSearchContents(keyword).collect { list ->
-                emit(list.map { ContentsMapper.mapperToContents(it) })
+            kotlin.runCatching {
+                dataSource.getSearchContents(keyword)
+            }.onSuccess {
+                it.collect { emit(it.data.map { ContentsMapper.toContents(it) }) }
+            }.onFailure {
+                throw it
             }
         }
 
@@ -31,10 +33,10 @@ class SearchRepositoryImpl @Inject constructor(
     override suspend fun getSearchContentsInCategories(
         categoryId: String,
         keyword: String
-    ): Flow<List<Contents.Data>> =
+    ): Flow<List<Contents>> =
         flow {
             dataSource.getSearchContentsInCategories(categoryId, keyword).collect { list ->
-                emit(list.map { ContentsMapper.mapperToContents(it) })
+                emit(list.data.map { ContentsMapper.toContents(it) })
             }
         }
 

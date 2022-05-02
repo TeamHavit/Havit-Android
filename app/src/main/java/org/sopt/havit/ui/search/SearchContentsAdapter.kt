@@ -10,7 +10,7 @@ import org.sopt.havit.domain.entity.Contents
 class SearchContentsAdapter :
     RecyclerView.Adapter<SearchContentsAdapter.SearchContentsViewHolder>() {
 
-    var searchContents = mutableListOf<Contents.Data>()
+    var searchContents = mutableListOf<Contents>()
     private var isRead = false
 
     private lateinit var itemClickListener: OnItemClickListener // 콘텐츠 아이템 클릭리스너
@@ -18,7 +18,7 @@ class SearchContentsAdapter :
     private lateinit var itemHavitClickListener: OnItemHavitClickListener // 해빗하기 클릭 리스너
 
     interface OnItemClickListener {
-        fun onClick(v: View, data: Contents.Data)
+        fun onClick(v: View, data: Contents)
     }
 
     fun setItemClickListener(listener: OnItemClickListener) {
@@ -26,7 +26,7 @@ class SearchContentsAdapter :
     }
 
     interface OnItemSettingClickListener {
-        fun onSettingClick(v: View, data: Contents.Data, pos: Int)
+        fun onSettingClick(v: View, data: Contents, pos: Int)
     }
 
     fun setItemSettingClickListener(listener: OnItemSettingClickListener) {
@@ -34,7 +34,7 @@ class SearchContentsAdapter :
     }
 
     interface OnItemHavitClickListener {
-        fun onHavitClick(v: View, data: Contents.Data, pos: Int)
+        fun onHavitClick(v: View, data: Contents, pos: Int)
     }
 
     fun setItemHavitClickListener(listener: OnItemHavitClickListener) {
@@ -53,8 +53,8 @@ class SearchContentsAdapter :
 
     override fun getItemCount(): Int = searchContents.size
 
-    fun setItem(data: List<Contents.Data>) {
-        searchContents = data as MutableList<Contents.Data>
+    fun setItem(data: List<Contents>) {
+        searchContents = data as MutableList<Contents>
         notifyDataSetChanged()
     }
 
@@ -63,13 +63,13 @@ class SearchContentsAdapter :
     ) : RecyclerView.ViewHolder(
         binding.root
     ) {
-        fun bind(position: Int, data: Contents.Data) {
+        fun bind(position: Int, data: Contents) {
             binding.content = data
             contentsClick(position, data)
             isRead = data.isSeen
         }
 
-        private fun contentsClick(position: Int, data: Contents.Data) {
+        private fun contentsClick(position: Int, data: Contents) {
             binding.ivHavit.setOnClickListener {
                 itemHavitClickListener.onHavitClick(it, data, position)
             }

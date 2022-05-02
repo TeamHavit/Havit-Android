@@ -6,8 +6,8 @@ import org.sopt.havit.domain.entity.Contents
 object ContentsMapper {
 
 
-    fun mapperToContents(data: ContentsSearchResponse.Data) =
-        Contents.Data(
+    fun toContents(data: ContentsSearchResponse.Data) =
+        Contents(
             createdAt = data.createdAt,
             description = data.description,
             id = data.id,

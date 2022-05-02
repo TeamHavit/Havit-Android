@@ -9,7 +9,7 @@
 
         <variable
             name="content"
-            type="org.sopt.havit.domain.entity.Contents.Data" />
+            type="org.sopt.havit.domain.entity.Contents" />
 
         <variable
             name="vm"

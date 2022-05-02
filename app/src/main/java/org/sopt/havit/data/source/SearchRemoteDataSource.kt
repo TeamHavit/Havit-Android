@@ -4,10 +4,10 @@ import kotlinx.coroutines.flow.Flow
 import org.sopt.havit.data.remote.ContentsSearchResponse
 
 interface SearchRemoteDataSource {
-    suspend fun getSearchContents(keyword: String): Flow<List<ContentsSearchResponse.Data>>
+    suspend fun getSearchContents(keyword: String): Flow<ContentsSearchResponse>
 
     suspend fun getSearchContentsInCategories(
         categoryId: String,
         keyword: String
-    ): Flow<List<ContentsSearchResponse.Data>>
+    ): Flow<ContentsSearchResponse>
 }

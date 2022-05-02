@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.sopt.havit.domain.entity.Contents
@@ -19,40 +20,16 @@ class SearchViewModel @Inject constructor(
     private val contentsRepository: ContentsRepository
 ) : ViewModel() {
 
-    private val _searchResult = MutableLiveData<List<Contents.Data>>()
-    var searchResult: LiveData<List<Contents.Data>> = _searchResult
+    private val _searchResult = MutableLiveData<List<Contents>>()
+    var searchResult: LiveData<List<Contents>> = _searchResult
 
-    var _searchCount = MutableLiveData<Int>()
 
-    var searchImg = MutableLiveData<Boolean>()
-    var searchTv = MutableLiveData<Boolean>()
-    var searchIng = MutableLiveData<Boolean>()
-
-    var isSearchFirst = MutableLiveData<Boolean>()
-    var isSeenCheck = MutableLiveData<Boolean>()
+    var searchTv = MutableLiveData(false)
+    var isSeenCheck = MutableLiveData(false)
 
     private var _isRead = MutableLiveData<Boolean>()
     var isRead: LiveData<Boolean> = _isRead
 
-    init {
-        searchImg.value = false
-        searchTv.value = false
-        searchIng.value = false
-        isSearchFirst.value = false
-        isSeenCheck.value = false
-    }
-
-    fun setSearchNoImage(search: Boolean) {
-        searchImg.value = search
-    }
-
-    fun setSearchImage(search: Boolean) {
-        searchIng.value = search
-    }
-
-    fun setSearchNoText(search: Boolean) {
-        searchTv.value = search
-    }
 
     fun getSearchContents(keyWord: String) {
         viewModelScope.launch {
