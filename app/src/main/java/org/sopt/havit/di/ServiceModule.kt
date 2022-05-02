@@ -13,6 +13,6 @@ import javax.inject.Singleton
 object ServiceModule {
     @Provides
     @Singleton
-    fun provideHavitService(retrofit: Retrofit):HavitApi=
+    fun provideHavitService(retrofit: Retrofit):HavitApi =
         retrofit.create(HavitApi::class.java)
 }

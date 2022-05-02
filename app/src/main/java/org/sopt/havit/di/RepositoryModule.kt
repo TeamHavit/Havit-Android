@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import org.sopt.havit.data.mapper.ContentsMapper
 import org.sopt.havit.data.repository.ContentsRepositoryImpl
 import org.sopt.havit.data.repository.MyPageRepositoryImpl
 import org.sopt.havit.data.repository.SearchRepositoryImpl
@@ -21,9 +22,10 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideSearchRepository(
-        searchRepositoryImpl: SearchRemoteDataSourceImpl
+        searchRepositoryImpl: SearchRemoteDataSourceImpl,
+        contentsMapper: ContentsMapper
     ): SearchRepository =
-        SearchRepositoryImpl(searchRepositoryImpl)
+        SearchRepositoryImpl(searchRepositoryImpl, contentsMapper)
 
     @Provides
     @Singleton

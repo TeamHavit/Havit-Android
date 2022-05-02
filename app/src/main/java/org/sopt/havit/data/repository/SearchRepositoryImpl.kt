@@ -14,7 +14,8 @@ import org.sopt.havit.util.MySharedPreference
 import javax.inject.Inject
 
 class SearchRepositoryImpl @Inject constructor(
-    private val dataSource: SearchRemoteDataSource
+    private val dataSource: SearchRemoteDataSource,
+    private val contentsMapper: ContentsMapper
 ) :
     SearchRepository {
 
@@ -23,7 +24,7 @@ class SearchRepositoryImpl @Inject constructor(
             kotlin.runCatching {
                 dataSource.getSearchContents(keyword)
             }.onSuccess {
-                it.collect { emit(it.data.map { ContentsMapper.toContents(it) }) }
+                it.collect { emit(it.data.map { contentsMapper.toContents(it) }) }
             }.onFailure {
                 throw it
             }
@@ -36,7 +37,7 @@ class SearchRepositoryImpl @Inject constructor(
     ): Flow<List<Contents>> =
         flow {
             dataSource.getSearchContentsInCategories(categoryId, keyword).collect { list ->
-                emit(list.data.map { ContentsMapper.toContents(it) })
+                emit(list.data.map { contentsMapper.toContents(it) })
             }
         }
 
