@@ -58,6 +58,7 @@
             android:id="@+id/rv_contents"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:overScrollMode="never"
             android:visibility="@{vmContents.contentsList.isEmpty()? View.GONE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.remote.UserResponse
-import org.sopt.havit.data.repository.MyPageRepository
+import org.sopt.havit.domain.repository.MyPageRepository
+import javax.inject.Inject
 
-class MyPageViewModel(private val myPageRepository: MyPageRepository) :
+@HiltViewModel
+class MyPageViewModel @Inject constructor(private val myPageRepository: MyPageRepository) :
     ViewModel() {
 
     private val _user = MutableLiveData<UserResponse.UserData>()
@@ -22,11 +25,11 @@ class MyPageViewModel(private val myPageRepository: MyPageRepository) :
 
     fun requestUserInfo() {
         viewModelScope.launch {
-            try{
+            try {
                 val response = myPageRepository.getUserInfo()
                 _user.postValue(response)
                 _rate.postValue((response.totalSeenContentNumber.toDouble() / response.totalContentNumber.toDouble() * 100).toInt())
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 _rate.postValue(0)
             }
         }
