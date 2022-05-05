@@ -23,7 +23,7 @@ class SettingModifyActivity :
         setData()
         setNicknameLength()
         setUpAsSoftKeyboard(binding.root)
-//        setKeyBoardUp()
+        setKeyBoardUp()
     }
 
     private fun setListener() {
@@ -33,7 +33,9 @@ class SettingModifyActivity :
         binding.ivNicknameDelete.setOnClickListener { binding.etNickname.text.clear() }
         // 완료 버튼
         binding.btnComplete.setOnClickListener {
+            settingViewModel.requestNewNickname(binding.etNickname.toString())
             startActivity(Intent(this, SettingActivity::class.java))
+            finish()
         }
         // editText 커서 위치를 글자 맨 뒤로 지정
         binding.etNickname.addTextChangedListener {

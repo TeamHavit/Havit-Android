@@ -83,4 +83,9 @@ interface HavitApi {
     suspend fun deleteContents(
         @Path("contentId") contentId: Int
     ): BasicResponse
+
+    @PATCH("user")
+    suspend fun modifyUserNickname(
+        @Body body : NewNicknameRequest
+    ): BasicResponse
 }

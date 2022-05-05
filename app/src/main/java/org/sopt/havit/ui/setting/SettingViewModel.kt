@@ -1,12 +1,14 @@
 package org.sopt.havit.ui.setting
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.remote.NewNicknameRequest
 import org.sopt.havit.data.remote.UserResponse
 import org.sopt.havit.util.MySharedPreference
 
@@ -41,6 +43,19 @@ class SettingViewModel(context: Context) : ViewModel() {
                     .getUserData()
                 _user.postValue(response.data)
             } catch (e: Exception) {
+            }
+        }
+    }
+
+    // 프로필수정뷰 - 닉네임 수정
+    fun requestNewNickname(newNickname: String) {
+        viewModelScope.launch {
+            try {
+                val nickname = NewNicknameRequest(newNickname)
+                val response = RetrofitObject.provideHavitApi(token).modifyUserNickname(nickname)
+                Log.d("response", "requestNewNickname: response : $response")
+            } catch (e: Exception) {
+                Log.d("Request New Nickname", "error : $e")
             }
         }
     }
