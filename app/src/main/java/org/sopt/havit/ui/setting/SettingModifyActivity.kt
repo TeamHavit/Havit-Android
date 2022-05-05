@@ -2,7 +2,7 @@ package org.sopt.havit.ui.setting
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingModifyBinding
@@ -19,18 +19,27 @@ class SettingModifyActivity :
         setContentView(binding.root)
         binding.vmSetting = settingViewModel
 
-        setClickListener()
+        setListener()
         setData()
         setNicknameLength()
         setUpAsSoftKeyboard(binding.root)
 //        setKeyBoardUp()
     }
 
-    private fun setClickListener() {
+    private fun setListener() {
+        // 뒤로 가기 버튼
         binding.ivBack.setOnClickListener { finish() }
+        // 텍스트 삭제 버튼
         binding.ivNicknameDelete.setOnClickListener { binding.etNickname.text.clear() }
+        // 완료 버튼
         binding.btnComplete.setOnClickListener {
             startActivity(Intent(this, SettingActivity::class.java))
+        }
+        // editText 커서 위치를 글자 맨 뒤로 지정
+        binding.etNickname.addTextChangedListener {
+            it?.let {
+                binding.etNickname.setSelection(it.length)
+            }
         }
     }
 
@@ -41,7 +50,6 @@ class SettingModifyActivity :
     // 닉네임 글자 수 세기
     private fun setNicknameLength() {
         binding.etNickname.doOnTextChanged { text, _, _, _ ->
-            Log.d("SETTING ACTIVITY", "setTextWatcherCount : ${text?.length}")
             text?.length?.let {
                 settingViewModel.setNicknameLength(it)
                 binding.isClickable = it > 0
@@ -49,5 +57,5 @@ class SettingModifyActivity :
         }
     }
 
-//    private fun setKeyBoardUp() = KeyBoardUtil.openKeyBoard(this, binding.etNickname)
+    private fun setKeyBoardUp() = KeyBoardUtil.openKeyBoard(this, binding.etNickname)
 }
