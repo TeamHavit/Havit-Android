@@ -86,6 +86,6 @@ interface HavitApi {
 
     @PATCH("user")
     suspend fun modifyUserNickname(
-        @Body body : NewNicknameRequest
+        @Body body: NewNicknameRequest
     ): BasicResponse
 }

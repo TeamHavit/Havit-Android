@@ -51,9 +51,10 @@ class SettingViewModel(context: Context) : ViewModel() {
     fun requestNewNickname(newNickname: String) {
         viewModelScope.launch {
             try {
-                val nickname = NewNicknameRequest(newNickname)
-                val response = RetrofitObject.provideHavitApi(token).modifyUserNickname(nickname)
-                Log.d("response", "requestNewNickname: response : $response")
+                val response = RetrofitObject.provideHavitApi(token).modifyUserNickname(
+                    NewNicknameRequest(newNickname)
+                )
+                Log.d("Request New Nickname", "requestNewNickname: response : $response")
             } catch (e: Exception) {
                 Log.d("Request New Nickname", "error : $e")
             }

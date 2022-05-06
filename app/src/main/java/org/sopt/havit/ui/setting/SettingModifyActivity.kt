@@ -1,6 +1,5 @@
 package org.sopt.havit.ui.setting
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
@@ -33,8 +32,7 @@ class SettingModifyActivity :
         binding.ivNicknameDelete.setOnClickListener { binding.etNickname.text.clear() }
         // 완료 버튼
         binding.btnComplete.setOnClickListener {
-            settingViewModel.requestNewNickname(binding.etNickname.toString())
-            startActivity(Intent(this, SettingActivity::class.java))
+            settingViewModel.requestNewNickname(binding.etNickname.text.toString())
             finish()
         }
         // editText 커서 위치를 글자 맨 뒤로 지정
