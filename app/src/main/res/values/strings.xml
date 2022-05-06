@@ -176,7 +176,7 @@
     <string name="service_personal_data">개인정보 처리 방침</string>
     <string name="help_and_others">도움말 및 기타</string>
     <string name="customer_center">고객 센터</string>
-    <string name="customer_center_email">havitcs@gmail.com</string>
+    <string name="customer_center_email">havitofficial29@gmail.com</string>
     <string name="version_info">버전 정보</string>
     <string name="logout">로그아웃</string>
     <!-- 환경설정 - 내 정보 수정 -->
@@ -194,4 +194,7 @@
     <string name="edit_nickname">&#160;사용하실 닉네임을 입력하세요</string>
     <string name="nickname_length_limit">/15</string>
     <string name="show_when_icon_clicked">showWhenIconClicked</string>
+    <string name="app_notice">공지사항</string>
+    <string name="contents_noti">콘텐츠 알림</string>
+    <string name="set_personal_data">개인정보처리방침</string>
 </resources>

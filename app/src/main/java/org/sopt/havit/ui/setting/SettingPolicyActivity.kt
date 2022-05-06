@@ -1,13 +1,14 @@
 package org.sopt.havit.ui.setting
 
-
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import org.sopt.havit.R
+import org.sopt.havit.databinding.ActivitySettingPolicyBinding
+import org.sopt.havit.ui.base.BaseBindingActivity
 
-class SettingPolicyActivity : AppCompatActivity() {
+class SettingPolicyActivity :
+    BaseBindingActivity<ActivitySettingPolicyBinding>(R.layout.activity_setting_policy) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_setting_policy)
+        binding.ivBack.setOnClickListener { super.onBackPressed() }
     }
 }

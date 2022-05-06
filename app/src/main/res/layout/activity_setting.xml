@@ -307,14 +307,16 @@
                 <!-- 고객센터 -->
                 <TextView
                     android:id="@+id/tv_customer_center"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
+                    android:paddingVertical="30dp"
+                    android:paddingStart="18dp"
                     android:text="@string/customer_center"
                     android:textAppearance="@style/Text16Semibold"
                     android:textColor="@color/gray_4"
                     app:layout_constraintStart_toStartOf="@id/tv_nickname"
-                    app:layout_constraintTop_toBottomOf="@id/tv_help" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_help"
+                    tools:ignore="RtlSymmetry" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -326,49 +328,12 @@
                     app:layout_constraintEnd_toEndOf="@id/iv_edit"
                     app:layout_constraintTop_toTopOf="@id/tv_customer_center" />
 
-                <!-- 버전 정보 -->
-                <TextView
-                    android:id="@+id/tv_version_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="34dp"
-                    android:layout_marginBottom="31dp"
-                    android:text="@string/version_info"
-                    android:textAppearance="@style/List16Semibold"
-                    android:textColor="@color/gray_4"
-                    app:layout_constraintStart_toStartOf="@id/tv_nickname"
-                    app:layout_constraintTop_toBottomOf="@id/tv_customer_center" />
-
-                <TextView
-                    android:id="@+id/tv_version_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{vmSetting.isLatest? `최신 버전` : `업데이트`}"
-                    android:textAppearance="@style/Button15Medium"
-                    android:textColor="@color/gray_3"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_version_info"
-                    app:layout_constraintEnd_toEndOf="@id/iv_edit"
-                    app:layout_constraintTop_toTopOf="@id/tv_version_info"
-                    tools:text="최신 버전" />
-
-                <TextView
-                    android:id="@+id/tv_version_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@{`현재 버전 `+ vmSetting.version}"
-                    android:textAppearance="@style/Sub12Regular"
-                    android:textColor="@color/gray_3"
-                    app:layout_constraintEnd_toEndOf="@id/tv_version_status"
-                    app:layout_constraintTop_toBottomOf="@id/tv_version_info"
-                    tools:text="현재 버전 1.0" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="34dp"
+                    android:layout_marginTop="4dp"
                     android:background="@color/white_gray"
-                    app:layout_constraintTop_toBottomOf="@id/tv_version_num">
+                    app:layout_constraintTop_toBottomOf="@id/tv_customer_center">
                     <!-- 로그아웃 -->
                     <TextView
                         android:id="@+id/tv_logout"
