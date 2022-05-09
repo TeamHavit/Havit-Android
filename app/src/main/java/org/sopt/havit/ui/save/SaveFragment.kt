@@ -1,17 +1,14 @@
 package org.sopt.havit.ui.save
 
-import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -22,6 +19,7 @@ import org.sopt.havit.databinding.FragmentSaveBinding
 import org.sopt.havit.ui.share.ShareActivity
 import org.sopt.havit.util.KeyBoardHeightProvider
 import org.sopt.havit.util.KeyBoardUtil
+import org.sopt.havit.util.KeyBoardUtil.openKeyBoard
 import java.net.URL
 
 
@@ -29,10 +27,14 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentSaveBinding
     private val saveViewModel: SaveViewModel by viewModels()
-    private var categoryName = categoryName
-    private var isFirstKeyBoard = true
-    private lateinit var clipboard: ClipboardManager
-    private lateinit var clipData: ClipData
+    private val clipboard: ClipboardManager by lazy {
+        activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    }
+    private val clipData by lazy {
+        clipboard.primaryClip?.let {
+            it.getItemAt(0).text.toString().trim()
+        }
+    }
 
 
     override fun onCreateView(
@@ -42,34 +44,34 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_save, container, false)
         binding.vm = saveViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
-        getKeyBoardHeight()
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setBottomSheetShow()
-        setUrlPaste()
+        setClipBoardUrl()
         setListeners()
+        getKeyBoardHeight()
+        setOpenKeyBoard()
     }
 
-    // url 붙여넣기 팝업 생성
-    private fun setUrlPaste() {
-        clipboard = activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
+    private fun setClipBoardUrl() {
         if (clipboard.hasPrimaryClip()) { // 클립보드에 내용이 있으면 팝업을 보여줌.
-            clipData = clipboard.primaryClip!!
-
-            clipData.apply {
-                val textToPaste = this.getItemAt(0).text.toString().trim() // 클립보드에 저장된 첫번째 데이터
-                if (isFullPath(textToPaste)) {
-                    binding.clPasteClipBoard.isVisible = true
-                    binding.tvSaveUrl.text = textToPaste
-                }
-
-            }
+            if (isFullPath(clipData ?: "")) saveViewModel.clipDataUrl.value = clipData
         }
+    }
+
+    private fun isFullPath(potentialUrl: String): Boolean { // url 유효성 검사
+        try {
+            URL(potentialUrl).toURI()
+            return true
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return false
     }
 
     private fun getKeyBoardHeight() {
@@ -81,25 +83,7 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
             })
     }
 
-    // url 유효성 검사
-    private fun isFullPath(potentialUrl: String): Boolean {
-        try {
-            URL(potentialUrl).toURI()
-            return true
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return false
-    }
-
-    // 키보드가 올라왔을 때 실행되는 함수
-    fun onKeyboardShown(keyboardSize: Int) {
-        if (isFirstKeyBoard) { // 맨 처음에만 키보드 오픈
-            openKeyBoard()
-            isFirstKeyBoard = false
-        }
-        Log.d("KEYBOARD", keyboardSize.toString())
-
+    fun onKeyboardShown(keyboardSize: Int) { // 키보드가 올라왔을 때 실행되는 함수
         val param = binding.btnSaveNext.layoutParams as ViewGroup.MarginLayoutParams
         param.setMargins(0, 0, 0, keyboardSize)
         binding.btnSaveNext.layoutParams = param
@@ -114,27 +98,13 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
             (resources.displayMetrics.heightPixels * 0.94).toInt()
     }
 
-    private fun openKeyBoard() {
-        KeyBoardUtil.openKeyBoard(requireContext(), binding.etSaveUrl)
-    }
+    private fun setOpenKeyBoard() { openKeyBoard(requireContext(), binding.etSaveUrl) }
 
-    private fun hideKeyBoard() {
-        KeyBoardUtil.hideKeyBoard(requireActivity())
-    }
+    private fun hideKeyBoard() { KeyBoardUtil.hideKeyBoard(requireActivity()) }
 
     private fun setListeners() {
         binding.clPasteClipBoard.setOnClickListener { // url 붙여넣기 팝업 클릭시 editText에 url 보여주기
-            clipData.apply {
-                val textToPaste: String = this.getItemAt(0).text.toString().trim()
-                binding.etSaveUrl.setText(textToPaste)
-            }
-            binding.clPasteClipBoard.isVisible = false
-        }
-        binding.ivSaveUrlDelete.setOnClickListener { // 팝업창 닫기
-            binding.clPasteClipBoard.isVisible = false
-        }
-        binding.ivSaveUrlTextDelete.setOnClickListener { // 사용자가 작성한 url 지우기
-            binding.etSaveUrl.setText("")
+            saveViewModel.setUrlData(clipData!!)
         }
         binding.btnSaveClose.setOnClickListener {
             hideKeyBoard()
@@ -148,33 +118,13 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
                     putExtra("url", binding.etSaveUrl.text.toString())
                 }
                 startActivity(intent)
-            } else {
+            }else {
                 binding.clSaveUrlValid.isVisible = true
             }
-
         }
-        binding.etSaveUrl.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(c: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (binding.etSaveUrl.text.isNotEmpty()) {
-                    saveViewModel.setClick(true)
-                    binding.ivSaveUrlTextDelete.isVisible = true
-                } else {
-                    saveViewModel.setClick(false)
-                    with(binding) {
-                        ivSaveUrlTextDelete.isVisible = false
-                        clSaveUrlValid.isVisible = false
-                    }
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
+        binding.etSaveUrl.addTextChangedListener {
+            if (it != null) binding.etSaveUrl.setSelection(it.length)
+        }
     }
 
     override fun getTheme(): Int {
@@ -185,6 +135,5 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         super.onDestroyView()
         hideKeyBoard()
     }
-
 
 }
