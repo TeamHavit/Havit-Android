@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.setting
+package org.sopt.havit.ui.setting.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.LiveData
