@@ -69,8 +69,8 @@ class MyFirebaseMessagingService @Inject constructor(
     private fun generateNotification(
         title: String?,
         message: String?,
-        image: String?,
-        url: String?
+        image: String? = null,
+        url: String? = null
     ) {
         Log.d("MyFirebaseMessagingService", "generateNotification")
 
@@ -87,39 +87,6 @@ class MyFirebaseMessagingService @Inject constructor(
             .setContentIntent(pendingIntent)
 
         builder = builder.setContent(getRemoteView(title, message, image)) // custom
-
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        /** Oreo Version 이하일때 처리 하는 코드 */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.d(TAG, "under Oreo Version")
-            val notificationChannel =
-                NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH)
-            notificationManager.createNotificationChannel(notificationChannel)
-        }
-
-        notificationManager.notify(0, builder.build())
-    }
-
-    private fun generateNotification(
-        title: String?,
-        message: String?
-    ) {
-        Log.d("MyFirebaseMessagingService", "generateNotification")
-
-        getDeviceToken()
-
-        val intent = Intent(this, WebActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
-
-        var builder = NotificationCompat.Builder(this, channelID)
-            .setSmallIcon(R.drawable.ic_havit_radious_10)
-            .setAutoCancel(true)
-            .setVibrate(longArrayOf(1000, 500, 1000, 500)) // 1초 울리고 0.5초 쉬고
-            .setOnlyAlertOnce(true)
-            .setContentIntent(pendingIntent)
 
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
