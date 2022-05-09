@@ -11,6 +11,7 @@ import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentMyPageBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsActivity
+import org.sopt.havit.ui.setting.SettingActivity
 
 @AndroidEntryPoint
 class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
@@ -58,6 +59,9 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
                 putExtra("categoryId", SEEN_CONTENTS_ID)
                 putExtra("categoryName", SEEN_CONTENTS_NAME)
             })
+        }
+        binding.ibMyPageSetting.setOnClickListener {
+            startActivity(Intent(requireContext(), SettingActivity::class.java))
         }
     }
 
