@@ -7,6 +7,7 @@ import org.sopt.havit.BuildConfig
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.util.CustomToast
 
 class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.activity_setting) {
