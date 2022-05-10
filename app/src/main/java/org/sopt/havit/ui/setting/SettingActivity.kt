@@ -43,7 +43,16 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
         // 알림 설정
         binding.clSettingAlarm.setOnClickListener {
-            startActivity(Intent(this, SettingAlarmActivity::class.java))
+            val intent = Intent()
+            intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+            intent.putExtra("app_package", packageName)
+            intent.putExtra("app_uid", applicationInfo.uid)
+            intent.putExtra("android.provider.extra.APP_PACKAGE", packageName)
+
+            startActivity(intent)
+//            startActivity(Intent(this, SettingAlarmActivity::class.java))
         }
 
         // 공지사항
@@ -89,7 +98,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
             putExtra(Intent.EXTRA_TEXT, "박태준바보멍청이\n".repeat(10))
         }
         if (intent.resolveActivity(this.packageManager) != null) startActivity(intent)
-        else CustomToast.showTextToast(this, "메일을 전송할 수 었습니다")
+        else CustomToast.showTextToast(this, "메일을 전송할 수 없습니다")
     }
 
     private fun setData() {
