@@ -17,23 +17,35 @@ class SettingAlarmActivity :
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
 
-        observeSwitchState()
-        initClickListener()
+//        observeSwitchState()
+//        initClickListener()
     }
-
-    private fun initClickListener() {
-        binding.ivBack.setOnClickListener { super.onBackPressed() }
-    }
-
-    private fun observeSwitchState() {
-        /* 공지사항 */
-        viewModel.isContentsNotiActivated.observe(this) {
-            viewModel.updateContentsNotiPreference()
-        }
-
-        /* 콘텐츠 알림 */
-        viewModel.isTotalNotiActivated.observe(this) {
-            viewModel.setTotalNotiActivated()
-        }
-    }
+//
+//    private fun initClickListener() {
+//        binding.ivBack.setOnClickListener { super.onBackPressed() }
+//    }
+//
+//    private fun observeSwitchState() {
+//        /* 공지사항 */
+//        viewModel.isContentsNotiActivated.observe(this) {
+//            viewModel.updateContentsNotiPreference()
+//        }
+//
+//        /* 콘텐츠 알림 */
+//        viewModel.isTotalNotiActivated.observe(this) {
+//            viewModel.setTotalNotiActivated()
+//        }
+//
+//        binding.switchAppNoti.setOnClickListener {
+//            val intent = Intent()
+//            intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//
+//            intent.putExtra("app_package", packageName)
+//            intent.putExtra("app_uid", applicationInfo.uid)
+//
+//            intent.putExtra("android.provider.extra.APP_PACKAGE", packageName)
+//
+//            startActivity(intent)
+//        }
 }
