@@ -1,4 +1,4 @@
-package org.sopt.havit.data.source
+package org.sopt.havit.data.source.remote
 
 import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.remote.*

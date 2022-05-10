@@ -1,4 +1,4 @@
-package org.sopt.havit.data.source
+package org.sopt.havit.data.source.remote
 
 import org.sopt.havit.data.remote.BasicResponse
 import org.sopt.havit.data.remote.SignInResponse

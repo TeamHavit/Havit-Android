@@ -1,14 +1,12 @@
 package org.sopt.havit.di
 
 import android.content.Context
-import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import org.sopt.havit.util.HavitLocalPreferences
-import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.data.local.HavitLocalPreferences
 import javax.inject.Singleton
 
 @Module

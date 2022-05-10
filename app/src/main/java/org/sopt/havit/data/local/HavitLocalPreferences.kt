@@ -1,4 +1,4 @@
-package org.sopt.havit.util
+package org.sopt.havit.data.local
 
 import android.content.Context
 import android.content.SharedPreferences

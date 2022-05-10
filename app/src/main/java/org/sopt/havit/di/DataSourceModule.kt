@@ -5,13 +5,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sopt.havit.data.api.HavitApi
-import org.sopt.havit.data.source.AuthRemoteDataSource
-import org.sopt.havit.data.source.AuthRemoteDataSourceImpl
-import org.sopt.havit.data.source.SearchRemoteDataSource
-import org.sopt.havit.data.source.SearchRemoteDataSourceImpl
+import org.sopt.havit.data.source.remote.AuthRemoteDataSource
+import org.sopt.havit.data.source.remote.AuthRemoteDataSourceImpl
+import org.sopt.havit.data.source.remote.SearchRemoteDataSource
+import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
 import org.sopt.havit.data.source.local.AuthLocalDataSource
 import org.sopt.havit.data.source.local.AuthLocalDataSourceImpl
-import org.sopt.havit.util.HavitLocalPreferences
+import org.sopt.havit.data.local.HavitLocalPreferences
 import javax.inject.Singleton
 
 @Module
