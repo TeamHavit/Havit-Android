@@ -6,7 +6,7 @@ import androidx.core.widget.doOnTextChanged
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
-import org.sopt.havit.util.KeyBoardUtil
+import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.util.KeyBoardUtil.setUpAsSoftKeyboard
 
 class SettingModifyActivity :

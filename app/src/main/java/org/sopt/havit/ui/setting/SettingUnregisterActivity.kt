@@ -5,6 +5,7 @@ import android.os.Bundle
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingUnregisterBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 
 class SettingUnregisterActivity :
     BaseBindingActivity<ActivitySettingUnregisterBinding>(R.layout.activity_setting_unregister) {

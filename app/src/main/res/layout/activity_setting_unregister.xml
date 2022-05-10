@@ -11,7 +11,7 @@
 
         <variable
             name="vmSetting"
-            type="org.sopt.havit.ui.setting.SettingViewModel" />
+            type="org.sopt.havit.ui.setting.viewmodel.SettingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

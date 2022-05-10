@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.sopt.havit.ui.setting.viewmodel.SettingAlarmViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -57,7 +64,7 @@
             android:layout_height="27dp"
             android:layout_marginEnd="16dp"
             android:background="@null"
-            android:checked="true"
+            android:checked="@={viewModel.isTotalNotiActivated}"
             android:scaleX="1.2"
             android:scaleY="1.2"
             app:layout_constraintBottom_toBottomOf="@id/tv_notice"
@@ -84,7 +91,7 @@
             android:layout_height="27dp"
             android:layout_marginEnd="16dp"
             android:background="@null"
-            android:checked="true"
+            android:checked="@={viewModel.isContentsNotiActivated()}"
             android:scaleX="1.2"
             android:scaleY="1.2"
             app:layout_constraintBottom_toBottomOf="@id/tv_contents_noti"
