@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.data.local.SettingPreference
 import org.sopt.havit.ui.web.WebActivity
 import javax.inject.Inject
@@ -21,11 +22,11 @@ import javax.inject.Inject
 const val channelID = "notification_channel"
 const val channelName = "org.sopt.androidsharing"
 
+@AndroidEntryPoint
 @SuppressLint("MissingFirebaseInstanceTokenRefresh")
-class MyFirebaseMessagingService @Inject constructor(
-    pref: SettingPreference
-) : FirebaseMessagingService() {
-    private val isContentsNotiActivated = pref.isContentsNotiActivated
+class MyFirebaseMessagingService : FirebaseMessagingService() {
+    @Inject
+    lateinit var pref: SettingPreference
 
     override fun onNewToken(token: String) {
         // 토큰 변경될 때
@@ -35,6 +36,9 @@ class MyFirebaseMessagingService @Inject constructor(
     // 1. push 알림 들어옴
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
+
+        val isContentsNotiActivated: Boolean =
+            if (::pref.isInitialized) pref.isContentsNotiActivated else true
 
         if (!isContentsNotiActivated) return
 
