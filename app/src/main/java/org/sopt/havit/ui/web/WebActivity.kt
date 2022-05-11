@@ -9,10 +9,12 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityWebBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 
+@AndroidEntryPoint
 class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_web) {
 
     private val webViewModel: WebViewModel by viewModels()
