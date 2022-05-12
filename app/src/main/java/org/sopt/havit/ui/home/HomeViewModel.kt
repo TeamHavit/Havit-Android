@@ -1,6 +1,7 @@
 package org.sopt.havit.ui.home
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,6 +18,19 @@ import org.sopt.havit.util.MySharedPreference
 class HomeViewModel(context: Context) : ViewModel() {
     private val token = MySharedPreference.getXAuthToken(context)
 
+    // 로딩 상태를 나타내는 변수
+    private val _loadState = MutableLiveData(true)
+    val loadState: LiveData<Boolean> = _loadState
+
+    private val _contentsLoadState = MutableLiveData(true)
+    val contentsLoadState: LiveData<Boolean> = _contentsLoadState
+    private val _categoryLoadState = MutableLiveData(true)
+    val categoryLoadState: LiveData<Boolean> = _categoryLoadState
+    private val _recommendLoadState = MutableLiveData(true)
+    val recommendLoadState: LiveData<Boolean> = _recommendLoadState
+    private val _userLoadState = MutableLiveData(true)
+    val userLoadState: LiveData<Boolean> = _userLoadState
+
     // 최근저장 콘텐츠
     private val _contentsList = MutableLiveData<List<ContentsSimpleResponse.ContentsSimpleData>>()
     val contentsList: LiveData<List<ContentsSimpleResponse.ContentsSimpleData>> = _contentsList
@@ -27,6 +41,8 @@ class HomeViewModel(context: Context) : ViewModel() {
                     RetrofitObject.provideHavitApi(token)
                         .getContentsRecent()
                 _contentsList.postValue(response.data)
+                _contentsLoadState.postValue(false)
+                setLoadState()
             } catch (e: Exception) {
             }
         }
@@ -41,7 +57,10 @@ class HomeViewModel(context: Context) : ViewModel() {
                 val response =
                     RetrofitObject.provideHavitApi(token)
                         .getAllCategory()
+                setLoadState()
                 _categoryData.postValue(response.data)
+                _categoryLoadState.postValue(false)
+                setLoadState()
             } catch (e: Exception) {
             }
         }
@@ -96,7 +115,10 @@ class HomeViewModel(context: Context) : ViewModel() {
                 val response =
                     RetrofitObject.provideHavitApi(token)
                         .getRecommendation()
+                setLoadState()
                 _recommendList.postValue(response.data)
+                _recommendLoadState.postValue(false)
+                setLoadState()
             } catch (e: Exception) {
 
             }
@@ -113,6 +135,8 @@ class HomeViewModel(context: Context) : ViewModel() {
                     RetrofitObject.provideHavitApi(token)
                         .getUserData()
                 _userData.postValue(response.data)
+                _userLoadState.postValue(false)
+                setLoadState()
             } catch (e: Exception) {
             }
         }
@@ -124,4 +148,15 @@ class HomeViewModel(context: Context) : ViewModel() {
     fun requestReachRate(rate: Int) {
         _reachRate.postValue(rate)
     }
+
+    // skeleton
+    fun setLoadState() {
+        Log.d(
+            "TAG",
+            "setLoadState: ${userLoadState.value}, ${categoryLoadState.value}, ${contentsLoadState.value}, ${recommendLoadState.value}"
+        )
+        if (userLoadState.value == false && categoryLoadState.value == false && contentsLoadState.value == false && recommendLoadState.value == false)
+            _loadState.postValue(false)
+    }
+
 }

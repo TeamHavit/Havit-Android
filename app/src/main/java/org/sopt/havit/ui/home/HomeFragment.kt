@@ -142,6 +142,23 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             requestContentsTaken()  // 최근 저장 콘텐츠
             requestCategoryTaken()  // 카테고리
             requestRecommendTaken() // 추천 콘텐츠
+            loadStateObserve()
+        }
+    }
+
+    private fun loadStateObserve() {
+        with(homeViewModel) {
+            loadState.observe(viewLifecycleOwner) {
+                if (it) // 로딩중이라면
+                    binding.sflHome.startShimmer()
+                else    // 로딩이 끝났다면
+                    binding.sflHome.stopShimmer()
+            }
+            // 유저, 카테고리, 최근저장콘텐츠, 추천콘텐츠 서버 연결 확인
+            userLoadState.observe(viewLifecycleOwner) { setLoadState() }
+            categoryLoadState.observe(viewLifecycleOwner) { setLoadState() }
+            recommendLoadState.observe(viewLifecycleOwner) { setLoadState() }
+            contentsLoadState.observe(viewLifecycleOwner) { setLoadState() }
         }
     }
 
