@@ -22,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white_gray"
+            android:visibility="@{vmContents.loadState ? View.GONE : View.VISIBLE}"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
@@ -109,6 +110,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_contents_empty" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- 로딩 중 -->
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/sfl_contents"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{vmContents.loadState ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <include layout="@layout/activity_contents_simple_skeleton" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
