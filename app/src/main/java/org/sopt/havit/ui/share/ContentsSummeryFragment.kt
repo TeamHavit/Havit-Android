@@ -33,7 +33,9 @@ class ContentsSummeryFragment : Fragment() {
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(requireContext()) }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentContentsSummeryBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -50,7 +52,7 @@ class ContentsSummeryFragment : Fragment() {
 
     private fun getUrl(): String {
         val intent = activity?.intent
-        if (isEnterWithShareBtn(intent))                       // 공유하기 버튼으로 진입시
+        if (isEnterWithShareBtn(intent)) // 공유하기 버튼으로 진입시
             return intent?.getStringExtra(Intent.EXTRA_TEXT).toString()
         return intent?.getStringExtra("url").toString() // MainActivity FIB 로 진입시
     }
@@ -58,7 +60,6 @@ class ContentsSummeryFragment : Fragment() {
     private fun isEnterWithShareBtn(intent: Intent?): Boolean {
         return (intent?.action == Intent.ACTION_SEND) && (intent.type == "text/plain")
     }
-
 
     private fun getCategoryList() {
         // 선택된 카테고리 배열 생성
@@ -76,7 +77,6 @@ class ContentsSummeryFragment : Fragment() {
         val setTime = MySharedPreference.getNotificationTime(requireContext())
         binding.alarm = setTime.ifEmpty { getString(R.string.set_alarm_space) }
     }
-
 
     private fun setContents() {
         val url = getUrl()
@@ -108,7 +108,6 @@ class ContentsSummeryFragment : Fragment() {
             }
         }.join()
     }
-
 
     private fun initListener() {
 
@@ -170,8 +169,6 @@ class ContentsSummeryFragment : Fragment() {
 
                 val createContentsRequest = CreateContentsRequest(
                     ogData.ogTitle,
-                    ogData.ogDescription,
-                    ogData.ogImage,
                     ogData.ogUrl,
                     isNotified = notification,
                     notificationTime = time,
@@ -201,5 +198,4 @@ class ContentsSummeryFragment : Fragment() {
     }
 
     private fun setCustomToast() = CustomToast.contentsAddedToast(requireContext())
-
 }
