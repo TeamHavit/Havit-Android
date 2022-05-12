@@ -25,7 +25,9 @@ class SelectCategoryFragment : Fragment() {
     lateinit var clickCountList: Array<Boolean>
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSelectCategoryBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -45,7 +47,7 @@ class SelectCategoryFragment : Fragment() {
     }
 
     private fun initView() {
-        binding.hasCategory = true  // skeleton 붙이면 없앨 코드
+        binding.hasCategory = true // skeleton 붙이면 없앨 코드
         lifecycleScope.launch {
             try {
                 // 서버 통신
@@ -73,23 +75,23 @@ class SelectCategoryFragment : Fragment() {
                 Log.d("clickCountList", categoryData.size.toString())
 
                 categorySelectableAdapter.setItemClickListener(object :
-                    CategorySelectableAdapter.OnItemClickListener {
-                    override fun onClick(v: View, position: Int) {
+                        CategorySelectableAdapter.OnItemClickListener {
+                        override fun onClick(v: View, position: Int) {
 
-                        clickCountList[position] = !clickCountList[position]
+                            clickCountList[position] = !clickCountList[position]
 
-                        var booleanLog = clickCountList[position]
-                        Log.d("clickCountList", booleanLog.toString())
+                            var booleanLog = clickCountList[position]
+                            Log.d("clickCountList", booleanLog.toString())
 
-                        if (isSelectedLeastOneCategory()) {
-                            binding.selectCategory.btnNext.isEnabled = true
-                            binding.selectCategory.btnNext.setBackgroundResource(R.drawable.rectangle_havit_purple)
-                        } else {
-                            binding.selectCategory.btnNext.isEnabled = false
-                            binding.selectCategory.btnNext.setBackgroundResource(R.drawable.rectangle_gray_2)
+                            if (isSelectedLeastOneCategory()) {
+                                binding.selectCategory.btnNext.isEnabled = true
+                                binding.selectCategory.btnNext.setBackgroundResource(R.drawable.rectangle_havit_purple)
+                            } else {
+                                binding.selectCategory.btnNext.isEnabled = false
+                                binding.selectCategory.btnNext.setBackgroundResource(R.drawable.rectangle_gray_2)
+                            }
                         }
-                    }
-                })
+                    })
             } catch (e: Exception) {
                 // 서버 통신 실패 시
             }
