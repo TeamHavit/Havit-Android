@@ -2,12 +2,14 @@ package org.sopt.havit.ui.category
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
+import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ActivityCategoryOrderModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.util.DialogUtil
@@ -22,17 +24,14 @@ class CategoryOrderModifyActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding.categoryViewModel = categoryViewModel
         setContentView(binding.root)
 
         initAdapter()
         setResult()
         clickItem()
-        requestServer()
+        setCategoryItemListData()
         clickBack()
         initDrag()
-        dataObserve()
         setCompleteOrder()
     }
 
@@ -41,12 +40,12 @@ class CategoryOrderModifyActivity :
     }
 
     // 뒤로가기 시 뜨는 dialog
-    private fun setBackDialog(){
+    private fun setBackDialog() {
         val dialog = DialogUtil(DialogUtil.CANCEL_EDIT_CATEGORY, ::setFinish)
         dialog.show(supportFragmentManager, this.javaClass.name)
     }
 
-    private fun setFinish(){
+    private fun setFinish() {
         finish()
     }
 
@@ -55,17 +54,10 @@ class CategoryOrderModifyActivity :
         binding.rvContents.adapter = categoryOrderModifyAdapter
     }
 
-    private fun requestServer() {
-        categoryViewModel.requestCategoryTaken()
-    }
-
-    private fun dataObserve() {
-        with(categoryViewModel) {
-            categoryList.observe(this@CategoryOrderModifyActivity) {
-                categoryOrderModifyAdapter.categoryList.addAll(it)
-                categoryOrderModifyAdapter.notifyDataSetChanged()
-            }
-        }
+    private fun setCategoryItemListData() {
+        categoryOrderModifyAdapter.categoryList =
+            intent.getParcelableArrayListExtra("categoryItemList")!!
+        categoryOrderModifyAdapter.notifyDataSetChanged()
     }
 
     private fun setResult() {
@@ -89,7 +81,8 @@ class CategoryOrderModifyActivity :
                     with(categoryOrderModifyAdapter.categoryList[position]) {
                         title = name
                         imageId = image
-                        url = "https://havit-bucket.s3.ap-northeast-2.amazonaws.com/category_image/3d_icon_${image}.png"
+                        url =
+                            "https://havit-bucket.s3.ap-northeast-2.amazonaws.com/category_image/3d_icon_${image}.png"
                     }
                     categoryOrderModifyAdapter.notifyItemChanged(position)
                 }

@@ -5,9 +5,6 @@
 
     <data>
 
-        <variable
-            name="categoryViewModel"
-            type="org.sopt.havit.ui.category.CategoryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

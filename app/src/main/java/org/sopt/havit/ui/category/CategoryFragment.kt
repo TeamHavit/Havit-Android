@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.sopt.havit.R
+import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentCategoryBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsActivity
@@ -85,6 +86,9 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     private fun moveManage() {
         binding.tvModify.setOnClickListener {
             val intent = Intent(activity, CategoryOrderModifyActivity::class.java)
+            val categoryItemList: ArrayList<CategoryResponse.AllCategoryData> =
+                categoryAdapter.categoryList as ArrayList<CategoryResponse.AllCategoryData>
+            intent.putParcelableArrayListExtra("categoryItemList", categoryItemList)
             startActivity(intent)
         }
     }
