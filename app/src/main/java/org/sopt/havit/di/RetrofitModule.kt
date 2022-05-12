@@ -26,7 +26,7 @@ object RetrofitModule {
                     .newBuilder()
                     .addHeader(
                         "x-auth-token",
-                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlkRmlyZWJhc2UiOiJrYWthbzp0ZW1wIiwiaWF0IjoxNjQ5MTYzMzQxLCJleHAiOjE2NTE3NTUzNDEsImlzcyI6Imhhdml0In0.DEuPj-WfC7RjdlMzaZTrSDN-3cTiYHC7aQLN9ETKoiY"
+                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlkRmlyZWJhc2UiOiJrYWthbzp0ZW1wIiwiaWF0IjoxNjUxNzcwNTIzLCJleHAiOjE2NjA0MTA1MjMsImlzcyI6Imhhdml0In0.GyGJ_OTJc1cbvXS12VsTSn_hqFLPr_3gNOz3YufMI_A"
                     )
                     .build()
             )
