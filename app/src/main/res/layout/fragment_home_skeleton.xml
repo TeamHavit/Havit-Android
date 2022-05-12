@@ -54,8 +54,8 @@
     <ImageView
         android:id="@+id/iv_reach_rate"
         android:layout_width="match_parent"
-        android:layout_height="113dp"
-        android:layout_marginTop="9dp"
+        android:layout_height="121dp"
+        android:layout_marginTop="13dp"
         android:src="@drawable/rectangle_gray_2_radius_6"
         app:layout_constraintTop_toBottomOf="@id/iv_popup" />
 
