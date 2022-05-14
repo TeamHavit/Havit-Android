@@ -114,8 +114,8 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                     ?.let {
                         intent.putExtra(CATEGORY_ID, it.id)
                         intent.putExtra(CATEGORY_NAME, it.title)
-                        intent.putExtra(CATEGORY_POSITION, it.imageId)
-                        intent.putExtra(CATEGORY_IMAGE_ID, position)
+                        intent.putExtra(CATEGORY_POSITION, position)
+                        intent.putExtra(CATEGORY_IMAGE_ID, it.imageId)
                     }
                 startActivity(intent)
             }
