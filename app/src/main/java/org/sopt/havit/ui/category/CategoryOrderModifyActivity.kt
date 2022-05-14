@@ -12,6 +12,8 @@ import org.sopt.havit.R
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ActivityCategoryOrderModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_DELETE_CATEGORY
+import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_MODIFY_CATEGORY
 import org.sopt.havit.util.DialogUtil
 
 
@@ -64,14 +66,14 @@ class CategoryOrderModifyActivity :
         // 데이터 받아옴 (카테고리 내용 수정 뷰에서)
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             when (it.resultCode) {
-                RESULT_OK -> { // 삭제
+                RESULT_DELETE_CATEGORY -> { // 삭제
                     // 삭제할 카테고리의 정보를 받아옴
                     val position = it.data?.getIntExtra("position", 0) ?: 0
 
                     // 리사이클러뷰 변경
                     categoryOrderModifyAdapter.removeData(position)
                 }
-                RESULT_FIRST_USER -> { // 카테고리 이름 & 아이콘 수정
+                RESULT_MODIFY_CATEGORY -> { // 카테고리 이름 & 아이콘 수정
                     // 수정할 카테고리의 정보를 받아옴
                     val position = it.data?.getIntExtra("position", 0) ?: 0
                     val name = it.data?.getStringExtra("categoryName") ?: "null"

@@ -26,8 +26,8 @@ class CategoryContentModifyActivity :
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setCategoryIntentData()
         initIconAdapter()
+        setCategoryIntentData()
         setTextWatcher()
         setBackBtnClickListener()
         setDeleteTitleBtnClickListener()
@@ -46,10 +46,10 @@ class CategoryContentModifyActivity :
         id = intent.getIntExtra("categoryId", 0)
         categoryTitleList = intent.getStringArrayListExtra("categoryNameList") as ArrayList<String>
         preActivity = intent.getStringExtra("preActivity").toString()
-        clickedPosition = intent.getIntExtra("imageId", 0) - 1
     }
 
     private fun initIconAdapter() {
+        clickedPosition = intent.getIntExtra("imageId", 0) - 1
         binding.rvIcon.adapter = IconAdapter(::onIconClick).also { iconAdapter = it }
     }
 
@@ -140,11 +140,11 @@ class CategoryContentModifyActivity :
 
         when (preActivity) {
             "ContentsActivity" -> setResult(
-                RESULT_FIRST_USER,
+                RESULT_MODIFY_CATEGORY,
                 contentsIntent
             ) // ContentsActivity로 데이터 전달
             "CategoryOrderModifyActivity" -> setResult(
-                RESULT_FIRST_USER,
+                RESULT_MODIFY_CATEGORY,
                 orderIntent
             ) // CategoryOrderModifyActivity로 데이터 전달
         }
@@ -161,11 +161,19 @@ class CategoryContentModifyActivity :
         val contentsIntent = Intent(this, ContentsActivity::class.java)
 
         when (preActivity) {
-            "ContentsActivity" -> setResult(RESULT_OK, contentsIntent) // ContentsActivity로 데이터 전달
+            "ContentsActivity" -> setResult(
+                RESULT_DELETE_CATEGORY,
+                contentsIntent
+            ) // ContentsActivity로 데이터 전달
             "CategoryOrderModifyActivity" -> setResult(
-                RESULT_OK,
+                RESULT_DELETE_CATEGORY,
                 orderIntent
             ) // CategoryOrderModifyActivity로 데이터 전달
         }
+    }
+
+    companion object {
+        const val RESULT_DELETE_CATEGORY = 1000
+        const val RESULT_MODIFY_CATEGORY = 2000
     }
 }
