@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
@@ -31,30 +32,34 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     }
     private val clipData by lazy {
-        clipboard.primaryClip?.let {
-            it.getItemAt(0).text.toString().trim()
-        }
+        clipboard.primaryClip?.getItemAt(0)?.text?.toString()?.trim()
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_save, container, false)
-        binding.vm = saveViewModel
-        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.vm = saveViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         setBottomSheetShow()
         setClipBoardUrl()
         setListeners()
-        getKeyBoardHeight()
-        setOpenKeyBoard()
+        setDialogKeyBoard()
+    }
+
+    private fun setDialogKeyBoard() {
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        dialog?.setOnShowListener {
+            setOpenKeyBoard()
+            getKeyBoardHeight()
+        }
     }
 
 
@@ -98,9 +103,20 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
             (resources.displayMetrics.heightPixels * 0.94).toInt()
     }
 
-    private fun setOpenKeyBoard() { openKeyBoard(requireContext(), binding.etSaveUrl) }
+    private fun setOpenKeyBoard() {
+        openKeyBoard(requireContext(), binding.etSaveUrl)
+    }
 
-    private fun hideKeyBoard() { KeyBoardUtil.hideKeyBoard(requireActivity()) }
+    private fun hideKeyBoard() {
+        KeyBoardUtil.hideKeyBoard(requireActivity())
+    }
+
+    private fun startShareActivity() {
+        val intent = Intent(requireContext(), ShareActivity::class.java).apply {
+            putExtra("url", binding.etSaveUrl.text.toString())
+        }
+        startActivity(intent)
+    }
 
     private fun setListeners() {
         binding.clPasteClipBoard.setOnClickListener { // url 붙여넣기 팝업 클릭시 editText에 url 보여주기
@@ -112,13 +128,10 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         }
         binding.btnSaveNext.setOnClickListener {
             if (isFullPath(binding.etSaveUrl.text.toString())) {
+                startShareActivity()
                 hideKeyBoard()
                 dismiss()
-                val intent = Intent(requireContext(), ShareActivity::class.java).apply {
-                    putExtra("url", binding.etSaveUrl.text.toString())
-                }
-                startActivity(intent)
-            }else {
+            } else {
                 binding.clSaveUrlValid.isVisible = true
             }
         }
@@ -131,9 +144,5 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         return R.style.AppBottomSheetDialogTheme
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        hideKeyBoard()
-    }
 
 }
