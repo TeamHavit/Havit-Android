@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         setBottomNavi()
         setListeners()
-        //setToken()
     }
 
     private fun setBottomNavi() {
@@ -46,9 +45,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /*private fun setToken() {
-        if (MySharedPreference.getXAuthToken(this) == "") {
-            MySharedPreference.setXAuthToken(this)
-        }
-    }*/
 }
