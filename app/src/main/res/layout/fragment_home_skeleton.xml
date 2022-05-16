@@ -3,23 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginTop="17dp">
+    android:paddingHorizontal="16dp"
+    android:paddingTop="17dp">
 
     <!--상단 바-->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_topbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/iv_logo"
             android:layout_width="83dp"
             android:layout_height="26dp"
-            android:src="@drawable/rectangle_gray_2_radius_6"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/rectangle_gray_1_radius_6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,7 +20,7 @@
             android:layout_width="26dp"
             android:layout_height="26dp"
             android:layout_marginEnd="21dp"
-            android:src="@drawable/rectangle_gray_2_radius_6"
+            android:src="@drawable/rectangle_gray_1_radius_6"
             app:layout_constraintBottom_toBottomOf="@id/iv_logo"
             app:layout_constraintEnd_toStartOf="@id/iv_alarm"
             app:layout_constraintTop_toTopOf="@id/iv_logo" />
@@ -36,11 +29,10 @@
             android:id="@+id/iv_alarm"
             android:layout_width="26dp"
             android:layout_height="26dp"
-            android:src="@drawable/rectangle_gray_2_radius_6"
+            android:src="@drawable/rectangle_gray_1_radius_6"
             app:layout_constraintBottom_toBottomOf="@id/iv_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/iv_logo" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 팝업 -->
     <ImageView
@@ -48,15 +40,15 @@
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_marginTop="17dp"
-        android:src="@drawable/rectangle_gray_2_radius_6"
-        app:layout_constraintTop_toBottomOf="@id/cl_topbar" />
+        android:src="@drawable/rectangle_gray_1_radius_6"
+        app:layout_constraintTop_toBottomOf="@id/iv_logo" />
 
     <ImageView
         android:id="@+id/iv_reach_rate"
         android:layout_width="match_parent"
         android:layout_height="121dp"
         android:layout_marginTop="13dp"
-        android:src="@drawable/rectangle_gray_2_radius_6"
+        android:src="@drawable/rectangle_gray_1_radius_6"
         app:layout_constraintTop_toBottomOf="@id/iv_popup" />
 
     <ImageView
@@ -64,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_marginTop="19dp"
-        android:src="@drawable/rectangle_gray_2_radius_6"
+        android:src="@drawable/rectangle_gray_1_radius_6"
         app:layout_constraintTop_toBottomOf="@id/iv_reach_rate" />
 
     <ImageView
@@ -72,14 +64,14 @@
         android:layout_width="129dp"
         android:layout_height="30dp"
         android:layout_marginTop="33dp"
-        android:src="@drawable/rectangle_gray_2_radius_6"
+        android:src="@drawable/rectangle_gray_1_radius_6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_search" />
 
     <ImageView
         android:layout_width="86dp"
         android:layout_height="30dp"
-        android:src="@drawable/rectangle_gray_2_radius_6"
+        android:src="@drawable/rectangle_gray_1_radius_6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/iv_category" />
 
@@ -88,7 +80,7 @@
         android:layout_width="0dp"
         android:layout_height="106dp"
         android:layout_marginTop="10dp"
-        android:src="@drawable/rectangle_gray_2_radius_6"
+        android:src="@drawable/rectangle_gray_1_radius_6"
         app:layout_constraintEnd_toStartOf="@id/item_category_2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_category" />
@@ -98,7 +90,7 @@
         android:layout_width="0dp"
         android:layout_height="106dp"
         android:layout_marginStart="8dp"
-        android:src="@drawable/rectangle_gray_2_radius_6"
+        android:src="@drawable/rectangle_gray_1_radius_6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/item_category_1"
         app:layout_constraintTop_toTopOf="@id/item_category_1" />
@@ -108,7 +100,7 @@
         android:layout_width="0dp"
         android:layout_height="106dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/rectangle_gray_2_radius_6"
+        android:src="@drawable/rectangle_gray_1_radius_6"
         app:layout_constraintEnd_toStartOf="@id/item_category_4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/item_category_1" />
@@ -118,7 +110,7 @@
         android:layout_width="0dp"
         android:layout_height="106dp"
         android:layout_marginStart="8dp"
-        android:src="@drawable/rectangle_gray_2_radius_6"
+        android:src="@drawable/rectangle_gray_1_radius_6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/item_category_3"
         app:layout_constraintTop_toTopOf="@id/item_category_3" />
@@ -128,7 +120,7 @@
         android:layout_width="0dp"
         android:layout_height="106dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/rectangle_gray_2_radius_6"
+        android:src="@drawable/rectangle_gray_1_radius_6"
         app:layout_constraintEnd_toStartOf="@id/item_category_6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/item_category_3" />
@@ -138,7 +130,7 @@
         android:layout_width="0dp"
         android:layout_height="106dp"
         android:layout_marginStart="8dp"
-        android:src="@drawable/rectangle_gray_2_radius_6"
+        android:src="@drawable/rectangle_gray_1_radius_6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/item_category_5"
         app:layout_constraintTop_toTopOf="@id/item_category_5" />
