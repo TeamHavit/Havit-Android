@@ -35,9 +35,9 @@ class ShareActivity : AppCompatActivity() {
     }
 
     private fun setToken() {
-        if (MySharedPreference.getXAuthToken(this) == "") {
+        /*if (MySharedPreference.getXAuthToken(this) == "") {
             MySharedPreference.setXAuthToken(this)
-        }
+        }*/
     }
 
     private fun hadLogin(): Boolean {

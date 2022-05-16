@@ -7,17 +7,16 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentAddNickNameBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
-import kotlin.math.sign
 
+@AndroidEntryPoint
 class AddNickNameFragment :
     BaseBindingFragment<FragmentAddNickNameBinding>(R.layout.fragment_add_nick_name) {
 
     private val signInViewModel: SignInViewModel by activityViewModels()
-    private val args by navArgs<AddNickNameFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,13 +30,8 @@ class AddNickNameFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = signInViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        setNickName()
         setTextWatcher()
         setListener()
-    }
-
-    private fun setNickName() {
-        signInViewModel.setNickName(args.nickName?:"")
     }
 
     private fun setTextWatcher() {

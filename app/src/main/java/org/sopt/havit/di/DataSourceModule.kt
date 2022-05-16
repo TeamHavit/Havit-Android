@@ -11,7 +11,7 @@ import org.sopt.havit.data.source.remote.SearchRemoteDataSource
 import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
 import org.sopt.havit.data.source.local.AuthLocalDataSource
 import org.sopt.havit.data.source.local.AuthLocalDataSourceImpl
-import org.sopt.havit.data.local.HavitLocalPreferences
+import org.sopt.havit.data.local.HavitAuthLocalPreferences
 import javax.inject.Singleton
 
 @Module
@@ -30,6 +30,6 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideAuthLocalDataSource(havitLocalPreferences: HavitLocalPreferences): AuthLocalDataSource =
+    fun provideAuthLocalDataSource(havitLocalPreferences: HavitAuthLocalPreferences): AuthLocalDataSource =
         AuthLocalDataSourceImpl(havitLocalPreferences)
 }

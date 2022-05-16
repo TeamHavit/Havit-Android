@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentAddTosBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.util.MySharedPreference
 
-
+@AndroidEntryPoint
 class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragment_add_tos) {
 
     private val signInViewModel: SignInViewModel by activityViewModels()
@@ -30,14 +32,13 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
         super.onViewCreated(view, savedInstanceState)
         binding.vm = signInViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
         setListeners()
+        accessTokenObserver()
     }
 
     private fun setListeners() {
         binding.btnTosStart.setOnClickListener {
-            startActivity(Intent(requireContext(), MainActivity::class.java))
-            requireActivity().finish()
+            signInViewModel.postSignUp()
         }
         binding.btnTosBack.setOnClickListener {
             findNavController().popBackStack()
@@ -56,5 +57,16 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
         }
     }
 
+    private fun startMainActivity() {
+        startActivity(Intent(requireContext(), MainActivity::class.java))
+        requireActivity().finish()
+    }
 
+    private fun accessTokenObserver() {
+        signInViewModel.accessToken.observe(viewLifecycleOwner) {
+            startMainActivity()
+            signInViewModel.saveAccessToken()
+            MySharedPreference.setXAuthToken(requireContext(), it ?: "")
+        }
+    }
 }

@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class HavitLocalPreferences @Inject constructor(
+class HavitAuthLocalPreferences @Inject constructor(
     @ApplicationContext private val
     context: Context
 ) {

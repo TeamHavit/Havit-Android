@@ -48,6 +48,6 @@ object RepositoryModule {
     fun provideAuthRepository(
         authRemoteDataSourceImpl: AuthRemoteDataSourceImpl,
         authLocalDataSourceImpl: AuthLocalDataSourceImpl
-    ): AuthRepository = AuthRepositoryImpl(authRemoteDataSourceImpl,authLocalDataSourceImpl)
+    ): AuthRepository = AuthRepositoryImpl(authRemoteDataSourceImpl, authLocalDataSourceImpl)
 
 }

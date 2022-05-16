@@ -2,10 +2,12 @@ package org.sopt.havit.ui.sign
 
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySignBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 
+@AndroidEntryPoint
 class SignActivity : BaseBindingActivity<ActivitySignBinding>(R.layout.activity_sign) {
 
 

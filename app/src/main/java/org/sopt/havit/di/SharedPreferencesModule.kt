@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import org.sopt.havit.data.local.HavitLocalPreferences
+import org.sopt.havit.data.local.HavitAuthLocalPreferences
 import javax.inject.Singleton
 
 @Module
@@ -16,5 +16,5 @@ object SharedPreferencesModule {
     @Provides
     @Singleton
     fun provideSharedPreferencesImpl(@ApplicationContext context: Context) =
-        HavitLocalPreferences(context)
+        HavitAuthLocalPreferences(context)
 }

@@ -14,9 +14,7 @@ class AuthRepositoryImpl @Inject constructor(
 ) :
     AuthRepository {
 
-    override fun getFcmToken(getFcmToken: (String) -> Unit) {
-        return MyFirebaseMessagingService.getDeviceToken()
-    }
+    override fun getFcmToken(): String = MyFirebaseMessagingService.getDeviceToken().toString()
 
     override fun saveAccessToken(token: String) {
         authLocalDataSource.saveAccessToken(token)

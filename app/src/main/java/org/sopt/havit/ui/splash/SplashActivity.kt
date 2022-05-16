@@ -8,18 +8,33 @@ import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySplashBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.sign.SignActivity
+import org.sopt.havit.util.HavitAuthUtil
 
 class SplashActivity : BaseBindingActivity<ActivitySplashBinding>(R.layout.activity_splash) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startFilterActivity()
+        //setAutoLogin()
+        startSignActivity()
     }
 
-    private fun startFilterActivity() {
+    private fun setAutoLogin() { // 자동 로그인.
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-
+            HavitAuthUtil.isLoginNow { auto ->
+                if (auto) startMainActivity() else startSignActivity()
+            }
         }, 3000)
+
     }
+
+    private fun startSignActivity() {
+        startActivity(Intent(this, SignActivity::class.java))
+        finish()
+    }
+
+    private fun startMainActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
 }
