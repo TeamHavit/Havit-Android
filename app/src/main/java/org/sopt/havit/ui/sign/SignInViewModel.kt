@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.data.remote.SignInResponse
 import org.sopt.havit.data.remote.SignUpRequest
 import org.sopt.havit.domain.repository.AuthRepository
+import org.sopt.havit.util.Event
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,11 +24,11 @@ class SignInViewModel @Inject constructor(
 
     var isNextClick = MutableLiveData(false)
 
-    private var _isAlreadyUser = MutableLiveData<SignInResponse>()
-    var isAlreadyUser: LiveData<SignInResponse> = _isAlreadyUser
+    private var _isAlreadyUser = MutableLiveData<Event<SignInResponse>>()
+    var isAlreadyUser: LiveData<Event<SignInResponse>> = _isAlreadyUser
 
-    private var _isNeedScopes = MutableLiveData<Boolean>()
-    var isNeedScopes: LiveData<Boolean> = _isNeedScopes
+    private var _isNeedScopes = MutableLiveData<Event<Boolean>>()
+    var isNeedScopes: LiveData<Event<Boolean>> = _isNeedScopes
 
     private var _accessToken = MutableLiveData<String>()
     var accessToken: LiveData<String> = _accessToken
@@ -37,6 +38,7 @@ class SignInViewModel @Inject constructor(
     private val _kakaoToken = MutableLiveData<String>()
 
     var nickName = MutableLiveData<String>()
+
     private var _havitUser = MutableLiveData<SignUpRequest>()
 
     var isAllCheck = MutableLiveData(false)
@@ -58,7 +60,7 @@ class SignInViewModel @Inject constructor(
     }
 
     fun setNeedScopes() {
-        _isNeedScopes.value = true
+        _isNeedScopes.value = Event(true)
     }
 
     fun setKakaoUserInfo(age: Int, email: String, gender: String, nickName: String) {
@@ -86,7 +88,7 @@ class SignInViewModel @Inject constructor(
                     requireNotNull(_kakaoToken.value)
                 )
             }.onSuccess {
-                Log.d("TAG", "postSignUp: ${it.data.accessToken}")
+                authRepository.saveAccessToken(requireNotNull(it.data.accessToken))
                 _accessToken.postValue(it.data.accessToken)
             }
         }
@@ -100,7 +102,8 @@ class SignInViewModel @Inject constructor(
                     requireNotNull(_fcmToken.value), requireNotNull(_kakaoToken.value)
                 )
             }.onSuccess {
-                _isAlreadyUser.postValue(it)
+                _isAlreadyUser.postValue(Event(it))
+                if (it.data.isAlreadyUser) authRepository.saveAccessToken(requireNotNull(it.data.accessToken))
             }.onFailure { throw it }
 
         }
@@ -113,10 +116,6 @@ class SignInViewModel @Inject constructor(
 
     fun setKakaoToken(token: String) {
         _kakaoToken.value = token
-    }
-
-    fun saveAccessToken() {
-        authRepository.saveAccessToken(requireNotNull(_isAlreadyUser.value?.data?.accessToken))
     }
 
 

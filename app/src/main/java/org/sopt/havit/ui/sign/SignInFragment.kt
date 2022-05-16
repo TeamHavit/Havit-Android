@@ -17,6 +17,7 @@ import org.sopt.havit.R
 import org.sopt.havit.data.remote.SignUpRequest
 import org.sopt.havit.databinding.FragmentSignInBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.HavitAuthUtil
 import org.sopt.havit.util.MySharedPreference
 
@@ -45,16 +46,6 @@ class SignInFragment : BaseBindingFragment<FragmentSignInBinding>(R.layout.fragm
     private fun setListeners() {
         binding.kakaoLoginButton.setOnClickListener {
             setLogin()
-        }
-        binding.delete.setOnClickListener {
-            // 연결 끊기
-            UserApiClient.instance.unlink { error ->
-                if (error != null) {
-                    Log.d("TAG", "연결 끊기 실패", error)
-                } else {
-                    Log.d("TAG", "연결 끊기 성공. SDK에서 토큰 삭제 됨")
-                }
-            }
         }
     }
 
@@ -165,9 +156,8 @@ class SignInFragment : BaseBindingFragment<FragmentSignInBinding>(R.layout.fragm
     }
 
     private fun isAlreadyUserObserver() {
-        signInViewModel.isAlreadyUser.observe(viewLifecycleOwner) { isAlreadyUser ->
+        signInViewModel.isAlreadyUser.observe(viewLifecycleOwner, EventObserver { isAlreadyUser ->
             if (isAlreadyUser.data.isAlreadyUser) { // 기존 유저
-                signInViewModel.saveAccessToken()
                 MySharedPreference.setXAuthToken(
                     requireContext(),
                     isAlreadyUser.data.accessToken ?: ""
@@ -177,7 +167,7 @@ class SignInFragment : BaseBindingFragment<FragmentSignInBinding>(R.layout.fragm
                 startAddNickNameFragment()
             }
 
-        }
+        })
     }
 
 

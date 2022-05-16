@@ -61,19 +61,12 @@ object MySharedPreference {
             token
         )
         editor.apply()
-        Log.d("asdf", "Asdftototottototo000${token.toString()}")
     }
 
     fun getXAuthToken(context: Context): String {
         val prefs: SharedPreferences =
             context.getSharedPreferences(X_AUTH_TOKEN_1, Context.MODE_PRIVATE)
         return prefs.getString(X_AUTH_TOKEN_1, "").toString()
-    }
-
-    fun clear(context: Context) {
-        val pref: SharedPreferences =
-            context.getSharedPreferences(X_AUTH_TOKEN_1, Context.MODE_PRIVATE)
-        pref.edit().clear().apply()
     }
 
 }
