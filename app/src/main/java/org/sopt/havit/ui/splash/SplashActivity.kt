@@ -24,7 +24,7 @@ class SplashActivity : BaseBindingActivity<ActivitySplashBinding>(R.layout.activ
             HavitAuthUtil.isLoginNow { auto ->
                 if (auto) startMainActivity() else startSignActivity()
             }
-        }, 3000)
+        }, 1000)
 
     }
 
