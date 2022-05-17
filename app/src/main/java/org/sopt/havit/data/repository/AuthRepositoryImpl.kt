@@ -11,10 +11,9 @@ import javax.inject.Inject
 class AuthRepositoryImpl @Inject constructor(
     private val authRemoteDataSource: AuthRemoteDataSource,
     private val authLocalDataSource: AuthLocalDataSource
-) :
-    AuthRepository {
+) : AuthRepository {
 
-    override fun getFcmToken(): String = MyFirebaseMessagingService.getDeviceToken().toString()
+    override fun getFcmToken() = MyFirebaseMessagingService.getDeviceToken().toString()
 
     override fun saveAccessToken(token: String) {
         authLocalDataSource.saveAccessToken(token)
