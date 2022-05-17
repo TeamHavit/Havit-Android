@@ -2,7 +2,6 @@ package org.sopt.havit.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 
 object MySharedPreference {
 
@@ -10,7 +9,6 @@ object MySharedPreference {
     private const val X_AUTH_TOKEN_1 = "TOKEN" // 정아
     private const val CONTENTS_TITLE = "TITLE"
     private const val NOTI_TIME = "notification_time"
-
 
     fun setTitle(context: Context, title: String) {
         val prefs: SharedPreferences =
@@ -52,13 +50,13 @@ object MySharedPreference {
         pref.edit().clear().apply()
     }
 
-    fun setXAuthToken(context: Context, token: String) {
+    fun setXAuthToken(context: Context, xAuthToken: String) {
         val prefs: SharedPreferences =
             context.getSharedPreferences(X_AUTH_TOKEN_1, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = prefs.edit()
         editor.putString(
             X_AUTH_TOKEN_1,
-            token
+            xAuthToken
         )
         editor.apply()
     }
