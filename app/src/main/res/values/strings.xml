@@ -197,4 +197,7 @@
     <string name="app_notice">공지사항</string>
     <string name="contents_noti">콘텐츠 알림</string>
     <string name="set_personal_data">개인정보처리방침</string>
+    <!-- splash -->
+    <string name="splash_title">모든 콘텐츠를\n내 손 안에</string>
+    <string name="splash_another_account"><u>다른 카카오 계정으로 로그인</u></string>
 </resources>

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,12 +38,17 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
         accessTokenObserver()
     }
 
+    override fun onResume() {
+        super.onResume()
+        initOnBackPressed()
+    }
+
     private fun setListeners() {
         binding.btnTosStart.setOnClickListener {
             signInViewModel.postSignUp()
         }
         binding.btnTosBack.setOnClickListener {
-            findNavController().popBackStack()
+            signInViewModel.setMoveToNextOrBack(false)
         }
         binding.ivTosAll.setOnClickListener {
             signInViewModel.setAllCheck()
@@ -56,6 +62,16 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
         binding.ivTosEvent.setOnClickListener {
             signInViewModel.setTosEventCheck()
         }
+
+    }
+
+    private fun initOnBackPressed() {
+        requireActivity().onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    signInViewModel.setMoveToNextOrBack(false)
+                }
+            })
     }
 
     private fun startMainActivity() {

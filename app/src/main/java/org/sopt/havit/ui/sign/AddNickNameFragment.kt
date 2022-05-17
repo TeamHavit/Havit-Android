@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentAddNickNameBinding
@@ -34,6 +34,11 @@ class AddNickNameFragment :
         setListener()
     }
 
+    override fun onResume() {
+        super.onResume()
+        initOnBackPressed()
+    }
+
     private fun setTextWatcher() {
         binding.etNickname.addTextChangedListener {
             signInViewModel.setNickName(binding.etNickname.text.toString())
@@ -42,14 +47,24 @@ class AddNickNameFragment :
 
     private fun setListener() {
         binding.btnNicknameNext.setOnClickListener {
-            findNavController().navigate(R.id.action_addNickNameFragment_to_addTosFragment)
+            signInViewModel.setMoveToNextOrBack(true)
         }
         binding.ivNicknameDeleteText.setOnClickListener {
             signInViewModel.setClearNickName()
         }
         binding.btnNicknameBack.setOnClickListener {
-            findNavController().popBackStack()
+            requireActivity().finish()
         }
+
+    }
+
+    private fun initOnBackPressed() {
+        requireActivity().onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    requireActivity().finish()
+                }
+            })
     }
 
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="main"
+            type="org.sopt.havit.ui.sign.SignInViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/havit_purple"
+        tools:context=".ui.sign.SplashWithSignActivity">
+
+        <TextView
+            android:id="@+id/tv_splash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="92dp"
+            android:textAppearance="@style/Text27Medium"
+            android:textColor="@color/white"
+            android:text="@string/splash_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:src="@drawable/ic_splash_logo"
+            app:layout_constraintStart_toStartOf="@+id/tv_splash"
+            app:layout_constraintTop_toBottomOf="@+id/tv_splash" />
+
+        <ImageButton
+            android:id="@+id/btn_kakao_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="119dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/kakao_login_medium_wide"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_another_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textAppearance="@style/Sub13Regular"
+            android:textColor="@color/white"
+            android:text="@string/splash_another_account"
+            app:layout_constraintEnd_toEndOf="@+id/btn_kakao_login"
+            app:layout_constraintStart_toStartOf="@+id/btn_kakao_login"
+            app:layout_constraintTop_toBottomOf="@+id/btn_kakao_login" />
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_splash"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

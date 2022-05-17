@@ -19,8 +19,9 @@ class SignInViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) :
     ViewModel() {
-    private var _isSaveClick = MutableLiveData(true)
-    var isSaveClick: LiveData<Boolean> = _isSaveClick
+
+    private var _isMoveToNextOrBack = MutableLiveData<Event<Boolean>>()
+    var isMoveToNextOrBack: LiveData<Event<Boolean>> = _isMoveToNextOrBack
 
     var isNextClick = MutableLiveData(false)
 
@@ -49,18 +50,22 @@ class SignInViewModel @Inject constructor(
 
     val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
-            Log.e("TAG", "카카오계정으로 로그인 실패", error)
+            Log.d("TAG", "카카오계정으로 로그인 실패", error)
         } else if (token != null) {
-            Log.i("TAG", "카카오계정으로 로그인 성공 ${token.accessToken}")
+            Log.d("TAG", "카카오계정으로 로그인 성공 ${token.accessToken}")
             setKakaoToken(token.accessToken)
             setFcmToken()
-            checkNewUser()
+            getSignIn()
             setNeedScopes()
         }
     }
 
     fun setNeedScopes() {
         _isNeedScopes.value = Event(true)
+    }
+
+    fun setMoveToNextOrBack(move: Boolean) {
+        _isMoveToNextOrBack.value = Event(move)
     }
 
     fun setKakaoUserInfo(age: Int, email: String, gender: String, nickName: String) {
@@ -81,7 +86,7 @@ class SignInViewModel @Inject constructor(
             kotlin.runCatching {
                 authRepository.postSignUp(
                     requireNotNull(_havitUser.value?.email),
-                    requireNotNull(nickName.value),
+                    requireNotNull(_havitUser.value?.nickname),
                     requireNotNull(_havitUser.value?.age),
                     requireNotNull(_havitUser.value?.gender),
                     requireNotNull(_fcmToken.value),
@@ -90,15 +95,16 @@ class SignInViewModel @Inject constructor(
             }.onSuccess {
                 authRepository.saveAccessToken(requireNotNull(it.data.accessToken))
                 _accessToken.postValue(it.data.accessToken)
+            }.onFailure {
+                throw it
             }
         }
     }
 
-
-    fun checkNewUser() {
+    fun getSignIn() {
         viewModelScope.launch {
             kotlin.runCatching {
-                authRepository.checkNewUser(
+                authRepository.getSignIn(
                     requireNotNull(_fcmToken.value), requireNotNull(_kakaoToken.value)
                 )
             }.onSuccess {
@@ -109,15 +115,18 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-
     fun setFcmToken() {
         _fcmToken.value = authRepository.getFcmToken()
     }
 
     fun setKakaoToken(token: String) {
         _kakaoToken.value = token
+        authRepository.saveKakaoToken(token)
     }
 
+    fun getKakaoToken() {
+        _kakaoToken.value = authRepository.getKakaoToken()
+    }
 
     fun setAllCheck() {
         isAllCheck.value = !isAllCheck.value!!

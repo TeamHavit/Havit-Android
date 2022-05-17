@@ -7,11 +7,15 @@ interface AuthRepository {
 
     fun getFcmToken(): String
 
-    fun saveAccessToken(token: String)
+    fun saveAccessToken(accessToken: String)
+
+    fun saveKakaoToken(kakaoToken: String)
 
     fun getAccessToken(): String
 
-    suspend fun checkNewUser(fcmToken: String, kakaoToken: String): SignInResponse
+    fun getKakaoToken(): String
+
+    suspend fun getSignIn(fcmToken: String, kakaoToken: String): SignInResponse
 
     suspend fun postSignUp(
         email: String,

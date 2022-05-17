@@ -19,9 +19,15 @@ class AuthRepositoryImpl @Inject constructor(
         authLocalDataSource.saveAccessToken(token)
     }
 
+    override fun saveKakaoToken(kakaoToken: String) {
+        authLocalDataSource.saveKakaoToken(kakaoToken)
+    }
+
     override fun getAccessToken(): String = authLocalDataSource.getAccessToken()
 
-    override suspend fun checkNewUser(fcmToken: String, kakaoToken: String): SignInResponse {
+    override fun getKakaoToken(): String = authLocalDataSource.getKakaoToken()
+
+    override suspend fun getSignIn(fcmToken: String, kakaoToken: String): SignInResponse {
         return authRemoteDataSource.checkNewUser(fcmToken, kakaoToken)
     }
 
