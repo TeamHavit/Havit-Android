@@ -13,17 +13,9 @@ class HavitAuthLocalPreferences @Inject constructor(
         private const val ACCESS_TOKEN = "ACCESS_TOKEN"
     }
 
-    private val prefs: SharedPreferences =
-        context.getSharedPreferences(ACCESS_TOKEN, Context.MODE_PRIVATE)
+    private val prefs: SharedPreferences = context.getSharedPreferences(ACCESS_TOKEN, Context.MODE_PRIVATE)
 
-    fun setXAuthToken(token: String) {
-        val editor: SharedPreferences.Editor = prefs.edit()
-        editor.putString(
-            ACCESS_TOKEN,
-            token
-        )
-        editor.apply()
-    }
+    fun setXAuthToken(token: String) = prefs.edit().putString(ACCESS_TOKEN, token).apply()
 
     fun getXAuthToken(): String = prefs.getString(ACCESS_TOKEN, "").toString()
 
