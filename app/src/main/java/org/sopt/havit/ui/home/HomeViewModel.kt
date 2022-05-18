@@ -136,17 +136,27 @@ class HomeViewModel(context: Context) : ViewModel() {
                         .getUserData()
                 _userData.postValue(response.data)
                 _userLoadState.postValue(false)
+                setReachRate(response.data)     // 도달률 계산
                 setLoadState()
             } catch (e: Exception) {
             }
         }
     }
 
-    // 도달률 데이터
-    private val _reachRate = MutableLiveData<Int>()
+    // 도달률
+    private var _reachRate = MutableLiveData<Int>()
     var reachRate: LiveData<Int> = _reachRate
-    fun requestReachRate(rate: Int) {
+
+    // 도달률 계산
+    fun setReachRate(data: UserResponse.UserData): Int {
+        var rate = 0
+        // 전체 콘텐츠 수 or 본 콘텐츠 수가 0일 경우 예외처리
+        if (data.totalSeenContentNumber != 0 && data.totalContentNumber != 0) { // 콘텐츠 수가 0이 아니라면 rate 계산
+            rate =
+                (data.totalSeenContentNumber.toDouble() / data.totalContentNumber.toDouble() * 100).toInt()
+        }
         _reachRate.postValue(rate)
+        return rate
     }
 
     // skeleton
