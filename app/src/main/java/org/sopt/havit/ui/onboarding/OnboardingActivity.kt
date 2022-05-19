@@ -18,6 +18,7 @@ class OnboardingActivity :
         setIndicator()
         checkLastOnboardingPage()
         setJoinBtnClickListener()
+        setSkipBtnClickListner()
     }
 
     private fun setViewPager2Adapter() {
@@ -42,6 +43,12 @@ class OnboardingActivity :
         binding.btnJoin.setOnClickListener {
             val intent = Intent(this, SignActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun setSkipBtnClickListner() {
+        binding.tvSkip.setOnClickListener {
+            binding.vpOnboarding.currentItem = 4
         }
     }
 
