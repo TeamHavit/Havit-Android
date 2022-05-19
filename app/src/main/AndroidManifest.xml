@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Havit"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.onboarding.OnboardingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.setting.SettingUnregisterActivity"
             android:configChanges="orientation"
             android:exported="false"
