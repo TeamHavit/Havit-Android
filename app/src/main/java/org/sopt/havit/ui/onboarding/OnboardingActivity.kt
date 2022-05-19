@@ -1,10 +1,12 @@
 package org.sopt.havit.ui.onboarding
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityOnboardingBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.sign.SignActivity
 
 class OnboardingActivity :
     BaseBindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
@@ -15,6 +17,7 @@ class OnboardingActivity :
         setViewPager2Adapter()
         setIndicator()
         checkLastOnboardingPage()
+        setJoinBtnClickListener()
     }
 
     private fun setViewPager2Adapter() {
@@ -33,6 +36,13 @@ class OnboardingActivity :
                 binding.lastOnboarding = (position == 4)
             }
         })
+    }
+
+    private fun setJoinBtnClickListener() {
+        binding.btnJoin.setOnClickListener {
+            val intent = Intent(this, SignActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     companion object {
