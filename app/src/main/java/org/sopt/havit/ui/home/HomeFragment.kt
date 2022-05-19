@@ -263,6 +263,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         updatePopup()   // 도달률 최종 업데이트
     }
 
+    // 도달률 구간변화 검사
     private fun checkPopupText() {
         val prevPopupText = PopupSharedPreference.getPopupText(requireContext())
         // 도달률 구간에 변경이 있을 경우 isPopup 값 true로 변경
@@ -271,18 +272,19 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
-    // 도달률 최종 업데이트
-    private fun updatePopup() {
-        binding.isPopup = isPopup   // 최종 isPopup 값 뷰에 반영
-        PopupSharedPreference.setIsPopup(requireContext(), isPopup) // 최종 isPopup 값 spf에 저장
-        PopupSharedPreference.setPopupText(requireContext(), popupText) // 도달률 텍스트 값 spf에 저장
-    }
-
+    // 팝업 시간 변화 검사 : x를 누르고 3일이 지났는지
     private fun checkDeletePopupTime() {
         val currentTime = System.currentTimeMillis() / (1000 * 60) // 1970.01.01부터 현재까지 흐른 시간(분)
         val deletePopupTime =
             PopupSharedPreference.getDeletePopupTime(requireContext())   // deletePopup 버튼을 누른 시각
         isPopup = (currentTime - deletePopupTime) > 60 * 24 * 3
+    }
+
+    // 도달률 최종 업데이트
+    private fun updatePopup() {
+        binding.isPopup = isPopup   // 최종 isPopup 값 뷰에 반영
+        PopupSharedPreference.setIsPopup(requireContext(), isPopup) // 최종 isPopup 값 spf에 저장
+        PopupSharedPreference.setPopupText(requireContext(), popupText) // 도달률 텍스트 값 spf에 저장
     }
 
     companion object {
