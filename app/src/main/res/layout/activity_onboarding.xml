@@ -5,6 +5,11 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="lastOnboarding"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +34,8 @@
             android:id="@+id/vp_onboarding"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/indicator_onboarding"
+            android:layout_marginBottom="85dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_skip">
 
@@ -40,6 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="3dp"
             android:layout_marginBottom="53dp"
+            android:visibility="@{lastOnboarding ? View.GONE : View.VISIBLE}"
             app:dotsColor="@color/havit_purple"
             app:dotsCornerRadius="0dp"
             app:dotsSize="12dp"
@@ -47,6 +54,19 @@
             app:dotsStrokeColor="@color/gray_1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:background="@color/purple_main"
+            android:paddingBottom="24dp"
+            android:text="@string/onboarding_join"
+            android:textAppearance="@style/Text16Semibold"
+            android:textColor="@color/white"
+            android:visibility="@{lastOnboarding ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

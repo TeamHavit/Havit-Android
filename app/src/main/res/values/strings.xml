@@ -210,4 +210,5 @@
     <string name="onboarding_contents_customizing">콘텐츠 커스터마이징</string>
     <string name="onboarding_customize">커스터마이징하기</string>
     <string name="onboarding_customize_description">콘텐츠의 제목을 원하는 내용으로 수정하고\n저장한 콘텐츠를 잊지 않도록 알림설정을 해보세요.</string>
+    <string name="onboarding_join">가입하기</string>
 </resources>
