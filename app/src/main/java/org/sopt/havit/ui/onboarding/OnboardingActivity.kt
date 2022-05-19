@@ -9,4 +9,8 @@ class OnboardingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_onboarding)
     }
+
+    companion object {
+        const val ONBOARDING_PAGE_NUM = 5
+    }
 }
