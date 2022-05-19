@@ -19,7 +19,9 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.onboarding.OnboardingActivity"
-            android:exported="false" />
+            android:configChanges="orientation"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.setting.SettingUnregisterActivity"
             android:configChanges="orientation"
