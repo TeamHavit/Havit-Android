@@ -46,9 +46,9 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/iv_onboarding"
+        android:layout_width="351dp"
+        android:layout_height="287dp"
         android:layout_marginTop="94dp"
         android:src="@drawable/img_onboarding_2"
         app:layout_constraintStart_toStartOf="parent"
