@@ -37,11 +37,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        val isContentsNotiActivated: Boolean =
-            if (::pref.isInitialized) pref.isContentsNotiActivated else true
-
-        if (!isContentsNotiActivated) return
-
         // 2-1. data 확인
         if (remoteMessage.data.isNotEmpty()) {
             val dataFromServer = remoteMessage.data
