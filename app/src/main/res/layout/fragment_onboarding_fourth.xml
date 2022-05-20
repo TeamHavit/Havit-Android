@@ -45,24 +45,13 @@
         app:layout_constraintStart_toStartOf="@+id/tv_title"
         app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
-    <TextView
-        android:id="@+id/tv_tip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:text="@string/onboarding_save_in_category_tip"
-        android:textAppearance="@style/Sub12Regular"
-        android:textColor="@color/gray_3"
-        app:layout_constraintStart_toStartOf="@+id/tv_description"
-        app:layout_constraintTop_toBottomOf="@+id/tv_description" />
-
     <ImageView
         android:id="@+id/iv_onboarding"
         android:layout_width="298dp"
         android:layout_height="255dp"
-        android:layout_marginTop="114dp"
+        android:layout_marginTop="138dp"
         android:src="@drawable/img_onboarding_4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tip" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_description" />
 </androidx.constraintlayout.widget.ConstraintLayout>
