@@ -145,7 +145,7 @@ class HomeViewModel(context: Context) : ViewModel() {
 
     // 도달률
     private var _reachRate = MutableLiveData<Int>()
-    var reachRate: LiveData<Int> = _reachRate
+    val reachRate: LiveData<Int> = _reachRate
 
     // 도달률 계산
     fun setReachRate(data: UserResponse.UserData): Int {
