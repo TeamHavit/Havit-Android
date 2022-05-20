@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.contents
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,12 +19,13 @@ class ContentsMoreFragment(
     BottomSheetDialogFragment() {
     private lateinit var binding: FragmentContentsMoreBinding
     private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(requireContext()) }
-    private var data = contents
+    private var contentsData = contents
     private val notifyItemRemoved = removeItem
     private val pos = position
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
@@ -32,6 +34,7 @@ class ContentsMoreFragment(
         binding.lifecycleOwner = viewLifecycleOwner
         setMoreView()
         clickDelete()
+        initShareClick()
         return binding.root
     }
 
@@ -40,7 +43,17 @@ class ContentsMoreFragment(
     }
 
     private fun setMoreView() {
-        contentsViewModel.setContentsView(data)
+        contentsViewModel.setContentsView(contentsData)
+    }
+
+    private fun initShareClick() {
+        binding.clEditShare.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                putExtra(Intent.EXTRA_TEXT, contentsData.url)
+                type = "text/html"
+            }
+            startActivity(Intent.createChooser(intent, null))
+        }
     }
 
     // 콘텐츠 삭제 버튼 클릭 시 동작 정의
@@ -55,7 +68,7 @@ class ContentsMoreFragment(
     private fun deleteContents() {
         // 콘텐츠 삭제 서버에 요청
         with(contentsViewModel) {
-            requestContentsDelete(data.id)
+            requestContentsDelete(contentsData.id)
         }
         // 각 어댑터의 notifyItemRemoved(position) 수행
         notifyItemRemoved(pos)

@@ -150,7 +150,7 @@ class ContentsSimpleActivity :
 
     private fun dataObserve() {
         with(contentsViewModel) {
-            binding.lifecycleOwner?.let {
+            binding.lifecycleOwner?.let { it ->
                 contentsList.observe(it) { data ->
                     if (data.isEmpty()) {
                         if (contentsType == "unseen")
@@ -164,6 +164,15 @@ class ContentsSimpleActivity :
                         val min = if (data.size < 20) data.size else 20
                         val list = data.subList(0, min)
                         contentsAdapter.updateList(list)
+                    }
+                }
+                // 로딩중 화면 물러오기
+                loadState.observe(it) { state ->
+                    // 서버 불러오는 중이라면 스켈레톤 화면 및 shimmer 효과를 보여줌
+                    if (state) {
+                        binding.sflContents.startShimmer()
+                    } else {
+                        binding.sflContents.stopShimmer()
                     }
                 }
             }
