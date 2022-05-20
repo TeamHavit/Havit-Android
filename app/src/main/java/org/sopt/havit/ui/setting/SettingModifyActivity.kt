@@ -7,6 +7,7 @@ import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
+import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.KeyBoardUtil.setUpAsSoftKeyboard
 
 class SettingModifyActivity :
@@ -18,11 +19,20 @@ class SettingModifyActivity :
         setContentView(binding.root)
         binding.vmSetting = settingViewModel
 
+        initNickname()
         setListener()
-        setData()
-        setNicknameLength()
         setUpAsSoftKeyboard(binding.root)
         setKeyBoardUp()
+        setNicknameLength()
+    }
+
+    private fun initNickname() {
+        intent.let {
+            val nickname = it.getStringExtra(SettingActivity.nickname)
+            if (nickname != null) {
+                settingViewModel.setNickname(nickname)
+            }
+        }
     }
 
     private fun setListener() {
@@ -41,10 +51,6 @@ class SettingModifyActivity :
                 binding.etNickname.setSelection(it.length)
             }
         }
-    }
-
-    private fun setData() {
-        settingViewModel.requestUserInfo()
     }
 
     // 닉네임 글자 수 세기

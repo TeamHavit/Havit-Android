@@ -25,6 +25,8 @@ class SettingViewModel(context: Context) : ViewModel() {
     // 환경설정_내정보수정
     private val _nicknameLength = MutableLiveData<Int>()
     val nicknameLength: LiveData<Int> = _nicknameLength
+    private val _nickname = MutableLiveData<String>()
+    val nickname: LiveData<String> = _nickname
 
     // version 정보 가져옴
     fun setVersion(appVersion: String) {
@@ -45,6 +47,11 @@ class SettingViewModel(context: Context) : ViewModel() {
             } catch (e: Exception) {
             }
         }
+    }
+
+    // 프로필수정뷰 - editText에 닉네임 초기화
+    fun setNickname(nickname: String) {
+        _nickname.postValue(nickname)
     }
 
     // 프로필수정뷰 - 닉네임 수정
