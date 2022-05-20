@@ -1,7 +1,6 @@
 package org.sopt.havit.ui.setting
 
 import android.os.Bundle
-import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingModifyBinding
@@ -26,13 +25,17 @@ class SettingModifyActivity :
         setNicknameLength()
     }
 
+    // etNickname에 들어갈 nickname 초기화
     private fun initNickname() {
+        val nickname: String
         intent.let {
-            val nickname = it.getStringExtra(SettingActivity.nickname)
-            if (nickname != null) {
-                settingViewModel.setNickname(nickname)
-            }
+            nickname = it.getStringExtra(SettingActivity.nickname).toString()
         }
+        binding.etNickname.setText(nickname)    // etNickname에 nickname 저장
+        val length = nickname.length
+        binding.etNickname.setSelection(length) // 커서 맨 뒤로 위치시킴
+        settingViewModel.setNicknameLength(length)  // 글자 수 세기
+        binding.isClickable = length > 0        // isClickable 값 저장
     }
 
     private fun setListener() {
@@ -44,12 +47,6 @@ class SettingModifyActivity :
         binding.btnComplete.setOnClickListener {
             settingViewModel.requestNewNickname(binding.etNickname.text.toString())
             finish()
-        }
-        // editText 커서 위치를 글자 맨 뒤로 지정
-        binding.etNickname.addTextChangedListener {
-            it?.let {
-                binding.etNickname.setSelection(it.length)
-            }
         }
     }
 
