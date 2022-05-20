@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -121,6 +122,8 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     private fun setListeners() {
         binding.clPasteClipBoard.setOnClickListener { // url 붙여넣기 팝업 클릭시 editText에 url 보여주기
             saveViewModel.setUrlData(clipData!!)
+            binding.etSaveUrl.setText(clipData)
+            binding.etSaveUrl.setSelection(clipData!!.length)
         }
         binding.btnSaveClose.setOnClickListener {
             hideKeyBoard()
@@ -134,9 +137,6 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
             } else {
                 binding.clSaveUrlValid.isVisible = true
             }
-        }
-        binding.etSaveUrl.addTextChangedListener {
-            if (it != null) binding.etSaveUrl.setSelection(it.length)
         }
     }
 
