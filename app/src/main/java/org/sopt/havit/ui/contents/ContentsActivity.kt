@@ -220,7 +220,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun moveSearch() {
         binding.clSearch.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
-            intent.putExtra(CategoryFragment.CATEGORY_NAME, "${contentsViewModel.categoryName.value}")
+            intent.putExtra(
+                CategoryFragment.CATEGORY_NAME,
+                "${contentsViewModel.categoryName.value}"
+            )
             startActivity(intent)
         }
     }
@@ -322,7 +325,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 RESULT_FIRST_USER -> { // 카테고리 이름 & 아이콘 수정
                     // 수정할 카테고리의 정보를 받아옴
                     categoryName = it.data?.getStringExtra(CategoryFragment.CATEGORY_NAME) ?: "null"
-                    categoryIconId = it.data?.getIntExtra(CategoryFragment.CATEGORY_IMAGE_ID, 0) ?: 0
+                    categoryIconId =
+                        it.data?.getIntExtra(CategoryFragment.CATEGORY_IMAGE_ID, 0) ?: 0
                     contentsCategoryList[categoryPosition].apply {
                         title = categoryName
                         imageId = categoryIconId
