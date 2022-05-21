@@ -7,10 +7,12 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.ActivityMainBinding
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.util.MySharedPreference
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var binding: ActivityMainBinding

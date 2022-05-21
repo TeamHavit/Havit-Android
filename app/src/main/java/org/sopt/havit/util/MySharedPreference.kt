@@ -10,7 +10,6 @@ object MySharedPreference {
     private const val CONTENTS_TITLE = "TITLE"
     private const val NOTI_TIME = "notification_time"
 
-
     fun setTitle(context: Context, title: String) {
         val prefs: SharedPreferences =
             context.getSharedPreferences(CONTENTS_TITLE, Context.MODE_PRIVATE)
@@ -68,5 +67,4 @@ object MySharedPreference {
             context.getSharedPreferences(X_AUTH_TOKEN_1, Context.MODE_PRIVATE)
         return prefs.getString(X_AUTH_TOKEN_1, "").toString()
     }
-
 }

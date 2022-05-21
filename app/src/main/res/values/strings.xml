@@ -3,7 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_category">Category</string>
     <string name="title_my_page">MyPage</string>
-    <string name="app_name">Havit</string>
+    <string name="app_name">HAVIT</string>
     <string name="kakao_app_key">6069fb41c205cbbf8f213b32eec7f2c8</string>
     <string name="category_entire_category">전체 카테고리</string>
     <string name="modify">수정</string>
@@ -165,5 +165,37 @@
     <string name="url_hint">https://www.example.com/</string>
     <string name="ic_alarm">ic_alarm</string>
     <string name="select_complete">선택 완료</string>
+    <!-- 환경설정뷰 -->
+    <string name="setting">설정</string>
+    <string name="setting_nickname_end">님</string>
+    <string name="setting_modify">프로필 수정</string>
+    <string name="setting_alarm">알림 설정</string>
+    <string name="service_info">서비스 정보</string>
+    <string name="service_notice">공지사항</string>
+    <string name="service_policy">약관 및 정책</string>
+    <string name="service_how_to_use">서비스 이용방법</string>
+    <string name="service_personal_data">개인정보 처리 방침</string>
+    <string name="help_and_others">도움말 및 기타</string>
+    <string name="customer_center">고객 센터</string>
+    <string name="customer_center_email">havitofficial29@gmail.com</string>
+    <string name="version_info">버전 정보</string>
+    <string name="logout">로그아웃</string>
+    <!-- 환경설정 - 내 정보 수정 -->
+    <string name="unregister">회원 탈퇴</string>
+    <string name="save_contents_state">나의 콘텐츠 저장 현황</string>
+    <string name="saved_contents">저장된 콘텐츠</string>
+    <string name="saved_category">저장된 카테고리</string>
+    <string name="seen_contents">확인한 콘텐츠</string>
+    <string name="unseen_contents">확인하지 않은 콘텐츠</string>
+    <string name="unregister_caution">탈퇴 회원 유의사항</string>
+    <string name="unregister_caution_check">회원 탈퇴에 관한 모든 내용을 숙지했습니다.</string>
+    <string name="unregister_short">탈퇴</string>
+    <!-- 환경설정 - 프로필 수정 -->
+    <string name="nickname">닉네임</string>
+    <string name="edit_nickname">&#160;사용하실 닉네임을 입력하세요</string>
+    <string name="nickname_length_limit">/15</string>
     <string name="show_when_icon_clicked">showWhenIconClicked</string>
+    <string name="app_notice">공지사항</string>
+    <string name="contents_noti">콘텐츠 알림</string>
+    <string name="set_personal_data">개인정보처리방침</string>
 </resources>
