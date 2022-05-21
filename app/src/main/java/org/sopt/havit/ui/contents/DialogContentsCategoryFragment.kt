@@ -1,18 +1,19 @@
 package org.sopt.havit.ui.contents
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.TypedValue
-import android.view.*
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.View.OnTouchListener
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentDialogContentsCategoryBinding
@@ -22,7 +23,7 @@ class DialogContentsCategoryFragment(
     private val categoryList: ArrayList<CategoryResponse.AllCategoryData>,
     private val categoryName: String,
     private val categoryId: Int
-) : DialogFragment() {
+) : BottomSheetDialogFragment() {
     private var _binding: FragmentDialogContentsCategoryBinding? = null
     val binding get() = _binding!!
     private var _contentsCategoryAdapter: ContentsCategoryAdapter? = null
@@ -41,25 +42,36 @@ class DialogContentsCategoryFragment(
             false
         )
 
+        return binding.root
+    }
+
+    override fun getTheme(): Int {
+        return R.style.AppBottomSheetDialogTheme
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initAdapter()
         setData()
         decorationView()
         clickCategory()
-        clickDialogClose()
-        clickBack()
-        initTopSheet()
+        setScrollTouchArea()
+        setBottomSheetHeight()
+    }
 
-        return binding.root
+    private fun setBottomSheetHeight() {
+        (dialog as BottomSheetDialog).behavior.apply {
+            state = BottomSheetBehavior.STATE_EXPANDED      // 높이 고정
+            skipCollapsed = true                            // HALF_EXPANDED 안되게 설정
+        }
+
+        // 휴대폰 화면의 0.94배 높이
+        binding.clBottomSheet.layoutParams.height =
+            (resources.displayMetrics.heightPixels * 0.94).toInt()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onResume() {
-        super.onResume()
-        setTopSheetAttribute() // 크기 지정은 onResume에서 해야함
     }
 
     private fun initAdapter() {
@@ -68,7 +80,6 @@ class DialogContentsCategoryFragment(
     }
 
     private fun setData() {
-        binding.tvCategory.text = categoryName
         binding.categoryCount = categoryList.size
         contentsCategoryAdapter.contentsCategoryList.addAll(categoryList)
         contentsCategoryAdapter.notifyDataSetChanged()
@@ -100,47 +111,10 @@ class DialogContentsCategoryFragment(
         })
     }
 
-    // 다이얼로그 닫을 때
-    private fun clickDialogClose(){
-        binding.tvClose.setOnClickListener { this.dismiss() }
-        binding.clCategory.setOnClickListener { this.dismiss() }
-    }
-
-    // 콘텐츠 뷰 뒤로가기 시
-    private fun clickBack(){
-        binding.ivBack.setOnClickListener { requireActivity().finish() }
-    }
-
-    // TopSheetDialog 초기화
-    private fun initTopSheet() {
-        val window = dialog!!.window
-        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // 여백 제거
-        window?.setGravity(Gravity.TOP) // 위치 조정
-        val windowParams = window!!.attributes
-        //windowParams.y = dpToPx(requireContext(), 59).toInt() // 상단바 크기만큼 y위치 지정
-    }
-
-    // 크기, 애니메이션 설정
-    private fun setTopSheetAttribute() {
-        // 크기 조정
-        val params = dialog!!.window!!.attributes
-        params.width = WindowManager.LayoutParams.MATCH_PARENT
-        params.height = WindowManager.LayoutParams.WRAP_CONTENT
-
-        // 리사이클러뷰에 대해 애니메이션 설정
-        val fadeInAnim: Animation =
-            AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_from_top)
-        binding.rvCategoryList.startAnimation(fadeInAnim)
-        //params.windowAnimations = R.style.TopSheet_DialogAnimation // 다이얼로그 전체에 애니메이션 적용
-        dialog!!.window!!.attributes = params
-    }
-
-    // dp를 px로 바꿔주는 함수
-    private fun dpToPx(context: Context, dp: Int): Float {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            dp.toFloat(),
-            context.resources.displayMetrics
-        )
+    private fun setScrollTouchArea() {
+        binding.rvCategoryList.setOnTouchListener { v, event ->
+            binding.clBottomSheet.requestDisallowInterceptTouchEvent(true)
+            false
+        }
     }
 }
