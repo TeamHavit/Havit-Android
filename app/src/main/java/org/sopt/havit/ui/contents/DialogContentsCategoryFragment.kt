@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentDialogContentsCategoryBinding
+
 
 class DialogContentsCategoryFragment(
     private val categoryList: ArrayList<CategoryResponse.AllCategoryData>,
@@ -77,12 +79,18 @@ class DialogContentsCategoryFragment(
     }
 
     private fun setRecyclerViewDecoration() {
-        binding.rvCategoryList.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                LinearLayoutManager.VERTICAL
-            )
+        val dividerItemDecoration = DividerItemDecoration(
+            context,
+            LinearLayoutManager.VERTICAL
         )
+        dividerItemDecoration.setDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.line_gray_0
+            )!!
+        )
+
+        binding.rvCategoryList.addItemDecoration(dividerItemDecoration)
     }
 
     // 클릭한 카테고리로 이동
