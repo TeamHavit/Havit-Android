@@ -1,12 +1,9 @@
 package org.sopt.havit.ui.contents
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -18,10 +15,8 @@ import org.sopt.havit.R
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentDialogContentsCategoryBinding
 
-
 class DialogContentsCategoryFragment(
     private val categoryList: ArrayList<CategoryResponse.AllCategoryData>,
-    private val categoryName: String,
     private val categoryId: Int
 ) : BottomSheetDialogFragment() {
     private var _binding: FragmentDialogContentsCategoryBinding? = null
@@ -45,18 +40,15 @@ class DialogContentsCategoryFragment(
         return binding.root
     }
 
-    override fun getTheme(): Int {
-        return R.style.AppBottomSheetDialogTheme
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initAdapter()
-        setData()
-        decorationView()
-        clickCategory()
-        setScrollTouchArea()
+        setCategoryItemListData()
+        setRecyclerViewDecoration()
+        setCategoryItemClickListener()
         setBottomSheetHeight()
     }
+
+    override fun getTheme(): Int = R.style.AppBottomSheetDialogTheme
 
     private fun setBottomSheetHeight() {
         (dialog as BottomSheetDialog).behavior.apply {
@@ -79,13 +71,12 @@ class DialogContentsCategoryFragment(
         binding.rvCategoryList.adapter = contentsCategoryAdapter
     }
 
-    private fun setData() {
-        binding.categoryCount = categoryList.size
+    private fun setCategoryItemListData() {
         contentsCategoryAdapter.contentsCategoryList.addAll(categoryList)
         contentsCategoryAdapter.notifyDataSetChanged()
     }
 
-    private fun decorationView() {
+    private fun setRecyclerViewDecoration() {
         binding.rvCategoryList.addItemDecoration(
             DividerItemDecoration(
                 context,
@@ -95,26 +86,28 @@ class DialogContentsCategoryFragment(
     }
 
     // 클릭한 카테고리로 이동
-    private fun clickCategory() {
+    private fun setCategoryItemClickListener() {
         contentsCategoryAdapter.setItemCategoryClickListener(object :
             ContentsCategoryAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
-                val intent = Intent(requireActivity(), ContentsActivity::class.java)
-                contentsCategoryAdapter.contentsCategoryList[position]
-                    .let {
-                        intent.putExtra("categoryId", it.id)
-                        intent.putExtra("categoryName", it.title)
-                    }
-                startActivity(intent)
-                requireActivity().finish()
+                setCategoryItemBackGroundColor(v)
+                moveSelectedCategoryContents(position)
             }
         })
     }
 
-    private fun setScrollTouchArea() {
-        binding.rvCategoryList.setOnTouchListener { v, event ->
-            binding.clBottomSheet.requestDisallowInterceptTouchEvent(true)
-            false
-        }
+    private fun setCategoryItemBackGroundColor(view: View) {
+        view.findViewById<View>(R.id.cl_contents_dialog_top).isSelected = true
+    }
+
+    private fun moveSelectedCategoryContents(position: Int) {
+        val intent = Intent(requireActivity(), ContentsActivity::class.java)
+        contentsCategoryAdapter.contentsCategoryList[position]
+            .let {
+                intent.putExtra("categoryId", it.id)
+                intent.putExtra("categoryName", it.title)
+            }
+        startActivity(intent)
+        requireActivity().finish()
     }
 }

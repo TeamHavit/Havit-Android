@@ -5,11 +5,6 @@
 
     <data>
 
-        <import type="android.view.View" />
-
-        <variable
-            name="categoryCount"
-            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -61,29 +56,16 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_category_select" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_category_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:fillViewport="true"
-            android:orientation="vertical"
-            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cl_top">
+            app:layout_constraintTop_toBottomOf="@+id/cl_top"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_dialog_contents_top" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_category_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:nestedScrollingEnabled="false"
-                android:scrollbarSize="4dp"
-                android:scrollbarStyle="insideOverlay"
-                android:scrollbarThumbVertical="@color/gray_1"
-                android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="5"
-                tools:listitem="@layout/item_dialog_contents_top" />
-
-        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
