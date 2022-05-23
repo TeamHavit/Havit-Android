@@ -10,7 +10,7 @@ import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentContentsMoreBinding
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment
-import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.MODIFY_TITLE
+import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.Edit_TITLE
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.MOVE_CATEGORY
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.SET_ALARM
 import org.sopt.havit.util.DialogUtil
@@ -58,7 +58,7 @@ class ContentsMoreFragment(
 
     private fun initModifyTitleClick() {
         binding.clEditTitle.setOnClickListener {
-            viewType = MODIFY_TITLE
+            viewType = Edit_TITLE
             startBottomSheetWithDesignatedView()
         }
     }

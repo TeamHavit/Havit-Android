@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentBottomSheetMoreBinding
 
 class BottomSheetMoreFragment : BottomSheetDialogFragment() {
@@ -32,6 +36,21 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setBottomSheetHeight()
+        setDesignatedFragment()
+    }
+
+    private fun setDesignatedFragment() {
+        when (viewType) {
+            Edit_TITLE -> setFragmentWith<EditTitleFromMoreFragment>()
+            MOVE_CATEGORY -> setFragmentWith<EditTitleFromMoreFragment>() // 수정할거임
+            SET_ALARM -> setFragmentWith<EditTitleFromMoreFragment>() // 수정할거임
+        }
+    }
+
+    private inline fun <reified T : Fragment> setFragmentWith() {
+        childFragmentManager.commit {
+            replace<T>(R.id.fcv_more)
+        }
     }
 
     private fun setBottomSheetHeight() {
@@ -53,7 +72,7 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
             }
 
         const val VIEW_TYPE = "VIEW_TYPE"
-        const val MODIFY_TITLE = "EDIT_TITLE"
+        const val Edit_TITLE = "EDIT_TITLE"
         const val MOVE_CATEGORY = "MOVE_CATEGORY"
         const val SET_ALARM = "SET_ALARM"
     }
