@@ -15,8 +15,7 @@ class ContentsMoreFragment(
     contents: ContentsMoreData,
     removeItem: (Int) -> Unit,
     position: Int
-) :
-    BottomSheetDialogFragment() {
+) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentContentsMoreBinding
     private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(requireContext()) }
     private var contentsData = contents
@@ -35,11 +34,30 @@ class ContentsMoreFragment(
         setMoreView()
         clickDelete()
         initShareClick()
+        initModifyTitleClick()
+        initMoveCategoryClick()
+        initSetAlarm()
+
         return binding.root
     }
 
     override fun getTheme(): Int {
         return R.style.AppBottomSheetDialogTheme
+    }
+
+    private fun initModifyTitleClick() {
+        binding.clEditTitle.setOnClickListener {
+        }
+    }
+
+    private fun initMoveCategoryClick() {
+        binding.clMoveCategory.setOnClickListener {
+        }
+    }
+
+    private fun initSetAlarm() {
+        binding.clSetAlarm.setOnClickListener {
+        }
     }
 
     private fun setMoreView() {
@@ -53,6 +71,7 @@ class ContentsMoreFragment(
                 type = "text/html"
             }
             startActivity(Intent.createChooser(intent, null))
+            dismiss()
         }
     }
 
