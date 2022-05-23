@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -19,7 +20,9 @@ class BottomSheetShareFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentBottomSheetShareBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -31,8 +34,8 @@ class BottomSheetShareFragment : BottomSheetDialogFragment() {
 
     private fun setBottomSheetHeight() {
         (dialog as BottomSheetDialog).behavior.apply {
-            state = BottomSheetBehavior.STATE_EXPANDED      // 높이 고정
-            skipCollapsed = true                            // HALF_EXPANDED 안되게 설정
+            state = BottomSheetBehavior.STATE_EXPANDED // 높이 고정
+            skipCollapsed = true // HALF_EXPANDED 안되게 설정
         }
 
         // 휴대폰 화면의 0.94배 높이
@@ -46,7 +49,7 @@ class BottomSheetShareFragment : BottomSheetDialogFragment() {
             override fun onBackPressed() {
                 if ((getTopmostFragmentOrNull() as? OnBackPressedHandler)?.onBackPressed() == true) return
                 val navController = binding.fcvShare.findNavController()
-                if (navController.graph.startDestination == navController.currentDestination?.id) super.onBackPressed()
+                if (navController.graph.findStartDestination() == navController.currentDestination) super.onBackPressed()
                 else navController.popBackStack()
             }
         }
