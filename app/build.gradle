@@ -69,10 +69,6 @@ dependencies {
     implementation "com.kakao.sdk:v2-navi:2.3.0" // 카카오내비
     implementation 'com.kakao.sdk:usermgmt:1.27.0' // 카카오 로그인 버튼 만들 때 사용
 
-    // Navigation
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
-
     // Retrofit
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
