@@ -110,7 +110,7 @@ object BindingAdapter {
 
     @BindingAdapter("description")
     @JvmStatic
-    fun setDescription(textView: TextView, rate: Int) {
+    fun setDescription(textView: TextView, rate: Int?) {
         when (rate) {
             in 0..33 -> textView.text = textView.context.getString(R.string.mypage_description1)
             in 34..66 -> textView.text = textView.context.getString(R.string.mypage_description2)
@@ -121,7 +121,7 @@ object BindingAdapter {
 
     @BindingAdapter("descriptionImg")
     @JvmStatic
-    fun setDescriptionImg(imageView: ImageView, rate: Int) {
+    fun setDescriptionImg(imageView: ImageView, rate: Int?) {
         when (rate) {
             in 0..33 -> Glide.with(imageView).load(R.drawable.ic_illust_stage_1).into(imageView)
             in 34..66 -> Glide.with(imageView).load(R.drawable.ic_illust_stage_2).into(imageView)
