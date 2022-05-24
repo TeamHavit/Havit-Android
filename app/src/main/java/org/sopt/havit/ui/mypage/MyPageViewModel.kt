@@ -31,7 +31,7 @@ class MyPageViewModel @Inject constructor(private val myPageRepository: MyPageRe
                 _user.postValue(it)
                 _rate.postValue((it.totalSeenContentNumber.toDouble() / it.totalContentNumber.toDouble() * 100).toInt())
             }.onFailure {
-                throw  it
+                _rate.postValue(0)
             }
         }
     }
