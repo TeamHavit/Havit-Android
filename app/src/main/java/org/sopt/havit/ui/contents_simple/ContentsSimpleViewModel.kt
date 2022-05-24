@@ -11,6 +11,7 @@ import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.util.MySharedPreference
+import java.security.KeyStore
 
 class ContentsSimpleViewModel(context: Context) : ViewModel() {
 
@@ -20,11 +21,15 @@ class ContentsSimpleViewModel(context: Context) : ViewModel() {
     val contentsList: LiveData<List<ContentsSimpleResponse.ContentsSimpleData>> = _contentsList
 
     private val _contentsCount = MutableLiveData(-1)
-    val contentsCount: LiveData<Int> = _contentsCount
+    private val contentsCount: LiveData<Int> = _contentsCount
 
     // 상단 바에 들어갈 최근 저장 콘텐츠 / 봐야 하는 콘텐츠 text
     private val _topBarName = MutableLiveData<String>()
     val topBarName: LiveData<String> = _topBarName
+
+    // loading 진행 여부 변수. 로딩중 : true / 로딩완료 : false
+    private val _loadState = MutableLiveData<Boolean>(true)
+    val loadState: LiveData<Boolean> = _loadState
 
     fun requestContentsTaken(contentsType: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -34,11 +39,13 @@ class ContentsSimpleViewModel(context: Context) : ViewModel() {
                         RetrofitObject.provideHavitApi(token)
                             .getContentsUnseen()
                     _contentsList.postValue(response.data)
+                    _loadState.postValue(false)
                 } else {
                     val response =
                         RetrofitObject.provideHavitApi(token)
                             .getContentsRecent()
                     _contentsList.postValue(response.data)
+                    _loadState.postValue(false)
                 }
             } catch (e: Exception) {
             }
