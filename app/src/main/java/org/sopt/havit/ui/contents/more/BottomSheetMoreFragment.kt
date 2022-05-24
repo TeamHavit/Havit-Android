@@ -1,6 +1,9 @@
 package org.sopt.havit.ui.contents.more
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +20,13 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentBottomSheetMoreBinding? = null
     private val binding get() = _binding!!
     private var viewType: String? = null
+    private var contents: Parcelable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             viewType = it.getString(VIEW_TYPE)
+            contents = it.getParcelable(CONTENTS_DATA)
         }
     }
 
@@ -31,6 +36,7 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentBottomSheetMoreBinding.inflate(layoutInflater, container, false)
+        Log.d(TAG, "onCreateView: $contents")
         return binding.root
     }
 
@@ -64,13 +70,15 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param: String) =
+        fun newInstance(param: String, contents: Parcelable) =
             BottomSheetMoreFragment().apply {
                 arguments = Bundle().apply {
                     putString(VIEW_TYPE, param)
+                    putParcelable(CONTENTS_DATA, contents)
                 }
             }
 
+        private const val CONTENTS_DATA = "CONTENTS_DATA"
         const val VIEW_TYPE = "VIEW_TYPE"
         const val Edit_TITLE = "EDIT_TITLE"
         const val MOVE_CATEGORY = "MOVE_CATEGORY"

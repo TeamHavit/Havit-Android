@@ -52,7 +52,8 @@ class ContentsMoreFragment(
     }
 
     private fun startBottomSheetWithDesignatedView() {
-        BottomSheetMoreFragment.newInstance(viewType).show(parentFragmentManager, this.tag)
+        BottomSheetMoreFragment.newInstance(viewType, contentsData)
+            .show(parentFragmentManager, this.tag)
         dismiss()
     }
 
