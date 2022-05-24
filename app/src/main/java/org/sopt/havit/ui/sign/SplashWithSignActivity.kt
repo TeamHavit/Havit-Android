@@ -143,14 +143,14 @@ class SplashWithSignActivity :
 
     private fun isAlreadyUserObserver() {
         signInViewModel.isAlreadyUser.observe(this, EventObserver { isAlreadyUser ->
-            if (isAlreadyUser.data.isAlreadyUser) { // 기존 유저
+            if (isAlreadyUser.data.isAlreadyUser == null) { // 기존 유저
                 MySharedPreference.setXAuthToken(
                     this,
                     isAlreadyUser.data.accessToken ?: ""
                 )
                 startMainActivity()
             } else { // 신규 유저
-                startSignActivity()  // 닉네임뷰로 넘어가기
+                startSignActivity()
             }
 
         })

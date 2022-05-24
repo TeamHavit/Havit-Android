@@ -9,7 +9,7 @@ data class SignInResponse(
     data class Data(
         val accessToken: String?,
         val firebaseAuthToken: String?,
-        val isAlreadyUser: Boolean,
+        val isAlreadyUser: Boolean?,
         val nickname: String?,
         val refreshToken: String?
     )

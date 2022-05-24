@@ -109,7 +109,7 @@ class SignInViewModel @Inject constructor(
                 )
             }.onSuccess {
                 _isAlreadyUser.postValue(Event(it))
-                if (it.data.isAlreadyUser) authRepository.saveAccessToken(requireNotNull(it.data.accessToken))
+                if (it.data.isAlreadyUser == null) authRepository.saveAccessToken(requireNotNull(it.data.accessToken))
             }.onFailure { throw it }
 
         }
