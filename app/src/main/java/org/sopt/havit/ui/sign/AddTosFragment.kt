@@ -14,6 +14,8 @@ import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentAddTosBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.ui.setting.SettingPersonalDataActivity
+import org.sopt.havit.ui.setting.SettingPolicyActivity
 import org.sopt.havit.util.MySharedPreference
 
 @AndroidEntryPoint
@@ -62,6 +64,12 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
         binding.ivTosEvent.setOnClickListener {
             signInViewModel.setTosEventCheck()
         }
+        binding.tvPolicy.setOnClickListener {
+            startSettingPolicyActivity()
+        }
+        binding.tvPersonalData.setOnClickListener {
+            startSettingPersonalDataActivity()
+        }
 
     }
 
@@ -77,6 +85,14 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
     private fun startMainActivity() {
         startActivity(Intent(requireContext(), MainActivity::class.java))
         requireActivity().finish()
+    }
+
+    private fun startSettingPolicyActivity() {
+        startActivity(Intent(requireContext(), SettingPolicyActivity::class.java))
+    }
+
+    private fun startSettingPersonalDataActivity() {
+        startActivity(Intent(requireContext(), SettingPersonalDataActivity::class.java))
     }
 
     private fun accessTokenObserver() {
