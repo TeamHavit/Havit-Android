@@ -1,24 +1,32 @@
 package org.sopt.havit.ui.contents.more
 
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentEditTitleBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
-import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.OnBackPressedHandler
 
-class EditTitleFromMoreFragment() :
+class EditTitleFromMoreFragment :
     BaseBindingFragment<FragmentEditTitleBinding>(R.layout.fragment_edit_title),
     OnBackPressedHandler {
 
+    private lateinit var bottomSheetDialogFragment: BottomSheetDialogFragment
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        setOriginTitle()
-        setKeyBoardUp()
         setBackButtonInvisible()
         initCompleteBtnClick()
+        initBottomSheetDialogFragment()
+        setKeyBoardUp()
+    }
+
+    private fun initBottomSheetDialogFragment() {
+        bottomSheetDialogFragment = requireParentFragment() as BottomSheetDialogFragment
     }
 
     private fun setBackButtonInvisible() {
@@ -27,17 +35,21 @@ class EditTitleFromMoreFragment() :
 
     private fun initCompleteBtnClick() {
         binding.tvComplete.setOnClickListener {
-            Toast.makeText(requireContext(), "pressed", Toast.LENGTH_SHORT).show()
-            val tmp = requireParentFragment() as BottomSheetDialogFragment
-            tmp.dismiss()
+            bottomSheetDialogFragment.dismiss()
         }
     }
 
-//    private fun setOriginTitle() = binding.etTitle.setText(originTitle)
-
-    private fun setKeyBoardUp() = KeyBoardUtil.openKeyBoard(requireContext(), binding.etTitle)
+    private fun setKeyBoardUp() {
+        bottomSheetDialogFragment.dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        bottomSheetDialogFragment.dialog?.setOnShowListener {
+            val imm =
+                requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+        }
+    }
 
     override fun onBackPressed(): Boolean {
-        return true
+        Toast.makeText(requireContext(), "this", Toast.LENGTH_SHORT).show()
+        return false
     }
 }
