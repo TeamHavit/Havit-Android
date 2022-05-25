@@ -3,6 +3,8 @@ package org.sopt.havit.ui.sign
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -13,6 +15,7 @@ import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySplashWithSignBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.util.EventObserver
+import org.sopt.havit.util.HavitAuthUtil
 import org.sopt.havit.util.MySharedPreference
 
 @AndroidEntryPoint
@@ -20,19 +23,74 @@ class SplashWithSignActivity :
     BaseBindingActivity<ActivitySplashWithSignBinding>(R.layout.activity_splash_with_sign) {
 
     private val signInViewModel: SignInViewModel by viewModels()
+    private val alphaLogoAnim by lazy {
+        AnimationUtils.loadAnimation(
+            this,
+            R.anim.alpha_invisible_to_visible_2000
+        ).apply {
+            fillAfter = true
+            isFillEnabled = true
+        }
+    }
+    private val alphaLoginAnim by lazy {
+        AnimationUtils.loadAnimation(
+            this,
+            R.anim.alpha_invisible_to_visible_1500
+        ).apply {
+            fillAfter = true
+            isFillEnabled = true
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.main = signInViewModel
+        setSplashView()
         setListeners()
         isAlreadyUserObserver()
         isNeedScopesObserver()
     }
 
+    private fun setLoginAnimation() {
+        binding.btnKakaoLogin.startAnimation(
+            alphaLoginAnim
+        )
+        binding.tvAnotherLogin.startAnimation(
+            alphaLoginAnim
+        )
+    }
+
+    private fun setSplashView() {
+        binding.ivSplashLogo.startAnimation(
+            alphaLogoAnim
+        )
+        alphaLogoAnim.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(p0: Animation?) {}
+            override fun onAnimationEnd(p0: Animation?) { setAutoLogin() }
+            override fun onAnimationRepeat(p0: Animation?) {}
+        })
+    }
+
+    private fun setAutoLogin() {
+        HavitAuthUtil.isLoginNow { isLogin ->
+            if (!isLogin) startMainActivity() else setLoginAnimation()
+        }
+    }
+
     private fun setListeners() {
         binding.btnKakaoLogin.setOnClickListener {
             setLogin()
+        }
+        binding.tvAnotherLogin.setOnClickListener {
+            // 카카오계정으로 로그인
+            UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->
+                if (error != null) {
+                    Log.e("TAG", "로그인 실패", error)
+                } else if (token != null) {
+                    Log.i("TAG", "로그인 성공 ${token.accessToken}")
+                }
+            }
         }
     }
 
@@ -103,7 +161,7 @@ class SplashWithSignActivity :
             if (error != null) {
                 Log.d("TAG", "사용자 정보 요청 실패", error)
             } else if (user != null) {
-                var scopes = mutableListOf<String>()
+                val scopes = mutableListOf<String>()
                 if (user.kakaoAccount?.emailNeedsAgreement == true) {
                     scopes.add("account_email")
                 }
