@@ -74,7 +74,7 @@ class SplashWithSignActivity :
 
     private fun setAutoLogin() {
         HavitAuthUtil.isLoginNow { isLogin ->
-            if (!isLogin) startMainActivity() else setLoginAnimation()
+            if (isLogin) startMainActivity() else setLoginAnimation()
         }
     }
 
