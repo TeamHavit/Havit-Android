@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +23,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     private val contentsAdapter: HomeRecentContentsRvAdapter by lazy { HomeRecentContentsRvAdapter() }
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
     private lateinit var categoryVpAdapter: HomeCategoryVpAdapter
+    private var isPopup = false
     private var popupText = ""
 
     override fun onCreateView(
@@ -38,8 +38,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.layoutCategory.vmHome = homeViewModel
         binding.layoutCategoryEmpty.vmHome = homeViewModel
 
-        // 도달률 팝업 초기화
-        initPopup()
         // 스크롤 시 검색뷰 상단에 고정시킴
         initSearchSticky()
         // adapter 초기화
@@ -56,51 +54,12 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         super.onStart()
         categoryDataObserve()       // 카테고리 초기화
         recentContentsDataObserve() // 추천콘텐츠 초기화
-        initProgressBar()           // 도달률 data 초기화
+        initReachRate()           // 도달률 관련 데이터 초기화
     }
 
     override fun onResume() {
         super.onResume()
         setData()
-    }
-
-    // onCreateView에서 이루어지는 도달률 팝업 초기화
-    private fun initPopup() {
-        val isPopup = PopupSharedPreference.getIsPopup(requireContext())
-        binding.isPopup = isPopup
-    }
-
-    // onStart에서 이루어지는 userData 변화에 따른 도달률 팝업 업데이트
-    private fun updatePopup() {
-        checkPopupText()   // 구간 변화 업데이트
-        val isPopup = PopupSharedPreference.getIsPopup(requireContext())
-        binding.isPopup = isPopup
-        if (!isPopup)
-            checkDeletePopupTime()
-    }
-
-    // 도달률 구간변화 업데이트
-    private fun checkPopupText() {
-        val prevPopupText = PopupSharedPreference.getPopupText(requireContext())
-        // 도달률 구간에 변경이 있을 경우 PopupSharedPrefence 저장값 변경
-        if (prevPopupText != popupText) {
-            with(PopupSharedPreference) {
-                setPopupText(requireContext(), popupText)
-                setIsPopup(requireContext(), true)
-            }
-        }
-    }
-
-    private fun checkDeletePopupTime() {
-        val currentTime = System.currentTimeMillis() / (1000 * 60) // 1970.01.01부터 현재까지 흐른 시간(분)
-        val deletePopupTime =
-            PopupSharedPreference.getDeletePopupTime(requireContext())   // deletePopup 버튼을 누른 시각
-        if ((currentTime - deletePopupTime) > 60 * 24 * 3) {  // 3일이 지나면 팝업을 띄움
-            binding.isPopup = true
-            PopupSharedPreference.setIsPopup(requireContext(), true)
-        } else {
-            binding.isPopup = false
-        }
     }
 
     // 추천 콘텐츠 클릭 -> 웹뷰로 이동
@@ -142,6 +101,23 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             requestContentsTaken()  // 최근 저장 콘텐츠
             requestCategoryTaken()  // 카테고리
             requestRecommendTaken() // 추천 콘텐츠
+            loadStateObserve()
+        }
+    }
+
+    private fun loadStateObserve() {
+        with(homeViewModel) {
+            loadState.observe(viewLifecycleOwner) {
+                if (it) // 로딩중이라면
+                    binding.sflHome.startShimmer()
+                else    // 로딩이 끝났다면
+                    binding.sflHome.stopShimmer()
+            }
+            // 유저, 카테고리, 최근저장콘텐츠, 추천콘텐츠 서버 연결 확인
+            userLoadState.observe(viewLifecycleOwner) { setLoadState() }
+            categoryLoadState.observe(viewLifecycleOwner) { setLoadState() }
+            recommendLoadState.observe(viewLifecycleOwner) { setLoadState() }
+            contentsLoadState.observe(viewLifecycleOwner) { setLoadState() }
         }
     }
 
@@ -256,20 +232,59 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
-    // 도달률 그래프 초기화
-    private fun initProgressBar() {
+    // 도달률 관련 데이터(팝업, 도달률 그래프 등) 초기화
+    private fun initReachRate() {
         with(homeViewModel) {
             userData.observe(viewLifecycleOwner) {
-                var rate = 0
-                // 전체 콘텐츠 수 or 본 콘텐츠 수가 0일 경우 예외처리
-                if (it.totalSeenContentNumber != 0 && it.totalContentNumber != 0) { // 콘텐츠 수가 0이 아니라면 rate 계산
-                    rate =
-                        (it.totalSeenContentNumber.toDouble() / it.totalContentNumber.toDouble() * 100).toInt()
-                }
-                requestReachRate(rate)
-                updatePopup()   // 도달률 팝업 업데이트
+                val rate = setReachRate(it)     // 도달률 계산
+                initPopup(rate)
             }
         }
+    }
+
+    // 계산한 도달률(rate)로 popupText string값 지정
+    private fun setPopupText(rate: Int): String =
+        when (rate) {
+            in 0..33 -> getString(R.string.home_popup_description1)
+            in 34..66 -> getString(R.string.home_popup_description2)
+            in 67..99 -> getString(R.string.home_popup_description3)
+            100 -> getString(R.string.home_popup_description4)
+            else -> getString(R.string.home_popup_description1)
+        }
+
+    // 도달률 팝업 초기화
+    private fun initPopup(rate: Int) {
+        isPopup = PopupSharedPreference.getIsPopup(requireContext())
+        popupText = setPopupText(rate)  // 측정한 도달률로 popupText string값 지정
+        checkPopupText()   // 도달률 구간변화 검사
+        // isPopup 값이 false일 경우 팝업 시간 변화 검사
+        if (!isPopup)
+            checkDeletePopupTime()
+        updatePopup()   // 도달률 최종 업데이트
+    }
+
+    // 도달률 구간변화 검사
+    private fun checkPopupText() {
+        val prevPopupText = PopupSharedPreference.getPopupText(requireContext())
+        // 도달률 구간에 변경이 있을 경우 isPopup 값 true로 변경
+        if (prevPopupText != popupText) {
+            isPopup = true
+        }
+    }
+
+    // 팝업 시간 변화 검사 : x를 누르고 3일이 지났는지
+    private fun checkDeletePopupTime() {
+        val currentTime = System.currentTimeMillis() / (1000 * 60) // 1970.01.01부터 현재까지 흐른 시간(분)
+        val deletePopupTime =
+            PopupSharedPreference.getDeletePopupTime(requireContext())   // deletePopup 버튼을 누른 시각
+        isPopup = (currentTime - deletePopupTime) > 60 * 24 * 3
+    }
+
+    // 도달률 최종 업데이트
+    private fun updatePopup() {
+        binding.isPopup = isPopup   // 최종 isPopup 값 뷰에 반영
+        PopupSharedPreference.setIsPopup(requireContext(), isPopup) // 최종 isPopup 값 spf에 저장
+        PopupSharedPreference.setPopupText(requireContext(), popupText) // 도달률 텍스트 값 spf에 저장
     }
 
     companion object {

@@ -198,4 +198,27 @@
     <string name="contents_noti">콘텐츠 알림</string>
     <string name="set_personal_data">개인정보처리방침</string>
     <string name="contents_category_select">카테고리 선택</string>
+    <!-- onboarding -->
+    <string name="onboarding_skip">건너뛰기</string>
+    <string name="onboarding_share">공유하기</string>
+    <string name="onboarding_save_contents">콘텐츠 저장</string>
+    <string name="onboarding_share_description">저장하고 싶은 콘텐츠가 있다면\n공유하기를 통해 HAVIT을 선택하세요.</string>
+    <string name="onboarding_share_tip">HAVIT이 보이지 않는다면 ‘더보기’를 눌러보세요</string>
+    <string name="onboarding_link_description">저장하고 싶은 콘텐츠의 링크를 복사하세요.\nHAVIT을 킨 후 + 버튼을 누르면,\n복사한 링크를 붙여넣을 수 있어요.</string>
+    <string name="onboarding_link">링크 입력하기</string>
+    <string name="onboarding_save_in_category">카테고리에 저장</string>
+    <string name="onboarding_save_in_category_description">카테고리 생성 후 원하는 카테고리에\n콘텐츠를 저장할 수 있어요.</string>
+    <string name="onboarding_save_in_category_tip">여러개의 카테고리에 콘텐츠를 중복으로 저장할 수 있어요</string>
+    <string name="onboarding_contents_customizing">콘텐츠 커스터마이징</string>
+    <string name="onboarding_customize">커스터마이징하기</string>
+    <string name="onboarding_customize_description">콘텐츠의 제목을 원하는 내용으로 수정하고\n저장한 콘텐츠를 잊지 않도록 알림설정을 해보세요.</string>
+    <string name="onboarding_join">가입하기</string>
+    <string name="onboarding_contents_check">콘텐츠 확인하기</string>
+    <string name="onboarding_contents_check_description">확인할 콘텐츠를 체크해보세요.\n콘텐츠를 체크함에 따라 도달률이 올라갑니다.</string>
+    <string name="onboarding_contents_checking">콘텐츠 확인</string>
+    <!-- splash -->
+    <string name="splash_title">모든 콘텐츠를\n내 손 안에</string>
+    <string name="splash_another_account"><u>다른 카카오 계정으로 로그인</u></string>
+    <string name="splash_kakao_title">카카오로 로그인</string>
+    <string name="splash_un_kakao_login">HAVIT에 콘텐츠를 저장하기 위해\n로그인이 필요합니다.</string>
 </resources>

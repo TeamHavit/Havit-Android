@@ -18,6 +18,11 @@
         android:theme="@style/Theme.Havit"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.onboarding.OnboardingActivity"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.setting.SettingUnregisterActivity"
             android:configChanges="orientation"
             android:exported="false"
@@ -159,7 +164,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name=".ui.sign.SplashWithSignActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait">
