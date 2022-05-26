@@ -11,7 +11,7 @@
         android:id="@+id/cl_order_option"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_white_radius_20"
+        android:background="@drawable/rectangle_white_radius_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

@@ -210,7 +210,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun setCategoryListDialog() {
         binding.clCategory.setOnClickListener {
-            DialogContentsCategoryFragment(contentsCategoryList, categoryName, categoryId).show(
+            DialogContentsCategoryFragment(contentsCategoryList, categoryId).show(
                 supportFragmentManager,
                 "categoryList"
             )

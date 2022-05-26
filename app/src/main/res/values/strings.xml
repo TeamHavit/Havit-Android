@@ -197,6 +197,7 @@
     <string name="app_notice">공지사항</string>
     <string name="contents_noti">콘텐츠 알림</string>
     <string name="set_personal_data">개인정보처리방침</string>
+    <string name="contents_category_select">카테고리 선택</string>
     <!-- onboarding -->
     <string name="onboarding_skip">건너뛰기</string>
     <string name="onboarding_share">공유하기</string>
