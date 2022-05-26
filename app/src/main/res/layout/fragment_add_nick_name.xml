@@ -59,9 +59,9 @@
             android:layout_marginEnd="26dp"
             android:background="@null"
             android:lines="1"
-            android:text="@={vm.nickName}"
             android:maxLength="15"
             android:paddingVertical="4dp"
+            android:text="@={vm.nickName}"
             android:textAppearance="@style/Header18Medium"
             android:textColor="@color/havit_gray"
             app:layout_constraintEnd_toEndOf="parent"
@@ -115,7 +115,8 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_nickname_next"
-            btnColor="@{vm.isSaveClick}"
+            btnColor="@{vm.nickName.empty ? false : true}"
+            android:clickable="@{vm.nickName.empty ? false : true}"
             android:layout_width="0dp"
             android:layout_height="58dp"
             android:text="@string/next"
