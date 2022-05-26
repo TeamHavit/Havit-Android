@@ -142,6 +142,7 @@
     <string name="category_added">&#160;카테고리가 추가되었습니다.</string>    <!-- &#160;는 띄어쓰기를 위한 문자열입니다-->
     <string name="contents_order">정렬</string>
     <string name="category_create_recommend">카테고리를 생성하여 콘텐츠를 쉽게 정리해보세요.</string>
+    <string name="category_modify_complete">카테고리 수정 완료!</string>
     <!-- Dialog 작업용 -->
     <string name="cancel">취소</string>
     <string name="exit">나가기</string>
