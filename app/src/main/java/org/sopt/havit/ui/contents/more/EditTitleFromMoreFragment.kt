@@ -20,9 +20,7 @@ class EditTitleFromMoreFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            contents = it.getParcelable(CONTENTS_DATA)
-        }
+        getBundleData()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,6 +29,12 @@ class EditTitleFromMoreFragment :
         initBottomSheetDialogFragment()
         setKeyBoardUp()
         setOriginTitle()
+    }
+
+    private fun getBundleData() {
+        arguments?.let {
+            contents = it.getParcelable(CONTENTS_DATA)
+        }
     }
 
     private fun setOriginTitle() {
@@ -58,15 +62,5 @@ class EditTitleFromMoreFragment :
                 requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
         }
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(contents: ContentsMoreData) =
-            EditTitleFromMoreFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(CONTENTS_DATA, contents)
-                }
-            }
     }
 }
