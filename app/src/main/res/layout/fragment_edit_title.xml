@@ -94,7 +94,7 @@
                 android:gravity="center"
                 android:importantForAutofill="auto"
                 android:inputType="textMultiLine"
-                android:padding="50dp"
+                android:paddingVertical="50dp"
                 android:scrollHorizontally="false"
                 android:selectAllOnFocus="true"
                 android:textAppearance="@style/Text20Medium"
