@@ -1,9 +1,6 @@
 package org.sopt.havit.ui.contents.more
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.os.Parcelable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +11,14 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
+import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentBottomSheetMoreBinding
 
 class BottomSheetMoreFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentBottomSheetMoreBinding? = null
     private val binding get() = _binding!!
     private var viewType: String? = null
-    private var contents: Parcelable? = null
+    var contents: ContentsMoreData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +34,6 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentBottomSheetMoreBinding.inflate(layoutInflater, container, false)
-        Log.d(TAG, "onCreateView: $contents")
         return binding.root
     }
 
@@ -46,16 +43,21 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
     }
 
     private fun setDesignatedFragment() {
-        when (viewType) {
-            Edit_TITLE -> setFragmentWith<EditTitleFromMoreFragment>()
-            MOVE_CATEGORY -> setFragmentWith<EditTitleFromMoreFragment>() // 수정할거임
-            SET_ALARM -> setFragmentWith<EditTitleFromMoreFragment>() // 수정할거임
+        if (contents != null) {
+            when (viewType) {
+                Edit_TITLE -> setFragmentWith<EditTitleFromMoreFragment>()
+                MOVE_CATEGORY -> setFragmentWith<EditTitleFromMoreFragment>() // 수정할거임
+                SET_ALARM -> setFragmentWith<EditTitleFromMoreFragment>() // 수정할거임
+            }
         }
     }
 
     private inline fun <reified T : Fragment> setFragmentWith() {
+        val bundle = Bundle().apply {
+            putParcelable(CONTENTS_DATA, contents)
+        }
         childFragmentManager.commit {
-            replace<T>(R.id.fcv_more)
+            replace<T>(containerViewId = R.id.fcv_more, args = bundle)
         }
     }
 
@@ -70,7 +72,7 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param: String, contents: Parcelable) =
+        fun newInstance(param: String, contents: ContentsMoreData) =
             BottomSheetMoreFragment().apply {
                 arguments = Bundle().apply {
                     putString(VIEW_TYPE, param)
@@ -78,7 +80,7 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
                 }
             }
 
-        private const val CONTENTS_DATA = "CONTENTS_DATA"
+        const val CONTENTS_DATA = "CONTENTS_DATA"
         const val VIEW_TYPE = "VIEW_TYPE"
         const val Edit_TITLE = "EDIT_TITLE"
         const val MOVE_CATEGORY = "MOVE_CATEGORY"
