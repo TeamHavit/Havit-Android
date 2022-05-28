@@ -90,6 +90,8 @@
                 android:layout_marginTop="77dp"
                 android:autofillHints="false"
                 android:background="@null"
+                android:maxLines="4"
+                android:gravity="center"
                 android:importantForAutofill="auto"
                 android:inputType="textMultiLine"
                 android:padding="50dp"
