@@ -29,6 +29,7 @@ class EditTitleFromMoreFragment :
         initBottomSheetDialogFragment()
         setKeyBoardUp()
         setOriginTitle()
+        setCursor()
     }
 
     private fun getBundleData() {
@@ -38,7 +39,15 @@ class EditTitleFromMoreFragment :
     }
 
     private fun setOriginTitle() {
-        binding.etTitle.setText((contents)?.title)
+        val originTitle = contents?.title
+        binding.etTitle.setText(originTitle)
+    }
+
+    private fun setCursor() {
+        binding.etTitle.post {
+            binding.etTitle.requestFocus()
+            binding.etTitle.setSelection(contents?.title?.length ?: 0)
+        }
     }
 
     private fun initBottomSheetDialogFragment() {
