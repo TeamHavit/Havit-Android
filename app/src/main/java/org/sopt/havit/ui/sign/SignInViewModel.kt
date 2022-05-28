@@ -31,6 +31,9 @@ class SignInViewModel @Inject constructor(
     private var _isNeedScopes = MutableLiveData<Event<Boolean>>()
     var isNeedScopes: LiveData<Event<Boolean>> = _isNeedScopes
 
+    private var _isReadyUser = MutableLiveData<Event<Boolean>>()
+    var isReadyUser: LiveData<Event<Boolean>> = _isReadyUser
+
     private var _accessToken = MutableLiveData<String>()
     var accessToken: LiveData<String> = _accessToken
 
@@ -55,13 +58,16 @@ class SignInViewModel @Inject constructor(
             Log.d("TAG", "카카오계정으로 로그인 성공 ${token.accessToken}")
             setKakaoToken(token.accessToken)
             setFcmToken()
-            getSignIn()
             setNeedScopes()
         }
     }
 
     fun setNeedScopes() {
         _isNeedScopes.value = Event(true)
+    }
+
+    fun setReadyUser() {
+        _isReadyUser.value = Event(true)
     }
 
     fun setMoveToNextOrBack(move: Boolean) {

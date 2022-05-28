@@ -6,12 +6,14 @@ import android.util.Log
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
+import com.kakao.sdk.auth.model.Prompt
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.MainActivity
 import org.sopt.havit.R
+import org.sopt.havit.data.local.HavitAuthLocalPreferences
 import org.sopt.havit.databinding.ActivitySplashWithSignBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.util.EventObserver
@@ -50,6 +52,7 @@ class SplashWithSignActivity :
         setListeners()
         isAlreadyUserObserver()
         isNeedScopesObserver()
+        isReadyUserObserver()
     }
 
     private fun setLoginAnimation() {
@@ -83,12 +86,12 @@ class SplashWithSignActivity :
             setLogin()
         }
         binding.tvAnotherLogin.setOnClickListener {
-            // 카카오계정으로 로그인
-            UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->
+            UserApiClient.instance.loginWithKakaoAccount(this, prompts = listOf(Prompt.LOGIN)) { token, error ->
                 if (error != null) {
-                    Log.e("TAG", "로그인 실패", error)
-                } else if (token != null) {
-                    Log.i("TAG", "로그인 성공 ${token.accessToken}")
+                    Log.d("TAG", "로그인 실패", error)
+                }
+                else if (token != null) {
+                    Log.d("TAG", "로그인 성공 ${token.accessToken}")
                 }
             }
         }
@@ -126,7 +129,6 @@ class SplashWithSignActivity :
                     Log.d("TAG", "카카오톡으로 로그인 성공 ${token.accessToken}")
                     signInViewModel.setKakaoToken(token.accessToken)
                     signInViewModel.setFcmToken()
-                    signInViewModel.getSignIn()
                     signInViewModel.setNeedScopes()
                 }
             }
@@ -151,6 +153,7 @@ class SplashWithSignActivity :
                     user.kakaoAccount?.gender.toString(),
                     user.kakaoAccount?.profile?.nickname ?: ""
                 )
+                signInViewModel.setReadyUser()
             }
         }
     }
@@ -196,6 +199,12 @@ class SplashWithSignActivity :
     private fun isNeedScopesObserver() {
         signInViewModel.isNeedScopes.observe(this) {
             isNeedNewScopes()
+        }
+    }
+
+    private fun isReadyUserObserver() {
+        signInViewModel.isReadyUser.observe(this) {
+            signInViewModel.getSignIn()
         }
     }
 
