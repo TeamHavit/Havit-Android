@@ -43,12 +43,10 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
     }
 
     private fun setDesignatedFragment() {
-        if (contents != null) {
-            when (viewType) {
-                Edit_TITLE -> setFragmentWith<EditTitleFromMoreFragment>()
-                MOVE_CATEGORY -> setFragmentWith<EditTitleFromMoreFragment>() // 수정할거임
-                SET_ALARM -> setFragmentWith<EditTitleFromMoreFragment>() // 수정할거임
-            }
+        when (viewType) {
+            Edit_TITLE -> setFragmentWith<EditTitleFromMoreFragment>()
+            MOVE_CATEGORY -> setFragmentWith<EditTitleFromMoreFragment>() // 수정할거임
+            SET_ALARM -> setFragmentWith<EditTitleFromMoreFragment>() // 수정할거임
         }
     }
 
