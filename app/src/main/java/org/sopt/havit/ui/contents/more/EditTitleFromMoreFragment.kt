@@ -15,7 +15,6 @@ import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.CONTENT
 class EditTitleFromMoreFragment :
     BaseBindingFragment<FragmentEditTitleBinding>(R.layout.fragment_edit_title) {
     var contents: ContentsMoreData? = null
-
     private lateinit var bottomSheetDialogFragment: BottomSheetDialogFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,9 +59,14 @@ class EditTitleFromMoreFragment :
 
     private fun initCompleteBtnClick() {
         binding.tvComplete.setOnClickListener {
+            if (isTitleModified()) { /*서버통신 */
+            }
             bottomSheetDialogFragment.dismiss()
         }
     }
+
+    private fun isTitleModified() =
+        binding.etTitle.text.toString() != (contents?.title ?: throw IllegalArgumentException())
 
     private fun setKeyBoardUp() {
         bottomSheetDialogFragment.dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
