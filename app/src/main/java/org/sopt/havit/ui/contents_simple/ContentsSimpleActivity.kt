@@ -15,6 +15,7 @@ import org.sopt.havit.ui.home.HomeFragment
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.CustomToast
+import java.io.Serializable
 
 class ContentsSimpleActivity :
     BaseBindingActivity<ActivityContentsSimpleBinding>(R.layout.activity_contents_simple) {
@@ -83,6 +84,7 @@ class ContentsSimpleActivity :
                         it.notificationTime
                     )
                 }
+
                 // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
                 val removeItem: (Int) -> Unit = {
                     val list =
@@ -92,10 +94,27 @@ class ContentsSimpleActivity :
                     contentsViewModel.updateContentsList(list)
                     contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
                 }
-                val dialog = dataMore?.let { ContentsMoreFragment(it, removeItem, position) }
+
+                val bundle = setBundle(dataMore, removeItem, position)
+                val dialog =
+                    dataMore?.let { ContentsMoreFragment(it, removeItem, position) }
+                dialog?.arguments = bundle
                 dialog?.show(supportFragmentManager, "setting")
             }
         })
+    }
+
+    // ContentsMoreFragment에 보낼 bundle 생성
+    private fun setBundle(
+        dataMore: ContentsMoreData?,
+        removeItem: (Int) -> Unit,
+        position: Int
+    ): Bundle {
+        val bundle = Bundle()
+        bundle.putSerializable(ContentsMoreFragment.CONTENTS_MORE_DATA, dataMore)
+        bundle.putSerializable(ContentsMoreFragment.REMOVE_ITEM, removeItem as Serializable)
+        bundle.putInt(ContentsMoreFragment.POSITION, position)
+        return bundle
     }
 
     private fun clickBtnBack() {

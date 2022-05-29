@@ -2,6 +2,7 @@ package org.sopt.havit.ui.contents
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +20,11 @@ class ContentsMoreFragment(
     BottomSheetDialogFragment() {
     private lateinit var binding: FragmentContentsMoreBinding
     private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(requireContext()) }
-    private var contentsData = contents
-    private val notifyItemRemoved = removeItem
-    private val pos = position
+    private lateinit var contentsData: ContentsMoreData
+
+    //    private val notifyItemRemoved = removeItem
+    private lateinit var notifyItemRemoved: (Int) -> Unit
+    private var pos = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +35,7 @@ class ContentsMoreFragment(
         binding = FragmentContentsMoreBinding.inflate(layoutInflater, container, false)
         binding.vm = contentsViewModel
         binding.lifecycleOwner = viewLifecycleOwner
+        setData()
         setMoreView()
         clickDelete()
         initShareClick()
@@ -40,6 +44,18 @@ class ContentsMoreFragment(
 
     override fun getTheme(): Int {
         return R.style.AppBottomSheetDialogTheme
+    }
+
+    // 이전 뷰에서 bundle로 보낸 content 데이터 받아오기
+    private fun setData() {
+        contentsData = arguments?.getSerializable(CONTENTS_MORE_DATA) as ContentsMoreData
+        notifyItemRemoved = arguments?.getSerializable(REMOVE_ITEM) as (Int) -> Unit
+        arguments?.getInt(POSITION, 0)?.let {
+            pos = it
+        }
+        Log.d("TAG", "setData: dataMore : $contentsData")
+        Log.d("TAG", "setData: removeItem: $notifyItemRemoved")
+        Log.d("TAG", "setData: position: $pos")
     }
 
     private fun setMoreView() {
@@ -59,6 +75,7 @@ class ContentsMoreFragment(
     // 콘텐츠 삭제 버튼 클릭 시 동작 정의
     private fun clickDelete() {
         binding.clEditDelete.setOnClickListener {
+            Log.d("TAG", "setData: position before : $pos")
             val dialog = DialogUtil(DialogUtil.REMOVE_CONTENTS, ::deleteContents)
             dialog.show(requireActivity().supportFragmentManager, this.javaClass.name)
         }
@@ -74,5 +91,11 @@ class ContentsMoreFragment(
         notifyItemRemoved(pos)
         // ContentsMoreFragment 삭제
         dismiss()
+    }
+
+    companion object {
+        const val CONTENTS_MORE_DATA = "ContentsMoreData"
+        const val REMOVE_ITEM = "removeItem"
+        const val POSITION = "position"
     }
 }

@@ -1,5 +1,7 @@
 package org.sopt.havit.data.remote
 
+import java.io.Serializable
+
 data class ContentsMoreData(
     val id: Int,
     val image: String,
@@ -8,4 +10,4 @@ data class ContentsMoreData(
     val url: String,
     val isNotified: Boolean,
     val notificationTime: String,
-)
+) : Serializable
