@@ -2,7 +2,6 @@ package org.sopt.havit.ui.contents
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +11,7 @@ import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentContentsMoreBinding
 import org.sopt.havit.util.DialogUtil
 
-class ContentsMoreFragment(
-    contents: ContentsMoreData,
-    removeItem: (Int) -> Unit,
-    position: Int
-) :
+class ContentsMoreFragment :
     BottomSheetDialogFragment() {
     private lateinit var binding: FragmentContentsMoreBinding
     private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(requireContext()) }
@@ -53,9 +48,6 @@ class ContentsMoreFragment(
         arguments?.getInt(POSITION, 0)?.let {
             pos = it
         }
-        Log.d("TAG", "setData: dataMore : $contentsData")
-        Log.d("TAG", "setData: removeItem: $notifyItemRemoved")
-        Log.d("TAG", "setData: position: $pos")
     }
 
     private fun setMoreView() {
@@ -75,7 +67,6 @@ class ContentsMoreFragment(
     // 콘텐츠 삭제 버튼 클릭 시 동작 정의
     private fun clickDelete() {
         binding.clEditDelete.setOnClickListener {
-            Log.d("TAG", "setData: position before : $pos")
             val dialog = DialogUtil(DialogUtil.REMOVE_CONTENTS, ::deleteContents)
             dialog.show(requireActivity().supportFragmentManager, this.javaClass.name)
         }

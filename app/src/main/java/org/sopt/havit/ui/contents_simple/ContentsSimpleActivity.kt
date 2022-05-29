@@ -96,10 +96,9 @@ class ContentsSimpleActivity :
                 }
 
                 val bundle = setBundle(dataMore, removeItem, position)
-                val dialog =
-                    dataMore?.let { ContentsMoreFragment(it, removeItem, position) }
-                dialog?.arguments = bundle
-                dialog?.show(supportFragmentManager, "setting")
+                val dialog = ContentsMoreFragment()
+                dialog.arguments = bundle
+                dialog.show(supportFragmentManager, "setting")
             }
         })
     }
