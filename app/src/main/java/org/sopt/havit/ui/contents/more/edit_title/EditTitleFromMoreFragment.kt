@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.contents.more
+package org.sopt.havit.ui.contents.more.edit_title
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
