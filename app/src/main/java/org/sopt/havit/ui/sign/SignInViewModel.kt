@@ -144,17 +144,16 @@ class SignInViewModel @Inject constructor(
 
     fun setTosUseCheck() {
         isTosUseCheck.value = !isTosUseCheck.value!!
-        isNextClick.value = isTosUseCheck.value != false
+        isNextClick.value = isTosUseCheck.value == true && isTosInfoCheck.value == true
     }
 
     fun setTosInfoCheck() {
         isTosInfoCheck.value = !isTosInfoCheck.value!!
-        isNextClick.value = isTosInfoCheck.value != false
+        isNextClick.value = isTosUseCheck.value == true && isTosInfoCheck.value == true
     }
 
     fun setTosEventCheck() {
         isTosEventCheck.value = !isTosEventCheck.value!!
-        isNextClick.value = isTosEventCheck.value != false
     }
 
     fun setNickName(name: String) {
