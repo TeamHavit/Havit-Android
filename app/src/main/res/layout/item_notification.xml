@@ -7,10 +7,9 @@
 
         <import type="android.view.View" />
 
-        <!-- TODO: NotificationData로 변경할 것 -->
         <variable
             name="content"
-            type="org.sopt.havit.data.remote.ContentsSimpleResponse.ContentsSimpleData" />
+            type="org.sopt.havit.data.remote.NotificationResponse.NotificationData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="@{content.title}"
+            android:text="@{content.notificationTime}"
             android:textAppearance="@style/Text12Semibold"
             android:textColor="@color/purple_main"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +61,7 @@
             android:layout_marginEnd="54dp"
             android:ellipsize="end"
             android:maxLines="2"
+            android:text="@{content.title}"
             android:textAppearance="@style/Medium15"
             android:textColor="@color/havit_gray"
             app:layout_constraintEnd_toEndOf="parent"
@@ -77,6 +77,7 @@
             android:layout_marginEnd="54dp"
             android:ellipsize="end"
             android:maxLines="1"
+            android:text="@{content.description}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_3"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="33dp"
-            android:text="@{String.valueOf(content.createdAt) + ` ·`}"
+            android:text="@{String.valueOf(content.createdAt) + ` · `}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintBottom_toBottomOf="@id/fl_image"

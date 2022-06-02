@@ -97,14 +97,16 @@
             android:background="@color/gray_0"
             app:layout_constraintTop_toBottomOf="@id/cg_status" />
 
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/rv_notification"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0dp"-->
-<!--            android:overScrollMode="never"-->
-<!--            android:paddingHorizontal="16dp"-->
-<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/line_between_chip_rv"-->
-<!--            tools:listitem="@layout/item_notification" />-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_notification"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            android:paddingHorizontal="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line_between_chip_rv"
+            tools:itemCount="10"
+            tools:listitem="@layout/item_notification" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

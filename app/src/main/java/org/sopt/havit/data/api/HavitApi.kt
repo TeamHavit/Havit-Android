@@ -94,4 +94,9 @@ interface HavitApi {
     suspend fun postSignUp(
         @Body body: SignUpRequest
     ): SignUpResponse
+
+    @GET("content/notification?option=")
+    suspend fun getNotification(
+        @Query("option") option: String,
+    ): NotificationResponse
 }

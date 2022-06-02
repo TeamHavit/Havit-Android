@@ -7,13 +7,13 @@ data class NotificationResponse(
     val success: Boolean
 ) {
     data class NotificationData(
-        val createdAt: String,
-        val description: String,
         val id: Int,
-        val image: String,
-        val isSeen: Boolean,
-        val time: String,
+        val notificationTime: String,
         val title: String,
-        val url: String
+        val description: String,
+        val image: String,
+        val url: String,
+        val isSeen: Boolean,
+        val createdAt: String
     )
 }
