@@ -87,6 +87,6 @@ class HomeRecentContentsRvAdapter :
         override fun getNewListSize(): Int = newData.size
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-            oldData[oldItemPosition] == newData[newItemPosition]
+            oldData[oldItemPosition].id == newData[newItemPosition].id
     }
 }

@@ -8,12 +8,12 @@ data class NotificationResponse(
 ) {
     data class NotificationData(
         val id: Int,
-        val notificationTime: String,
+        var notificationTime: String,
         val title: String,
         val description: String,
         val image: String,
         val url: String,
-        val isSeen: Boolean,
-        val createdAt: String
+        var isSeen: Boolean,
+        var createdAt: String
     )
 }

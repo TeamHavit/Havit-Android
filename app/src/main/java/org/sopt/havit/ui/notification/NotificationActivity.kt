@@ -1,25 +1,35 @@
 package org.sopt.havit.ui.notification
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.R
+import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.data.remote.NotificationResponse
 import org.sopt.havit.databinding.ActivityNotificationBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.contents.ContentsMoreFragment
+import org.sopt.havit.ui.web.WebActivity
+import org.sopt.havit.util.CustomToast
+import java.io.Serializable
 
 class NotificationActivity :
     BaseBindingActivity<ActivityNotificationBinding>(R.layout.activity_notification) {
     private val notificationViewModel: NotificationViewModel by lazy { NotificationViewModel(this) }
     private lateinit var notificationAdapter: NotificationRvAdapter
-    private var option = "before"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        option = "before"
         initAdapter()
         initListener()
-        clickBackBtn()
+        decorationView()
     }
 
     override fun onStart() {
@@ -36,6 +46,15 @@ class NotificationActivity :
     private fun initListener() {
         clickChip()
         clickBackBtn()
+        clickItemMore()
+        clickItemHavit()
+        clickItemView()
+    }
+
+    private fun decorationView() {
+        binding.rvNotification.addItemDecoration(
+            DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
+        )
     }
 
     // 알림예정/지난알림 칩 클릭 이벤트
@@ -46,7 +65,6 @@ class NotificationActivity :
                 binding.chipWillAlarm.id -> option = "before"
                 binding.chipDoneAlarm.id -> option = "after"
             }
-            Log.d(TAG, "clickChip: option : $option")
             setData()
         }
     }
@@ -58,7 +76,92 @@ class NotificationActivity :
         }
     }
 
+    private fun clickItemMore() {
+        notificationAdapter.setItemMoreClickListner(object :
+            NotificationRvAdapter.OnItemMoreClickListener {
+            override fun onMoreClick(v: View, position: Int) {
+                val dataMore = notificationViewModel.contentsList.value?.get(position)?.let {
+                    ContentsMoreData(
+                        it.id,
+                        it.image,
+                        it.title,
+                        it.createdAt,
+                        it.url,
+                        true,
+                        it.notificationTime
+                    )
+                }
+
+                // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
+                val removeItem: (Int) -> Unit = {
+                    val list =
+                        notificationAdapter.contentsList.toMutableList() // mutable로 해주어야 삭제(수정) 가능
+                    list.removeAt(it)
+                    // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
+                    notificationViewModel.updateContentsList(list)
+                }
+
+                val bundle = setBundle(dataMore, removeItem, position)
+                val dialog = ContentsMoreFragment()
+                dialog.arguments = bundle
+                dialog.show(supportFragmentManager, "setting")
+            }
+        })
+    }
+
+    // ContentsMoreFragment에 보낼 bundle 생성
+    private fun setBundle(
+        dataMore: ContentsMoreData?,
+        removeItem: (Int) -> Unit,
+        position: Int
+    ): Bundle {
+        val bundle = Bundle()
+        bundle.putSerializable(ContentsMoreFragment.CONTENTS_MORE_DATA, dataMore)
+        bundle.putSerializable(ContentsMoreFragment.REMOVE_ITEM, removeItem as Serializable)
+        bundle.putInt(ContentsMoreFragment.POSITION, position)
+        return bundle
+    }
+
+    private fun clickItemHavit() {
+        notificationAdapter.setHavitClickListener(object :
+            NotificationRvAdapter.OnItemHavitClickListener {
+            override fun onHavitClick(v: ImageView, position: Int) {
+                with(notificationAdapter) {
+                    // 보지 않은 콘텐츠의 경우 콘텐츠 봤다는 토스트 띄움
+                    var isSeen = contentsList[position].isSeen
+                    if (!isSeen) {
+                        CustomToast.showDesignatedToast(
+                            this@NotificationActivity,
+                            R.layout.toast_havit_complete
+                        )
+                    }
+
+                    isSeen = !isSeen
+                    contentsList[position].isSeen = isSeen
+                    notificationViewModel.setIsSeen(contentsList[position].id)
+                    v.setImageResource(if (isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
+                }
+            }
+        })
+    }
+
+    private fun clickItemView() {
+        notificationAdapter.setItemClickListener(object :
+            NotificationRvAdapter.OnItemClickListener {
+            override fun onWebClick(v: View, position: Int) {
+                val intent = Intent(v.context, WebActivity::class.java)
+                notificationViewModel.contentsList.value?.get(position)?.let {
+                    intent.putExtra("url", it.url)
+                    intent.putExtra("contentsId", it.id)
+                    intent.putExtra("isSeen", it.isSeen)
+                }
+                startActivity(intent)
+            }
+        })
+    }
+
     private fun setData() {
+        binding.option = option
         notificationViewModel.requestContentsTaken(option)
     }
 
@@ -66,6 +169,7 @@ class NotificationActivity :
         with(notificationViewModel) {
             binding.lifecycleOwner?.let { it ->
                 contentsList.observe(it) { data ->
+                    Log.d(TAG, "dataObserve: ")
                     setContent(data)
                 }
             }
@@ -74,15 +178,15 @@ class NotificationActivity :
 
     private fun setContent(data: List<NotificationResponse.NotificationData>) {
         if (data.isEmpty()) {
-
+            binding.isEmpty = true
         } else {
-            notificationAdapter.contentsList.clear()
-            notificationAdapter.contentsList.addAll(data)
-            notificationAdapter.notifyDataSetChanged()
+            binding.isEmpty = false
+            notificationAdapter.updateList(data)
         }
     }
 
     companion object {
         const val TAG = "NOTIFICATION_ACTIVITY"
+        var option = "before"
     }
 }

@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.remote.ContentsHavitRequest
+import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.data.remote.NotificationResponse
 import org.sopt.havit.util.MySharedPreference
 
@@ -27,5 +29,23 @@ class NotificationViewModel(context: Context) : ViewModel() {
             } catch (e: Exception) {
             }
         }
+    }
+
+    private val _isSeen = MutableLiveData<Boolean>()
+    val isSeen: LiveData<Boolean> = _isSeen
+    fun setIsSeen(contentsId: Int) {
+        viewModelScope.launch {
+            try {
+                val response =
+                    RetrofitObject.provideHavitApi(token)
+                        .isHavit(ContentsHavitRequest(contentsId))
+                _isSeen.postValue(response.data.isSeen)
+            } catch (e: Exception) {
+            }
+        }
+    }
+
+    fun updateContentsList(list: List<NotificationResponse.NotificationData>) {
+        _contentsList.value = list
     }
 }

@@ -5,7 +5,9 @@
 
     <data>
 
-        <import type="android.view.View" />
+        <variable
+            name="option"
+            type="String" />
 
         <variable
             name="content"
@@ -14,19 +16,31 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp">
 
         <TextView
             android:id="@+id/tv_notification_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="@{content.notificationTime}"
+            android:text="@{content.notificationTime + ` `}"
             android:textAppearance="@style/Text12Semibold"
-            android:textColor="@color/purple_main"
+            android:textColor="@{option==`after`? @color/gray_3 : @color/purple_main, default=@color/purple_main}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="2021.11.17 오전 12:30" />
+            tools:text="2021.11.17 오전 12:30 " />
+
+        <TextView
+            android:id="@+id/tv_notification_time_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{option==`after`? @string/notification_complete : @string/notification_will_alarm, default=@string/notification_will_alarm}"
+            android:textAppearance="@style/Text12Semibold"
+            android:textColor="@{option==`after`? @color/gray_3 : @color/purple_main, default=@color/purple_main}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_notification_time"
+            app:layout_constraintStart_toEndOf="@id/tv_notification_time"
+            app:layout_constraintTop_toTopOf="@id/tv_notification_time" />
 
         <FrameLayout
             android:id="@+id/fl_image"
@@ -50,7 +64,7 @@
                 android:id="@+id/iv_alarm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_alarmtag_purple" />
+                android:src="@{option==`after`? @drawable/ic_alarmtag_gray_inactive : @drawable/ic_alarmtag_purple, default=@drawable/ic_alarmtag_purple}" />
         </FrameLayout>
 
         <TextView
@@ -123,8 +137,7 @@
             android:id="@+id/iv_havit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_contents_unread"
-            android:tag="unseen"
+            android:src="@{content.isSeen ? @drawable/ic_contents_read_2 : @drawable/ic_contents_unread, default=@drawable/ic_contents_read_2}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
