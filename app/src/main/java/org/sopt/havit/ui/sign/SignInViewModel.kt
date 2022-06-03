@@ -43,7 +43,7 @@ class SignInViewModel @Inject constructor(
 
     var nickName = MutableLiveData<String>()
 
-     var _havitUser = MutableLiveData<SignUpRequest>()
+    var _havitUser = MutableLiveData<SignUpRequest>()
 
     var isAllCheck = MutableLiveData(false)
     var isTosUseCheck = MutableLiveData(false)
