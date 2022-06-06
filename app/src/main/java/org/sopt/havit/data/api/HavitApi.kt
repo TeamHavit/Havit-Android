@@ -61,13 +61,13 @@ interface HavitApi {
 
     @PATCH("category/order")
     suspend fun modifyCategoryOrder(
-        @Body body : CategoryOrderRequest
+        @Body body: CategoryOrderRequest
     ): BasicResponse
 
     @PATCH("category/{categoryId}")
     suspend fun modifyCategoryContent(
         @Path("categoryId") categoryId: Int,
-        @Body body : CategoryModifyRequest
+        @Body body: CategoryModifyRequest
     ): BasicResponse
 
     @GET("content?option=&filter=")
@@ -83,4 +83,15 @@ interface HavitApi {
     suspend fun deleteContents(
         @Path("contentId") contentId: Int
     ): BasicResponse
+
+    @POST("auth/signin")
+    suspend fun postSignIn(
+        @Body body: SignInRequest
+    ): SignInResponse
+
+
+    @POST("auth/signup")
+    suspend fun postSignUp(
+        @Body body: SignUpRequest
+    ): SignUpResponse
 }

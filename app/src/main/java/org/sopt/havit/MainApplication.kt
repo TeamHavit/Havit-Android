@@ -10,7 +10,7 @@ class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        KakaoSdk.init(this, "6069fb41c205cbbf8f213b32eec7f2c8")
+        KakaoSdk.init(this, getString(R.string.kakao_app_key))
 
     }
 

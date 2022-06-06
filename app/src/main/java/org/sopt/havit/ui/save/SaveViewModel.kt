@@ -9,7 +9,7 @@ class SaveViewModel : ViewModel() {
     var clipDataUrl = MutableLiveData("")
     var saveDataUrl = MutableLiveData("")
 
-    fun setUrlData(url: String){
+    fun setUrlData(url: String) {
         clipDataUrl.value = url
         saveDataUrl.value = url
     }

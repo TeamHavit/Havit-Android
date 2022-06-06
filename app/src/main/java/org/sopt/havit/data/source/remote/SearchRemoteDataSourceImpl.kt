@@ -1,4 +1,4 @@
-package org.sopt.havit.data.source
+package org.sopt.havit.data.source.remote
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

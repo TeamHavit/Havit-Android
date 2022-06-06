@@ -12,7 +12,7 @@ import java.util.*
 
 class CategoryOrderModifyAdapter :
     RecyclerView.Adapter<CategoryOrderModifyAdapter.CategoryOrderModifyViewHolder>() {
-    val categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
+    var categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
     private lateinit var itemClickListener: OnItemClickListener
 
     fun removeData(position: Int) {

@@ -81,6 +81,7 @@
             app:layout_constraintTop_toBottomOf="@+id/view_tos" />
 
         <TextView
+            android:id="@+id/tv_policy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -102,6 +103,7 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_tos_use" />
 
         <TextView
+            android:id="@+id/tv_personal_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"

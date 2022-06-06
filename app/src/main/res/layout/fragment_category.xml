@@ -92,6 +92,7 @@
                 android:text="@string/category_entire"
                 android:textAppearance="@style/Sub13Regular"
                 android:textColor="#696969"
+                android:visibility="@{categoryCount &lt; 0 ? View.GONE : View.VISIBLE, default = gone}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -101,13 +102,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
-                android:text="@{categoryCount != -1 ? String.valueOf(categoryCount) : ``}"
+                android:text="@{String.valueOf(categoryCount)}"
                 android:textAppearance="@style/Sub13Regular"
                 android:textColor="#696969"
+                android:visibility="@{categoryCount &lt; 0 ? View.GONE : View.VISIBLE, default = gone}"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_entire"
                 app:layout_constraintStart_toEndOf="@+id/tv_entire"
                 app:layout_constraintTop_toTopOf="@+id/tv_entire"
                 tools:text="0" />
+
+            <!-- 카테고리 개수 로딩 중 -->
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/sfl_count"
+                android:layout_width="56dp"
+                android:layout_height="0dp"
+                android:layout_marginVertical="10dp"
+                android:layout_marginStart="16dp"
+                android:visibility="@{categoryCount &lt; 0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rectangle_gray_0_radius_6" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_add"
@@ -156,7 +176,7 @@
             android:descendantFocusability="blocksDescendants"
             android:paddingTop="6dp"
             android:paddingBottom="?attr/actionBarSize"
-            android:visibility="@{categoryCount == 0 ? View.GONE : View.VISIBLE, default = gone}"
+            android:visibility="@{categoryCount > 0 ? View.VISIBLE : View.GONE, default = gone}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -227,5 +247,47 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- 로딩 중 -->
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/sfl_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{categoryCount &lt; 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_middle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/item_category_skeleton" />
+
+                <include layout="@layout/item_category_skeleton" />
+
+                <include layout="@layout/item_category_skeleton" />
+
+                <include layout="@layout/item_category_skeleton" />
+
+                <include layout="@layout/item_category_skeleton" />
+
+                <include layout="@layout/item_category_skeleton" />
+
+                <include layout="@layout/item_category_skeleton" />
+
+                <include layout="@layout/item_category_skeleton" />
+
+                <include layout="@layout/item_category_skeleton" />
+
+                <include layout="@layout/item_category_skeleton" />
+
+                <include layout="@layout/item_category_skeleton" />
+
+                <include layout="@layout/item_category_skeleton" />
+
+                <include layout="@layout/item_category_skeleton" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
