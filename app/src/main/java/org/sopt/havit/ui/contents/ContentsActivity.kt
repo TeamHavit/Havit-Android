@@ -17,6 +17,7 @@ import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryContentModifyActivity
 import org.sopt.havit.ui.category.CategoryFragment
 import org.sopt.havit.ui.category.CategoryViewModel
+import org.sopt.havit.ui.contents.DialogContentsFilterFragment.Companion.CONTENTS_FILTER
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
@@ -187,7 +188,12 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     // 최신순, 과거순, 최근 조회순 다이얼로그별 화면 설정
     private fun setOrderDialog() {
         binding.clOrder.setOnClickListener {
-            val dialog = DialogContentsFilterFragment(contentsFilter)
+            val dialog = DialogContentsFilterFragment().apply {
+                arguments = Bundle().apply {
+                    Log.d("contentsFilter1", "$contentsFilter")
+                    putString(CONTENTS_FILTER, contentsFilter)
+                }
+            }
             dialog.show(supportFragmentManager, "contentsOrder")
 
             // 순서 클릭 시 이벤트 정의
