@@ -10,8 +10,9 @@ import org.sopt.havit.data.remote.ModifyTitleParams
 import org.sopt.havit.util.Event
 
 class EditTitleFromMoreViewModel : ViewModel() {
-    // TODO sharedActivity 에도 ViewModel 만들기
-    //  & token 거지같은 로직 바꾸기
+    // TODO
+    //  1) sharedActivity 에도 ViewModel 만들기
+    //  2) token 거지같은 로직 바꾸기 -> 나영아 도와줘!!!!!
     val token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlkRmlyZWJhc2UiOiJrYWthbzp0ZW1wIiwiaWF0IjoxNjUxNzcwNTIzLCJleHAiOjE2NjA0MTA1MjMsImlzcyI6Imhhdml0In0.GyGJ_OTJc1cbvXS12VsTSn_hqFLPr_3gNOz3YufMI_A"
     var contentsId = MutableLiveData<Int>()
