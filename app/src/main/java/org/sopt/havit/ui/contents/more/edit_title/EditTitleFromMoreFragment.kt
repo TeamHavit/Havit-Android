@@ -45,11 +45,13 @@ class EditTitleFromMoreFragment :
 
     private fun initCompleteBtnClick() {
         binding.tvComplete.setOnClickListener {
-            viewModel.patchNewTitle()
-            viewModel.isNetworkCorrespondenceEnd.observe(
-                requireActivity(),
-                EventObserver { bottomSheetDialogFragment.dismiss() }
-            )
+            if (viewModel.isTitleModified()) {
+                viewModel.patchNewTitle()
+                viewModel.isNetworkCorrespondenceEnd.observe(
+                    requireActivity(),
+                    EventObserver { bottomSheetDialogFragment.dismiss() }
+                )
+            } else bottomSheetDialogFragment.dismiss()
         }
     }
 

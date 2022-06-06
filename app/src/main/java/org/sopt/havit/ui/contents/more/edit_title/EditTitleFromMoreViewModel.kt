@@ -1,6 +1,5 @@
 package org.sopt.havit.ui.contents.more.edit_title
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,19 +21,15 @@ class EditTitleFromMoreViewModel : ViewModel() {
     var currTitle = MutableLiveData<String>()
 
     private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
-
-    val isNetworkCorrespondenceEnd: LiveData<Event<String>>
+    val isNetworkCorrespondenceEnd: MutableLiveData<Event<String>>
         get() = _isNetworkCorrespondenceEnd
 
-    fun userClicksOnButton(itemId: String) {
-        _isNetworkCorrespondenceEnd.value =
-            Event(itemId) // Trigger the event by setting a new Event as a new value
+    // Trigger the event by setting a new Event as a new value
+    private fun userClicksOnButton() {
+        _isNetworkCorrespondenceEnd.value = Event("Finish Server")
     }
 
-//    fun isTitleModified() {
-//        originTitle.value.toString() != currTitle.value.toString()
-//    }
-//    var isTitleModified = originTitle.value.toString() != currTitle.value.toString()
+    fun isTitleModified() = originTitle.value != currTitle.value
 
     fun initProperty(contentsMoreData: ContentsMoreData) {
         contentsId.value = contentsMoreData.id
@@ -49,9 +44,7 @@ class EditTitleFromMoreViewModel : ViewModel() {
                     requireNotNull(contentsId.value),
                     ModifyTitleParams(requireNotNull(currTitle.value))
                 )
-            }.run {
-                userClicksOnButton("endServer")
-            }
+            }.run { userClicksOnButton() }
         }
     }
 }
