@@ -2,51 +2,37 @@ package org.sopt.havit.ui.contents.more.edit_title
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentEditTitleBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.CONTENTS_DATA
+import org.sopt.havit.util.EventObserver
 
 class EditTitleFromMoreFragment :
     BaseBindingFragment<FragmentEditTitleBinding>(R.layout.fragment_edit_title) {
-    var contents: ContentsMoreData? = null
+    private val viewModel: EditTitleFromMoreViewModel by viewModels()
     private lateinit var bottomSheetDialogFragment: BottomSheetDialogFragment
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        getBundleData()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.viewModel = viewModel
+        viewModel.initProperty(getBundleData() as ContentsMoreData)
         setBackButtonInvisible()
         initCompleteBtnClick()
         initBottomSheetDialogFragment()
         setKeyBoardUp()
-        setOriginTitle()
         setCursor()
     }
 
-    private fun getBundleData() {
-        arguments?.let {
-            contents = it.getParcelable(CONTENTS_DATA)
-        }
-    }
-
-    private fun setOriginTitle() {
-        val originTitle = contents?.title
-        binding.etTitle.setText(originTitle)
-    }
-
-    private fun setCursor() {
-        binding.etTitle.post {
-            binding.etTitle.requestFocus()
-            binding.etTitle.setSelection(contents?.title?.length ?: 0)
-        }
+    private fun getBundleData(): Parcelable? {
+        arguments?.let { return it.getParcelable(CONTENTS_DATA) }
+        throw IllegalArgumentException()
     }
 
     private fun initBottomSheetDialogFragment() {
@@ -54,19 +40,18 @@ class EditTitleFromMoreFragment :
     }
 
     private fun setBackButtonInvisible() {
-        binding.icBack.visibility = View.INVISIBLE
+        binding.icBack.visibility = View.GONE
     }
 
     private fun initCompleteBtnClick() {
         binding.tvComplete.setOnClickListener {
-            if (isTitleModified()) { /*서버통신 */
-            }
-            bottomSheetDialogFragment.dismiss()
+            viewModel.patchNewTitle()
+            viewModel.isNetworkCorrespondenceEnd.observe(
+                requireActivity(),
+                EventObserver { bottomSheetDialogFragment.dismiss() }
+            )
         }
     }
-
-    private fun isTitleModified() =
-        binding.etTitle.text.toString() != (contents?.title ?: throw IllegalArgumentException())
 
     private fun setKeyBoardUp() {
         bottomSheetDialogFragment.dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
@@ -74,6 +59,17 @@ class EditTitleFromMoreFragment :
             val imm =
                 requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+        }
+    }
+
+    private fun setCursor() {
+        binding.etTitle.post {
+            if (viewModel.originTitle.value != null) {
+                binding.etTitle.requestFocus()
+                binding.etTitle.setSelection(
+                    viewModel.originTitle.value?.length!!
+                )
+            }
         }
     }
 }
