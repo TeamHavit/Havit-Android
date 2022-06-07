@@ -43,7 +43,7 @@ class SignInViewModel @Inject constructor(
 
     var nickName = MutableLiveData<String>()
 
-    private var _havitUser = MutableLiveData<SignUpRequest>()
+    var _havitUser = MutableLiveData<SignUpRequest>()
 
     var isAllCheck = MutableLiveData(false)
     var isTosUseCheck = MutableLiveData(false)
@@ -92,7 +92,7 @@ class SignInViewModel @Inject constructor(
             kotlin.runCatching {
                 authRepository.postSignUp(
                     requireNotNull(_havitUser.value?.email),
-                    requireNotNull(_havitUser.value?.nickname),
+                    requireNotNull(nickName.value),
                     requireNotNull(_havitUser.value?.age),
                     requireNotNull(_havitUser.value?.gender),
                     requireNotNull(_fcmToken.value),
@@ -144,17 +144,16 @@ class SignInViewModel @Inject constructor(
 
     fun setTosUseCheck() {
         isTosUseCheck.value = !isTosUseCheck.value!!
-        isNextClick.value = isTosUseCheck.value != false
+        isNextClick.value = isTosUseCheck.value == true && isTosInfoCheck.value == true
     }
 
     fun setTosInfoCheck() {
         isTosInfoCheck.value = !isTosInfoCheck.value!!
-        isNextClick.value = isTosInfoCheck.value != false
+        isNextClick.value = isTosUseCheck.value == true && isTosInfoCheck.value == true
     }
 
     fun setTosEventCheck() {
         isTosEventCheck.value = !isTosEventCheck.value!!
-        isNextClick.value = isTosEventCheck.value != false
     }
 
     fun setNickName(name: String) {
