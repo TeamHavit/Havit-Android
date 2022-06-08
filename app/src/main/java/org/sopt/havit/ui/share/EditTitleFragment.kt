@@ -29,6 +29,14 @@ class EditTitleFragment : Fragment(), OnBackPressedHandler {
         setOriginTitle()
         setKeyBoardUp()
         initClickListener()
+        setCursor()
+    }
+
+    private fun setCursor() {
+        binding.etTitle.post {
+            binding.etTitle.requestFocus()
+            binding.etTitle.setSelection(args.contentsOriginTitle.length)
+        }
     }
 
     private fun setOriginTitle() = binding.etTitle.setText(args.contentsOriginTitle)
