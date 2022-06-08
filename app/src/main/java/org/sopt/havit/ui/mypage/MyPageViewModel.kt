@@ -25,11 +25,12 @@ class MyPageViewModel @Inject constructor(private val myPageRepository: MyPageRe
 
     fun requestUserInfo() {
         viewModelScope.launch {
-            try {
-                val response = myPageRepository.getUserInfo()
-                _user.postValue(response)
-                _rate.postValue((response.totalSeenContentNumber.toDouble() / response.totalContentNumber.toDouble() * 100).toInt())
-            } catch (e: Exception) {
+            kotlin.runCatching {
+                myPageRepository.getUserInfo()
+            }.onSuccess {
+                _user.postValue(it)
+                _rate.postValue((it.totalSeenContentNumber.toDouble() / it.totalContentNumber.toDouble() * 100).toInt())
+            }.onFailure {
                 _rate.postValue(0)
             }
         }

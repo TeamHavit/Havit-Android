@@ -86,6 +86,14 @@
         <item name="android:lineSpacingExtra">5sp</item>
     </style>
 
+    <style name="Text27Medium">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">27sp</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+    </style>
+
     <style name="Light20">
         <item name="android:fontFamily">@font/pretendard_light</item>
         <item name="android:textStyle">normal</item>
@@ -237,6 +245,14 @@
 
     <style name="Text12Semibold">
         <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">-0.012</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+    </style>
+
+    <style name="Text12Regular">
+        <item name="android:fontFamily">@font/pretendard</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">12sp</item>
         <item name="android:letterSpacing">-0.012</item>

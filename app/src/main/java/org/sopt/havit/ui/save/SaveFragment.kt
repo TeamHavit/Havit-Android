@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -22,7 +22,6 @@ import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.KeyBoardUtil.openKeyBoard
 import java.net.URL
 
-
 class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentSaveBinding
@@ -31,32 +30,35 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     }
     private val clipData by lazy {
-        clipboard.primaryClip?.let {
-            it.getItemAt(0).text.toString().trim()
-        }
+        clipboard.primaryClip?.getItemAt(0)?.text?.toString()?.trim()
     }
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_save, container, false)
-        binding.vm = saveViewModel
-        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.vm = saveViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         setBottomSheetShow()
         setClipBoardUrl()
         setListeners()
-        getKeyBoardHeight()
-        setOpenKeyBoard()
+        setDialogKeyBoard()
     }
 
+    private fun setDialogKeyBoard() {
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        dialog?.setOnShowListener {
+            setOpenKeyBoard()
+            getKeyBoardHeight()
+        }
+    }
 
     private fun setClipBoardUrl() {
         if (clipboard.hasPrimaryClip()) { // 클립보드에 내용이 있으면 팝업을 보여줌.
@@ -91,20 +93,33 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
 
     private fun setBottomSheetShow() {
         (dialog as BottomSheetDialog).behavior.apply {
-            state = BottomSheetBehavior.STATE_EXPANDED      // 높이 고정
-            skipCollapsed = true                            // HALF_EXPANDED 안되게 설정
+            state = BottomSheetBehavior.STATE_EXPANDED // 높이 고정
+            skipCollapsed = true // HALF_EXPANDED 안되게 설정
         }
         binding.clSaveBottom.layoutParams.height =
             (resources.displayMetrics.heightPixels * 0.94).toInt()
     }
 
-    private fun setOpenKeyBoard() { openKeyBoard(requireContext(), binding.etSaveUrl) }
+    private fun setOpenKeyBoard() {
+        openKeyBoard(requireContext(), binding.etSaveUrl)
+    }
 
-    private fun hideKeyBoard() { KeyBoardUtil.hideKeyBoard(requireActivity()) }
+    private fun hideKeyBoard() {
+        KeyBoardUtil.hideKeyBoard(requireActivity())
+    }
+
+    private fun startShareActivity() {
+        val intent = Intent(requireContext(), ShareActivity::class.java).apply {
+            putExtra("url", binding.etSaveUrl.text.toString())
+        }
+        startActivity(intent)
+    }
 
     private fun setListeners() {
         binding.clPasteClipBoard.setOnClickListener { // url 붙여넣기 팝업 클릭시 editText에 url 보여주기
             saveViewModel.setUrlData(clipData!!)
+            binding.etSaveUrl.setText(clipData)
+            binding.etSaveUrl.setSelection(clipData!!.length)
         }
         binding.btnSaveClose.setOnClickListener {
             hideKeyBoard()
@@ -112,28 +127,16 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         }
         binding.btnSaveNext.setOnClickListener {
             if (isFullPath(binding.etSaveUrl.text.toString())) {
+                startShareActivity()
                 hideKeyBoard()
                 dismiss()
-                val intent = Intent(requireContext(), ShareActivity::class.java).apply {
-                    putExtra("url", binding.etSaveUrl.text.toString())
-                }
-                startActivity(intent)
-            }else {
+            } else {
                 binding.clSaveUrlValid.isVisible = true
             }
-        }
-        binding.etSaveUrl.addTextChangedListener {
-            if (it != null) binding.etSaveUrl.setSelection(it.length)
         }
     }
 
     override fun getTheme(): Int {
         return R.style.AppBottomSheetDialogTheme
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        hideKeyBoard()
-    }
-
 }

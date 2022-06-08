@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.sopt.havit.data.source.local.AuthLocalDataSourceImpl
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -19,19 +20,20 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideInterceptor() = Interceptor { chain ->
-        with(chain) {
-            proceed(
-                request()
-                    .newBuilder()
-                    .addHeader(
-                        "x-auth-token",
-                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlkRmlyZWJhc2UiOiJrYWthbzp0ZW1wIiwiaWF0IjoxNjUxNzcwNTIzLCJleHAiOjE2NjA0MTA1MjMsImlzcyI6Imhhdml0In0.GyGJ_OTJc1cbvXS12VsTSn_hqFLPr_3gNOz3YufMI_A"
-                    )
-                    .build()
-            )
+    fun provideInterceptor(authLocalDataSourceImpl: AuthLocalDataSourceImpl) =
+        Interceptor { chain ->
+            with(chain) {
+                proceed(
+                    request()
+                        .newBuilder()
+                        .addHeader(
+                            "x-auth-token",
+                            authLocalDataSourceImpl.getAccessToken()
+                        )
+                        .build()
+                )
+            }
         }
-    }
 
     @Provides
     @Singleton
@@ -61,7 +63,5 @@ object RetrofitModule {
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
 
-
     private const val baseUrl = "https://asia-northeast3-havit-wesopt29.cloudfunctions.net/api/"
-
 }

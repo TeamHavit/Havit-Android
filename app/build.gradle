@@ -38,6 +38,10 @@ android {
         viewBinding true
         dataBinding true
     }
+
+    androidExtensions{
+        experimental = true
+    }
 }
 
 dependencies {

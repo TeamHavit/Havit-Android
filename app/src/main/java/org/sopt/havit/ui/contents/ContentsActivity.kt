@@ -15,6 +15,8 @@ import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.ActivityContentsBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryContentModifyActivity
+import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_DELETE_CATEGORY
+import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_MODIFY_CATEGORY
 import org.sopt.havit.ui.category.CategoryFragment
 import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.ui.save.SaveFragment
@@ -192,25 +194,25 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
             // 순서 클릭 시 이벤트 정의
             dialog.setFilterClickListener(object :
-                DialogContentsFilterFragment.OnFilterClickListener {
-                override fun onClick(filter: String) {
-                    contentsFilter = filter
-                    binding.tvOrder.text = when (filter) {
-                        "created_at" -> "최신순"
-                        "reverse" -> "과거순"
-                        else -> "최근 조회순"
+                    DialogContentsFilterFragment.OnFilterClickListener {
+                    override fun onClick(filter: String) {
+                        contentsFilter = filter
+                        binding.tvOrder.text = when (filter) {
+                            "created_at" -> "최신순"
+                            "reverse" -> "과거순"
+                            else -> "최근 조회순"
+                        }
+                        // 서버 호출
+                        setContentsData()
+                        dialog.dismiss()
                     }
-                    // 서버 호출
-                    setContentsData()
-                    dialog.dismiss()
-                }
-            })
+                })
         }
     }
 
     private fun setCategoryListDialog() {
         binding.clCategory.setOnClickListener {
-            DialogContentsCategoryFragment(contentsCategoryList, categoryName, categoryId).show(
+            DialogContentsCategoryFragment(contentsCategoryList, categoryId).show(
                 supportFragmentManager,
                 "categoryList"
             )
@@ -220,7 +222,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun moveSearch() {
         binding.clSearch.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
-            intent.putExtra(CategoryFragment.CATEGORY_NAME, "${contentsViewModel.categoryName.value}")
+            intent.putExtra(
+                CategoryFragment.CATEGORY_NAME,
+                "${contentsViewModel.categoryName.value}"
+            )
             startActivity(intent)
         }
     }
@@ -316,13 +321,14 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun getModifyData() {
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             when (it.resultCode) {
-                RESULT_OK -> { // 삭제
+                RESULT_DELETE_CATEGORY -> { // 삭제
                     finish()
                 }
-                RESULT_FIRST_USER -> { // 카테고리 이름 & 아이콘 수정
+                RESULT_MODIFY_CATEGORY -> { // 카테고리 이름 & 아이콘 수정
                     // 수정할 카테고리의 정보를 받아옴
                     categoryName = it.data?.getStringExtra(CategoryFragment.CATEGORY_NAME) ?: "null"
-                    categoryIconId = it.data?.getIntExtra(CategoryFragment.CATEGORY_IMAGE_ID, 0) ?: 0
+                    categoryIconId =
+                        it.data?.getIntExtra(CategoryFragment.CATEGORY_IMAGE_ID, 0) ?: 0
                     contentsCategoryList[categoryPosition].apply {
                         title = categoryName
                         imageId = categoryIconId

@@ -1,7 +1,6 @@
 package org.sopt.havit
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -10,7 +9,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.ActivityMainBinding
 import org.sopt.havit.ui.save.SaveFragment
-import org.sopt.havit.util.MySharedPreference
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -27,8 +25,6 @@ class MainActivity : AppCompatActivity() {
 
         setBottomNavi()
         setListeners()
-        setToken()
-
     }
 
     private fun setBottomNavi() {
@@ -44,12 +40,6 @@ class MainActivity : AppCompatActivity() {
         binding.floatingSave.bringToFront()
         binding.floatingSave.setOnClickListener {
             SaveFragment("").show(supportFragmentManager, "save")
-        }
-    }
-
-    private fun setToken() {
-        if (MySharedPreference.getXAuthToken(this) == "") {
-            MySharedPreference.setXAuthToken(this)
         }
     }
 }

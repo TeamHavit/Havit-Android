@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.sopt.havit.R
+import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentCategoryBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsActivity
@@ -18,7 +19,8 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(requireContext()) }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -35,9 +37,14 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         setData()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d("onViewCreatedStart", "okay")
     }
 
     override fun onDestroyView() {
@@ -63,7 +70,16 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                 categoryAdapter.notifyDataSetChanged()
             }
             categoryCount.observe(viewLifecycleOwner) {
-                binding.categoryCount = it
+                with(binding) {
+                    if (it < 0) {
+                        sflCategory.startShimmer()
+                        sflCount.startShimmer()
+                    } else {
+                        sflCategory.stopShimmer()
+                        sflCount.stopShimmer()
+                    }
+                    categoryCount = it
+                }
             }
         }
     }
@@ -71,6 +87,9 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     private fun moveManage() {
         binding.tvModify.setOnClickListener {
             val intent = Intent(activity, CategoryOrderModifyActivity::class.java)
+            val categoryItemList: ArrayList<CategoryResponse.AllCategoryData> =
+                categoryAdapter.categoryList as ArrayList<CategoryResponse.AllCategoryData>
+            intent.putParcelableArrayListExtra("categoryItemList", categoryItemList)
             startActivity(intent)
         }
     }
@@ -82,7 +101,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
             binding.ivBack.setOnClickListener {
                 requireActivity().finish()
             }
-        } else {  // MainActivity
+        } else { // MainActivity
             binding.ivBack.visibility = View.GONE
             Log.d("activity_check", "Main")
         }
@@ -96,8 +115,8 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                     ?.let {
                         intent.putExtra(CATEGORY_ID, it.id)
                         intent.putExtra(CATEGORY_NAME, it.title)
-                        intent.putExtra(CATEGORY_POSITION, it.imageId)
-                        intent.putExtra(CATEGORY_IMAGE_ID, position)
+                        intent.putExtra(CATEGORY_POSITION, position)
+                        intent.putExtra(CATEGORY_IMAGE_ID, it.imageId)
                     }
                 startActivity(intent)
             }

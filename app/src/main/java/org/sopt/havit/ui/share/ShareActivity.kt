@@ -13,7 +13,6 @@ class ShareActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityShareBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setToken()
         initView()
     }
 
@@ -26,18 +25,11 @@ class ShareActivity : AppCompatActivity() {
     }
 
     private fun moveToLogin() {
-
     }
 
     private fun startShareProcess() {
         val bottomSheet = BottomSheetShareFragment()
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
-    }
-
-    private fun setToken() {
-        if (MySharedPreference.getXAuthToken(this) == "") {
-            MySharedPreference.setXAuthToken(this)
-        }
     }
 
     private fun hadLogin(): Boolean {

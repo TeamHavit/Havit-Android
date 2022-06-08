@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryOrderModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
-
+import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_DELETE_CATEGORY
+import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_MODIFY_CATEGORY
+import org.sopt.havit.util.DialogUtil
 
 class CategoryOrderModifyActivity :
     BaseBindingActivity<ActivityCategoryOrderModifyBinding>(R.layout.activity_category_order_modify) {
@@ -21,18 +23,29 @@ class CategoryOrderModifyActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding.categoryViewModel = categoryViewModel
         setContentView(binding.root)
 
         initAdapter()
         setResult()
         clickItem()
-        requestServer()
+        setCategoryItemListData()
         clickBack()
         initDrag()
-        dataObserve()
         setCompleteOrder()
+    }
+
+    override fun onBackPressed() {
+        setBackDialog()
+    }
+
+    // 뒤로가기 시 뜨는 dialog
+    private fun setBackDialog() {
+        val dialog = DialogUtil(DialogUtil.CANCEL_EDIT_CATEGORY, ::setFinish)
+        dialog.show(supportFragmentManager, this.javaClass.name)
+    }
+
+    private fun setFinish() {
+        finish()
     }
 
     private fun initAdapter() {
@@ -40,31 +53,24 @@ class CategoryOrderModifyActivity :
         binding.rvContents.adapter = categoryOrderModifyAdapter
     }
 
-    private fun requestServer() {
-        categoryViewModel.requestCategoryTaken()
-    }
-
-    private fun dataObserve() {
-        with(categoryViewModel) {
-            categoryList.observe(this@CategoryOrderModifyActivity) {
-                categoryOrderModifyAdapter.categoryList.addAll(it)
-                categoryOrderModifyAdapter.notifyDataSetChanged()
-            }
-        }
+    private fun setCategoryItemListData() {
+        categoryOrderModifyAdapter.categoryList =
+            intent.getParcelableArrayListExtra("categoryItemList")!!
+        categoryOrderModifyAdapter.notifyDataSetChanged()
     }
 
     private fun setResult() {
         // 데이터 받아옴 (카테고리 내용 수정 뷰에서)
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             when (it.resultCode) {
-                RESULT_OK -> { // 삭제
+                RESULT_DELETE_CATEGORY -> { // 삭제
                     // 삭제할 카테고리의 정보를 받아옴
                     val position = it.data?.getIntExtra("position", 0) ?: 0
 
                     // 리사이클러뷰 변경
                     categoryOrderModifyAdapter.removeData(position)
                 }
-                RESULT_FIRST_USER -> { // 카테고리 이름 & 아이콘 수정
+                RESULT_MODIFY_CATEGORY -> { // 카테고리 이름 & 아이콘 수정
                     // 수정할 카테고리의 정보를 받아옴
                     val position = it.data?.getIntExtra("position", 0) ?: 0
                     val name = it.data?.getStringExtra("categoryName") ?: "null"
@@ -74,7 +80,8 @@ class CategoryOrderModifyActivity :
                     with(categoryOrderModifyAdapter.categoryList[position]) {
                         title = name
                         imageId = image
-                        url = "https://havit-bucket.s3.ap-northeast-2.amazonaws.com/category_image/3d_icon_${image}.png"
+                        url =
+                            "https://havit-bucket.s3.ap-northeast-2.amazonaws.com/category_image/3d_icon_$image.png"
                     }
                     categoryOrderModifyAdapter.notifyItemChanged(position)
                 }
@@ -84,38 +91,37 @@ class CategoryOrderModifyActivity :
 
     private fun clickItem() {
         categoryOrderModifyAdapter.setItemClickListener(object :
-            CategoryOrderModifyAdapter.OnItemClickListener {
-            override fun onClick(v: View, position: Int) {
-                // 카테고리 이름 list
-                val categoryTitleList = ArrayList<String>()
-                for (item in categoryOrderModifyAdapter.categoryList)
-                    categoryTitleList.add(item.title)
+                CategoryOrderModifyAdapter.OnItemClickListener {
+                override fun onClick(v: View, position: Int) {
+                    // 카테고리 이름 list
+                    val categoryTitleList = ArrayList<String>()
+                    for (item in categoryOrderModifyAdapter.categoryList)
+                        categoryTitleList.add(item.title)
 
-                val intent = Intent(v.context, CategoryContentModifyActivity::class.java).apply {
-                    categoryOrderModifyAdapter.categoryList[position].let {
-                        putExtra("categoryId", it.id)
-                        putExtra("categoryName", it.title)
-                        putExtra("imageId", it.imageId)
+                    val intent = Intent(v.context, CategoryContentModifyActivity::class.java).apply {
+                        categoryOrderModifyAdapter.categoryList[position].let {
+                            putExtra("categoryId", it.id)
+                            putExtra("categoryName", it.title)
+                            putExtra("imageId", it.imageId)
+                        }
+                        putExtra("position", position)
+                        putStringArrayListExtra("categoryNameList", categoryTitleList)
+                        putExtra("preActivity", "CategoryOrderModifyActivity")
                     }
-                    putExtra("position", position)
-                    putStringArrayListExtra("categoryNameList", categoryTitleList)
-                    putExtra("preActivity", "CategoryOrderModifyActivity")
-                }
 
-                // 데이터를 담고 전달
-                getResult.launch(intent)
-            }
-        })
+                    // 데이터를 담고 전달
+                    getResult.launch(intent)
+                }
+            })
     }
 
     private fun clickBack() {
-        binding.ivBack.setOnClickListener { finish() }
+        binding.ivBack.setOnClickListener { setBackDialog() }
     }
 
     // drag & drop 코드
     private fun initDrag() {
-        val itemTouchCallback = object : ItemTouchHelper.Callback(
-        ) {
+        val itemTouchCallback = object : ItemTouchHelper.Callback() {
             override fun getMovementFlags(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder

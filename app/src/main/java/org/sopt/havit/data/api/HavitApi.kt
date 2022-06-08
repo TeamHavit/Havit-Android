@@ -88,4 +88,14 @@ interface HavitApi {
         @Path("contentId") contentId: Int,
         @Body body: ModifyTitleParams
     ): BasicResponse
+
+    @POST("auth/signin")
+    suspend fun postSignIn(
+        @Body body: SignInRequest
+    ): SignInResponse
+
+    @POST("auth/signup")
+    suspend fun postSignUp(
+        @Body body: SignUpRequest
+    ): SignUpResponse
 }

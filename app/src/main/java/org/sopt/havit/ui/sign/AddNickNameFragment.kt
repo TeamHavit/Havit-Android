@@ -4,23 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentAddNickNameBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
-import kotlin.math.sign
 
+@AndroidEntryPoint
 class AddNickNameFragment :
     BaseBindingFragment<FragmentAddNickNameBinding>(R.layout.fragment_add_nick_name) {
 
     private val signInViewModel: SignInViewModel by activityViewModels()
-    private val args by navArgs<AddNickNameFragmentArgs>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -31,13 +31,13 @@ class AddNickNameFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = signInViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        setNickName()
         setTextWatcher()
         setListener()
     }
 
-    private fun setNickName() {
-        signInViewModel.setNickName(args.nickName?:"")
+    override fun onResume() {
+        super.onResume()
+        initOnBackPressed()
     }
 
     private fun setTextWatcher() {
@@ -48,14 +48,25 @@ class AddNickNameFragment :
 
     private fun setListener() {
         binding.btnNicknameNext.setOnClickListener {
-            findNavController().navigate(R.id.action_addNickNameFragment_to_addTosFragment)
+            signInViewModel.setMoveToNextOrBack(true)
         }
         binding.ivNicknameDeleteText.setOnClickListener {
             signInViewModel.setClearNickName()
         }
         binding.btnNicknameBack.setOnClickListener {
-            findNavController().popBackStack()
+            requireActivity().finish()
         }
     }
 
+    private fun initOnBackPressed() {
+        requireActivity().onBackPressedDispatcher
+            .addCallback(
+                viewLifecycleOwner,
+                object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        requireActivity().finish()
+                    }
+                }
+            )
+    }
 }

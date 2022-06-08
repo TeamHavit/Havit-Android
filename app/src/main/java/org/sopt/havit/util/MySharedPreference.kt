@@ -50,14 +50,13 @@ object MySharedPreference {
         pref.edit().clear().apply()
     }
 
-    fun setXAuthToken(context: Context) {
+    fun setXAuthToken(context: Context, xAuthToken: String) {
         val prefs: SharedPreferences =
             context.getSharedPreferences(X_AUTH_TOKEN_1, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = prefs.edit()
         editor.putString(
             X_AUTH_TOKEN_1,
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlkRmlyZWJhc2UiOiJrYWthbzp0ZW1wIiwiaWF0IjoxNjUxNzcwNTIzLCJleHAiOjE2NjA0MTA1MjMsImlzcyI6Imhhdml0In0.GyGJ_OTJc1cbvXS12VsTSn_hqFLPr_3gNOz3YufMI_A"
-//            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlkRmlyZWJhc2UiOiJrYWthbzp0ZW1wIiwiaWF0IjoxNjQ5OTEzNTg4LCJleHAiOjE2NTg1NTM1ODgsImlzcyI6Imhhdml0In0.9UMql8kK9fOlb3S2pKG-8Q_A3c8lP8-inhu2lb5L3z0" // empty token
+            xAuthToken
         )
         editor.apply()
     }
