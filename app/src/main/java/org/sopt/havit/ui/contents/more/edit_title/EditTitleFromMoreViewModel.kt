@@ -3,18 +3,21 @@ package org.sopt.havit.ui.contents.more.edit_title
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.data.remote.ModifyTitleParams
+import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.util.Event
+import javax.inject.Inject
 
-class EditTitleFromMoreViewModel : ViewModel() {
-    // TODO
-    //  1) sharedActivity 에도 ViewModel 만들기
-    //  2) token 거지같은 로직 바꾸기 -> 나영아 도와줘!!!!!
-    val token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlkRmlyZWJhc2UiOiJrYWthbzp0ZW1wIiwiaWF0IjoxNjUxNzcwNTIzLCJleHAiOjE2NjA0MTA1MjMsImlzcyI6Imhhdml0In0.GyGJ_OTJc1cbvXS12VsTSn_hqFLPr_3gNOz3YufMI_A"
+@HiltViewModel
+class EditTitleFromMoreViewModel @Inject constructor(
+    authRepository: AuthRepository
+) : ViewModel() {
+    // TODO sharedActivity 에도 ViewModel 만들기
+    val token = authRepository.getAccessToken()
     var contentsId = MutableLiveData<Int>()
         private set
     var originTitle = MutableLiveData<String>()

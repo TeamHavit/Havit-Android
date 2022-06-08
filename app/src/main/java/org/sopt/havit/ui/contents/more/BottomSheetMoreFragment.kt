@@ -10,11 +10,13 @@ import androidx.fragment.app.replace
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentBottomSheetMoreBinding
 import org.sopt.havit.ui.contents.more.edit_title.EditTitleFromMoreFragment
 
+@AndroidEntryPoint
 class BottomSheetMoreFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentBottomSheetMoreBinding? = null
     private val binding get() = _binding!!
