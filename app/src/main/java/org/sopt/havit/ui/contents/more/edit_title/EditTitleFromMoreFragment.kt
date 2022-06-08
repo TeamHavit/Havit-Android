@@ -11,14 +11,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
-import org.sopt.havit.databinding.FragmentEditTitleBinding
+import org.sopt.havit.databinding.FragmentEditTitleFromMoreBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.CONTENTS_DATA
 import org.sopt.havit.util.EventObserver
 
 @AndroidEntryPoint
 class EditTitleFromMoreFragment :
-    BaseBindingFragment<FragmentEditTitleBinding>(R.layout.fragment_edit_title) {
+    BaseBindingFragment<FragmentEditTitleFromMoreBinding>(R.layout.fragment_edit_title_from_more) {
     private val viewModel: EditTitleFromMoreViewModel by viewModels()
     private lateinit var bottomSheetDialogFragment: BottomSheetDialogFragment
 
