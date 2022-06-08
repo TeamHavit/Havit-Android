@@ -7,15 +7,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.FragmentEditTitleBinding
 import org.sopt.havit.util.*
 
+@AndroidEntryPoint
 class EditTitleFragment : Fragment(), OnBackPressedHandler {
     private var binding: FragmentEditTitleBinding by AutoClearedValue()
     private val args by navArgs<EditTitleFragmentArgs>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentEditTitleBinding.inflate(layoutInflater, container, false)
         return binding.root

@@ -16,7 +16,6 @@ import javax.inject.Inject
 class EditTitleFromMoreViewModel @Inject constructor(
     authRepository: AuthRepository
 ) : ViewModel() {
-    // TODO sharedActivity 에도 ViewModel 만들기
     val token = authRepository.getAccessToken()
     var contentsId = MutableLiveData<Int>()
         private set

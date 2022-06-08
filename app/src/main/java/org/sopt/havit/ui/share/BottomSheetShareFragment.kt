@@ -10,11 +10,13 @@ import androidx.navigation.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentBottomSheetShareBinding
 import org.sopt.havit.util.OnBackPressedHandler
 import org.sopt.havit.util.getTopmostFragmentOrNull
 
+@AndroidEntryPoint
 class BottomSheetShareFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentBottomSheetShareBinding? = null
     private val binding get() = _binding!!

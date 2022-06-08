@@ -2,9 +2,11 @@ package org.sopt.havit.ui.share
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.ActivityShareBinding
 import org.sopt.havit.util.MySharedPreference
 
+@AndroidEntryPoint
 class ShareActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityShareBinding
