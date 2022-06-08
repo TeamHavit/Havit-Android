@@ -1,7 +1,10 @@
 package org.sopt.havit.data.source.remote
 
 import org.sopt.havit.data.api.HavitApi
-import org.sopt.havit.data.remote.*
+import org.sopt.havit.data.remote.SignInRequest
+import org.sopt.havit.data.remote.SignInResponse
+import org.sopt.havit.data.remote.SignUpRequest
+import org.sopt.havit.data.remote.SignUpResponse
 import javax.inject.Inject
 
 class AuthRemoteDataSourceImpl @Inject constructor(private val api: HavitApi) :
@@ -14,7 +17,7 @@ class AuthRemoteDataSourceImpl @Inject constructor(private val api: HavitApi) :
         fcmToken: String,
         kakaoToken: String
     ): SignUpResponse {
-        return api.postSignUp(SignUpRequest(age,email,fcmToken,gender,kakaoToken,nickName))
+        return api.postSignUp(SignUpRequest(age, email, fcmToken, gender, kakaoToken, nickName))
     }
 
     override suspend fun checkNewUser(fcmToken: String, kakaoToken: String): SignInResponse {

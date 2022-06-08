@@ -50,7 +50,6 @@ class SignInViewModel @Inject constructor(
     var isTosInfoCheck = MutableLiveData(false)
     var isTosEventCheck = MutableLiveData(false)
 
-
     val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
             Log.d("TAG", "카카오계정으로 로그인 실패", error)
@@ -117,7 +116,6 @@ class SignInViewModel @Inject constructor(
                 _isAlreadyUser.postValue(Event(it))
                 if (it.data.isAlreadyUser == null) authRepository.saveAccessToken(requireNotNull(it.data.accessToken))
             }.onFailure { throw it }
-
         }
     }
 
@@ -163,5 +161,4 @@ class SignInViewModel @Inject constructor(
     fun setClearNickName() {
         nickName.value = ""
     }
-
 }

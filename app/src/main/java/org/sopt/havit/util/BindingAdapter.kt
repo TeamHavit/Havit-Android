@@ -12,7 +12,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.sopt.havit.R
 import org.sopt.havit.util.DpToPxUtil.px
 
-
 object BindingAdapter {
 
     // item_category
@@ -68,7 +67,6 @@ object BindingAdapter {
             .placeholder(R.drawable.img_contents_dummy)
             .into(this)
     }
-
 
     @BindingAdapter("imageDefaultLinearMin")
     @JvmStatic
@@ -135,10 +133,12 @@ object BindingAdapter {
     fun setPopupDescription(textView: TextView, rate: Int) {
         when (rate) {
             in 0..33 -> textView.text = textView.context.getString(R.string.home_popup_description1)
-            in 34..66 -> textView.text =
-                textView.context.getString(R.string.home_popup_description2)
-            in 67..99 -> textView.text =
-                textView.context.getString(R.string.home_popup_description3)
+            in 34..66 ->
+                textView.text =
+                    textView.context.getString(R.string.home_popup_description2)
+            in 67..99 ->
+                textView.text =
+                    textView.context.getString(R.string.home_popup_description3)
             100 -> textView.text = textView.context.getString(R.string.home_popup_description4)
         }
     }

@@ -63,7 +63,5 @@ object RetrofitModule {
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
 
-
     private const val baseUrl = "https://asia-northeast3-havit-wesopt29.cloudfunctions.net/api/"
-
 }
