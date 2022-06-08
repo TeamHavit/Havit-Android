@@ -14,11 +14,14 @@ import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentEditTitleFromMoreBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.CONTENTS_DATA
+import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.EventObserver
+import org.sopt.havit.util.OnBackPressedHandler
 
 @AndroidEntryPoint
 class EditTitleFromMoreFragment :
-    BaseBindingFragment<FragmentEditTitleFromMoreBinding>(R.layout.fragment_edit_title_from_more) {
+    BaseBindingFragment<FragmentEditTitleFromMoreBinding>(R.layout.fragment_edit_title_from_more),
+    OnBackPressedHandler {
     private val viewModel: EditTitleFromMoreViewModel by viewModels()
     private lateinit var bottomSheetDialogFragment: BottomSheetDialogFragment
 
@@ -51,9 +54,9 @@ class EditTitleFromMoreFragment :
                 viewModel.patchNewTitle()
                 viewModel.isNetworkCorrespondenceEnd.observe(
                     requireActivity(),
-                    EventObserver { bottomSheetDialogFragment.dismiss() }
+                    EventObserver { dismissBottomSheet() }
                 )
-            } else bottomSheetDialogFragment.dismiss()
+            } else dismissBottomSheet()
         }
     }
 
@@ -75,5 +78,22 @@ class EditTitleFromMoreFragment :
                 )
             }
         }
+    }
+
+    override fun onBackPressed(): Boolean {
+        if (viewModel.isTitleModified()) {
+            showEditTitleWarningDialog()
+            return true
+        }
+        return false
+    }
+
+    private fun showEditTitleWarningDialog() {
+        val dialog = DialogUtil(DialogUtil.CANCEL_EDIT_TITLE, ::dismissBottomSheet)
+        dialog.show(requireActivity().supportFragmentManager, this.javaClass.name)
+    }
+
+    private fun dismissBottomSheet() {
+        bottomSheetDialogFragment.dismiss()
     }
 }
