@@ -28,11 +28,11 @@ class EditTitleFromMoreFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
         viewModel.initProperty(getBundleData() as ContentsMoreData)
-        setBackButtonInvisible()
         initCompleteBtnClick()
         initBottomSheetDialogFragment()
         setKeyBoardUp()
         setCursor()
+        onCloseClicked()
     }
 
     private fun getBundleData(): Parcelable? {
@@ -42,10 +42,6 @@ class EditTitleFromMoreFragment :
 
     private fun initBottomSheetDialogFragment() {
         bottomSheetDialogFragment = requireParentFragment() as BottomSheetDialogFragment
-    }
-
-    private fun setBackButtonInvisible() {
-        binding.icBack.visibility = View.GONE
     }
 
     private fun initCompleteBtnClick() {
@@ -77,6 +73,13 @@ class EditTitleFromMoreFragment :
                     viewModel.originTitle.value?.length!!
                 )
             }
+        }
+    }
+
+    private fun onCloseClicked() {
+        binding.icClose.setOnClickListener {
+            if (viewModel.isTitleModified()) showEditTitleWarningDialog()
+            else dismissBottomSheet()
         }
     }
 
