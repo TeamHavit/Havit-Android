@@ -21,9 +21,8 @@
             android:id="@+id/fl_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
+            android:layout_marginHorizontal="6dp"
             android:layout_marginTop="17dp"
-            android:layout_marginEnd="6dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -149,21 +148,25 @@
             android:id="@+id/iv_havit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="3dp"
             android:src="@drawable/ic_contents_unread"
             android:tag="unseen"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/fl_image" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
             android:id="@+id/iv_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="13dp"
-            android:layout_marginTop="4dp"
+            android:paddingStart="26dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="29dp"
             android:src="@drawable/ic_more"
-            app:layout_constraintEnd_toEndOf="@+id/fl_image"
+            app:layout_constraintBottom_toTopOf="@+id/iv_havit"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fl_image" />
 
         <View
