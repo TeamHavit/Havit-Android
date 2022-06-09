@@ -18,6 +18,8 @@ import org.sopt.havit.ui.category.CategoryContentModifyActivity
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_DELETE_CATEGORY
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_MODIFY_CATEGORY
 import org.sopt.havit.ui.category.CategoryFragment
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ITEM_LIST
 import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.ui.contents.DialogContentsFilterFragment.Companion.CONTENTS_FILTER
 import org.sopt.havit.ui.save.SaveFragment
@@ -29,7 +31,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private lateinit var contentsAdapter: ContentsAdapter
     private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(this) }
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
-    private var contentsCategoryList = ArrayList<CategoryResponse.AllCategoryData>()
+    private var categoryItemList = ArrayList<CategoryResponse.AllCategoryData>()
     private lateinit var getResult: ActivityResultLauncher<Intent>
     private var categoryId = 0
     private var categoryName = "error"
@@ -133,7 +135,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         }
         // 카테고리 리스트를 가져옴 (ArrayList에 넣어 mutable하게 만듦)
         categoryViewModel.categoryList.observe(this@ContentsActivity) {
-            contentsCategoryList =
+            categoryItemList =
                 (categoryViewModel.categoryList.value as ArrayList<CategoryResponse.AllCategoryData>?)!!
         }
     }
@@ -192,7 +194,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         binding.clOrder.setOnClickListener {
             val dialog = DialogContentsFilterFragment().apply {
                 arguments = Bundle().apply {
-                    Log.d("contentsFilter1", "$contentsFilter")
                     putString(CONTENTS_FILTER, contentsFilter)
                 }
             }
@@ -218,7 +219,12 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun setCategoryListDialog() {
         binding.clCategory.setOnClickListener {
-            DialogContentsCategoryFragment(contentsCategoryList, categoryId).show(
+            DialogContentsCategoryFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelableArrayList(CATEGORY_ITEM_LIST, categoryItemList)
+                    putInt(CATEGORY_ID, categoryId)
+                }
+            }.show(
                 supportFragmentManager,
                 "categoryList"
             )
@@ -335,7 +341,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                     categoryName = it.data?.getStringExtra(CategoryFragment.CATEGORY_NAME) ?: "null"
                     categoryIconId =
                         it.data?.getIntExtra(CategoryFragment.CATEGORY_IMAGE_ID, 0) ?: 0
-                    contentsCategoryList[categoryPosition].apply {
+                    categoryItemList[categoryPosition].apply {
                         title = categoryName
                         imageId = categoryIconId
                     }

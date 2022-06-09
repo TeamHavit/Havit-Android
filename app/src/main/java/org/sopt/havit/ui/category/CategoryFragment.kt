@@ -88,7 +88,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
             val intent = Intent(activity, CategoryOrderModifyActivity::class.java)
             val categoryItemList: ArrayList<CategoryResponse.AllCategoryData> =
                 categoryAdapter.categoryList as ArrayList<CategoryResponse.AllCategoryData>
-            intent.putParcelableArrayListExtra("categoryItemList", categoryItemList)
+            intent.putParcelableArrayListExtra(CATEGORY_ITEM_LIST, categoryItemList)
             startActivity(intent)
         }
     }
@@ -142,5 +142,6 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         const val CATEGORY_NAME = "categoryName"
         const val CATEGORY_POSITION = "position"
         const val CATEGORY_IMAGE_ID = "imageId"
+        const val CATEGORY_ITEM_LIST = "categoryItemList"
     }
 }
