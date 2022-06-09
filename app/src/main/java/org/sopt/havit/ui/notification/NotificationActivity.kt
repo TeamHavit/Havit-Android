@@ -116,7 +116,7 @@ class NotificationActivity :
         position: Int
     ): Bundle {
         val bundle = Bundle()
-        bundle.putSerializable(ContentsMoreFragment.CONTENTS_MORE_DATA, dataMore)
+        bundle.putParcelable(ContentsMoreFragment.CONTENTS_MORE_DATA, dataMore)
         bundle.putSerializable(ContentsMoreFragment.REMOVE_ITEM, removeItem as Serializable)
         bundle.putInt(ContentsMoreFragment.POSITION, position)
         return bundle

@@ -16,8 +16,6 @@ class ContentsMoreFragment :
     private lateinit var binding: FragmentContentsMoreBinding
     private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(requireContext()) }
     private lateinit var contentsData: ContentsMoreData
-
-    //    private val notifyItemRemoved = removeItem
     private lateinit var notifyItemRemoved: (Int) -> Unit
     private var pos = 0
 
@@ -43,7 +41,7 @@ class ContentsMoreFragment :
 
     // 이전 뷰에서 bundle로 보낸 content 데이터 받아오기
     private fun setData() {
-        contentsData = arguments?.getSerializable(CONTENTS_MORE_DATA) as ContentsMoreData
+        contentsData = arguments?.getParcelable(CONTENTS_MORE_DATA)!!
         notifyItemRemoved = arguments?.getSerializable(REMOVE_ITEM) as (Int) -> Unit
         arguments?.getInt(POSITION, 0)?.let {
             pos = it
