@@ -75,6 +75,7 @@ object BindingAdapter {
     fun ImageView.defaultImageLinearMin(url: String?) {
         Glide.with(context)
             .load(url)
+            .transform(CenterCrop(), RoundedCorners(px(4)))
             .placeholder(R.drawable.img_contents_dummy)
             .into(this)
     }
@@ -84,6 +85,7 @@ object BindingAdapter {
     fun ImageView.defaultImageGrid(url: String?) {
         Glide.with(context)
             .load(url)
+            .transform(CenterCrop(), RoundedCorners(px(4)))
             .placeholder(R.drawable.img_contents_dummy_2)
             .into(this)
     }
@@ -93,6 +95,7 @@ object BindingAdapter {
     fun ImageView.defaultImageLinearMax(url: String?) {
         Glide.with(context)
             .load(url)
+            .transform(CenterCrop(), RoundedCorners(px(4)))
             .placeholder(R.drawable.img_contents_dummy_3)
             .into(this)
     }

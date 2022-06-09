@@ -28,20 +28,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.cardview.widget.CardView
+            <ImageView
+                android:id="@+id/iv_thumbnail"
+                imageDefaultGrid="@{content.image}"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="4dp"
-                app:cardElevation="0dp">
-
-                <ImageView
-                    android:id="@+id/iv_thumbnail"
-                    imageDefaultGrid="@{content.image}"
-                    android:layout_width="match_parent"
-                    android:layout_height="109dp"
-                    android:scaleType="centerCrop"
-                    tools:src="@drawable/img_contents_dummy_2" />
-            </androidx.cardview.widget.CardView>
+                android:layout_height="109dp" />
 
             <ImageView
                 android:id="@+id/iv_alarm"
