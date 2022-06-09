@@ -2,6 +2,7 @@ package org.sopt.havit.ui.setting
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
@@ -31,8 +32,13 @@ class SettingUnregisterActivity :
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun setClickListener() {
         binding.ivBack.setOnClickListener { finish() }
-        binding.ivCheck.setOnClickListener {
+        binding.clCheck.setOnClickListener {
             binding.isChecked = binding.isChecked == false
+        }
+        binding.tvUnregisterShort.setOnClickListener {
+            if (binding.isChecked == true) {
+                // TODO: 로그아웃, 회원탈퇴, dialog
+            }
         }
     }
 
