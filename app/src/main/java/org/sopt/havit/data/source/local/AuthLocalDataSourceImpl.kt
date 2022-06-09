@@ -13,7 +13,12 @@ class AuthLocalDataSourceImpl @Inject constructor(private val havitLocalPreferen
         return havitLocalPreferences.getXAuthToken()
     }
 
-    override fun saveKakaoToken(kakaoToken: String) = havitLocalPreferences.setKakaoToken(kakaoToken)
+    override fun saveKakaoToken(kakaoToken: String) =
+        havitLocalPreferences.setKakaoToken(kakaoToken)
 
     override fun getKakaoToken(): String = havitLocalPreferences.getKakaoToken()
+
+    override fun removeHavitAuthToken() {
+        havitLocalPreferences.removeHavitAuthLocalToken()
+    }
 }

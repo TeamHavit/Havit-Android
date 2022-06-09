@@ -1,7 +1,9 @@
 package org.sopt.havit.ui.setting
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.widget.doOnTextChanged
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
@@ -9,9 +11,10 @@ import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.KeyBoardUtil.setUpAsSoftKeyboard
 
+@AndroidEntryPoint
 class SettingModifyActivity :
     BaseBindingActivity<ActivitySettingModifyBinding>(R.layout.activity_setting_modify) {
-    private val settingViewModel: SettingViewModel by lazy { SettingViewModel(this) }
+    private val settingViewModel: SettingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

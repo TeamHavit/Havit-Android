@@ -1,19 +1,25 @@
 package org.sopt.havit.ui.setting.viewmodel
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.NewNicknameRequest
 import org.sopt.havit.data.remote.UserResponse
-import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.domain.repository.AuthRepository
+import javax.inject.Inject
 
-class SettingViewModel(context: Context) : ViewModel() {
-    private val token = MySharedPreference.getXAuthToken(context)
+@HiltViewModel
+class SettingViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
+//    private val token = MySharedPreference.getXAuthToken(context)
+
+    private val token = authRepository.getAccessToken() // 안됨 token 없습니다.
 
     private val _user = MutableLiveData<UserResponse.UserData>()
     val user: LiveData<UserResponse.UserData> = _user
@@ -71,4 +77,6 @@ class SettingViewModel(context: Context) : ViewModel() {
     fun setNicknameLength(length: Int) {
         _nicknameLength.postValue(length)
     }
+
+    fun removeHavitAuthToken() = authRepository.removeHavitAuthToken()
 }

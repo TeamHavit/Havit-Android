@@ -15,6 +15,8 @@ interface AuthRepository {
 
     fun getKakaoToken(): String
 
+    fun removeHavitAuthToken()
+
     suspend fun getSignIn(fcmToken: String, kakaoToken: String): SignInResponse
 
     suspend fun postSignUp(

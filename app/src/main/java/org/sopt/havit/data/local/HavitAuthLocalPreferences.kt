@@ -14,7 +14,8 @@ class HavitAuthLocalPreferences @Inject constructor(
         private const val KAKAO_TOKEN = "KAKAO_TOKEN"
     }
 
-    private val prefs: SharedPreferences = context.getSharedPreferences(ACCESS_TOKEN, Context.MODE_PRIVATE)
+    private val prefs: SharedPreferences =
+        context.getSharedPreferences(ACCESS_TOKEN, Context.MODE_PRIVATE)
 
     fun setXAuthToken(token: String) = prefs.edit().putString(ACCESS_TOKEN, token).apply()
 
@@ -24,6 +25,6 @@ class HavitAuthLocalPreferences @Inject constructor(
 
     fun getKakaoToken(): String = prefs.getString(KAKAO_TOKEN, "").toString()
 
-    fun removeXAuthToken() = prefs.edit().clear().apply()
+    fun removeHavitAuthLocalToken() = prefs.edit().clear().apply()
 
 }
