@@ -19,7 +19,10 @@ import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_MODIFY_CATEGORY
 import org.sopt.havit.ui.category.CategoryFragment
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_IMAGE_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ITEM_LIST
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_POSITION
 import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.ui.contents.DialogContentsFilterFragment.Companion.CONTENTS_FILTER
 import org.sopt.havit.ui.save.SaveFragment
@@ -31,7 +34,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private lateinit var contentsAdapter: ContentsAdapter
     private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(this) }
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
-    private var categoryItemList = ArrayList<CategoryResponse.AllCategoryData>()
     private lateinit var getResult: ActivityResultLauncher<Intent>
     private var categoryId = 0
     private var categoryName = "error"
@@ -91,14 +93,15 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         // 카테고리 뷰에서 넘겨받은 데이터를 ContentsActivity의 변수에 할당
         categoryId =
-            intent.getIntExtra(CategoryFragment.CATEGORY_ID, 0).also { binding.categoryId = it }
-        intent.getStringExtra(CategoryFragment.CATEGORY_NAME)?.let {
+            intent.getIntExtra(CATEGORY_ID, 0).also { binding.categoryId = it }
+        intent.getStringExtra(CATEGORY_NAME)?.let {
             categoryName = it
         }
-        categoryIconId = intent.getIntExtra(CategoryFragment.CATEGORY_IMAGE_ID, 0)
-        categoryPosition = intent.getIntExtra(CategoryFragment.CATEGORY_POSITION, 0)
+        categoryIconId = intent.getIntExtra(CATEGORY_IMAGE_ID, 0)
+        categoryPosition = intent.getIntExtra(CATEGORY_POSITION, 0)
+
         // 카테고리 이름 재설정
-        setCategoryName()
+        setCategoryName(categoryName)
     }
 
     private fun initValue() {
@@ -107,11 +110,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         // 옵션 및 필터 초기화, 카테고리아이디가 -2이면 확인한 콘텐츠만 확인
         contentsOption = if (categoryId == -2) "true" else "all"
         contentsFilter = "created_at"
-    }
-
-    private fun setCategoryName() {
-        // categoryName 으로 뷰모델의 카테고리 이름 변수 변경
-        contentsViewModel.setCategoryName(categoryName)
     }
 
     private fun dataObserve() {
@@ -132,11 +130,9 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 // 콘텐츠 데이터 업데이트
                 contentsAdapter.submitList(it.toList())
             }
-        }
-        // 카테고리 리스트를 가져옴 (ArrayList에 넣어 mutable하게 만듦)
-        categoryViewModel.categoryList.observe(this@ContentsActivity) {
-            categoryItemList =
-                (categoryViewModel.categoryList.value as ArrayList<CategoryResponse.AllCategoryData>?)!!
+            categoryName.observe(this@ContentsActivity) {
+                binding.tvCategory.text = it
+            }
         }
     }
 
@@ -221,7 +217,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         binding.clCategory.setOnClickListener {
             DialogContentsCategoryFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelableArrayList(CATEGORY_ITEM_LIST, categoryItemList)
+                    putParcelableArrayList(CATEGORY_ITEM_LIST, categoryViewModel.categoryList.value)
                     putInt(CATEGORY_ID, categoryId)
                 }
             }.show(
@@ -235,7 +231,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         binding.clSearch.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
             intent.putExtra(
-                CategoryFragment.CATEGORY_NAME,
+                CATEGORY_NAME,
                 "${contentsViewModel.categoryName.value}"
             )
             startActivity(intent)
@@ -318,9 +314,9 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
             // 카테고리 수정 뷰로 넘길 intent
             val intent = Intent(this, CategoryContentModifyActivity::class.java).apply {
-                putExtra(CategoryFragment.CATEGORY_ID, categoryId)
-                putExtra(CategoryFragment.CATEGORY_NAME, categoryName)
-                putExtra(CategoryFragment.CATEGORY_IMAGE_ID, categoryIconId)
+                putExtra(CATEGORY_ID, categoryId)
+                putExtra(CATEGORY_NAME, categoryName)
+                putExtra(CATEGORY_IMAGE_ID, categoryIconId)
                 putStringArrayListExtra("categoryNameList", categoryTitleList)
                 putExtra("preActivity", "ContentsActivity")
             }
@@ -338,19 +334,24 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 }
                 RESULT_MODIFY_CATEGORY -> { // 카테고리 이름 & 아이콘 수정
                     // 수정할 카테고리의 정보를 받아옴
-                    categoryName = it.data?.getStringExtra(CategoryFragment.CATEGORY_NAME) ?: "null"
+                    categoryName = it.data?.getStringExtra(CATEGORY_NAME) ?: "null"
                     categoryIconId =
-                        it.data?.getIntExtra(CategoryFragment.CATEGORY_IMAGE_ID, 0) ?: 0
-                    categoryItemList[categoryPosition].apply {
-                        title = categoryName
-                        imageId = categoryIconId
-                    }
-                    // 카테고리 이름 수정
-                    setCategoryName() // 뷰모델의 카테고리 이름 변수 재설정
-                    binding.tvCategory.text = categoryName
+                        it.data?.getIntExtra(CATEGORY_IMAGE_ID, 0) ?: 0
+
+                    setCategoryName(categoryName)
+                    modifyCategoryItemData(categoryPosition, categoryName, categoryIconId)
                 }
             }
         }
+    }
+
+    private fun setCategoryName(name: String) {
+        contentsViewModel.setCategoryName(name)
+    }
+
+    private fun modifyCategoryItemData(position: Int, name: String, imageId: Int) {
+        categoryViewModel.setCategoryListItemName(position, name)
+        categoryViewModel.setCategoryListItemIconId(position, imageId)
     }
 
     // 해빗 클릭 시 이벤트 함수 정의

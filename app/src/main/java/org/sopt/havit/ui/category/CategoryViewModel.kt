@@ -9,7 +9,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.*
+import org.sopt.havit.data.remote.CategoryModifyRequest
+import org.sopt.havit.data.remote.CategoryOrderRequest
+import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.util.MySharedPreference
 
 class CategoryViewModel(context: Context) : ViewModel() {
@@ -17,8 +19,8 @@ class CategoryViewModel(context: Context) : ViewModel() {
 
     private val _categoryCount = MutableLiveData(-1)
     val categoryCount: LiveData<Int> = _categoryCount
-    private val _categoryList = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
-    val categoryList: LiveData<List<CategoryResponse.AllCategoryData>> = _categoryList
+    private val _categoryList = MutableLiveData<ArrayList<CategoryResponse.AllCategoryData>>()
+    val categoryList: LiveData<ArrayList<CategoryResponse.AllCategoryData>> = _categoryList
     private val _delay = MutableLiveData(false)
     val delay: LiveData<Boolean> = _delay
     private val _shareDelay = MutableLiveData(false)
@@ -31,7 +33,7 @@ class CategoryViewModel(context: Context) : ViewModel() {
             try {
                 val response =
                     RetrofitObject.provideHavitApi(token).getAllCategory()
-                _categoryList.postValue(response.data)
+                _categoryList.postValue(response.data as ArrayList<CategoryResponse.AllCategoryData>)
                 _categoryCount.postValue(response.data.size)
                 _categoryLoad.postValue(false)
             } catch (e: Exception) {
@@ -39,11 +41,11 @@ class CategoryViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun requestCategoryOrder(list : List<Int>){
+    fun requestCategoryOrder(list: List<Int>) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val list = CategoryOrderRequest(list)
-                val response = RetrofitObject.provideHavitApi(token) .modifyCategoryOrder(list)
+                val response = RetrofitObject.provideHavitApi(token).modifyCategoryOrder(list)
                 _delay.postValue(true)
                 Log.d("requestCategoryOrder", "$response.success")
             } catch (e: Exception) {
@@ -52,11 +54,12 @@ class CategoryViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun requestCategoryContent(id: Int, imageId: Int, title:String){
+    fun requestCategoryContent(id: Int, imageId: Int, title: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val content = CategoryModifyRequest(title, imageId)
-                val response = RetrofitObject.provideHavitApi(token).modifyCategoryContent(id, content)
+                val response =
+                    RetrofitObject.provideHavitApi(token).modifyCategoryContent(id, content)
 
                 Log.d("requestCategoryContent", "$response.success")
             } catch (e: Exception) {
@@ -65,7 +68,7 @@ class CategoryViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun requestCategoryDelete(id:Int){
+    fun requestCategoryDelete(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response = RetrofitObject.provideHavitApi(token).deleteCategory(id)
@@ -77,11 +80,21 @@ class CategoryViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun setDelay(v: Boolean){
-        _delay.value= v
+    fun setDelay(v: Boolean) {
+        _delay.value = v
     }
 
-    fun setShareDelay(v: Boolean){
-        _shareDelay.value= v
+    fun setShareDelay(v: Boolean) {
+        _shareDelay.value = v
+    }
+
+    fun setCategoryListItemIconId(position: Int, imageId: Int) {
+        _categoryList.value?.get(position)?.imageId = imageId
+        _categoryList.value?.get(position)?.url =
+            "https://havit-bucket.s3.ap-northeast-2.amazonaws.com/category_image/3d_icon_${imageId}.png"
+    }
+
+    fun setCategoryListItemName(position: Int, categoryName: String) {
+        _categoryList.value?.get(position)?.title = categoryName
     }
 }

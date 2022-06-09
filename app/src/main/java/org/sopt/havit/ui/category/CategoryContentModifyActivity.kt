@@ -6,6 +6,9 @@ import androidx.core.widget.addTextChangedListener
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_IMAGE_ID
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
 import org.sopt.havit.ui.contents.ContentsActivity
 import org.sopt.havit.ui.share.IconAdapter
 import org.sopt.havit.ui.share.IconAdapter.Companion.clickedPosition
@@ -41,15 +44,15 @@ class CategoryContentModifyActivity :
 
     private fun setCategoryIntentData() {
         binding.categoryTitle =
-            intent.getStringExtra("categoryName").toString().also { categoryName = it }
+            intent.getStringExtra(CATEGORY_NAME).toString().also { categoryName = it }
         position = intent.getIntExtra("position", 0)
-        id = intent.getIntExtra("categoryId", 0)
+        id = intent.getIntExtra(CATEGORY_ID, 0)
         categoryTitleList = intent.getStringArrayListExtra("categoryNameList") as ArrayList<String>
         preActivity = intent.getStringExtra("preActivity").toString()
     }
 
     private fun initIconAdapter() {
-        clickedPosition = intent.getIntExtra("imageId", 0) - 1
+        clickedPosition = intent.getIntExtra(CATEGORY_IMAGE_ID, 0) - 1
         binding.rvIcon.adapter = IconAdapter(::onIconClick).also { iconAdapter = it }
     }
 
