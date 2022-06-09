@@ -376,15 +376,24 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
                     // 본 콘텐츠 목록에서 해빗 해제 시 제거
                     if ((contentsOption == "true" || contentsFilter == "seen_at") && v.tag == "unseen") {
-                        contentsAdapter.notifyItemRemoved(position)
+                        removeContentsItem(position)
                     }
                     // 안 본 콘텐츠 목록에서 해빗 등록 시 제거
                     else if (contentsOption == "false" && v.tag == "seen") {
-                        contentsAdapter.notifyItemRemoved(position)
+                        removeContentsItem(position)
                     }
                 }
             }
         })
+    }
+
+    private fun removeContentsItem(index: Int) {
+        val list =
+            contentsAdapter.currentList.toMutableList() // mutable로 해주어야 삭제(수정) 가능
+        list.removeAt(index)
+        // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
+        contentsViewModel.updateContentsList(list)
+        contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
     }
 
     companion object {
