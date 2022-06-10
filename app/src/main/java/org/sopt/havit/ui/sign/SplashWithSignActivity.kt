@@ -28,7 +28,7 @@ class SplashWithSignActivity :
     private val alphaLogoAnim by lazy {
         AnimationUtils.loadAnimation(
             this,
-            R.anim.alpha_visible_to_invisible_1500
+            R.anim.alpha_15_to_5_20000
         ).apply {
             fillAfter = true
             isFillEnabled = true
@@ -37,7 +37,7 @@ class SplashWithSignActivity :
     private val alphaLoginAnim by lazy {
         AnimationUtils.loadAnimation(
             this,
-            R.anim.alpha_invisible_to_visible_1500
+            R.anim.alpha_0_to_100_1500_delay_1000
         ).apply {
             fillAfter = true
             isFillEnabled = true
