@@ -82,7 +82,6 @@ class SplashWithSignActivity :
             )
         }
         setAutoLogin()
-
     }
 
     private fun setAutoLogin() {
