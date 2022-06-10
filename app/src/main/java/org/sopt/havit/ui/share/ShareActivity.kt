@@ -14,33 +14,51 @@ import org.sopt.havit.util.MySharedPreference
 class ShareActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityShareBinding
+    private var makeLogin = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShareBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        makeSignIn()
     }
 
     override fun onResume() {
         super.onResume()
-        initView()
+        startSavingContents()
     }
 
-    private fun initView() {
+    private fun makeSignIn() {
         HavitAuthUtil.isLoginNow { isLogin ->
-            if (isLogin) startShareProcess()
-            else moveToSplashWithSignActivity()
+            if (!isLogin) {
+                moveToSplashWithSignActivity()
+            }
+        }
+    }
+
+    private fun startSavingContents() {
+        HavitAuthUtil.isLoginNow { isLogin ->
+            if (isLogin) saveContents()
+            else if (makeLogin) finish()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        HavitAuthUtil.isLoginNow { isLogin ->
+            if (!isLogin) makeLogin = true
         }
     }
 
     private fun moveToSplashWithSignActivity() {
-        val intent = Intent(this, SplashWithSignActivity::class.java).apply {
-            putExtra(WHERE_SPLASH_COME_FROM, SPLASH_FROM_SHARE)
-        }
-        startActivity(intent)
+        startActivity(
+            Intent(this, SplashWithSignActivity::class.java).apply {
+                putExtra(WHERE_SPLASH_COME_FROM, SPLASH_FROM_SHARE)
+            }
+        )
     }
 
-    private fun startShareProcess() {
+    private fun saveContents() {
         val bottomSheet = BottomSheetShareFragment()
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
