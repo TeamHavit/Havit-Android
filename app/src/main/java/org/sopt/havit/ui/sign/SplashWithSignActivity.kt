@@ -3,7 +3,6 @@ package org.sopt.havit.ui.sign
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import com.kakao.sdk.auth.model.Prompt
@@ -76,17 +75,14 @@ class SplashWithSignActivity :
     }
 
     private fun setSplashView() {
-        binding.ivSplashLogo.startAnimation(
-            alphaLogoAnim
-        )
-        alphaLogoAnim.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(p0: Animation?) {}
-            override fun onAnimationEnd(p0: Animation?) {
-                setAutoLogin()
-            }
 
-            override fun onAnimationRepeat(p0: Animation?) {}
-        })
+        if (signInViewModel.loginGuidVisibility.value == false) {
+            binding.ivSplashLogo.startAnimation(
+                alphaLogoAnim
+            )
+        }
+        setAutoLogin()
+
     }
 
     private fun setAutoLogin() {
