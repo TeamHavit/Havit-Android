@@ -49,7 +49,7 @@ class SplashWithSignActivity :
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.main = signInViewModel
-        bindLoginGuideVisibility()
+        initWhereSplashComesFrom()
         setSplashView()
         setListeners()
         isAlreadyUserObserver()
@@ -57,7 +57,7 @@ class SplashWithSignActivity :
         isReadyUserObserver()
     }
 
-    private fun bindLoginGuideVisibility() {
+    private fun initWhereSplashComesFrom() {
         signInViewModel.setLoginGuideVisibility(
             intent.getBooleanExtra(
                 ShareActivity.WHERE_SPLASH_COME_FROM,
