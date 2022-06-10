@@ -15,6 +15,8 @@ import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySplashWithSignBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.share.ShareActivity
+import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_NORMAL_FLOW
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.HavitAuthUtil
 import org.sopt.havit.util.MySharedPreference
@@ -47,11 +49,21 @@ class SplashWithSignActivity :
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.main = signInViewModel
+        initWhereSplashComesFrom()
         setSplashView()
         setListeners()
         isAlreadyUserObserver()
         isNeedScopesObserver()
         isReadyUserObserver()
+    }
+
+    private fun initWhereSplashComesFrom() {
+        signInViewModel.setLoginGuideVisibility(
+            intent.getBooleanExtra(
+                ShareActivity.WHERE_SPLASH_COME_FROM,
+                SPLASH_NORMAL_FLOW
+            )
+        )
     }
 
     private fun setLoginAnimation() {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.ActivityShareBinding
+import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_FROM_SHARE
 import org.sopt.havit.ui.sign.SplashWithSignActivity
 import org.sopt.havit.util.HavitAuthUtil
 import org.sopt.havit.util.MySharedPreference
@@ -28,12 +29,14 @@ class ShareActivity : AppCompatActivity() {
     private fun initView() {
         HavitAuthUtil.isLoginNow { isLogin ->
             if (isLogin) startShareProcess()
-            else moveToLogin()
+            else moveToSplashWithSignActivity()
         }
     }
 
-    private fun moveToLogin() {
-        val intent = Intent(this, SplashWithSignActivity::class.java)
+    private fun moveToSplashWithSignActivity() {
+        val intent = Intent(this, SplashWithSignActivity::class.java).apply {
+            putExtra(WHERE_SPLASH_COME_FROM, SPLASH_FROM_SHARE)
+        }
         startActivity(intent)
     }
 
@@ -46,5 +49,9 @@ class ShareActivity : AppCompatActivity() {
         super.onDestroy()
         MySharedPreference.clearNotificationTime(this)
         MySharedPreference.clearTitle(this)
+    }
+
+    companion object {
+        const val WHERE_SPLASH_COME_FROM = "WHERE_SPLASH_COME_FROM"
     }
 }
