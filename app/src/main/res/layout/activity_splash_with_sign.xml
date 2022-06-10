@@ -9,6 +9,8 @@
             name="main"
             type="org.sopt.havit.ui.sign.SignInViewModel" />
 
+        <import type="android.view.View"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -85,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_splash"
-            android:visibility="invisible"
+            android:visibility="@{main.loginGuidVisibility == true ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
