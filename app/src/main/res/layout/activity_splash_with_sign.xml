@@ -9,7 +9,7 @@
             name="main"
             type="org.sopt.havit.ui.sign.SignInViewModel" />
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
     </data>
 
@@ -88,6 +88,8 @@
             android:id="@+id/iv_splash_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="-9dp"
+            android:layout_marginEnd="-36dp"
             android:src="@drawable/ic_splash"
             android:visibility="@{main.loginGuidVisibility == true ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
