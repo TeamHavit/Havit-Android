@@ -3,7 +3,6 @@ package org.sopt.havit.ui.sign
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import com.kakao.sdk.auth.model.Prompt
@@ -15,6 +14,8 @@ import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySplashWithSignBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.share.ShareActivity
+import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_NORMAL_FLOW
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.HavitAuthUtil
 import org.sopt.havit.util.MySharedPreference
@@ -27,7 +28,7 @@ class SplashWithSignActivity :
     private val alphaLogoAnim by lazy {
         AnimationUtils.loadAnimation(
             this,
-            R.anim.alpha_invisible_to_visible_2000
+            R.anim.alpha_15_to_5_20000
         ).apply {
             fillAfter = true
             isFillEnabled = true
@@ -36,7 +37,7 @@ class SplashWithSignActivity :
     private val alphaLoginAnim by lazy {
         AnimationUtils.loadAnimation(
             this,
-            R.anim.alpha_invisible_to_visible_1500
+            R.anim.alpha_0_to_100_1500_delay_1000
         ).apply {
             fillAfter = true
             isFillEnabled = true
@@ -47,11 +48,21 @@ class SplashWithSignActivity :
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.main = signInViewModel
+        initWhereSplashComesFrom()
         setSplashView()
         setListeners()
         isAlreadyUserObserver()
         isNeedScopesObserver()
         isReadyUserObserver()
+    }
+
+    private fun initWhereSplashComesFrom() {
+        signInViewModel.setLoginGuideVisibility(
+            intent.getBooleanExtra(
+                ShareActivity.WHERE_SPLASH_COME_FROM,
+                SPLASH_NORMAL_FLOW
+            )
+        )
     }
 
     private fun setLoginAnimation() {
@@ -64,17 +75,13 @@ class SplashWithSignActivity :
     }
 
     private fun setSplashView() {
-        binding.ivSplashLogo.startAnimation(
-            alphaLogoAnim
-        )
-        alphaLogoAnim.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(p0: Animation?) {}
-            override fun onAnimationEnd(p0: Animation?) {
-                setAutoLogin()
-            }
 
-            override fun onAnimationRepeat(p0: Animation?) {}
-        })
+        if (signInViewModel.loginGuidVisibility.value == false) {
+            binding.ivSplashLogo.startAnimation(
+                alphaLogoAnim
+            )
+        }
+        setAutoLogin()
     }
 
     private fun setAutoLogin() {

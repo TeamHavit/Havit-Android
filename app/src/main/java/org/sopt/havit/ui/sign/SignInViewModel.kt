@@ -17,8 +17,15 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val authRepository: AuthRepository
-) :
-    ViewModel() {
+) : ViewModel() {
+
+    companion object {
+        const val SPLASH_FROM_SHARE = true
+        const val SPLASH_NORMAL_FLOW = false
+    }
+
+    var loginGuidVisibility = MutableLiveData(false)
+        private set
 
     private var _isMoveToNextOrBack = MutableLiveData<Event<Boolean>>()
     var isMoveToNextOrBack: LiveData<Event<Boolean>> = _isMoveToNextOrBack
@@ -59,6 +66,10 @@ class SignInViewModel @Inject constructor(
             setFcmToken()
             setNeedScopes()
         }
+    }
+
+    fun setLoginGuideVisibility(boolean: Boolean) {
+        loginGuidVisibility.value = boolean
     }
 
     fun setNeedScopes() {
