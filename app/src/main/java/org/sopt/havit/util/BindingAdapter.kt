@@ -173,4 +173,10 @@ object BindingAdapter {
     fun TextView.textVisibility(isVisible: Boolean) {
         this.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
+
+    @BindingAdapter("app:imageVisibility")
+    @JvmStatic
+    fun ImageView.imageVisibility(isSelected: Boolean) {
+        this.visibility = if (isSelected) View.VISIBLE else View.GONE
+    }
 }
