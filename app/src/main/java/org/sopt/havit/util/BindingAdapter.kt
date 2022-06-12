@@ -2,6 +2,7 @@ package org.sopt.havit.util
 
 import android.graphics.drawable.Drawable
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -165,5 +166,11 @@ object BindingAdapter {
         val min = "${originTime[14]}${originTime[15]}".toInt().toString() + "분"
 
         return "$date$newHour$min 알림 예정"
+    }
+
+    @BindingAdapter("app:textVisibility")
+    @JvmStatic
+    fun TextView.textVisibility(isVisible: Boolean) {
+        this.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 }
