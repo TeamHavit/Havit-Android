@@ -1,7 +1,9 @@
 package org.sopt.havit.ui.contents.more.edit_category
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -12,21 +14,23 @@ import org.sopt.havit.databinding.FragmentEditCategoryFromMoreBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment
 import org.sopt.havit.util.DialogUtil
-import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.OnBackPressedHandler
 
 @AndroidEntryPoint
 class EditCategoryFromMoreFragment :
     BaseBindingFragment<FragmentEditCategoryFromMoreBinding>(R.layout.fragment_edit_category_from_more),
     OnBackPressedHandler {
+    private lateinit var categoryAdapter: EditCategoryAdapter
     private val viewModel: EditCategoryFromMoreViewModel by viewModels()
     private lateinit var bottomSheetDialogFragment: BottomSheetDialogFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
+
         viewModel.initProperty(getBundleData() as ContentsMoreData)
         getDataFromServer()
-        initViewAfterOriginDataArrive()
+        initRvAdapter()
+        initRvList()
         initCompleteBtnClick()
         initBottomSheetDialogFragment()
         onCloseClicked()
@@ -36,15 +40,22 @@ class EditCategoryFromMoreFragment :
         viewModel.getCategoryListWithSelectedInfo()
     }
 
-    private fun initViewAfterOriginDataArrive() {
-        viewModel.isNetworkCorrespondenceEnd.observe(
-            requireActivity(),
-            EventObserver { initView() }
-        )
+    private fun initRvAdapter() {
+        binding.rvCategory.adapter =
+            EditCategoryAdapter(::onCategoryClick).also { categoryAdapter = it }
     }
 
-    private fun initView() {
-        // set data on recyclerview
+    private fun initRvList() {
+        viewModel.categoryList.observe(viewLifecycleOwner) { list ->
+            Log.d(TAG, "onCategoryClick: observe")
+            categoryAdapter.submitList(list)
+        }
+    }
+
+    private fun onCategoryClick(position: Int) {
+        viewModel.toggleItemSelected(position)
+        categoryAdapter.submitList(viewModel.categoryList.value)
+        Log.d(TAG, "onCategoryClick:$position ${categoryAdapter.currentList[position].isSelected}")
     }
 
     private fun getBundleData(): Parcelable? {

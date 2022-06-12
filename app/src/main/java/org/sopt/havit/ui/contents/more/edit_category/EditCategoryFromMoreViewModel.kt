@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.CategoryResponse.AllCategoryData
 import org.sopt.havit.data.remote.ContentsMoreData
+import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.util.Event
 import javax.inject.Inject
@@ -19,7 +19,7 @@ class EditCategoryFromMoreViewModel @Inject constructor(
     val token = authRepository.getAccessToken()
     var contentsId = MutableLiveData<Int>()
         private set
-    var categoryList = MutableLiveData<List<AllCategoryData>>()
+    var categoryList = MutableLiveData<List<Category>>()
         private set
     var originCategoryId = MutableLiveData<List<Int>>()
         private set
@@ -43,12 +43,18 @@ class EditCategoryFromMoreViewModel @Inject constructor(
         return originCategoryId == newCategoryId
     }
 
+    fun toggleItemSelected(position: Int) {
+        categoryList.value?.let {
+            it[position].isSelected = !it[position].isSelected
+        }
+    }
+
     fun getCategoryListWithSelectedInfo() {
+        // TODO 카테고리 목록 가져오는 API임 -> 현재 컨텐츠의 소속 목록을 불러오는 API 배포되면 교체해야함
         viewModelScope.launch {
-            // category 선택여부 알려주는 api 붙여야함
-            val response = RetrofitObject.provideHavitApi(token).getAllCategory()
-            categoryList.postValue(response.data)
-        }.run { userClicksOnButton("Get Category") }
+            val response = RetrofitObject.provideHavitApi(token).getAllCategoryList()
+            categoryList.postValue(response.data.toMutableList())
+        }
     }
 
     fun patchNewCategoryList() {
