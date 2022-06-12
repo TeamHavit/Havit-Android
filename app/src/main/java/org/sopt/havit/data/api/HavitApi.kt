@@ -25,6 +25,9 @@ interface HavitApi {
     suspend fun getAllCategory(): CategoryResponse
 
     @GET("category")
+    suspend fun getAllCategoryList(): AllCategoryResponse
+
+    @GET("category")
     suspend fun getCategoryNum(): CategoryResponse
 
     @POST("category")
