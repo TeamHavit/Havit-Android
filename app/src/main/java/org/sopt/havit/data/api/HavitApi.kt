@@ -101,4 +101,9 @@ interface HavitApi {
     suspend fun postSignUp(
         @Body body: SignUpRequest
     ): SignUpResponse
+
+    @PATCH("content/category")
+    suspend fun modifyContentCategory(
+        @Body body: ModifyContentCategoryParams
+    ): BasicResponse
 }
