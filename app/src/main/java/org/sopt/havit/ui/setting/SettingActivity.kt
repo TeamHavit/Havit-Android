@@ -14,6 +14,7 @@ import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.ui.sign.SplashWithSignActivity
 import org.sopt.havit.util.CustomToast
+import org.sopt.havit.util.MySharedPreference
 
 @AndroidEntryPoint
 class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.activity_setting) {
@@ -96,6 +97,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
     private fun logout() {
         settingViewModel.removeHavitAuthToken()
+        MySharedPreference.clearXAuthToken(this)
         UserApiClient.instance.logout { error ->
             if (error != null) {
                 Log.e("SETTING", "로그아웃 실패. SDK에서 토큰 삭제됨", error)
@@ -103,8 +105,8 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
                 Log.i("SETTING", "로그아웃 성공. SDK에서 토큰 삭제됨")
             }
         }
-        finish()
         startActivity(Intent(this, SplashWithSignActivity::class.java))
+        finish()
     }
 
 

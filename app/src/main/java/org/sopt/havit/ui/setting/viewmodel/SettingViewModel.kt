@@ -19,7 +19,7 @@ class SettingViewModel @Inject constructor(
 ) : ViewModel() {
 //    private val token = MySharedPreference.getXAuthToken(context)
 
-    private val token = authRepository.getAccessToken() // 안됨 token 없습니다.
+    private val token = authRepository.getAccessToken()
 
     private val _user = MutableLiveData<UserResponse.UserData>()
     val user: LiveData<UserResponse.UserData> = _user
@@ -37,6 +37,7 @@ class SettingViewModel @Inject constructor(
     // version 정보 가져옴
     fun setVersion(appVersion: String) {
         _version.postValue(appVersion)
+        Log.d("TOKEN", "setting token : $token")
         if (appVersion == "1.0")
             _isLatest.postValue(true)
         else
@@ -78,5 +79,17 @@ class SettingViewModel @Inject constructor(
         _nicknameLength.postValue(length)
     }
 
-    fun removeHavitAuthToken() = authRepository.removeHavitAuthToken()
+    fun removeHavitAuthToken() {
+        authRepository.removeHavitAuthToken()
+    }
+
+    fun unregister() {
+        viewModelScope.launch {
+            try {
+                RetrofitObject.provideHavitApi(token).deleteUser()
+            } catch (e: Exception) {
+                Log.d("SETTING", "error : $e")
+            }
+        }
+    }
 }
