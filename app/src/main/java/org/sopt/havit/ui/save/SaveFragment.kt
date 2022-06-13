@@ -3,11 +3,13 @@ package org.sopt.havit.ui.save
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -118,8 +120,12 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     private fun setListeners() {
         binding.clPasteClipBoard.setOnClickListener { // url 붙여넣기 팝업 클릭시 editText에 url 보여주기
             saveViewModel.setUrlData(clipData!!)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                clipboard.clearPrimaryClip()
+            }
             binding.etSaveUrl.setText(clipData)
             binding.etSaveUrl.setSelection(clipData!!.length)
+            saveViewModel.setClipDataClear()
         }
         binding.btnSaveClose.setOnClickListener {
             hideKeyBoard()
