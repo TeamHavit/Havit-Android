@@ -4,20 +4,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sopt.havit.R
-import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.ActivityContentsBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryContentModifyActivity
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_DELETE_CATEGORY
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_MODIFY_CATEGORY
-import org.sopt.havit.ui.category.CategoryFragment
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_IMAGE_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ITEM_LIST
@@ -41,6 +41,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private var categoryPosition = 0
     private var contentsOption = "all" // chip의 옵션 (전체/안봤어요/봤어요/알람)
     private var contentsFilter = "created_at" // 정렬 필터 (최신순/과거순/최근조회순)
+    private lateinit var currentHavitView: ImageView
+    private var currentHavitPosition = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,14 +69,16 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         getModifyData()
         clickItemHavit()
         clickItemMore()
+        refreshContentsData()
+        setHavitAction()
     }
 
     override fun onResume() {
         super.onResume()
-        setContentsData()
+        requestContentsData()
     }
 
-    private fun setContentsData() {
+    private fun requestContentsData() {
         if (categoryId <= -1) {
             contentsViewModel.requestContentsAllTaken(contentsOption, contentsFilter, categoryName)
         } else {
@@ -104,6 +108,13 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         setCategoryName(categoryName)
     }
 
+    private fun refreshContentsData() {
+        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+            it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotation_refresh))
+            requestContentsData()
+        }
+    }
+
     private fun initValue() {
         // 레이아웃 초기화
         layout = LINEAR_MIN_LAYOUT
@@ -116,14 +127,12 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         with(contentsViewModel) {
             loadState.observe(this@ContentsActivity) {
                 // 서버 불러오는 중이라면 스켈레톤 화면 및 shimmer 효과를 보여줌
-                with(binding) {
-                    if (it) {
-                        sflContents.startShimmer()
-                        sflCount.startShimmer()
-                    } else {
-                        sflContents.stopShimmer()
-                        sflCount.stopShimmer()
-                    }
+                if (it == NetworkState.LOADING) {
+                    binding.sflContents.startShimmer()
+                    binding.sflCount.startShimmer()
+                } else {
+                    binding.sflContents.stopShimmer()
+                    binding.sflCount.stopShimmer()
                 }
             }
             contentsList.observe(this@ContentsActivity) {
@@ -206,7 +215,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                         else -> "최근 조회순"
                     }
                     // 서버 호출
-                    setContentsData()
+                    requestContentsData()
                     dialog.dismiss()
                 }
             })
@@ -287,19 +296,19 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         with(binding) {
             chAll.setOnClickListener {
                 contentsOption = "all"
-                setContentsData()
+                requestContentsData()
             }
             chSeen.setOnClickListener {
                 contentsOption = "true"
-                setContentsData()
+                requestContentsData()
             }
             chUnseen.setOnClickListener {
                 contentsOption = "false"
-                setContentsData()
+                requestContentsData()
             }
             chAlarm.setOnClickListener {
                 contentsOption = "notified"
-                setContentsData()
+                requestContentsData()
             }
         }
     }
@@ -358,34 +367,53 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun clickItemHavit() {
         contentsAdapter.setHavitClickListener(object : ContentsAdapter.OnItemHavitClickListener {
             override fun onHavitClick(v: ImageView, position: Int) {
-                with(contentsAdapter) {
-                    // 보지 않았던 콘텐츠의 경우 콘텐츠를 봤다는 토스트 띄우기
-                    if (!currentList[position].isSeen) {
-                        CustomToast.showDesignatedToast(
-                            this@ContentsActivity,
-                            R.layout.toast_havit_complete
-                        )
-                    }
+                // 서버 호출
+                contentsViewModel.setIsSeen(contentsAdapter.currentList[position].id)
+                currentHavitView = v
+                currentHavitPosition = position
 
-                    currentList[position].isSeen = !currentList[position].isSeen
-                    // 서버 호출
-                    contentsViewModel.setIsSeen(currentList[position].id)
-                    // 태그 바꾸기
-                    val isSeen = (v.tag == "seen")
-                    v.tag = if (isSeen) "unseen" else "seen"
-                    v.setImageResource(if (isSeen) R.drawable.ic_contents_unread else R.drawable.ic_contents_read_2)
-
-                    // 본 콘텐츠 목록에서 해빗 해제 시 제거
-                    if ((contentsOption == "true" || contentsFilter == "seen_at") && v.tag == "unseen") {
-                        removeContentsItem(position)
-                    }
-                    // 안 본 콘텐츠 목록에서 해빗 등록 시 제거
-                    else if (contentsOption == "false" && v.tag == "seen") {
-                        removeContentsItem(position)
-                    }
-                }
             }
         })
+    }
+
+    private fun setHavitAction() {
+        contentsViewModel.requestSeenState.observe(this@ContentsActivity) {
+            when (it) {
+                NetworkState.SUCCESS -> setSuccessHaivtAction()
+                NetworkState.FAIL -> setFailAction()
+                else -> {}
+            }
+        }
+    }
+
+    private fun setSuccessHaivtAction() {
+        with(contentsAdapter) {
+            // 보지 않았던 콘텐츠의 경우 콘텐츠를 봤다는 토스트 띄우기
+            if (!currentList[currentHavitPosition].isSeen) {
+                CustomToast.showDesignatedToast(
+                    this@ContentsActivity,
+                    R.layout.toast_havit_complete
+                )
+            }
+
+            currentList[currentHavitPosition].isSeen = !currentList[currentHavitPosition].isSeen
+
+            // 태그 바꾸기
+            val isSeen = (currentHavitView.tag == "seen")
+            currentHavitView.tag = if (isSeen) "unseen" else "seen"
+            currentHavitView.setImageResource(if (isSeen) R.drawable.ic_contents_unread else R.drawable.ic_contents_read_2)
+
+            // 본 콘텐츠 목록에서 해빗 해제 시 제거
+            if ((contentsOption == "true" || contentsFilter == "seen_at") && currentHavitView.tag == "unseen") {
+                removeContentsItem(currentHavitPosition)
+            }
+            // 안 본 콘텐츠 목록에서 해빗 등록 시 제거
+            else if (contentsOption == "false" && currentHavitView.tag == "seen") {
+                removeContentsItem(currentHavitPosition)
+            }
+        }
+
+        contentsViewModel.initRequestState()
     }
 
     private fun removeContentsItem(index: Int) {
@@ -395,6 +423,11 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
         contentsViewModel.updateContentsList(list)
         contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
+    }
+
+    private fun setFailAction() {
+        CustomToast.showTextToast(this, resources.getString(R.string.error_occur))
+        contentsViewModel.initRequestState()
     }
 
     companion object {
