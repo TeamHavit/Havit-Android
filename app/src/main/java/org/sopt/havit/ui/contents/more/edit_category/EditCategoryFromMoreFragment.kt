@@ -13,7 +13,9 @@ import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentEditCategoryFromMoreBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment
+import org.sopt.havit.ui.contents.more.edit_category.EditCategoryFromMoreViewModel.Companion.PATCH_CATEGORY
 import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.OnBackPressedHandler
 
 @AndroidEntryPoint
@@ -69,9 +71,15 @@ class EditCategoryFromMoreFragment :
 
     private fun initCompleteBtnClick() {
         binding.btnComplete.setOnClickListener {
-            if (viewModel.isCategoryModified())
+            if (viewModel.isCategoryModified()) {
                 viewModel.patchNewCategoryList()
-            else dismissBottomSheet()
+                viewModel.isNetworkCorrespondenceEnd.observe( // 서버통신 완료된 후에 뷰 dismiss
+                    requireActivity(),
+                    EventObserver {
+                        if (it == PATCH_CATEGORY) dismissBottomSheet()
+                    }
+                )
+            } else dismissBottomSheet()
         }
     }
 
