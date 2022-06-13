@@ -120,11 +120,11 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     private fun setListeners() {
         binding.clPasteClipBoard.setOnClickListener { // url 붙여넣기 팝업 클릭시 editText에 url 보여주기
             saveViewModel.setUrlData(clipData!!)
+            binding.etSaveUrl.setText(clipData)
+            binding.etSaveUrl.setSelection(clipData!!.length)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 clipboard.clearPrimaryClip()
             }
-            binding.etSaveUrl.setText(clipData)
-            binding.etSaveUrl.setSelection(clipData!!.length)
             saveViewModel.setClipDataClear()
         }
         binding.btnSaveClose.setOnClickListener {
