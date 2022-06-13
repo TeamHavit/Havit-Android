@@ -81,8 +81,8 @@ class EditCategoryFromMoreViewModel @Inject constructor(
                 Log.d(TAG, "patchNewCategoryList: success")
             }.onFailure {
                 Log.d(TAG, "patchNewCategoryList: failure ${it.message}")
-            }
-        }.run { userClicksOnButton(PATCH_CATEGORY) }
+            }.run { userClicksOnButton(PATCH_CATEGORY) }
+        }
     }
 
     companion object {
