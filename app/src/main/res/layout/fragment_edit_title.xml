@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.share.EditTitleFragment">
 
+    <!-- toolbar -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_tool_bar"
         android:layout_width="match_parent"
@@ -40,8 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="6dp"
-            android:text="@string/complete"
             android:padding="13dp"
+            android:text="@string/complete"
             android:textAppearance="@style/Text14Medium"
             android:textColor="@color/havit_purple"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -80,26 +81,33 @@
             app:layout_constraintStart_toStartOf="@id/tv_edit_title"
             app:layout_constraintTop_toBottomOf="@id/tv_edit_title" />
 
+        <ImageView
+            android:id="@+id/iv_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/bg_white_gradient"
+            android:elevation="30dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_description" />
+
         <EditText
-            android:padding="50dp"
             android:id="@+id/et_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="240dp"
             android:layout_marginHorizontal="22dp"
-            android:layout_marginTop="77dp"
+            android:layout_marginTop="40dp"
             android:autofillHints="false"
             android:background="@null"
-            android:gravity="center|top"
+            android:gravity="center"
             android:importantForAutofill="auto"
             android:inputType="textMultiLine"
             android:scrollHorizontally="false"
-            tools:text="콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈 테스트으으ㅡ으"
+            android:selectAllOnFocus="true"
             android:textAppearance="@style/Text20Medium"
             android:textColor="@color/gray_4"
             android:theme="@style/PurpleEditTextStyle"
-            app:layout_constraintTop_toBottomOf="@id/tv_description" />
-
-        <!-- TODO : 147 확인  -->
+            app:layout_constraintTop_toBottomOf="@id/tv_description"
+            tools:text="콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈 테스트으으ㅡ으콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈 테스트으으ㅡ으콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈 테스트으으ㅡ으콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈 테스트으으ㅡ으" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -24,7 +22,6 @@ import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.KeyBoardUtil.openKeyBoard
 import java.net.URL
 
-
 class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentSaveBinding
@@ -37,13 +34,13 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_save, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,7 +59,6 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
             getKeyBoardHeight()
         }
     }
-
 
     private fun setClipBoardUrl() {
         if (clipboard.hasPrimaryClip()) { // 클립보드에 내용이 있으면 팝업을 보여줌.
@@ -97,8 +93,8 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
 
     private fun setBottomSheetShow() {
         (dialog as BottomSheetDialog).behavior.apply {
-            state = BottomSheetBehavior.STATE_EXPANDED      // 높이 고정
-            skipCollapsed = true                            // HALF_EXPANDED 안되게 설정
+            state = BottomSheetBehavior.STATE_EXPANDED // 높이 고정
+            skipCollapsed = true // HALF_EXPANDED 안되게 설정
         }
         binding.clSaveBottom.layoutParams.height =
             (resources.displayMetrics.heightPixels * 0.94).toInt()
@@ -143,6 +139,4 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     override fun getTheme(): Int {
         return R.style.AppBottomSheetDialogTheme
     }
-
-
 }

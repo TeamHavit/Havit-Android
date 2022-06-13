@@ -19,7 +19,8 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(requireContext()) }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -100,7 +101,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
             binding.ivBack.setOnClickListener {
                 requireActivity().finish()
             }
-        } else {  // MainActivity
+        } else { // MainActivity
             binding.ivBack.visibility = View.GONE
             Log.d("activity_check", "Main")
         }

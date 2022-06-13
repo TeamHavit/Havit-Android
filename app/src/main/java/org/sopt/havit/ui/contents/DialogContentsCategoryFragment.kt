@@ -28,7 +28,8 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -59,8 +60,8 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
 
     private fun setBottomSheetHeight() {
         (dialog as BottomSheetDialog).behavior.apply {
-            state = BottomSheetBehavior.STATE_EXPANDED      // 높이 고정
-            skipCollapsed = true                            // HALF_EXPANDED 안되게 설정
+            state = BottomSheetBehavior.STATE_EXPANDED // 높이 고정
+            skipCollapsed = true // HALF_EXPANDED 안되게 설정
         }
 
         // 휴대폰 화면의 0.94배 높이
@@ -101,12 +102,12 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
     // 클릭한 카테고리로 이동
     private fun setCategoryItemClickListener() {
         contentsCategoryAdapter.setItemCategoryClickListener(object :
-            ContentsCategoryAdapter.OnItemClickListener {
-            override fun onClick(v: View, position: Int) {
-                setCategoryItemBackGroundColor(v)
-                moveSelectedCategoryContents(position)
-            }
-        })
+                ContentsCategoryAdapter.OnItemClickListener {
+                override fun onClick(v: View, position: Int) {
+                    setCategoryItemBackGroundColor(v)
+                    moveSelectedCategoryContents(position)
+                }
+            })
     }
 
     private fun setCategoryItemBackGroundColor(view: View) {

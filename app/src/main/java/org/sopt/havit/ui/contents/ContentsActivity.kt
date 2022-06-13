@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.ActivityContentsBinding
@@ -30,6 +31,7 @@ import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.CustomToast
 
+@AndroidEntryPoint
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
     private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(this) }
@@ -206,19 +208,19 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
             // 순서 클릭 시 이벤트 정의
             dialog.setFilterClickListener(object :
-                DialogContentsFilterFragment.OnFilterClickListener {
-                override fun onClick(filter: String) {
-                    contentsFilter = filter
-                    binding.tvOrder.text = when (filter) {
-                        "created_at" -> "최신순"
-                        "reverse" -> "과거순"
-                        else -> "최근 조회순"
+                    DialogContentsFilterFragment.OnFilterClickListener {
+                    override fun onClick(filter: String) {
+                        contentsFilter = filter
+                        binding.tvOrder.text = when (filter) {
+                            "created_at" -> "최신순"
+                            "reverse" -> "과거순"
+                            else -> "최근 조회순"
+                        }
+                        // 서버 호출
+                        requestContentsData()
+                        dialog.dismiss()
                     }
-                    // 서버 호출
-                    requestContentsData()
-                    dialog.dismiss()
-                }
-            })
+                })
         }
     }
 

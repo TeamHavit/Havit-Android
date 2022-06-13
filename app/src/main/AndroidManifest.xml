@@ -167,7 +167,8 @@
             android:name=".ui.sign.SplashWithSignActivity"
             android:configChanges="orientation"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
