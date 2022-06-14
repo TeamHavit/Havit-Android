@@ -14,7 +14,6 @@ import org.sopt.havit.databinding.FragmentEditCategoryFromMoreBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment
 import org.sopt.havit.ui.contents.more.edit_category.EditCategoryFromMoreViewModel.Companion.PATCH_CATEGORY
-import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.OnBackPressedHandler
 
@@ -85,24 +84,14 @@ class EditCategoryFromMoreFragment :
     }
 
     private fun onCloseClicked() {
-        binding.icClose.setOnClickListener {
-            if (viewModel.isCategoryModified())
-                showEditCategoryWarningDialog()
-            else dismissBottomSheet()
-        }
+        binding.icClose.setOnClickListener { dismissBottomSheet() }
     }
 
     override fun onBackPressed(): Boolean {
         if (viewModel.isCategoryModified()) {
-            showEditCategoryWarningDialog()
             return true
         }
         return false
-    }
-
-    private fun showEditCategoryWarningDialog() {
-        val dialog = DialogUtil(DialogUtil.CANCEL_EDIT_CATEGORY, ::dismissBottomSheet)
-        dialog.show(requireActivity().supportFragmentManager, this.javaClass.name)
     }
 
     private fun dismissBottomSheet() {
