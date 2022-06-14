@@ -62,12 +62,9 @@ class EditCategoryFromMoreViewModel @Inject constructor(
                 categoryList.value = response.data
                 originCategoryId.value =
                     response.data.filter { !it.isSelected }.map { categoryMapper.toCategoryId(it) }
+                // todo : 위에 it.selected `!` 바꿔야됨
                 Log.d(TAG, "getCategoryList: ${categoryList.value}")
                 Log.d(TAG, "getCategoryList: ${originCategoryId.value}")
-            }.onSuccess {
-                Log.d(TAG, "getCategoryList: success")
-            }.onFailure {
-                Log.d(TAG, "getCategoryList: failure")
             }
         }
     }

@@ -7,5 +7,5 @@ data class Category(
     val imageId: Int,
     val imageUrl: String,
     val contentNumber: Int,
-    var isSelected: Boolean = true
+    var isSelected: Boolean = true // todo  : default value 지우기
 )
