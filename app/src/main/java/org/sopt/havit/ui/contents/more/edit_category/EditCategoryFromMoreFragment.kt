@@ -22,8 +22,8 @@ import org.sopt.havit.util.OnBackPressedHandler
 class EditCategoryFromMoreFragment :
     BaseBindingFragment<FragmentEditCategoryFromMoreBinding>(R.layout.fragment_edit_category_from_more),
     OnBackPressedHandler {
-    private lateinit var categoryAdapter: EditCategoryAdapter
     private val viewModel: EditCategoryFromMoreViewModel by viewModels()
+    private lateinit var categoryAdapter: EditCategoryAdapter
     private lateinit var bottomSheetDialogFragment: BottomSheetDialogFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,7 +57,8 @@ class EditCategoryFromMoreFragment :
     private fun onCategoryClick(position: Int) {
         viewModel.toggleItemSelected(position)
         categoryAdapter.submitList(viewModel.categoryList.value)
-        Log.d(TAG, "onCategoryClick:$position ${categoryAdapter.currentList[position].isSelected}")
+        Log.d(TAG, "getCategoryList c: ${viewModel.categoryList.value}")
+        Log.d(TAG, "getCategoryList:$position ${categoryAdapter.currentList[position].isSelected}")
     }
 
     private fun getBundleData(): Parcelable? {
