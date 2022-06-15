@@ -74,7 +74,7 @@
             app:layout_constraintBottom_toTopOf="@id/btn_complete"
             app:layout_constraintTop_toBottomOf="@+id/tv_choose_category"
             tools:itemCount="3"
-            tools:listitem="@layout/item_category_selectable" />
+            tools:listitem="@layout/item_category_toggle" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_complete"
