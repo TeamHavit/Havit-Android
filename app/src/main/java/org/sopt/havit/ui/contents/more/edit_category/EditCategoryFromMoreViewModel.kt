@@ -22,13 +22,12 @@ class EditCategoryFromMoreViewModel @Inject constructor(
     private val categoryMapper: CategoryMapper
 ) : ViewModel() {
     val token = authRepository.getAccessToken()
-    var contentsId = MutableLiveData<Int>()
-        private set
+    val contentsId = MutableLiveData<Int>()
     var categoryList = MutableLiveData<List<Category>>()
         private set
     var originCategoryId = MutableLiveData<List<Int>>()
     private var newCategoryId =
-        categoryList.value?.filter { it.isSelected ?: throw IllegalArgumentException() }
+        categoryList.value?.filter { it.isSelected }
     var isCategorySelectedAtLeastOne = newCategoryId?.size != 0
 
     private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
@@ -51,6 +50,7 @@ class EditCategoryFromMoreViewModel @Inject constructor(
         categoryList.value?.let {
             it[position].isSelected = !(it[position].isSelected)
         }
+        categoryList.value = categoryList.value?.toMutableList() // asyncDiffer 작동하게 하기 위함
     }
 
     fun getCategoryListWithSelectedInfo() {
