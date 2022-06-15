@@ -54,7 +54,7 @@ class EditCategoryFromMoreViewModel @Inject constructor(
     }
 
     private fun changeDataWithNewMemoryReference() { // asyncDiffer 작동하게 하기 위함
-        categoryList.value = categoryList.value?.toMutableList()
+        categoryList.value = categoryList.value?.toList()
     }
 
     fun getCategoryListWithSelectedInfo() {

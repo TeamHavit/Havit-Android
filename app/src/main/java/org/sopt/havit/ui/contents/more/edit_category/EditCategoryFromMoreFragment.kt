@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
@@ -29,6 +30,12 @@ class EditCategoryFromMoreFragment :
         viewModel.initProperty(getBundleData() as ContentsMoreData)
         getDataFromServer()
         initRvAdapter()
+
+        val animator = binding.rvCategory.itemAnimator
+        if (animator is SimpleItemAnimator) {
+            animator.supportsChangeAnimations = false
+        }
+
         initRvList()
         initCompleteBtnClick()
         initBottomSheetDialogFragment()

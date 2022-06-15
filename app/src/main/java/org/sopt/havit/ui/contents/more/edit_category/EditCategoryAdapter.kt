@@ -18,7 +18,7 @@ class EditCategoryAdapter(private val onCategoryClick: (Int) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        val category = getItem(position)
+        val category = currentList[position]
         holder.bind(position, category, onCategoryClick)
     }
 
@@ -35,10 +35,11 @@ class EditCategoryAdapter(private val onCategoryClick: (Int) -> Unit) :
     }
 
     private class CategoryDataComparator : DiffUtil.ItemCallback<Category>() {
-        override fun areItemsTheSame(oldItem: Category, newItem: Category) =
-            oldItem.isSelected == newItem.isSelected
+        // category 가 삭제되지 않음
+        override fun areItemsTheSame(oldItem: Category, newItem: Category) = true
 
-        override fun areContentsTheSame(oldItem: Category, newItem: Category) =
-            oldItem == newItem
+        override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
+            return false
+        }
     }
 }
