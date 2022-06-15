@@ -1,9 +1,7 @@
 package org.sopt.havit.ui.contents.more.edit_category
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -48,16 +46,12 @@ class EditCategoryFromMoreFragment :
 
     private fun initRvList() {
         viewModel.categoryList.observe(viewLifecycleOwner) { list ->
-            Log.d(TAG, "onCategoryClick: observe")
             categoryAdapter.submitList(list)
         }
     }
 
     private fun onCategoryClick(position: Int) {
         viewModel.toggleItemSelected(position)
-        categoryAdapter.submitList(viewModel.categoryList.value)
-        Log.d(TAG, "getCategoryList c: ${viewModel.categoryList.value}")
-        Log.d(TAG, "getCategoryList:$position ${categoryAdapter.currentList[position].isSelected}")
     }
 
     private fun getBundleData(): Parcelable? {
@@ -88,9 +82,8 @@ class EditCategoryFromMoreFragment :
     }
 
     override fun onBackPressed(): Boolean {
-        if (viewModel.isCategoryModified()) {
+        if (viewModel.isCategoryModified())
             return true
-        }
         return false
     }
 
