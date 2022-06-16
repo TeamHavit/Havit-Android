@@ -35,11 +35,7 @@ class EditCategoryAdapter(private val onCategoryClick: (Int) -> Unit) :
     }
 
     private class CategoryDataComparator : DiffUtil.ItemCallback<Category>() {
-        // category 가 삭제되지 않음
         override fun areItemsTheSame(oldItem: Category, newItem: Category) = true
-
-        override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
-            return false
-        }
+        override fun areContentsTheSame(oldItem: Category, newItem: Category) = oldItem == newItem
     }
 }
