@@ -1,6 +1,5 @@
 package org.sopt.havit.util
 
-import android.content.ContentValues.TAG
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
@@ -185,9 +184,14 @@ object BindingAdapter {
     @BindingAdapter("app:btnBackground")
     @JvmStatic
     fun AppCompatButton.setBtnBackground(isEnabled: Boolean) {
-        Log.d(TAG, "onCategoryClick _ $isEnabled")
         this.setBackgroundResource(
             if (isEnabled) R.drawable.rectangle_havit_purple else R.drawable.rectangle_gray_2
         )
+    }
+
+    @BindingAdapter("app:btnEnabled")
+    @JvmStatic
+    fun AppCompatButton.setBtnEnable(isEnabled: Boolean) {
+        this.isEnabled = isEnabled
     }
 }

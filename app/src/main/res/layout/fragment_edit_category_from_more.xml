@@ -85,6 +85,7 @@
             android:textAppearance="@style/Text16Semibold"
             android:textColor="@color/white"
             app:btnBackground="@{viewModel.isCategorySelectedAtLeastOne}"
+            app:btnEnabled="@{viewModel.isCategorySelectedAtLeastOne}"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
