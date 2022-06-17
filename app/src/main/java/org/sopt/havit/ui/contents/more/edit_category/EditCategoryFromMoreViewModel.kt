@@ -27,7 +27,7 @@ class EditCategoryFromMoreViewModel @Inject constructor(
         private set
     private var originCategoryId = MutableLiveData<List<Int>>()
     private var newCategoryId = MutableLiveData<List<Int>>()
-    var isCategorySelectedAtLeastOne = MutableLiveData<Boolean>()
+    var isCategorySelectedAtLeastOne = MutableLiveData(true)
 
     private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
     val isNetworkCorrespondenceEnd: MutableLiveData<Event<String>>

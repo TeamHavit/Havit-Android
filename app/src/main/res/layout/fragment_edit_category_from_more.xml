@@ -80,11 +80,11 @@
             android:id="@+id/btn_complete"
             android:layout_width="match_parent"
             android:layout_height="85dp"
-            android:background="@drawable/rectangle_gray_2"
             android:paddingBottom="22dp"
             android:text="@string/complete"
             android:textAppearance="@style/Text16Semibold"
             android:textColor="@color/white"
+            app:btnBackground="@{viewModel.isCategorySelectedAtLeastOne}"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

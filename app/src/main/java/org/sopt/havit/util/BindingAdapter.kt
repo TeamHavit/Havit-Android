@@ -1,11 +1,13 @@
 package org.sopt.havit.util
 
+import android.content.ContentValues.TAG
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -178,5 +180,14 @@ object BindingAdapter {
     @JvmStatic
     fun ImageView.imageVisibility(isSelected: Boolean) {
         this.visibility = if (isSelected) View.VISIBLE else View.GONE
+    }
+
+    @BindingAdapter("app:btnBackground")
+    @JvmStatic
+    fun AppCompatButton.setBtnBackground(isEnabled: Boolean) {
+        Log.d(TAG, "onCategoryClick _ $isEnabled")
+        this.setBackgroundResource(
+            if (isEnabled) R.drawable.rectangle_havit_purple else R.drawable.rectangle_gray_2
+        )
     }
 }

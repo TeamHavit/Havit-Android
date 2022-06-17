@@ -27,6 +27,8 @@ class EditTitleFromMoreFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
         viewModel.initProperty(getBundleData() as ContentsMoreData)
         initCompleteBtnClick()
         initBottomSheetDialogFragment()
