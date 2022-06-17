@@ -1,9 +1,7 @@
 package org.sopt.havit.ui.contents.more.edit_category
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -56,7 +54,6 @@ class EditCategoryFromMoreFragment :
     private fun onCategoryClick(position: Int) {
         viewModel.onCategoryClick(position)
         categoryAdapter.notifyItemChanged(position)
-        Log.d(TAG, "onCategoryClick: ${viewModel.isCategorySelectedAtLeastOne.value}")
     }
 
     private fun getBundleData(): Parcelable? {

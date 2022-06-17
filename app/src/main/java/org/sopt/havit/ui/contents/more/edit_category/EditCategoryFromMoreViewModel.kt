@@ -42,7 +42,7 @@ class EditCategoryFromMoreViewModel @Inject constructor(
     }
 
     fun isCategoryModified(): Boolean {
-        return originCategoryId != newCategoryId
+        return originCategoryId.value != newCategoryId.value
     }
 
     fun onCategoryClick(position: Int) {
