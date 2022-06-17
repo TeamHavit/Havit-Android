@@ -51,7 +51,7 @@ class EditCategoryFromMoreFragment :
     }
 
     private fun onCategoryClick(position: Int) {
-        viewModel.toggleItemSelected(position)
+        viewModel.onCategoryClick(position)
         categoryAdapter.notifyItemChanged(position)
     }
 

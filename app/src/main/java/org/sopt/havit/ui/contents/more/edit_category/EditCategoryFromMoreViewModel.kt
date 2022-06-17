@@ -21,14 +21,13 @@ class EditCategoryFromMoreViewModel @Inject constructor(
     authRepository: AuthRepository,
     private val categoryMapper: CategoryMapper
 ) : ViewModel() {
-    val token = authRepository.getAccessToken()
-    val contentsId = MutableLiveData<Int>()
+    private val token = authRepository.getAccessToken()
+    private val contentsId = MutableLiveData<Int>()
     var categoryList = MutableLiveData<List<Category>>()
         private set
-    var originCategoryId = MutableLiveData<List<Int>>()
-    private var newCategoryId =
-        categoryList.value?.filter { it.isSelected }
-    var isCategorySelectedAtLeastOne = newCategoryId?.size != 0
+    private var originCategoryId = MutableLiveData<List<Int>>()
+    private var newCategoryId = MutableLiveData<List<Int>>()
+    var isCategorySelectedAtLeastOne = MutableLiveData<Boolean>()
 
     private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
     val isNetworkCorrespondenceEnd: MutableLiveData<Event<String>>
@@ -46,7 +45,23 @@ class EditCategoryFromMoreViewModel @Inject constructor(
         return originCategoryId != newCategoryId
     }
 
-    fun toggleItemSelected(position: Int) {
+    fun onCategoryClick(position: Int) {
+        toggleItemSelected(position)
+        setNewCategoryId()
+        setIsCategorySelectedAtLeastOne()
+    }
+
+    private fun setNewCategoryId() {
+        newCategoryId.value = categoryList.value?.filter { it.isSelected }?.map {
+            categoryMapper.toCategoryId(it)
+        }
+    }
+
+    private fun setIsCategorySelectedAtLeastOne() {
+        isCategorySelectedAtLeastOne.value = newCategoryId.value?.size != 0
+    }
+
+    private fun toggleItemSelected(position: Int) {
         categoryList.value?.let {
             it[position].isSelected = !(it[position].isSelected)
         }
@@ -71,10 +86,11 @@ class EditCategoryFromMoreViewModel @Inject constructor(
     fun patchNewCategoryList() {
         viewModelScope.launch {
             kotlin.runCatching {
-                val body = // TODO : 아래 body는 test 코드임 수정 예정
-                    ModifyContentCategoryParams(requireNotNull(contentsId.value), listOf(494, 495))
-                val response = RetrofitObject.provideHavitApi(token).modifyContentCategory(body)
-                Log.d(TAG, "patchNewCategoryList: ${response.message}")
+                val body = ModifyContentCategoryParams(
+                    contentId = requireNotNull(contentsId.value),
+                    newCategoryIds = requireNotNull(newCategoryId.value)
+                )
+                RetrofitObject.provideHavitApi(token).modifyContentCategory(body)
             }.onSuccess {
                 Log.d(TAG, "patchNewCategoryList: success")
             }.onFailure {
