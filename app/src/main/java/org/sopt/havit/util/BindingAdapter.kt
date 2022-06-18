@@ -1,6 +1,8 @@
 package org.sopt.havit.util
 
+import android.content.ContentValues.TAG
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -11,6 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.sopt.havit.R
 import org.sopt.havit.util.CalenderUtil.setDateFormat
+import org.sopt.havit.util.CalenderUtil.setDateFormatOnRadioBtn
 import org.sopt.havit.util.DpToPxUtil.px
 
 object BindingAdapter {
@@ -154,5 +157,14 @@ object BindingAdapter {
     @JvmStatic
     fun TextView.textVisibility(isVisible: Boolean) {
         this.visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
+
+    @BindingAdapter(value = ["isTimeDirectlySetFromUser", "notiTime"], requireAll = true)
+    @JvmStatic
+    fun TextView.setNotificationTime(isTimeDirectlySetFromUser: Boolean, notiTime: String?) {
+        Log.d(TAG, "setNotificationTime: $isTimeDirectlySetFromUser, $notiTime")
+        this.text = if (isTimeDirectlySetFromUser)
+            setDateFormatOnRadioBtn(requireNotNull(notiTime))
+        else context.getString(R.string.choose_time)
     }
 }

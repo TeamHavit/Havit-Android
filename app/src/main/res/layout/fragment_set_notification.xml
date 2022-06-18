@@ -148,6 +148,8 @@
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/rbtn_choose_time"
+                    isTimeDirectlySetFromUser="@{Boolean.valueOf(viewModel.isTimeDirectlySetFromUser)}"
+                    notiTime="@{String.valueOf(viewModel.notificationTime)}"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginHorizontal="16dp"
@@ -155,7 +157,6 @@
                     android:background="@drawable/selector_noti_time_background"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="@{viewModel.isTimeDirectlySetFromUser() ? viewModel.notificationTime : `직접 시간 선택`}"
                     android:textAppearance="@style/List16Semibold"
                     android:textColor="@drawable/selector_noti_time_text"
                     app:buttonCompat="@null"
