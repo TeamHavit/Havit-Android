@@ -9,20 +9,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.NumberPicker
 import android.widget.TimePicker
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentPickerBinding
 import org.sopt.havit.util.CalenderUtil.DURATION
-import org.sopt.havit.util.CalenderUtil.dateFormatMD
+import org.sopt.havit.util.CalenderUtil.dateWithDashFormatMD
+import org.sopt.havit.util.CalenderUtil.dateWithKorFormatMD
 import org.sopt.havit.util.CalenderUtil.dayStrMapper
 import org.sopt.havit.util.CalenderUtil.setTimePickerInterval
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class PickerFragment : BottomSheetDialogFragment() {
+    private val viewModel: ShareViewModel by activityViewModels()
 
     private var _binding: FragmentPickerBinding? = null
     private val binding get() = _binding!!
@@ -63,12 +68,13 @@ class PickerFragment : BottomSheetDialogFragment() {
     }
 
     private fun setDatePickerData() {
-        val cal = Calendar.getInstance().apply { time = Date() }
+        var cal: Calendar
         for (i in 0 until DURATION) {
+            cal = Calendar.getInstance().apply { time = Date() }
+            cal.add(Calendar.DATE, i)
             calList[i] = cal
             val dateOfCal = dayStrMapper[cal.get(Calendar.DAY_OF_WEEK)]
-            dateList[i] = "${dateFormatMD.format(cal.time)}$dateOfCal"
-            cal.add(Calendar.DATE, 1)
+            dateList[i] = "${dateWithKorFormatMD.format(cal.time)} $dateOfCal"
         }
         datePicker.displayedValues = dateList
         datePicker.minValue = 0
@@ -91,29 +97,41 @@ class PickerFragment : BottomSheetDialogFragment() {
         val idx = datePicker.value
         val year = calList[idx]?.get(Calendar.YEAR)
         val monthDay = dateList[idx]
-        val displayStr = year.toString() + monthDay.toString()
+        val displayStr = year.toString() + "년 " + monthDay.toString()
         binding.tvNotiDate.text = displayStr
     }
 
     private fun setTimeText() {
-        val hour = timePicker.hour
-        val hourDisplay =
-            if (hour < 12) "오전 $hour:" else if (hour == 12) "오후 12:" else "오후 ${hour - 12}:"
-        val min = timePicker.minute
-        val minDF = DecimalFormat("00")
-        val minDisplay = minDF.format(min * 5)
-        val displayStr = hourDisplay + minDisplay
-        binding.tvNotiTime.text = displayStr
+        val hourDisplay = getFocusedHour()
+        val minDisplay = getFocusedMin()
+        binding.tvNotiTime.text = hourDisplay + minDisplay
     }
+
+    private fun getFocusedHour() = when (val hour = timePicker.hour) {
+        0 -> "오전 12"
+        12 -> "오후 12"
+        in 0..11 -> "오전 $hour"
+        in 13..24 -> "오후 ${hour - 12}"
+        else -> throw IllegalStateException()
+    } + ":"
+
+    private fun getFocusedMin() = DecimalFormat("00").format(timePicker.minute * 5)
 
     private fun initCompleteBtnClick() {
         binding.btnComplete.setOnClickListener {
-            // index -> datePicker.value
-            // Log.d(TAG, "initListener:${datePicker.displayedValues[datePicker.value]}")
-            Log.d(TAG, "initListener:${dateList[datePicker.value]}")
-            Log.d(TAG, "initListener: ${calList[datePicker.value]?.get(Calendar.YEAR)}")
-            // Log.d(TAG, "initListener: ${datePicker.display}") // hardware display
+            setNotiTimeOnViewModel()
+            dismiss()
         }
+    }
+
+    private fun setNotiTimeOnViewModel() {
+        val calSelected = calList[datePicker.value] ?: throw IllegalStateException()
+        val date = dateWithDashFormatMD.format(calSelected.time)
+        val hour = timePicker.hour
+        val min = getFocusedMin()
+        viewModel.setNotificationTime("$date $hour:$min")
+        Log.d(TAG, "initListener origin: $date $hour:$min")
+        Log.d(TAG, "initListener viewModel: ${viewModel.notificationTime.value}")
     }
 
     private fun dateScrollListener() {

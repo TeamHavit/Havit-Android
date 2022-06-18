@@ -17,6 +17,13 @@ class ShareViewModel @Inject constructor(
         private set
     var currTitle = MutableLiveData<String>()
 
+    private var _notificationTIme = MutableLiveData<String>()
+    val notificationTime get() = _notificationTIme
+
+    fun setNotificationTime(time: String) {
+        _notificationTIme.value = time
+    }
+
     private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
     val isNetworkCorrespondenceEnd: MutableLiveData<Event<String>>
         get() = _isNetworkCorrespondenceEnd
