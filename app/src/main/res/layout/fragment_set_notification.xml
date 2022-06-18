@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.sopt.havit.ui.share.ShareViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -148,7 +155,7 @@
                     android:background="@drawable/selector_noti_time_background"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="@string/choose_time"
+                    android:text="@{viewModel.isTimeDirectlySetFromUser() ? viewModel.notificationTime : `직접 시간 선택`}"
                     android:textAppearance="@style/List16Semibold"
                     android:textColor="@drawable/selector_noti_time_text"
                     app:buttonCompat="@null"

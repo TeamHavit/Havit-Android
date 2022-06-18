@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.share
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,12 +10,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentSetNotificationBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
-import org.sopt.havit.util.CalenderUtil.setDateFormatOnRadioBtn
+import org.sopt.havit.util.CalenderUtil.dateAndTimeWithDotFormatMD
 import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.MySharedPreference
 import org.sopt.havit.util.OnBackPressedHandler
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
@@ -24,52 +23,45 @@ class SetNotificationFragment :
     private val viewModel: ShareViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = requireActivity()
+
         initRadioGroupListener()
         initToolbarListener()
-        setTextOnLastRadioBtn()
-    }
-
-    private fun setTextOnLastRadioBtn() {
-        viewModel.notificationTime.observe(requireActivity()) {
-            binding.rbtnChooseTime.text =
-                if (viewModel.isTimeDirectlySetFromUser.value == true)
-                    setDateFormatOnRadioBtn(requireNotNull(viewModel.notificationTime.value))
-                else getString(R.string.choose_time)
-        }
     }
 
     private fun initRadioGroupListener() {
-        binding.rgNotificationTime.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.rbtn_1h -> getNotificationTime(ONE_HOUR)
-                R.id.rbtn_2h -> getNotificationTime(TWO_HOUR)
-                R.id.rbtn_3h -> getNotificationTime(THREE_HOUR)
-                R.id.rbtn_tomorrow -> getNotificationTime(TWENTY_FOUR_HOUR)
-                R.id.rbtn_choose_time -> return@setOnCheckedChangeListener
-                else -> throw IllegalStateException()
+        with(binding) {
+            rgNotificationTime.setOnCheckedChangeListener { _, checkedId ->
+                when (checkedId) {
+                    R.id.rbtn_1h -> getNotificationTime(ONE_HOUR)
+                    R.id.rbtn_2h -> getNotificationTime(TWO_HOUR)
+                    R.id.rbtn_3h -> getNotificationTime(THREE_HOUR)
+                    R.id.rbtn_tomorrow -> getNotificationTime(TWENTY_FOUR_HOUR)
+                    else -> return@setOnCheckedChangeListener
+                }
             }
+            rbtnChooseTime.setOnClickListener { showPickerFragment() }
         }
-        binding.rbtnChooseTime.setOnClickListener { showPickerFragment() }
     }
 
     private fun initToolbarListener() {
         binding.icBack.setOnClickListener { onBackClicked() }
         binding.tvComplete.setOnClickListener {
-            setNotiTimeOnPrefence()
+            setNotiTimeOnPreference()
             goBack()
         }
     }
 
-    private fun setNotiTimeOnPrefence() {
+    private fun setNotiTimeOnPreference() {
         MySharedPreference.setNotificationTime(
             requireContext(),
             viewModel.notificationTime.value.toString()
         )
     }
 
-    private fun getNotificationTime(idx: Int) {
+    private fun getNotificationTime(idx: Int): String {
         val cal = Calendar.getInstance().apply { time = Date() }
-        val df: DateFormat = SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.getDefault())
         when (idx) {
             ONE_HOUR -> cal.add(Calendar.HOUR, 1)
             TWO_HOUR -> cal.add(Calendar.HOUR, 2)
@@ -77,9 +69,10 @@ class SetNotificationFragment :
             TWENTY_FOUR_HOUR -> cal.add(Calendar.DATE, 1)
             else -> throw IllegalStateException()
         }
-        Log.d("After  change : ", df.format(cal.time))
+        Log.d(TAG, "getNotificationTime: ${dateAndTimeWithDotFormatMD.format(cal.time)}")
         viewModel.isTimeDirectlySetFromUser(false)
-        viewModel.setNotificationTime(df.format(cal.time))
+        viewModel.setNotificationTime(dateAndTimeWithDotFormatMD.format(cal.time))
+        return dateAndTimeWithDotFormatMD.format(cal.time)
     }
 
     private fun showPickerFragment() {
@@ -88,8 +81,9 @@ class SetNotificationFragment :
     }
 
     private fun onBackClicked() {
-        if (viewModel.notificationTime.value != null) showEditTitleWarningDialog()
-        else goBack()
+        if (viewModel.notificationTime.value != null) {
+            showEditTitleWarningDialog()
+        } else goBack()
     }
 
     override fun onBackPressed(): Boolean {
@@ -101,8 +95,13 @@ class SetNotificationFragment :
     }
 
     private fun showEditTitleWarningDialog() {
-        val dialog = DialogUtil(DialogUtil.CANCEL_SET_NOTIFICATION, ::goBack)
+        val dialog = DialogUtil(DialogUtil.CANCEL_SET_NOTIFICATION, ::doAfterConfirm)
         dialog.show(requireActivity().supportFragmentManager, this.javaClass.name)
+    }
+
+    private fun doAfterConfirm() {
+        viewModel.setNotificationTime(null)
+        goBack()
     }
 
     private fun goBack() {
