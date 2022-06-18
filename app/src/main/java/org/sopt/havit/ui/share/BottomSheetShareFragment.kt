@@ -5,15 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentBottomSheetShareBinding
 import org.sopt.havit.util.OnBackPressedHandler
 import org.sopt.havit.util.getTopmostFragmentOrNull
 
+@AndroidEntryPoint
 class BottomSheetShareFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentBottomSheetShareBinding? = null
     private val binding get() = _binding!!
@@ -48,7 +51,7 @@ class BottomSheetShareFragment : BottomSheetDialogFragment() {
             override fun onBackPressed() {
                 if ((getTopmostFragmentOrNull() as? OnBackPressedHandler)?.onBackPressed() == true) return
                 val navController = binding.fcvShare.findNavController()
-                if (navController.graph.startDestination == navController.currentDestination?.id) super.onBackPressed()
+                if (navController.graph.findStartDestination() == navController.currentDestination) super.onBackPressed()
                 else navController.popBackStack()
             }
         }

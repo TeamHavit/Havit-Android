@@ -26,6 +26,7 @@
             android:id="@+id/cl_topbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="@{vmHome.loadState ? View.GONE : View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -72,6 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
+            android:visibility="@{vmHome.loadState ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_topbar">
 
@@ -94,12 +96,12 @@
 
                     <TextView
                         android:id="@+id/tv_popup"
+                        popupDescription="@{vmHome.reachRate}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="22dp"
                         android:layout_marginTop="13dp"
                         android:layout_marginBottom="14dp"
-                        android:text="@{vmHome.popup}"
                         android:textAppearance="@style/Text14Regular"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -592,5 +594,18 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </org.sopt.havit.util.StickyScrollView>
+
+        <!-- 로딩 중 -->
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/sfl_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{vmHome.loadState ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include layout="@layout/fragment_home_skeleton" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

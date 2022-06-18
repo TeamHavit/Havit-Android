@@ -29,9 +29,9 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
             val hour = time.substring(11 until 13)
             val minute = time.substring(14 until 16)
             if (hour < "12") {
-                data.notificationTime = "$date 오전 ${hour}:${minute} "
+                data.notificationTime = "$date 오전 $hour:$minute "
             } else {
-                data.notificationTime = "$date 오후 ${hour}:${minute} "
+                data.notificationTime = "$date 오후 $hour:$minute "
             }
         }
 
@@ -45,7 +45,7 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
     inner class LinearMinViewHolder(private val binding: ItemContentsLinearMinBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
-            changeTimeFormat(data)      // 시간 형식 변경
+            changeTimeFormat(data) // 시간 형식 변경
             with(binding) {
                 content = data
                 ivHavit.tag = if (data.isSeen) "seen" else "unseen"
@@ -59,7 +59,7 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
     inner class GridViewHolder(private val binding: ItemContentsGridBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
-            changeTimeFormat(data)      // 시간 형식 변경
+            changeTimeFormat(data) // 시간 형식 변경
             with(binding) {
                 content = data
                 ivHavit.tag = if (data.isSeen) "seen" else "unseen"
@@ -73,7 +73,7 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
     inner class LinearMaxViewHolder(private val binding: ItemContentsLinearMaxBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsResponse.ContentsData) {
-            changeTimeFormat(data)      // 시간 형식 변경
+            changeTimeFormat(data) // 시간 형식 변경
             with(binding) {
                 content = data
                 ivHavit.tag = if (data.isSeen) "seen" else "unseen"
@@ -122,17 +122,22 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
                 (holder as LinearMaxViewHolder).onBind(getItem(position))
             }
         }
+
+        // item 삭제 시 position이 업데이트 되지 않고 초기 position으로 남아있기에 holder.layoutPosition으로 위치를 넘겨준다.
         // 아이템 전체 클릭 시 onWebClick() 호출
         holder.itemView.setOnClickListener {
-            itemClickListener.onWebClick(it, position)
+            itemClickListener.onWebClick(it, holder.layoutPosition)
         }
         // 아이템의 더보기 클릭 시 onSetClick() 호출
         holder.itemView.findViewById<View>(R.id.iv_setting).setOnClickListener {
-            itemSetClickListener.onSetClick(it, position)
+            itemSetClickListener.onSetClick(it, holder.layoutPosition)
         }
         // 아이템의 해빗 클릭 시 onHavitClick() 호출
         holder.itemView.findViewById<ImageView>(R.id.iv_havit).setOnClickListener {
-            itemHavitClickListener.onHavitClick(holder.itemView.findViewById(R.id.iv_havit), position)
+            itemHavitClickListener.onHavitClick(
+                holder.itemView.findViewById(R.id.iv_havit),
+                holder.layoutPosition
+            )
         }
     }
 
@@ -141,7 +146,7 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
         fun onWebClick(v: View, position: Int)
     }
     // 아이템 더보기 클릭 리스너 인터페이스
-    interface OnItemSetClickListener{
+    interface OnItemSetClickListener {
         fun onSetClick(v: View, position: Int)
     }
     // 아이템 해빗 클릭 리스너 인터페이스
@@ -154,7 +159,7 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
         this.itemClickListener = onItemClickListener
     }
     // 외부에서 더보기 클릭 시 이벤트 설정
-    fun setItemSetClickListner(onItemSetClickListener: OnItemSetClickListener){
+    fun setItemSetClickListner(onItemSetClickListener: OnItemSetClickListener) {
         this.itemSetClickListener = onItemSetClickListener
     }
     // 외부에서 해빗 클릭 시 이벤트 설정

@@ -9,14 +9,15 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentDialogContentsFilterBinding
 
-class DialogContentsFilterFragment : BottomSheetDialogFragment() {
+class DialogContentsFilterFragment(private var contentsFilter: String) :
+    BottomSheetDialogFragment() {
     private var _binding: FragmentDialogContentsFilterBinding? = null
     private val binding get() = _binding ?: error("Binding이 초기화 되지 않았습니다.")
     private lateinit var filterClickListener: OnFilterClickListener
-    private lateinit var filter: String
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil.inflate(
@@ -25,7 +26,7 @@ class DialogContentsFilterFragment : BottomSheetDialogFragment() {
             container,
             false
         )
-        binding.data = ContentsActivity.Companion
+        binding.filter = contentsFilter
 
         clickFilter()
         return binding.root
@@ -41,13 +42,15 @@ class DialogContentsFilterFragment : BottomSheetDialogFragment() {
         binding.rgContainer.setOnCheckedChangeListener { _, checkedId ->
             // checkedId가 기존 filter와 다른 경우 이벤트 실행
             // 조건문을 넣어주지 않으면 기존 checkedId = -1 에서 삼항연산자를 통해 바뀌기 때문에 show()와 동시에 함수가 실행된다
-            if (binding.data?.contentsFilter != (when (checkedId) {
+            if (binding.filter != (
+                when (checkedId) {
                     R.id.rb_recent -> "created_at"
                     R.id.rb_past -> "reverse"
                     else -> "seen_at"
-                }.also { filter = it })
+                }.also { contentsFilter = it }
+                )
             ) {
-                filterClickListener.onClick(filter) // 함수 실행
+                filterClickListener.onClick(contentsFilter) // 함수 실행
             }
         }
     }

@@ -1,6 +1,7 @@
 package org.sopt.havit.ui.home
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,6 +18,19 @@ import org.sopt.havit.util.MySharedPreference
 class HomeViewModel(context: Context) : ViewModel() {
     private val token = MySharedPreference.getXAuthToken(context)
 
+    // 로딩 상태를 나타내는 변수
+    private val _loadState = MutableLiveData(true)
+    val loadState: LiveData<Boolean> = _loadState
+
+    private val _contentsLoadState = MutableLiveData(true)
+    val contentsLoadState: LiveData<Boolean> = _contentsLoadState
+    private val _categoryLoadState = MutableLiveData(true)
+    val categoryLoadState: LiveData<Boolean> = _categoryLoadState
+    private val _recommendLoadState = MutableLiveData(true)
+    val recommendLoadState: LiveData<Boolean> = _recommendLoadState
+    private val _userLoadState = MutableLiveData(true)
+    val userLoadState: LiveData<Boolean> = _userLoadState
+
     // 최근저장 콘텐츠
     private val _contentsList = MutableLiveData<List<ContentsSimpleResponse.ContentsSimpleData>>()
     val contentsList: LiveData<List<ContentsSimpleResponse.ContentsSimpleData>> = _contentsList
@@ -27,6 +41,8 @@ class HomeViewModel(context: Context) : ViewModel() {
                     RetrofitObject.provideHavitApi(token)
                         .getContentsRecent()
                 _contentsList.postValue(response.data)
+                _contentsLoadState.postValue(false)
+                setLoadState()
             } catch (e: Exception) {
             }
         }
@@ -41,7 +57,10 @@ class HomeViewModel(context: Context) : ViewModel() {
                 val response =
                     RetrofitObject.provideHavitApi(token)
                         .getAllCategory()
+                setLoadState()
                 _categoryData.postValue(response.data)
+                _categoryLoadState.postValue(false)
+                setLoadState()
             } catch (e: Exception) {
             }
         }
@@ -50,7 +69,8 @@ class HomeViewModel(context: Context) : ViewModel() {
     // category 전체 데이터를 6개씩 잘라 List로 묶는 함수
     fun setList(
         data:
-        List<CategoryResponse.AllCategoryData>, totalNum: Int
+            List<CategoryResponse.AllCategoryData>,
+        totalNum: Int
     ): MutableList<List<CategoryResponse.AllCategoryData>> {
         val list = mutableListOf(listOf<CategoryResponse.AllCategoryData>())
         var count = 0
@@ -96,9 +116,11 @@ class HomeViewModel(context: Context) : ViewModel() {
                 val response =
                     RetrofitObject.provideHavitApi(token)
                         .getRecommendation()
+                setLoadState()
                 _recommendList.postValue(response.data)
+                _recommendLoadState.postValue(false)
+                setLoadState()
             } catch (e: Exception) {
-
             }
         }
     }
@@ -113,22 +135,37 @@ class HomeViewModel(context: Context) : ViewModel() {
                     RetrofitObject.provideHavitApi(token)
                         .getUserData()
                 _userData.postValue(response.data)
+                _userLoadState.postValue(false)
+                setReachRate(response.data) // 도달률 계산
+                setLoadState()
             } catch (e: Exception) {
             }
         }
     }
 
-    // 도달률 데이터
-    private val _reachRate = MutableLiveData<Int>()
-    var reachRate: LiveData<Int> = _reachRate
-    fun requestReachRate(rate: Int) {
+    // 도달률
+    private var _reachRate = MutableLiveData<Int>()
+    val reachRate: LiveData<Int> = _reachRate
+
+    // 도달률 계산
+    fun setReachRate(data: UserResponse.UserData): Int {
+        var rate = 0
+        // 전체 콘텐츠 수 or 본 콘텐츠 수가 0일 경우 예외처리
+        if (data.totalSeenContentNumber != 0 && data.totalContentNumber != 0) { // 콘텐츠 수가 0이 아니라면 rate 계산
+            rate =
+                (data.totalSeenContentNumber.toDouble() / data.totalContentNumber.toDouble() * 100).toInt()
+        }
         _reachRate.postValue(rate)
+        return rate
     }
 
-    // 도달률 팝업 문장
-    private val _popup = MutableLiveData<String>()
-    val popup: LiveData<String> = _popup
-    fun setPopupText(popupText: String) {
-        _popup.postValue(popupText)
+    // skeleton
+    fun setLoadState() {
+        Log.d(
+            "TAG",
+            "setLoadState: ${userLoadState.value}, ${categoryLoadState.value}, ${contentsLoadState.value}, ${recommendLoadState.value}"
+        )
+        if (userLoadState.value == false && categoryLoadState.value == false && contentsLoadState.value == false && recommendLoadState.value == false)
+            _loadState.postValue(false)
     }
 }

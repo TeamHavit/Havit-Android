@@ -5,7 +5,7 @@
     </style>
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/rectangle_white_radius_20</item>
+        <item name="android:background">@drawable/rectangle_white_radius_24</item>
     </style>
 
     <style name="TopSheet_DialogAnimation">

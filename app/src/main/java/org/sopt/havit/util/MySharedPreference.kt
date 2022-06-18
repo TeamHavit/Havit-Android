@@ -10,7 +10,6 @@ object MySharedPreference {
     private const val CONTENTS_TITLE = "TITLE"
     private const val NOTI_TIME = "notification_time"
 
-
     fun setTitle(context: Context, title: String) {
         val prefs: SharedPreferences =
             context.getSharedPreferences(CONTENTS_TITLE, Context.MODE_PRIVATE)
@@ -51,14 +50,13 @@ object MySharedPreference {
         pref.edit().clear().apply()
     }
 
-    fun setXAuthToken(context: Context) {
+    fun setXAuthToken(context: Context, xAuthToken: String) {
         val prefs: SharedPreferences =
             context.getSharedPreferences(X_AUTH_TOKEN_1, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = prefs.edit()
         editor.putString(
             X_AUTH_TOKEN_1,
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlkRmlyZWJhc2UiOiJrYWthbzp0ZW1wIiwiaWF0IjoxNjQ5MTYzMzQxLCJleHAiOjE2NTE3NTUzNDEsImlzcyI6Imhhdml0In0.DEuPj-WfC7RjdlMzaZTrSDN-3cTiYHC7aQLN9ETKoiY"
-//            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlkRmlyZWJhc2UiOiJrYWthbzp0ZW1wIiwiaWF0IjoxNjQ2OTczMzA0LCJleHAiOjE2NDk1NjUzMDQsImlzcyI6Imhhdml0In0.yBKmfaMFrkApqxsXXByQwrECpT6avN_1ba-i2svzXDU" // empty token
+            xAuthToken
         )
         editor.apply()
     }
@@ -68,5 +66,4 @@ object MySharedPreference {
             context.getSharedPreferences(X_AUTH_TOKEN_1, Context.MODE_PRIVATE)
         return prefs.getString(X_AUTH_TOKEN_1, "").toString()
     }
-
 }

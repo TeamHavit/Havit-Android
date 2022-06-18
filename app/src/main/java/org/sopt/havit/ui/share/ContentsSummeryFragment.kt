@@ -85,6 +85,7 @@ class ContentsSummeryFragment : Fragment() {
             getOgData(url)
             if (MySharedPreference.getTitle(requireContext()).isNotEmpty())
                 ogData.ogTitle = MySharedPreference.getTitle(requireContext())
+            if (ogData.ogTitle == "") ogData.ogTitle = "제목 없는 콘텐츠"
             binding.contentsSummeryData = ogData
         }
     }
@@ -169,8 +170,6 @@ class ContentsSummeryFragment : Fragment() {
 
                 val createContentsRequest = CreateContentsRequest(
                     ogData.ogTitle,
-                    ogData.ogDescription,
-                    ogData.ogImage,
                     ogData.ogUrl,
                     isNotified = notification,
                     notificationTime = time,

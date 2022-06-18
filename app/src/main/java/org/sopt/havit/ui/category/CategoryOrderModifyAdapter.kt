@@ -1,10 +1,8 @@
 package org.sopt.havit.ui.category
 
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemCategoryModifyBinding
@@ -12,7 +10,7 @@ import java.util.*
 
 class CategoryOrderModifyAdapter :
     RecyclerView.Adapter<CategoryOrderModifyAdapter.CategoryOrderModifyViewHolder>() {
-    val categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
+    var categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
     private lateinit var itemClickListener: OnItemClickListener
 
     fun removeData(position: Int) {

@@ -9,7 +9,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.*
+import org.sopt.havit.data.remote.CategoryModifyRequest
+import org.sopt.havit.data.remote.CategoryOrderRequest
+import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.util.MySharedPreference
 
 class CategoryViewModel(context: Context) : ViewModel() {
@@ -23,6 +25,8 @@ class CategoryViewModel(context: Context) : ViewModel() {
     val delay: LiveData<Boolean> = _delay
     private val _shareDelay = MutableLiveData(false)
     val shareDelay: LiveData<Boolean> = _shareDelay
+    private val _categoryLoad = MutableLiveData(true)
+    val categoryLoad: LiveData<Boolean> = _categoryLoad
 
     fun requestCategoryTaken() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -31,16 +35,17 @@ class CategoryViewModel(context: Context) : ViewModel() {
                     RetrofitObject.provideHavitApi(token).getAllCategory()
                 _categoryList.postValue(response.data)
                 _categoryCount.postValue(response.data.size)
+                _categoryLoad.postValue(false)
             } catch (e: Exception) {
             }
         }
     }
 
-    fun requestCategoryOrder(list : List<Int>){
+    fun requestCategoryOrder(list: List<Int>) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val list = CategoryOrderRequest(list)
-                val response = RetrofitObject.provideHavitApi(token) .modifyCategoryOrder(list)
+                val response = RetrofitObject.provideHavitApi(token).modifyCategoryOrder(list)
                 _delay.postValue(true)
                 Log.d("requestCategoryOrder", "$response.success")
             } catch (e: Exception) {
@@ -49,7 +54,7 @@ class CategoryViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun requestCategoryContent(id: Int, imageId: Int, title:String){
+    fun requestCategoryContent(id: Int, imageId: Int, title: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val content = CategoryModifyRequest(title, imageId)
@@ -62,10 +67,10 @@ class CategoryViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun requestCategoryDelete(id:Int){
+    fun requestCategoryDelete(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response =RetrofitObject.provideHavitApi(token) .deleteCategory(id)
+                val response = RetrofitObject.provideHavitApi(token).deleteCategory(id)
 
                 Log.d("requestCategoryDelete", "$response.success")
             } catch (e: Exception) {
@@ -74,11 +79,11 @@ class CategoryViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun setDelay(v: Boolean){
-        _delay.value= v
+    fun setDelay(v: Boolean) {
+        _delay.value = v
     }
 
-    fun setShareDelay(v: Boolean){
-        _shareDelay.value= v
+    fun setShareDelay(v: Boolean) {
+        _shareDelay.value = v
     }
 }

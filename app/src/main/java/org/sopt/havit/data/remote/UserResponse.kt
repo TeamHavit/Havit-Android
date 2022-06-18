@@ -8,6 +8,7 @@ data class UserResponse(
 ) {
     data class UserData(
         val nickname: String,
+        val email: String,
         val totalCategoryNumber: Int,
         val totalContentNumber: Int,
         val totalSeenContentNumber: Int

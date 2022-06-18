@@ -5,17 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import org.koin.android.viewmodel.ext.android.viewModel
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentMyPageBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsActivity
+import org.sopt.havit.ui.setting.SettingActivity
 
-
+@AndroidEntryPoint
 class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
-    private val myPageViewModel: MyPageViewModel by viewModel()
-
+    private val myPageViewModel: MyPageViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,19 +45,27 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
                 Intent(
                     requireContext(),
                     ContentsFromMyPageActivity::class.java
-                ).apply { putExtra("PageId", 1) })
+                ).apply { putExtra("PageId", 1) }
+            )
         }
         binding.clSavedContents.setOnClickListener {
-            startActivity(Intent(requireContext(), ContentsActivity::class.java).apply {
-                putExtra("categoryId", ALL_CONTENTS_ID)
-                putExtra("categoryName", ALL_CONTENTS_NAME)
-            })
+            startActivity(
+                Intent(requireContext(), ContentsActivity::class.java).apply {
+                    putExtra("categoryId", ALL_CONTENTS_ID)
+                    putExtra("categoryName", ALL_CONTENTS_NAME)
+                }
+            )
         }
         binding.clSeenContents.setOnClickListener {
-            startActivity(Intent(requireContext(), ContentsActivity::class.java).apply {
-                putExtra("categoryId", SEEN_CONTENTS_ID)
-                putExtra("categoryName", SEEN_CONTENTS_NAME)
-            })
+            startActivity(
+                Intent(requireContext(), ContentsActivity::class.java).apply {
+                    putExtra("categoryId", SEEN_CONTENTS_ID)
+                    putExtra("categoryName", SEEN_CONTENTS_NAME)
+                }
+            )
+        }
+        binding.ibMyPageSetting.setOnClickListener {
+            startActivity(Intent(requireContext(), SettingActivity::class.java))
         }
     }
 
@@ -66,6 +75,4 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
         const val ALL_CONTENTS_NAME = "모든 콘텐츠"
         const val SEEN_CONTENTS_NAME = "확인한 콘텐츠"
     }
-
-
 }
