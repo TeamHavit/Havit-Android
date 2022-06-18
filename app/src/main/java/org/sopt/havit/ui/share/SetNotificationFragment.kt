@@ -3,9 +3,7 @@ package org.sopt.havit.ui.share
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,21 +22,11 @@ class SetNotificationFragment :
     BaseBindingFragment<FragmentSetNotificationBinding>(R.layout.fragment_set_notification),
     OnBackPressedHandler {
     private val viewModel: ShareViewModel by activityViewModels()
-
     private lateinit var notificationTime: String
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        super.onCreateView(inflater, container, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRadioGroupListener()
         initToolbarListener()
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.notificationTime.observe(requireActivity()) {
             Log.d(TAG, "onResume: ${viewModel.notificationTime.value}")
         }
