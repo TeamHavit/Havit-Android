@@ -1,6 +1,5 @@
 package org.sopt.havit.ui.share
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -26,8 +25,15 @@ class SetNotificationFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRadioGroupListener()
         initToolbarListener()
+        setTextOnLastRadioBtn()
+    }
+
+    private fun setTextOnLastRadioBtn() {
         viewModel.notificationTime.observe(requireActivity()) {
-            Log.d(TAG, "onResume: ${viewModel.notificationTime.value}")
+            binding.rbtnChooseTime.text =
+                if (viewModel.isTimeDirectlySetFromUser.value == true)
+                    viewModel.notificationTime.value
+                else getString(R.string.choose_time)
         }
     }
 
@@ -71,6 +77,7 @@ class SetNotificationFragment :
             else -> throw IllegalStateException()
         }
         Log.d("After  change : ", df.format(cal.time))
+        viewModel.isTimeDirectlySetFromUser(false)
         viewModel.setNotificationTime(df.format(cal.time))
     }
 

@@ -1,9 +1,7 @@
 package org.sopt.havit.ui.share
 
 import android.app.Dialog
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -119,19 +117,19 @@ class PickerFragment : BottomSheetDialogFragment() {
 
     private fun initCompleteBtnClick() {
         binding.btnComplete.setOnClickListener {
+            viewModel.isTimeDirectlySetFromUser(true)
+            viewModel.setNotificationTime(setNotiTimeOnViewModel())
             setNotiTimeOnViewModel()
             dismiss()
         }
     }
 
-    private fun setNotiTimeOnViewModel() {
+    private fun setNotiTimeOnViewModel(): String {
         val calSelected = calList[datePicker.value] ?: throw IllegalStateException()
         val date = dateWithDashFormatMD.format(calSelected.time)
         val hour = timePicker.hour
         val min = getFocusedMin()
-        viewModel.setNotificationTime("$date $hour:$min")
-        Log.d(TAG, "initListener origin: $date $hour:$min")
-        Log.d(TAG, "initListener viewModel: ${viewModel.notificationTime.value}")
+        return "$date $hour:$min"
     }
 
     private fun dateScrollListener() {
