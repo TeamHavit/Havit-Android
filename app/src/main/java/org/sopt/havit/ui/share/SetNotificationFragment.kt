@@ -25,6 +25,7 @@ class SetNotificationFragment :
         binding.lifecycleOwner = requireActivity()
 
         initRadioGroupListener()
+        initLastRbtnColor()
         initToolbarListener()
     }
 
@@ -41,6 +42,11 @@ class SetNotificationFragment :
             }
             rbtnChooseTime.setOnClickListener { showPickerFragment() }
         }
+    }
+
+    private fun initLastRbtnColor() {
+        if (viewModel.isTimeDirectlySetFromUser.value == true)
+            binding.rbtnChooseTime.isChecked = true
     }
 
     private fun initToolbarListener() {
