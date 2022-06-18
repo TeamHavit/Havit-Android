@@ -119,7 +119,6 @@ class PickerFragment : BottomSheetDialogFragment() {
         binding.btnComplete.setOnClickListener {
             viewModel.isTimeDirectlySetFromUser(true)
             viewModel.setNotificationTime(setNotiTimeOnViewModel())
-            setNotiTimeOnViewModel()
             dismiss()
         }
     }
