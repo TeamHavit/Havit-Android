@@ -82,7 +82,7 @@ class PickerFragment : BottomSheetDialogFragment() {
         val df = SimpleDateFormat("m", Locale.getDefault())
         val min = df.format(cal.time).toInt()
         val quotient = min / 5
-        val idx = (quotient + (if (min % 5 != 0) 1 else 0)) % 12
+        val idx = (quotient + 1) % 12
         binding.pickerTime.minute = idx
         if (idx == 0 && idx != quotient) binding.pickerTime.hour += 1
     }
