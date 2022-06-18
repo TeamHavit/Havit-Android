@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.share
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,14 +18,16 @@ class ShareViewModel @Inject constructor(
         private set
     var currTitle = MutableLiveData<String>()
 
-    private var _notificationTIme = MutableLiveData<String>()
-    val notificationTime get() = _notificationTIme
+    private var _notificationTime = MutableLiveData<String?>()
+    val notificationTime: LiveData<String?>
+        get() = _notificationTime
 
     private var _isTimeDirectlySetFromUser = MutableLiveData<Boolean>()
-    val isTimeDirectlySetFromUser get() = _isTimeDirectlySetFromUser
+    val isTimeDirectlySetFromUser: LiveData<Boolean>
+        get() = _isTimeDirectlySetFromUser
 
-    fun setNotificationTime(time: String) {
-        _notificationTIme.value = time
+    fun setNotificationTime(time: String?) {
+        _notificationTime.value = time
     }
 
     fun isTimeDirectlySetFromUser(boolean: Boolean) {
