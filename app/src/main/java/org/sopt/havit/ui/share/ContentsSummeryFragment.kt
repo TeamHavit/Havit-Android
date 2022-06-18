@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
@@ -23,7 +25,10 @@ import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.MySharedPreference
 
+@AndroidEntryPoint
 class ContentsSummeryFragment : Fragment() {
+    private val viewModel: ShareViewModel by activityViewModels()
+
     private var _binding: FragmentContentsSummeryBinding? = null
     private val binding get() = _binding!!
     private val args by navArgs<ContentsSummeryFragmentArgs>()

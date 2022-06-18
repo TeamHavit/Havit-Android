@@ -2,6 +2,7 @@ package org.sopt.havit.ui.share
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.ActivityShareBinding
@@ -12,6 +13,7 @@ import org.sopt.havit.util.MySharedPreference
 
 @AndroidEntryPoint
 class ShareActivity : AppCompatActivity() {
+    private val viewModel: ShareViewModel by viewModels()
 
     private lateinit var binding: ActivityShareBinding
     private var makeLogin = false
