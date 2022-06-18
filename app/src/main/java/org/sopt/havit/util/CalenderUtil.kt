@@ -1,7 +1,6 @@
 package org.sopt.havit.util
 
 import android.content.res.Resources
-import android.util.Log
 import android.widget.NumberPicker
 import android.widget.TimePicker
 import java.text.DateFormat
@@ -37,21 +36,26 @@ object CalenderUtil {
         minutePicker.displayedValues = displayedValues.toTypedArray()
     }
 
-    fun setDateFormat(originTime: String): String {
-        Log.d("originTime", originTime) // 2022.01.25 00:04:54
-
+    fun setDateFormatOnRadioBtn(originTime: String): String {
+        /** 자릿수 꼭 지켜서 사용 ex) 2022.01.25 00:04:54 */
         // 날짜 (2022.01.25)
         val date =
             "${originTime[2]}${originTime[3]}.${originTime[5]}${originTime[6]}.${originTime[8]}${originTime[9]}"
         // 시 (오후 11시 :: 12시간제 적용)
-        val hour = "${originTime[11]}${originTime[12]}".toInt()
-        val newHour = when (hour) {
-            in 0..12 -> " 오전 ${hour}시 "
-            else -> " 오후 ${hour - 12}시 "
+        val newHour = when (val hour = "${originTime[11]}${originTime[12]}".toInt()) {
+            0 -> "오전 12"
+            12 -> "오후 12"
+            in 0..11 -> "오전 $hour"
+            in 13..24 -> "오후 ${hour - 12}"
+            else -> Error("잘못된 시간입니다")
         }
         // 분 (3분 :: 자릿수 재졍렬을 위한 이중 형변환 사용)
         val min = "${originTime[14]}${originTime[15]}".toInt().toString() + "분"
+        return "$date ${newHour}시 $min"
+    }
 
-        return "$date$newHour$min 알림 예정"
+    fun setDateFormat(originTime: String): String {
+        val time = setDateFormatOnRadioBtn(originTime)
+        return "$time 알림 예정"
     }
 }

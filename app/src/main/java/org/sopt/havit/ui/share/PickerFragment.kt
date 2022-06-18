@@ -127,7 +127,7 @@ class PickerFragment : BottomSheetDialogFragment() {
     private fun setNotiTimeOnViewModel(): String {
         val calSelected = calList[datePicker.value] ?: throw IllegalStateException()
         val date = dateWithDashFormatMD.format(calSelected.time)
-        val hour = timePicker.hour
+        val hour = DecimalFormat("00").format(timePicker.hour)
         val min = getFocusedMin()
         return "$date $hour:$min"
     }

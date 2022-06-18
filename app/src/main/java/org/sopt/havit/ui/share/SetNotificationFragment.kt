@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentSetNotificationBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.util.CalenderUtil.setDateFormatOnRadioBtn
 import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.MySharedPreference
 import org.sopt.havit.util.OnBackPressedHandler
@@ -32,7 +33,7 @@ class SetNotificationFragment :
         viewModel.notificationTime.observe(requireActivity()) {
             binding.rbtnChooseTime.text =
                 if (viewModel.isTimeDirectlySetFromUser.value == true)
-                    viewModel.notificationTime.value
+                    setDateFormatOnRadioBtn(requireNotNull(viewModel.notificationTime.value))
                 else getString(R.string.choose_time)
         }
     }
