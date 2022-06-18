@@ -33,8 +33,8 @@ class EditCategoryFromMoreViewModel @Inject constructor(
     val isNetworkCorrespondenceEnd: MutableLiveData<Event<String>>
         get() = _isNetworkCorrespondenceEnd
 
-    private fun userClicksOnButton(eventString: String) {
-        _isNetworkCorrespondenceEnd.value = Event(eventString)
+    private fun userClicksOnButton() {
+        _isNetworkCorrespondenceEnd.value = Event(PATCH_CATEGORY)
     }
 
     fun initProperty(contentsMoreData: ContentsMoreData) {
@@ -75,8 +75,7 @@ class EditCategoryFromMoreViewModel @Inject constructor(
                 val response = RetrofitObject.provideHavitApi(token).getAllCategoryList()
                 categoryList.value = response.data
                 originCategoryId.value =
-                    response.data.filter { !it.isSelected }.map { categoryMapper.toCategoryId(it) }
-                // todo : 위에 it.selected `!` 바꿔야됨
+                    response.data.filter { it.isSelected }.map { categoryMapper.toCategoryId(it) }
                 Log.d(TAG, "getCategoryList: ${categoryList.value}")
                 Log.d(TAG, "getCategoryList: ${originCategoryId.value}")
             }
@@ -95,7 +94,7 @@ class EditCategoryFromMoreViewModel @Inject constructor(
                 Log.d(TAG, "patchNewCategoryList: success")
             }.onFailure {
                 Log.d(TAG, "patchNewCategoryList: failure ${it.message}")
-            }.run { userClicksOnButton(PATCH_CATEGORY) }
+            }.run { userClicksOnButton() }
         }
     }
 
