@@ -22,7 +22,6 @@ class SetNotificationFragment :
     BaseBindingFragment<FragmentSetNotificationBinding>(R.layout.fragment_set_notification),
     OnBackPressedHandler {
     private val viewModel: ShareViewModel by activityViewModels()
-    private lateinit var notificationTime: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRadioGroupListener()
@@ -49,9 +48,16 @@ class SetNotificationFragment :
     private fun initToolbarListener() {
         binding.icBack.setOnClickListener { onBackClicked() }
         binding.tvComplete.setOnClickListener {
-            MySharedPreference.setNotificationTime(requireContext(), notificationTime)
+            setNotiTimeOnPrefence()
             goBack()
         }
+    }
+
+    private fun setNotiTimeOnPrefence() {
+        MySharedPreference.setNotificationTime(
+            requireContext(),
+            viewModel.notificationTime.value.toString()
+        )
     }
 
     private fun getNotificationTime(idx: Int) {
@@ -65,7 +71,7 @@ class SetNotificationFragment :
             else -> throw IllegalStateException()
         }
         Log.d("After  change : ", df.format(cal.time))
-        notificationTime = df.format(cal.time)
+        viewModel.setNotificationTime(df.format(cal.time))
     }
 
     private fun showPickerFragment() {
@@ -74,12 +80,12 @@ class SetNotificationFragment :
     }
 
     private fun onBackClicked() {
-        if (this::notificationTime.isInitialized) showEditTitleWarningDialog()
+        if (viewModel.notificationTime.value != null) showEditTitleWarningDialog()
         else goBack()
     }
 
     override fun onBackPressed(): Boolean {
-        if (this::notificationTime.isInitialized) {
+        if (viewModel.notificationTime.value != null) {
             showEditTitleWarningDialog()
             return true
         }
