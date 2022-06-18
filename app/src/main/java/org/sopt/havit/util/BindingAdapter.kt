@@ -1,7 +1,6 @@
 package org.sopt.havit.util
 
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -11,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.sopt.havit.R
+import org.sopt.havit.util.CalenderUtil.setDateFormat
 import org.sopt.havit.util.DpToPxUtil.px
 
 object BindingAdapter {
@@ -148,24 +148,6 @@ object BindingAdapter {
     @JvmStatic
     fun TextView.setAlarmText(string: String) {
         this.text = if (string == "알림 설정") "알림 설정" else setDateFormat(string)
-    }
-
-    private fun setDateFormat(originTime: String): String {
-        Log.d("originTime", originTime) // 2022.01.25 00:04:54
-
-        // 날짜 (2022.01.25)
-        val date =
-            "${originTime[2]}${originTime[3]}.${originTime[5]}${originTime[6]}.${originTime[8]}${originTime[9]}"
-        // 시 (오후 11시 :: 12시간제 적용)
-        val hour = "${originTime[11]}${originTime[12]}".toInt()
-        val newHour = when (hour) {
-            in 0..12 -> " 오전 ${hour}시 "
-            else -> " 오후 ${hour - 12}시 "
-        }
-        // 분 (3분 :: 자릿수 재졍렬을 위한 이중 형변환 사용)
-        val min = "${originTime[14]}${originTime[15]}".toInt().toString() + "분"
-
-        return "$date$newHour$min 알림 예정"
     }
 
     @BindingAdapter("app:textVisibility")
