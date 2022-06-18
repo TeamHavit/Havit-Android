@@ -21,6 +21,9 @@ object CalenderUtil {
     val dateWithDashFormatMD: DateFormat
         get() = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
+    val dateAndTimeWithDotFormatMD: DateFormat
+        get() = SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.getDefault())
+
     val calWithHavitFormat_YMD_HM: DateFormat
         get() = SimpleDateFormat("yyyy-MM-dd hh:mm", Locale.getDefault())
 
