@@ -1,8 +1,6 @@
 package org.sopt.havit.ui.share
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -69,7 +67,6 @@ class SetNotificationFragment :
             TWENTY_FOUR_HOUR -> cal.add(Calendar.DATE, 1)
             else -> throw IllegalStateException()
         }
-        Log.d(TAG, "getNotificationTime: ${dateAndTimeWithDotFormatMD.format(cal.time)}")
         viewModel.isTimeDirectlySetFromUser(false)
         viewModel.setNotificationTime(dateAndTimeWithDotFormatMD.format(cal.time))
         return dateAndTimeWithDotFormatMD.format(cal.time)
