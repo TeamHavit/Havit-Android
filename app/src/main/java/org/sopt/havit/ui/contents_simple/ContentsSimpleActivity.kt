@@ -142,8 +142,8 @@ class ContentsSimpleActivity :
     }
 
     private fun setContents() {
-        contentsViewModel.requestContentsTaken(contentsType)    // contentsList
-        if (contentsType == "unseen") {// topBarName
+        contentsViewModel.requestContentsTaken(contentsType) // contentsList
+        if (contentsType == "unseen") { // topBarName
             contentsViewModel.requestTopBarName(getString(R.string.contents_simple_unseen))
         } else {
             contentsViewModel.requestTopBarName(getString(R.string.contents_simple_recent_save))

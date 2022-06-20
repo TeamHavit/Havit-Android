@@ -69,7 +69,8 @@ class HomeViewModel(context: Context) : ViewModel() {
     // category 전체 데이터를 6개씩 잘라 List로 묶는 함수
     fun setList(
         data:
-        List<CategoryResponse.AllCategoryData>, totalNum: Int
+            List<CategoryResponse.AllCategoryData>,
+        totalNum: Int
     ): MutableList<List<CategoryResponse.AllCategoryData>> {
         val list = mutableListOf(listOf<CategoryResponse.AllCategoryData>())
         var count = 0
@@ -120,7 +121,6 @@ class HomeViewModel(context: Context) : ViewModel() {
                 _recommendLoadState.postValue(false)
                 setLoadState()
             } catch (e: Exception) {
-
             }
         }
     }
@@ -136,7 +136,7 @@ class HomeViewModel(context: Context) : ViewModel() {
                         .getUserData()
                 _userData.postValue(response.data)
                 _userLoadState.postValue(false)
-                setReachRate(response.data)     // 도달률 계산
+                setReachRate(response.data) // 도달률 계산
                 setLoadState()
             } catch (e: Exception) {
             }
@@ -168,5 +168,4 @@ class HomeViewModel(context: Context) : ViewModel() {
         if (userLoadState.value == false && categoryLoadState.value == false && contentsLoadState.value == false && recommendLoadState.value == false)
             _loadState.postValue(false)
     }
-
 }

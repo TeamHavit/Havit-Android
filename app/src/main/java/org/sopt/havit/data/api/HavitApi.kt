@@ -24,6 +24,11 @@ interface HavitApi {
     @GET("category")
     suspend fun getAllCategory(): CategoryResponse
 
+    @GET("content/{contentId}/category")
+    suspend fun getAllCategoryList(
+        @Path("contentId") contentId: Int
+    ): AllCategoryResponse
+
     @GET("category")
     suspend fun getCategoryNum(): CategoryResponse
 
@@ -84,11 +89,16 @@ interface HavitApi {
         @Path("contentId") contentId: Int
     ): BasicResponse
 
+    @PATCH("content/title/{contentId}")
+    suspend fun modifyContentTitle(
+        @Path("contentId") contentId: Int,
+        @Body body: ModifyTitleParams
+    ): BasicResponse
+
     @POST("auth/signin")
     suspend fun postSignIn(
         @Body body: SignInRequest
     ): SignInResponse
-
 
     @POST("auth/signup")
     suspend fun postSignUp(
@@ -99,4 +109,9 @@ interface HavitApi {
     suspend fun getNotification(
         @Query("option") option: String,
     ): NotificationResponse
+
+    @PATCH("content/category")
+    suspend fun modifyContentCategory(
+        @Body body: ModifyContentCategoryParams
+    ): BasicResponse
 }

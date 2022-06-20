@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 
 class SaveViewModel : ViewModel() {
 
-
     var clipDataUrl = MutableLiveData("")
     var saveDataUrl = MutableLiveData("")
 
@@ -21,6 +20,4 @@ class SaveViewModel : ViewModel() {
     fun setSaveDataClear() {
         saveDataUrl.value = ""
     }
-
-
 }

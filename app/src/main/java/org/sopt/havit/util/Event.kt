@@ -1,18 +1,27 @@
 package org.sopt.havit.util
 
+/**
+ * Used as a wrapper for data that is exposed via a LiveData that represents an event.
+ */
 open class Event<out T>(private val content: T) {
-    var hasBeenHandled = false
-        private set
 
-    fun getContentIfNotHandled(): T? {
-        return if (hasBeenHandled) { // 이벤트가 이미 처리
+    var hasBeenHandled = false
+        private set // Allow external read but not write
+
+    /**
+     * Returns the content and prevents its use again.
+     */
+    fun getContentIfNotHandled(): T? { // 이벤트가 이미 처리
+        return if (hasBeenHandled) {
             null
-        } else { // 아직 이벤트 처리 x
-            hasBeenHandled = true // 이벤트 처리되었다고 표시
-            return content // 값 반환
+        } else {
+            hasBeenHandled = true
+            content
         }
     }
 
-    // 이벤트 처리 여부에 상관 없이 값 반환
+    /**
+     * Returns the content, even if it's already been handled.
+     */
     fun peekContent(): T = content
 }

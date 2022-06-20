@@ -26,7 +26,6 @@ class SearchRepositoryImpl @Inject constructor(
             }
         }
 
-
     override suspend fun getSearchContentsInCategories(
         categoryId: String,
         keyword: String
@@ -36,6 +35,4 @@ class SearchRepositoryImpl @Inject constructor(
                 emit(list.data.map { contentsMapper.toContents(it) })
             }
         }
-
-
 }

@@ -19,7 +19,8 @@ class AddNickNameFragment :
     private val signInViewModel: SignInViewModel by activityViewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -55,16 +56,17 @@ class AddNickNameFragment :
         binding.btnNicknameBack.setOnClickListener {
             requireActivity().finish()
         }
-
     }
 
     private fun initOnBackPressed() {
         requireActivity().onBackPressedDispatcher
-            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    requireActivity().finish()
+            .addCallback(
+                viewLifecycleOwner,
+                object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        requireActivity().finish()
+                    }
                 }
-            })
+            )
     }
-
 }

@@ -17,8 +17,15 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val authRepository: AuthRepository
-) :
-    ViewModel() {
+) : ViewModel() {
+
+    companion object {
+        const val SPLASH_FROM_SHARE = true
+        const val SPLASH_NORMAL_FLOW = false
+    }
+
+    var loginGuidVisibility = MutableLiveData(false)
+        private set
 
     private var _isMoveToNextOrBack = MutableLiveData<Event<Boolean>>()
     var isMoveToNextOrBack: LiveData<Event<Boolean>> = _isMoveToNextOrBack
@@ -43,13 +50,12 @@ class SignInViewModel @Inject constructor(
 
     var nickName = MutableLiveData<String>()
 
-    private var _havitUser = MutableLiveData<SignUpRequest>()
+    var _havitUser = MutableLiveData<SignUpRequest>()
 
     var isAllCheck = MutableLiveData(false)
     var isTosUseCheck = MutableLiveData(false)
     var isTosInfoCheck = MutableLiveData(false)
     var isTosEventCheck = MutableLiveData(false)
-
 
     val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
@@ -60,6 +66,10 @@ class SignInViewModel @Inject constructor(
             setFcmToken()
             setNeedScopes()
         }
+    }
+
+    fun setLoginGuideVisibility(boolean: Boolean) {
+        loginGuidVisibility.value = boolean
     }
 
     fun setNeedScopes() {
@@ -92,7 +102,7 @@ class SignInViewModel @Inject constructor(
             kotlin.runCatching {
                 authRepository.postSignUp(
                     requireNotNull(_havitUser.value?.email),
-                    requireNotNull(_havitUser.value?.nickname),
+                    requireNotNull(nickName.value),
                     requireNotNull(_havitUser.value?.age),
                     requireNotNull(_havitUser.value?.gender),
                     requireNotNull(_fcmToken.value),
@@ -117,7 +127,6 @@ class SignInViewModel @Inject constructor(
                 _isAlreadyUser.postValue(Event(it))
                 if (it.data.isAlreadyUser == null) authRepository.saveAccessToken(requireNotNull(it.data.accessToken))
             }.onFailure { throw it }
-
         }
     }
 
@@ -144,17 +153,16 @@ class SignInViewModel @Inject constructor(
 
     fun setTosUseCheck() {
         isTosUseCheck.value = !isTosUseCheck.value!!
-        isNextClick.value = isTosUseCheck.value != false
+        isNextClick.value = isTosUseCheck.value == true && isTosInfoCheck.value == true
     }
 
     fun setTosInfoCheck() {
         isTosInfoCheck.value = !isTosInfoCheck.value!!
-        isNextClick.value = isTosInfoCheck.value != false
+        isNextClick.value = isTosUseCheck.value == true && isTosInfoCheck.value == true
     }
 
     fun setTosEventCheck() {
         isTosEventCheck.value = !isTosEventCheck.value!!
-        isNextClick.value = isTosEventCheck.value != false
     }
 
     fun setNickName(name: String) {
@@ -164,5 +172,4 @@ class SignInViewModel @Inject constructor(
     fun setClearNickName() {
         nickName.value = ""
     }
-
 }

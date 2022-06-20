@@ -118,7 +118,7 @@
             tools:text="www.brunch.com.dididididididdidididdiddidiiidididididididididid" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_edit"
+            android:id="@+id/cl_edit_title"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
@@ -157,7 +157,7 @@
             android:id="@+id/cl_edit_share"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            app:layout_constraintTop_toBottomOf="@+id/cl_edit">
+            app:layout_constraintTop_toBottomOf="@+id/cl_edit_title">
 
             <ImageView
                 android:id="@+id/iv_edit_share"
@@ -188,7 +188,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_edit_move"
+            android:id="@+id/cl_move_category"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             app:layout_constraintTop_toBottomOf="@+id/cl_edit_share">
@@ -222,10 +222,10 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_edit_alarm"
+            android:id="@+id/cl_set_alarm"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            app:layout_constraintTop_toBottomOf="@+id/cl_edit_move"
+            app:layout_constraintTop_toBottomOf="@+id/cl_move_category"
             tools:layout_editor_absoluteX="-53dp">
 
             <ImageView
@@ -262,7 +262,7 @@
             android:layout_height="48dp"
             android:layout_marginBottom="46dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cl_edit_alarm"
+            app:layout_constraintTop_toBottomOf="@+id/cl_set_alarm"
             tools:layout_editor_absoluteX="-53dp">
 
             <ImageView

@@ -9,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsHavitRequest
-import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.data.remote.NotificationResponse
 import org.sopt.havit.util.MySharedPreference
 
