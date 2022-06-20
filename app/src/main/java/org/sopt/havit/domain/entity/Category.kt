@@ -6,6 +6,6 @@ data class Category(
     val orderIndex: Int,
     val imageId: Int,
     val imageUrl: String,
-    val contentNumber: Int,
-    var isSelected: Boolean = true // todo  : default value 지우기
+    val contentNumber: Int?,
+    var isSelected: Boolean
 )

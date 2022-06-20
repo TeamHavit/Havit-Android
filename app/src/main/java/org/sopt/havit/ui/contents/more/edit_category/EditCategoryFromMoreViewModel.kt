@@ -68,16 +68,14 @@ class EditCategoryFromMoreViewModel @Inject constructor(
     }
 
     fun getCategoryListWithSelectedInfo() {
-        // TODO 카테고리 목록 가져오는 API임
-        //  -> 현재 컨텐츠의 소속 목록을 불러오는 API 배포되면 교체해야함
         viewModelScope.launch {
             kotlin.runCatching {
-                val response = RetrofitObject.provideHavitApi(token).getAllCategoryList()
+                val response = RetrofitObject.provideHavitApi(token).getAllCategoryList(
+                    requireNotNull(contentsId.value)
+                )
                 categoryList.value = response.data
                 originCategoryId.value =
                     response.data.filter { it.isSelected }.map { categoryMapper.toCategoryId(it) }
-                Log.d(TAG, "getCategoryList: ${categoryList.value}")
-                Log.d(TAG, "getCategoryList: ${originCategoryId.value}")
             }
         }
     }

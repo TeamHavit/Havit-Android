@@ -24,8 +24,10 @@ interface HavitApi {
     @GET("category")
     suspend fun getAllCategory(): CategoryResponse
 
-    @GET("category")
-    suspend fun getAllCategoryList(): AllCategoryResponse
+    @GET("content/{contentId}/category")
+    suspend fun getAllCategoryList(
+        @Path("contentId") contentId: Int
+    ): AllCategoryResponse
 
     @GET("category")
     suspend fun getCategoryNum(): CategoryResponse
