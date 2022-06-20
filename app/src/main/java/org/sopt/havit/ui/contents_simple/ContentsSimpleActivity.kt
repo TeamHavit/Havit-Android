@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.ActivityContentsSimpleBinding
@@ -17,6 +18,7 @@ import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.CustomToast
 import java.io.Serializable
 
+@AndroidEntryPoint
 class ContentsSimpleActivity :
     BaseBindingActivity<ActivityContentsSimpleBinding>(R.layout.activity_contents_simple) {
 
