@@ -195,8 +195,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
             dialog.show(supportFragmentManager, "contentsOrder")
 
             // 순서 클릭 시 이벤트 정의
-            dialog.setFilterClickListener(object :
-                    DialogContentsFilterFragment.OnFilterClickListener {
+            dialog.setFilterClickListener(
+                object : DialogContentsFilterFragment.OnFilterClickListener {
                     override fun onClick(filter: String) {
                         contentsFilter = filter
                         binding.tvOrder.text = when (filter) {
