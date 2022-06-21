@@ -78,7 +78,7 @@ class ContentsMoreFragment :
 
     // 이전 뷰에서 bundle로 보낸 content 데이터 받아오기
     private fun setData() {
-        contentsData = arguments?.getParcelable(CONTENTS_MORE_DATA)!!
+        contentsData = arguments?.getParcelable(CONTENTS_MORE_DATA) ?: throw IllegalStateException()
         notifyItemRemoved = arguments?.getSerializable(REMOVE_ITEM) as (Int) -> Unit
         arguments?.getInt(POSITION, 0)?.let {
             pos = it
