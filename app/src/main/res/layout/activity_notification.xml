@@ -5,6 +5,16 @@
 
     <data>
 
+        <variable
+            name="isEmpty"
+            type="Boolean" />
+
+        <variable
+            name="option"
+            type="String" />
+
+        <import type="android.view.View" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="21dp"
                 android:layout_marginBottom="16dp"
-                android:text="@string/notificatino_topbar"
+                android:text="@string/notification_topbar"
                 android:textAppearance="@style/Header16Bold"
                 android:textColor="@color/havit_gray"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -97,14 +107,50 @@
             android:background="@color/gray_0"
             app:layout_constraintTop_toBottomOf="@id/cg_status" />
 
-        <!--        <androidx.recyclerview.widget.RecyclerView-->
-        <!--            android:id="@+id/rv_notification"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="0dp"-->
-        <!--            android:overScrollMode="never"-->
-        <!--            android:paddingHorizontal="16dp"-->
-        <!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/line_between_chip_rv"-->
-        <!--            tools:listitem="@layout/item_notification" />-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_notification"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            android:visibility="@{isEmpty? View.GONE : View.VISIBLE}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line_between_chip_rv"
+            tools:itemCount="10"
+            tools:listitem="@layout/item_notification" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_alarm_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="55dp"
+            android:visibility="@{isEmpty? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line_between_chip_rv">
+
+            <TextView
+                android:id="@+id/tv_no_alarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{option==`after`? @string/notification_done_alarm_empty : @string/notification_will_alarm_empty, default=@string/notification_will_alarm_empty}"
+                android:textAppearance="@style/Text14Medium"
+                android:textColor="@color/gray_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_no_alarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:src="@drawable/ic_no_alarm"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_no_alarm" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

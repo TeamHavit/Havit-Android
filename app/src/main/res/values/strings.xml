@@ -92,8 +92,7 @@
     <string name="contents_edit_category_move">카테고리 이동</string>
     <string name="contents_edit_alarm">알림 설정</string>
     <string name="contents_edit_delete">삭제</string>
-    <string name="notification_no_alarm">알람 예정 콘텐츠가 없습니다.</string>
-    <string name="notificatino_topbar">전체 알림</string>
+    <string name="notification_topbar">전체 알림</string>
     <string name="mypage_name">님의 활동</string>
     <string name="mypage_percent">%</string>
     <string name="mypage_description1">비상이에요!\n확인하지 않은 콘텐츠가 많이 있어요!</string>
@@ -134,7 +133,10 @@
     <string name="url_unavailable">입력한 URL 링크 정보를 찾을 수 없습니다.</string>
     <string name="contents_havit_complete">콘텐츠 확인 완료 !</string>
     <string name="notification_will_alarm">알림 예정</string>
-    <string name="notification_done_alarm">지난 알람</string>
+    <string name="notification_done_alarm">지난 알림</string>
+    <string name="notification_complete">알림 완료</string>
+    <string name="notification_will_alarm_empty">알림 예정인 콘텐츠가 없습니다.</string>
+    <string name="notification_done_alarm_empty">지난 알림 콘텐츠가 없습니다.</string>
     <string name="home_popup_description1">비상이에요! 확인하지 않은 콘텐츠가 많이 있어요!</string>
     <string name="home_popup_description2">밀린 콘텐츠를 확인해 보는 건 어떨까요?</string>
     <string name="home_popup_description3">저장한 콘텐츠가 밀리지 않도록 조심하세요!</string>

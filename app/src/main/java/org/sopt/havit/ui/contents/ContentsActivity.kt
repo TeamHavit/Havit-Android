@@ -24,6 +24,7 @@ import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.CustomToast
+import java.io.Serializable
 
 @AndroidEntryPoint
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
@@ -251,7 +252,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun clickItemMore() {
         contentsAdapter.setItemSetClickListner(object : ContentsAdapter.OnItemSetClickListener {
             override fun onSetClick(v: View, position: Int) {
-                val dataMore = contentsViewModel.contentsList.value?.get(position)!!.let {
+                val dataMore = contentsViewModel.contentsList.value?.get(position)?.let {
                     ContentsMoreData(
                         it.id,
                         it.image,
@@ -271,10 +272,25 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                     contentsViewModel.updateContentsList(list)
                     contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
                 }
-                val dialog = ContentsMoreFragment(dataMore, removeItem, position)
+                val bundle = setBundle(dataMore, removeItem, position)
+                val dialog = ContentsMoreFragment()
+                dialog.arguments = bundle
                 dialog.show(supportFragmentManager, "setting")
             }
         })
+    }
+
+    // ContentsMoreFragment에 보낼 bundle 생성
+    private fun setBundle(
+        dataMore: ContentsMoreData?,
+        removeItem: (Int) -> Unit,
+        position: Int
+    ): Bundle {
+        val bundle = Bundle()
+        bundle.putParcelable(ContentsMoreFragment.CONTENTS_MORE_DATA, dataMore)
+        bundle.putSerializable(ContentsMoreFragment.REMOVE_ITEM, removeItem as Serializable)
+        bundle.putInt(ContentsMoreFragment.POSITION, position)
+        return bundle
     }
 
     private fun setChipOrder() {
