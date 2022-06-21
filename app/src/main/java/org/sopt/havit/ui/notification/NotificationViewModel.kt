@@ -9,14 +9,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsHavitRequest
-import org.sopt.havit.data.remote.NotificationResponse
+import org.sopt.havit.data.remote.NotificationResponse.NotificationData
 import org.sopt.havit.util.MySharedPreference
 
 class NotificationViewModel(context: Context) : ViewModel() {
     private val token = MySharedPreference.getXAuthToken(context)
 
-    private val _contentsList = MutableLiveData<List<NotificationResponse.NotificationData>>()
-    val contentsList: LiveData<List<NotificationResponse.NotificationData>> = _contentsList
+    private val _contentsList = MutableLiveData<List<NotificationData>>()
+    val contentsList: LiveData<List<NotificationData>> = _contentsList
 
     fun requestContentsTaken(option: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -44,7 +44,7 @@ class NotificationViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun updateContentsList(list: List<NotificationResponse.NotificationData>) {
+    fun updateContentsList(list: List<NotificationData>) {
         _contentsList.value = list
     }
 }
