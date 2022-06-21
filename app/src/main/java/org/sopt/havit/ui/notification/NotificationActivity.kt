@@ -133,10 +133,7 @@ class NotificationActivity :
                     // 보지 않은 콘텐츠의 경우 콘텐츠 봤다는 토스트 띄움
                     var isSeen = contentsList[position].isSeen
                     if (!isSeen) {
-                        CustomToast.showDesignatedToast(
-                            this@NotificationActivity,
-                            R.layout.toast_havit_complete
-                        )
+                        setHavitToast()
                     }
 
                     isSeen = !isSeen
@@ -146,6 +143,14 @@ class NotificationActivity :
                 }
             }
         })
+    }
+
+    // 콘텐츠 확인 완료 토스트
+    private fun setHavitToast() {
+        CustomToast.showDesignatedToast(
+            this@NotificationActivity,
+            R.layout.toast_havit_complete
+        )
     }
 
     private fun clickItemView() {
