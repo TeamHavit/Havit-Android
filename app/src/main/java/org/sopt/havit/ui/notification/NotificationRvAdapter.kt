@@ -18,7 +18,7 @@ class NotificationRvAdapter :
     private lateinit var itemMoreClickListener: OnItemMoreClickListener
     private lateinit var itemHavitClickListener: OnItemHavitClickListener
 
-    class NotificationViewHolder(private val binding: ItemNotificationBinding) :
+    class NotificationViewHolder(val binding: ItemNotificationBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(data: NotificationResponse.NotificationData, position: Int) {
@@ -31,6 +31,7 @@ class NotificationRvAdapter :
         private fun setIvHavit(isSeen: Boolean) {
             binding.ivHavit.setImageResource(if (isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
         }
+
         private fun changeTimeFormat(data: NotificationResponse.NotificationData) {
             // 알림 예정 시각 형식 변경
             if (data.notificationTime.isNotEmpty() && data.notificationTime.length == 16) {
@@ -78,13 +79,13 @@ class NotificationRvAdapter :
             itemClickListener.onWebClick(it, safePosition)
         }
         // 아이템 더보기 클릭 시 onMoreClick() 호출
-        holder.itemView.findViewById<View>(R.id.iv_more).setOnClickListener {
+        holder.binding.ivMore.setOnClickListener {
             itemMoreClickListener.onMoreClick(it, safePosition)
         }
         // 아이템 해빗 클릭 시 onHavitClick() 호출
-        holder.itemView.findViewById<View>(R.id.iv_havit).setOnClickListener {
+        holder.binding.ivHavit.setOnClickListener {
             itemHavitClickListener.onHavitClick(
-                holder.itemView.findViewById(R.id.iv_havit),
+                holder.binding.ivHavit,
                 safePosition
             )
         }
