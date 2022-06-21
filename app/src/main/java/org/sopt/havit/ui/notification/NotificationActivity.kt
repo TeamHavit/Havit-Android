@@ -28,6 +28,7 @@ class NotificationActivity :
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        binding.lifecycleOwner = this
         option = "before"
         initAdapter()
         initListener()
@@ -169,11 +170,8 @@ class NotificationActivity :
 
     private fun dataObserve() {
         with(notificationViewModel) {
-            binding.lifecycleOwner?.let { it ->
-                contentsList.observe(it) { data ->
-                    Log.d(TAG, "dataObserve: ")
-                    setContent(data)
-                }
+            contentsList.observe(this@NotificationActivity) { data ->
+                setContent(data)
             }
         }
     }
