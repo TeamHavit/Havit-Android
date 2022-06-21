@@ -135,7 +135,7 @@ class NotificationRvAdapter :
         }
     }
 
-    inner class DiffUtilCallback(
+    class DiffUtilCallback(
         private val oldData: List<NotificationResponse.NotificationData>,
         private val newData: List<NotificationResponse.NotificationData>
     ) : DiffUtil.Callback() {
@@ -152,6 +152,7 @@ class NotificationRvAdapter :
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
             oldData[oldItemPosition].id == newData[newItemPosition].id &&
-                    oldData[oldItemPosition].isSeen == newData[newItemPosition].isSeen
+                    oldData[oldItemPosition].isSeen == newData[newItemPosition].isSeen &&
+                    oldData[oldItemPosition].title == newData[newItemPosition].title
     }
 }
