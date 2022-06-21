@@ -29,7 +29,7 @@ class NotificationActivity :
         setContentView(binding.root)
 
         binding.lifecycleOwner = this
-        option = "before"
+        option = before
         initAdapter()
         initListener()
         decorationView()
@@ -65,8 +65,8 @@ class NotificationActivity :
         binding.cgStatus.setOnCheckedChangeListener { group, checkedId ->
             Log.d(TAG, "clickChip: $checkedId")
             when (checkedId) {
-                binding.chipWillAlarm.id -> option = "before"
-                binding.chipDoneAlarm.id -> option = "after"
+                binding.chipWillAlarm.id -> option = before
+                binding.chipDoneAlarm.id -> option = after
             }
             setData()
         }
@@ -187,6 +187,8 @@ class NotificationActivity :
 
     companion object {
         const val TAG = "NOTIFICATION_ACTIVITY"
-        var option = "before"
+        const val before = "before"
+        const val after = "after"
+        var option = before
     }
 }
