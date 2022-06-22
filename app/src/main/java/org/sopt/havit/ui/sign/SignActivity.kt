@@ -49,9 +49,11 @@ class SignActivity : BaseBindingActivity<ActivitySignBinding>(R.layout.activity_
     }
 
     private fun initIsMoveToNextOrBackObserver() {
-        signInViewModel.isMoveToNextOrBack.observe(this, EventObserver {
-            binding.vpSign.currentItem = if (it) 1 else 0
-        })
+        signInViewModel.isMoveToNextOrBack.observe(
+            this,
+            EventObserver {
+                binding.vpSign.currentItem = if (it) 1 else 0
+            }
+        )
     }
-
 }

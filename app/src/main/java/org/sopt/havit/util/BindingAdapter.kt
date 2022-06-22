@@ -2,16 +2,17 @@ package org.sopt.havit.util
 
 import android.graphics.drawable.Drawable
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.sopt.havit.R
 import org.sopt.havit.util.DpToPxUtil.px
-
 
 object BindingAdapter {
 
@@ -68,7 +69,6 @@ object BindingAdapter {
             .placeholder(R.drawable.img_contents_dummy)
             .into(this)
     }
-
 
     @BindingAdapter("imageDefaultLinearMin")
     @JvmStatic
@@ -135,10 +135,12 @@ object BindingAdapter {
     fun setPopupDescription(textView: TextView, rate: Int) {
         when (rate) {
             in 0..33 -> textView.text = textView.context.getString(R.string.home_popup_description1)
-            in 34..66 -> textView.text =
-                textView.context.getString(R.string.home_popup_description2)
-            in 67..99 -> textView.text =
-                textView.context.getString(R.string.home_popup_description3)
+            in 34..66 ->
+                textView.text =
+                    textView.context.getString(R.string.home_popup_description2)
+            in 67..99 ->
+                textView.text =
+                    textView.context.getString(R.string.home_popup_description3)
             100 -> textView.text = textView.context.getString(R.string.home_popup_description4)
         }
     }
@@ -165,5 +167,31 @@ object BindingAdapter {
         val min = "${originTime[14]}${originTime[15]}".toInt().toString() + "분"
 
         return "$date$newHour$min 알림 예정"
+    }
+
+    @BindingAdapter("app:textVisibility")
+    @JvmStatic
+    fun TextView.textVisibility(isVisible: Boolean) {
+        this.visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
+
+    @BindingAdapter("app:imageVisibility")
+    @JvmStatic
+    fun ImageView.imageVisibility(isSelected: Boolean) {
+        this.visibility = if (isSelected) View.VISIBLE else View.GONE
+    }
+
+    @BindingAdapter("app:btnBackground")
+    @JvmStatic
+    fun AppCompatButton.setBtnBackground(isEnabled: Boolean) {
+        this.setBackgroundResource(
+            if (isEnabled) R.drawable.rectangle_havit_purple else R.drawable.rectangle_gray_2
+        )
+    }
+
+    @BindingAdapter("app:btnEnabled")
+    @JvmStatic
+    fun AppCompatButton.setBtnEnable(isEnabled: Boolean) {
+        this.isEnabled = isEnabled
     }
 }

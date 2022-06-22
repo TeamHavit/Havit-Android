@@ -26,5 +26,4 @@ class HavitAuthLocalPreferences @Inject constructor(
     fun getKakaoToken(): String = prefs.getString(KAKAO_TOKEN, "").toString()
 
     fun removeHavitAuthLocalToken() = prefs.edit().clear().apply()
-
 }

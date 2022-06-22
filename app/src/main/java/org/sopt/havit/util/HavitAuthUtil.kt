@@ -11,15 +11,14 @@ object HavitAuthUtil {
             UserApiClient.instance.accessTokenInfo { _, error ->
                 if (error != null) {
                     if (error is KakaoSdkError && error.isInvalidTokenError()) {
-                        isLogin(false) //로그인 필요
+                        isLogin(false) // 로그인 필요
                     }
                 } else {
                     isLogin(true) // 현재 로그인
                 }
             }
         } else {
-            isLogin(false) //로그인 필요
+            isLogin(false) // 로그인 필요
         }
     }
-
 }

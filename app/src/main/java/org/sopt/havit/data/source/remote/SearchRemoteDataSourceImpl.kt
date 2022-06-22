@@ -11,7 +11,6 @@ class SearchRemoteDataSourceImpl @Inject constructor(private val api: HavitApi) 
     override suspend fun getSearchContents(keyword: String): Flow<ContentsSearchResponse> {
         return flow {
             emit(api.getSearchContents(keyword))
-
         }
     }
 

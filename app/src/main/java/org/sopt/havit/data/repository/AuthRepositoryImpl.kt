@@ -3,8 +3,8 @@ package org.sopt.havit.data.repository
 import org.sopt.havit.MyFirebaseMessagingService
 import org.sopt.havit.data.remote.SignInResponse
 import org.sopt.havit.data.remote.SignUpResponse
-import org.sopt.havit.data.source.remote.AuthRemoteDataSource
 import org.sopt.havit.data.source.local.AuthLocalDataSource
+import org.sopt.havit.data.source.remote.AuthRemoteDataSource
 import org.sopt.havit.domain.repository.AuthRepository
 import javax.inject.Inject
 
@@ -15,8 +15,8 @@ class AuthRepositoryImpl @Inject constructor(
 
     override fun getFcmToken() = MyFirebaseMessagingService.getDeviceToken().toString()
 
-    override fun saveAccessToken(token: String) {
-        authLocalDataSource.saveAccessToken(token)
+    override fun saveAccessToken(accessToken: String) {
+        authLocalDataSource.saveAccessToken(accessToken)
     }
 
     override fun saveKakaoToken(kakaoToken: String) {
