@@ -19,6 +19,7 @@ import org.sopt.havit.util.CalenderUtil.dateWithDashFormatMD
 import org.sopt.havit.util.CalenderUtil.dateWithKorFormatMD
 import org.sopt.havit.util.CalenderUtil.dayStrMapper
 import org.sopt.havit.util.CalenderUtil.setTimePickerInterval
+import org.sopt.havit.util.CustomToast
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -68,8 +69,9 @@ class PickerFragment : BottomSheetDialogFragment() {
     private fun setDatePickerData() {
         var cal: Calendar
         for (i in 0 until DURATION) {
-            cal = Calendar.getInstance().apply { time = Date() }
-            cal.add(Calendar.DATE, i)
+            cal = Calendar.getInstance()
+                .apply { time = Date() }
+                .apply { add(Calendar.DATE, i) }
             calList[i] = cal
             val dateOfCal = dayStrMapper[cal.get(Calendar.DAY_OF_WEEK)]
             dateList[i] = "${dateWithKorFormatMD.format(cal.time)} $dateOfCal"
@@ -117,10 +119,35 @@ class PickerFragment : BottomSheetDialogFragment() {
 
     private fun initCompleteBtnClick() {
         binding.btnComplete.setOnClickListener {
-            viewModel.isTimeDirectlySetFromUser(true)
-            viewModel.setNotificationTime(setNotiTimeOnViewModel())
-            dismiss()
+            if (isSelectedTimeAvailable()) {
+                viewModel.isTimeDirectlySetFromUser(true)
+                viewModel.setNotificationTime(setNotiTimeOnViewModel())
+                dismiss()
+            } else showPastTimeToast()
         }
+    }
+
+    private fun isSelectedTimeAvailable(): Boolean {
+        // current time
+        val dateCurrent = Calendar.getInstance().apply { time = Date() } // 현재 시간과 날짜
+        val hourCurrent = Calendar.getInstance().apply { time = Date() }.time.hours
+        val minCurrent = Calendar.getInstance().apply { time = Date() }.time.minutes
+        // selected time
+        val dateSelected: Calendar = calList[datePicker.value] ?: throw IllegalStateException()
+        val hourSelected: Int = timePicker.hour
+        val minSelected: Int = timePicker.minute * 5
+
+        return if (dateSelected.after(dateCurrent)) true
+        else if (hourSelected > hourCurrent) true
+        else if (hourCurrent > hourSelected) false
+        else (minCurrent < minSelected)
+    }
+
+    private fun showPastTimeToast() {
+        CustomToast.showTextToast(
+            requireContext(),
+            resources.getString(R.string.cannot_set_notification_time_on_past)
+        )
     }
 
     private fun setNotiTimeOnViewModel(): String {
