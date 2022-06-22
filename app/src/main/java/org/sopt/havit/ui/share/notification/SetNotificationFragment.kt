@@ -11,7 +11,6 @@ import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.share.ShareViewModel
 import org.sopt.havit.util.CalenderUtil.dateAndTimeWithDotFormatMD
 import org.sopt.havit.util.DialogUtil
-import org.sopt.havit.util.MySharedPreference
 import org.sopt.havit.util.OnBackPressedHandler
 import java.util.*
 
@@ -53,16 +52,8 @@ class SetNotificationFragment :
     private fun initToolbarListener() {
         binding.icBack.setOnClickListener { onBackClicked() }
         binding.tvComplete.setOnClickListener {
-            setNotiTimeOnPreference()
             goBack()
         }
-    }
-
-    private fun setNotiTimeOnPreference() {
-        MySharedPreference.setNotificationTime(
-            requireContext(),
-            viewModel.notificationTime.value.toString()
-        )
     }
 
     private fun getNotificationTime(idx: Int): String {

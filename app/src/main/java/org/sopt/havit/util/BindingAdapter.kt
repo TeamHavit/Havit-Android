@@ -149,8 +149,8 @@ object BindingAdapter {
 
     @BindingAdapter("android:alarmText")
     @JvmStatic
-    fun TextView.setAlarmText(string: String) {
-        this.text = if (string == "알림 설정") "알림 설정" else setDateFormat(string)
+    fun TextView.setAlarmText(string: String?) {
+        this.text = if (string == null) "알림 설정" else setDateFormat(string)
     }
 
     @BindingAdapter("app:textVisibility")

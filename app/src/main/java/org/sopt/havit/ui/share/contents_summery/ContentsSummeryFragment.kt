@@ -49,11 +49,13 @@ class ContentsSummeryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
         setContents()
         getCategoryList()
         initListener()
         toolbarClickListener()
-        getNotificationTime()
     }
 
     private fun getUrl(): String {
@@ -76,12 +78,6 @@ class ContentsSummeryFragment : Fragment() {
         // 배열 초기화 및 값 할당
         cateIdInt = MutableList(cateIdString.size) { 0 }
         for (i in cateIdString.indices) cateIdInt[i] = ((cateIdString[i]).toInt())
-    }
-
-    // 알림을 설정 했다면 tv_set_alarm 값을 알림설정한 시간으로 변경
-    private fun getNotificationTime() {
-        val setTime = MySharedPreference.getNotificationTime(requireContext())
-        binding.alarm = setTime.ifEmpty { getString(R.string.set_alarm_space) }
     }
 
     private fun setContents() {

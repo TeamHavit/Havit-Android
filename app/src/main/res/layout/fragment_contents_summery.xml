@@ -10,8 +10,8 @@
             type="org.sopt.havit.data.remote.ContentsSummeryData" />
 
         <variable
-            name="alarm"
-            type="String" />
+            name="viewModel"
+            type="org.sopt.havit.ui.share.ShareViewModel" />
 
     </data>
 
@@ -156,7 +156,7 @@
                     android:id="@+id/tv_set_alarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:alarmText="@{alarm}"
+                    android:alarmText="@{viewModel.notificationTime}"
                     android:textAppearance="@style/Text15Semibold"
                     android:textColor="@color/havit_purple"
                     app:layout_constraintBottom_toBottomOf="@id/iv_alarm"
