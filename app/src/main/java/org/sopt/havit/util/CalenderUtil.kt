@@ -41,20 +41,16 @@ object CalenderUtil {
 
     fun setDateFormatOnRadioBtn(originTime: String): String {
         /** 자릿수 꼭 지켜서 사용 ex) 2022.01.25 00:04:54 */
-        // 날짜 (2022.01.25)
-        val date =
-            "${originTime[2]}${originTime[3]}.${originTime[5]}${originTime[6]}.${originTime[8]}${originTime[9]}"
-        // 시 (오후 11시 :: 12시간제 적용)
-        val newHour = when (val hour = "${originTime[11]}${originTime[12]}".toInt()) {
+        val date = originTime.substring(2, 10).replace("-", ". ")
+        val amPmHour = when (val hour = originTime.substring(11, 13).toInt()) {
             0 -> "오전 12"
             12 -> "오후 12"
             in 0..11 -> "오전 $hour"
             in 13..24 -> "오후 ${hour - 12}"
             else -> Error("잘못된 시간입니다")
         }
-        // 분 (3분 :: 자릿수 재졍렬을 위한 이중 형변환 사용)
-        val min = "${originTime[14]}${originTime[15]}".toInt().toString() + "분"
-        return "$date ${newHour}시 $min"
+        val min = originTime.substring(14, 16).toInt().toString()
+        return "$date ${amPmHour}시 ${min}분"
     }
 
     fun setDateFormat(originTime: String): String {
