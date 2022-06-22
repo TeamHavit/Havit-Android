@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.share
+package org.sopt.havit.ui.share.notification
 
 import android.app.Dialog
 import android.os.Bundle
@@ -14,6 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentPickerBinding
+import org.sopt.havit.ui.share.ShareViewModel
 import org.sopt.havit.util.CalenderUtil.DURATION
 import org.sopt.havit.util.CalenderUtil.dateWithDashFormatMD
 import org.sopt.havit.util.CalenderUtil.dateWithKorFormatMD

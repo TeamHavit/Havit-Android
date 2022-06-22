@@ -41,7 +41,7 @@ class ShareActivity : AppCompatActivity() {
     private fun startSavingContents() {
         HavitAuthUtil.isLoginNow { isLogin ->
             if (isLogin) saveContents()
-            else if (makeLogin) finish()
+            else if (makeLogin) finish() // 로그인창을 갔다 왔는데도 로그인이 안되어 있으면 종료
         }
     }
 

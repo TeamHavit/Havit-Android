@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.share
+package org.sopt.havit.ui.share.notification
 
 import android.os.Bundle
 import android.view.View
@@ -8,6 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentSetNotificationBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.ui.share.ShareViewModel
 import org.sopt.havit.util.CalenderUtil.dateAndTimeWithDotFormatMD
 import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.MySharedPreference

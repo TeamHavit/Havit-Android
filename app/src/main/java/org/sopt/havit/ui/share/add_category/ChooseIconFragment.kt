@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.share
+package org.sopt.havit.ui.share.add_category
 
 import android.os.Bundle
 import android.view.View
@@ -11,7 +11,7 @@ import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.CategoryAddRequest
 import org.sopt.havit.databinding.FragmentChooseIconBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
-import org.sopt.havit.ui.share.IconAdapter.Companion.clickedPosition
+import org.sopt.havit.ui.share.add_category.IconAdapter.Companion.clickedPosition
 import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.MySharedPreference
 

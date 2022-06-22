@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.share
+package org.sopt.havit.ui.share.contents_summery
 
 import android.content.Intent
 import android.os.Bundle
@@ -22,6 +22,7 @@ import org.sopt.havit.data.remote.ContentsSummeryData
 import org.sopt.havit.data.remote.CreateContentsRequest
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
 import org.sopt.havit.ui.category.CategoryViewModel
+import org.sopt.havit.ui.share.ShareViewModel
 import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.MySharedPreference
 

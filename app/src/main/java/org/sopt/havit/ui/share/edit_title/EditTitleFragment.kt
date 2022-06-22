@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.share
+package org.sopt.havit.ui.share.edit_title
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -7,8 +7,8 @@ import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.contents.ContentsActivity
-import org.sopt.havit.ui.share.IconAdapter
-import org.sopt.havit.ui.share.IconAdapter.Companion.clickedPosition
+import org.sopt.havit.ui.share.add_category.IconAdapter
+import org.sopt.havit.ui.share.add_category.IconAdapter.Companion.clickedPosition
 import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.DialogUtil
 
