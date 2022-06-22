@@ -15,16 +15,13 @@ import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.MOVE_CA
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.SET_ALARM
 import org.sopt.havit.util.DialogUtil
 
-class ContentsMoreFragment(
-    contents: ContentsMoreData,
-    removeItem: (Int) -> Unit,
-    position: Int
-) : BottomSheetDialogFragment() {
+class ContentsMoreFragment :
+    BottomSheetDialogFragment() {
     private lateinit var binding: FragmentContentsMoreBinding
     private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(requireContext()) }
-    private var contentsData = contents
-    private val notifyItemRemoved = removeItem
-    private val pos = position
+    private lateinit var contentsData: ContentsMoreData
+    private lateinit var notifyItemRemoved: (Int) -> Unit
+    private var pos = 0
     private lateinit var viewType: String
 
     override fun onCreateView(
@@ -37,6 +34,7 @@ class ContentsMoreFragment(
         binding.vm = contentsViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        setData()
         setMoreView()
         clickDelete()
         initShareClick()
@@ -78,6 +76,15 @@ class ContentsMoreFragment(
         }
     }
 
+    // 이전 뷰에서 bundle로 보낸 content 데이터 받아오기
+    private fun setData() {
+        contentsData = arguments?.getParcelable(CONTENTS_MORE_DATA) ?: throw IllegalStateException()
+        notifyItemRemoved = arguments?.getSerializable(REMOVE_ITEM) as (Int) -> Unit
+        arguments?.getInt(POSITION, 0)?.let {
+            pos = it
+        }
+    }
+
     private fun setMoreView() {
         contentsViewModel.setContentsView(contentsData)
     }
@@ -93,6 +100,7 @@ class ContentsMoreFragment(
         }
     }
 
+    // 콘텐츠 삭제 버튼 클릭 시 동작 정의
     private fun clickDelete() {
         binding.clEditDelete.setOnClickListener {
             val dialog = DialogUtil(DialogUtil.REMOVE_CONTENTS, ::deleteContents)
@@ -110,5 +118,11 @@ class ContentsMoreFragment(
         notifyItemRemoved(pos)
         // ContentsMoreFragment 삭제
         dismiss()
+    }
+
+    companion object {
+        const val CONTENTS_MORE_DATA = "ContentsMoreData"
+        const val REMOVE_ITEM = "removeItem"
+        const val POSITION = "position"
     }
 }

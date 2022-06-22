@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.contents_simple
+package org.sopt.havit.ui.notification
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,26 +7,32 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
-import org.sopt.havit.data.remote.ContentsSimpleResponse
-import org.sopt.havit.databinding.ItemContentsSimpleBinding
+import org.sopt.havit.data.remote.NotificationResponse
+import org.sopt.havit.databinding.ItemNotificationBinding
 
-class ContentsSimpleRvAdapter :
-    RecyclerView.Adapter<ContentsSimpleRvAdapter.ContentsSimpleViewHolder>() {
+class NotificationRvAdapter :
+    RecyclerView.Adapter<NotificationRvAdapter.NotificationViewHolder>() {
 
-    var contentsList = mutableListOf<ContentsSimpleResponse.ContentsSimpleData>()
+    val contentsList = mutableListOf<NotificationResponse.NotificationData>()
     private lateinit var itemClickListener: OnItemClickListener
     private lateinit var itemMoreClickListener: OnItemMoreClickListener
     private lateinit var itemHavitClickListener: OnItemHavitClickListener
 
-    inner class ContentsSimpleViewHolder(private val binding: ItemContentsSimpleBinding) :
+    class NotificationViewHolder(val binding: ItemNotificationBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ContentsSimpleResponse.ContentsSimpleData) {
-            changeTimeFormat(data) // 시간 형식 변경
-            setIvHavit(data.isSeen) // 해빗 버튼 초기 설정
+
+        fun onBind(data: NotificationResponse.NotificationData, position: Int) {
             binding.content = data
+            binding.option = NotificationActivity.option
+            changeTimeFormat(data)
+            setIvHavit(data.isSeen)
         }
 
-        private fun changeTimeFormat(data: ContentsSimpleResponse.ContentsSimpleData) {
+        private fun setIvHavit(isSeen: Boolean) {
+            binding.ivHavit.setImageResource(if (isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
+        }
+
+        private fun changeTimeFormat(data: NotificationResponse.NotificationData) {
             // 알림 예정 시각 형식 변경
             if (data.notificationTime.isNotEmpty() && data.notificationTime.length == 16) {
                 val time = data.notificationTime
@@ -42,50 +48,45 @@ class ContentsSimpleRvAdapter :
             }
 
             // 글 생성 시각 형식 변경
-            if (data.createdAt.length == 16) {
+            if (data.createdAt.length == 10) {
                 data.createdAt = data.createdAt.substring(0 until 10)
                     .replace("-", ". ")
             }
-        }
-
-        // havit 버튼 설정값 초기화
-        private fun setIvHavit(isSeen: Boolean) {
-            binding.ivHavit.tag = if (isSeen) "seen" else "unseen"
-            binding.ivHavit.setImageResource(if (isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
         }
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ContentsSimpleViewHolder {
-        val binding = ItemContentsSimpleBinding.inflate(
+    ): NotificationViewHolder {
+        val binding = ItemNotificationBinding.inflate(
             LayoutInflater.from(parent.context),
             parent, false
         )
 
-        return ContentsSimpleViewHolder(binding)
+        return NotificationViewHolder(binding)
     }
 
     override fun onBindViewHolder(
-        holder: ContentsSimpleViewHolder,
+        holder: NotificationViewHolder,
         position: Int
     ) {
-        holder.onBind(contentsList[position])
+        val safePosition = holder.layoutPosition
+        holder.onBind(contentsList[safePosition], safePosition)
 
         // 아이템 전체 클릭 시 onWebClick() 호출
         holder.itemView.setOnClickListener {
-            itemClickListener.onWebClick(it, holder.layoutPosition)
+            itemClickListener.onWebClick(it, safePosition)
         }
         // 아이템 더보기 클릭 시 onMoreClick() 호출
-        holder.itemView.findViewById<View>(R.id.iv_setting).setOnClickListener {
-            itemMoreClickListener.onMoreClick(it, holder.layoutPosition)
+        holder.binding.ivMore.setOnClickListener {
+            itemMoreClickListener.onMoreClick(it, safePosition)
         }
         // 아이템 해빗 클릭 시 onHavitClick() 호출
-        holder.itemView.findViewById<View>(R.id.iv_havit).setOnClickListener {
+        holder.binding.ivHavit.setOnClickListener {
             itemHavitClickListener.onHavitClick(
-                holder.itemView.findViewById(R.id.iv_havit),
-                holder.layoutPosition
+                holder.binding.ivHavit,
+                safePosition
             )
         }
     }
@@ -122,21 +123,21 @@ class ContentsSimpleRvAdapter :
 
     override fun getItemCount(): Int = contentsList.size
 
-    fun updateList(items: List<ContentsSimpleResponse.ContentsSimpleData>?) {
+    fun updateList(items: List<NotificationResponse.NotificationData>?) {
         items?.let {
             val diffCallback = DiffUtilCallback(this.contentsList, items)
             val diffResult = DiffUtil.calculateDiff(diffCallback)
             this.contentsList.run {
                 clear()
                 addAll(items)
-                diffResult.dispatchUpdatesTo(this@ContentsSimpleRvAdapter)
+                diffResult.dispatchUpdatesTo(this@NotificationRvAdapter)
             }
         }
     }
 
-    inner class DiffUtilCallback(
-        private val oldData: List<ContentsSimpleResponse.ContentsSimpleData>,
-        private val newData: List<ContentsSimpleResponse.ContentsSimpleData>
+    class DiffUtilCallback(
+        private val oldData: List<NotificationResponse.NotificationData>,
+        private val newData: List<NotificationResponse.NotificationData>
     ) : DiffUtil.Callback() {
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             val oldItem = oldData[oldItemPosition]
@@ -150,9 +151,8 @@ class ContentsSimpleRvAdapter :
         override fun getNewListSize(): Int = newData.size
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-            (
-                (oldData[oldItemPosition].id == newData[newItemPosition].id) &&
-                    (oldData[oldItemPosition].title == newData[newItemPosition].title)
-                )
+            oldData[oldItemPosition].id == newData[newItemPosition].id &&
+                oldData[oldItemPosition].isSeen == newData[newItemPosition].isSeen &&
+                oldData[oldItemPosition].title == newData[newItemPosition].title
     }
 }

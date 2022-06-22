@@ -17,6 +17,7 @@ import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.contents.ContentsMoreFragment
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.KeyBoardUtil
+import java.io.Serializable
 
 @AndroidEntryPoint
 class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activity_search) {
@@ -78,10 +79,11 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
                         data.isNotified,
                         data.notificationTime
                     )
-                    ContentsMoreFragment(dataMore, removeItem, pos).show(
-                        supportFragmentManager,
-                        "setting"
-                    )
+
+                    val bundle = setBundle(dataMore, removeItem, pos)
+                    val dialog = ContentsMoreFragment()
+                    dialog.arguments = bundle
+                    dialog.show(supportFragmentManager, "setting")
                 }
             })
             setItemClickListener(object : SearchContentsAdapter.OnItemClickListener {
@@ -119,6 +121,19 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
                 }
             })
         }
+    }
+
+    // ContentsMoreFragment에 보낼 bundle 생성
+    private fun setBundle(
+        dataMore: ContentsMoreData?,
+        removeItem: (Int) -> Unit,
+        position: Int
+    ): Bundle {
+        val bundle = Bundle()
+        bundle.putParcelable(ContentsMoreFragment.CONTENTS_MORE_DATA, dataMore)
+        bundle.putSerializable(ContentsMoreFragment.REMOVE_ITEM, removeItem as Serializable)
+        bundle.putInt(ContentsMoreFragment.POSITION, position)
+        return bundle
     }
 
     private fun setCustomToast() {

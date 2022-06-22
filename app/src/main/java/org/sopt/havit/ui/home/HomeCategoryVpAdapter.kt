@@ -2,6 +2,7 @@ package org.sopt.havit.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemHomeCategoryRecyclerviewBinding
@@ -38,4 +39,35 @@ class HomeCategoryVpAdapter : RecyclerView.Adapter<HomeCategoryVpAdapter.HomeCat
     }
 
     override fun getItemCount(): Int = categoryList.size
+
+    fun updateList(items: List<List<CategoryResponse.AllCategoryData>>?) {
+        items?.let {
+            val diffCallback = DiffUtilCallback(this.categoryList, items)
+            val diffResult = DiffUtil.calculateDiff(diffCallback)
+            this.categoryList.run {
+                clear()
+                addAll(items)
+                diffResult.dispatchUpdatesTo(this@HomeCategoryVpAdapter)
+            }
+        }
+    }
+
+    inner class DiffUtilCallback(
+        private val oldData: List<List<CategoryResponse.AllCategoryData>>,
+        private val newData: List<List<CategoryResponse.AllCategoryData>>
+    ) : DiffUtil.Callback() {
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldItem = oldData[oldItemPosition]
+            val newItem = newData[newItemPosition]
+
+            return oldItem == newItem
+        }
+
+        override fun getOldListSize(): Int = oldData.size
+
+        override fun getNewListSize(): Int = newData.size
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldData[oldItemPosition] == newData[newItemPosition]
+    }
 }

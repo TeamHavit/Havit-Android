@@ -152,10 +152,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             userData.observe(viewLifecycleOwner) { userData ->
                 categoryData.observe(viewLifecycleOwner) { data ->
                     if (data.isNotEmpty()) {
-                        categoryVpAdapter.categoryList.clear()
                         val list = setList(data, userData.totalContentNumber)
-                        categoryVpAdapter.categoryList.addAll(list)
-                        categoryVpAdapter.notifyDataSetChanged()
+                        categoryVpAdapter.updateList(list)
+                        binding.layoutCategory.indicatorCategory.setViewPager2(binding.layoutCategory.vpCategory)
                     }
                 }
             }

@@ -18,7 +18,7 @@ class HomeRecentContentsRvAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsSimpleResponse.ContentsSimpleData) {
             if (data.createdAt.length == 16) {
-                changeTimeFormat(data)  // 시간 형식 변경
+                changeTimeFormat(data) // 시간 형식 변경
             }
             data.description = data.description.replace(" ", "\u00a0") // tvHeader 단어 자동줄바꿈 막는 코드
             binding.homeRecentData = data
@@ -87,6 +87,7 @@ class HomeRecentContentsRvAdapter :
         override fun getNewListSize(): Int = newData.size
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-            oldData[oldItemPosition] == newData[newItemPosition]
+            (oldData[oldItemPosition].id == newData[newItemPosition].id) &&
+                (oldData[oldItemPosition].title == newData[newItemPosition].title)
     }
 }

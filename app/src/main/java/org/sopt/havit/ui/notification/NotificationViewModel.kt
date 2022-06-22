@@ -8,25 +8,43 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.ContentsSimpleResponse
+import org.sopt.havit.data.remote.ContentsHavitRequest
+import org.sopt.havit.data.remote.NotificationResponse.NotificationData
 import org.sopt.havit.util.MySharedPreference
 
 class NotificationViewModel(context: Context) : ViewModel() {
     private val token = MySharedPreference.getXAuthToken(context)
 
-    // TODO: 나중에 알림 모아보기 서버 나오면 그걸로 바꿀 것
-    // 현재는 최근저장콘텐츠 api 호출
-    private val _contentsList = MutableLiveData<List<ContentsSimpleResponse.ContentsSimpleData>>()
-    val contentsList: LiveData<List<ContentsSimpleResponse.ContentsSimpleData>> = _contentsList
-    fun requestContentsTaken() {
+    private val _contentsList = MutableLiveData<List<NotificationData>>()
+    val contentsList: LiveData<List<NotificationData>> = _contentsList
+
+    fun requestContentsTaken(option: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response =
                     RetrofitObject.provideHavitApi(token)
-                        .getContentsRecent()
+                        .getNotification(option)
                 _contentsList.postValue(response.data)
             } catch (e: Exception) {
             }
         }
+    }
+
+    private val _isSeen = MutableLiveData<Boolean>()
+    val isSeen: LiveData<Boolean> = _isSeen
+    fun setIsSeen(contentsId: Int) {
+        viewModelScope.launch {
+            try {
+                val response =
+                    RetrofitObject.provideHavitApi(token)
+                        .isHavit(ContentsHavitRequest(contentsId))
+                _isSeen.postValue(response.data.isSeen)
+            } catch (e: Exception) {
+            }
+        }
+    }
+
+    fun updateContentsList(list: List<NotificationData>) {
+        _contentsList.value = list
     }
 }
