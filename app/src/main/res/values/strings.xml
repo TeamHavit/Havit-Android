@@ -223,4 +223,6 @@
     <string name="splash_another_account"><u>다른 카카오 계정으로 로그인</u></string>
     <string name="splash_kakao_title">카카오로 로그인</string>
     <string name="splash_un_kakao_login">HAVIT에 콘텐츠를 저장하기 위해\n로그인이 필요합니다.</string>
+    <!--toast-->
+    <string name="cannot_set_notification_time_on_past">과거 시간으로는 알림 설정을 할 수 없습니다</string>
 </resources>
