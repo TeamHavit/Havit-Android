@@ -16,7 +16,7 @@ class ShareActivity : AppCompatActivity() {
     private val viewModel: ShareViewModel by viewModels()
 
     private lateinit var binding: ActivityShareBinding
-    private var makeLogin = false
+    private var makeLogin = false /*로그인 화면으로 넘기는 로직을 1회만 실행. 해당 로직이 없으면 로그인화면이 무한 반복 됨*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,7 @@ class ShareActivity : AppCompatActivity() {
     private fun startSavingContents() {
         HavitAuthUtil.isLoginNow { isLogin ->
             if (isLogin) saveContents()
-            else if (makeLogin) finish() // 로그인창을 갔다 왔는데도 로그인이 안되어 있으면 종료
+            else if (makeLogin) finish()
         }
     }
 
