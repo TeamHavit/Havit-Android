@@ -30,26 +30,6 @@ object MySharedPreference {
         pref.edit().clear().apply()
     }
 
-    fun setNotificationTime(context: Context, time: String) {
-        val prefs: SharedPreferences =
-            context.getSharedPreferences(NOTI_TIME, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = prefs.edit()
-        editor.putString(NOTI_TIME, time)
-        editor.apply()
-    }
-
-    fun getNotificationTime(context: Context): String {
-        val pref: SharedPreferences =
-            context.getSharedPreferences(NOTI_TIME, Context.MODE_PRIVATE)
-        return pref.getString(NOTI_TIME, "").toString()
-    }
-
-    fun clearNotificationTime(context: Context) {
-        val pref: SharedPreferences =
-            context.getSharedPreferences(NOTI_TIME, Context.MODE_PRIVATE)
-        pref.edit().clear().apply()
-    }
-
     fun setXAuthToken(context: Context, xAuthToken: String) {
         val prefs: SharedPreferences =
             context.getSharedPreferences(X_AUTH_TOKEN_1, Context.MODE_PRIVATE)

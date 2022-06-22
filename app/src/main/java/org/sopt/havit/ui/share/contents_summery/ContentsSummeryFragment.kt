@@ -158,9 +158,9 @@ class ContentsSummeryFragment : Fragment() {
                 val time: String
 
                 val reservedNotification =
-                    MySharedPreference.getNotificationTime(requireContext())
+                    viewModel.notificationTime.value
 
-                if (reservedNotification.isEmpty()) {
+                if (reservedNotification == null) {
                     time = ""
                     notification = false
                 } else {
@@ -190,12 +190,10 @@ class ContentsSummeryFragment : Fragment() {
     private fun toolbarClickListener() {
         binding.icBack.setOnClickListener {
             findNavController().popBackStack()
-//            MySharedPreference.clearNotificationTime(requireContext())
         }
 
         binding.icClose.setOnClickListener {
             MySharedPreference.clearTitle(requireContext())
-            MySharedPreference.clearNotificationTime(requireContext())
             requireActivity().finish()
         }
     }

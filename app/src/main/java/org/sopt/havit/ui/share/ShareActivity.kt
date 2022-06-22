@@ -67,7 +67,6 @@ class ShareActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        MySharedPreference.clearNotificationTime(this)
         MySharedPreference.clearTitle(this)
     }
 
