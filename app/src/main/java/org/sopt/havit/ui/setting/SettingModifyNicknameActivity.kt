@@ -4,15 +4,15 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
-import org.sopt.havit.databinding.ActivitySettingModifyBinding
+import org.sopt.havit.databinding.ActivitySettingModifyNicknameBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.KeyBoardUtil.setUpAsSoftKeyboard
 
 @AndroidEntryPoint
-class SettingModifyActivity :
-    BaseBindingActivity<ActivitySettingModifyBinding>(R.layout.activity_setting_modify) {
+class SettingModifyNicknameActivity :
+    BaseBindingActivity<ActivitySettingModifyNicknameBinding>(R.layout.activity_setting_modify_nickname) {
     private val settingViewModel: SettingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

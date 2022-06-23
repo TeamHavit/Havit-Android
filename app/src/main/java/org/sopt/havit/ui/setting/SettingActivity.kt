@@ -44,7 +44,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
         // 프로필 수정
         binding.ivEdit.setOnClickListener {
-            val intent = Intent(this, SettingModifyActivity::class.java)
+            val intent = Intent(this, SettingModifyNicknameActivity::class.java)
             intent.putExtra(nickname, settingViewModel.user.value?.nickname)
             startActivity(intent)
         }
