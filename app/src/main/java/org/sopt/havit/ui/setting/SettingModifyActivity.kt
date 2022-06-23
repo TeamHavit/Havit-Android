@@ -2,7 +2,6 @@ package org.sopt.havit.ui.setting
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.core.widget.doOnTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingModifyBinding
@@ -25,20 +24,13 @@ class SettingModifyActivity :
         setListener()
         setUpAsSoftKeyboard(binding.root)
         setKeyBoardUp()
-        setNicknameLength()
     }
 
     // etNickname에 들어갈 nickname 초기화
     private fun initNickname() {
-        val nickname: String
-        intent.let {
-            nickname = it.getStringExtra(SettingActivity.nickname).toString()
-        }
+        val nickname = intent.getStringExtra(SettingActivity.nickname).toString()
         binding.etNickname.setText(nickname)    // etNickname에 nickname 저장
-        val length = nickname.length
-        binding.etNickname.setSelection(length) // 커서 맨 뒤로 위치시킴
-        settingViewModel.setNicknameLength(length)  // 글자 수 세기
-        binding.isClickable = length > 0        // isClickable 값 저장
+        binding.etNickname.setSelection(nickname.length) // 커서 맨 뒤로 위치시킴
     }
 
     private fun setListener() {
@@ -50,16 +42,6 @@ class SettingModifyActivity :
         binding.btnComplete.setOnClickListener {
             settingViewModel.requestNewNickname(binding.etNickname.text.toString())
             finish()
-        }
-    }
-
-    // 닉네임 글자 수 세기
-    private fun setNicknameLength() {
-        binding.etNickname.doOnTextChanged { text, _, _, _ ->
-            text?.length?.let {
-                settingViewModel.setNicknameLength(it)
-                binding.isClickable = it > 0
-            }
         }
     }
 

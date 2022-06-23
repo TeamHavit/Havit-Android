@@ -29,8 +29,6 @@ class SettingViewModel @Inject constructor(
     val isLatest: LiveData<Boolean> = _isLatest
 
     // 환경설정_내정보수정
-    private val _nicknameLength = MutableLiveData<Int>()
-    val nicknameLength: LiveData<Int> = _nicknameLength
     private val _nickname = MutableLiveData<String>()
     val nickname: LiveData<String> = _nickname
 
@@ -73,10 +71,6 @@ class SettingViewModel @Inject constructor(
                 Log.d("Request New Nickname", "error : $e")
             }
         }
-    }
-
-    fun setNicknameLength(length: Int) {
-        _nicknameLength.postValue(length)
     }
 
     fun removeHavitAuthToken() {

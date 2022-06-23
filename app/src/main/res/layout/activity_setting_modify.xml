@@ -8,10 +8,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="isClickable"
-            type="Boolean" />
-
-        <variable
             name="vmSetting"
             type="org.sopt.havit.ui.setting.viewmodel.SettingViewModel" />
     </data>
@@ -100,7 +96,7 @@
             android:layout_height="17dp"
             android:layout_marginEnd="4dp"
             android:src="@drawable/ic_delete_text_gray"
-            android:visibility="@{isClickable? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{etNickname.text.length() > 0? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/et_nickname"
             app:layout_constraintEnd_toEndOf="@+id/et_nickname"
             app:layout_constraintTop_toTopOf="@+id/et_nickname" />
@@ -121,9 +117,9 @@
             android:id="@+id/tv_nickname_length"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(vmSetting.nicknameLength)}"
+            android:text="@{String.valueOf(etNickname.text.length())}"
             android:textAppearance="@style/Sub13Regular"
-            android:textColor="@{isClickable? @color/havit_purple : @color/gray_2}"
+            android:textColor="@{etNickname.text.length() > 0? @color/havit_purple : @color/gray_2}"
             app:layout_constraintEnd_toStartOf="@id/tv_nickname_length_limit"
             app:layout_constraintTop_toTopOf="@id/tv_nickname_length_limit"
             tools:text="7" />
@@ -132,8 +128,8 @@
             android:id="@+id/btn_complete"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@{isClickable? @drawable/rectangle_havit_purple : @drawable/rectangle_gray_2}"
-            android:enabled="@{isClickable? true : false}"
+            android:background="@{etNickname.text.length() > 0? @drawable/rectangle_havit_purple : @drawable/rectangle_gray_2}"
+            android:enabled="@{etNickname.text.length() > 0? true : false}"
             android:text="@string/complete"
             android:textAppearance="@style/Text16Semibold"
             android:textColor="@color/white"
