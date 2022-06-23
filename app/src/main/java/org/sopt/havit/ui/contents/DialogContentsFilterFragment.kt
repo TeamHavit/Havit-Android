@@ -48,7 +48,7 @@ class DialogContentsFilterFragment : BottomSheetDialogFragment() {
                     else -> "seen_at"
                 }.also { binding.filter = it })
             ) {
-                filterClickListener.onClick(binding.filter!!) // 함수 실행
+                filterClickListener.onClick(requireNotNull(binding.filter)) // 함수 실행
             }
         }
     }
