@@ -1,6 +1,7 @@
 package org.sopt.havit.ui.contents
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentDialogContentsFilterBinding
 
-class DialogContentsFilterFragment(private var contentsFilter: String) : BottomSheetDialogFragment() {
+class DialogContentsFilterFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentDialogContentsFilterBinding? = null
     private val binding get() = _binding ?: error("Binding이 초기화 되지 않았습니다.")
     private lateinit var filterClickListener: OnFilterClickListener
@@ -24,7 +25,8 @@ class DialogContentsFilterFragment(private var contentsFilter: String) : BottomS
             container,
             false
         )
-        binding.filter = contentsFilter
+
+        binding.filter = requireArguments().getString(CONTENTS_FILTER)
 
         clickFilter()
         return binding.root
@@ -44,9 +46,9 @@ class DialogContentsFilterFragment(private var contentsFilter: String) : BottomS
                     R.id.rb_recent -> "created_at"
                     R.id.rb_past -> "reverse"
                     else -> "seen_at"
-                }.also { contentsFilter = it })
+                }.also { binding.filter = it })
             ) {
-                filterClickListener.onClick(contentsFilter) // 함수 실행
+                filterClickListener.onClick(requireNotNull(binding.filter)) // 함수 실행
             }
         }
     }
@@ -58,5 +60,9 @@ class DialogContentsFilterFragment(private var contentsFilter: String) : BottomS
 
     fun setFilterClickListener(onFilterClickListener: OnFilterClickListener) {
         this.filterClickListener = onFilterClickListener
+    }
+
+    companion object {
+        const val CONTENTS_FILTER = "contentsFilter"
     }
 }

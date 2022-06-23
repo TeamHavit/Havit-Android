@@ -72,6 +72,7 @@ class HomeCategoryRvAdapter(page: Int) :
             intent.putExtra(CategoryFragment.CATEGORY_ID, categoryList[position].id)
             intent.putExtra(CategoryFragment.CATEGORY_NAME, categoryList[position].title)
             intent.putExtra(CategoryFragment.CATEGORY_POSITION, pagePosition * 6 + position - 1)
+            intent.putExtra(CategoryFragment.CATEGORY_IMAGE_ID, categoryList[position].imageId)
             startActivity(holder.itemView.context, intent, null)
         }
     }

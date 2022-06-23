@@ -224,5 +224,11 @@
     <string name="splash_another_account"><u>다른 카카오 계정으로 로그인</u></string>
     <string name="splash_kakao_title">카카오로 로그인</string>
     <string name="splash_un_kakao_login">HAVIT에 콘텐츠를 저장하기 위해\n로그인이 필요합니다.</string>
+
+    <!-- error -->
+    <string name="error_occur">문제가 발생했습니다</string>
+    <string name="error_solution">문제가 지속되면 고객센터로 문의주세요</string>
+
     <string name="move_category">카테고리 이동</string>
 </resources>
+
