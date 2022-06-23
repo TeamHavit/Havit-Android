@@ -16,6 +16,10 @@
             type="org.sopt.havit.ui.category.CategoryViewModel" />
 
         <variable
+            name="state"
+            type="org.sopt.havit.domain.entity.NetworkState" />
+
+        <variable
             name="categoryId"
             type="Integer" />
     </data>
@@ -26,447 +30,465 @@
         android:fitsSystemWindows="true"
         tools:context=".ui.contents.ContentsActivity">
 
-        <!-- 상단 -->
+        <!--서버 연결 실패-->
+        <include
+            android:id="@+id/layout_network_error"
+            layout="@layout/layout_network_error"
+            android:visibility="@{vmContents.loadState == state.FAIL ? View.VISIBLE : View.GONE, default = gone}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_top"
+            android:id="@+id/cl_contents_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white_gray"
+            android:layout_height="match_parent"
+            android:visibility="@{vmContents.loadState == state.FAIL ? View.GONE : View.VISIBLE, default = visible}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="11dp"
-                android:padding="3dp"
-                android:src="@drawable/ic_back_black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_modify"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="17dp"
-                android:layout_marginEnd="6dp"
-                android:layout_marginBottom="13dp"
-                android:clickable="@{vmCategory.categoryLoad ? false : true}"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="6dp"
-                android:text="@string/modify"
-                android:textAppearance="@style/Text14Regular"
-                android:textColor="@color/gray_3"
-                android:visibility="@{categoryId &lt; 0 ? View.GONE : View.VISIBLE, default = visible}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <!-- 카테고리 명 -->
+            <!-- 상단 -->
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_category"
-                android:layout_width="wrap_content"
+                android:id="@+id/cl_top"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:layout_marginBottom="8dp"
-                android:clickable="@{(categoryId >= 0 &amp;&amp; !vmContents.loadState) ? true : false}"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@color/white_gray"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/tv_category"
+                <ImageView
+                    android:id="@+id/iv_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{vmContents.categoryName}"
-                    android:textAppearance="@style/Header16Bold"
-                    android:textColor="@color/havit_gray"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="11dp"
+                    android:padding="3dp"
+                    android:src="@drawable/ic_back_black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="카테고리명" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/iv_category_drop"
+                <TextView
+                    android:id="@+id/tv_modify"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="7dp"
-                    android:src="@drawable/ic_drop_black"
+                    android:layout_marginTop="17dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginBottom="13dp"
+                    android:clickable="@{vmCategory.categoryLoad ? false : true}"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="6dp"
+                    android:text="@string/modify"
+                    android:textAppearance="@style/Text14Regular"
+                    android:textColor="@color/gray_3"
                     android:visibility="@{categoryId &lt; 0 ? View.GONE : View.VISIBLE, default = visible}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tv_category"
                     app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <org.sopt.havit.util.StickyScrollView
-            android:id="@+id/sv_main"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cl_top">
-            <!-- 검색 + 콘텐츠 -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_main"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-                <!-- 검색 -->
+                <!-- 카테고리 명 -->
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_tab"
-                    android:layout_width="match_parent"
+                    android:id="@+id/cl_category"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white_gray"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="8dp"
+                    android:clickable="@{categoryId >= 0 ? true : false}"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
+                    <TextView
+                        android:id="@+id/tv_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{vmContents.categoryName}"
+                        android:textAppearance="@style/Header16Bold"
+                        android:textColor="@color/havit_gray"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="카테고리명" />
+
+                    <ImageView
+                        android:id="@+id/iv_category_drop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:src="@drawable/ic_drop_black"
+                        android:visibility="@{categoryId &lt; 0 ? View.GONE : View.VISIBLE, default = visible}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_category"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <org.sopt.havit.util.StickyScrollView
+                android:id="@+id/sv_main"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_top">
+                <!-- 검색 + 콘텐츠 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <!-- 검색 -->
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/cl_search"
+                        android:id="@+id/cl_tab"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginBottom="16dp"
                         android:background="@color/white_gray"
-                        android:paddingTop="9dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <ImageView
-                            android:id="@+id/iv_search"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/cl_search"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:background="@color/white_gray"
+                            android:paddingTop="9dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/iv_search"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:layout_marginBottom="8dp"
+                                android:src="@drawable/ic_search"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/et_search"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="9dp"
+                                android:background="@android:color/transparent"
+                                android:includeFontPadding="false"
+                                android:text="@string/contents_search_hint"
+                                android:textAppearance="@style/Text14Medium"
+                                android:textColor="@color/gray_2"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/iv_search"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="2dp"
+                                android:background="@color/gray_1"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- 옵션 -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_order_option"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_search"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cl_tab">
+
+                        <!-- 카테고리 개수 로딩 중 -->
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/sfl_count"
+                            android:layout_width="40dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginBottom="13dp"
+                            android:visibility="@{vmContents.loadState == state.LOADING ? View.VISIBLE : View.GONE}"
+                            app:layout_constraintBottom_toTopOf="@+id/cg_status"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/rectangle_gray_0_radius_6" />
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <!-- 카테고리 개수 -->
+                        <TextView
+                            android:id="@+id/tv_entire"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="1dp"
-                            android:layout_marginBottom="8dp"
-                            android:src="@drawable/ic_search"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="14dp"
+                            android:layout_marginBottom="13dp"
+                            android:text="@string/contents_entire"
+                            android:textAppearance="@style/Mini10Regular"
+                            android:textColor="@color/gray_3"
+                            android:visibility="@{vmContents.loadState == state.LOADING ? View.GONE : View.VISIBLE, default = gone}"
+                            app:layout_constraintBottom_toTopOf="@+id/cg_status"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/et_search"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="9dp"
-                            android:background="@android:color/transparent"
-                            android:includeFontPadding="false"
-                            android:text="@string/contents_search_hint"
-                            android:textAppearance="@style/Text14Medium"
-                            android:textColor="@color/gray_2"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/iv_search"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:background="@color/gray_1"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <!-- 옵션 -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_order_option"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_search"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cl_tab">
-
-                    <!-- 카테고리 개수 로딩 중 -->
-                    <com.facebook.shimmer.ShimmerFrameLayout
-                        android:id="@+id/sfl_count"
-                        android:layout_width="40dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="14dp"
-                        android:layout_marginBottom="13dp"
-                        android:visibility="@{vmContents.loadState ? View.VISIBLE : View.GONE}"
-                        app:layout_constraintBottom_toTopOf="@+id/cg_status"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/rectangle_gray_0_radius_6" />
-                    </com.facebook.shimmer.ShimmerFrameLayout>
-
-                    <!-- 카테고리 개수 -->
-                    <TextView
-                        android:id="@+id/tv_entire"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="14dp"
-                        android:layout_marginBottom="13dp"
-                        android:text="@string/contents_entire"
-                        android:textAppearance="@style/Mini10Regular"
-                        android:textColor="@color/gray_3"
-                        android:visibility="@{vmContents.loadState ? View.GONE : View.VISIBLE, default = gone}"
-                        app:layout_constraintBottom_toTopOf="@+id/cg_status"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_contents_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="2dp"
-                        android:text="@{String.valueOf(vmContents.contentsCount)}"
-                        android:textAppearance="@style/Mini10Regular"
-                        android:textColor="@color/gray_3"
-                        android:visibility="@{vmContents.loadState ? View.GONE : View.VISIBLE, default = gone}"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_entire"
-                        app:layout_constraintStart_toEndOf="@+id/tv_entire"
-                        app:layout_constraintTop_toTopOf="@+id/tv_entire"
-                        tools:text="0" />
-
-                    <ImageView
-                        android:id="@+id/iv_layout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="10dp"
-                        android:padding="6dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_layout_3" />
-
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/cg_status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginBottom="8dp"
-                        app:checkedChip="@id/ch_all"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:selectionRequired="true"
-                        app:singleSelection="true">
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/ch_all"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:id="@+id/tv_contents_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:checked="@{categoryId >= 0 ? true : false}"
-                            android:text="@string/category_entire"
-                            android:textAppearance="@style/Text12Semibold"
-                            android:textColor="@color/selector_chip_text"
-                            app:chipBackgroundColor="@color/selector_chip"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:textEndPadding="10dp"
-                            app:textStartPadding="10dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/ch_unseen"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/contents_unseen"
-                            android:textAppearance="@style/Text12Semibold"
-                            android:textColor="@color/selector_chip_text"
-                            app:chipBackgroundColor="@color/selector_chip"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:textEndPadding="10dp"
-                            app:textStartPadding="10dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/ch_seen"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="@{categoryId == -2 ? true : false}"
-                            android:text="@string/contents_seen"
-                            android:textAppearance="@style/Text12Semibold"
-                            android:textColor="@color/selector_chip_text"
-                            app:chipBackgroundColor="@color/selector_chip"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:textEndPadding="10dp"
-                            app:textStartPadding="10dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/ch_alarm"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:chipBackgroundColor="@color/selector_chip"
-                            app:chipIcon="@drawable/selector_chip_alarm"
-                            app:chipIconEnabled="true"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:ensureMinTouchTargetSize="false"
-                            app:iconEndPadding="6dp"
-                            app:iconStartPadding="6dp"
-                            app:textEndPadding="0dp"
-                            app:textStartPadding="0dp" />
-
-                    </com.google.android.material.chip.ChipGroup>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/cl_order"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:paddingHorizontal="6dp"
-                        android:paddingVertical="3dp"
-                        app:layout_constraintEnd_toEndOf="@+id/iv_layout"
-                        app:layout_constraintTop_toBottomOf="@+id/iv_layout">
-
-                        <TextView
-                            android:id="@+id/tv_order"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/contents_recent_order"
-                            android:textAppearance="@style/Sub12Medium"
+                            android:layout_marginStart="2dp"
+                            android:text="@{String.valueOf(vmContents.contentsCount)}"
+                            android:textAppearance="@style/Mini10Regular"
                             android:textColor="@color/gray_3"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:visibility="@{vmContents.loadState == state.LOADING ? View.GONE : View.VISIBLE, default = gone}"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_entire"
+                            app:layout_constraintStart_toEndOf="@+id/tv_entire"
+                            app:layout_constraintTop_toTopOf="@+id/tv_entire"
+                            tools:text="0" />
 
                         <ImageView
-                            android:id="@+id/iv_order"
+                            android:id="@+id/iv_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="3dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/tv_order"
-                            app:layout_constraintEnd_toStartOf="@+id/tv_order"
-                            app:layout_constraintTop_toTopOf="@+id/tv_order"
-                            app:srcCompat="@drawable/ic_updown" />
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="10dp"
+                            android:padding="6dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_layout_3" />
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/cg_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginBottom="8dp"
+                            app:checkedChip="@id/ch_all"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:selectionRequired="true"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/ch_all"
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{categoryId >= 0 ? true : false}"
+                                android:text="@string/category_entire"
+                                android:textAppearance="@style/Text12Semibold"
+                                android:textColor="@color/selector_chip_text"
+                                app:chipBackgroundColor="@color/selector_chip"
+                                app:chipMinTouchTargetSize="0dp"
+                                app:textEndPadding="10dp"
+                                app:textStartPadding="10dp" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/ch_unseen"
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/contents_unseen"
+                                android:textAppearance="@style/Text12Semibold"
+                                android:textColor="@color/selector_chip_text"
+                                app:chipBackgroundColor="@color/selector_chip"
+                                app:chipMinTouchTargetSize="0dp"
+                                app:textEndPadding="10dp"
+                                app:textStartPadding="10dp" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/ch_seen"
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@{categoryId == -2 ? true : false}"
+                                android:text="@string/contents_seen"
+                                android:textAppearance="@style/Text12Semibold"
+                                android:textColor="@color/selector_chip_text"
+                                app:chipBackgroundColor="@color/selector_chip"
+                                app:chipMinTouchTargetSize="0dp"
+                                app:textEndPadding="10dp"
+                                app:textStartPadding="10dp" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/ch_alarm"
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:chipBackgroundColor="@color/selector_chip"
+                                app:chipIcon="@drawable/selector_chip_alarm"
+                                app:chipIconEnabled="true"
+                                app:chipMinTouchTargetSize="0dp"
+                                app:ensureMinTouchTargetSize="false"
+                                app:iconEndPadding="6dp"
+                                app:iconStartPadding="6dp"
+                                app:textEndPadding="0dp"
+                                app:textStartPadding="0dp" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/cl_order"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:paddingHorizontal="6dp"
+                            android:paddingVertical="3dp"
+                            app:layout_constraintEnd_toEndOf="@+id/iv_layout"
+                            app:layout_constraintTop_toBottomOf="@+id/iv_layout">
+
+                            <TextView
+                                android:id="@+id/tv_order"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/contents_recent_order"
+                                android:textAppearance="@style/Sub12Medium"
+                                android:textColor="@color/gray_3"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/iv_order"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="3dp"
+                                app:layout_constraintBottom_toBottomOf="@+id/tv_order"
+                                app:layout_constraintEnd_toStartOf="@+id/tv_order"
+                                app:layout_constraintTop_toTopOf="@+id/tv_order"
+                                app:srcCompat="@drawable/ic_updown" />
 
 
+                        </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <!--비지 않은 경우-->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_contents"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:orientation="vertical"
-                    android:overScrollMode="never"
-                    android:paddingHorizontal="10dp"
-                    android:visibility="@{vmContents.contentsCount > 0 ? View.VISIBLE : View.GONE, default = gone}"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cl_order_option"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/item_contents_linear_min">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-                <!-- 빈 경우 -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_empty"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:visibility="@{vmContents.contentsCount == 0 ? View.VISIBLE : View.GONE, default = gone}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cl_order_option">
-
-                    <TextView
-                        android:id="@+id/tv_empty"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="68dp"
-                        android:text="@string/contents_empty"
-                        android:textAppearance="@style/Text14Medium"
-                        android:textColor="@color/gray_2"
+                    <!--비지 않은 경우-->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_contents"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:overScrollMode="never"
+                        android:paddingHorizontal="10dp"
+                        android:visibility="@{vmContents.contentsCount > 0 ? View.VISIBLE : View.GONE, default = gone}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/cl_order_option"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_contents_linear_min">
 
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_empty"
-                        app:srcCompat="@drawable/img_graphic_nocontents" />
+                    </androidx.recyclerview.widget.RecyclerView>
 
-                    <TextView
-                        android:id="@+id/tv_add_contents"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="32dp"
-                        android:background="@drawable/rectangle_purple_main_radius_44"
-                        android:paddingHorizontal="82dp"
-                        android:paddingVertical="14dp"
-                        android:text="@string/contents_add"
-                        android:textAppearance="@style/Button15Medium"
-                        android:textColor="@color/white"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <!-- 로딩 중 -->
-                <com.facebook.shimmer.ShimmerFrameLayout
-                    android:id="@+id/sfl_contents"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="@{vmContents.loadState ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cl_order_option">
-
-                    <LinearLayout
+                    <!-- 빈 경우 -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_empty"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:background="@color/white"
+                        android:visibility="@{vmContents.contentsCount == 0 ? View.VISIBLE : View.GONE, default = gone}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cl_order_option">
 
-                        <include layout="@layout/item_contents_skeleton_linear_min" />
+                        <TextView
+                            android:id="@+id/tv_empty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="68dp"
+                            android:text="@string/contents_empty"
+                            android:textAppearance="@style/Text14Medium"
+                            android:textColor="@color/gray_2"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                        <include layout="@layout/item_contents_skeleton_linear_min" />
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="22dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_empty"
+                            app:srcCompat="@drawable/img_graphic_nocontents" />
 
-                        <include layout="@layout/item_contents_skeleton_linear_min" />
+                        <TextView
+                            android:id="@+id/tv_add_contents"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="32dp"
+                            android:background="@drawable/rectangle_purple_main_radius_44"
+                            android:paddingHorizontal="82dp"
+                            android:paddingVertical="14dp"
+                            android:text="@string/contents_add"
+                            android:textAppearance="@style/Button15Medium"
+                            android:textColor="@color/white"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <include layout="@layout/item_contents_skeleton_linear_min" />
+                    <!-- 로딩 중 -->
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/sfl_contents"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{vmContents.loadState == state.LOADING ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cl_order_option">
 
-                        <include layout="@layout/item_contents_skeleton_linear_min" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-                        <include layout="@layout/item_contents_skeleton_linear_min" />
+                            <include layout="@layout/item_contents_skeleton_linear_min" />
 
-                        <include layout="@layout/item_contents_skeleton_linear_min" />
+                            <include layout="@layout/item_contents_skeleton_linear_min" />
 
-                        <include layout="@layout/item_contents_skeleton_linear_min" />
-                    </LinearLayout>
-                </com.facebook.shimmer.ShimmerFrameLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </org.sopt.havit.util.StickyScrollView>
+                            <include layout="@layout/item_contents_skeleton_linear_min" />
+
+                            <include layout="@layout/item_contents_skeleton_linear_min" />
+
+                            <include layout="@layout/item_contents_skeleton_linear_min" />
+
+                            <include layout="@layout/item_contents_skeleton_linear_min" />
+
+                            <include layout="@layout/item_contents_skeleton_linear_min" />
+
+                            <include layout="@layout/item_contents_skeleton_linear_min" />
+                        </LinearLayout>
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </org.sopt.havit.util.StickyScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

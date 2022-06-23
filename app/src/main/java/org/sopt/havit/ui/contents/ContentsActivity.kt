@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -11,15 +12,20 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
-import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.ActivityContentsBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryContentModifyActivity
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_DELETE_CATEGORY
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_MODIFY_CATEGORY
-import org.sopt.havit.ui.category.CategoryFragment
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_IMAGE_ID
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ITEM_LIST
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_POSITION
 import org.sopt.havit.ui.category.CategoryViewModel
+import org.sopt.havit.ui.contents.DialogContentsFilterFragment.Companion.CONTENTS_FILTER
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
@@ -31,7 +37,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private lateinit var contentsAdapter: ContentsAdapter
     private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(this) }
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
-    private var contentsCategoryList = ArrayList<CategoryResponse.AllCategoryData>()
     private lateinit var getResult: ActivityResultLauncher<Intent>
     private var categoryId = 0
     private var categoryName = "error"
@@ -39,6 +44,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private var categoryPosition = 0
     private var contentsOption = "all" // chip의 옵션 (전체/안봤어요/봤어요/알람)
     private var contentsFilter = "created_at" // 정렬 필터 (최신순/과거순/최근조회순)
+    private lateinit var currentHavitView: ImageView
+    private var currentHavitPosition = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,14 +72,16 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         getModifyData()
         clickItemHavit()
         clickItemMore()
+        refreshContentsData()
+        setHavitAction()
     }
 
     override fun onResume() {
         super.onResume()
-        setContentsData()
+        requestContentsData()
     }
 
-    private fun setContentsData() {
+    private fun requestContentsData() {
         if (categoryId <= -1) {
             contentsViewModel.requestContentsAllTaken(contentsOption, contentsFilter, categoryName)
         } else {
@@ -91,14 +100,22 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
         // 카테고리 뷰에서 넘겨받은 데이터를 ContentsActivity의 변수에 할당
         categoryId =
-            intent.getIntExtra(CategoryFragment.CATEGORY_ID, 0).also { binding.categoryId = it }
-        intent.getStringExtra(CategoryFragment.CATEGORY_NAME)?.let {
+            intent.getIntExtra(CATEGORY_ID, 0).also { binding.categoryId = it }
+        intent.getStringExtra(CATEGORY_NAME)?.let {
             categoryName = it
         }
-        categoryIconId = intent.getIntExtra(CategoryFragment.CATEGORY_IMAGE_ID, 0)
-        categoryPosition = intent.getIntExtra(CategoryFragment.CATEGORY_POSITION, 0)
+        categoryIconId = intent.getIntExtra(CATEGORY_IMAGE_ID, 0)
+        categoryPosition = intent.getIntExtra(CATEGORY_POSITION, 0)
+
         // 카테고리 이름 재설정
-        setCategoryName()
+        setCategoryName(categoryName)
+    }
+
+    private fun refreshContentsData() {
+        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+            it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotation_refresh))
+            requestContentsData()
+        }
     }
 
     private fun initValue() {
@@ -109,34 +126,25 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         contentsFilter = "created_at"
     }
 
-    private fun setCategoryName() {
-        // categoryName 으로 뷰모델의 카테고리 이름 변수 변경
-        contentsViewModel.setCategoryName(categoryName)
-    }
-
     private fun dataObserve() {
         with(contentsViewModel) {
             loadState.observe(this@ContentsActivity) {
                 // 서버 불러오는 중이라면 스켈레톤 화면 및 shimmer 효과를 보여줌
-                with(binding) {
-                    if (it) {
-                        sflContents.startShimmer()
-                        sflCount.startShimmer()
-                    } else {
-                        sflContents.stopShimmer()
-                        sflCount.stopShimmer()
-                    }
+                if (it == NetworkState.LOADING) {
+                    binding.sflContents.startShimmer()
+                    binding.sflCount.startShimmer()
+                } else {
+                    binding.sflContents.stopShimmer()
+                    binding.sflCount.stopShimmer()
                 }
             }
             contentsList.observe(this@ContentsActivity) {
                 // 콘텐츠 데이터 업데이트
                 contentsAdapter.submitList(it.toList())
             }
-        }
-        // 카테고리 리스트를 가져옴 (ArrayList에 넣어 mutable하게 만듦)
-        categoryViewModel.categoryList.observe(this@ContentsActivity) {
-            contentsCategoryList =
-                (categoryViewModel.categoryList.value as ArrayList<CategoryResponse.AllCategoryData>?)!!
+            categoryName.observe(this@ContentsActivity) {
+                binding.tvCategory.text = it
+            }
         }
     }
 
@@ -192,7 +200,11 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     // 최신순, 과거순, 최근 조회순 다이얼로그별 화면 설정
     private fun setOrderDialog() {
         binding.clOrder.setOnClickListener {
-            val dialog = DialogContentsFilterFragment(contentsFilter)
+            val dialog = DialogContentsFilterFragment().apply {
+                arguments = Bundle().apply {
+                    putString(CONTENTS_FILTER, contentsFilter)
+                }
+            }
             dialog.show(supportFragmentManager, "contentsOrder")
 
             // 순서 클릭 시 이벤트 정의
@@ -206,7 +218,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                             else -> "최근 조회순"
                         }
                         // 서버 호출
-                        setContentsData()
+                        requestContentsData()
                         dialog.dismiss()
                     }
                 })
@@ -215,7 +227,12 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun setCategoryListDialog() {
         binding.clCategory.setOnClickListener {
-            DialogContentsCategoryFragment(contentsCategoryList, categoryId).show(
+            DialogContentsCategoryFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelableArrayList(CATEGORY_ITEM_LIST, categoryViewModel.categoryList.value)
+                    putInt(CATEGORY_ID, categoryId)
+                }
+            }.show(
                 supportFragmentManager,
                 "categoryList"
             )
@@ -226,7 +243,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         binding.clSearch.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
             intent.putExtra(
-                CategoryFragment.CATEGORY_NAME,
+                CATEGORY_NAME,
                 "${contentsViewModel.categoryName.value}"
             )
             startActivity(intent)
@@ -297,19 +314,19 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         with(binding) {
             chAll.setOnClickListener {
                 contentsOption = "all"
-                setContentsData()
+                requestContentsData()
             }
             chSeen.setOnClickListener {
                 contentsOption = "true"
-                setContentsData()
+                requestContentsData()
             }
             chUnseen.setOnClickListener {
                 contentsOption = "false"
-                setContentsData()
+                requestContentsData()
             }
             chAlarm.setOnClickListener {
                 contentsOption = "notified"
-                setContentsData()
+                requestContentsData()
             }
         }
     }
@@ -324,9 +341,9 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
             // 카테고리 수정 뷰로 넘길 intent
             val intent = Intent(this, CategoryContentModifyActivity::class.java).apply {
-                putExtra(CategoryFragment.CATEGORY_ID, categoryId)
-                putExtra(CategoryFragment.CATEGORY_NAME, categoryName)
-                putExtra(CategoryFragment.CATEGORY_IMAGE_ID, categoryIconId)
+                putExtra(CATEGORY_ID, categoryId)
+                putExtra(CATEGORY_NAME, categoryName)
+                putExtra(CATEGORY_IMAGE_ID, categoryIconId)
                 putStringArrayListExtra("categoryNameList", categoryTitleList)
                 putExtra("preActivity", "ContentsActivity")
             }
@@ -344,53 +361,90 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 }
                 RESULT_MODIFY_CATEGORY -> { // 카테고리 이름 & 아이콘 수정
                     // 수정할 카테고리의 정보를 받아옴
-                    categoryName = it.data?.getStringExtra(CategoryFragment.CATEGORY_NAME) ?: "null"
+                    categoryName = it.data?.getStringExtra(CATEGORY_NAME) ?: "null"
                     categoryIconId =
-                        it.data?.getIntExtra(CategoryFragment.CATEGORY_IMAGE_ID, 0) ?: 0
-                    contentsCategoryList[categoryPosition].apply {
-                        title = categoryName
-                        imageId = categoryIconId
-                    }
-                    // 카테고리 이름 수정
-                    setCategoryName() // 뷰모델의 카테고리 이름 변수 재설정
-                    binding.tvCategory.text = categoryName
+                        it.data?.getIntExtra(CATEGORY_IMAGE_ID, 0) ?: 0
+
+                    setCategoryName(categoryName)
+                    modifyCategoryItemData(categoryPosition, categoryName, categoryIconId)
                 }
             }
         }
+    }
+
+    private fun setCategoryName(name: String) {
+        contentsViewModel.setCategoryName(name)
+    }
+
+    private fun modifyCategoryItemData(position: Int, name: String, imageId: Int) {
+        categoryViewModel.setCategoryListItemName(position, name)
+        categoryViewModel.setCategoryListItemIconId(position, imageId)
     }
 
     // 해빗 클릭 시 이벤트 함수 정의
     private fun clickItemHavit() {
         contentsAdapter.setHavitClickListener(object : ContentsAdapter.OnItemHavitClickListener {
             override fun onHavitClick(v: ImageView, position: Int) {
-                with(contentsAdapter) {
-                    // 보지 않았던 콘텐츠의 경우 콘텐츠를 봤다는 토스트 띄우기
-                    if (!currentList[position].isSeen) {
-                        CustomToast.showDesignatedToast(
-                            this@ContentsActivity,
-                            R.layout.toast_havit_complete
-                        )
-                    }
-
-                    currentList[position].isSeen = !currentList[position].isSeen
-                    // 서버 호출
-                    contentsViewModel.setIsSeen(currentList[position].id)
-                    // 태그 바꾸기
-                    val isSeen = (v.tag == "seen")
-                    v.tag = if (isSeen) "unseen" else "seen"
-                    v.setImageResource(if (isSeen) R.drawable.ic_contents_unread else R.drawable.ic_contents_read_2)
-
-                    // 본 콘텐츠 목록에서 해빗 해제 시 제거
-                    if ((contentsOption == "true" || contentsFilter == "seen_at") && v.tag == "unseen") {
-                        contentsAdapter.notifyItemRemoved(position)
-                    }
-                    // 안 본 콘텐츠 목록에서 해빗 등록 시 제거
-                    else if (contentsOption == "false" && v.tag == "seen") {
-                        contentsAdapter.notifyItemRemoved(position)
-                    }
-                }
+                // 서버 호출
+                contentsViewModel.setIsSeen(contentsAdapter.currentList[position].id)
+                currentHavitView = v
+                currentHavitPosition = position
             }
         })
+    }
+
+    private fun setHavitAction() {
+        contentsViewModel.requestSeenState.observe(this@ContentsActivity) {
+            when (it) {
+                NetworkState.SUCCESS -> setSuccessHaivtAction()
+                NetworkState.FAIL -> setFailAction()
+                else -> {}
+            }
+        }
+    }
+
+    private fun setSuccessHaivtAction() {
+        with(contentsAdapter) {
+            // 보지 않았던 콘텐츠의 경우 콘텐츠를 봤다는 토스트 띄우기
+            if (!currentList[currentHavitPosition].isSeen) {
+                CustomToast.showDesignatedToast(
+                    this@ContentsActivity,
+                    R.layout.toast_havit_complete
+                )
+            }
+
+            currentList[currentHavitPosition].isSeen = !currentList[currentHavitPosition].isSeen
+
+            // 태그 바꾸기
+            val isSeen = (currentHavitView.tag == "seen")
+            currentHavitView.tag = if (isSeen) "unseen" else "seen"
+            currentHavitView.setImageResource(if (isSeen) R.drawable.ic_contents_unread else R.drawable.ic_contents_read_2)
+
+            // 본 콘텐츠 목록에서 해빗 해제 시 제거
+            if ((contentsOption == "true" || contentsFilter == "seen_at") && currentHavitView.tag == "unseen") {
+                removeContentsItem(currentHavitPosition)
+            }
+            // 안 본 콘텐츠 목록에서 해빗 등록 시 제거
+            else if (contentsOption == "false" && currentHavitView.tag == "seen") {
+                removeContentsItem(currentHavitPosition)
+            }
+        }
+
+        contentsViewModel.initRequestState()
+    }
+
+    private fun removeContentsItem(index: Int) {
+        val list =
+            contentsAdapter.currentList.toMutableList() // mutable로 해주어야 삭제(수정) 가능
+        list.removeAt(index)
+        // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
+        contentsViewModel.updateContentsList(list)
+        contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
+    }
+
+    private fun setFailAction() {
+        CustomToast.showTextToast(this, resources.getString(R.string.error_occur))
+        contentsViewModel.initRequestState()
     }
 
     companion object {

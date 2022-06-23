@@ -11,6 +11,7 @@ import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.data.remote.ContentsResponse
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.util.MySharedPreference
 
 class ContentsViewModel(context: Context) : ViewModel() {
@@ -25,43 +26,54 @@ class ContentsViewModel(context: Context) : ViewModel() {
     val categoryName: LiveData<String> = _categoryName
 
     // 로딩 상태를 나타내는 변수
-    private val _loadState = MutableLiveData(true)
-    val loadState: LiveData<Boolean> = _loadState
+    private val _loadState = MutableLiveData(NetworkState.LOADING)
+    val loadState: LiveData<NetworkState> = _loadState
+
+    private val _requestSeenState = MutableLiveData(NetworkState.LOADING)
+    val requestSeenState: LiveData<NetworkState> = _requestSeenState
+    private val _requestDeleteState = MutableLiveData<NetworkState>()
+    val requestDeleteState: LiveData<NetworkState> = _requestDeleteState
 
     var contentsMore = MutableLiveData<ContentsMoreData>()
 
     fun requestContentsTaken(categoryId: Int, option: String, filter: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = RetrofitObject.provideHavitApi(token)
+            kotlin.runCatching {
+                RetrofitObject.provideHavitApi(token)
                     .getCategoryContents(categoryId, option, filter)
-                _contentsList.postValue(response.data)
-                _contentsCount.postValue(response.data.size)
-                _loadState.postValue(false)
-            } catch (e: Exception) {
+            }.onSuccess {
+                _contentsList.postValue(it.data)
+                _contentsCount.postValue(it.data.size)
+                _loadState.postValue(NetworkState.SUCCESS)
+            }.onFailure {
+                _loadState.postValue(NetworkState.FAIL)
             }
         }
     }
 
     fun requestContentsAllTaken(option: String, filter: String, name: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = RetrofitObject.provideHavitApi(token).getAllContents(option, filter)
-                _contentsList.postValue(response.data)
-                _contentsCount.postValue(response.data.size)
+            kotlin.runCatching {
+                RetrofitObject.provideHavitApi(token).getAllContents(option, filter)
+            }.onSuccess {
+                _contentsList.postValue(it.data)
+                _contentsCount.postValue(it.data.size)
                 _categoryName.postValue(name)
-                _loadState.postValue(false)
-            } catch (e: Exception) {
+                _loadState.postValue(NetworkState.SUCCESS)
+            }.onFailure {
+                _loadState.postValue(NetworkState.FAIL)
             }
         }
     }
 
     fun setIsSeen(contentsId: Int) {
         viewModelScope.launch {
-            try {
-                val response =
-                    RetrofitObject.provideHavitApi(token).isHavit(ContentsHavitRequest(contentsId))
-            } catch (e: Exception) {
+            kotlin.runCatching {
+                RetrofitObject.provideHavitApi(token).isHavit(ContentsHavitRequest(contentsId))
+            }.onSuccess {
+                _requestSeenState.postValue(NetworkState.SUCCESS)
+            }.onFailure {
+                _requestSeenState.postValue(NetworkState.FAIL)
             }
         }
     }
@@ -73,9 +85,12 @@ class ContentsViewModel(context: Context) : ViewModel() {
     // 콘텐츠 삭제를 서버에게 요청하는 코드
     fun requestContentsDelete(contentsId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = RetrofitObject.provideHavitApi(token).deleteContents(contentsId)
-            } catch (e: Exception) {
+            kotlin.runCatching {
+                RetrofitObject.provideHavitApi(token).deleteContents(contentsId)
+            }.onSuccess {
+                _requestDeleteState.postValue(NetworkState.SUCCESS)
+            }.onFailure {
+                _requestDeleteState.postValue(NetworkState.FAIL)
             }
         }
     }
@@ -92,5 +107,9 @@ class ContentsViewModel(context: Context) : ViewModel() {
 
     fun updateContentsList(list: List<ContentsResponse.ContentsData>) {
         _contentsList.value = list
+    }
+
+    fun initRequestState() {
+        _requestSeenState.value = NetworkState.LOADING
     }
 }
