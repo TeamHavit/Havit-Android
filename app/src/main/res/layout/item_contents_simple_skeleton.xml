@@ -13,7 +13,7 @@
         android:src="@drawable/rectangle_gray_0_radius_4"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-    
+
     <ImageView
         android:id="@+id/iv_title"
         android:layout_width="0dp"

@@ -1,7 +1,6 @@
 package org.sopt.havit
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -10,7 +9,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.ActivityMainBinding
 import org.sopt.havit.ui.save.SaveFragment
-import org.sopt.havit.util.MySharedPreference
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -44,5 +42,4 @@ class MainActivity : AppCompatActivity() {
             SaveFragment("").show(supportFragmentManager, "save")
         }
     }
-
 }

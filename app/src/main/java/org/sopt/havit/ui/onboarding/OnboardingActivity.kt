@@ -31,12 +31,12 @@ class OnboardingActivity :
 
     private fun checkLastOnboardingPage() {
         binding.vpOnboarding.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                binding.lastOnboarding = (position == 4)
-            }
-        })
+                ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    binding.lastOnboarding = (position == 4)
+                }
+            })
     }
 
     private fun setJoinBtnClickListener() {

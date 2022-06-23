@@ -3,7 +3,6 @@ package org.sopt.havit.ui.sign
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import com.kakao.sdk.auth.model.Prompt
@@ -13,9 +12,10 @@ import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.MainActivity
 import org.sopt.havit.R
-import org.sopt.havit.data.local.HavitAuthLocalPreferences
 import org.sopt.havit.databinding.ActivitySplashWithSignBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.share.ShareActivity
+import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_NORMAL_FLOW
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.HavitAuthUtil
 import org.sopt.havit.util.MySharedPreference
@@ -28,7 +28,7 @@ class SplashWithSignActivity :
     private val alphaLogoAnim by lazy {
         AnimationUtils.loadAnimation(
             this,
-            R.anim.alpha_invisible_to_visible_2000
+            R.anim.alpha_15_to_5_20000
         ).apply {
             fillAfter = true
             isFillEnabled = true
@@ -37,7 +37,7 @@ class SplashWithSignActivity :
     private val alphaLoginAnim by lazy {
         AnimationUtils.loadAnimation(
             this,
-            R.anim.alpha_invisible_to_visible_1500
+            R.anim.alpha_0_to_100_1500_delay_1000
         ).apply {
             fillAfter = true
             isFillEnabled = true
@@ -48,11 +48,21 @@ class SplashWithSignActivity :
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.main = signInViewModel
+        initWhereSplashComesFrom()
         setSplashView()
         setListeners()
         isAlreadyUserObserver()
         isNeedScopesObserver()
         isReadyUserObserver()
+    }
+
+    private fun initWhereSplashComesFrom() {
+        signInViewModel.setLoginGuideVisibility(
+            intent.getBooleanExtra(
+                ShareActivity.WHERE_SPLASH_COME_FROM,
+                SPLASH_NORMAL_FLOW
+            )
+        )
     }
 
     private fun setLoginAnimation() {
@@ -65,14 +75,13 @@ class SplashWithSignActivity :
     }
 
     private fun setSplashView() {
-        binding.ivSplashLogo.startAnimation(
-            alphaLogoAnim
-        )
-        alphaLogoAnim.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(p0: Animation?) {}
-            override fun onAnimationEnd(p0: Animation?) { setAutoLogin() }
-            override fun onAnimationRepeat(p0: Animation?) {}
-        })
+
+        if (signInViewModel.loginGuidVisibility.value == false) {
+            binding.ivSplashLogo.startAnimation(
+                alphaLogoAnim
+            )
+        }
+        setAutoLogin()
     }
 
     private fun setAutoLogin() {
@@ -86,11 +95,13 @@ class SplashWithSignActivity :
             setLogin()
         }
         binding.tvAnotherLogin.setOnClickListener {
-            UserApiClient.instance.loginWithKakaoAccount(this, prompts = listOf(Prompt.LOGIN)) { token, error ->
+            UserApiClient.instance.loginWithKakaoAccount(
+                this,
+                prompts = listOf(Prompt.LOGIN)
+            ) { token, error ->
                 if (error != null) {
                     Log.d("TAG", "로그인 실패", error)
-                }
-                else if (token != null) {
+                } else if (token != null) {
                     Log.d("TAG", "로그인 성공 ${token.accessToken}")
                 }
             }
@@ -158,7 +169,6 @@ class SplashWithSignActivity :
         }
     }
 
-
     private fun isNeedNewScopes() {
         UserApiClient.instance.me { user, error ->
             if (error != null) {
@@ -176,7 +186,7 @@ class SplashWithSignActivity :
                 }
                 if (scopes.count() > 0) {
                     Log.d("TAG", "사용자에게 추가 동의를 받아야 합니다.")
-                    //scope 목록을 전달하여 카카오 로그인 요청
+                    // scope 목록을 전달하여 카카오 로그인 요청
                     UserApiClient.instance.loginWithNewScopes(
                         this,
                         scopes
@@ -209,18 +219,19 @@ class SplashWithSignActivity :
     }
 
     private fun isAlreadyUserObserver() {
-        signInViewModel.isAlreadyUser.observe(this, EventObserver { isAlreadyUser ->
-            if (isAlreadyUser.data.isAlreadyUser == null) { // 기존 유저
-                MySharedPreference.setXAuthToken(
-                    this,
-                    isAlreadyUser.data.accessToken ?: ""
-                )
-                startMainActivity()
-            } else { // 신규 유저
-                startSignActivity()
+        signInViewModel.isAlreadyUser.observe(
+            this,
+            EventObserver { isAlreadyUser ->
+                if (isAlreadyUser.data.isAlreadyUser == null) { // 기존 유저
+                    MySharedPreference.setXAuthToken(
+                        this,
+                        isAlreadyUser.data.accessToken ?: ""
+                    )
+                    startMainActivity()
+                } else { // 신규 유저
+                    startSignActivity()
+                }
             }
-
-        })
+        )
     }
-
 }

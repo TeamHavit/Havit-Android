@@ -123,6 +123,7 @@ obj/
 .idea/discord.xml
 .idea/git_toolbox_prj.xml
 .idea/deploymentTargetDropDown.xml
+.idea/ktlint.xml
 
 # OS-specific files
 .DS_Store

@@ -11,7 +11,6 @@ import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.util.MySharedPreference
-import java.security.KeyStore
 
 class ContentsSimpleViewModel(context: Context) : ViewModel() {
 
@@ -74,7 +73,6 @@ class ContentsSimpleViewModel(context: Context) : ViewModel() {
                         .isHavit(ContentsHavitRequest(contentsId))
                 _isHavit.postValue(response.data.isSeen)
             } catch (e: Exception) {
-
             }
         }
     }
@@ -87,5 +85,4 @@ class ContentsSimpleViewModel(context: Context) : ViewModel() {
     fun updateContentsList(list: List<ContentsSimpleResponse.ContentsSimpleData>) {
         _contentsList.value = list
     }
-
 }

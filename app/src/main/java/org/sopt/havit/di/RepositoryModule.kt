@@ -11,9 +11,9 @@ import org.sopt.havit.data.repository.AuthRepositoryImpl
 import org.sopt.havit.data.repository.ContentsRepositoryImpl
 import org.sopt.havit.data.repository.MyPageRepositoryImpl
 import org.sopt.havit.data.repository.SearchRepositoryImpl
+import org.sopt.havit.data.source.local.AuthLocalDataSourceImpl
 import org.sopt.havit.data.source.remote.AuthRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
-import org.sopt.havit.data.source.local.AuthLocalDataSourceImpl
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.domain.repository.ContentsRepository
 import org.sopt.havit.domain.repository.MyPageRepository
@@ -49,5 +49,4 @@ object RepositoryModule {
         authRemoteDataSourceImpl: AuthRemoteDataSourceImpl,
         authLocalDataSourceImpl: AuthLocalDataSourceImpl
     ): AuthRepository = AuthRepositoryImpl(authRemoteDataSourceImpl, authLocalDataSourceImpl)
-
 }

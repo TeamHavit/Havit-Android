@@ -9,7 +9,8 @@ import org.sopt.havit.domain.repository.ContentsRepository
 import org.sopt.havit.util.MySharedPreference
 import javax.inject.Inject
 
-class ContentsRepositoryImpl @Inject constructor(@ApplicationContext private val context: Context) : ContentsRepository {
+class ContentsRepositoryImpl @Inject constructor(@ApplicationContext private val context: Context) :
+    ContentsRepository {
 
     private val pref = MySharedPreference.getXAuthToken(context)
 

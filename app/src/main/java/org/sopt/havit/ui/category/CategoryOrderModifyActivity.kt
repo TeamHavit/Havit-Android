@@ -2,20 +2,17 @@ package org.sopt.havit.ui.category
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
-import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ActivityCategoryOrderModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_DELETE_CATEGORY
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_MODIFY_CATEGORY
 import org.sopt.havit.util.DialogUtil
-
 
 class CategoryOrderModifyActivity :
     BaseBindingActivity<ActivityCategoryOrderModifyBinding>(R.layout.activity_category_order_modify) {
@@ -84,7 +81,7 @@ class CategoryOrderModifyActivity :
                         title = name
                         imageId = image
                         url =
-                            "https://havit-bucket.s3.ap-northeast-2.amazonaws.com/category_image/3d_icon_${image}.png"
+                            "https://havit-bucket.s3.ap-northeast-2.amazonaws.com/category_image/3d_icon_$image.png"
                     }
                     categoryOrderModifyAdapter.notifyItemChanged(position)
                 }
@@ -94,28 +91,28 @@ class CategoryOrderModifyActivity :
 
     private fun clickItem() {
         categoryOrderModifyAdapter.setItemClickListener(object :
-            CategoryOrderModifyAdapter.OnItemClickListener {
-            override fun onClick(v: View, position: Int) {
-                // 카테고리 이름 list
-                val categoryTitleList = ArrayList<String>()
-                for (item in categoryOrderModifyAdapter.categoryList)
-                    categoryTitleList.add(item.title)
+                CategoryOrderModifyAdapter.OnItemClickListener {
+                override fun onClick(v: View, position: Int) {
+                    // 카테고리 이름 list
+                    val categoryTitleList = ArrayList<String>()
+                    for (item in categoryOrderModifyAdapter.categoryList)
+                        categoryTitleList.add(item.title)
 
-                val intent = Intent(v.context, CategoryContentModifyActivity::class.java).apply {
-                    categoryOrderModifyAdapter.categoryList[position].let {
-                        putExtra("categoryId", it.id)
-                        putExtra("categoryName", it.title)
-                        putExtra("imageId", it.imageId)
+                    val intent = Intent(v.context, CategoryContentModifyActivity::class.java).apply {
+                        categoryOrderModifyAdapter.categoryList[position].let {
+                            putExtra("categoryId", it.id)
+                            putExtra("categoryName", it.title)
+                            putExtra("imageId", it.imageId)
+                        }
+                        putExtra("position", position)
+                        putStringArrayListExtra("categoryNameList", categoryTitleList)
+                        putExtra("preActivity", "CategoryOrderModifyActivity")
                     }
-                    putExtra("position", position)
-                    putStringArrayListExtra("categoryNameList", categoryTitleList)
-                    putExtra("preActivity", "CategoryOrderModifyActivity")
-                }
 
-                // 데이터를 담고 전달
-                getResult.launch(intent)
-            }
-        })
+                    // 데이터를 담고 전달
+                    getResult.launch(intent)
+                }
+            })
     }
 
     private fun clickBack() {
@@ -124,8 +121,7 @@ class CategoryOrderModifyActivity :
 
     // drag & drop 코드
     private fun initDrag() {
-        val itemTouchCallback = object : ItemTouchHelper.Callback(
-        ) {
+        val itemTouchCallback = object : ItemTouchHelper.Callback() {
             override fun getMovementFlags(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder
