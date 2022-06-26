@@ -66,4 +66,11 @@ object MySharedPreference {
             context.getSharedPreferences(X_AUTH_TOKEN_1, Context.MODE_PRIVATE)
         return prefs.getString(X_AUTH_TOKEN_1, "").toString()
     }
+
+    fun clearXAuthToken(context: Context) {
+        val prefs: SharedPreferences =
+            context.getSharedPreferences(X_AUTH_TOKEN_1, Context.MODE_PRIVATE)
+        prefs.edit().clear().apply()
+    }
+
 }

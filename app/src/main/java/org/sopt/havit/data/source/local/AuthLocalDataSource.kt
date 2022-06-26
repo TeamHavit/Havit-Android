@@ -5,4 +5,5 @@ interface AuthLocalDataSource {
     fun getAccessToken(): String
     fun saveKakaoToken(kakaoToken: String)
     fun getKakaoToken(): String
+    fun removeHavitAuthToken()
 }

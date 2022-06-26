@@ -3,20 +3,26 @@ package org.sopt.havit.ui.setting
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.viewModels
+import com.kakao.sdk.user.UserApiClient
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.BuildConfig
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
+import org.sopt.havit.ui.sign.SplashWithSignActivity
 import org.sopt.havit.util.CustomToast
+import org.sopt.havit.util.MySharedPreference
 
+@AndroidEntryPoint
 class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.activity_setting) {
-    private val settingViewModel: SettingViewModel by lazy { SettingViewModel(this) }
+    private val settingViewModel: SettingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         binding.vmSetting = settingViewModel
         setVersion()
         setClickListener()
@@ -38,7 +44,9 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
         // 프로필 수정
         binding.ivEdit.setOnClickListener {
-            startActivity(Intent(this, SettingModifyActivity::class.java))
+            val intent = Intent(this, SettingModifyNicknameActivity::class.java)
+            intent.putExtra(nickname, settingViewModel.user.value?.nickname)
+            startActivity(intent)
         }
 
         // 알림 설정
@@ -79,15 +87,28 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         binding.tvCustomerCenter.setOnClickListener { sendMail() }
 
         // 로그아웃
-        binding.tvLogout.setOnClickListener {
-            // 나중에 추가
-        }
+        binding.tvLogout.setOnClickListener { logout() }
 
         // 회원 탈퇴
         binding.clUnregister.setOnClickListener {
             startActivity(Intent(this, SettingUnregisterActivity::class.java))
         }
     }
+
+    private fun logout() {
+        settingViewModel.removeHavitAuthToken()
+        MySharedPreference.clearXAuthToken(this)
+        UserApiClient.instance.logout { error ->
+            if (error != null) {
+                Log.e("SETTING", "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+            } else {
+                Log.i("SETTING", "로그아웃 성공. SDK에서 토큰 삭제됨")
+            }
+        }
+        startActivity(Intent(this, SplashWithSignActivity::class.java))
+        finish()
+    }
+
 
     private fun sendMail() {
         val intent = Intent().apply {
@@ -103,5 +124,9 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
     private fun setData() {
         settingViewModel.requestUserInfo()
+    }
+
+    companion object {
+        const val nickname = "nickname"
     }
 }
