@@ -194,7 +194,7 @@
     <string name="unregister_caution_2">&#160;&#160;• 탈퇴 시 삭제된 모든 정보는 다시 복구할 수 없으며,\n&#160;&#160;&#160;&#160;&#160;재가입 경우에도 복원되지 않습니다.</string>
     <string name="unregister_caution_check">회원 탈퇴에 관한 모든 내용을 숙지했습니다.</string>
     <string name="unregister_short">탈퇴</string>
-    <string name="unregister_complete">회원 탈퇴 완료</string>인
+    <string name="unregister_complete">회원 탈퇴 완료</string>
     <string name="check">확인</string>
     <string name="unregister_complete_description">이용해주셔서 감사합니다.\nHAVIT은 언제나 당신의 성장을 응원합니다.</string>
     <!-- 환경설정 - 프로필 수정 -->
