@@ -102,6 +102,7 @@ class NotificationActivity :
                     list.removeAt(it)
                     // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
                     notificationViewModel.updateContentsList(list)
+                    setRemoveToast()
                 }
 
                 val bundle = setBundle(dataMore, removeItem, position)
@@ -150,6 +151,13 @@ class NotificationActivity :
         CustomToast.showDesignatedToast(
             this@NotificationActivity,
             R.layout.toast_havit_complete
+        )
+    }
+
+    private fun setRemoveToast() {
+        CustomToast.showDesignatedToast(
+            this@NotificationActivity,
+            R.layout.toast_contents_removed
         )
     }
 

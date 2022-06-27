@@ -95,6 +95,7 @@ class ContentsSimpleActivity :
                     // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
                     contentsViewModel.updateContentsList(list)
                     contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
+                    setRemoveToast()
                 }
 
                 val bundle = setBundle(dataMore, removeItem, position)
@@ -103,6 +104,13 @@ class ContentsSimpleActivity :
                 dialog.show(supportFragmentManager, "setting")
             }
         })
+    }
+
+    private fun setRemoveToast() {
+        CustomToast.showDesignatedToast(
+            this@ContentsSimpleActivity,
+            R.layout.toast_contents_removed
+        )
     }
 
     // ContentsMoreFragment에 보낼 bundle 생성
