@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.ui.share.notification.AfterTime
+import org.sopt.havit.util.CalenderUtil
 import org.sopt.havit.util.Event
 import java.util.*
 import javax.inject.Inject
@@ -45,30 +46,31 @@ class ShareViewModel @Inject constructor(
         _tempIndex.value = finalIndex.value
     }
 
+    fun syncFinalDataWithTempData() {
+        _finalNotificationTime.value = tempNotificationTime.value
+        _finalIndex.value = tempIndex.value
+    }
+
     fun setNotificationTimeDirectly(time: String?) {
-        _finalNotificationTime.value = time
+        _tempNotificationTime.value = time
         _tempIndex.value = 4
     }
 
     fun setNotificationTimeIndirectly(afterTime: AfterTime) {
         val cal = Calendar.getInstance().apply { time = Date() }
-        cal.add(afterTime.type, afterTime.interval)
-//        _notificationTime.value = cal.time
-        _tempIndex.value = 4
+        cal.add(requireNotNull(afterTime.type), requireNotNull(afterTime.interval))
+        _tempNotificationTime.value = CalenderUtil.dateAndTimeWithDotFormatMD.format(cal.time)
+        _tempIndex.value = afterTime.buttonIndex
     }
 
     fun setSelectedIndex(index: Int? = null, afterTime: AfterTime? = null) {
         _tempIndex.value = index ?: afterTime?.buttonIndex
-        if (afterTime != null) setNotificationTimeIndirectly(afterTime)
     }
 
-    private var _isTimeDirectlySetFromUser = MutableLiveData<Boolean>()
-    val isTimeDirectlySetFromUser: LiveData<Boolean>
-        get() = _isTimeDirectlySetFromUser
-
-    fun isTimeDirectlySetFromUser(selectedIndex: Int?) {
-        if (selectedIndex == null) throw IllegalStateException("Not Initialized Yet")
-        _isTimeDirectlySetFromUser.value = selectedIndex == 4
+    fun isNotificationDataChanged(): Boolean {
+        return if (tempIndex.value == 4 && finalIndex.value == 4)
+            tempNotificationTime.value != finalNotificationTime.value
+        else tempIndex.value != finalIndex.value
     }
 
     /** server event */

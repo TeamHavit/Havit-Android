@@ -25,6 +25,14 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ *  1. 용도
+ *      날짜를 선택하는 bottom sheet 를 생성을 위해 만든 CustomPicker 파일.
+ *  2. 구현
+ *      시간 선택 부분은 안드로이드 내장 TimePicker를 사용했고,
+ *      DatePicker 는 Date 객체로부터 불러온 날짜 정보를 Number Picker 에 표시하여 구현함.
+ * */
+
 @AndroidEntryPoint
 class PickerFragment : BottomSheetDialogFragment() {
     private val viewModel: ShareViewModel by activityViewModels()
@@ -121,8 +129,7 @@ class PickerFragment : BottomSheetDialogFragment() {
     private fun initCompleteBtnClick() {
         binding.btnComplete.setOnClickListener {
             if (isSelectedTimeAvailable()) {
-                viewModel.isTimeDirectlySetFromUser(true)
-                viewModel.setNotificationTime(setNotiTimeOnViewModel())
+                viewModel.setNotificationTimeDirectly(getSelectedNotiTime())
                 dismiss()
             } else showPastTimeToast()
         }
@@ -151,7 +158,7 @@ class PickerFragment : BottomSheetDialogFragment() {
         )
     }
 
-    private fun setNotiTimeOnViewModel(): String {
+    private fun getSelectedNotiTime(): String {
         val calSelected = calList[datePicker.value] ?: throw IllegalStateException()
         val date = dateWithDashFormatMD.format(calSelected.time)
         val hour = DecimalFormat("00").format(timePicker.hour)

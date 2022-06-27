@@ -9,7 +9,11 @@ import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentSetNotificationBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.share.ShareViewModel
-import org.sopt.havit.util.CalenderUtil.dateAndTimeWithDotFormatMD
+import org.sopt.havit.ui.share.notification.AfterTime.Companion.findClassByButtonId
+import org.sopt.havit.ui.share.notification.SetNotificationFragment.Companion.ONE
+import org.sopt.havit.ui.share.notification.SetNotificationFragment.Companion.THREE
+import org.sopt.havit.ui.share.notification.SetNotificationFragment.Companion.TWENTY_FOUR
+import org.sopt.havit.ui.share.notification.SetNotificationFragment.Companion.TWO
 import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.OnBackPressedHandler
 import java.util.*
@@ -24,50 +28,41 @@ class SetNotificationFragment :
         binding.viewModel = viewModel
         binding.lifecycleOwner = requireActivity()
 
+        syncTempDataWithFinalData()
+        setButtonSelectedIfOriginDataExist()
         initRadioGroupListener()
-        initLastRbtnColor()
         initToolbarListener()
+    }
+
+    private fun syncTempDataWithFinalData() {
+        viewModel.syncTempDataWithFinalData()
+    }
+
+    private fun setButtonSelectedIfOriginDataExist() {
+        binding.rgNotificationTime.check(
+            binding.rgNotificationTime.getChildAt(viewModel.tempIndex.value ?: return).id
+        )
     }
 
     private fun initRadioGroupListener() {
         with(binding) {
-            rgNotificationTime.setOnCheckedChangeListener { _, checkedId ->
-                when (checkedId) {
-                    R.id.rbtn_1h -> getNotificationTime(ONE_HOUR)
-                    R.id.rbtn_2h -> getNotificationTime(TWO_HOUR)
-                    R.id.rbtn_3h -> getNotificationTime(THREE_HOUR)
-                    R.id.rbtn_tomorrow -> getNotificationTime(TWENTY_FOUR_HOUR)
-                    else -> return@setOnCheckedChangeListener
+            rgNotificationTime.setOnCheckedChangeListener { _, selectedId ->
+                val intervalTime = findClassByButtonId(selectedId)
+                if (intervalTime != null && intervalTime.buttonIndex <= 3) {
+                    viewModel?.setSelectedIndex(afterTime = intervalTime)
+                    viewModel?.setNotificationTimeIndirectly(afterTime = intervalTime)
                 }
             }
             rbtnChooseTime.setOnClickListener { showPickerFragment() }
         }
     }
 
-    private fun initLastRbtnColor() {
-        if (viewModel.isTimeDirectlySetFromUser.value == true)
-            binding.rbtnChooseTime.isChecked = true
-    }
-
     private fun initToolbarListener() {
         binding.icBack.setOnClickListener { onBackClicked() }
         binding.tvComplete.setOnClickListener {
+            viewModel.syncFinalDataWithTempData()
             goBack()
         }
-    }
-
-    private fun getNotificationTime(idx: Int): String {
-        val cal = Calendar.getInstance().apply { time = Date() }
-        when (idx) {
-            ONE_HOUR -> cal.add(Calendar.HOUR, 1)
-            TWO_HOUR -> cal.add(Calendar.HOUR, 2)
-            THREE_HOUR -> cal.add(Calendar.HOUR, 3)
-            TWENTY_FOUR_HOUR -> cal.add(Calendar.DATE, 1)
-            else -> throw IllegalStateException()
-        }
-        viewModel.isTimeDirectlySetFromUser(false)
-        viewModel.setNotificationTime(dateAndTimeWithDotFormatMD.format(cal.time))
-        return dateAndTimeWithDotFormatMD.format(cal.time)
     }
 
     private fun showPickerFragment() {
@@ -76,13 +71,13 @@ class SetNotificationFragment :
     }
 
     private fun onBackClicked() {
-        if (viewModel.notificationTime.value != null) {
+        if (viewModel.isNotificationDataChanged())
             showEditTitleWarningDialog()
-        } else goBack()
+        else goBack()
     }
 
     override fun onBackPressed(): Boolean {
-        if (viewModel.notificationTime.value != null) {
+        if (viewModel.isNotificationDataChanged()) {
             showEditTitleWarningDialog()
             return true
         }
@@ -95,7 +90,6 @@ class SetNotificationFragment :
     }
 
     private fun doAfterConfirm() {
-        viewModel.setNotificationTime(null)
         goBack()
     }
 
@@ -104,9 +98,27 @@ class SetNotificationFragment :
     }
 
     companion object {
-        const val ONE_HOUR = 1
-        const val TWO_HOUR = 2
-        const val THREE_HOUR = 3
-        const val TWENTY_FOUR_HOUR = 24
+        const val ONE = 1
+        const val TWO = 2
+        const val THREE = 3
+        const val TWENTY_FOUR = 24
+    }
+}
+
+enum class AfterTime(
+    val type: Int?,
+    val interval: Int?,
+    val buttonId: Int,
+    val buttonIndex: Int
+) {
+    ONE_HOUR(Calendar.HOUR, ONE, R.id.rbtn_1h, 0),
+    TWO_HOUR(Calendar.HOUR, TWO, R.id.rbtn_2h, 1),
+    THREE_HOUR(Calendar.HOUR, THREE, R.id.rbtn_3h, 2),
+    TWENTY_FOUR_HOUR(Calendar.HOUR, TWENTY_FOUR, R.id.rbtn_tomorrow, 3),
+    DIRECTLY_SELECT(null, null, R.id.rbtn_choose_time, 4);
+
+    companion object {
+        fun findClassByButtonId(buttonId: Int): AfterTime? =
+            values().find { it.buttonId == buttonId }
     }
 }

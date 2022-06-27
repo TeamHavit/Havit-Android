@@ -163,11 +163,11 @@ object BindingAdapter {
         this.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
-    @BindingAdapter(value = ["isTimeDirectlySetFromUser", "notiTime"], requireAll = true)
+    @BindingAdapter(value = ["selectedIndex", "notiTime"], requireAll = true)
     @JvmStatic
-    fun TextView.setNotificationTime(isTimeDirectlySetFromUser: Boolean, notiTime: String?) {
-        Log.d(TAG, "setNotificationTime: $isTimeDirectlySetFromUser, $notiTime")
-        this.text = if (isTimeDirectlySetFromUser)
+    fun TextView.setNotificationTime(selectedIndex: Int, notiTime: String?) {
+        Log.d(TAG, "setNotificationTime: $selectedIndex, $notiTime")
+        this.text = if (selectedIndex == 4)
             setDateFormatOnRadioBtn(requireNotNull(notiTime))
         else context.getString(R.string.choose_time)
     }
