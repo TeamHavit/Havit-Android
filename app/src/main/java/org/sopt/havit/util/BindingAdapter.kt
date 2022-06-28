@@ -178,6 +178,12 @@ object BindingAdapter {
         this.visibility = if (isSelected) View.VISIBLE else View.GONE
     }
 
+    @BindingAdapter("app:buttonVisibility")
+    @JvmStatic
+    fun AppCompatButton.buttonVisibility(boolean: Boolean) {
+        this.visibility = if (boolean) View.VISIBLE else View.GONE
+    }
+
     @BindingAdapter("app:btnBackground")
     @JvmStatic
     fun AppCompatButton.setBtnBackground(isEnabled: Boolean) {

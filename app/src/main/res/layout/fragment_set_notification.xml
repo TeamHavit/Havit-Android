@@ -166,6 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
                 android:layout_marginHorizontal="16dp"
+                app:buttonVisibility="@{Boolean.valueOf(viewModel.finalNotificationTime != null)}"
                 android:background="@drawable/rectangle_gray_0_radius_6"
                 android:text="@string/delete_notification"
                 android:textAppearance="@style/Button15Medium"
