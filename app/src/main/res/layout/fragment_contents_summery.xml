@@ -156,7 +156,7 @@
                     android:id="@+id/tv_set_alarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:alarmText="@{viewModel.notificationTime}"
+                    android:alarmText="@{viewModel.finalNotificationTime}"
                     android:textAppearance="@style/Text15Semibold"
                     android:textColor="@color/havit_purple"
                     app:layout_constraintBottom_toBottomOf="@id/iv_alarm"

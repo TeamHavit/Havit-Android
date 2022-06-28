@@ -158,7 +158,7 @@ class ContentsSummeryFragment : Fragment() {
                 val time: String
 
                 val reservedNotification =
-                    viewModel.notificationTime.value
+                    viewModel.finalNotificationTime.value
 
                 if (reservedNotification == null) {
                     time = ""
