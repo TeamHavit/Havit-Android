@@ -32,6 +32,13 @@ class SetNotificationFragment :
         setButtonSelectedIfOriginDataExist()
         initRadioGroupListener()
         initToolbarListener()
+        initDeleteNotiBtn()
+    }
+
+    private fun initDeleteNotiBtn() {
+        binding.btnDeleteNotification.setOnClickListener {
+            showDeleteNotificationWarningDialog()
+        }
     }
 
     private fun syncTempDataWithFinalData() {
@@ -89,7 +96,17 @@ class SetNotificationFragment :
         dialog.show(requireActivity().supportFragmentManager, this.javaClass.name)
     }
 
+    private fun showDeleteNotificationWarningDialog() {
+        val dialog = DialogUtil(DialogUtil.REMOVE_NOTIFICATION, ::doAfterDeleteConfirm)
+        dialog.show(requireActivity().supportFragmentManager, this.javaClass.name)
+    }
+
     private fun doAfterConfirm() {
+        goBack()
+    }
+
+    private fun doAfterDeleteConfirm() {
+        viewModel.deleteNotification()
         goBack()
     }
 

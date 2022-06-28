@@ -33,12 +33,12 @@ class ShareViewModel @Inject constructor(
     val tempNotificationTime: LiveData<String?>
         get() = _tempNotificationTime
 
-    private var _tempIndex = MutableLiveData<Int>()
-    val tempIndex: LiveData<Int>
+    private var _tempIndex = MutableLiveData<Int?>()
+    val tempIndex: LiveData<Int?>
         get() = _tempIndex
 
-    private var _finalIndex = MutableLiveData<Int>()
-    val finalIndex: LiveData<Int>
+    private var _finalIndex = MutableLiveData<Int?>()
+    val finalIndex: LiveData<Int?>
         get() = _finalIndex
 
     fun syncTempDataWithFinalData() {
@@ -71,6 +71,11 @@ class ShareViewModel @Inject constructor(
         return if (tempIndex.value == 4 && finalIndex.value == 4)
             tempNotificationTime.value != finalNotificationTime.value
         else tempIndex.value != finalIndex.value
+    }
+
+    fun deleteNotification() {
+        _finalIndex.value = null
+        _finalNotificationTime.value = null
     }
 
     /** server event */
