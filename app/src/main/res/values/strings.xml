@@ -233,6 +233,7 @@
     <!-- error -->
     <string name="error_occur">문제가 발생했습니다</string>
     <string name="error_solution">문제가 지속되면 고객센터로 문의주세요</string>
+    <string name="delete_notification">알림 삭제</string>
 
 </resources>
 
