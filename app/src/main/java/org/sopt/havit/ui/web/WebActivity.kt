@@ -1,8 +1,8 @@
 package org.sopt.havit.ui.web
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
@@ -23,43 +23,55 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.vm = webViewModel
-        intent.getStringExtra("url")?.let { setUrlLaunch(it) }
-        //webViewModel.init(intent.getBooleanExtra("isSeen", false))
+        initHavitSeen()
+        setUrlCheck()
+        setListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        webViewModel.init(intent.getBooleanExtra("isSeen", false))
+    }
+
+    private fun initHavitSeen() {
+        webViewModel.init(intent.getBooleanExtra("isSeen", false))
         if (intent.getIntExtra("contentsId", -1) == -1) {
             binding.llWebBottom.isVisible = false
         }
         if (!intent.getBooleanExtra("isSeen", false)) {
-            Log.d("issssss", intent.getBooleanExtra("isSeen", false).toString())
             Glide.with(this).load(R.drawable.ic_contents_unread).into(binding.ivWebviewUnread)
             binding.tvWebviewUnread.text = "콘텐츠 확인 완료"
         } else {
             Glide.with(this).load(R.drawable.ic_contents_read_2).into(binding.ivWebviewUnread)
             binding.tvWebviewUnread.text = "콘텐츠 확인하기"
         }
-        webViewModel.init(intent.getBooleanExtra("isSeen", false))
-        setListeners()
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d("issssss", intent.getBooleanExtra("isSeen", false).toString())
-        webViewModel.init(intent.getBooleanExtra("isSeen", false))
-
-
+    private fun setUrlCheck() {
+        intent.getStringExtra("url")?.let { setUrlLaunch(it) }
     }
 
     private fun setUrlLaunch(url: String) {
-        binding.wbCustom.apply {
-            webViewClient = WebViewClient()
-            settings.javaScriptEnabled = true
+        if (url.contains("naver.me")) {
+            val intent = Intent()
+            intent.action = Intent.ACTION_VIEW
+            intent.addCategory(Intent.CATEGORY_BROWSABLE)
+            intent.addCategory(Intent.CATEGORY_DEFAULT)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
+            finish()
+        } else {
+            binding.wbCustom.apply {
+                webViewClient = WebViewClient()
+                settings.javaScriptEnabled = true
+            }
+            binding.wbCustom.loadUrl(url)
+            webViewModel.setUrl(url)
         }
-        binding.wbCustom.loadUrl(url)
-        webViewModel.setUrl(url)
     }
 
     private fun setListeners() {
         binding.llWebview.setOnClickListener {
-            Log.d("eeee", intent!!.getIntExtra("contentsId", 0).toString())
             webViewModel.setHavit(intent!!.getIntExtra("contentsId", 0))
             if (webViewModel.isHavit.value == true) {
                 setCustomToast()
@@ -77,13 +89,6 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         binding.ibWebReload.setOnClickListener {
             binding.wbCustom.reload()
         }
-        /*binding.ibWebChrome.setOnClickListener {
-
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.naver.co.kr/"))
-                intent.setPackage("com.android.chrome")
-                startActivity(intent)
-
-        }*/
 
     }
 
