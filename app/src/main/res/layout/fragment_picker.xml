@@ -45,11 +45,11 @@
         android:id="@+id/tv_noti_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="오후 9:00"
         android:textAppearance="@style/Button15Medium"
         app:layout_constraintBottom_toBottomOf="@id/tv_noti_date"
         app:layout_constraintStart_toEndOf="@id/tv_divider"
-        app:layout_constraintTop_toTopOf="@id/tv_noti_date"
-        android:text="오후 9:00" />
+        app:layout_constraintTop_toTopOf="@id/tv_noti_date" />
 
     <View
         android:id="@+id/view_top_line"
@@ -63,6 +63,7 @@
         android:id="@+id/picker_date"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
+        android:descendantFocusability="blocksDescendants"
         android:elevation="1dp"
         android:theme="@style/CustomPickerTheme"
         app:layout_constraintBottom_toTopOf="@id/view_under_line"
@@ -75,6 +76,7 @@
         android:id="@+id/picker_time"
         android:layout_width="230dp"
         android:layout_height="180dp"
+        android:descendantFocusability="blocksDescendants"
         android:elevation="1dp"
         android:numbersSelectorColor="@color/havit_purple"
         android:theme="@style/CustomPickerTheme"
