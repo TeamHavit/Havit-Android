@@ -152,9 +152,9 @@ class PickerFragment : BottomSheetDialogFragment() {
     }
 
     private fun showPastTimeToast() {
-        CustomToast.showTextToast(
-            requireContext(),
-            resources.getString(R.string.cannot_set_notification_time_on_past)
+        CustomToast.showPastTImeToast(
+            context = requireContext(),
+            yOffset = (resources.displayMetrics.heightPixels * 0.48).toInt()
         )
     }
 
