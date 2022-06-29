@@ -11,7 +11,8 @@ import org.sopt.havit.domain.repository.ContentsRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class WebViewModel @Inject constructor(private val contentsRepository: ContentsRepository) : ViewModel() {
+class WebViewModel @Inject constructor(private val contentsRepository: ContentsRepository) :
+    ViewModel() {
 
     var isHavit = MutableLiveData<Boolean>()
     var _isHavit: LiveData<Boolean> = isHavit
@@ -28,13 +29,12 @@ class WebViewModel @Inject constructor(private val contentsRepository: ContentsR
         viewModelScope.launch(Dispatchers.IO) {
             contentsRepository.isSeen(contentsId)
         }
-
     }
 
     fun setUrl(url: String) {
         contentsUrl.value = url
     }
-    
+
     fun unHavit() {
         isHavit.value = false
     }

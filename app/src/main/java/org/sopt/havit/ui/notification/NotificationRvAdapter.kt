@@ -41,9 +41,9 @@ class NotificationRvAdapter :
                 val hour = time.substring(11 until 13)
                 val minute = time.substring(14 until 16)
                 if (hour < "12") {
-                    data.notificationTime = "$date 오전 ${hour}:${minute} "
+                    data.notificationTime = "$date 오전 $hour:$minute "
                 } else {
-                    data.notificationTime = "$date 오후 ${hour}:${minute} "
+                    data.notificationTime = "$date 오후 $hour:$minute "
                 }
             }
 
@@ -91,7 +91,7 @@ class NotificationRvAdapter :
         }
     }
 
-    //아이템 전체 클릭 리스터 인터페이스
+    // 아이템 전체 클릭 리스터 인터페이스
     interface OnItemClickListener {
         fun onWebClick(v: View, position: Int)
     }
@@ -152,7 +152,7 @@ class NotificationRvAdapter :
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
             oldData[oldItemPosition].id == newData[newItemPosition].id &&
-                    oldData[oldItemPosition].isSeen == newData[newItemPosition].isSeen &&
-                    oldData[oldItemPosition].title == newData[newItemPosition].title
+                oldData[oldItemPosition].isSeen == newData[newItemPosition].isSeen &&
+                oldData[oldItemPosition].title == newData[newItemPosition].title
     }
 }

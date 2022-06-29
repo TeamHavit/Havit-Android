@@ -91,7 +91,7 @@ class CategoryViewModel(context: Context) : ViewModel() {
     fun setCategoryListItemIconId(position: Int, imageId: Int) {
         _categoryList.value?.get(position)?.imageId = imageId
         _categoryList.value?.get(position)?.url =
-            "https://havit-bucket.s3.ap-northeast-2.amazonaws.com/category_image/3d_icon_${imageId}.png"
+            "https://havit-bucket.s3.ap-northeast-2.amazonaws.com/category_image/3d_icon_$imageId.png"
     }
 
     fun setCategoryListItemName(position: Int, categoryName: String) {

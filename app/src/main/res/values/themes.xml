@@ -359,4 +359,15 @@
     <style name="Theme.Havit.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Havit.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="CustomPickerTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@android:color/transparent</item> <!-- 구분선 -->
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColorPrimary">@color/havit_purple</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textColorHighlight">@color/gray_0</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">-0.022</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+    </style>
 </resources>

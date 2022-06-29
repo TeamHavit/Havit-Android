@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.share.ChooseIconFragment">
+        tools:context=".ui.share.add_category.ChooseIconFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_tool_bar"

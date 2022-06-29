@@ -3,10 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.sopt.havit.ui.share.ShareViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.share.SetNotificationFragment">
+        tools:context=".ui.share.notification.SetNotificationFragment">
 
         <!-- 툴바 -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,13 +60,11 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_tool_bar">
-
 
             <TextView
                 android:id="@+id/tv_set_alarm"
@@ -141,6 +146,8 @@
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/rbtn_choose_time"
+                    notiTime="@{String.valueOf(viewModel.tempNotificationTime)}"
+                    selectedIndex="@{viewModel.tempIndex}"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginHorizontal="16dp"
@@ -148,12 +155,25 @@
                     android:background="@drawable/selector_noti_time_background"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="@string/choose_time"
                     android:textAppearance="@style/List16Semibold"
                     android:textColor="@drawable/selector_noti_time_text"
                     app:buttonCompat="@null"
                     app:layout_constraintTop_toBottomOf="@id/rbtn_tomorrow" />
             </RadioGroup>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_delete_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginHorizontal="16dp"
+                app:buttonVisibility="@{Boolean.valueOf(viewModel.finalNotificationTime != null)}"
+                android:background="@drawable/rectangle_gray_0_radius_6"
+                android:text="@string/delete_notification"
+                android:textAppearance="@style/Button15Medium"
+                android:textColor="@color/havit_red"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingVertical="13dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

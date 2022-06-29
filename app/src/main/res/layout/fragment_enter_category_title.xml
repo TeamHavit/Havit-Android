@@ -21,7 +21,7 @@
         android:id="@+id/enterCategoryTitleFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.share.EnterCategoryTitleFragment">
+        tools:context=".ui.share.add_category.EnterCategoryTitleFragment">
 
         <!-- Toolbar -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:src="@drawable/ic_delete_text"
-                android:visibility="@{categoryTitle.length() == 0? View.INVISIBLE : View.VISIBLE}"
+                android:visibility="@{etCategoryTitle.text.length() == 0? View.INVISIBLE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="@id/et_category_title"
                 app:layout_constraintEnd_toEndOf="@id/et_category_title"
                 app:layout_constraintTop_toTopOf="@id/et_category_title" />
@@ -129,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
-                android:text="@{String.valueOf(categoryTitle.length())}"
+                android:text="@{String.valueOf(etCategoryTitle.text.length())}"
                 android:textAppearance="@style/Mini10Regular"
                 android:textColor="@color/havit_purple"
                 app:layout_constraintBottom_toBottomOf="@id/tv_category_length_limit"

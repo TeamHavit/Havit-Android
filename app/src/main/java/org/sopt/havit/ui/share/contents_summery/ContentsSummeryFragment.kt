@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.share
+package org.sopt.havit.ui.share.contents_summery
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
@@ -20,10 +22,14 @@ import org.sopt.havit.data.remote.ContentsSummeryData
 import org.sopt.havit.data.remote.CreateContentsRequest
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
 import org.sopt.havit.ui.category.CategoryViewModel
+import org.sopt.havit.ui.share.ShareViewModel
 import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.MySharedPreference
 
+@AndroidEntryPoint
 class ContentsSummeryFragment : Fragment() {
+    private val viewModel: ShareViewModel by activityViewModels()
+
     private var _binding: FragmentContentsSummeryBinding? = null
     private val binding get() = _binding!!
     private val args by navArgs<ContentsSummeryFragmentArgs>()
@@ -43,11 +49,13 @@ class ContentsSummeryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
         setContents()
         getCategoryList()
         initListener()
         toolbarClickListener()
-        getNotificationTime()
     }
 
     private fun getUrl(): String {
@@ -70,12 +78,6 @@ class ContentsSummeryFragment : Fragment() {
         // 배열 초기화 및 값 할당
         cateIdInt = MutableList(cateIdString.size) { 0 }
         for (i in cateIdString.indices) cateIdInt[i] = ((cateIdString[i]).toInt())
-    }
-
-    // 알림을 설정 했다면 tv_set_alarm 값을 알림설정한 시간으로 변경
-    private fun getNotificationTime() {
-        val setTime = MySharedPreference.getNotificationTime(requireContext())
-        binding.alarm = setTime.ifEmpty { getString(R.string.set_alarm_space) }
     }
 
     private fun setContents() {
@@ -156,9 +158,9 @@ class ContentsSummeryFragment : Fragment() {
                 val time: String
 
                 val reservedNotification =
-                    MySharedPreference.getNotificationTime(requireContext())
+                    viewModel.finalNotificationTime.value
 
-                if (reservedNotification.isEmpty()) {
+                if (reservedNotification == null) {
                     time = ""
                     notification = false
                 } else {
@@ -188,12 +190,10 @@ class ContentsSummeryFragment : Fragment() {
     private fun toolbarClickListener() {
         binding.icBack.setOnClickListener {
             findNavController().popBackStack()
-//            MySharedPreference.clearNotificationTime(requireContext())
         }
 
         binding.icClose.setOnClickListener {
             MySharedPreference.clearTitle(requireContext())
-            MySharedPreference.clearNotificationTime(requireContext())
             requireActivity().finish()
         }
     }

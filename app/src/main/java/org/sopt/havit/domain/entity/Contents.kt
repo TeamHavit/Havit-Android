@@ -1,6 +1,5 @@
 package org.sopt.havit.domain.entity
 
-
 data class Contents(
     val createdAt: String,
     val description: String,
@@ -12,5 +11,3 @@ data class Contents(
     val title: String,
     val url: String
 )
-
-

@@ -8,6 +8,7 @@
     <string name="category_entire_category">전체 카테고리</string>
     <string name="modify">수정</string>
     <string name="category_entire">전체 </string>
+    <string name="move_category">카테고리 이동</string>
     <string name="category_category_modify">카테고리 수정</string>
     <string name="category_complete">완료</string>
     <string name="category_notice">카테고리를 누른 뒤 위아래로 드래그하여 순서를 바꿀 수 있습니다</string>
@@ -167,6 +168,7 @@
     <string name="url_hint">https://www.example.com/</string>
     <string name="ic_alarm">ic_alarm</string>
     <string name="select_complete">선택 완료</string>
+    <string name="noti_divider">ㅣ</string>
     <!-- 환경설정뷰 -->
     <string name="setting">설정</string>
     <string name="setting_nickname_end">님</string>
@@ -230,10 +232,13 @@
     <string name="splash_kakao_title">카카오로 로그인</string>
     <string name="splash_un_kakao_login">HAVIT에 콘텐츠를 저장하기 위해\n로그인이 필요합니다.</string>
 
+    <!--toast-->
+    <string name="cannot_set_notification_time_on_past">과거 시간으로는 알림 설정을 할 수 없습니다</string>
+
     <!-- error -->
     <string name="error_occur">문제가 발생했습니다</string>
     <string name="error_solution">문제가 지속되면 고객센터로 문의주세요</string>
+    <string name="delete_notification">알림 삭제</string>
 
-    <string name="move_category">카테고리 이동</string>
 </resources>
 

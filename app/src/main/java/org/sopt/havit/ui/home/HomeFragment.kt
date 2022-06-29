@@ -65,34 +65,34 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     // 추천 콘텐츠 클릭 -> 웹뷰로 이동
     private fun clickRecommendItemView() {
         recommendRvAdapter.setItemClickListener(object :
-            HomeRecommendRvAdapter.OnItemClickListener {
-            override fun onWebClick(v: View, position: Int) {
-                val intent = Intent(v.context, WebActivity::class.java)
-                homeViewModel.recommendList.value?.get(position)
-                    ?.let {
-                        intent.putExtra("url", it.url)
-                        intent.putExtra("contentsId", -1)
-                    }
-                startActivity(intent)
-            }
-        })
+                HomeRecommendRvAdapter.OnItemClickListener {
+                override fun onWebClick(v: View, position: Int) {
+                    val intent = Intent(v.context, WebActivity::class.java)
+                    homeViewModel.recommendList.value?.get(position)
+                        ?.let {
+                            intent.putExtra("url", it.url)
+                            intent.putExtra("contentsId", -1)
+                        }
+                    startActivity(intent)
+                }
+            })
     }
 
     // 최근 저장 콘텐츠 클릭 -> 웹뷰로 이동
     private fun clickRecentContentsItemView() {
         contentsAdapter.setItemClickListener(object :
-            HomeRecentContentsRvAdapter.OnItemClickListener {
-            override fun onWebClick(v: View, position: Int) {
-                val intent = Intent(v.context, WebActivity::class.java)
-                homeViewModel.contentsList.value?.get(position)
-                    ?.let {
-                        intent.putExtra("url", it.url)
-                        intent.putExtra("contentsId", it.id)
-                        intent.putExtra("isSeen", it.isSeen)
-                    }
-                startActivity(intent)
-            }
-        })
+                HomeRecentContentsRvAdapter.OnItemClickListener {
+                override fun onWebClick(v: View, position: Int) {
+                    val intent = Intent(v.context, WebActivity::class.java)
+                    homeViewModel.contentsList.value?.get(position)
+                        ?.let {
+                            intent.putExtra("url", it.url)
+                            intent.putExtra("contentsId", it.id)
+                            intent.putExtra("isSeen", it.isSeen)
+                        }
+                    startActivity(intent)
+                }
+            })
     }
 
     private fun setData() {
