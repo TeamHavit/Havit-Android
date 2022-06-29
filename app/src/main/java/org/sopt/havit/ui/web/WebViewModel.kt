@@ -1,6 +1,5 @@
 package org.sopt.havit.ui.web
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,10 +10,10 @@ import org.sopt.havit.domain.repository.ContentsRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class WebViewModel @Inject constructor(private val contentsRepository: ContentsRepository) : ViewModel() {
+class WebViewModel @Inject constructor(private val contentsRepository: ContentsRepository) :
+    ViewModel() {
 
     var isHavit = MutableLiveData<Boolean>()
-    var _isHavit: LiveData<Boolean> = isHavit
     var contentsUrl = MutableLiveData<String>()
 
     fun init(havit: Boolean) {
@@ -34,8 +33,5 @@ class WebViewModel @Inject constructor(private val contentsRepository: ContentsR
     fun setUrl(url: String) {
         contentsUrl.value = url
     }
-    
-    fun unHavit() {
-        isHavit.value = false
-    }
+
 }

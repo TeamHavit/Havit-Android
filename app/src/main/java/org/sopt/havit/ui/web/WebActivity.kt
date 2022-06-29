@@ -3,7 +3,6 @@ package org.sopt.havit.ui.web
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -34,7 +33,6 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
     }
 
     private fun initHavitSeen() {
-        webViewModel.init(intent.getBooleanExtra("isSeen", false))
         if (intent.getIntExtra("contentsId", -1) == -1) {
             binding.llWebBottom.isVisible = false
         }
@@ -52,12 +50,13 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
     }
 
     private fun setUrlLaunch(url: String) {
-        if (url.contains("naver.me")) {
-            val intent = Intent()
-            intent.action = Intent.ACTION_VIEW
-            intent.addCategory(Intent.CATEGORY_BROWSABLE)
-            intent.addCategory(Intent.CATEGORY_DEFAULT)
-            intent.data = Uri.parse(url)
+        if (Regex(NAVER_SHORTEN_URL).containsMatchIn(url)) {
+            val intent = Intent().apply {
+                action = Intent.ACTION_VIEW
+                addCategory(Intent.CATEGORY_BROWSABLE)
+                addCategory(Intent.CATEGORY_DEFAULT)
+                data = Uri.parse(url)
+            }
             startActivity(intent)
             finish()
         } else {
@@ -100,11 +99,15 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
     }
 
     override fun onBackPressed() {
-        if (findViewById<WebView>(R.id.wb_custom).canGoBack()) {
-            findViewById<WebView>(R.id.wb_custom).goBack()
+        if (binding.wbCustom.canGoBack()) {
+            binding.wbCustom.goBack()
         } else {
             finish()
         }
+    }
+
+    companion object {
+        const val NAVER_SHORTEN_URL = "naver.me"
     }
 
 
