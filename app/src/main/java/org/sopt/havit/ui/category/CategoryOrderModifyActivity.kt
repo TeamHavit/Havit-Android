@@ -40,12 +40,8 @@ class CategoryOrderModifyActivity :
 
     // 뒤로가기 시 뜨는 dialog
     private fun setBackDialog() {
-        val dialog = DialogUtil(DialogUtil.CANCEL_EDIT_CATEGORY, ::setFinish)
+        val dialog = DialogUtil(DialogUtil.CANCEL_EDIT_CATEGORY, ::finish)
         dialog.show(supportFragmentManager, this.javaClass.name)
-    }
-
-    private fun setFinish() {
-        finish()
     }
 
     private fun initAdapter() {
