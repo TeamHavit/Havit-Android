@@ -53,7 +53,6 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
                 ivHavit.tag = if (data.isSeen) "seen" else "unseen"
                 ivHavit.setImageResource(if (data.isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
                 ivAlarm.visibility = if (data.isNotified) VISIBLE else INVISIBLE
-                tvAlarmDescription.visibility = if (data.isNotified) VISIBLE else INVISIBLE
             }
         }
     }
@@ -67,7 +66,6 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
                 ivHavit.tag = if (data.isSeen) "seen" else "unseen"
                 ivHavit.setImageResource(if (data.isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
                 ivAlarm.visibility = if (data.isNotified) VISIBLE else INVISIBLE
-                tvAlarmDescription.visibility = if (data.isNotified) VISIBLE else INVISIBLE
             }
         }
     }
