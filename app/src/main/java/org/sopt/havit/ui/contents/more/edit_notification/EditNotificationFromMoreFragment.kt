@@ -65,7 +65,7 @@ class EditNotificationFromMoreFragment :
         with(binding) {
             rgNotificationTime.setOnCheckedChangeListener { _, selectedId ->
                 val intervalTime = AfterTime.findClassByButtonId(selectedId)
-                if (intervalTime != null && intervalTime.buttonIndex <= 3) {
+                if (intervalTime != null && intervalTime.buttonIndex <= DIRECTLY_SET_TIME - 1) {
                     viewModel?.setSelectedIndex(afterTime = intervalTime)
                     viewModel?.setNotificationTimeIndirectly(afterTime = intervalTime)
                 }
@@ -75,7 +75,6 @@ class EditNotificationFromMoreFragment :
     }
 
     private fun initToolbarListener() {
-        binding.icBack.setOnClickListener { onBackClicked() }
         binding.tvComplete.setOnClickListener {
             if (viewModel.isNotificationDataChanged()) {
                 viewModel.patchNotification()
@@ -90,12 +89,6 @@ class EditNotificationFromMoreFragment :
     private fun showPickerFragment() {
         val bottomSheet = PickerFragment()
         bottomSheet.show(childFragmentManager, bottomSheet.tag)
-    }
-
-    private fun onBackClicked() {
-        if (viewModel.isNotificationDataChanged())
-            showEditTitleWarningDialog()
-        else dismissBottomSheet()
     }
 
     override fun onBackPressed(): Boolean {
