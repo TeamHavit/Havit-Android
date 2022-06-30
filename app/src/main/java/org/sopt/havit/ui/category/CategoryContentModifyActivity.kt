@@ -192,7 +192,7 @@ class CategoryContentModifyActivity :
             when (it) {
                 NetworkState.FAIL -> CustomToast.showTextToast(
                     this,
-                    resources.getString(R.string.error_occur)
+                    resources.getString(R.string.error_occur_try_again)
                 )
                 NetworkState.SUCCESS -> {
                     CustomToast.showTextToast(

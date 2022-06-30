@@ -443,7 +443,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun setFailAction() {
-        CustomToast.showTextToast(this, resources.getString(R.string.error_occur))
+        CustomToast.showTextToast(this, resources.getString(R.string.error_occur_try_again))
         contentsViewModel.initRequestState()
     }
 
