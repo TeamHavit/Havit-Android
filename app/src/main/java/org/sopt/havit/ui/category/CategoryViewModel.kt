@@ -1,7 +1,6 @@
 package org.sopt.havit.ui.category
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -39,6 +38,9 @@ class CategoryViewModel(context: Context) : ViewModel() {
     private val _loadState = MutableLiveData(NetworkState.LOADING)
     val loadState: LiveData<NetworkState> = _loadState
 
+    private val _modifyState = MutableLiveData<NetworkState>()
+    val modifyState: LiveData<NetworkState> = _modifyState
+
     fun requestCategoryTaken() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -69,14 +71,13 @@ class CategoryViewModel(context: Context) : ViewModel() {
 
     fun requestCategoryContent(id: Int, imageId: Int, title: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
+            kotlin.runCatching {
                 val content = CategoryModifyRequest(title, imageId)
-                val response =
-                    RetrofitObject.provideHavitApi(token).modifyCategoryContent(id, content)
-
-                Log.d("requestCategoryContent", "$response.success")
-            } catch (e: Exception) {
-                Log.d("requestCategoryContent", "$e")
+                RetrofitObject.provideHavitApi(token).modifyCategoryContent(id, content)
+            }.onSuccess {
+                _modifyState.postValue(NetworkState.SUCCESS)
+            }.onFailure {
+                _modifyState.postValue(NetworkState.FAIL)
             }
         }
     }

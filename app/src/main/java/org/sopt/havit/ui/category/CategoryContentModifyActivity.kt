@@ -39,6 +39,7 @@ class CategoryContentModifyActivity :
         setDeleteBtnClickListener()
         setModifyCompleteBtnClickListener()
         observeDeleteState()
+        observeModifyState()
     }
 
     override fun onBackPressed() {
@@ -120,9 +121,6 @@ class CategoryContentModifyActivity :
     private fun setModifyCompleteBtnClickListener() {
         binding.tvComplete.setOnClickListener {
             requestCategoryModify()
-            sendCategoryModifyResult()
-            finish()
-            CustomToast.showTextToast(this, resources.getString(R.string.category_modify_complete))
         }
     }
 
@@ -201,6 +199,27 @@ class CategoryContentModifyActivity :
                     )
 
                     sendCategoryDeleteResult()
+                    finish()
+                }
+                else -> {}
+            }
+        }
+    }
+
+    private fun observeModifyState() {
+        categoryViewModel.modifyState.observe(this) {
+            when (it) {
+                NetworkState.FAIL -> CustomToast.showTextToast(
+                    this,
+                    resources.getString(R.string.error_occur_try_again)
+                )
+                NetworkState.SUCCESS -> {
+                    CustomToast.showTextToast(
+                        this,
+                        resources.getString(R.string.category_modify_complete)
+                    )
+
+                    sendCategoryModifyResult()
                     finish()
                 }
                 else -> {}
