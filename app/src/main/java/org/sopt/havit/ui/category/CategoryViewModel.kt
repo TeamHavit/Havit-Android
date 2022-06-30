@@ -12,6 +12,7 @@ import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.CategoryModifyRequest
 import org.sopt.havit.data.remote.CategoryOrderRequest
 import org.sopt.havit.data.remote.CategoryResponse
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.util.MySharedPreference
 
 class CategoryViewModel(context: Context) : ViewModel() {
@@ -27,6 +28,9 @@ class CategoryViewModel(context: Context) : ViewModel() {
     val shareDelay: LiveData<Boolean> = _shareDelay
     private val _categoryLoad = MutableLiveData(true)
     val categoryLoad: LiveData<Boolean> = _categoryLoad
+
+    private val _deleteState = MutableLiveData(NetworkState.LOADING)
+    val deleteState: LiveData<NetworkState> = _deleteState
 
     fun requestCategoryTaken() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -70,12 +74,12 @@ class CategoryViewModel(context: Context) : ViewModel() {
 
     fun requestCategoryDelete(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = RetrofitObject.provideHavitApi(token).deleteCategory(id)
-
-                Log.d("requestCategoryDelete", "$response.success")
-            } catch (e: Exception) {
-                Log.d("requestCategoryDelete", "$e")
+            kotlin.runCatching {
+                RetrofitObject.provideHavitApi(token).deleteCategory(id)
+            }.onSuccess {
+                _deleteState.postValue(NetworkState.SUCCESS)
+            }.onFailure {
+                _deleteState.postValue(NetworkState.FAIL)
             }
         }
     }

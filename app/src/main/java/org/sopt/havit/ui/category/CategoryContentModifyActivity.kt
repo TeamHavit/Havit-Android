@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.core.widget.addTextChangedListener
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_IMAGE_ID
@@ -37,6 +38,7 @@ class CategoryContentModifyActivity :
         setDeleteTitleBtnClickListener()
         setDeleteBtnClickListener()
         setModifyCompleteBtnClickListener()
+        observeDeleteState()
     }
 
     override fun onBackPressed() {
@@ -106,7 +108,7 @@ class CategoryContentModifyActivity :
 
     // 삭제 버튼 클릭 시
     private fun showCategoryDeleteDialog() {
-        val dialog = DialogUtil(DialogUtil.REMOVE_CATEGORY, ::deleteCategory)
+        val dialog = DialogUtil(DialogUtil.REMOVE_CATEGORY, ::requestCategoryDelete)
         dialog.show(supportFragmentManager, this.javaClass.name)
     }
 
@@ -122,13 +124,6 @@ class CategoryContentModifyActivity :
             finish()
             CustomToast.showTextToast(this, resources.getString(R.string.category_modify_complete))
         }
-    }
-
-    // 카테고리 삭제를 실행하는 함수
-    private fun deleteCategory() {
-        requestCategoryDelete()
-        sendCategoryDeleteResult()
-        finish()
     }
 
     private fun requestCategoryModify() {
@@ -189,6 +184,27 @@ class CategoryContentModifyActivity :
                 RESULT_DELETE_CATEGORY,
                 orderIntent
             ) // CategoryOrderModifyActivity로 데이터 전달
+        }
+    }
+
+    private fun observeDeleteState() {
+        categoryViewModel.deleteState.observe(this) {
+            when (it) {
+                NetworkState.FAIL -> CustomToast.showTextToast(
+                    this,
+                    resources.getString(R.string.error_occur)
+                )
+                NetworkState.SUCCESS -> {
+                    CustomToast.showTextToast(
+                        this,
+                        resources.getString(R.string.category_has_been_deleted)
+                    )
+
+                    sendCategoryDeleteResult()
+                    finish()
+                }
+                else -> {}
+            }
         }
     }
 

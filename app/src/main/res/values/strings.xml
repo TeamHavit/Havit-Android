@@ -234,6 +234,7 @@
 
     <!--toast-->
     <string name="cannot_set_notification_time_on_past">과거 시간으로는 알림 설정을 할 수 없습니다</string>
+    <string name="category_has_been_deleted">카테고리가 삭제되었습니다</string>
 
     <!-- error -->
     <string name="error_occur">문제가 발생했습니다</string>
