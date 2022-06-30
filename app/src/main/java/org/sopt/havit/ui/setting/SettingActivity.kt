@@ -15,6 +15,8 @@ import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.ui.sign.SplashWithSignActivity
 import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.util.SERVICE_PREPARING_TYPE
+import org.sopt.havit.util.ToastUtil
 
 @AndroidEntryPoint
 class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.activity_setting) {
@@ -65,7 +67,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
         // 공지사항
         binding.clNotice.setOnClickListener {
-            CustomToast.showTextToast(this, "서비스 준비중입니다")
+            ToastUtil.makeToast(SERVICE_PREPARING_TYPE, this)
         }
 
         // 약관 및 정책
@@ -108,7 +110,6 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         startActivity(Intent(this, SplashWithSignActivity::class.java))
         finish()
     }
-
 
     private fun sendMail() {
         val intent = Intent().apply {
