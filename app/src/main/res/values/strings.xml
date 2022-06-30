@@ -240,5 +240,6 @@
     <string name="error_solution">문제가 지속되면 고객센터로 문의주세요</string>
     <string name="delete_notification">알림 삭제</string>
 
+    <string name="contents_has_been_deleted">콘텐츠가 삭제되었습니다</string>
 </resources>
 

@@ -9,10 +9,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentContentsMoreBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.Edit_TITLE
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.MOVE_CATEGORY
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.SET_ALARM
+import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.DialogUtil
 
 class ContentsMoreFragment :
@@ -41,6 +43,7 @@ class ContentsMoreFragment :
         initModifyTitleClick()
         initMoveCategoryClick()
         initSetAlarm()
+        observeDeleteState()
 
         return binding.root
     }
@@ -111,13 +114,30 @@ class ContentsMoreFragment :
     // 콘텐츠 삭제 함수
     private fun deleteContents() {
         // 콘텐츠 삭제 서버에 요청
-        with(contentsViewModel) {
-            requestContentsDelete(contentsData.id)
+        contentsViewModel.requestContentsDelete(contentsData.id)
+    }
+
+    private fun observeDeleteState() {
+        contentsViewModel.requestDeleteState.observe(viewLifecycleOwner) {
+            when (it) {
+                NetworkState.FAIL -> {
+                    CustomToast.showTextToast(
+                        requireContext(),
+                        resources.getString(R.string.error_occur)
+                    )
+                }
+                NetworkState.SUCCESS -> {
+                    notifyItemRemoved(pos)
+                    dismiss()
+
+                    CustomToast.showTextToast(
+                        requireContext(),
+                        resources.getString(R.string.contents_has_been_deleted)
+                    )
+                }
+                else -> {}
+            }
         }
-        // 각 어댑터의 notifyItemRemoved(position) 수행
-        notifyItemRemoved(pos)
-        // ContentsMoreFragment 삭제
-        dismiss()
     }
 
     companion object {
