@@ -1,10 +1,16 @@
 package org.sopt.havit.ui.contents.more.edit_notification
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsMoreData
+import org.sopt.havit.data.remote.ModifyNotificationParams
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
@@ -19,7 +25,11 @@ class EditNotificationFromMoreViewModel @Inject constructor(
     /** token */
     val token = authRepository.getAccessToken()
 
+    /** notification time */
+    private val contentId = MutableLiveData<Int>()
+
     fun initProperty(contentsMoreData: ContentsMoreData) {
+        contentId.value = contentsMoreData.id
         _finalIsNotificationSet.value = contentsMoreData.isNotified
         _finalNotificationTime.value = contentsMoreData.notificationTime
         if (contentsMoreData.isNotified) _finalIndex.value = 4
@@ -27,13 +37,12 @@ class EditNotificationFromMoreViewModel @Inject constructor(
 
     fun isNotificationSet(): Boolean = finalNotificationTime.value != ""
 
-    /** notification time */
     private var _finalIsNotificationSet = MutableLiveData<Boolean?>()
     val finalIsNotificationSet: LiveData<Boolean?>
         get() = _finalIsNotificationSet
 
     private var _finalNotificationTime = MutableLiveData<String?>()
-    val finalNotificationTime: LiveData<String?>
+    private val finalNotificationTime: LiveData<String?>
         get() = _finalNotificationTime
 
     private var _tempNotificationTime = MutableLiveData<String?>()
@@ -83,6 +92,22 @@ class EditNotificationFromMoreViewModel @Inject constructor(
     fun deleteNotification() {
         _finalIndex.value = null
         _finalNotificationTime.value = null
+    }
+
+    fun patchNotification() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                val time = tempNotificationTime.value?.substring(0, 16)?.replace(".", "-")
+                // Log.d(TAG, "patchNotification: ${tempNotificationTime.value?.substring(0, 16)?.replace(".","-")} / ${contentId.value}")
+                RetrofitObject.providePushApi(token).modifyNotification(
+                    ModifyNotificationParams(requireNotNull(time), requireNotNull(contentId.value))
+                )
+            }.onSuccess {
+                Log.d(TAG, "patchNotification: onSuccess")
+            }.onFailure {
+                Log.d(TAG, "patchNotification: onFailure $it")
+            }.run { userClicksOnButton() }
+        }
     }
 
     /** server event */
