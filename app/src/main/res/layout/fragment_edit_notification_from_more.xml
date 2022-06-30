@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="org.sopt.havit.ui.contents.more.edit_notification.EditNotificationFromMoreViewModel" />
@@ -173,7 +175,7 @@
                 android:text="@string/delete_notification"
                 android:textAppearance="@style/Button15Medium"
                 android:textColor="@color/havit_red"
-                app:buttonVisibility="@{Boolean.valueOf(viewModel.finalNotificationTime != null)}"
+                app:buttonVisibility="@{Boolean.valueOf(viewModel.finalIsNotificationSet)}"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

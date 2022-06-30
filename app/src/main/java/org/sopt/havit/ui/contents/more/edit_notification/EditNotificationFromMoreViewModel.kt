@@ -20,13 +20,18 @@ class EditNotificationFromMoreViewModel @Inject constructor(
     val token = authRepository.getAccessToken()
 
     fun initProperty(contentsMoreData: ContentsMoreData) {
+        _finalIsNotificationSet.value = contentsMoreData.isNotified
         _finalNotificationTime.value = contentsMoreData.notificationTime
-        if (isNotificationSet()) _finalIndex.value = 4
+        if (contentsMoreData.isNotified) _finalIndex.value = 4
     }
 
     fun isNotificationSet(): Boolean = finalNotificationTime.value != ""
 
     /** notification time */
+    private var _finalIsNotificationSet = MutableLiveData<Boolean?>()
+    val finalIsNotificationSet: LiveData<Boolean?>
+        get() = _finalIsNotificationSet
+
     private var _finalNotificationTime = MutableLiveData<String?>()
     val finalNotificationTime: LiveData<String?>
         get() = _finalNotificationTime
