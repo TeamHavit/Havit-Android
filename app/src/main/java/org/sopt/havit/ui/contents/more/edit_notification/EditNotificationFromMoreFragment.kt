@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
@@ -14,6 +14,7 @@ import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.ui.share.notification.PickerFragment
 import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.OnBackPressedHandler
 
 @AndroidEntryPoint
@@ -21,6 +22,7 @@ class EditNotificationFromMoreFragment :
     BaseBindingFragment<FragmentEditNotificationFromMoreBinding>(R.layout.fragment_edit_notification_from_more),
     OnBackPressedHandler {
     private val viewModel: EditNotificationFromMoreViewModel by viewModels()
+    private lateinit var bottomSheetDialogFragment: BottomSheetDialogFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
@@ -28,6 +30,7 @@ class EditNotificationFromMoreFragment :
 
         viewModel.initProperty(getBundleData() as ContentsMoreData)
         syncTempDataWithFinalData()
+        initBottomSheetDialogFragment()
         setButtonSelectedIfOriginDataExist()
         initRadioGroupListener()
         initToolbarListener()
@@ -37,6 +40,10 @@ class EditNotificationFromMoreFragment :
     private fun getBundleData(): Parcelable? {
         arguments?.let { return it.getParcelable(BottomSheetMoreFragment.CONTENTS_DATA) }
         throw IllegalArgumentException()
+    }
+
+    private fun initBottomSheetDialogFragment() {
+        bottomSheetDialogFragment = requireParentFragment() as BottomSheetDialogFragment
     }
 
     private fun initDeleteNotiBtn() {
@@ -70,8 +77,13 @@ class EditNotificationFromMoreFragment :
     private fun initToolbarListener() {
         binding.icBack.setOnClickListener { onBackClicked() }
         binding.tvComplete.setOnClickListener {
-            viewModel.syncFinalDataWithTempData()
-            goBack()
+            if (viewModel.isNotificationDataChanged()) {
+                viewModel.patchNotification()
+                viewModel.isNetworkCorrespondenceEnd.observe(
+                    requireActivity(),
+                    EventObserver { dismissBottomSheet() }
+                )
+            } else dismissBottomSheet()
         }
     }
 
@@ -83,7 +95,7 @@ class EditNotificationFromMoreFragment :
     private fun onBackClicked() {
         if (viewModel.isNotificationDataChanged())
             showEditTitleWarningDialog()
-        else goBack()
+        else dismissBottomSheet()
     }
 
     override fun onBackPressed(): Boolean {
@@ -105,16 +117,16 @@ class EditNotificationFromMoreFragment :
     }
 
     private fun doAfterConfirm() {
-        goBack()
+        dismissBottomSheet()
     }
 
     private fun doAfterDeleteConfirm() {
         viewModel.deleteNotification()
-        goBack()
+        dismissBottomSheet()
     }
 
-    private fun goBack() {
-        findNavController().popBackStack()
+    private fun dismissBottomSheet() {
+        bottomSheetDialogFragment.dismiss()
     }
 
     companion object {
