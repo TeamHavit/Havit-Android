@@ -20,17 +20,21 @@ class CategoryViewModel(context: Context) : ViewModel() {
 
     private val _categoryCount = MutableLiveData(-1)
     val categoryCount: LiveData<Int> = _categoryCount
+
     private val _categoryList = MutableLiveData<ArrayList<CategoryResponse.AllCategoryData>>()
     val categoryList: LiveData<ArrayList<CategoryResponse.AllCategoryData>> = _categoryList
-    private val _delay = MutableLiveData(false)
-    val delay: LiveData<Boolean> = _delay
+
     private val _shareDelay = MutableLiveData(false)
     val shareDelay: LiveData<Boolean> = _shareDelay
+
     private val _categoryLoad = MutableLiveData(true)
     val categoryLoad: LiveData<Boolean> = _categoryLoad
 
-    private val _deleteState = MutableLiveData(NetworkState.LOADING)
+    private val _deleteState = MutableLiveData<NetworkState>()
     val deleteState: LiveData<NetworkState> = _deleteState
+
+    private val _orderModifyState = MutableLiveData<NetworkState>()
+    val orderModifyState: LiveData<NetworkState> = _orderModifyState
 
     fun requestCategoryTaken() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -47,13 +51,13 @@ class CategoryViewModel(context: Context) : ViewModel() {
 
     fun requestCategoryOrder(list: List<Int>) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
+            kotlin.runCatching {
                 val list = CategoryOrderRequest(list)
-                val response = RetrofitObject.provideHavitApi(token).modifyCategoryOrder(list)
-                _delay.postValue(true)
-                Log.d("requestCategoryOrder", "$response.success")
-            } catch (e: Exception) {
-                Log.d("requestCategoryOrder", "$e")
+                RetrofitObject.provideHavitApi(token).modifyCategoryOrder(list)
+            }.onSuccess {
+                _orderModifyState.postValue(NetworkState.SUCCESS)
+            }.onFailure {
+                _orderModifyState.postValue(NetworkState.FAIL)
             }
         }
     }
@@ -82,10 +86,6 @@ class CategoryViewModel(context: Context) : ViewModel() {
                 _deleteState.postValue(NetworkState.FAIL)
             }
         }
-    }
-
-    fun setDelay(v: Boolean) {
-        _delay.value = v
     }
 
     fun setShareDelay(v: Boolean) {

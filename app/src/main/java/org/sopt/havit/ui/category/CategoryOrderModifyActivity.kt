@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryOrderModifyBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_DELETE_CATEGORY
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_MODIFY_CATEGORY
+import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.DialogUtil
 
 class CategoryOrderModifyActivity :
@@ -33,6 +35,7 @@ class CategoryOrderModifyActivity :
         clickBack()
         initDrag()
         setCompleteOrder()
+        observeOrderModifyState()
     }
 
     override fun onBackPressed() {
@@ -196,12 +199,22 @@ class CategoryOrderModifyActivity :
             // 서버에 순서 변경 요청
             categoryViewModel.requestCategoryOrder(categoryIdList.toList())
 
-            // 서버 post 완료 시 종료
-            categoryViewModel.delay.observe(this@CategoryOrderModifyActivity) {
-                if (it) {
-                    categoryViewModel.setDelay(false)
+        }
+    }
+
+    private fun observeOrderModifyState() {
+        categoryViewModel.orderModifyState.observe(this) {
+            when (it) {
+                NetworkState.SUCCESS -> {
                     finish()
                 }
+                NetworkState.FAIL -> {
+                    CustomToast.showTextToast(
+                        this,
+                        resources.getString(R.string.error_occur_try_again)
+                    )
+                }
+                else -> {}
             }
         }
     }
