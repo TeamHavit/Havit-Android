@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentCategoryBinding
@@ -35,13 +36,14 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         clickBack()
         clickItemView()
         addCategory()
+        refreshCategoryData()
 
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        setData()
+        requestCategoryData()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,7 +61,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         binding.rvContents.adapter = categoryAdapter
     }
 
-    private fun setData() {
+    private fun requestCategoryData() {
         categoryViewModel.requestCategoryTaken()
     }
 
@@ -135,6 +137,13 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                 val intent = Intent(requireActivity(), CategoryAddActivity::class.java)
                 startActivity(intent)
             }
+        }
+    }
+
+    private fun refreshCategoryData() {
+        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+            it.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotation_refresh))
+            requestCategoryData()
         }
     }
 
