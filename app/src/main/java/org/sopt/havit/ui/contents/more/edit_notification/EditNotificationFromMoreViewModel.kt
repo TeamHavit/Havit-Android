@@ -97,6 +97,7 @@ class EditNotificationFromMoreViewModel @Inject constructor(
     fun patchNotification() {
         viewModelScope.launch {
             kotlin.runCatching {
+                // TODO 서버 404뜸
                 val time = tempNotificationTime.value?.substring(0, 16)?.replace(".", "-")
                 // Log.d(TAG, "patchNotification: ${tempNotificationTime.value?.substring(0, 16)?.replace(".","-")} / ${contentId.value}")
                 RetrofitObject.providePushApi(token).modifyNotification(
@@ -109,6 +110,8 @@ class EditNotificationFromMoreViewModel @Inject constructor(
             }.run { userClicksOnButton() }
         }
     }
+
+    // TODO 알림삭제 api 아직 안나옴
 
     /** server event */
     private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
