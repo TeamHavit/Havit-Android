@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.sopt.havit.R
 import org.sopt.havit.util.CalenderUtil.setDateFormat
+import org.sopt.havit.util.CalenderUtil.setDateFormatOnCategoryView
 import org.sopt.havit.util.CalenderUtil.setDateFormatOnRadioBtn
 import org.sopt.havit.util.DpToPxUtil.px
 
@@ -155,6 +156,13 @@ object BindingAdapter {
     @JvmStatic
     fun TextView.setAlarmText(string: String?) {
         this.text = if (string == null) "알림 설정" else setDateFormat(string)
+    }
+
+    @BindingAdapter("notificationTimeOnContentsView")
+    @JvmStatic
+    fun TextView.setNotificationText(string: String?) {
+        if (string?.isEmpty() == true) return
+        this.text = setDateFormatOnCategoryView(requireNotNull(string))
     }
 
     @BindingAdapter("app:textVisibility")
