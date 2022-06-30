@@ -19,7 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- text 임의 설정입니다! 곧 수정 예정>_< -->
     <TextView
         android:id="@+id/tv_noti_date"
         android:layout_width="wrap_content"
@@ -102,7 +101,7 @@
         android:background="@color/gray_1"
         app:layout_constraintBottom_toTopOf="@id/btn_complete" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_complete"
         android:layout_width="match_parent"
         android:layout_height="70dp"
