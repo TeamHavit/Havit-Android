@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentCategoryBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsActivity
 import org.sopt.havit.util.CustomToast
@@ -25,6 +26,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
 
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.categoryViewModel = categoryViewModel
 
         initAdapter()
@@ -69,17 +71,20 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                 categoryAdapter.categoryList.addAll(it)
                 categoryAdapter.notifyDataSetChanged()
             }
-            categoryCount.observe(viewLifecycleOwner) {
-                with(binding) {
-                    if (it < 0) {
-                        sflCategory.startShimmer()
-                        sflCount.startShimmer()
-                    } else {
-                        sflCategory.stopShimmer()
-                        sflCount.stopShimmer()
-                    }
-                    categoryCount = it
+
+            loadState.observe(viewLifecycleOwner) {
+                // 서버 불러오는 중이라면 스켈레톤 화면 및 shimmer 효과를 보여줌
+                if (it == NetworkState.LOADING) {
+                    binding.sflCategory.startShimmer()
+                    binding.sflCount.startShimmer()
+                } else {
+                    binding.sflCategory.stopShimmer()
+                    binding.sflCount.stopShimmer()
                 }
+            }
+
+            categoryCount.observe(viewLifecycleOwner) {
+                binding.categoryCount = it
             }
         }
     }

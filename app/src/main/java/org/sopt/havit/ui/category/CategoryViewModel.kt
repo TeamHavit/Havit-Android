@@ -36,15 +36,20 @@ class CategoryViewModel(context: Context) : ViewModel() {
     private val _orderModifyState = MutableLiveData<NetworkState>()
     val orderModifyState: LiveData<NetworkState> = _orderModifyState
 
+    private val _loadState = MutableLiveData(NetworkState.LOADING)
+    val loadState: LiveData<NetworkState> = _loadState
+
     fun requestCategoryTaken() {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
+            kotlin.runCatching {
                 val response =
                     RetrofitObject.provideHavitApi(token).getAllCategory()
                 _categoryList.postValue(response.data as ArrayList<CategoryResponse.AllCategoryData>)
                 _categoryCount.postValue(response.data.size)
-                _categoryLoad.postValue(false)
-            } catch (e: Exception) {
+            }.onSuccess {
+                _loadState.postValue(NetworkState.SUCCESS)
+            }.onFailure {
+                _loadState.postValue(NetworkState.FAIL)
             }
         }
     }
