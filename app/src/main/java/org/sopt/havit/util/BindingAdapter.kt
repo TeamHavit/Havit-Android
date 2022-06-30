@@ -175,7 +175,7 @@ object BindingAdapter {
     @JvmStatic
     fun TextView.setNotificationTime(selectedIndex: Int, notiTime: String?) {
         Log.d(TAG, "setNotificationTime: $selectedIndex, $notiTime")
-        this.text = if (selectedIndex == 4)
+        this.text = if (selectedIndex == 4 && notiTime != "")
             setDateFormatOnRadioBtn(requireNotNull(notiTime))
         else context.getString(R.string.choose_time)
     }
