@@ -82,10 +82,6 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                     binding.sflCount.stopShimmer()
                 }
             }
-
-            categoryCount.observe(viewLifecycleOwner) {
-                binding.categoryCount = it
-            }
         }
     }
 

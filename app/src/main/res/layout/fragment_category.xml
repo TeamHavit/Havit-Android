@@ -8,10 +8,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="categoryCount"
-            type="Integer" />
-
-        <variable
             name="categoryViewModel"
             type="org.sopt.havit.ui.category.CategoryViewModel" />
 
@@ -121,7 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
-                    android:text="@{String.valueOf(categoryCount)}"
+                    android:text="@{String.valueOf(categoryViewModel.categoryCount)}"
                     android:textAppearance="@style/Sub13Regular"
                     android:textColor="#696969"
                     android:visibility="@{categoryViewModel.loadState == state.SUCCESS ? View.VISIBLE : View.GONE, default = gone}"
@@ -195,7 +191,7 @@
                 android:descendantFocusability="blocksDescendants"
                 android:paddingTop="6dp"
                 android:paddingBottom="?attr/actionBarSize"
-                android:visibility="@{categoryCount > 0 ? View.VISIBLE : View.GONE, default = gone}"
+                android:visibility="@{Integer.valueOf(categoryViewModel.categoryCount) > 0 ? View.VISIBLE : View.GONE, default = gone}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -209,7 +205,7 @@
                 android:id="@+id/cl_empty"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:visibility="@{categoryCount == 0 ? View.VISIBLE : View.GONE, default = gone}"
+                android:visibility="@{Integer.valueOf(categoryViewModel.categoryCount) == 0 ? View.VISIBLE : View.GONE, default = gone}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
