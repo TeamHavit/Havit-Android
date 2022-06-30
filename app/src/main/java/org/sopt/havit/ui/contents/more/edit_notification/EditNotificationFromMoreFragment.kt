@@ -50,9 +50,8 @@ class EditNotificationFromMoreFragment :
     }
 
     private fun setButtonSelectedIfOriginDataExist() {
-        binding.rgNotificationTime.check(
-            binding.rgNotificationTime.getChildAt(4).id
-        )
+        if (viewModel.isNotificationSet())
+            binding.rgNotificationTime.check(binding.rgNotificationTime.getChildAt(DIRECTLY_SET_TIME).id)
     }
 
     private fun initRadioGroupListener() {
@@ -116,5 +115,9 @@ class EditNotificationFromMoreFragment :
 
     private fun goBack() {
         findNavController().popBackStack()
+    }
+
+    companion object {
+        const val DIRECTLY_SET_TIME = 4 // 직접 시간 선택
     }
 }

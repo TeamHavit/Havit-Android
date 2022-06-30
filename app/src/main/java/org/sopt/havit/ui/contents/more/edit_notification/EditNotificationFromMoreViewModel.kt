@@ -24,7 +24,7 @@ class EditNotificationFromMoreViewModel @Inject constructor(
         if (isNotificationSet()) _finalIndex.value = 4
     }
 
-    private fun isNotificationSet(): Boolean = finalNotificationTime.value != ""
+    fun isNotificationSet(): Boolean = finalNotificationTime.value != ""
 
     /** notification time */
     private var _finalNotificationTime = MutableLiveData<String?>()
