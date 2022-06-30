@@ -20,7 +20,8 @@ class CategoryContentModifyActivity :
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
     private var position = -1
     private var id = -1
-    private lateinit var categoryName: String
+    private var originCategoryImageId = -1
+    private lateinit var originCategoryName: String
     private lateinit var iconAdapter: IconAdapter
     private lateinit var categoryTitleList: ArrayList<String>
     private lateinit var preActivity: String
@@ -39,12 +40,14 @@ class CategoryContentModifyActivity :
     }
 
     override fun onBackPressed() {
-        showBackAlertDialog()
+        setBackPressedAction()
     }
 
     private fun setCategoryIntentData() {
         binding.categoryTitle =
-            intent.getStringExtra(CATEGORY_NAME).toString().also { categoryName = it }
+            intent.getStringExtra(CATEGORY_NAME).toString().also {
+                originCategoryName = it
+            }
         position = intent.getIntExtra("position", 0)
         id = intent.getIntExtra(CATEGORY_ID, 0)
         categoryTitleList = intent.getStringArrayListExtra("categoryNameList") as ArrayList<String>
@@ -52,7 +55,9 @@ class CategoryContentModifyActivity :
     }
 
     private fun initIconAdapter() {
-        clickedPosition = intent.getIntExtra(CATEGORY_IMAGE_ID, 0) - 1
+        clickedPosition = (intent.getIntExtra(CATEGORY_IMAGE_ID, 0) - 1).also {
+            originCategoryImageId = it
+        }
         binding.rvIcon.adapter = IconAdapter(::onIconClick).also { iconAdapter = it }
     }
 
@@ -64,7 +69,7 @@ class CategoryContentModifyActivity :
     }
 
     private fun setBackBtnClickListener() {
-        binding.ivBack.setOnClickListener { showBackAlertDialog() }
+        binding.ivBack.setOnClickListener { setBackPressedAction() }
     }
 
     private fun setDeleteTitleBtnClickListener() {
@@ -75,11 +80,23 @@ class CategoryContentModifyActivity :
         binding.etCategory.addTextChangedListener {
             // 중복된 카테고리 명인지 검사 & 현재 카테고리 명인지 검사(현재 카테고리 명이라면 중복이 아님을 명시)
             binding.isDuplicated =
-                (binding.categoryTitle in categoryTitleList && binding.categoryTitle != categoryName)
+                (binding.categoryTitle in categoryTitleList && binding.categoryTitle != originCategoryName)
         }
     }
 
     private fun deleteCategoryTitle() = binding.etCategory.text.clear()
+
+    // 뒤로가기 시 액션
+    private fun setBackPressedAction() {
+        if (isModified()) {
+            finish()
+        } else {
+            showBackAlertDialog()
+        }
+    }
+
+    private fun isModified() =
+        (binding.categoryTitle == originCategoryName && clickedPosition == originCategoryImageId)
 
     // 뒤로가기 시 뜨는 dialog
     private fun showBackAlertDialog() {
