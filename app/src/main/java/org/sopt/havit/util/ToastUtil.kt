@@ -34,18 +34,21 @@ class ToastUtil @Inject constructor(@ApplicationContext private val context: Con
     }
 
     private fun setView() {
-        view = LayoutInflater.from(context).inflate(getView(), null)
+        view = LayoutInflater.from(context).inflate(toastCase.view, null)
         toast.view = view
     }
 
-    private fun getView() = toastCase.view
-
     private fun setText(categoryName: String) {
-        val textView: TextView = view.findViewById(R.id.tv_toast)
-        textView.text = when (toastCase.viewType) {
+        when (toastCase.viewType) {
             ADD_CONTENT_TYPE, MARGIN_HAVIT_COMPLETE -> return
-            ADD_CATEGORY_TYPE -> categoryName
-            else -> getTitle(context)
+            ADD_CATEGORY_TYPE -> {
+                val textView: TextView = view.findViewById(R.id.tv_toast)
+                textView.text = categoryName
+            }
+            else -> {
+                val textView: TextView = view.findViewById(R.id.tv_toast)
+                textView.text = getTitle(context)
+            }
         }
     }
 
@@ -143,7 +146,7 @@ const val SERVICE_PREPARING_TYPE = 10
 const val CONTENT_CHECK_COMPLETE_TYPE = 11
 const val CANNOT_SEND_MAIL_TYPE = 12
 
-const val MARGIN_CONTENT_ADDED = 54
+const val MARGIN_CONTENT_ADDED = 30
 const val MARGIN_HAVIT_COMPLETE = 40
 const val MARGIN_NORMAL = 106
 const val MARGIN_PAST_TIME = 328
