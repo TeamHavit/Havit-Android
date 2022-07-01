@@ -14,6 +14,15 @@ import org.sopt.havit.util.ToastCase.Companion.findClassByToastType
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
+/**
+ *  ToastUtil 사용법
+ *
+ *  1. 해당 파일 가장 하단으로 가서 TYPE 추가
+ *  2. EnumClass 추가
+ *     cf) text만 있는 경우에는 R.layout.toast_text 를 활용하면 됨
+ *  3. ToastUtil(/* context */).makeToast(/* 1번에서 생성한 TYPE 상수 값*/)
+ * */
+
 class ToastUtil @Inject constructor(@ApplicationContext private val context: Context) {
 
     private lateinit var toastCase: ToastCase
@@ -146,15 +155,15 @@ const val NULL = -1
 const val CONTENT_DELETE_TYPE = 0
 const val SET_ALARM_DOWN_TYPE = 1
 const val DELETE_CATEGORY_TOP_TYPE = 2
-const val MAX_CATEGORY_NUM_EXCEEDED_TOP_TYPE = 4
-const val ADD_CATEGORY_TYPE = 6
-const val PAST_TIME_TYPE = 8
-const val ADD_CONTENT_TYPE = 9
-const val SERVICE_PREPARING_TYPE = 10
-const val CONTENT_CHECK_COMPLETE_TYPE = 11
-const val CANNOT_SEND_MAIL_TYPE = 12
-const val ERROR_OCCUR_TYPE = 13
-const val CATEGORY_MODIFY_COMPLETE_TYPE = 14
+const val MAX_CATEGORY_NUM_EXCEEDED_TOP_TYPE = 3
+const val ADD_CATEGORY_TYPE = 4
+const val PAST_TIME_TYPE = 5
+const val ADD_CONTENT_TYPE = 6
+const val SERVICE_PREPARING_TYPE = 7
+const val CONTENT_CHECK_COMPLETE_TYPE = 8
+const val CANNOT_SEND_MAIL_TYPE = 9
+const val ERROR_OCCUR_TYPE = 10
+const val CATEGORY_MODIFY_COMPLETE_TYPE = 1
 
 const val MARGIN_CONTENT_ADDED = 30
 const val MARGIN_HAVIT_COMPLETE = 40
