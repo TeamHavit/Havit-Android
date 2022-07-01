@@ -11,16 +11,9 @@ import java.util.concurrent.TimeUnit
 object RetrofitObject {
 
     private const val baseUrl = "https://asia-northeast3-havit-wesopt29.cloudfunctions.net/api/"
-    private const val pushServerBaseUrl = "http://13.124.241.185/"
 
     private fun getRetrofitBuild(jwt: String) = Retrofit.Builder()
         .baseUrl(baseUrl)
-        .client(getOkhttpClient(jwt))
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private fun getPushServerRetrofitBuild(jwt: String) = Retrofit.Builder()
-        .baseUrl(pushServerBaseUrl)
         .client(getOkhttpClient(jwt))
         .addConverterFactory(GsonConverterFactory.create())
         .build()
@@ -46,7 +39,4 @@ object RetrofitObject {
         HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
     fun provideHavitApi(jwt: String): HavitApi = getRetrofitBuild(jwt).create(HavitApi::class.java)
-
-    fun providePushApi(jwt: String): HavitApi =
-        getPushServerRetrofitBuild(jwt).create(HavitApi::class.java)
 }
