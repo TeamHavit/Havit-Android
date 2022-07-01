@@ -14,6 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentPickerBinding
+import org.sopt.havit.ui.contents.more.edit_notification.EditNotificationFromMoreViewModel
 import org.sopt.havit.ui.share.ShareViewModel
 import org.sopt.havit.util.CalenderUtil.DURATION
 import org.sopt.havit.util.CalenderUtil.dateWithDashFormatMD
@@ -36,6 +37,7 @@ import java.util.*
 @AndroidEntryPoint
 class PickerFragment : BottomSheetDialogFragment() {
     private val viewModel: ShareViewModel by activityViewModels()
+    private val modifyViewModel: EditNotificationFromMoreViewModel by activityViewModels()
 
     private var _binding: FragmentPickerBinding? = null
     private val binding get() = _binding!!
@@ -130,6 +132,7 @@ class PickerFragment : BottomSheetDialogFragment() {
         binding.btnComplete.setOnClickListener {
             if (isSelectedTimeAvailable()) {
                 viewModel.setNotificationTimeDirectly(getSelectedNotiTime())
+                modifyViewModel.setNotificationTimeDirectly(getSelectedNotiTime())
                 dismiss()
             } else showPastTimeToast()
         }

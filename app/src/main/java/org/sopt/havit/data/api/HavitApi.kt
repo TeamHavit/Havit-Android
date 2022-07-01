@@ -119,6 +119,11 @@ interface HavitApi {
         @Body body: ModifyContentCategoryParams
     ): BasicResponse
 
+    @PATCH("reminder")
+    suspend fun modifyNotification(
+        @Body body: ModifyNotificationParams
+    ): BasicResponse
+
     @DELETE("auth/user")
     suspend fun deleteUser()
 }
