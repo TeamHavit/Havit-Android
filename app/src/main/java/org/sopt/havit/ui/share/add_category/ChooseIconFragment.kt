@@ -13,7 +13,7 @@ import org.sopt.havit.data.remote.CategoryAddRequest
 import org.sopt.havit.databinding.FragmentChooseIconBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.share.add_category.IconAdapter.Companion.clickedPosition
-import org.sopt.havit.util.ADD_CATEGORY_TOP_TYPE
+import org.sopt.havit.util.ADD_CATEGORY_TYPE
 import org.sopt.havit.util.MySharedPreference
 import org.sopt.havit.util.ToastUtil
 
@@ -70,7 +70,7 @@ class ChooseIconFragment :
 
     private fun showCustomToast() {
         ToastUtil(requireContext()).makeToast(
-            toastType = ADD_CATEGORY_TOP_TYPE,
+            toastType = ADD_CATEGORY_TYPE,
             categoryName = args.categoryTitle
         )
     }

@@ -44,7 +44,7 @@ class ToastUtil @Inject constructor(@ApplicationContext private val context: Con
         val textView: TextView = view.findViewById(R.id.tv_toast)
         textView.text = when (toastCase.viewType) {
             ADD_CONTENT_TYPE, MARGIN_HAVIT_COMPLETE -> return
-            ADD_CATEGORY_TOP_TYPE, ADD_CATEGORY_DOWN_TYPE -> categoryName
+            ADD_CATEGORY_TYPE -> categoryName
             else -> getTitle(context)
         }
     }
@@ -66,63 +66,47 @@ enum class ToastCase(
     @StringRes val text: Int,
     val viewType: Int,
     val gravity: Int = Gravity.BOTTOM,
-    val yOffsetDp: Int = MARGIN_BOTTOM
+    val yOffsetDp: Int = MARGIN_NORMAL
 ) {
-    CONTENT_DELETE_DOWN(
+    CONTENT_DELETE(
         R.layout.toast_text,
         R.string.delete_content,
         CONTENT_DELETE_TYPE,
     ),
-    SET_ALARM_DOWN(
+    SET_ALARM(
         R.layout.toast_text,
         R.string.setting_alarm,
         SET_ALARM_DOWN_TYPE,
     ),
-    DELETE_CATEGORY_TOP(
+    DELETE_CATEGORY(
         R.layout.toast_text,
         R.string.delete_category,
         DELETE_CATEGORY_TOP_TYPE,
     ),
-    DELETE_CATEGORY_DOWN(
-        R.layout.toast_text,
-        R.string.delete_category,
-        DELETE_CATEGORY_DOWN_TYPE,
-    ),
-    MAX_CATEGORY_NUM_EXCEEDED_TOP(
+    MAX_CATEGORY_NUM_EXCEEDED(
         R.layout.toast_text,
         R.string.max_category,
         MAX_CATEGORY_NUM_EXCEEDED_TOP_TYPE,
-        yOffsetDp = MARGIN_ABOVE
+        yOffsetDp = MARGIN_NORMAL
     ),
-    MAX_CATEGORY_NUM_EXCEEDED_DOWN(
-        R.layout.toast_text,
-        R.string.max_category,
-        MAX_CATEGORY_NUM_EXCEEDED_DOWN_TYPE,
-    ),
-    ADD_CATEGORY_TOP(
+    ADD_CATEGORY(
         R.layout.toast_category_added,
         R.string.add_category,
-        ADD_CATEGORY_TOP_TYPE,
-        yOffsetDp = MARGIN_ABOVE
-    ),
-    ADD_CATEGORY_DOWN(
-        R.layout.toast_category_added,
-        R.string.add_category,
-        ADD_CATEGORY_DOWN_TYPE,
-        yOffsetDp = MARGIN_BOTTOM
+        ADD_CATEGORY_TYPE,
+        yOffsetDp = MARGIN_NORMAL
     ),
     PAST_TIME(
         R.layout.toast_text,
         R.string.cannot_set_notification_time_on_past,
         PAST_TIME_TYPE,
-        yOffsetDp = MARGIN_CENTER
+        yOffsetDp = MARGIN_PAST_TIME
     ),
     ADD_CONTENT(
         R.layout.toast_contents_added,
         NULL,
         ADD_CONTENT_TYPE,
         Gravity.TOP,
-        yOffsetDp = MARGIN_TOP
+        yOffsetDp = MARGIN_CONTENT_ADDED
     ),
     SERVICE_PREPARING(
         R.layout.toast_text,
@@ -146,18 +130,14 @@ const val NULL = -1
 const val CONTENT_DELETE_TYPE = 0
 const val SET_ALARM_DOWN_TYPE = 1
 const val DELETE_CATEGORY_TOP_TYPE = 2
-const val DELETE_CATEGORY_DOWN_TYPE = 3
 const val MAX_CATEGORY_NUM_EXCEEDED_TOP_TYPE = 4
-const val MAX_CATEGORY_NUM_EXCEEDED_DOWN_TYPE = 5
-const val ADD_CATEGORY_TOP_TYPE = 6
-const val ADD_CATEGORY_DOWN_TYPE = 7
+const val ADD_CATEGORY_TYPE = 6
 const val PAST_TIME_TYPE = 8
 const val ADD_CONTENT_TYPE = 9
 const val SERVICE_PREPARING_TYPE = 10
 const val CONTENT_CHECK_COMPLETE_TYPE = 11
 
-const val MARGIN_TOP = 54
+const val MARGIN_CONTENT_ADDED = 54
 const val MARGIN_HAVIT_COMPLETE = 40
-const val MARGIN_BOTTOM = 37
-const val MARGIN_ABOVE = 106
-const val MARGIN_CENTER = 328
+const val MARGIN_NORMAL = 106
+const val MARGIN_PAST_TIME = 328
