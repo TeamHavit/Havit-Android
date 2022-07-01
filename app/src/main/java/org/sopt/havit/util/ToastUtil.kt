@@ -40,7 +40,7 @@ class ToastUtil @Inject constructor(@ApplicationContext private val context: Con
 
     private fun setText(categoryName: String) {
         when (toastCase.viewType) {
-            ADD_CONTENT_TYPE, MARGIN_HAVIT_COMPLETE -> return
+            ADD_CONTENT_TYPE, CONTENT_CHECK_COMPLETE_TYPE -> return
             ADD_CATEGORY_TYPE -> {
                 val textView: TextView = view.findViewById(R.id.tv_toast)
                 textView.text = categoryName
@@ -90,13 +90,11 @@ enum class ToastCase(
         R.layout.toast_text,
         R.string.max_category,
         MAX_CATEGORY_NUM_EXCEEDED_TOP_TYPE,
-        yOffsetDp = MARGIN_NORMAL
     ),
     ADD_CATEGORY(
         R.layout.toast_category_added,
         R.string.add_category,
         ADD_CATEGORY_TYPE,
-        yOffsetDp = MARGIN_NORMAL
     ),
     PAST_TIME(
         R.layout.toast_text,
@@ -126,6 +124,11 @@ enum class ToastCase(
         R.layout.toast_text,
         R.string.cannot_send_mail,
         CANNOT_SEND_MAIL_TYPE
+    ),
+    ERROR_OCCUR(
+        R.layout.toast_text,
+        R.string.error_occur,
+        ERROR_OCCUR_TYPE
     );
 
     companion object {
@@ -145,6 +148,7 @@ const val ADD_CONTENT_TYPE = 9
 const val SERVICE_PREPARING_TYPE = 10
 const val CONTENT_CHECK_COMPLETE_TYPE = 11
 const val CANNOT_SEND_MAIL_TYPE = 12
+const val ERROR_OCCUR_TYPE = 13
 
 const val MARGIN_CONTENT_ADDED = 30
 const val MARGIN_HAVIT_COMPLETE = 40
