@@ -199,5 +199,5 @@ class ContentsSummeryFragment : Fragment() {
         }
     }
 
-    private fun setCustomToast() = ToastUtil(requireActivity()).makeToast(ADD_CONTENT_TYPE)
+    private fun setCustomToast() = ToastUtil(requireContext()).makeToast(ADD_CONTENT_TYPE)
 }

@@ -86,9 +86,10 @@ enum class ToastCase(
         CONTENT_DELETE_TYPE,
     ),
     SET_ALARM(
-        R.layout.toast_text,
-        R.string.setting_alarm,
-        SET_ALARM_DOWN_TYPE,
+        R.layout.toast_set_alarm_complete,
+        R.string.alarm_set,
+        SET_ALARM_TYPE,
+        yOffsetDp = MARGIN_SET_ALARM
     ),
     DELETE_CATEGORY(
         R.layout.toast_text,
@@ -153,7 +154,7 @@ enum class ToastCase(
 
 const val NULL = -1
 const val CONTENT_DELETE_TYPE = 0
-const val SET_ALARM_DOWN_TYPE = 1
+const val SET_ALARM_TYPE = 1
 const val DELETE_CATEGORY_TOP_TYPE = 2
 const val MAX_CATEGORY_NUM_EXCEEDED_TOP_TYPE = 3
 const val ADD_CATEGORY_TYPE = 4
@@ -169,3 +170,4 @@ const val MARGIN_CONTENT_ADDED = 30
 const val MARGIN_HAVIT_COMPLETE = 40
 const val MARGIN_NORMAL = 106
 const val MARGIN_PAST_TIME = 345
+const val MARGIN_SET_ALARM = 37

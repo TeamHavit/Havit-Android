@@ -11,11 +11,10 @@ import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentEditNotificationFromMoreBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment
+import org.sopt.havit.ui.contents.more.edit_notification.EditNotificationFromMoreViewModel.Companion.SUCCESS
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.ui.share.notification.PickerFragment
-import org.sopt.havit.util.DialogUtil
-import org.sopt.havit.util.EventObserver
-import org.sopt.havit.util.OnBackPressedHandler
+import org.sopt.havit.util.*
 
 @AndroidEntryPoint
 class EditNotificationFromMoreFragment :
@@ -80,7 +79,12 @@ class EditNotificationFromMoreFragment :
                 viewModel.patchNotification()
                 viewModel.isNetworkCorrespondenceEnd.observe(
                     requireActivity(),
-                    EventObserver { dismissBottomSheet() }
+                    // TODO 서버 api 연동 이후에 이벤트처리 다시하기
+                    EventObserver { message ->
+                        if (message == SUCCESS)
+                            ToastUtil(requireContext()).makeToast(SET_ALARM_TYPE)
+                        dismissBottomSheet()
+                    }
                 )
             } else dismissBottomSheet()
         }
