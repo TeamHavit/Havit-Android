@@ -118,6 +118,11 @@ enum class ToastCase(
         NULL,
         CONTENT_CHECK_COMPLETE_TYPE,
         yOffsetDp = MARGIN_HAVIT_COMPLETE
+    ),
+    CANNOT_SEND_MAIL(
+        R.layout.toast_text,
+        R.string.cannot_send_mail,
+        CANNOT_SEND_MAIL_TYPE
     );
 
     companion object {
@@ -136,6 +141,7 @@ const val PAST_TIME_TYPE = 8
 const val ADD_CONTENT_TYPE = 9
 const val SERVICE_PREPARING_TYPE = 10
 const val CONTENT_CHECK_COMPLETE_TYPE = 11
+const val CANNOT_SEND_MAIL_TYPE = 12
 
 const val MARGIN_CONTENT_ADDED = 54
 const val MARGIN_HAVIT_COMPLETE = 40
