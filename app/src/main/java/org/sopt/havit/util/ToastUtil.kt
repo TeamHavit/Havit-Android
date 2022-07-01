@@ -129,6 +129,11 @@ enum class ToastCase(
         R.layout.toast_text,
         R.string.error_occur,
         ERROR_OCCUR_TYPE
+    ),
+    CATEGORY_MODIFY_COMPLETE(
+        R.layout.toast_text,
+        R.string.category_modify_complete,
+        CATEGORY_MODIFY_COMPLETE_TYPE
     );
 
     companion object {
@@ -149,8 +154,9 @@ const val SERVICE_PREPARING_TYPE = 10
 const val CONTENT_CHECK_COMPLETE_TYPE = 11
 const val CANNOT_SEND_MAIL_TYPE = 12
 const val ERROR_OCCUR_TYPE = 13
+const val CATEGORY_MODIFY_COMPLETE_TYPE = 14
 
 const val MARGIN_CONTENT_ADDED = 30
 const val MARGIN_HAVIT_COMPLETE = 40
 const val MARGIN_NORMAL = 106
-const val MARGIN_PAST_TIME = 328
+const val MARGIN_PAST_TIME = 345
