@@ -67,7 +67,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
         // 공지사항
         binding.clNotice.setOnClickListener {
-            ToastUtil.makeToast(SERVICE_PREPARING_TYPE, this)
+            ToastUtil(this).makeToast(SERVICE_PREPARING_TYPE)
         }
 
         // 약관 및 정책
