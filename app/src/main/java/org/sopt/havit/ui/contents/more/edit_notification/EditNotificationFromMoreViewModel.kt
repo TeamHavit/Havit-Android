@@ -8,9 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsMoreData
-import org.sopt.havit.data.remote.ModifyNotificationParams
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
@@ -97,12 +95,8 @@ class EditNotificationFromMoreViewModel @Inject constructor(
     fun patchNotification() {
         viewModelScope.launch {
             kotlin.runCatching {
-                // TODO 서버 404뜸
                 val time = tempNotificationTime.value?.substring(0, 16)?.replace(".", "-")
-                // Log.d(TAG, "patchNotification: ${tempNotificationTime.value?.substring(0, 16)?.replace(".","-")} / ${contentId.value}")
-                RetrofitObject.providePushApi(token).modifyNotification(
-                    ModifyNotificationParams(requireNotNull(time), requireNotNull(contentId.value))
-                )
+                // TODO 알림수정 api 아직 안나옴
             }.onSuccess {
                 Log.d(TAG, "patchNotification: onSuccess")
             }.onFailure {
