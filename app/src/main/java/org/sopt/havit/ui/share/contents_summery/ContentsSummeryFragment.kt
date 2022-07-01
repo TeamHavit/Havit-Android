@@ -1,6 +1,5 @@
 package org.sopt.havit.ui.share.contents_summery
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -61,16 +60,16 @@ class ContentsSummeryFragment : Fragment() {
         toolbarClickListener()
     }
 
-    private fun getUrl(): String {
-        val intent = activity?.intent
-        if (isEnterWithShareBtn(intent)) // 공유하기 버튼으로 진입시
-            return intent?.getStringExtra(Intent.EXTRA_TEXT).toString()
-        return intent?.getStringExtra("url").toString() // MainActivity FIB 로 진입시
-    }
-
-    private fun isEnterWithShareBtn(intent: Intent?): Boolean {
-        return (intent?.action == Intent.ACTION_SEND) && (intent.type == "text/plain")
-    }
+//    private fun getUrl(): String {
+//        val intent = activity?.intent
+//        if (isEnterWithShareBtn(intent)) // 공유하기 버튼으로 진입시
+//            return intent?.getStringExtra(Intent.EXTRA_TEXT).toString()
+//        return intent?.getStringExtra("url").toString() // MainActivity FIB 로 진입시
+//    }
+//
+//    private fun isEnterWithShareBtn(intent: Intent?): Boolean {
+//        return (intent?.action == Intent.ACTION_SEND) && (intent.type == "text/plain")
+//    }
 
     private fun getCategoryList() {
         // 선택된 카테고리 배열 생성
@@ -84,7 +83,7 @@ class ContentsSummeryFragment : Fragment() {
     }
 
     private fun setContents() {
-        val url = extractUrl(getUrl())
+        val url = viewModel.url.value ?: return
         ogData = ContentsSummeryData(ogUrl = url)
         GlobalScope.launch {
             getOgData(url)

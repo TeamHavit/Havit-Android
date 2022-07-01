@@ -23,6 +23,22 @@ class ShareActivity : AppCompatActivity() {
         binding = ActivityShareBinding.inflate(layoutInflater)
         setContentView(binding.root)
         makeSignIn()
+        setUrlOnViewModel()
+    }
+
+    private fun setUrlOnViewModel() {
+        val intent = this.intent
+        val url =
+            if (isEnterWithShareProcess(intent)) // 공유하기 버튼으로 진입시
+                intent?.getStringExtra(Intent.EXTRA_TEXT).toString()
+            else intent?.getStringExtra("url").toString() // MainActivity + 로 진입시
+        viewModel.setUrl(url)
+    }
+
+    private fun isEnterWithShareProcess(intent: Intent?): Boolean {
+        // 공유하기 버튼으로 진입하면 return true
+        // MainActivity 의 + 버튼으로 진입하면 return false
+        return (intent?.action == Intent.ACTION_SEND) && (intent.type == "text/plain")
     }
 
     override fun onResume() {
