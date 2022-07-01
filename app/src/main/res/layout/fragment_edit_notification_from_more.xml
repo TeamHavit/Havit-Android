@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="org.sopt.havit.ui.contents.more.edit_notification.EditNotificationFromMoreViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.share.notification.SetNotificationFragment">
+
+        <!-- 툴바 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/set_alarm_space"
+                android:textAppearance="@style/Header16Bold"
+                android:textColor="@color/havit_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_complete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:padding="13dp"
+                android:text="@string/complete"
+                android:textAppearance="@style/Text14Medium"
+                android:textColor="@color/havit_purple"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_tool_bar">
+
+            <TextView
+                android:id="@+id/tv_set_alarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="39dp"
+                android:text="@string/set_notification_time"
+                android:textAppearance="@style/Header22Semibold"
+                android:textColor="@color/gray_5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/rg_notification_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_set_alarm">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rbtn_1h"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/selector_noti_time_background"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/after_1h"
+                    android:textAppearance="@style/List16Semibold"
+                    android:textColor="@drawable/selector_noti_time_text"
+                    app:buttonCompat="@null"
+                    app:layout_constraintTop_toBottomOf="@id/tv_set_alarm" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rbtn_2h"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="11dp"
+                    android:background="@drawable/selector_noti_time_background"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/after_2h"
+                    android:textAppearance="@style/List16Semibold"
+                    android:textColor="@drawable/selector_noti_time_text"
+                    app:buttonCompat="@null"
+                    app:layout_constraintTop_toBottomOf="@id/rbtn_1h" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rbtn_3h"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="11dp"
+                    android:background="@drawable/selector_noti_time_background"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/after_3h"
+                    android:textAppearance="@style/List16Semibold"
+                    android:textColor="@drawable/selector_noti_time_text"
+                    app:buttonCompat="@null"
+                    app:layout_constraintTop_toBottomOf="@id/rbtn_2h" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rbtn_tomorrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="11dp"
+                    android:background="@drawable/selector_noti_time_background"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/after_24hr"
+                    android:textAppearance="@style/List16Semibold"
+                    android:textColor="@drawable/selector_noti_time_text"
+                    app:buttonCompat="@null"
+                    app:layout_constraintTop_toBottomOf="@id/rbtn_3h" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rbtn_choose_time"
+                    notiTime="@{String.valueOf(viewModel.tempNotificationTime)}"
+                    selectedIndex="@{viewModel.tempIndex}"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="11dp"
+                    android:background="@drawable/selector_noti_time_background"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:textAppearance="@style/List16Semibold"
+                    android:textColor="@drawable/selector_noti_time_text"
+                    app:buttonCompat="@null"
+                    app:layout_constraintTop_toBottomOf="@id/rbtn_tomorrow" />
+            </RadioGroup>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_delete_notification"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/rectangle_gray_0_radius_6"
+                android:paddingVertical="13dp"
+                android:text="@string/delete_notification"
+                android:textAppearance="@style/Button15Medium"
+                android:textColor="@color/havit_red"
+                app:buttonVisibility="@{Boolean.valueOf(viewModel.finalIsNotificationSet)}"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
