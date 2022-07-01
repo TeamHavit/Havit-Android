@@ -26,6 +26,8 @@ import org.sopt.havit.ui.share.ShareViewModel
 import org.sopt.havit.util.ADD_CONTENT_TYPE
 import org.sopt.havit.util.MySharedPreference
 import org.sopt.havit.util.ToastUtil
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class ContentsSummeryFragment : Fragment() {
@@ -82,7 +84,7 @@ class ContentsSummeryFragment : Fragment() {
     }
 
     private fun setContents() {
-        val url = getUrl()
+        val url = extractUrl(getUrl())
         ogData = ContentsSummeryData(ogUrl = url)
         GlobalScope.launch {
             getOgData(url)
@@ -90,6 +92,17 @@ class ContentsSummeryFragment : Fragment() {
                 ogData.ogTitle = MySharedPreference.getTitle(requireContext())
             if (ogData.ogTitle == "") ogData.ogTitle = "제목 없는 콘텐츠"
             binding.contentsSummeryData = ogData
+        }
+    }
+
+    private fun extractUrl(content: String?): String {
+        return try {
+            val regex = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"
+            val p: Pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE)
+            val m: Matcher = p.matcher(content)
+            if (m.find()) m.group() else ""
+        } catch (e: java.lang.Exception) {
+            ""
         }
     }
 
