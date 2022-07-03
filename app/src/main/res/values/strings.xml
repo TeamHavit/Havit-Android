@@ -144,7 +144,7 @@
     <string name="home_popup_description4">축하드려요! 저장한 콘텐츠를 전부 확인했어요!</string>
     <string name="category_added">&#160;카테고리가 추가되었습니다.</string>    <!-- &#160;는 띄어쓰기를 위한 문자열입니다-->
     <string name="contents_order">정렬</string>
-  수 <string name="category_create_recommend">카테고리를 생성하여 콘텐츠를 쉽게 정리해보세요.</string>
+    <string name="category_create_recommend">카테고리를 생성하여 콘텐츠를 쉽게 정리해보세요.</string>
     <string name="category_modify_complete">카테고리 수정 완료!</string>
     <!-- Dialog 작업용 -->
     <string name="cancel">취소</string>
@@ -231,4 +231,6 @@
     <string name="splash_kakao_title">카카오로 로그인</string>
     <string name="splash_un_kakao_login">HAVIT에 콘텐츠를 저장하기 위해\n로그인이 필요합니다.</string>
     <string name="move_category">카테고리 이동</string>
+    <!-- 해빗 이용 가이드 -->
+    <string name="havit_service_guide">해빗 이용 가이드</string>
 </resources>
