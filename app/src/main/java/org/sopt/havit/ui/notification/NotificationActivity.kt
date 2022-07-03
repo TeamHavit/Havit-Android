@@ -15,7 +15,9 @@ import org.sopt.havit.databinding.ActivityNotificationBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.contents.ContentsMoreFragment
 import org.sopt.havit.ui.web.WebActivity
-import org.sopt.havit.util.CustomToast
+import org.sopt.havit.util.CONTENT_CHECK_COMPLETE_TYPE
+import org.sopt.havit.util.CONTENT_DELETE_TYPE
+import org.sopt.havit.util.ToastUtil
 import java.io.Serializable
 
 @AndroidEntryPoint
@@ -148,17 +150,12 @@ class NotificationActivity :
 
     // 콘텐츠 확인 완료 토스트
     private fun setHavitToast() {
-        CustomToast.showDesignatedToast(
-            this@NotificationActivity,
-            R.layout.toast_havit_complete
-        )
+        ToastUtil(this).makeToast(CONTENT_CHECK_COMPLETE_TYPE)
     }
 
+    // 콘텐츠 삭제 토스트
     private fun setRemoveToast() {
-        CustomToast.showDesignatedToast(
-            this@NotificationActivity,
-            R.layout.toast_contents_removed
-        )
+        ToastUtil(this).makeToast(CONTENT_DELETE_TYPE)
     }
 
     private fun clickItemView() {

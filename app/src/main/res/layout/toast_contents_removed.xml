@@ -13,7 +13,7 @@
         android:paddingVertical="14dp"
         android:textAppearance="@style/Text14Medium"
         android:textColor="@color/white"
-        android:text="@string/contents_removed"
+        android:text="@string/delete_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

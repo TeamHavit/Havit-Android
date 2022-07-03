@@ -24,7 +24,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         setContentView(binding.root)
         binding.vm = webViewModel
         intent.getStringExtra("url")?.let { setUrlLaunch(it) }
-        //webViewModel.init(intent.getBooleanExtra("isSeen", false))
+        // webViewModel.init(intent.getBooleanExtra("isSeen", false))
         if (intent.getIntExtra("contentsId", -1) == -1) {
             binding.llWebBottom.isVisible = false
         }
@@ -44,8 +44,6 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         super.onResume()
         Log.d("issssss", intent.getBooleanExtra("isSeen", false).toString())
         webViewModel.init(intent.getBooleanExtra("isSeen", false))
-
-
     }
 
     private fun setUrlLaunch(url: String) {
@@ -84,7 +82,6 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
                 startActivity(intent)
 
         }*/
-
     }
 
     private fun setCustomToast() {
@@ -101,6 +98,4 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
             finish()
         }
     }
-
-
 }

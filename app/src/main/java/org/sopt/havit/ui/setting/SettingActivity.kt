@@ -14,8 +14,10 @@ import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.home.ServiceGuideActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.ui.sign.SplashWithSignActivity
-import org.sopt.havit.util.CustomToast
+import org.sopt.havit.util.CANNOT_SEND_MAIL_TYPE
 import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.util.SERVICE_PREPARING_TYPE
+import org.sopt.havit.util.ToastUtil
 
 @AndroidEntryPoint
 class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.activity_setting) {
@@ -66,7 +68,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
         // 공지사항
         binding.clNotice.setOnClickListener {
-            CustomToast.showTextToast(this, "서비스 준비중입니다")
+            ToastUtil(this).makeToast(SERVICE_PREPARING_TYPE)
         }
 
         // 약관 및 정책
@@ -110,17 +112,14 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         finish()
     }
 
-
     private fun sendMail() {
         val intent = Intent().apply {
             action = Intent.ACTION_SENDTO
             data = Uri.parse("mailto:")
             putExtra(Intent.EXTRA_EMAIL, arrayOf("havitofficial29@gmail.com"))
-            putExtra(Intent.EXTRA_SUBJECT, "박태준 멍청이")
-            putExtra(Intent.EXTRA_TEXT, "박태준바보멍청이\n".repeat(10))
         }
         if (intent.resolveActivity(this.packageManager) != null) startActivity(intent)
-        else CustomToast.showTextToast(this, "메일을 전송할 수 없습니다")
+        else ToastUtil(this).makeToast(CANNOT_SEND_MAIL_TYPE)
     }
 
     private fun setData() {

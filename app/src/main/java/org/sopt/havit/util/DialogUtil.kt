@@ -19,7 +19,9 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         _binding = DialogHavitUtilBinding.inflate(layoutInflater)
         return binding.root
@@ -111,5 +113,4 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
         const val REMOVE_NOTIFICATION = 5
         const val REMOVE_CONTENTS = 6
     }
-
 }

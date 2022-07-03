@@ -14,5 +14,4 @@ class MyPageRepositoryImpl @Inject constructor(@ApplicationContext context: Cont
     override suspend fun getUserInfo(): UserResponse.UserData {
         return RetrofitObject.provideHavitApi(pref).getUserData().data
     }
-
 }

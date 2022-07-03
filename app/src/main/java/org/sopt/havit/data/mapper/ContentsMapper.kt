@@ -13,7 +13,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class ContentsMapper @Inject constructor() {
 
-
     @Provides
     @Singleton
     fun toContents(data: ContentsSearchResponse.Data) =

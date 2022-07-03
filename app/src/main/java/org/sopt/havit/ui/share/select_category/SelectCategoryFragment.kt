@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.share
+package org.sopt.havit.ui.share.select_category
 
 import android.os.Bundle
 import android.util.Log

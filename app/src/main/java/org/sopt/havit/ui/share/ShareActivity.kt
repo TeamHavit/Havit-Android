@@ -2,6 +2,7 @@ package org.sopt.havit.ui.share
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.ActivityShareBinding
@@ -12,9 +13,10 @@ import org.sopt.havit.util.MySharedPreference
 
 @AndroidEntryPoint
 class ShareActivity : AppCompatActivity() {
+    private val viewModel: ShareViewModel by viewModels()
 
     private lateinit var binding: ActivityShareBinding
-    private var makeLogin = false
+    private var makeLogin = false /*로그인 화면으로 넘기는 로직을 1회만 실행. 해당 로직이 없으면 로그인화면이 무한 반복 됨*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +67,6 @@ class ShareActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        MySharedPreference.clearNotificationTime(this)
         MySharedPreference.clearTitle(this)
     }
 

@@ -21,27 +21,17 @@
             android:id="@+id/fl_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
+            android:layout_marginHorizontal="6dp"
             android:layout_marginTop="17dp"
-            android:layout_marginEnd="6dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.cardview.widget.CardView
+            <ImageView
+                android:id="@+id/iv_thumbnail"
+                imageDefaultGrid="@{content.image}"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="4dp"
-                app:cardElevation="0dp">
-
-                <ImageView
-                    android:id="@+id/iv_thumbnail"
-                    imageDefaultGrid="@{content.image}"
-                    android:layout_width="match_parent"
-                    android:layout_height="109dp"
-                    android:scaleType="centerCrop"
-                    tools:src="@drawable/img_contents_dummy_2" />
-            </androidx.cardview.widget.CardView>
+                android:layout_height="109dp" />
 
             <ImageView
                 android:id="@+id/iv_alarm"
@@ -52,8 +42,13 @@
         </FrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="210dp"
+            app:layout_constraintBottom_toTopOf="@+id/iv_havit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -68,6 +63,7 @@
             android:textAppearance="@style/Medium15"
             android:textColor="@color/havit_gray"
             app:layout_constraintEnd_toEndOf="@+id/fl_image"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/fl_image"
             app:layout_constraintTop_toBottomOf="@+id/fl_image"
             tools:text="슈슈슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉" />
@@ -91,7 +87,7 @@
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:text="@{content.createdAt}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
@@ -104,8 +100,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="1dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="13dp"
+            android:layout_marginTop="5dp"
             android:ellipsize="end"
             android:ems="10"
             android:maxLines="1"
@@ -119,50 +114,42 @@
 
         <TextView
             android:id="@+id/tv_alarm"
+            notificationTimeOnContentsView="@{content.notificationTime}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="16dp"
-            android:text="@{content.notificationTime}"
             android:textAppearance="@style/Semibold9"
             android:textColor="@color/havit_purple"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_date"
             app:layout_constraintTop_toBottomOf="@+id/tv_date"
-            tools:text="2021. 11. 17 오전 12:30 " />
-
-        <TextView
-            android:id="@+id/tv_alarm_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/contents_alarm_plan"
-            android:textAppearance="@style/Semibold9"
-            android:textColor="@color/havit_purple"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_alarm"
-            app:layout_constraintStart_toEndOf="@+id/tv_alarm"
-            app:layout_constraintTop_toTopOf="@+id/tv_alarm" />
+            tools:text="2021. 11. 17 오전 12:30 알림 예정" />
 
         <ImageView
             android:id="@+id/iv_havit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginTop="100dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="4dp"
             android:src="@drawable/ic_contents_unread"
             android:tag="unseen"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/fl_image" />
+            app:layout_constraintEnd_toEndOf="@+id/iv_setting"
+            app:layout_constraintTop_toBottomOf="@id/fl_image" />
 
         <ImageView
             android:id="@+id/iv_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="8dp"
+            android:paddingStart="13dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp"
             android:src="@drawable/ic_more"
-            app:layout_constraintEnd_toEndOf="@+id/fl_image"
-            app:layout_constraintTop_toBottomOf="@+id/tv_description" />
+            app:layout_constraintBottom_toBottomOf="@id/tv_url"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_url" />
 
         <View
             android:layout_width="0dp"

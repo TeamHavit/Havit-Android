@@ -15,7 +15,9 @@ import org.sopt.havit.ui.contents.ContentsMoreFragment
 import org.sopt.havit.ui.home.HomeFragment
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.web.WebActivity
-import org.sopt.havit.util.CustomToast
+import org.sopt.havit.util.CONTENT_CHECK_COMPLETE_TYPE
+import org.sopt.havit.util.CONTENT_DELETE_TYPE
+import org.sopt.havit.util.ToastUtil
 import java.io.Serializable
 
 @AndroidEntryPoint
@@ -52,12 +54,10 @@ class ContentsSimpleActivity :
             override fun onHavitClick(v: ImageView, position: Int) {
                 with(contentsAdapter) {
                     // 보지 않은 콘텐츠의 경우 콘텐츠 봤다는 토스트 띄움
-                    if (!contentsList[position].isSeen) {
-                        CustomToast.showDesignatedToast(
-                            this@ContentsSimpleActivity,
-                            R.layout.toast_havit_complete
+                    if (!contentsList[position].isSeen)
+                        ToastUtil(this@ContentsSimpleActivity).makeToast(
+                            CONTENT_CHECK_COMPLETE_TYPE
                         )
-                    }
 
                     contentsList[position].isSeen = !contentsList[position].isSeen
                     contentsViewModel.setIsSeen(contentsList[position].id)
@@ -107,10 +107,7 @@ class ContentsSimpleActivity :
     }
 
     private fun setRemoveToast() {
-        CustomToast.showDesignatedToast(
-            this@ContentsSimpleActivity,
-            R.layout.toast_contents_removed
-        )
+        ToastUtil(this).makeToast(CONTENT_DELETE_TYPE)
     }
 
     // ContentsMoreFragment에 보낼 bundle 생성

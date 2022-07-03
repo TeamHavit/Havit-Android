@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/setNotificationFragment"
-        android:name="org.sopt.havit.ui.share.SetNotificationFragment"
+        android:name="org.sopt.havit.ui.share.notification.SetNotificationFragment"
         android:label="fragment_set_notification"
         tools:layout="@layout/fragment_set_notification" />
     <fragment
         android:id="@+id/enterCategoryTitleFragment"
-        android:name="org.sopt.havit.ui.share.EnterCategoryTitleFragment"
+        android:name="org.sopt.havit.ui.share.add_category.EnterCategoryTitleFragment"
         android:label="fragment_enter_category_title"
         tools:layout="@layout/fragment_enter_category_title">
         <action
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/chooseIconFragment"
-        android:name="org.sopt.havit.ui.share.ChooseIconFragment"
+        android:name="org.sopt.havit.ui.share.add_category.ChooseIconFragment"
         android:label="fragment_choose_icon"
         tools:layout="@layout/fragment_choose_icon">
         <argument
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/selectCategoryFragment"
-        android:name="org.sopt.havit.ui.share.SelectCategoryFragment"
+        android:name="org.sopt.havit.ui.share.select_category.SelectCategoryFragment"
         android:label="fragment_select_category"
         tools:layout="@layout/fragment_select_category">
         <action
@@ -56,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/contentsSummeryFragment"
-        android:name="org.sopt.havit.ui.share.ContentsSummeryFragment"
+        android:name="org.sopt.havit.ui.share.contents_summery.ContentsSummeryFragment"
         android:label="fragment_contents_summery"
         tools:layout="@layout/fragment_contents_summery">
         <argument
@@ -76,7 +76,7 @@
     </fragment>
     <fragment
         android:id="@+id/editTitleFragment"
-        android:name="org.sopt.havit.ui.share.EditTitleFragment"
+        android:name="org.sopt.havit.ui.share.edit_title.EditTitleFragment"
         android:label="fragment_edit_title"
         tools:layout="@layout/fragment_edit_title">
         <argument

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/v_top"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:background="@color/white_gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_network_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="119dp"
+            android:src="@drawable/img_network_error"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v_top" />
+
+        <TextView
+            android:id="@+id/tv_error_occur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:text="@string/error_occur"
+            android:textAppearance="@style/Header16Bold"
+            android:textColor="@color/havit_gray"
+            app:layout_constraintEnd_toEndOf="@+id/iv_network_error"
+            app:layout_constraintStart_toStartOf="@+id/iv_network_error"
+            app:layout_constraintTop_toBottomOf="@+id/iv_network_error" />
+
+        <TextView
+            android:id="@+id/tv_error_solution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/error_solution"
+            android:textAppearance="@style/Sub13Regular"
+            android:textColor="@color/gray_3"
+            app:layout_constraintEnd_toEndOf="@+id/tv_error_occur"
+            app:layout_constraintStart_toStartOf="@+id/tv_error_occur"
+            app:layout_constraintTop_toBottomOf="@+id/tv_error_occur" />
+
+        <ImageView
+            android:id="@+id/iv_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:padding="20dp"
+            android:src="@drawable/ic_refresh"
+            app:layout_constraintEnd_toEndOf="@+id/tv_error_solution"
+            app:layout_constraintStart_toStartOf="@+id/tv_error_solution"
+            app:layout_constraintTop_toBottomOf="@+id/tv_error_solution" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

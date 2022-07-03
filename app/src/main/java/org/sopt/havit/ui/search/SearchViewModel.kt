@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.sopt.havit.domain.entity.Contents
@@ -23,13 +22,11 @@ class SearchViewModel @Inject constructor(
     private val _searchResult = MutableLiveData<List<Contents>>()
     var searchResult: LiveData<List<Contents>> = _searchResult
 
-
     var searchTv = MutableLiveData(false)
     var isSeenCheck = MutableLiveData(false)
 
     private var _isRead = MutableLiveData<Boolean>()
     var isRead: LiveData<Boolean> = _isRead
-
 
     fun getSearchContents(keyWord: String) {
         viewModelScope.launch {
@@ -37,7 +34,6 @@ class SearchViewModel @Inject constructor(
                 _searchResult.postValue(it)
             }
         }
-
     }
 
     fun getSearchContentsInCategories(categoryId: String, keyWord: String) {
@@ -47,7 +43,6 @@ class SearchViewModel @Inject constructor(
                     _searchResult.postValue(it)
                 }
             } catch (e: Exception) {
-
             }
         }
     }
@@ -58,7 +53,6 @@ class SearchViewModel @Inject constructor(
                 val response = contentsRepository.isSeen(contentsId)
                 isSeenCheck.postValue(response.success)
             } catch (e: Exception) {
-
             }
         }
     }
@@ -66,6 +60,4 @@ class SearchViewModel @Inject constructor(
     fun setHavitToast(havit: Boolean) {
         _isRead.value = havit
     }
-
-
 }

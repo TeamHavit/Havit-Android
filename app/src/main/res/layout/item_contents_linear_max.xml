@@ -21,27 +21,17 @@
             android:id="@+id/fl_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
+            android:layout_marginHorizontal="6dp"
             android:layout_marginTop="17dp"
-            android:layout_marginEnd="6dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.cardview.widget.CardView
+            <ImageView
+                android:id="@+id/iv_thumbnail"
+                imageDefaultLinearMax="@{content.image}"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="4dp"
-                app:cardElevation="0dp">
-
-                <ImageView
-                    android:id="@+id/iv_thumbnail"
-                    imageDefaultLinearMax="@{content.image}"
-                    android:layout_width="match_parent"
-                    android:layout_height="184dp"
-                    android:scaleType="centerCrop"
-                    tools:src="@drawable/img_contents_dummy_3" />
-            </androidx.cardview.widget.CardView>
+                android:layout_height="184dp" />
 
             <ImageView
                 android:id="@+id/iv_alarm"
@@ -134,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="12dp"
-            android:text="@{content.notificationTime}"
+            notificationTimeOnContentsView="@{content.notificationTime}"
             android:textAppearance="@style/Semibold9"
             android:textColor="@color/havit_purple"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -142,37 +132,29 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_date"
             tools:text="2021. 11. 17 오전 12:30 " />
 
-        <TextView
-            android:id="@+id/tv_alarm_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/contents_alarm_plan"
-            android:textAppearance="@style/Semibold9"
-            android:textColor="@color/havit_purple"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_alarm"
-            app:layout_constraintStart_toEndOf="@+id/tv_alarm"
-            app:layout_constraintTop_toTopOf="@+id/tv_alarm" />
-
         <ImageView
             android:id="@+id/iv_havit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="3dp"
             android:src="@drawable/ic_contents_unread"
             android:tag="unseen"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/fl_image" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
             android:id="@+id/iv_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="13dp"
-            android:layout_marginTop="4dp"
+            android:paddingStart="26dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="29dp"
             android:src="@drawable/ic_more"
-            app:layout_constraintEnd_toEndOf="@+id/fl_image"
+            app:layout_constraintBottom_toTopOf="@+id/iv_havit"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fl_image" />
 
         <View
