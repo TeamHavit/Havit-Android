@@ -2,11 +2,19 @@ package org.sopt.havit.ui.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import org.sopt.havit.R
+import org.sopt.havit.databinding.ActivityServiceGuideBinding
 
 class ServiceGuideActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityServiceGuideBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_service_guide)
+        binding = ActivityServiceGuideBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setListener()
+    }
+
+    private fun setListener() {
+        binding.ivBack.setOnClickListener { finish() }
     }
 }
