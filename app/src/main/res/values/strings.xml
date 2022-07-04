@@ -231,6 +231,9 @@
 
     <!--toast-->
     <string name="cannot_set_notification_time_on_past">과거 시간으로는 알림 설정을 할 수 없습니다</string>
+
+    <string name="category_has_been_deleted">카테고리가 삭제되었습니다</string>
+
     <string name="delete_content">"콘텐츠가 삭제되었습니다"</string>
     <string name="delete_category">카테고리가 삭제되었습니다</string>
     <string name="alarm_set">알림이 설정되었습니다</string>
@@ -241,6 +244,7 @@
     <!-- error -->
     <string name="error_occur">문제가 발생했습니다</string>
     <string name="error_solution">문제가 지속되면 고객센터로 문의주세요</string>
+    <string name="error_occur_try_again">문제가 발생했습니다. 잠시 후 다시 시도해주세요.</string>
     <string name="delete_notification">알림 삭제</string>
     <string name="service_preparing">서비스 준비중입니다</string>
     <string name="cannot_send_mail">메일을 전송할 수 없습니다</string>
