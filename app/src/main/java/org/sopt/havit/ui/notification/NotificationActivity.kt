@@ -180,13 +180,13 @@ class NotificationActivity :
 
     private fun dataObserve() {
         with(notificationViewModel) {
-            // 로딩 중엔 Empty뷰 보이기
-            contentLoadState.observe(this@NotificationActivity) { isLoading ->
-                if (isLoading) {
-                    binding.rvNotification.visibility = View.GONE
-                    binding.clAlarmEmpty.visibility = View.GONE
-                }
-            }
+//            // 로딩 중엔 Empty뷰 보이기
+//            contentLoadState.observe(this@NotificationActivity) { isLoading ->
+//                if (isLoading) {
+//                    binding.rvNotification.visibility = View.GONE
+//                    binding.clAlarmEmpty.visibility = View.GONE
+//                }
+//            }
             // 데이터 불러오기
             contentsList.observe(this@NotificationActivity) { data ->
                 setContent(data)
