@@ -69,6 +69,8 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
                 override fun onSettingClick(v: View, data: Contents, pos: Int) {
                     val removeItem: (Int) -> Unit = {
                         searchContentsAdapter.notifyItemRemoved(it)
+                        searchContentsAdapter.searchContents.removeAt(it)
+                        //searchViewModel.searchResultSize.value -= 1
                     }
                     val dataMore = ContentsMoreData(
                         data.id,
@@ -144,6 +146,13 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
     }
 
     private fun observers() {
+        searchViewModel.searchReload.observe(this) {
+            if (categoryId.isEmpty()) searchViewModel.getSearchContents(binding.etSearch.text.toString())
+            else searchViewModel.getSearchContentsInCategories(
+                categoryId,
+                binding.etSearch.text.toString()
+            )
+        }
         searchViewModel.searchResult.observe(this) {
             if (!it.isNullOrEmpty()) {
                 searchContentsAdapter.setItem(it)

@@ -22,8 +22,17 @@ class SearchViewModel @Inject constructor(
     private val _searchResult = MutableLiveData<List<Contents>>()
     var searchResult: LiveData<List<Contents>> = _searchResult
 
+    var searchResultSize = MutableLiveData(0)
+
+    private var _searchReload = MutableLiveData<Boolean>(false)
+    var searchReload: LiveData<Boolean> = _searchReload
+
+    fun setReload() {
+        _searchReload.value = !(_searchReload.value)!!
+    }
+
     var searchTv = MutableLiveData(false)
-    var isSeenCheck = MutableLiveData(false)
+    private var isSeenCheck = MutableLiveData(false)
 
     private var _isRead = MutableLiveData<Boolean>()
     var isRead: LiveData<Boolean> = _isRead

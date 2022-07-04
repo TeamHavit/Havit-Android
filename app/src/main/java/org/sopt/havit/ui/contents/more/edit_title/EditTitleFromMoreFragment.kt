@@ -6,6 +6,7 @@ import android.os.Parcelable
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,6 +15,7 @@ import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentEditTitleFromMoreBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.CONTENTS_DATA
+import org.sopt.havit.ui.search.SearchViewModel
 import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.OnBackPressedHandler
@@ -23,6 +25,7 @@ class EditTitleFromMoreFragment :
     BaseBindingFragment<FragmentEditTitleFromMoreBinding>(R.layout.fragment_edit_title_from_more),
     OnBackPressedHandler {
     private val viewModel: EditTitleFromMoreViewModel by viewModels()
+    private val searchViewModel: SearchViewModel by activityViewModels()
     private lateinit var bottomSheetDialogFragment: BottomSheetDialogFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -100,5 +103,6 @@ class EditTitleFromMoreFragment :
 
     private fun dismissBottomSheet() {
         bottomSheetDialogFragment.dismiss()
+        searchViewModel.setReload()
     }
 }
