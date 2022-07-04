@@ -43,7 +43,6 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
         KeyBoardUtil.openKeyBoard(this, binding.etSearch)
     }
 
-
     private fun setAdapter() {
         binding.rvSearch.adapter = searchContentsAdapter
     }
@@ -120,10 +119,8 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
                         searchViewModel.setHavitToast(true)
                     }
                 }
-
             })
         }
-
     }
 
     // ContentsMoreFragment에 보낼 bundle 생성
@@ -161,5 +158,4 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
             }
         }
     }
-
 }

@@ -21,8 +21,8 @@ class ContentsSimpleRvAdapter :
     inner class ContentsSimpleViewHolder(private val binding: ItemContentsSimpleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsSimpleResponse.ContentsSimpleData) {
-            changeTimeFormat(data)      // 시간 형식 변경
-            setIvHavit(data.isSeen)     // 해빗 버튼 초기 설정
+            changeTimeFormat(data) // 시간 형식 변경
+            setIvHavit(data.isSeen) // 해빗 버튼 초기 설정
             binding.content = data
         }
 
@@ -35,9 +35,9 @@ class ContentsSimpleRvAdapter :
                 val hour = time.substring(11 until 13)
                 val minute = time.substring(14 until 16)
                 if (hour < "12") {
-                    data.notificationTime = "$date 오전 ${hour}:${minute} "
+                    data.notificationTime = "$date 오전 $hour:$minute "
                 } else {
-                    data.notificationTime = "$date 오후 ${hour}:${minute} "
+                    data.notificationTime = "$date 오후 $hour:$minute "
                 }
             }
 
@@ -90,7 +90,7 @@ class ContentsSimpleRvAdapter :
         }
     }
 
-    //아이템 전체 클릭 리스터 인터페이스
+    // 아이템 전체 클릭 리스터 인터페이스
     interface OnItemClickListener {
         fun onWebClick(v: View, position: Int)
     }
@@ -150,7 +150,9 @@ class ContentsSimpleRvAdapter :
         override fun getNewListSize(): Int = newData.size
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-            ((oldData[oldItemPosition].id == newData[newItemPosition].id) &&
-                    (oldData[oldItemPosition].title == newData[newItemPosition].title))
+            (
+                (oldData[oldItemPosition].id == newData[newItemPosition].id) &&
+                    (oldData[oldItemPosition].title == newData[newItemPosition].title)
+                )
     }
 }

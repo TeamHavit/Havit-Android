@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.share
+package org.sopt.havit.ui.share.add_category
 
 import android.view.LayoutInflater
 import android.view.View

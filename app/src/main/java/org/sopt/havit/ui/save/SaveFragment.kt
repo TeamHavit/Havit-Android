@@ -3,11 +3,13 @@ package org.sopt.havit.ui.save
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -120,6 +122,10 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
             saveViewModel.setUrlData(clipData!!)
             binding.etSaveUrl.setText(clipData)
             binding.etSaveUrl.setSelection(clipData!!.length)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                clipboard.clearPrimaryClip()
+            }
+            saveViewModel.setClipDataClear()
         }
         binding.btnSaveClose.setOnClickListener {
             hideKeyBoard()

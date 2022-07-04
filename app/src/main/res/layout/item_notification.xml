@@ -24,23 +24,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="@{content.notificationTime + ` `}"
+            notificationTimeOnContentsView="@{content.notificationTime}"
             android:textAppearance="@style/Text12Semibold"
             android:textColor="@{option==`after`? @color/gray_3 : @color/purple_main, default=@color/purple_main}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="2021.11.17 오전 12:30 " />
-
-        <TextView
-            android:id="@+id/tv_notification_time_option"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{option==`after`? @string/notification_complete : @string/notification_will_alarm, default=@string/notification_will_alarm}"
-            android:textAppearance="@style/Text12Semibold"
-            android:textColor="@{option==`after`? @color/gray_3 : @color/purple_main, default=@color/purple_main}"
-            app:layout_constraintBottom_toBottomOf="@id/tv_notification_time"
-            app:layout_constraintStart_toEndOf="@id/tv_notification_time"
-            app:layout_constraintTop_toTopOf="@id/tv_notification_time" />
 
         <FrameLayout
             android:id="@+id/fl_image"

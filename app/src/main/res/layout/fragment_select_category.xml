@@ -16,7 +16,7 @@
         android:id="@+id/selectCategoryFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.share.SelectCategoryFragment">
+        tools:context=".ui.share.select_category.SelectCategoryFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_tool_bar"

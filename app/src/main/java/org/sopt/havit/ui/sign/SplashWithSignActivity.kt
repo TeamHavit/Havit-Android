@@ -117,6 +117,7 @@ class SplashWithSignActivity :
     private fun startSignActivity() {
         val intent = Intent(this, SignActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun setLogin() {

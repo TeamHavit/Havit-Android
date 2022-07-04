@@ -9,13 +9,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentDialogContentsFilterBinding
 
-class DialogContentsFilterFragment(private var contentsFilter: String) : BottomSheetDialogFragment() {
+class DialogContentsFilterFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentDialogContentsFilterBinding? = null
     private val binding get() = _binding ?: error("Binding이 초기화 되지 않았습니다.")
     private lateinit var filterClickListener: OnFilterClickListener
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil.inflate(
@@ -24,7 +25,8 @@ class DialogContentsFilterFragment(private var contentsFilter: String) : BottomS
             container,
             false
         )
-        binding.filter = contentsFilter
+
+        binding.filter = requireArguments().getString(CONTENTS_FILTER)
 
         clickFilter()
         return binding.root
@@ -40,13 +42,15 @@ class DialogContentsFilterFragment(private var contentsFilter: String) : BottomS
         binding.rgContainer.setOnCheckedChangeListener { _, checkedId ->
             // checkedId가 기존 filter와 다른 경우 이벤트 실행
             // 조건문을 넣어주지 않으면 기존 checkedId = -1 에서 삼항연산자를 통해 바뀌기 때문에 show()와 동시에 함수가 실행된다
-            if (binding.filter != (when (checkedId) {
+            if (binding.filter != (
+                when (checkedId) {
                     R.id.rb_recent -> "created_at"
                     R.id.rb_past -> "reverse"
                     else -> "seen_at"
-                }.also { contentsFilter = it })
+                }.also { binding.filter = it }
+                )
             ) {
-                filterClickListener.onClick(contentsFilter) // 함수 실행
+                filterClickListener.onClick(requireNotNull(binding.filter)) // 함수 실행
             }
         }
     }
@@ -58,5 +62,9 @@ class DialogContentsFilterFragment(private var contentsFilter: String) : BottomS
 
     fun setFilterClickListener(onFilterClickListener: OnFilterClickListener) {
         this.filterClickListener = onFilterClickListener
+    }
+
+    companion object {
+        const val CONTENTS_FILTER = "contentsFilter"
     }
 }

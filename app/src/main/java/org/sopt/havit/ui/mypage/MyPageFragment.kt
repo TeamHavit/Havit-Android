@@ -18,7 +18,6 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
 
     private val myPageViewModel: MyPageViewModel by viewModels()
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,19 +45,24 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
                 Intent(
                     requireContext(),
                     ContentsFromMyPageActivity::class.java
-                ).apply { putExtra("PageId", 1) })
+                ).apply { putExtra("PageId", 1) }
+            )
         }
         binding.clSavedContents.setOnClickListener {
-            startActivity(Intent(requireContext(), ContentsActivity::class.java).apply {
-                putExtra("categoryId", ALL_CONTENTS_ID)
-                putExtra("categoryName", ALL_CONTENTS_NAME)
-            })
+            startActivity(
+                Intent(requireContext(), ContentsActivity::class.java).apply {
+                    putExtra("categoryId", ALL_CONTENTS_ID)
+                    putExtra("categoryName", ALL_CONTENTS_NAME)
+                }
+            )
         }
         binding.clSeenContents.setOnClickListener {
-            startActivity(Intent(requireContext(), ContentsActivity::class.java).apply {
-                putExtra("categoryId", SEEN_CONTENTS_ID)
-                putExtra("categoryName", SEEN_CONTENTS_NAME)
-            })
+            startActivity(
+                Intent(requireContext(), ContentsActivity::class.java).apply {
+                    putExtra("categoryId", SEEN_CONTENTS_ID)
+                    putExtra("categoryName", SEEN_CONTENTS_NAME)
+                }
+            )
         }
         binding.ibMyPageSetting.setOnClickListener {
             startActivity(Intent(requireContext(), SettingActivity::class.java))
@@ -71,6 +75,4 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
         const val ALL_CONTENTS_NAME = "모든 콘텐츠"
         const val SEEN_CONTENTS_NAME = "확인한 콘텐츠"
     }
-
-
 }

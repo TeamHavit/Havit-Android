@@ -3,20 +3,28 @@ package org.sopt.havit.ui.setting
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.viewModels
+import com.kakao.sdk.user.UserApiClient
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.BuildConfig
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
-import org.sopt.havit.util.CustomToast
+import org.sopt.havit.ui.sign.SplashWithSignActivity
+import org.sopt.havit.util.CANNOT_SEND_MAIL_TYPE
+import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.util.SERVICE_PREPARING_TYPE
+import org.sopt.havit.util.ToastUtil
 
+@AndroidEntryPoint
 class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.activity_setting) {
-    private val settingViewModel: SettingViewModel by lazy { SettingViewModel(this) }
+    private val settingViewModel: SettingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         binding.vmSetting = settingViewModel
         setVersion()
         setClickListener()
@@ -38,7 +46,9 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
         // 프로필 수정
         binding.ivEdit.setOnClickListener {
-            startActivity(Intent(this, SettingModifyActivity::class.java))
+            val intent = Intent(this, SettingModifyNicknameActivity::class.java)
+            intent.putExtra(nickname, settingViewModel.user.value?.nickname)
+            startActivity(intent)
         }
 
         // 알림 설정
@@ -57,7 +67,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
         // 공지사항
         binding.clNotice.setOnClickListener {
-            CustomToast.showTextToast(this, "서비스 준비중입니다")
+            ToastUtil(this).makeToast(SERVICE_PREPARING_TYPE)
         }
 
         // 약관 및 정책
@@ -79,9 +89,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         binding.tvCustomerCenter.setOnClickListener { sendMail() }
 
         // 로그아웃
-        binding.tvLogout.setOnClickListener {
-            // 나중에 추가
-        }
+        binding.tvLogout.setOnClickListener { logout() }
 
         // 회원 탈퇴
         binding.clUnregister.setOnClickListener {
@@ -89,19 +97,35 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         }
     }
 
+    private fun logout() {
+        settingViewModel.removeHavitAuthToken()
+        MySharedPreference.clearXAuthToken(this)
+        UserApiClient.instance.logout { error ->
+            if (error != null) {
+                Log.e("SETTING", "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+            } else {
+                Log.i("SETTING", "로그아웃 성공. SDK에서 토큰 삭제됨")
+            }
+        }
+        startActivity(Intent(this, SplashWithSignActivity::class.java))
+        finish()
+    }
+
     private fun sendMail() {
         val intent = Intent().apply {
             action = Intent.ACTION_SENDTO
             data = Uri.parse("mailto:")
             putExtra(Intent.EXTRA_EMAIL, arrayOf("havitofficial29@gmail.com"))
-            putExtra(Intent.EXTRA_SUBJECT, "박태준 멍청이")
-            putExtra(Intent.EXTRA_TEXT, "박태준바보멍청이\n".repeat(10))
         }
         if (intent.resolveActivity(this.packageManager) != null) startActivity(intent)
-        else CustomToast.showTextToast(this, "메일을 전송할 수 없습니다")
+        else ToastUtil(this).makeToast(CANNOT_SEND_MAIL_TYPE)
     }
 
     private fun setData() {
         settingViewModel.requestUserInfo()
+    }
+
+    companion object {
+        const val nickname = "nickname"
     }
 }

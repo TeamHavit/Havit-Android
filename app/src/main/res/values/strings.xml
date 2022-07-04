@@ -8,6 +8,7 @@
     <string name="category_entire_category">전체 카테고리</string>
     <string name="modify">수정</string>
     <string name="category_entire">전체 </string>
+    <string name="move_category">카테고리 이동</string>
     <string name="category_category_modify">카테고리 수정</string>
     <string name="category_complete">완료</string>
     <string name="category_notice">카테고리를 누른 뒤 위아래로 드래그하여 순서를 바꿀 수 있습니다</string>
@@ -129,7 +130,6 @@
     <string name="category_length_limit_space">&#160;/ 15</string>
     <string name="category_length_count_zero">0</string>
     <string name="duplicate_category">중복된 카테고리 이름이 존재합니다</string>
-    <string name="max_category">카테고리 최대 개수를 초과했습니다.</string>
     <string name="url_unavailable">입력한 URL 링크 정보를 찾을 수 없습니다.</string>
     <string name="contents_havit_complete">콘텐츠 확인 완료 !</string>
     <string name="notification_will_alarm">알림 예정</string>
@@ -141,10 +141,8 @@
     <string name="home_popup_description2">밀린 콘텐츠를 확인해 보는 건 어떨까요?</string>
     <string name="home_popup_description3">저장한 콘텐츠가 밀리지 않도록 조심하세요!</string>
     <string name="home_popup_description4">축하드려요! 저장한 콘텐츠를 전부 확인했어요!</string>
-    <string name="category_added">&#160;카테고리가 추가되었습니다.</string>    <!-- &#160;는 띄어쓰기를 위한 문자열입니다-->
     <string name="contents_order">정렬</string>
     <string name="category_create_recommend">카테고리를 생성하여 콘텐츠를 쉽게 정리해보세요.</string>
-    <string name="category_modify_complete">카테고리 수정 완료!</string>
     <!-- Dialog 작업용 -->
     <string name="cancel">취소</string>
     <string name="exit">나가기</string>
@@ -167,6 +165,7 @@
     <string name="url_hint">https://www.example.com/</string>
     <string name="ic_alarm">ic_alarm</string>
     <string name="select_complete">선택 완료</string>
+    <string name="noti_divider">ㅣ</string>
     <!-- 환경설정뷰 -->
     <string name="setting">설정</string>
     <string name="setting_nickname_end">님</string>
@@ -189,9 +188,14 @@
     <string name="saved_category">저장된 카테고리</string>
     <string name="seen_contents">확인한 콘텐츠</string>
     <string name="unseen_contents">확인하지 않은 콘텐츠</string>
-    <string name="unregister_caution">탈퇴 회원 유의사항</string>
+    <string name="unregister_caution">회원 탈퇴 유의사항</string>
+    <string name="unregister_caution_1">&#160;&#160;• 탈퇴 시 HAVIT에 저장한 모든 콘텐츠와 카테고리가 삭제됩니다.</string>
+    <string name="unregister_caution_2">&#160;&#160;• 탈퇴 시 삭제된 모든 정보는 다시 복구할 수 없으며,\n&#160;&#160;&#160;&#160;&#160;재가입 경우에도 복원되지 않습니다.</string>
     <string name="unregister_caution_check">회원 탈퇴에 관한 모든 내용을 숙지했습니다.</string>
     <string name="unregister_short">탈퇴</string>
+    <string name="unregister_complete">회원 탈퇴 완료</string>
+    <string name="check">확인</string>
+    <string name="unregister_complete_description">이용해주셔서 감사합니다.\nHAVIT은 언제나 당신의 성장을 응원합니다.</string>
     <!-- 환경설정 - 프로필 수정 -->
     <string name="nickname">닉네임</string>
     <string name="edit_nickname">&#160;사용하실 닉네임을 입력하세요</string>
@@ -224,5 +228,21 @@
     <string name="splash_another_account"><u>다른 카카오 계정으로 로그인</u></string>
     <string name="splash_kakao_title">카카오로 로그인</string>
     <string name="splash_un_kakao_login">HAVIT에 콘텐츠를 저장하기 위해\n로그인이 필요합니다.</string>
-    <string name="move_category">카테고리 이동</string>
+
+    <!--toast-->
+    <string name="cannot_set_notification_time_on_past">과거 시간으로는 알림 설정을 할 수 없습니다</string>
+    <string name="delete_content">"콘텐츠가 삭제되었습니다"</string>
+    <string name="delete_category">카테고리가 삭제되었습니다</string>
+    <string name="alarm_set">알림이 설정되었습니다</string>
+    <string name="max_category">카테고리 최대 개수를 초과했습니다.</string>
+    <string name="category_added">&#160;카테고리가 추가되었습니다.</string>    <!-- &#160;는 띄어쓰기를 위한 문자열입니다-->
+    <string name="category_modify_complete">카테고리 수정 완료!</string>
+
+    <!-- error -->
+    <string name="error_occur">문제가 발생했습니다</string>
+    <string name="error_solution">문제가 지속되면 고객센터로 문의주세요</string>
+    <string name="delete_notification">알림 삭제</string>
+    <string name="service_preparing">서비스 준비중입니다</string>
+    <string name="cannot_send_mail">메일을 전송할 수 없습니다</string>
 </resources>
+

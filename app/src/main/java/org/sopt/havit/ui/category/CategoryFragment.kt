@@ -11,7 +11,8 @@ import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentCategoryBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsActivity
-import org.sopt.havit.util.CustomToast
+import org.sopt.havit.util.MAX_CATEGORY_NUM_EXCEEDED_TOP_TYPE
+import org.sopt.havit.util.ToastUtil
 
 class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.fragment_category) {
     private var _categoryAdapter: CategoryAdapter? = null
@@ -89,7 +90,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
             val intent = Intent(activity, CategoryOrderModifyActivity::class.java)
             val categoryItemList: ArrayList<CategoryResponse.AllCategoryData> =
                 categoryAdapter.categoryList as ArrayList<CategoryResponse.AllCategoryData>
-            intent.putParcelableArrayListExtra("categoryItemList", categoryItemList)
+            intent.putParcelableArrayListExtra(CATEGORY_ITEM_LIST, categoryItemList)
             startActivity(intent)
         }
     }
@@ -125,15 +126,9 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
 
     private fun addCategory() {
         binding.clAdd.setOnClickListener {
-            if (categoryViewModel.categoryCount.value == CATEGORY_MAX) {
-                CustomToast.showTextToast(
-                    requireContext(),
-                    resources.getString(R.string.max_category)
-                )
-            } else {
-                val intent = Intent(requireActivity(), CategoryAddActivity::class.java)
-                startActivity(intent)
-            }
+            if (categoryViewModel.categoryCount.value == CATEGORY_MAX)
+                ToastUtil(requireContext()).makeToast(MAX_CATEGORY_NUM_EXCEEDED_TOP_TYPE)
+            else startActivity(Intent(requireActivity(), CategoryAddActivity::class.java))
         }
     }
 
@@ -143,5 +138,6 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         const val CATEGORY_NAME = "categoryName"
         const val CATEGORY_POSITION = "position"
         const val CATEGORY_IMAGE_ID = "imageId"
+        const val CATEGORY_ITEM_LIST = "categoryItemList"
     }
 }

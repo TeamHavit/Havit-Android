@@ -55,7 +55,6 @@ interface HavitApi {
     @GET("content/unseen")
     suspend fun getContentsUnseen(): ContentsSimpleResponse
 
-
     @DELETE("category/{categoryId}")
     suspend fun deleteCategory(
         @Path("categoryId") categoryId: Int
@@ -95,6 +94,11 @@ interface HavitApi {
         @Body body: ModifyTitleParams
     ): BasicResponse
 
+    @PATCH("user")
+    suspend fun modifyUserNickname(
+        @Body body: NewNicknameRequest
+    ): BasicResponse
+
     @POST("auth/signin")
     suspend fun postSignIn(
         @Body body: SignInRequest
@@ -114,4 +118,7 @@ interface HavitApi {
     suspend fun modifyContentCategory(
         @Body body: ModifyContentCategoryParams
     ): BasicResponse
+
+    @DELETE("auth/user")
+    suspend fun deleteUser()
 }

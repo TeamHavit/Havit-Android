@@ -3,15 +3,21 @@ package org.sopt.havit.ui.category
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.widget.addTextChangedListener
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_IMAGE_ID
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
 import org.sopt.havit.ui.contents.ContentsActivity
-import org.sopt.havit.ui.share.IconAdapter
-import org.sopt.havit.ui.share.IconAdapter.Companion.clickedPosition
-import org.sopt.havit.util.CustomToast
+import org.sopt.havit.ui.share.add_category.IconAdapter
+import org.sopt.havit.ui.share.add_category.IconAdapter.Companion.clickedPosition
+import org.sopt.havit.util.CATEGORY_MODIFY_COMPLETE_TYPE
 import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.ToastUtil
 
+@AndroidEntryPoint
 class CategoryContentModifyActivity :
     BaseBindingActivity<ActivityCategoryContentModifyBinding>(R.layout.activity_category_content_modify) {
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
@@ -41,15 +47,15 @@ class CategoryContentModifyActivity :
 
     private fun setCategoryIntentData() {
         binding.categoryTitle =
-            intent.getStringExtra("categoryName").toString().also { categoryName = it }
+            intent.getStringExtra(CATEGORY_NAME).toString().also { categoryName = it }
         position = intent.getIntExtra("position", 0)
-        id = intent.getIntExtra("categoryId", 0)
+        id = intent.getIntExtra(CATEGORY_ID, 0)
         categoryTitleList = intent.getStringArrayListExtra("categoryNameList") as ArrayList<String>
         preActivity = intent.getStringExtra("preActivity").toString()
     }
 
     private fun initIconAdapter() {
-        clickedPosition = intent.getIntExtra("imageId", 0) - 1
+        clickedPosition = intent.getIntExtra(CATEGORY_IMAGE_ID, 0) - 1
         binding.rvIcon.adapter = IconAdapter(::onIconClick).also { iconAdapter = it }
     }
 
@@ -100,7 +106,7 @@ class CategoryContentModifyActivity :
             requestCategoryModify()
             sendCategoryModifyResult()
             finish()
-            CustomToast.showTextToast(this, resources.getString(R.string.category_modify_complete))
+            ToastUtil(this@CategoryContentModifyActivity).makeToast(CATEGORY_MODIFY_COMPLETE_TYPE)
         }
     }
 
