@@ -24,20 +24,11 @@ class NotificationRvAdapter :
         fun onBind(data: NotificationResponse.NotificationData, position: Int) {
             binding.content = data
             binding.option = NotificationActivity.option
-            changeTimeFormat(data)
             setIvHavit(data.isSeen)
         }
 
         private fun setIvHavit(isSeen: Boolean) {
             binding.ivHavit.setImageResource(if (isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
-        }
-
-        private fun changeTimeFormat(data: NotificationResponse.NotificationData) {
-            // 글 생성 시각 형식 변경
-            if (data.createdAt.length == 10) {
-                data.createdAt = data.createdAt.substring(0 until 10)
-                    .replace("-", ". ")
-            }
         }
     }
 
@@ -138,7 +129,7 @@ class NotificationRvAdapter :
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
             oldData[oldItemPosition].id == newData[newItemPosition].id &&
-                oldData[oldItemPosition].isSeen == newData[newItemPosition].isSeen &&
-                oldData[oldItemPosition].title == newData[newItemPosition].title
+                    oldData[oldItemPosition].isSeen == newData[newItemPosition].isSeen &&
+                    oldData[oldItemPosition].title == newData[newItemPosition].title
     }
 }

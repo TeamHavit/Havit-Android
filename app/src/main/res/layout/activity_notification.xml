@@ -112,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:overScrollMode="never"
-            android:visibility="@{isEmpty? View.GONE : View.VISIBLE}"
+            android:visibility="@{isEmpty? View.GONE : View.VISIBLE, default=gone}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/line_between_chip_rv"

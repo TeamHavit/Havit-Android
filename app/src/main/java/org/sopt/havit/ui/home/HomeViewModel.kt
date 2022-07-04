@@ -1,7 +1,6 @@
 package org.sopt.havit.ui.home
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,10 +8,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.CategoryResponse
-import org.sopt.havit.data.remote.ContentsSimpleResponse
-import org.sopt.havit.data.remote.RecommendationResponse
-import org.sopt.havit.data.remote.UserResponse
+import org.sopt.havit.data.remote.*
+import org.sopt.havit.ui.notification.NotificationActivity
 import org.sopt.havit.util.MySharedPreference
 
 class HomeViewModel(context: Context) : ViewModel() {
@@ -28,6 +25,8 @@ class HomeViewModel(context: Context) : ViewModel() {
     val categoryLoadState: LiveData<Boolean> = _categoryLoadState
     private val _recommendLoadState = MutableLiveData(true)
     val recommendLoadState: LiveData<Boolean> = _recommendLoadState
+    private val _notificationLoadState = MutableLiveData(true)
+    val notificationLoadState: LiveData<Boolean> = _notificationLoadState
     private val _userLoadState = MutableLiveData(true)
     val userLoadState: LiveData<Boolean> = _userLoadState
 
@@ -69,7 +68,7 @@ class HomeViewModel(context: Context) : ViewModel() {
     // category 전체 데이터를 6개씩 잘라 List로 묶는 함수
     fun setList(
         data:
-            List<CategoryResponse.AllCategoryData>,
+        List<CategoryResponse.AllCategoryData>,
         totalNum: Int
     ): MutableList<List<CategoryResponse.AllCategoryData>> {
         val list = mutableListOf(listOf<CategoryResponse.AllCategoryData>())
@@ -125,6 +124,24 @@ class HomeViewModel(context: Context) : ViewModel() {
         }
     }
 
+    // 알림 예정 콘텐츠
+    private val _notificationList = MutableLiveData<List<NotificationResponse.NotificationData>>()
+    val notificationList: LiveData<List<NotificationResponse.NotificationData>> = _notificationList
+    fun requestNotificationTaken() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = RetrofitObject.provideHavitApi(token)
+                    .getNotification(NotificationActivity.before)
+                setLoadState()
+                _notificationList.postValue(response.data)
+                _notificationLoadState.postValue(false)
+                setLoadState()
+            } catch (e: Exception) {
+
+            }
+        }
+    }
+
     // 유저 데이터
     private val _userData = MutableLiveData<UserResponse.UserData>()
     val userData: LiveData<UserResponse.UserData> = _userData
@@ -161,11 +178,10 @@ class HomeViewModel(context: Context) : ViewModel() {
 
     // skeleton
     fun setLoadState() {
-        Log.d(
-            "TAG",
-            "setLoadState: ${userLoadState.value}, ${categoryLoadState.value}, ${contentsLoadState.value}, ${recommendLoadState.value}"
+        if (userLoadState.value == false && categoryLoadState.value == false
+            && contentsLoadState.value == false && recommendLoadState.value == false
+            && notificationLoadState.value == false
         )
-        if (userLoadState.value == false && categoryLoadState.value == false && contentsLoadState.value == false && recommendLoadState.value == false)
             _loadState.postValue(false)
     }
 }
