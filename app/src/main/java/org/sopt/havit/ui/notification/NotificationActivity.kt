@@ -82,35 +82,35 @@ class NotificationActivity :
 
     private fun clickItemMore() {
         notificationAdapter.setItemMoreClickListner(object :
-                NotificationRvAdapter.OnItemMoreClickListener {
-                override fun onMoreClick(v: View, position: Int) {
-                    val dataMore = notificationViewModel.contentsList.value?.get(position)?.let {
-                        ContentsMoreData(
-                            it.id,
-                            it.image,
-                            it.title,
-                            it.createdAt,
-                            it.url,
-                            true,
-                            it.notificationTime
-                        )
-                    }
-
-                    // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
-                    val removeItem: (Int) -> Unit = {
-                        val list =
-                            notificationAdapter.contentsList.toMutableList() // mutable로 해주어야 삭제(수정) 가능
-                        list.removeAt(it)
-                        // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
-                        notificationViewModel.updateContentsList(list)
-                    }
-
-                    val bundle = setBundle(dataMore, removeItem, position)
-                    val dialog = ContentsMoreFragment()
-                    dialog.arguments = bundle
-                    dialog.show(supportFragmentManager, "setting")
+            NotificationRvAdapter.OnItemMoreClickListener {
+            override fun onMoreClick(v: View, position: Int) {
+                val dataMore = notificationViewModel.contentsList.value?.get(position)?.let {
+                    ContentsMoreData(
+                        it.id,
+                        it.image,
+                        it.title,
+                        it.createdAt,
+                        it.url,
+                        true,
+                        it.notificationTime
+                    )
                 }
-            })
+
+                // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
+                val removeItem: (Int) -> Unit = {
+                    val list =
+                        notificationAdapter.contentsList.toMutableList() // mutable로 해주어야 삭제(수정) 가능
+                    list.removeAt(it)
+                    // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
+                    notificationViewModel.updateContentsList(list)
+                }
+
+                val bundle = setBundle(dataMore, removeItem, position)
+                val dialog = ContentsMoreFragment()
+                dialog.arguments = bundle
+                dialog.show(supportFragmentManager, "setting")
+            }
+        })
     }
 
     // ContentsMoreFragment에 보낼 bundle 생성
@@ -128,22 +128,22 @@ class NotificationActivity :
 
     private fun clickItemHavit() {
         notificationAdapter.setHavitClickListener(object :
-                NotificationRvAdapter.OnItemHavitClickListener {
-                override fun onHavitClick(v: ImageView, position: Int) {
-                    with(notificationAdapter) {
-                        // 보지 않은 콘텐츠의 경우 콘텐츠 봤다는 토스트 띄움
-                        var isSeen = contentsList[position].isSeen
-                        if (!isSeen) {
-                            setHavitToast()
-                        }
-
-                        isSeen = !isSeen
-                        contentsList[position].isSeen = isSeen
-                        notificationViewModel.setIsSeen(contentsList[position].id)
-                        v.setImageResource(if (isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
+            NotificationRvAdapter.OnItemHavitClickListener {
+            override fun onHavitClick(v: ImageView, position: Int) {
+                with(notificationAdapter) {
+                    // 보지 않은 콘텐츠의 경우 콘텐츠 봤다는 토스트 띄움
+                    var isSeen = contentsList[position].isSeen
+                    if (!isSeen) {
+                        setHavitToast()
                     }
+
+                    isSeen = !isSeen
+                    contentsList[position].isSeen = isSeen
+                    notificationViewModel.setIsSeen(contentsList[position].id)
+                    v.setImageResource(if (isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
                 }
-            })
+            }
+        })
     }
 
     // 콘텐츠 확인 완료 토스트
@@ -153,17 +153,17 @@ class NotificationActivity :
 
     private fun clickItemView() {
         notificationAdapter.setItemClickListener(object :
-                NotificationRvAdapter.OnItemClickListener {
-                override fun onWebClick(v: View, position: Int) {
-                    val intent = Intent(v.context, WebActivity::class.java)
-                    notificationViewModel.contentsList.value?.get(position)?.let {
-                        intent.putExtra("url", it.url)
-                        intent.putExtra("contentsId", it.id)
-                        intent.putExtra("isSeen", it.isSeen)
-                    }
-                    startActivity(intent)
+            NotificationRvAdapter.OnItemClickListener {
+            override fun onWebClick(v: View, position: Int) {
+                val intent = Intent(v.context, WebActivity::class.java)
+                notificationViewModel.contentsList.value?.get(position)?.let {
+                    intent.putExtra("url", it.url)
+                    intent.putExtra("contentsId", it.id)
+                    intent.putExtra("isSeen", it.isSeen)
                 }
-            })
+                startActivity(intent)
+            }
+        })
     }
 
     private fun setData() {
