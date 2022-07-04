@@ -24,8 +24,8 @@ class ContentsSimpleRvAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsSimpleResponse.ContentsSimpleData) {
             binding.notificationOption = setNotificationOption(data)
-            setIvHavit(data.isSeen) // 해빗 버튼 초기 설정
             binding.content = data
+            setIvHavit(data.isSeen) // 해빗 버튼 초기 설정
         }
 
         private fun setNotificationOption(data: ContentsSimpleResponse.ContentsSimpleData): String {
@@ -143,6 +143,7 @@ class ContentsSimpleRvAdapter :
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
             (
                     (oldData[oldItemPosition].id == newData[newItemPosition].id) &&
+                            (oldData[oldItemPosition].isSeen == newData[newItemPosition].isSeen) &&
                             (oldData[oldItemPosition].title == newData[newItemPosition].title)
                     )
     }
