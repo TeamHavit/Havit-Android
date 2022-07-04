@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.databinding.ItemContentsSimpleBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ContentsSimpleRvAdapter :
     RecyclerView.Adapter<ContentsSimpleRvAdapter.ContentsSimpleViewHolder>() {
@@ -21,31 +23,20 @@ class ContentsSimpleRvAdapter :
     inner class ContentsSimpleViewHolder(private val binding: ItemContentsSimpleBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ContentsSimpleResponse.ContentsSimpleData) {
-            changeTimeFormat(data) // 시간 형식 변경
+            binding.notificationOption = setNotificationOption(data)
             setIvHavit(data.isSeen) // 해빗 버튼 초기 설정
             binding.content = data
         }
 
-        private fun changeTimeFormat(data: ContentsSimpleResponse.ContentsSimpleData) {
-            // 알림 예정 시각 형식 변경
-            if (data.notificationTime.isNotEmpty() && data.notificationTime.length == 16) {
-                val time = data.notificationTime
-                val date = time.substring(0 until 10)
-                    .replace("-", ". ")
-                val hour = time.substring(11 until 13)
-                val minute = time.substring(14 until 16)
-                if (hour < "12") {
-                    data.notificationTime = "$date 오전 $hour:$minute "
-                } else {
-                    data.notificationTime = "$date 오후 $hour:$minute "
-                }
-            }
+        private fun setNotificationOption(data: ContentsSimpleResponse.ContentsSimpleData): String {
+            // 현재 시간 형식에 맞게 가져오기
+            val now = System.currentTimeMillis()
+            val nowDate = Date(now)
+            val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
+            val getTime: String = sdf.format(nowDate)
 
-            // 글 생성 시각 형식 변경
-            if (data.createdAt.length == 16) {
-                data.createdAt = data.createdAt.substring(0 until 10)
-                    .replace("-", ". ")
-            }
+            return if (getTime > data.notificationTime) "after"
+            else "before"
         }
 
         // havit 버튼 설정값 초기화
@@ -151,8 +142,8 @@ class ContentsSimpleRvAdapter :
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
             (
-                (oldData[oldItemPosition].id == newData[newItemPosition].id) &&
-                    (oldData[oldItemPosition].title == newData[newItemPosition].title)
-                )
+                    (oldData[oldItemPosition].id == newData[newItemPosition].id) &&
+                            (oldData[oldItemPosition].title == newData[newItemPosition].title)
+                    )
     }
 }

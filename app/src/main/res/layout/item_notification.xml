@@ -21,10 +21,10 @@
 
         <TextView
             android:id="@+id/tv_notification_time"
+            notificationTimeOnContentsView="@{content.notificationTime}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            notificationTimeOnContentsView="@{content.notificationTime}"
             android:textAppearance="@style/Text12Semibold"
             android:textColor="@{option==`after`? @color/gray_3 : @color/purple_main, default=@color/purple_main}"
             app:layout_constraintStart_toStartOf="parent"

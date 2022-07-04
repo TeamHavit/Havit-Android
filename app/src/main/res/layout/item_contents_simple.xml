@@ -8,6 +8,10 @@
         <import type="android.view.View" />
 
         <variable
+            name="notificationOption"
+            type="String" />
+
+        <variable
             name="content"
             type="org.sopt.havit.data.remote.ContentsSimpleResponse.ContentsSimpleData" />
     </data>
@@ -39,7 +43,7 @@
                 android:id="@+id/iv_alarm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_alarmtag_purple"
+                android:src="@{notificationOption==`after`? @drawable/ic_alarmtag_gray_inactive : @drawable/ic_alarmtag_purple, default=@drawable/ic_alarmtag_purple}"
                 android:visibility="@{content.notified? View.VISIBLE : View.GONE}" />
         </FrameLayout>
 
@@ -77,7 +81,7 @@
             app:layout_constraintEnd_toStartOf="@+id/iv_setting"
             app:layout_constraintStart_toEndOf="@+id/fl_image"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="슈슈슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉..." />
+            tools:text="슈슈슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉슉슉슈슉슉슉슈슉슉슉슈슉..." />
 
         <TextView
             android:id="@+id/tv_description"
@@ -92,7 +96,7 @@
             app:layout_constraintEnd_toEndOf="@+id/tv_title"
             app:layout_constraintStart_toStartOf="@+id/tv_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
-            tools:text="상세내용 상세내용 상세내용 상세내용은 한줄만만" />
+            tools:text="상세내용 상세내용 상세내용 상세내용은 한줄만만한줄만만한줄만만한줄만만한줄만만" />
 
         <TextView
             android:id="@+id/tv_date"
@@ -137,32 +141,20 @@
             app:layout_constraintEnd_toEndOf="@+id/tv_description"
             app:layout_constraintStart_toEndOf="@+id/tv_divider"
             app:layout_constraintTop_toTopOf="@+id/tv_divider"
-            tools:text="www.brunch.com.dididididi" />
+            tools:text="www.brunch.com.didididididididididididididididididididi" />
 
         <TextView
             android:id="@+id/tv_alarm"
+            notificationTimeOnContentsView="@{content.notificationTime}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="15dp"
-            android:text="@{content.notificationTime}"
             android:textAppearance="@style/Semibold9"
-            android:textColor="@color/havit_purple"
+            android:textColor="@{notificationOption==`after`? @color/gray_3 : @color/purple_main, default=@color/purple_main}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_date"
-            tools:text="2021. 11. 17 오전 12:30 " />
-
-        <TextView
-            android:id="@+id/tv_alarm_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/contents_alarm_plan"
-            android:textAppearance="@style/Semibold9"
-            android:textColor="@color/havit_purple"
-            android:visibility="@{content.isNotified? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_alarm"
-            app:layout_constraintStart_toEndOf="@+id/tv_alarm"
-            app:layout_constraintTop_toTopOf="@+id/tv_alarm" />
+            app:layout_constraintStart_toStartOf="@id/tv_date"
+            tools:text="2021. 11. 17 오전 12:30 알림 예정" />
 
         <ImageView
             android:id="@+id/iv_havit"
