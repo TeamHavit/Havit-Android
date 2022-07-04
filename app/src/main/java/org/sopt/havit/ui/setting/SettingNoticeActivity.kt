@@ -1,7 +1,7 @@
 package org.sopt.havit.ui.setting
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import org.sopt.havit.R
 
 class SettingNoticeActivity : AppCompatActivity() {

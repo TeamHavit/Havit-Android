@@ -1,9 +1,14 @@
-package org.sopt.havit.ui.share
+package org.sopt.havit.ui.contents.more.edit_notification
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
@@ -12,21 +17,30 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class ShareViewModel @Inject constructor(
+class EditNotificationFromMoreViewModel @Inject constructor(
     authRepository: AuthRepository
 ) : ViewModel() {
     /** token */
     val token = authRepository.getAccessToken()
 
-    /** title */
-    var originTitle = MutableLiveData<String>()
-        private set
-    var currTitle = MutableLiveData<String>()
-    fun isTitleModified() = originTitle.value != currTitle.value
-
     /** notification time */
+    private val contentId = MutableLiveData<Int>()
+
+    fun initProperty(contentsMoreData: ContentsMoreData) {
+        contentId.value = contentsMoreData.id
+        _finalIsNotificationSet.value = contentsMoreData.isNotified
+        _finalNotificationTime.value = contentsMoreData.notificationTime
+        if (contentsMoreData.isNotified) _finalIndex.value = 4
+    }
+
+    fun isNotificationSet(): Boolean = finalNotificationTime.value != ""
+
+    private var _finalIsNotificationSet = MutableLiveData<Boolean?>()
+    val finalIsNotificationSet: LiveData<Boolean?>
+        get() = _finalIsNotificationSet
+
     private var _finalNotificationTime = MutableLiveData<String?>()
-    val finalNotificationTime: LiveData<String?>
+    private val finalNotificationTime: LiveData<String?>
         get() = _finalNotificationTime
 
     private var _tempNotificationTime = MutableLiveData<String?>()
@@ -78,12 +92,34 @@ class ShareViewModel @Inject constructor(
         _finalNotificationTime.value = null
     }
 
+    fun patchNotification() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                val time = tempNotificationTime.value?.substring(0, 16)?.replace(".", "-")
+                // TODO 알림수정 api 아직 안나옴
+            }.onSuccess {
+                userClicksOnButton(SUCCESS)
+                Log.d(TAG, "patchNotification: onSuccess")
+            }.onFailure {
+                userClicksOnButton(FAIL)
+                Log.d(TAG, "patchNotification: onFailure $it")
+            }
+        }
+    }
+
+    // TODO 알림삭제 api 아직 안나옴
+
     /** server event */
     private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
     val isNetworkCorrespondenceEnd: MutableLiveData<Event<String>>
         get() = _isNetworkCorrespondenceEnd
 
-    private fun userClicksOnButton() {
-        _isNetworkCorrespondenceEnd.value = Event("Finish Server")
+    private fun userClicksOnButton(string: String) {
+        _isNetworkCorrespondenceEnd.value = Event(string)
+    }
+
+    companion object {
+        const val SUCCESS = "SUCCESS"
+        const val FAIL = "FAIL"
     }
 }

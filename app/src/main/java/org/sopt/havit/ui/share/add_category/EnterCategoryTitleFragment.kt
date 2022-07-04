@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.share
+package org.sopt.havit.ui.share.add_category
 
 import android.os.Bundle
 import android.view.View
@@ -28,7 +28,6 @@ class EnterCategoryTitleFragment :
         setKeyBoardUp()
         toolbarClickListener()
         setUpAsSoftKeyboard(view) // 다음버튼 위/아래 움직이게
-
     }
 
     private fun initNetwork() {

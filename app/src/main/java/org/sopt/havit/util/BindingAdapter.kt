@@ -1,5 +1,6 @@
 package org.sopt.havit.util
 
+import android.content.ContentValues.TAG
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
@@ -12,6 +13,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.sopt.havit.R
+import org.sopt.havit.util.CalenderUtil.setDateFormat
+import org.sopt.havit.util.CalenderUtil.setDateFormatOnCategoryView
+import org.sopt.havit.util.CalenderUtil.setDateFormatOnRadioBtn
 import org.sopt.havit.util.DpToPxUtil.px
 
 object BindingAdapter {
@@ -150,26 +154,15 @@ object BindingAdapter {
 
     @BindingAdapter("android:alarmText")
     @JvmStatic
-    fun TextView.setAlarmText(string: String) {
-        this.text = if (string == "알림 설정") "알림 설정" else setDateFormat(string)
+    fun TextView.setAlarmText(string: String?) {
+        this.text = if (string == null) "알림 설정" else setDateFormat(string)
     }
 
-    private fun setDateFormat(originTime: String): String {
-        Log.d("originTime", originTime) // 2022.01.25 00:04:54
-
-        // 날짜 (2022.01.25)
-        val date =
-            "${originTime[2]}${originTime[3]}.${originTime[5]}${originTime[6]}.${originTime[8]}${originTime[9]}"
-        // 시 (오후 11시 :: 12시간제 적용)
-        val hour = "${originTime[11]}${originTime[12]}".toInt()
-        val newHour = when (hour) {
-            in 0..12 -> " 오전 ${hour}시 "
-            else -> " 오후 ${hour - 12}시 "
-        }
-        // 분 (3분 :: 자릿수 재졍렬을 위한 이중 형변환 사용)
-        val min = "${originTime[14]}${originTime[15]}".toInt().toString() + "분"
-
-        return "$date$newHour$min 알림 예정"
+    @BindingAdapter("notificationTimeOnContentsView")
+    @JvmStatic
+    fun TextView.setNotificationText(string: String?) {
+        if (string?.isEmpty() == true) return
+        this.text = setDateFormatOnCategoryView(requireNotNull(string))
     }
 
     @BindingAdapter("app:textVisibility")
@@ -178,10 +171,25 @@ object BindingAdapter {
         this.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
+    @BindingAdapter(value = ["selectedIndex", "notiTime"], requireAll = true)
+    @JvmStatic
+    fun TextView.setNotificationTime(selectedIndex: Int, notiTime: String?) {
+        Log.d(TAG, "setNotificationTime: $selectedIndex, $notiTime")
+        this.text = if (selectedIndex == 4 && notiTime != "")
+            setDateFormatOnRadioBtn(requireNotNull(notiTime))
+        else context.getString(R.string.choose_time)
+    }
+
     @BindingAdapter("app:imageVisibility")
     @JvmStatic
     fun ImageView.imageVisibility(isSelected: Boolean) {
         this.visibility = if (isSelected) View.VISIBLE else View.GONE
+    }
+
+    @BindingAdapter("app:buttonVisibility")
+    @JvmStatic
+    fun AppCompatButton.buttonVisibility(boolean: Boolean) {
+        this.visibility = if (boolean) View.VISIBLE else View.GONE
     }
 
     @BindingAdapter("app:btnBackground")

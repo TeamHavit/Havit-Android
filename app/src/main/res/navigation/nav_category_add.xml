@@ -6,7 +6,7 @@
     app:startDestination="@id/enterCategoryTitleFragment">
     <fragment
         android:id="@+id/enterCategoryTitleFragment"
-        android:name="org.sopt.havit.ui.share.EnterCategoryTitleFragment"
+        android:name="org.sopt.havit.ui.share.add_category.EnterCategoryTitleFragment"
         android:label="fragment_category_name"
         tools:layout="@layout/fragment_enter_category_title">
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/chooseIconFragment"
-        android:name="org.sopt.havit.ui.share.ChooseIconFragment"
+        android:name="org.sopt.havit.ui.share.add_category.ChooseIconFragment"
         android:label="fragment_choose_icon"
         tools:layout="@layout/fragment_choose_icon" >
         <argument

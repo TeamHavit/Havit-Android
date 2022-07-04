@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ellipse_white_radius_20"
-    tools:context=".ui.share.PickerFragment">
+    tools:context=".ui.share.notification.PickerFragment">
 
     <ImageView
         android:id="@+id/iv_alarm"
@@ -14,45 +14,101 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
+        android:contentDescription="@string/ic_alarm"
         android:src="@drawable/ic_alarm_active"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/ic_alarm" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- text 임의 설정입니다! 곧 수정 예정>_< -->
     <TextView
-        android:id="@+id/tv_notification_time"
+        android:id="@+id/tv_noti_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:text="2022년 1월 4일 화 ㅣ 오후 9:00"
         android:textAppearance="@style/Button15Medium"
         app:layout_constraintBottom_toBottomOf="@id/iv_alarm"
         app:layout_constraintStart_toEndOf="@id/iv_alarm"
-        app:layout_constraintTop_toTopOf="@id/iv_alarm" />
+        app:layout_constraintTop_toTopOf="@id/iv_alarm"
+        tools:text="2022년 1월 4일 화 " />
+
+    <TextView
+        android:id="@+id/tv_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/noti_divider"
+        android:textAppearance="@style/Button15Medium"
+        app:layout_constraintBottom_toBottomOf="@id/tv_noti_date"
+        app:layout_constraintStart_toEndOf="@id/tv_noti_date"
+        app:layout_constraintTop_toTopOf="@id/tv_noti_date" />
+
+    <TextView
+        android:id="@+id/tv_noti_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="오후 9:00"
+        android:textAppearance="@style/Button15Medium"
+        app:layout_constraintBottom_toBottomOf="@id/tv_noti_date"
+        app:layout_constraintStart_toEndOf="@id/tv_divider"
+        app:layout_constraintTop_toTopOf="@id/tv_noti_date" />
 
     <View
+        android:id="@+id/view_top_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="7dp"
         android:background="@color/gray_1"
         app:layout_constraintTop_toBottomOf="@id/iv_alarm" />
 
+    <NumberPicker
+        android:id="@+id/picker_date"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:descendantFocusability="blocksDescendants"
+        android:elevation="1dp"
+        android:theme="@style/CustomPickerTheme"
+        app:layout_constraintBottom_toTopOf="@id/view_under_line"
+        app:layout_constraintEnd_toStartOf="@+id/picker_time"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/view_spinner_focus"
+        app:layout_constraintTop_toBottomOf="@id/view_top_line" />
+
+    <TimePicker
+        android:id="@+id/picker_time"
+        android:layout_width="230dp"
+        android:layout_height="180dp"
+        android:descendantFocusability="blocksDescendants"
+        android:elevation="1dp"
+        android:numbersSelectorColor="@color/havit_purple"
+        android:theme="@style/CustomPickerTheme"
+        android:timePickerMode="spinner"
+        app:layout_constraintBottom_toTopOf="@id/view_under_line"
+        app:layout_constraintEnd_toEndOf="@id/view_spinner_focus"
+        app:layout_constraintStart_toEndOf="@+id/picker_date"
+        app:layout_constraintTop_toBottomOf="@id/view_top_line" />
+
     <View
+        android:id="@+id/view_spinner_focus"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/gray_0"
+        app:layout_constraintBottom_toTopOf="@id/view_under_line"
+        app:layout_constraintTop_toBottomOf="@id/view_top_line" />
+
+    <View
+        android:id="@+id/view_under_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="7dp"
         android:background="@color/gray_1"
         app:layout_constraintBottom_toTopOf="@id/btn_complete" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_complete"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/select_complete"
         android:background="@null"
+        android:text="@string/select_complete"
+        android:textAppearance="@style/Text16Semibold"
         android:textColor="@color/havit_purple"
-        android:textAppearance="@style/Text16Semibold" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

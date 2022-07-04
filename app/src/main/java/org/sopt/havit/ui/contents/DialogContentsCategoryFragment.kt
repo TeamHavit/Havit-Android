@@ -26,7 +26,6 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
     private lateinit var categoryList: ArrayList<CategoryResponse.AllCategoryData>
     private var categoryId = 0
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

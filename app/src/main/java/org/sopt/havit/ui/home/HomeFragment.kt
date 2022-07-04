@@ -54,6 +54,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         super.onStart()
         categoryDataObserve() // 카테고리 초기화
         recentContentsDataObserve() // 추천콘텐츠 초기화
+        notificationDataObserve()   // 알림 아이콘 초기화
         initReachRate() // 도달률 관련 데이터 초기화
     }
 
@@ -65,34 +66,34 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     // 추천 콘텐츠 클릭 -> 웹뷰로 이동
     private fun clickRecommendItemView() {
         recommendRvAdapter.setItemClickListener(object :
-            HomeRecommendRvAdapter.OnItemClickListener {
-            override fun onWebClick(v: View, position: Int) {
-                val intent = Intent(v.context, WebActivity::class.java)
-                homeViewModel.recommendList.value?.get(position)
-                    ?.let {
-                        intent.putExtra("url", it.url)
-                        intent.putExtra("contentsId", -1)
-                    }
-                startActivity(intent)
-            }
-        })
+                HomeRecommendRvAdapter.OnItemClickListener {
+                override fun onWebClick(v: View, position: Int) {
+                    val intent = Intent(v.context, WebActivity::class.java)
+                    homeViewModel.recommendList.value?.get(position)
+                        ?.let {
+                            intent.putExtra("url", it.url)
+                            intent.putExtra("contentsId", -1)
+                        }
+                    startActivity(intent)
+                }
+            })
     }
 
     // 최근 저장 콘텐츠 클릭 -> 웹뷰로 이동
     private fun clickRecentContentsItemView() {
         contentsAdapter.setItemClickListener(object :
-            HomeRecentContentsRvAdapter.OnItemClickListener {
-            override fun onWebClick(v: View, position: Int) {
-                val intent = Intent(v.context, WebActivity::class.java)
-                homeViewModel.contentsList.value?.get(position)
-                    ?.let {
-                        intent.putExtra("url", it.url)
-                        intent.putExtra("contentsId", it.id)
-                        intent.putExtra("isSeen", it.isSeen)
-                    }
-                startActivity(intent)
-            }
-        })
+                HomeRecentContentsRvAdapter.OnItemClickListener {
+                override fun onWebClick(v: View, position: Int) {
+                    val intent = Intent(v.context, WebActivity::class.java)
+                    homeViewModel.contentsList.value?.get(position)
+                        ?.let {
+                            intent.putExtra("url", it.url)
+                            intent.putExtra("contentsId", it.id)
+                            intent.putExtra("isSeen", it.isSeen)
+                        }
+                    startActivity(intent)
+                }
+            })
     }
 
     private fun setData() {
@@ -101,6 +102,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             requestContentsTaken() // 최근 저장 콘텐츠
             requestCategoryTaken() // 카테고리
             requestRecommendTaken() // 추천 콘텐츠
+            requestNotificationTaken()  // 알림 예정 콘텐츠
             loadStateObserve()
         }
     }
@@ -118,6 +120,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             categoryLoadState.observe(viewLifecycleOwner) { setLoadState() }
             recommendLoadState.observe(viewLifecycleOwner) { setLoadState() }
             contentsLoadState.observe(viewLifecycleOwner) { setLoadState() }
+            notificationLoadState.observe(viewLifecycleOwner) { setLoadState() }
         }
     }
 
@@ -157,6 +160,14 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                         binding.layoutCategory.indicatorCategory.setViewPager2(binding.layoutCategory.vpCategory)
                     }
                 }
+            }
+        }
+    }
+
+    private fun notificationDataObserve() {
+        with(homeViewModel) {
+            notificationList.observe(viewLifecycleOwner) { data ->
+                binding.hasNotification = data.isNotEmpty()
             }
         }
     }

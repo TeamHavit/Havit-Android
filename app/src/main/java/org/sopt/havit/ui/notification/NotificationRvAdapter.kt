@@ -24,34 +24,11 @@ class NotificationRvAdapter :
         fun onBind(data: NotificationResponse.NotificationData, position: Int) {
             binding.content = data
             binding.option = NotificationActivity.option
-            changeTimeFormat(data)
             setIvHavit(data.isSeen)
         }
 
         private fun setIvHavit(isSeen: Boolean) {
             binding.ivHavit.setImageResource(if (isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
-        }
-
-        private fun changeTimeFormat(data: NotificationResponse.NotificationData) {
-            // 알림 예정 시각 형식 변경
-            if (data.notificationTime.isNotEmpty() && data.notificationTime.length == 16) {
-                val time = data.notificationTime
-                val date = time.substring(0 until 10)
-                    .replace("-", ". ")
-                val hour = time.substring(11 until 13)
-                val minute = time.substring(14 until 16)
-                if (hour < "12") {
-                    data.notificationTime = "$date 오전 ${hour}:${minute} "
-                } else {
-                    data.notificationTime = "$date 오후 ${hour}:${minute} "
-                }
-            }
-
-            // 글 생성 시각 형식 변경
-            if (data.createdAt.length == 10) {
-                data.createdAt = data.createdAt.substring(0 until 10)
-                    .replace("-", ". ")
-            }
         }
     }
 
@@ -91,7 +68,7 @@ class NotificationRvAdapter :
         }
     }
 
-    //아이템 전체 클릭 리스터 인터페이스
+    // 아이템 전체 클릭 리스터 인터페이스
     interface OnItemClickListener {
         fun onWebClick(v: View, position: Int)
     }

@@ -27,11 +27,8 @@ class WebViewModel @Inject constructor(private val contentsRepository: ContentsR
         viewModelScope.launch(Dispatchers.IO) {
             contentsRepository.isSeen(contentsId)
         }
-
     }
 
     fun setUrl(url: String) {
         contentsUrl.value = url
     }
-
-}
