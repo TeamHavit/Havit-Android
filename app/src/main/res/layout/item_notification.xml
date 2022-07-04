@@ -118,13 +118,14 @@
             android:id="@+id/iv_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:paddingStart="26dp"
             android:paddingTop="19dp"
             android:paddingEnd="16dp"
             android:paddingBottom="32dp"
             android:src="@drawable/ic_more"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_title" />
+            app:layout_constraintTop_toTopOf="@id/tv_notification_time" />
 
         <ImageView
             android:id="@+id/iv_havit"
