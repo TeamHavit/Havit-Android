@@ -16,6 +16,7 @@ import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.contents.ContentsMoreFragment
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.CONTENT_CHECK_COMPLETE_TYPE
+import org.sopt.havit.util.CONTENT_DELETE_TYPE
 import org.sopt.havit.util.ToastUtil
 import java.io.Serializable
 
@@ -103,6 +104,7 @@ class NotificationActivity :
                     list.removeAt(it)
                     // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
                     notificationViewModel.updateContentsList(list)
+                    setRemoveToast()
                 }
 
                 val bundle = setBundle(dataMore, removeItem, position)
@@ -151,6 +153,11 @@ class NotificationActivity :
         ToastUtil(this).makeToast(CONTENT_CHECK_COMPLETE_TYPE)
     }
 
+    // 콘텐츠 삭제 토스트
+    private fun setRemoveToast() {
+        ToastUtil(this).makeToast(CONTENT_DELETE_TYPE)
+    }
+
     private fun clickItemView() {
         notificationAdapter.setItemClickListener(object :
             NotificationRvAdapter.OnItemClickListener {
@@ -173,6 +180,14 @@ class NotificationActivity :
 
     private fun dataObserve() {
         with(notificationViewModel) {
+//            // 로딩 중엔 Empty뷰 보이기
+//            contentLoadState.observe(this@NotificationActivity) { isLoading ->
+//                if (isLoading) {
+//                    binding.rvNotification.visibility = View.GONE
+//                    binding.clAlarmEmpty.visibility = View.GONE
+//                }
+//            }
+            // 데이터 불러오기
             contentsList.observe(this@NotificationActivity) { data ->
                 setContent(data)
             }

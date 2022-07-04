@@ -220,6 +220,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             intent.putExtra(CONTENT_TYPE, "recent")
             startActivity(intent)
         }
+        binding.ivServiceGuide.setOnClickListener {
+            val intent = Intent(requireActivity(), ServiceGuideActivity::class.java)
+            startActivity(intent)
+        }
         clickRecommendItemView() // 추천콘텐츠 클릭->웹뷰로 이동
         clickRecentContentsItemView() // 최근저장 콘텐츠 클릭->웹뷰로 이동
     }

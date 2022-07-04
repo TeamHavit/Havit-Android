@@ -18,6 +18,11 @@
         android:theme="@style/Theme.Havit"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.home.ServiceGuideActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.onboarding.OnboardingActivity"
             android:configChanges="orientation"
             android:exported="true"
