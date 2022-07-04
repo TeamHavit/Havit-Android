@@ -42,15 +42,38 @@ object CalenderUtil {
     fun setDateFormatOnRadioBtn(originTime: String): String {
         /** 자릿수 꼭 지켜서 사용 ex) 2022.01.25 00:04:54 */
         val date = originTime.substring(2, 10).replace("-", ". ")
-        val amPmHour = when (val hour = originTime.substring(11, 13).toInt()) {
-            0 -> "오전 12"
-            12 -> "오후 12"
-            in 0..11 -> "오전 $hour"
-            in 13..24 -> "오후 ${hour - 12}"
-            else -> Error("잘못된 시간입니다")
-        }
+        val amPmHour = getHourAmPm(originTime.substring(11, 13).toInt())
         val min = originTime.substring(14, 16).toInt().toString()
         return "$date ${amPmHour}시 ${min}분"
+    }
+
+    private fun getHourAmPm(hour24: Int): String {
+        return when (hour24) {
+            0 -> "오전 12"
+            12 -> "오후 12"
+            in 0..11 -> "오전 $hour24"
+            in 13..24 -> "오후 ${hour24 - 12}"
+            else -> throw IllegalStateException("잘못된 시간입니다")
+        }
+    }
+
+    fun setDateFormatOnCategoryView(originTime: String): String {
+        val date = originTime.substring(0, 10).replace("-", ". ")
+        val amPmHour = getHourAmPm(originTime.substring(11, 13).toInt())
+        val min = originTime.substring(14, 16).toInt().toString()
+        val text: String
+
+        // 현재 시간 형식에 맞게 가져오기
+        val now = System.currentTimeMillis()
+        val nowDate = Date(now)
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
+        val getTime: String = sdf.format(nowDate)
+
+        text = if (originTime > getTime)
+            "알림 예정"
+        else
+            "알림 완료"
+        return "$date ${amPmHour}시 ${min}분 $text"
     }
 
     fun setDateFormat(originTime: String): String {

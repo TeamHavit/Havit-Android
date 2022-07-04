@@ -130,7 +130,6 @@
     <string name="category_length_limit_space">&#160;/ 15</string>
     <string name="category_length_count_zero">0</string>
     <string name="duplicate_category">중복된 카테고리 이름이 존재합니다</string>
-    <string name="max_category">카테고리 최대 개수를 초과했습니다.</string>
     <string name="url_unavailable">입력한 URL 링크 정보를 찾을 수 없습니다.</string>
     <string name="contents_havit_complete">콘텐츠 확인 완료 !</string>
     <string name="notification_will_alarm">알림 예정</string>
@@ -142,10 +141,8 @@
     <string name="home_popup_description2">밀린 콘텐츠를 확인해 보는 건 어떨까요?</string>
     <string name="home_popup_description3">저장한 콘텐츠가 밀리지 않도록 조심하세요!</string>
     <string name="home_popup_description4">축하드려요! 저장한 콘텐츠를 전부 확인했어요!</string>
-    <string name="category_added">&#160;카테고리가 추가되었습니다.</string>    <!-- &#160;는 띄어쓰기를 위한 문자열입니다-->
     <string name="contents_order">정렬</string>
     <string name="category_create_recommend">카테고리를 생성하여 콘텐츠를 쉽게 정리해보세요.</string>
-    <string name="category_modify_complete">카테고리 수정 완료!</string>
     <!-- Dialog 작업용 -->
     <string name="cancel">취소</string>
     <string name="exit">나가기</string>
@@ -234,13 +231,22 @@
 
     <!--toast-->
     <string name="cannot_set_notification_time_on_past">과거 시간으로는 알림 설정을 할 수 없습니다</string>
+
     <string name="category_has_been_deleted">카테고리가 삭제되었습니다</string>
+
+    <string name="delete_content">"콘텐츠가 삭제되었습니다"</string>
+    <string name="delete_category">카테고리가 삭제되었습니다</string>
+    <string name="alarm_set">알림이 설정되었습니다</string>
+    <string name="max_category">카테고리 최대 개수를 초과했습니다.</string>
+    <string name="category_added">&#160;카테고리가 추가되었습니다.</string>    <!-- &#160;는 띄어쓰기를 위한 문자열입니다-->
+    <string name="category_modify_complete">카테고리 수정 완료!</string>
 
     <!-- error -->
     <string name="error_occur">문제가 발생했습니다</string>
     <string name="error_solution">문제가 지속되면 고객센터로 문의주세요</string>
     <string name="error_occur_try_again">문제가 발생했습니다. 잠시 후 다시 시도해주세요.</string>
     <string name="delete_notification">알림 삭제</string>
-
+    <string name="service_preparing">서비스 준비중입니다</string>
+    <string name="cannot_send_mail">메일을 전송할 수 없습니다</string>
 </resources>
 

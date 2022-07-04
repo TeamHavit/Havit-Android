@@ -13,7 +13,8 @@ import org.sopt.havit.databinding.FragmentCategoryBinding
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsActivity
-import org.sopt.havit.util.CustomToast
+import org.sopt.havit.util.MAX_CATEGORY_NUM_EXCEEDED_TOP_TYPE
+import org.sopt.havit.util.ToastUtil
 
 class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.fragment_category) {
     private var _categoryAdapter: CategoryAdapter? = null
@@ -128,15 +129,9 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
 
     private fun addCategory() {
         binding.clAdd.setOnClickListener {
-            if (categoryViewModel.categoryCount.value == CATEGORY_MAX) {
-                CustomToast.showTextToast(
-                    requireContext(),
-                    resources.getString(R.string.max_category)
-                )
-            } else {
-                val intent = Intent(requireActivity(), CategoryAddActivity::class.java)
-                startActivity(intent)
-            }
+            if (categoryViewModel.categoryCount.value == CATEGORY_MAX)
+                ToastUtil(requireContext()).makeToast(MAX_CATEGORY_NUM_EXCEEDED_TOP_TYPE)
+            else startActivity(Intent(requireActivity(), CategoryAddActivity::class.java))
         }
     }
 

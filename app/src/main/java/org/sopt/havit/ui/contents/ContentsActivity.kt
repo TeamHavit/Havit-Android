@@ -29,7 +29,9 @@ import org.sopt.havit.ui.contents.DialogContentsFilterFragment.Companion.CONTENT
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
-import org.sopt.havit.util.CustomToast
+import org.sopt.havit.util.CONTENT_CHECK_COMPLETE_TYPE
+import org.sopt.havit.util.ERROR_OCCUR_TYPE
+import org.sopt.havit.util.ToastUtil
 import java.io.Serializable
 
 @AndroidEntryPoint
@@ -407,10 +409,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         with(contentsAdapter) {
             // 보지 않았던 콘텐츠의 경우 콘텐츠를 봤다는 토스트 띄우기
             if (!currentList[currentHavitPosition].isSeen) {
-                CustomToast.showDesignatedToast(
-                    this@ContentsActivity,
-                    R.layout.toast_havit_complete
-                )
+                ToastUtil(this@ContentsActivity).makeToast(CONTENT_CHECK_COMPLETE_TYPE)
             }
 
             currentList[currentHavitPosition].isSeen = !currentList[currentHavitPosition].isSeen
@@ -443,7 +442,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun setFailAction() {
-        CustomToast.showTextToast(this, resources.getString(R.string.error_occur_try_again))
+        ToastUtil(this).makeToast(ERROR_OCCUR_TYPE)
         contentsViewModel.initRequestState()
     }
 

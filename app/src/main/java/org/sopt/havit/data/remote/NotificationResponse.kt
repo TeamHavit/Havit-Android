@@ -8,7 +8,7 @@ data class NotificationResponse(
 ) {
     data class NotificationData(
         val id: Int,
-        var notificationTime: String,
+        val notificationTime: String,
         val title: String,
         val description: String,
         val image: String,
