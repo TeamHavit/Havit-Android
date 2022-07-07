@@ -53,6 +53,9 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
         binding.ivTosAll.setOnClickListener {
             signInViewModel.setAllCheck()
         }
+        binding.tvTosAll.setOnClickListener {
+            signInViewModel.setAllCheck()
+        }
         binding.ivTosUse.setOnClickListener {
             signInViewModel.setTosUseCheck()
         }
