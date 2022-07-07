@@ -15,15 +15,16 @@ import org.sopt.havit.data.remote.ContentsResponse
 import org.sopt.havit.databinding.ItemContentsGridBinding
 import org.sopt.havit.databinding.ItemContentsLinearMaxBinding
 import org.sopt.havit.databinding.ItemContentsLinearMinBinding
+import org.sopt.havit.domain.entity.Contents
 import org.sopt.havit.util.ContentsDiffCallback
 
 class ContentsAdapter :
-    ListAdapter<ContentsResponse.ContentsData, RecyclerView.ViewHolder>(ContentsDiffCallback) {
+    ListAdapter<Contents, RecyclerView.ViewHolder>(ContentsDiffCallback) {
     private lateinit var itemClickListener: OnItemClickListener
     private lateinit var itemSetClickListener: OnItemSetClickListener
     private lateinit var itemHavitClickListener: OnItemHavitClickListener
 
-    private fun changeTimeFormat(data: ContentsResponse.ContentsData) {
+    private fun changeTimeFormat(data: Contents) {
         // 글 생성 시각 형식 변경
         if (data.createdAt.length == 16) {
             data.createdAt = data.createdAt.substring(0 until 10)
@@ -33,7 +34,7 @@ class ContentsAdapter :
 
     inner class LinearMinViewHolder(private val binding: ItemContentsLinearMinBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ContentsResponse.ContentsData) {
+        fun onBind(data: Contents) {
             changeTimeFormat(data) // 시간 형식 변경
             with(binding) {
                 Log.d(TAG, "onBind: $data")
@@ -47,7 +48,7 @@ class ContentsAdapter :
 
     inner class GridViewHolder(private val binding: ItemContentsGridBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ContentsResponse.ContentsData) {
+        fun onBind(data: Contents) {
             changeTimeFormat(data) // 시간 형식 변경
             with(binding) {
                 content = data
@@ -60,7 +61,7 @@ class ContentsAdapter :
 
     inner class LinearMaxViewHolder(private val binding: ItemContentsLinearMaxBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ContentsResponse.ContentsData) {
+        fun onBind(data: Contents) {
             changeTimeFormat(data) // 시간 형식 변경
             with(binding) {
                 content = data

@@ -10,14 +10,14 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.ContentsMoreData
-import org.sopt.havit.data.remote.ContentsResponse
+import org.sopt.havit.domain.entity.Contents
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.util.MySharedPreference
 
 class ContentsViewModel(context: Context) : ViewModel() {
     private val token = MySharedPreference.getXAuthToken(context)
-    private val _contentsList = MutableLiveData<List<ContentsResponse.ContentsData>>()
-    val contentsList: LiveData<List<ContentsResponse.ContentsData>> = _contentsList
+    private val _contentsList = MutableLiveData<List<Contents>>()
+    val contentsList: LiveData<List<Contents>> = _contentsList
 
     private val _contentsCount = MutableLiveData(-1)
     val contentsCount: LiveData<Int> = _contentsCount
@@ -42,7 +42,7 @@ class ContentsViewModel(context: Context) : ViewModel() {
                 RetrofitObject.provideHavitApi(token)
                     .getCategoryContents(categoryId, option, filter)
             }.onSuccess {
-                _contentsList.postValue(it.data)
+                _contentsList.postValue(requireNotNull(it.data))
                 _contentsCount.postValue(it.data.size)
                 _loadState.postValue(NetworkState.SUCCESS)
             }.onFailure {
@@ -56,7 +56,7 @@ class ContentsViewModel(context: Context) : ViewModel() {
             kotlin.runCatching {
                 RetrofitObject.provideHavitApi(token).getAllContents(option, filter)
             }.onSuccess {
-                _contentsList.postValue(it.data)
+                _contentsList.postValue(requireNotNull(it.data))
                 _contentsCount.postValue(it.data.size)
                 _categoryName.postValue(name)
                 _loadState.postValue(NetworkState.SUCCESS)
@@ -105,7 +105,7 @@ class ContentsViewModel(context: Context) : ViewModel() {
         _categoryName.value = name
     }
 
-    fun updateContentsList(list: List<ContentsResponse.ContentsData>) {
+    fun updateContentsList(list: List<Contents>) {
         _contentsList.value = list
     }
 
