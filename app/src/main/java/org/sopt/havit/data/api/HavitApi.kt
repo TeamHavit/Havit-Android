@@ -121,4 +121,9 @@ interface HavitApi {
 
     @DELETE("auth/user")
     suspend fun deleteUser()
+
+    @PUT("user/fcm-token")
+    suspend fun refreshFcmToken(
+        @Body body: FcmTokenParams
+    ): BasicResponse
 }
