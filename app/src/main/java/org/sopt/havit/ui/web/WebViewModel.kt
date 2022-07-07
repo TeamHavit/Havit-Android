@@ -32,3 +32,4 @@ class WebViewModel @Inject constructor(private val contentsRepository: ContentsR
     fun setUrl(url: String) {
         contentsUrl.value = url
     }
+}
