@@ -10,36 +10,33 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitObject {
 
-    private const val  baseUrl = "https://asia-northeast3-havit-wesopt29.cloudfunctions.net/api/"
+    private const val baseUrl = "https://asia-northeast3-havit-wesopt29.cloudfunctions.net/api/"
 
-    private fun getRetrofitBuild(jwt:String) = Retrofit.Builder()
+    private fun getRetrofitBuild(jwt: String) = Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(getOkhttpClient(jwt))
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     private fun getOkhttpClient(jwt: String) = OkHttpClient.Builder().apply {
-        readTimeout(60,TimeUnit.SECONDS)
-        connectTimeout(60,TimeUnit.SECONDS)
-        writeTimeout(5,TimeUnit.SECONDS)
+        readTimeout(60, TimeUnit.SECONDS)
+        connectTimeout(60, TimeUnit.SECONDS)
+        writeTimeout(5, TimeUnit.SECONDS)
         addInterceptor(getLoggingInterceptor())
         addInterceptor(getTokenInterceptor(jwt))
     }.build()
 
-    private fun getTokenInterceptor(jwt:String)=Interceptor{
+    private fun getTokenInterceptor(jwt: String) = Interceptor {
         val request = it.request()
             .newBuilder()
-            .addHeader("x-auth-token",jwt)
+            .addHeader("x-auth-token", jwt)
             .build()
 
         return@Interceptor it.proceed(request)
     }
 
-    private fun getLoggingInterceptor():HttpLoggingInterceptor=
+    private fun getLoggingInterceptor(): HttpLoggingInterceptor =
         HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
-
-    fun provideHavitApi(jwt:String):HavitApi = getRetrofitBuild(jwt).create(HavitApi::class.java)
-
-
+    fun provideHavitApi(jwt: String): HavitApi = getRetrofitBuild(jwt).create(HavitApi::class.java)
 }

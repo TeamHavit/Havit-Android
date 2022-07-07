@@ -3,8 +3,10 @@ package org.sopt.havit.ui.category
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.widget.addTextChangedListener
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_IMAGE_ID
@@ -12,15 +14,16 @@ import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
 import org.sopt.havit.ui.contents.ContentsActivity
 import org.sopt.havit.ui.share.add_category.IconAdapter
 import org.sopt.havit.ui.share.add_category.IconAdapter.Companion.clickedPosition
-import org.sopt.havit.util.CustomToast
-import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.*
 
+@AndroidEntryPoint
 class CategoryContentModifyActivity :
     BaseBindingActivity<ActivityCategoryContentModifyBinding>(R.layout.activity_category_content_modify) {
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
     private var position = -1
     private var id = -1
-    private lateinit var categoryName: String
+    private var originCategoryImageId = -1
+    private lateinit var originCategoryName: String
     private lateinit var iconAdapter: IconAdapter
     private lateinit var categoryTitleList: ArrayList<String>
     private lateinit var preActivity: String
@@ -36,15 +39,19 @@ class CategoryContentModifyActivity :
         setDeleteTitleBtnClickListener()
         setDeleteBtnClickListener()
         setModifyCompleteBtnClickListener()
+        observeDeleteState()
+        observeModifyState()
     }
 
     override fun onBackPressed() {
-        showBackAlertDialog()
+        setBackPressedAction()
     }
 
     private fun setCategoryIntentData() {
         binding.categoryTitle =
-            intent.getStringExtra(CATEGORY_NAME).toString().also { categoryName = it }
+            intent.getStringExtra(CATEGORY_NAME).toString().also {
+                originCategoryName = it
+            }
         position = intent.getIntExtra("position", 0)
         id = intent.getIntExtra(CATEGORY_ID, 0)
         categoryTitleList = intent.getStringArrayListExtra("categoryNameList") as ArrayList<String>
@@ -52,7 +59,9 @@ class CategoryContentModifyActivity :
     }
 
     private fun initIconAdapter() {
-        clickedPosition = intent.getIntExtra(CATEGORY_IMAGE_ID, 0) - 1
+        clickedPosition = (intent.getIntExtra(CATEGORY_IMAGE_ID, 0) - 1).also {
+            originCategoryImageId = it
+        }
         binding.rvIcon.adapter = IconAdapter(::onIconClick).also { iconAdapter = it }
     }
 
@@ -64,7 +73,7 @@ class CategoryContentModifyActivity :
     }
 
     private fun setBackBtnClickListener() {
-        binding.ivBack.setOnClickListener { showBackAlertDialog() }
+        binding.ivBack.setOnClickListener { setBackPressedAction() }
     }
 
     private fun setDeleteTitleBtnClickListener() {
@@ -75,11 +84,23 @@ class CategoryContentModifyActivity :
         binding.etCategory.addTextChangedListener {
             // 중복된 카테고리 명인지 검사 & 현재 카테고리 명인지 검사(현재 카테고리 명이라면 중복이 아님을 명시)
             binding.isDuplicated =
-                (binding.categoryTitle in categoryTitleList && binding.categoryTitle != categoryName)
+                (binding.categoryTitle in categoryTitleList && binding.categoryTitle != originCategoryName)
         }
     }
 
     private fun deleteCategoryTitle() = binding.etCategory.text.clear()
+
+    // 뒤로가기 시 액션
+    private fun setBackPressedAction() {
+        if (isModified()) {
+            finish()
+        } else {
+            showBackAlertDialog()
+        }
+    }
+
+    private fun isModified() =
+        (binding.categoryTitle == originCategoryName && clickedPosition == originCategoryImageId)
 
     // 뒤로가기 시 뜨는 dialog
     private fun showBackAlertDialog() {
@@ -89,7 +110,7 @@ class CategoryContentModifyActivity :
 
     // 삭제 버튼 클릭 시
     private fun showCategoryDeleteDialog() {
-        val dialog = DialogUtil(DialogUtil.REMOVE_CATEGORY, ::deleteCategory)
+        val dialog = DialogUtil(DialogUtil.REMOVE_CATEGORY, ::requestCategoryDelete)
         dialog.show(supportFragmentManager, this.javaClass.name)
     }
 
@@ -101,17 +122,8 @@ class CategoryContentModifyActivity :
     private fun setModifyCompleteBtnClickListener() {
         binding.tvComplete.setOnClickListener {
             requestCategoryModify()
-            sendCategoryModifyResult()
-            finish()
-            CustomToast.showTextToast(this, resources.getString(R.string.category_modify_complete))
-        }
-    }
 
-    // 카테고리 삭제를 실행하는 함수
-    private fun deleteCategory() {
-        requestCategoryDelete()
-        sendCategoryDeleteResult()
-        finish()
+        }
     }
 
     private fun requestCategoryModify() {
@@ -172,6 +184,43 @@ class CategoryContentModifyActivity :
                 RESULT_DELETE_CATEGORY,
                 orderIntent
             ) // CategoryOrderModifyActivity로 데이터 전달
+        }
+    }
+
+    private fun observeDeleteState() {
+        categoryViewModel.deleteState.observe(this) {
+            when (it) {
+                NetworkState.FAIL -> ToastUtil(this@CategoryContentModifyActivity).makeToast(
+                    ERROR_OCCUR_TYPE
+                )
+                NetworkState.SUCCESS -> {
+                    ToastUtil(this@CategoryContentModifyActivity).makeToast(
+                        DELETE_CATEGORY_TOP_TYPE
+                    )
+
+                    sendCategoryDeleteResult()
+                    finish()
+                }
+                else -> {}
+            }
+        }
+    }
+
+    private fun observeModifyState() {
+        categoryViewModel.modifyState.observe(this) {
+            when (it) {
+                NetworkState.FAIL -> ToastUtil(this@CategoryContentModifyActivity).makeToast(
+                    ERROR_OCCUR_TYPE
+                )
+                NetworkState.SUCCESS -> {
+                    sendCategoryModifyResult()
+                    finish()
+                    ToastUtil(this@CategoryContentModifyActivity).makeToast(
+                        CATEGORY_MODIFY_COMPLETE_TYPE
+                    )
+                }
+                else -> {}
+            }
         }
     }
 

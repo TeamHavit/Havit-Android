@@ -23,8 +23,9 @@ import org.sopt.havit.data.remote.CreateContentsRequest
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
 import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.ui.share.ShareViewModel
-import org.sopt.havit.util.CustomToast
+import org.sopt.havit.util.ADD_CONTENT_TYPE
 import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.util.ToastUtil
 
 @AndroidEntryPoint
 class ContentsSummeryFragment : Fragment() {
@@ -198,5 +199,5 @@ class ContentsSummeryFragment : Fragment() {
         }
     }
 
-    private fun setCustomToast() = CustomToast.contentsAddedToast(requireContext())
+    private fun setCustomToast() = ToastUtil(requireContext()).makeToast(ADD_CONTENT_TYPE)
 }

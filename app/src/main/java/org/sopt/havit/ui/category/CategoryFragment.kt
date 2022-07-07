@@ -6,12 +6,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentCategoryBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsActivity
-import org.sopt.havit.util.CustomToast
+import org.sopt.havit.util.MAX_CATEGORY_NUM_EXCEEDED_TOP_TYPE
+import org.sopt.havit.util.ToastUtil
 
 class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.fragment_category) {
     private var _categoryAdapter: CategoryAdapter? = null
@@ -25,6 +28,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
 
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.categoryViewModel = categoryViewModel
 
         initAdapter()
@@ -33,13 +37,14 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         clickBack()
         clickItemView()
         addCategory()
+        refreshCategoryData()
 
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        setData()
+        requestCategoryData()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,7 +62,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         binding.rvContents.adapter = categoryAdapter
     }
 
-    private fun setData() {
+    private fun requestCategoryData() {
         categoryViewModel.requestCategoryTaken()
     }
 
@@ -69,16 +74,15 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
                 categoryAdapter.categoryList.addAll(it)
                 categoryAdapter.notifyDataSetChanged()
             }
-            categoryCount.observe(viewLifecycleOwner) {
-                with(binding) {
-                    if (it < 0) {
-                        sflCategory.startShimmer()
-                        sflCount.startShimmer()
-                    } else {
-                        sflCategory.stopShimmer()
-                        sflCount.stopShimmer()
-                    }
-                    categoryCount = it
+
+            loadState.observe(viewLifecycleOwner) {
+                // 서버 불러오는 중이라면 스켈레톤 화면 및 shimmer 효과를 보여줌
+                if (it == NetworkState.LOADING) {
+                    binding.sflCategory.startShimmer()
+                    binding.sflCount.startShimmer()
+                } else {
+                    binding.sflCategory.stopShimmer()
+                    binding.sflCount.stopShimmer()
                 }
             }
         }
@@ -125,15 +129,16 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
 
     private fun addCategory() {
         binding.clAdd.setOnClickListener {
-            if (categoryViewModel.categoryCount.value == CATEGORY_MAX) {
-                CustomToast.showTextToast(
-                    requireContext(),
-                    resources.getString(R.string.max_category)
-                )
-            } else {
-                val intent = Intent(requireActivity(), CategoryAddActivity::class.java)
-                startActivity(intent)
-            }
+            if (categoryViewModel.categoryCount.value == CATEGORY_MAX)
+                ToastUtil(requireContext()).makeToast(MAX_CATEGORY_NUM_EXCEEDED_TOP_TYPE)
+            else startActivity(Intent(requireActivity(), CategoryAddActivity::class.java))
+        }
+    }
+
+    private fun refreshCategoryData() {
+        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+            it.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotation_refresh))
+            requestCategoryData()
         }
     }
 

@@ -7,7 +7,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import org.sopt.havit.R
-import org.sopt.havit.databinding.ToastCategoryAddedBinding
 import org.sopt.havit.databinding.ToastContentsAddedBinding
 
 object CustomToast {
@@ -39,14 +38,6 @@ object CustomToast {
         textView.text = context.getString(R.string.cannot_set_notification_time_on_past)
         toast.view = view
         toast.setGravity(Gravity.BOTTOM, 0, yOffset)
-        toast.show()
-    }
-
-    fun categoryAddedToast(context: Context, title: String) {
-        val toast = Toast(context)
-        val binding = ToastCategoryAddedBinding.inflate(LayoutInflater.from(context))
-        binding.categoryName = title
-        toast.view = binding.root
         toast.show()
     }
 

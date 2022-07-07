@@ -1,5 +1,7 @@
 package org.sopt.havit.ui.contents
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.INVISIBLE
@@ -15,26 +17,13 @@ import org.sopt.havit.databinding.ItemContentsLinearMaxBinding
 import org.sopt.havit.databinding.ItemContentsLinearMinBinding
 import org.sopt.havit.util.ContentsDiffCallback
 
-class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.ViewHolder>(ContentsDiffCallback) {
+class ContentsAdapter :
+    ListAdapter<ContentsResponse.ContentsData, RecyclerView.ViewHolder>(ContentsDiffCallback) {
     private lateinit var itemClickListener: OnItemClickListener
     private lateinit var itemSetClickListener: OnItemSetClickListener
     private lateinit var itemHavitClickListener: OnItemHavitClickListener
 
     private fun changeTimeFormat(data: ContentsResponse.ContentsData) {
-        // 알림 예정 시각 형식 변경
-        if (data.notificationTime.isNotEmpty() && data.notificationTime.length == 16) {
-            val time = data.notificationTime
-            val date = time.substring(0 until 10)
-                .replace("-", ". ")
-            val hour = time.substring(11 until 13)
-            val minute = time.substring(14 until 16)
-            if (hour < "12") {
-                data.notificationTime = "$date 오전 $hour:$minute "
-            } else {
-                data.notificationTime = "$date 오후 $hour:$minute "
-            }
-        }
-
         // 글 생성 시각 형식 변경
         if (data.createdAt.length == 16) {
             data.createdAt = data.createdAt.substring(0 until 10)
@@ -47,11 +36,11 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
         fun onBind(data: ContentsResponse.ContentsData) {
             changeTimeFormat(data) // 시간 형식 변경
             with(binding) {
+                Log.d(TAG, "onBind: $data")
                 content = data
                 ivHavit.tag = if (data.isSeen) "seen" else "unseen"
                 ivHavit.setImageResource(if (data.isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
                 ivAlarm.visibility = if (data.isNotified) VISIBLE else INVISIBLE
-                tvAlarmDescription.visibility = if (data.isNotified) VISIBLE else INVISIBLE
             }
         }
     }
@@ -65,7 +54,6 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
                 ivHavit.tag = if (data.isSeen) "seen" else "unseen"
                 ivHavit.setImageResource(if (data.isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
                 ivAlarm.visibility = if (data.isNotified) VISIBLE else INVISIBLE
-                tvAlarmDescription.visibility = if (data.isNotified) VISIBLE else INVISIBLE
             }
         }
     }
@@ -79,7 +67,6 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
                 ivHavit.tag = if (data.isSeen) "seen" else "unseen"
                 ivHavit.setImageResource(if (data.isSeen) R.drawable.ic_contents_read_2 else R.drawable.ic_contents_unread)
                 ivAlarm.visibility = if (data.isNotified) VISIBLE else INVISIBLE
-                tvAlarmDescription.visibility = if (data.isNotified) VISIBLE else INVISIBLE
             }
         }
     }
@@ -145,10 +132,12 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
     interface OnItemClickListener {
         fun onWebClick(v: View, position: Int)
     }
+
     // 아이템 더보기 클릭 리스너 인터페이스
     interface OnItemSetClickListener {
         fun onSetClick(v: View, position: Int)
     }
+
     // 아이템 해빗 클릭 리스너 인터페이스
     interface OnItemHavitClickListener {
         fun onHavitClick(v: ImageView, position: Int)
@@ -158,10 +147,12 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
     fun setItemClickListener(onItemClickListener: OnItemClickListener) {
         this.itemClickListener = onItemClickListener
     }
+
     // 외부에서 더보기 클릭 시 이벤트 설정
     fun setItemSetClickListner(onItemSetClickListener: OnItemSetClickListener) {
         this.itemSetClickListener = onItemSetClickListener
     }
+
     // 외부에서 해빗 클릭 시 이벤트 설정
     fun setHavitClickListener(onItemHavitClickListener: OnItemHavitClickListener) {
         this.itemHavitClickListener = onItemHavitClickListener

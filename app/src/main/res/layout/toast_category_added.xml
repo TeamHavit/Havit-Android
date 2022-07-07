@@ -3,44 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="category_name"
-            type="String" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_toast_black_radius_24">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_toast_category1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingVertical="14dp"
-            android:paddingStart="40dp"
-            android:text="@{category_name}"
-            android:textAppearance="@style/Text14Semibold"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="*****" />
-
-        <TextView
-            android:id="@+id/tv_toast_category2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingVertical="14dp"
-            android:paddingEnd="40dp"
-            android:text="@string/category_added"
-            android:textAppearance="@style/Text14Regular"
-            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_toast_category1"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_toast_black_radius_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <!-- ToastUtil 사용을 위해 tv_toast로 이름 지음
+                 아래는 카테고리 이름이 들어가는 textView 임 -->
+            <TextView
+                android:id="@+id/tv_toast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:paddingVertical="14dp"
+                android:textAppearance="@style/Text14Semibold"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_category_added"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="*****" />
+
+            <TextView
+                android:id="@+id/tv_category_added"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="40dp"
+                android:paddingVertical="14dp"
+                android:text="@string/category_added"
+                android:textAppearance="@style/Text14Regular"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_toast"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
