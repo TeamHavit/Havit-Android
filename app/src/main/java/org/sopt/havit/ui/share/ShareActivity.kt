@@ -47,6 +47,7 @@ class ShareActivity : AppCompatActivity() {
     }
 
     private fun makeSignIn() {
+        /** 인터넷 연결이 안되어있으면 애초에 boolena 자체가 안날라와서 공유프로세스 진행이 안됨 */
         HavitAuthUtil.isLoginNow { isLogin ->
             if (!isLogin) {
                 moveToSplashWithSignActivity()
