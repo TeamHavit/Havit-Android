@@ -14,8 +14,10 @@ import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.Edit_TITLE
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.MOVE_CATEGORY
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.SET_ALARM
-import org.sopt.havit.util.CustomToast
+import org.sopt.havit.util.CONTENT_DELETE_TYPE
 import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.ERROR_OCCUR_TYPE
+import org.sopt.havit.util.ToastUtil
 
 class ContentsMoreFragment :
     BottomSheetDialogFragment() {
@@ -121,18 +123,16 @@ class ContentsMoreFragment :
         contentsViewModel.requestDeleteState.observe(viewLifecycleOwner) {
             when (it) {
                 NetworkState.FAIL -> {
-                    CustomToast.showTextToast(
-                        requireContext(),
-                        resources.getString(R.string.error_occur)
+                    ToastUtil(requireContext()).makeToast(
+                        ERROR_OCCUR_TYPE
                     )
                 }
                 NetworkState.SUCCESS -> {
                     notifyItemRemoved(pos)
                     dismiss()
 
-                    CustomToast.showTextToast(
-                        requireContext(),
-                        resources.getString(R.string.contents_has_been_deleted)
+                    ToastUtil(requireContext()).makeToast(
+                        CONTENT_DELETE_TYPE
                     )
                 }
                 else -> {}
