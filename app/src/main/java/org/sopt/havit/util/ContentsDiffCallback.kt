@@ -1,19 +1,19 @@
 package org.sopt.havit.util
 
 import androidx.recyclerview.widget.DiffUtil
-import org.sopt.havit.data.remote.ContentsResponse
+import org.sopt.havit.domain.entity.Contents
 
-object ContentsDiffCallback : DiffUtil.ItemCallback<ContentsResponse.ContentsData>() {
+object ContentsDiffCallback : DiffUtil.ItemCallback<Contents>() {
     override fun areItemsTheSame(
-        oldItem: ContentsResponse.ContentsData,
-        newItem: ContentsResponse.ContentsData
+        oldItem: Contents,
+        newItem: Contents
     ): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: ContentsResponse.ContentsData,
-        newItem: ContentsResponse.ContentsData
+        oldItem: Contents,
+        newItem: Contents
     ): Boolean {
         return oldItem == newItem
     }

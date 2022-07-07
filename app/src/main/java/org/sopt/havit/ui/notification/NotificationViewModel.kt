@@ -51,4 +51,16 @@ class NotificationViewModel(context: Context) : ViewModel() {
     fun updateContentsList(list: List<NotificationData>) {
         _contentsList.value = list
     }
+
+    // 콘텐츠 삭제를 서버에게 요청하는 코드
+    fun deleteContents(contentsId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response =
+                    RetrofitObject.provideHavitApi(token)
+                        .deleteContents(contentsId)
+            } catch (e: Exception) {
+            }
+        }
+    }
 }

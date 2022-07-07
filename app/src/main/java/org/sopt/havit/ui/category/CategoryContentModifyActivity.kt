@@ -14,9 +14,7 @@ import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
 import org.sopt.havit.ui.contents.ContentsActivity
 import org.sopt.havit.ui.share.add_category.IconAdapter
 import org.sopt.havit.ui.share.add_category.IconAdapter.Companion.clickedPosition
-import org.sopt.havit.util.CATEGORY_MODIFY_COMPLETE_TYPE
-import org.sopt.havit.util.DialogUtil
-import org.sopt.havit.util.ToastUtil
+import org.sopt.havit.util.*
 
 @AndroidEntryPoint
 class CategoryContentModifyActivity :
@@ -124,7 +122,7 @@ class CategoryContentModifyActivity :
     private fun setModifyCompleteBtnClickListener() {
         binding.tvComplete.setOnClickListener {
             requestCategoryModify()
-            
+
         }
     }
 
@@ -192,14 +190,12 @@ class CategoryContentModifyActivity :
     private fun observeDeleteState() {
         categoryViewModel.deleteState.observe(this) {
             when (it) {
-                NetworkState.FAIL -> CustomToast.showTextToast(
-                    this,
-                    resources.getString(R.string.error_occur_try_again)
+                NetworkState.FAIL -> ToastUtil(this@CategoryContentModifyActivity).makeToast(
+                    ERROR_OCCUR_TYPE
                 )
                 NetworkState.SUCCESS -> {
-                    CustomToast.showTextToast(
-                        this,
-                        resources.getString(R.string.category_has_been_deleted)
+                    ToastUtil(this@CategoryContentModifyActivity).makeToast(
+                        DELETE_CATEGORY_TOP_TYPE
                     )
 
                     sendCategoryDeleteResult()
@@ -213,14 +209,15 @@ class CategoryContentModifyActivity :
     private fun observeModifyState() {
         categoryViewModel.modifyState.observe(this) {
             when (it) {
-                NetworkState.FAIL -> CustomToast.showTextToast(
-                    this,
-                    resources.getString(R.string.error_occur_try_again)
+                NetworkState.FAIL -> ToastUtil(this@CategoryContentModifyActivity).makeToast(
+                    ERROR_OCCUR_TYPE
                 )
                 NetworkState.SUCCESS -> {
                     sendCategoryModifyResult()
                     finish()
-                    ToastUtil(this@CategoryContentModifyActivity).makeToast(CATEGORY_MODIFY_COMPLETE_TYPE)
+                    ToastUtil(this@CategoryContentModifyActivity).makeToast(
+                        CATEGORY_MODIFY_COMPLETE_TYPE
+                    )
                 }
                 else -> {}
             }

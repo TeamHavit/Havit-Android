@@ -11,12 +11,13 @@ import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.ActivityContentsSimpleBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
-import org.sopt.havit.ui.contents.ContentsMoreFragment
+import org.sopt.havit.ui.contents.more.ContentsMoreFragment
 import org.sopt.havit.ui.home.HomeFragment
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.CONTENT_CHECK_COMPLETE_TYPE
 import org.sopt.havit.util.CONTENT_DELETE_TYPE
+import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.ToastUtil
 import java.io.Serializable
 
@@ -87,23 +88,35 @@ class ContentsSimpleActivity :
                     )
                 }
 
-                // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
-                val removeItem: (Int) -> Unit = {
-                    val list =
-                        contentsAdapter.contentsList.toMutableList() // mutable로 해주어야 삭제(수정) 가능
-                    list.removeAt(it)
-                    // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
-                    contentsViewModel.updateContentsList(list)
-                    contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
-                    setRemoveToast()
+                val showDeleteDialog: () -> Unit = {
+                    val dialog =
+                        DialogUtil(DialogUtil.REMOVE_CONTENTS) {
+                            removeItem(
+                                position,
+                                requireNotNull(dataMore?.id)
+                            )
+                        }
+                    dialog.show(supportFragmentManager, this.javaClass.name)
                 }
-
-                val bundle = setBundle(dataMore, removeItem, position)
+                val bundle = setBundle(dataMore, showDeleteDialog, position)
                 val dialog = ContentsMoreFragment()
                 dialog.arguments = bundle
                 dialog.show(supportFragmentManager, "setting")
             }
         })
+    }
+
+    private fun removeItem(pos: Int, contentsId: Int) {
+        val list =
+            contentsAdapter.contentsList.toMutableList() // mutable로 해주어야 삭제(수정) 가능
+        list.removeAt(pos)
+        // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
+        contentsViewModel.updateContentsList(list)
+        contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
+
+        // 서버 요청
+        contentsViewModel.deleteContents(contentsId)
+        setRemoveToast()
     }
 
     private fun setRemoveToast() {
@@ -113,12 +126,15 @@ class ContentsSimpleActivity :
     // ContentsMoreFragment에 보낼 bundle 생성
     private fun setBundle(
         dataMore: ContentsMoreData?,
-        removeItem: (Int) -> Unit,
+        showDeleteDialog: () -> Unit,
         position: Int
     ): Bundle {
         val bundle = Bundle()
         bundle.putParcelable(ContentsMoreFragment.CONTENTS_MORE_DATA, dataMore)
-        bundle.putSerializable(ContentsMoreFragment.REMOVE_ITEM, removeItem as Serializable)
+        bundle.putSerializable(
+            ContentsMoreFragment.SHOW_DELETE_DIALOG,
+            showDeleteDialog as Serializable
+        )
         bundle.putInt(ContentsMoreFragment.POSITION, position)
         return bundle
     }
