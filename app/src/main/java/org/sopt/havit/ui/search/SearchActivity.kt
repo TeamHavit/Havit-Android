@@ -14,8 +14,9 @@ import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.ActivitySearchBinding
 import org.sopt.havit.domain.entity.Contents
 import org.sopt.havit.ui.base.BaseBindingActivity
-import org.sopt.havit.ui.contents.ContentsMoreFragment
+import org.sopt.havit.ui.contents.more.ContentsMoreFragment
 import org.sopt.havit.ui.web.WebActivity
+import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.KeyBoardUtil
 import java.io.Serializable
 
@@ -67,9 +68,15 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
         with(searchContentsAdapter) {
             setItemSettingClickListener(object : SearchContentsAdapter.OnItemSettingClickListener {
                 override fun onSettingClick(v: View, data: Contents, pos: Int) {
-                    val removeItem: (Int) -> Unit = {
-                        searchContentsAdapter.notifyItemRemoved(it)
+                    val showDeleteDialog: () -> Unit = {
+                        val dialog =
+                            DialogUtil(DialogUtil.REMOVE_CONTENTS) {
+                                searchContentsAdapter.notifyItemRemoved(pos)
+                                searchViewModel.deleteContents(data.id)
+                            }
+                        dialog.show(supportFragmentManager, this.javaClass.name)
                     }
+
                     val dataMore = ContentsMoreData(
                         data.id,
                         data.image,
@@ -80,7 +87,7 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
                         data.notificationTime
                     )
 
-                    val bundle = setBundle(dataMore, removeItem, pos)
+                    val bundle = setBundle(dataMore, showDeleteDialog, pos)
                     val dialog = ContentsMoreFragment()
                     dialog.arguments = bundle
                     dialog.show(supportFragmentManager, "setting")
@@ -126,12 +133,15 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
     // ContentsMoreFragment에 보낼 bundle 생성
     private fun setBundle(
         dataMore: ContentsMoreData?,
-        removeItem: (Int) -> Unit,
+        showDeleteDialog: () -> Unit,
         position: Int
     ): Bundle {
         val bundle = Bundle()
         bundle.putParcelable(ContentsMoreFragment.CONTENTS_MORE_DATA, dataMore)
-        bundle.putSerializable(ContentsMoreFragment.REMOVE_ITEM, removeItem as Serializable)
+        bundle.putSerializable(
+            ContentsMoreFragment.SHOW_DELETE_DIALOG,
+            showDeleteDialog as Serializable
+        )
         bundle.putInt(ContentsMoreFragment.POSITION, position)
         return bundle
     }

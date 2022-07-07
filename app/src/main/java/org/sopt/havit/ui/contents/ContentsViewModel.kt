@@ -36,8 +36,6 @@ class ContentsViewModel @Inject constructor(
     private val _requestDeleteState = MutableLiveData<NetworkState>()
     val requestDeleteState: LiveData<NetworkState> = _requestDeleteState
 
-    var contentsMore = MutableLiveData<ContentsMoreData>()
-
     fun getContentsByCategory(categoryId: Int, option: String, filter: String) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -85,10 +83,6 @@ class ContentsViewModel @Inject constructor(
                 _requestSeenState.postValue(NetworkState.FAIL)
             }
         }
-    }
-
-    fun setContentsView(data: ContentsMoreData) {
-        contentsMore.value = data
     }
 
     // 콘텐츠 삭제를 서버에게 요청하는 코드

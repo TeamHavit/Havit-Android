@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="vm"
-            type="org.sopt.havit.ui.contents.ContentsViewModel" />
+            name="data"
+            type="org.sopt.havit.data.remote.ContentsMoreData" />
 
     </data>
 
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        tools:context=".ui.contents.ContentsMoreFragment">
+        tools:context=".ui.contents.more.ContentsMoreFragment">
 
         <TextView
             android:id="@+id/tv_more"
@@ -50,7 +50,7 @@
 
             <ImageView
                 android:id="@+id/iv_more"
-                imageSearch="@{vm.contentsMore.image}"
+                imageSearch="@{data.image}"
                 android:layout_width="63dp"
                 android:layout_height="63dp"
                 android:scaleType="centerCrop" />
@@ -66,7 +66,7 @@
             android:layout_marginEnd="24dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="@{vm.contentsMore.title}"
+            android:text="@{data.title}"
             android:textAppearance="@style/Text14SemiboldLineSpacing"
             android:textColor="@color/gray_3"
             app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="9dp"
-            android:text="@{vm.contentsMore.createdAt}"
+            android:text="@{data.createdAt}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintBottom_toBottomOf="@+id/cv_more"
@@ -108,7 +108,7 @@
             android:ellipsize="end"
             android:ems="21"
             android:maxLines="1"
-            android:text="@{vm.contentsMore.url}"
+            android:text="@{data.url}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintBottom_toBottomOf="@+id/tv_dot"
