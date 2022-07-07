@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,7 +38,7 @@ import java.io.Serializable
 @AndroidEntryPoint
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
-    private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(this) }
+    private val contentsViewModel: ContentsViewModel by viewModels()
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
     private lateinit var getResult: ActivityResultLauncher<Intent>
     private var categoryId = 0
@@ -85,9 +86,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun requestContentsData() {
         if (categoryId <= -1) {
-            contentsViewModel.requestContentsAllTaken(contentsOption, contentsFilter, categoryName)
+            contentsViewModel.getAllContents(contentsOption, contentsFilter)
+            contentsViewModel.setCategoryName(categoryName)
         } else {
-            contentsViewModel.requestContentsTaken(categoryId, contentsOption, contentsFilter)
+            contentsViewModel.getContentsByCategory(categoryId, contentsOption, contentsFilter)
         }
     }
 

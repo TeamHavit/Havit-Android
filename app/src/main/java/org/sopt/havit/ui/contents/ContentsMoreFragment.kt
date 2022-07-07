@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
@@ -22,7 +24,7 @@ import org.sopt.havit.util.ToastUtil
 class ContentsMoreFragment :
     BottomSheetDialogFragment() {
     private lateinit var binding: FragmentContentsMoreBinding
-    private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(requireContext()) }
+    private val contentsViewModel: ContentsViewModel by viewModels()
     private lateinit var contentsData: ContentsMoreData
     private lateinit var notifyItemRemoved: (Int) -> Unit
     private var pos = 0
@@ -116,7 +118,7 @@ class ContentsMoreFragment :
     // 콘텐츠 삭제 함수
     private fun deleteContents() {
         // 콘텐츠 삭제 서버에 요청
-        contentsViewModel.requestContentsDelete(contentsData.id)
+        contentsViewModel.deleteContents(contentsData.id)
     }
 
     private fun observeDeleteState() {
