@@ -3,6 +3,7 @@ package org.sopt.havit.ui.contents_simple
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,6 +43,7 @@ class ContentsSimpleActivity :
         clickItemView()
         clickItemHavit()
         clickItemMore()
+        clickRefreshData()
         dataObserve()
     }
 
@@ -146,6 +148,14 @@ class ContentsSimpleActivity :
         }
     }
 
+    // 서버 연결 오류 시 새로 고침(서버 재호출)
+    private fun clickRefreshData() {
+        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+            it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotation_refresh))
+            setContents()
+        }
+    }
+
     private fun decorationView() {
         binding.rvContents.addItemDecoration(
             DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
@@ -208,10 +218,10 @@ class ContentsSimpleActivity :
                         contentsAdapter.updateList(list)
                     }
                 }
-                // 로딩중 화면 물러오기
+                // 로딩중 화면 불러오기
                 loadState.observe(it) { state ->
                     // 서버 불러오는 중이라면 스켈레톤 화면 및 shimmer 효과를 보여줌
-                    if (state == NetworkState.LOADING) {    // 로딩 중
+                    if (state == NetworkState.LOADING) {
                         binding.sflContents.startShimmer()
                     } else {
                         binding.sflContents.stopShimmer()

@@ -139,6 +139,7 @@
             android:visibility="@{vmContents.loadState==state.FAIL? View.VISIBLE : View.GONE}">
 
             <include
+                android:id="@+id/layout_network_error"
                 layout="@layout/layout_network_error"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
