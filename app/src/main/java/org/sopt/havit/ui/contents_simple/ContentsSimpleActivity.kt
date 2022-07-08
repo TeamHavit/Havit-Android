@@ -10,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.ActivityContentsSimpleBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.contents.more.ContentsMoreFragment
 import org.sopt.havit.ui.home.HomeFragment
@@ -210,7 +211,7 @@ class ContentsSimpleActivity :
                 // 로딩중 화면 물러오기
                 loadState.observe(it) { state ->
                     // 서버 불러오는 중이라면 스켈레톤 화면 및 shimmer 효과를 보여줌
-                    if (state) {
+                    if (state == NetworkState.LOADING) {    // 로딩 중
                         binding.sflContents.startShimmer()
                     } else {
                         binding.sflContents.stopShimmer()
