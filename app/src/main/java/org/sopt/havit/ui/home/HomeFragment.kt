@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.TranslateAnimation
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentHomeBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.category.CategoryAddActivity
 import org.sopt.havit.ui.contents_simple.ContentsSimpleActivity
@@ -66,34 +67,34 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     // 추천 콘텐츠 클릭 -> 웹뷰로 이동
     private fun clickRecommendItemView() {
         recommendRvAdapter.setItemClickListener(object :
-                HomeRecommendRvAdapter.OnItemClickListener {
-                override fun onWebClick(v: View, position: Int) {
-                    val intent = Intent(v.context, WebActivity::class.java)
-                    homeViewModel.recommendList.value?.get(position)
-                        ?.let {
-                            intent.putExtra("url", it.url)
-                            intent.putExtra("contentsId", -1)
-                        }
-                    startActivity(intent)
-                }
-            })
+            HomeRecommendRvAdapter.OnItemClickListener {
+            override fun onWebClick(v: View, position: Int) {
+                val intent = Intent(v.context, WebActivity::class.java)
+                homeViewModel.recommendList.value?.get(position)
+                    ?.let {
+                        intent.putExtra("url", it.url)
+                        intent.putExtra("contentsId", -1)
+                    }
+                startActivity(intent)
+            }
+        })
     }
 
     // 최근 저장 콘텐츠 클릭 -> 웹뷰로 이동
     private fun clickRecentContentsItemView() {
         contentsAdapter.setItemClickListener(object :
-                HomeRecentContentsRvAdapter.OnItemClickListener {
-                override fun onWebClick(v: View, position: Int) {
-                    val intent = Intent(v.context, WebActivity::class.java)
-                    homeViewModel.contentsList.value?.get(position)
-                        ?.let {
-                            intent.putExtra("url", it.url)
-                            intent.putExtra("contentsId", it.id)
-                            intent.putExtra("isSeen", it.isSeen)
-                        }
-                    startActivity(intent)
-                }
-            })
+            HomeRecentContentsRvAdapter.OnItemClickListener {
+            override fun onWebClick(v: View, position: Int) {
+                val intent = Intent(v.context, WebActivity::class.java)
+                homeViewModel.contentsList.value?.get(position)
+                    ?.let {
+                        intent.putExtra("url", it.url)
+                        intent.putExtra("contentsId", it.id)
+                        intent.putExtra("isSeen", it.isSeen)
+                    }
+                startActivity(intent)
+            }
+        })
     }
 
     private fun setData() {
@@ -109,8 +110,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private fun loadStateObserve() {
         with(homeViewModel) {
-            loadState.observe(viewLifecycleOwner) {
-                if (it) // 로딩중이라면
+            loadState.observe(viewLifecycleOwner) { state ->
+                if (state == NetworkState.LOADING) // 로딩중이라면
                     binding.sflHome.startShimmer()
                 else // 로딩이 끝났다면
                     binding.sflHome.stopShimmer()
