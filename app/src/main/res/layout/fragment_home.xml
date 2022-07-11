@@ -626,11 +626,13 @@
 
         <!-- 서버 연결 실패 -->
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_network_error"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="@{vmHome.loadState==state.FAIL ? View.VISIBLE : View.GONE}">
 
             <include
+                android:id="@+id/layout_network_error"
                 layout="@layout/layout_network_error"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

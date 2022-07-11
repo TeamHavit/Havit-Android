@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.view.animation.TranslateAnimation
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentHomeBinding
@@ -224,6 +225,15 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.ivServiceGuide.setOnClickListener {
             val intent = Intent(requireActivity(), ServiceGuideActivity::class.java)
             startActivity(intent)
+        }
+        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+            it.startAnimation(
+                AnimationUtils.loadAnimation(
+                    requireActivity(),
+                    R.anim.rotation_refresh
+                )
+            )
+            setData()
         }
         clickRecommendItemView() // 추천콘텐츠 클릭->웹뷰로 이동
         clickRecentContentsItemView() // 최근저장 콘텐츠 클릭->웹뷰로 이동
