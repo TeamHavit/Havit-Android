@@ -1,6 +1,5 @@
 package org.sopt.havit
 
-import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -15,7 +14,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
-import org.sopt.havit.data.local.SettingPreference
 import org.sopt.havit.ui.web.WebActivity
 import javax.inject.Inject
 
@@ -23,14 +21,13 @@ const val channelID = "notification_channel"
 const val channelName = "org.sopt.androidsharing"
 
 @AndroidEntryPoint
-@SuppressLint("MissingFirebaseInstanceTokenRefresh")
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     @Inject
-    lateinit var pref: SettingPreference
+    lateinit var firebaseTokenManager: FirebaseTokenManager
 
     override fun onNewToken(token: String) {
-        // 토큰 변경될 때
-        Log.d("MyFirebaseMessagingService", "Refreshed token: $token")
+        super.onNewToken(token)
+        firebaseTokenManager.sendRegistrationToServer(token)
     }
 
     // 1. push 알림 들어옴
@@ -76,7 +73,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val intent = Intent(this, WebActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.putExtra("url", url)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
         var builder = NotificationCompat.Builder(this, channelID)
             .setSmallIcon(R.drawable.ic_havit_radious_10)
@@ -90,7 +87,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        /** Oreo Version 이하일때 처리 하는 코드 */
+        /** Oreo Version 이상일때 처리 하는 코드 */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Log.d(TAG, "under Oreo Version")
             val notificationChannel =
