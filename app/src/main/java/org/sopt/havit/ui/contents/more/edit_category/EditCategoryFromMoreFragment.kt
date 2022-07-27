@@ -84,8 +84,10 @@ class EditCategoryFromMoreFragment :
     }
 
     override fun onBackPressed(): Boolean {
-        if (viewModel.isCategoryModified())
+        if (viewModel.isCategoryModified()) {
+            // todo 카테고리 이동 취소 dialog 띄우기
             return true
+        }
         return false
     }
 

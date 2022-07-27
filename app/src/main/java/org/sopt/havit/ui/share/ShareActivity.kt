@@ -26,6 +26,11 @@ class ShareActivity : AppCompatActivity() {
         setUrlOnViewModel()
     }
 
+    override fun onResume() {
+        super.onResume()
+        startSavingContents()
+    }
+
     private fun setUrlOnViewModel() {
         val intent = this.intent
         val url =
@@ -39,11 +44,6 @@ class ShareActivity : AppCompatActivity() {
         // 공유하기 버튼으로 진입하면 return true
         // MainActivity 의 + 버튼으로 진입하면 return false
         return (intent?.action == Intent.ACTION_SEND) && (intent.type == "text/plain")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        startSavingContents()
     }
 
     private fun makeSignIn() {

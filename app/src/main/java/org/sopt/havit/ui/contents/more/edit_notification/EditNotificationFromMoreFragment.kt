@@ -79,10 +79,8 @@ class EditNotificationFromMoreFragment :
                 viewModel.patchNotification()
                 viewModel.isNetworkCorrespondenceEnd.observe(
                     requireActivity(),
-                    // TODO 서버 api 연동 이후에 이벤트처리 다시하기
                     EventObserver { message ->
-                        if (message == SUCCESS)
-                            ToastUtil(requireContext()).makeToast(SET_ALARM_TYPE)
+                        if (message == SUCCESS) ToastUtil(requireContext()).makeToast(SET_ALARM_TYPE)
                         dismissBottomSheet()
                     }
                 )
