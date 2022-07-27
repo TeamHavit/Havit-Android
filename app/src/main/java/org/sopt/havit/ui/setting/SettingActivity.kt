@@ -25,14 +25,13 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
         binding.vmSetting = settingViewModel
         setVersion()
         setClickListener()
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         setData()
     }
 
