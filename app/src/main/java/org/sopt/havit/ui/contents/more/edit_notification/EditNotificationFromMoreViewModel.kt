@@ -103,10 +103,12 @@ class EditNotificationFromMoreViewModel @Inject constructor(
                     ModifyContentNotificationParams(requireNotNull(time))
                 )
             }.onSuccess {
+                userClicksOnButton(SUCCESS)
                 Log.d(TAG, "patchNotification: onSuccess")
             }.onFailure {
+                userClicksOnButton(FAIL)
                 Log.d(TAG, "patchNotification: onFailure $it")
-            }.run { userClicksOnButton() }
+            }
         }
     }
 
@@ -117,7 +119,12 @@ class EditNotificationFromMoreViewModel @Inject constructor(
     val isNetworkCorrespondenceEnd: MutableLiveData<Event<String>>
         get() = _isNetworkCorrespondenceEnd
 
-    private fun userClicksOnButton() {
-        _isNetworkCorrespondenceEnd.value = Event("Finish Server")
+    private fun userClicksOnButton(string: String) {
+        _isNetworkCorrespondenceEnd.value = Event(string)
+    }
+
+    companion object {
+        const val SUCCESS = "SUCCESS"
+        const val FAIL = "FAIL"
     }
 }

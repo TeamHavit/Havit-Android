@@ -5,7 +5,7 @@ import org.sopt.havit.data.remote.SignUpResponse
 
 interface AuthRepository {
 
-    fun getFcmToken(): String
+    fun getFcmToken(getFcmToken: (String) -> Unit)
 
     fun saveAccessToken(accessToken: String)
 

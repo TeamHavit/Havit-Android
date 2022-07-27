@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryOrderModifyBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_DELETE_CATEGORY
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_MODIFY_CATEGORY
+import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.DialogUtil
 
 class CategoryOrderModifyActivity :
@@ -19,6 +21,7 @@ class CategoryOrderModifyActivity :
     private lateinit var getResult: ActivityResultLauncher<Intent>
     private lateinit var categoryOrderModifyAdapter: CategoryOrderModifyAdapter
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
+    private val originCategoryIdList = mutableListOf<Int>()
     lateinit var holder: RecyclerView.ViewHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,20 +35,31 @@ class CategoryOrderModifyActivity :
         clickBack()
         initDrag()
         setCompleteOrder()
+        observeOrderModifyState()
     }
 
     override fun onBackPressed() {
-        setBackDialog()
+        setBackPressedAction()
+    }
+
+    private fun setBackPressedAction() {
+        val categoryIdList = mutableListOf<Int>()
+        for (item in categoryOrderModifyAdapter.categoryList) {
+            categoryIdList.add(item.id)
+        }
+
+        // 순서만 같은지 다른지 판별
+        if (originCategoryIdList == categoryIdList) {
+            finish()
+        } else {
+            showBackDialog()
+        }
     }
 
     // 뒤로가기 시 뜨는 dialog
-    private fun setBackDialog() {
-        val dialog = DialogUtil(DialogUtil.CANCEL_EDIT_CATEGORY, ::setFinish)
+    private fun showBackDialog() {
+        val dialog = DialogUtil(DialogUtil.CANCEL_EDIT_CATEGORY, ::finish)
         dialog.show(supportFragmentManager, this.javaClass.name)
-    }
-
-    private fun setFinish() {
-        finish()
     }
 
     private fun initAdapter() {
@@ -55,8 +69,16 @@ class CategoryOrderModifyActivity :
 
     private fun setCategoryItemListData() {
         categoryOrderModifyAdapter.categoryList =
-            intent.getParcelableArrayListExtra("categoryItemList")!!
+            requireNotNull(intent.getParcelableArrayListExtra("categoryItemList"))
+        initOriginCategoryIdList()
+
         categoryOrderModifyAdapter.notifyDataSetChanged()
+    }
+
+    private fun initOriginCategoryIdList() {
+        for (item in categoryOrderModifyAdapter.categoryList) {
+            originCategoryIdList.add(item.id)
+        }
     }
 
     private fun setResult() {
@@ -69,6 +91,8 @@ class CategoryOrderModifyActivity :
 
                     // 리사이클러뷰 변경
                     categoryOrderModifyAdapter.removeData(position)
+                    // 기존 id 리스트 변경
+                    originCategoryIdList.removeAt(position)
                 }
                 RESULT_MODIFY_CATEGORY -> { // 카테고리 이름 & 아이콘 수정
                     // 수정할 카테고리의 정보를 받아옴
@@ -91,32 +115,32 @@ class CategoryOrderModifyActivity :
 
     private fun clickItem() {
         categoryOrderModifyAdapter.setItemClickListener(object :
-                CategoryOrderModifyAdapter.OnItemClickListener {
-                override fun onClick(v: View, position: Int) {
-                    // 카테고리 이름 list
-                    val categoryTitleList = ArrayList<String>()
-                    for (item in categoryOrderModifyAdapter.categoryList)
-                        categoryTitleList.add(item.title)
+            CategoryOrderModifyAdapter.OnItemClickListener {
+            override fun onClick(v: View, position: Int) {
+                // 카테고리 이름 list
+                val categoryTitleList = ArrayList<String>()
+                for (item in categoryOrderModifyAdapter.categoryList)
+                    categoryTitleList.add(item.title)
 
-                    val intent = Intent(v.context, CategoryContentModifyActivity::class.java).apply {
-                        categoryOrderModifyAdapter.categoryList[position].let {
-                            putExtra("categoryId", it.id)
-                            putExtra("categoryName", it.title)
-                            putExtra("imageId", it.imageId)
-                        }
-                        putExtra("position", position)
-                        putStringArrayListExtra("categoryNameList", categoryTitleList)
-                        putExtra("preActivity", "CategoryOrderModifyActivity")
+                val intent = Intent(v.context, CategoryContentModifyActivity::class.java).apply {
+                    categoryOrderModifyAdapter.categoryList[position].let {
+                        putExtra("categoryId", it.id)
+                        putExtra("categoryName", it.title)
+                        putExtra("imageId", it.imageId)
                     }
-
-                    // 데이터를 담고 전달
-                    getResult.launch(intent)
+                    putExtra("position", position)
+                    putStringArrayListExtra("categoryNameList", categoryTitleList)
+                    putExtra("preActivity", "CategoryOrderModifyActivity")
                 }
-            })
+
+                // 데이터를 담고 전달
+                getResult.launch(intent)
+            }
+        })
     }
 
     private fun clickBack() {
-        binding.ivBack.setOnClickListener { setBackDialog() }
+        binding.ivBack.setOnClickListener { setBackPressedAction() }
     }
 
     // drag & drop 코드
@@ -168,19 +192,29 @@ class CategoryOrderModifyActivity :
     private fun setCompleteOrder() {
         binding.tvComplete.setOnClickListener {
             // id만 담긴 list 추출
-            val idList = mutableListOf<Int>()
+            val categoryIdList = mutableListOf<Int>()
             for (item in categoryOrderModifyAdapter.categoryList) {
-                idList.add(item.id)
+                categoryIdList.add(item.id)
             }
             // 서버에 순서 변경 요청
-            categoryViewModel.requestCategoryOrder(idList.toList())
+            categoryViewModel.requestCategoryOrder(categoryIdList.toList())
 
-            // 서버 post 완료 시 종료
-            categoryViewModel.delay.observe(this@CategoryOrderModifyActivity) {
-                if (it) {
-                    categoryViewModel.setDelay(false)
+        }
+    }
+
+    private fun observeOrderModifyState() {
+        categoryViewModel.orderModifyState.observe(this) {
+            when (it) {
+                NetworkState.SUCCESS -> {
                     finish()
                 }
+                NetworkState.FAIL -> {
+                    CustomToast.showTextToast(
+                        this,
+                        resources.getString(R.string.error_occur_try_again)
+                    )
+                }
+                else -> {}
             }
         }
     }

@@ -163,17 +163,18 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_delete_notification"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
                 android:layout_marginHorizontal="16dp"
-                app:buttonVisibility="@{Boolean.valueOf(viewModel.finalNotificationTime != null)}"
+                android:layout_marginBottom="30dp"
                 android:background="@drawable/rectangle_gray_0_radius_6"
+                android:paddingVertical="13dp"
                 android:text="@string/delete_notification"
                 android:textAppearance="@style/Button15Medium"
                 android:textColor="@color/havit_red"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:paddingVertical="13dp" />
+                app:buttonVisibility="@{Boolean.valueOf(viewModel.finalNotificationTime != null)}"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

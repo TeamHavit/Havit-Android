@@ -9,7 +9,7 @@
 
         <variable
             name="content"
-            type="org.sopt.havit.data.remote.ContentsResponse.ContentsData" />
+            type="org.sopt.havit.domain.entity.Contents" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

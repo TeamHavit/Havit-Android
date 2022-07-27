@@ -1,6 +1,8 @@
 package org.sopt.havit.data.api
 
 import org.sopt.havit.data.remote.*
+import org.sopt.havit.data.remote.base.BaseResponse
+import org.sopt.havit.domain.entity.Contents
 import retrofit2.http.*
 
 interface HavitApi {
@@ -47,7 +49,7 @@ interface HavitApi {
         @Path("categoryId") categoryId: Int,
         @Query("option") option: String,
         @Query("filter") filter: String
-    ): ContentsResponse
+    ): BaseResponse<List<Contents>>
 
     @GET("content/recent")
     suspend fun getContentsRecent(): ContentsSimpleResponse
@@ -78,7 +80,7 @@ interface HavitApi {
     suspend fun getAllContents(
         @Query("option") option: String,
         @Query("filter") filter: String
-    ): ContentsResponse
+    ): BaseResponse<List<Contents>>
 
     @GET("user")
     suspend fun getUserData(): UserResponse
@@ -126,5 +128,10 @@ interface HavitApi {
     suspend fun modifyContentNotification(
         @Path("contentId") contentId: Int,
         @Body notificationTime: ModifyContentNotificationParams
+    ): BasicResponse
+
+    @PUT("user/fcm-token")
+    suspend fun refreshFcmToken(
+        @Body body: FcmTokenParams
     ): BasicResponse
 }

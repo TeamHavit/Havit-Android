@@ -65,7 +65,7 @@ class SettingUnregisterActivity :
         settingViewModel.removeHavitAuthToken()
 
         startActivity(Intent(this, SplashWithSignActivity::class.java))
-        finish()
+        finishAffinity()
     }
 
     private fun setData() {

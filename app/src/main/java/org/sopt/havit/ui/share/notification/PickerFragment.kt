@@ -21,7 +21,8 @@ import org.sopt.havit.util.CalenderUtil.dateWithDashFormatMD
 import org.sopt.havit.util.CalenderUtil.dateWithKorFormatMD
 import org.sopt.havit.util.CalenderUtil.dayStrMapper
 import org.sopt.havit.util.CalenderUtil.setTimePickerInterval
-import org.sopt.havit.util.CustomToast
+import org.sopt.havit.util.PAST_TIME_TYPE
+import org.sopt.havit.util.ToastUtil
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -155,10 +156,7 @@ class PickerFragment : BottomSheetDialogFragment() {
     }
 
     private fun showPastTimeToast() {
-        CustomToast.showPastTImeToast(
-            context = requireContext(),
-            yOffset = (resources.displayMetrics.heightPixels * 0.48).toInt()
-        )
+        ToastUtil(requireContext()).makeToast(PAST_TIME_TYPE)
     }
 
     private fun getSelectedNotiTime(): String {

@@ -61,7 +61,19 @@ object CalenderUtil {
         val date = originTime.substring(0, 10).replace("-", ". ")
         val amPmHour = getHourAmPm(originTime.substring(11, 13).toInt())
         val min = originTime.substring(14, 16).toInt().toString()
-        return "$date ${amPmHour}시 ${min}분 알림 예정"
+        val text: String
+
+        // 현재 시간 형식에 맞게 가져오기
+        val now = System.currentTimeMillis()
+        val nowDate = Date(now)
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
+        val getTime: String = sdf.format(nowDate)
+
+        text = if (originTime > getTime)
+            "알림 예정"
+        else
+            "알림 완료"
+        return "$date ${amPmHour}시 ${min}분 $text"
     }
 
     fun setDateFormat(originTime: String): String {
