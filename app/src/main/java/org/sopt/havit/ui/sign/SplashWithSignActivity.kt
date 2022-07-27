@@ -85,7 +85,11 @@ class SplashWithSignActivity :
     }
 
     private fun setAutoLogin() {
-        HavitAuthUtil.isLoginNow { isLogin ->
+        HavitAuthUtil.isLoginNow({ isInternetConnected ->
+            if (isInternetConnected) {
+                // TODO 인터넷 연결이 안되어 있을 때 로직 작성
+            }
+        }) { isLogin ->
             if (isLogin) startMainActivity() else setLoginAnimation()
         }
     }
