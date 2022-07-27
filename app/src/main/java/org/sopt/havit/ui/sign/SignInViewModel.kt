@@ -131,7 +131,7 @@ class SignInViewModel @Inject constructor(
     }
 
     fun setFcmToken() {
-        _fcmToken.value = authRepository.getFcmToken()
+        authRepository.getFcmToken { token -> _fcmToken.value = token }
     }
 
     fun setKakaoToken(token: String) {
