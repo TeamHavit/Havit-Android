@@ -124,6 +124,12 @@ interface HavitApi {
     @DELETE("auth/user")
     suspend fun deleteUser()
 
+    @PATCH("content/{contentId}/notification")
+    suspend fun modifyContentNotification(
+        @Path("contentId") contentId: Int,
+        @Body notificationTime: ModifyContentNotificationParams
+    ): BasicResponse
+
     @PUT("user/fcm-token")
     suspend fun refreshFcmToken(
         @Body body: FcmTokenParams
