@@ -108,7 +108,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
             }
         }
         startActivity(Intent(this, SplashWithSignActivity::class.java))
-        finish()
+        finishAffinity()
     }
 
     private fun sendMail() {
