@@ -60,6 +60,7 @@ class SplashWithSignActivity :
         isReadyUserObserver()
     }
 
+
     private fun initWhereSplashComesFrom() {
         signInViewModel.setLoginGuideVisibility(
             intent.getBooleanExtra(
@@ -110,6 +111,8 @@ class SplashWithSignActivity :
     private val splashWithLoginLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_FIRST_USER) {
+                setLoginAnimation()
+            } else {
                 setLoginAnimation()
             }
         }
