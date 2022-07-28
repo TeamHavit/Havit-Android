@@ -261,7 +261,7 @@ class SplashWithSignActivity :
                     )
                     startMainActivity()
                 } else { // 신규 유저
-                    startOnBoardingActivity()
+                    startActivity(Intent(this, SignActivity::class.java))
                 }
             }
         )
