@@ -13,7 +13,7 @@ import org.sopt.havit.util.EventObserver
 @AndroidEntryPoint
 class SignActivity : BaseBindingActivity<ActivitySignBinding>(R.layout.activity_sign) {
 
-    private val signInViewModel: SignInViewModel by viewModels()
+    private val signInViewModel: SignViewModel by viewModels()
     private val signVpAdapter: SignVpAdapter by lazy { SignVpAdapter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {

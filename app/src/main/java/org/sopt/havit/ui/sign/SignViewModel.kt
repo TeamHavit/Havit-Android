@@ -15,7 +15,7 @@ import org.sopt.havit.util.Event
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(
+class SignViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 

@@ -19,7 +19,7 @@ import org.sopt.havit.util.MySharedPreference
 @AndroidEntryPoint
 class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragment_add_tos) {
 
-    private val signInViewModel: SignInViewModel by activityViewModels()
+    private val signInViewModel: SignViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

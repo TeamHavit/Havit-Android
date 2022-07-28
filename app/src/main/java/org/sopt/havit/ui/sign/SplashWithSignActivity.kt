@@ -19,7 +19,7 @@ import org.sopt.havit.databinding.ActivitySplashWithSignBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.onboarding.OnboardingActivity
 import org.sopt.havit.ui.share.ShareActivity
-import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_NORMAL_FLOW
+import org.sopt.havit.ui.sign.SignViewModel.Companion.SPLASH_NORMAL_FLOW
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.HavitAuthUtil
 import org.sopt.havit.util.MySharedPreference
@@ -28,7 +28,7 @@ import org.sopt.havit.util.MySharedPreference
 class SplashWithSignActivity :
     BaseBindingActivity<ActivitySplashWithSignBinding>(R.layout.activity_splash_with_sign) {
 
-    private val signInViewModel: SignInViewModel by viewModels()
+    private val signInViewModel: SignViewModel by viewModels()
     private val alphaLogoAnim by lazy {
         AnimationUtils.loadAnimation(
             this,
