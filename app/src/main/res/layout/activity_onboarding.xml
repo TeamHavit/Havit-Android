@@ -22,13 +22,15 @@
             android:id="@+id/tv_skip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="22dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="7dp"
+            android:padding="15dp"
             android:text="@string/onboarding_skip"
             android:textAppearance="@style/Text12Regular"
             android:textColor="@color/gray_3"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/vp_onboarding"/>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_onboarding"

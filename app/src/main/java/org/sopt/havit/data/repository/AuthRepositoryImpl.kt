@@ -1,6 +1,6 @@
 package org.sopt.havit.data.repository
 
-import org.sopt.havit.MyFirebaseMessagingService
+import com.google.firebase.messaging.FirebaseMessaging
 import org.sopt.havit.data.remote.SignInResponse
 import org.sopt.havit.data.remote.SignUpResponse
 import org.sopt.havit.data.source.local.AuthLocalDataSource
@@ -13,7 +13,11 @@ class AuthRepositoryImpl @Inject constructor(
     private val authLocalDataSource: AuthLocalDataSource
 ) : AuthRepository {
 
-    override fun getFcmToken() = MyFirebaseMessagingService.getDeviceToken().toString()
+    override fun getFcmToken(getFcmToken: (String) -> Unit) {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            getFcmToken(requireNotNull(task.result))
+        }
+    }
 
     override fun saveAccessToken(accessToken: String) {
         authLocalDataSource.saveAccessToken(accessToken)

@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsMoreData
+import org.sopt.havit.data.remote.ModifyContentNotificationParams
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
@@ -94,9 +96,12 @@ class EditNotificationFromMoreViewModel @Inject constructor(
 
     fun patchNotification() {
         viewModelScope.launch {
+            val time = tempNotificationTime.value?.substring(0, 16)?.replace(".", "-")
             kotlin.runCatching {
-                val time = tempNotificationTime.value?.substring(0, 16)?.replace(".", "-")
-                // TODO 알림수정 api 아직 안나옴
+                RetrofitObject.provideHavitApi(token).modifyContentNotification(
+                    requireNotNull(contentId.value),
+                    ModifyContentNotificationParams(requireNotNull(time))
+                )
             }.onSuccess {
                 userClicksOnButton(SUCCESS)
                 Log.d(TAG, "patchNotification: onSuccess")

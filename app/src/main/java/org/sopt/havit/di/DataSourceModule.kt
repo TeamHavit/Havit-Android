@@ -12,6 +12,8 @@ import org.sopt.havit.data.source.remote.AuthRemoteDataSource
 import org.sopt.havit.data.source.remote.AuthRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.SearchRemoteDataSource
 import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
+import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSource
+import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSourceImpl
 import javax.inject.Singleton
 
 @Module
@@ -32,4 +34,9 @@ object DataSourceModule {
     @Singleton
     fun provideAuthLocalDataSource(havitLocalPreferences: HavitAuthLocalPreferences): AuthLocalDataSource =
         AuthLocalDataSourceImpl(havitLocalPreferences)
+
+    @Provides
+    @Singleton
+    fun provideContentsRemoteDataSource(api: HavitApi): ContentsRemoteDataSource =
+        ContentsRemoteDataSourceImpl(api)
 }

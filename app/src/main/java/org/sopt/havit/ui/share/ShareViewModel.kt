@@ -9,6 +9,8 @@ import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
 import org.sopt.havit.util.Event
 import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,6 +19,25 @@ class ShareViewModel @Inject constructor(
 ) : ViewModel() {
     /** token */
     val token = authRepository.getAccessToken()
+
+    /** url*/
+    private var _url = MutableLiveData<String>()
+    val url: LiveData<String> = _url
+
+    fun setUrl(url: String) {
+        _url.value = extractUrl(url)
+    }
+
+    private fun extractUrl(content: String?): String {
+        return try {
+            val regex = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"
+            val p: Pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE)
+            val m: Matcher = p.matcher(content)
+            if (m.find()) m.group() else ""
+        } catch (e: java.lang.Exception) {
+            ""
+        }
+    }
 
     /** title */
     var originTitle = MutableLiveData<String>()

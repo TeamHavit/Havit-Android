@@ -11,18 +11,19 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
-import org.sopt.havit.data.remote.ContentsResponse
 import org.sopt.havit.databinding.ItemContentsGridBinding
 import org.sopt.havit.databinding.ItemContentsLinearMaxBinding
 import org.sopt.havit.databinding.ItemContentsLinearMinBinding
+import org.sopt.havit.domain.entity.Contents
 import org.sopt.havit.util.ContentsDiffCallback
 
-class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.ViewHolder>(ContentsDiffCallback) {
+class ContentsAdapter :
+    ListAdapter<Contents, RecyclerView.ViewHolder>(ContentsDiffCallback) {
     private lateinit var itemClickListener: OnItemClickListener
     private lateinit var itemSetClickListener: OnItemSetClickListener
     private lateinit var itemHavitClickListener: OnItemHavitClickListener
 
-    private fun changeTimeFormat(data: ContentsResponse.ContentsData) {
+    private fun changeTimeFormat(data: Contents) {
         // 글 생성 시각 형식 변경
         if (data.createdAt.length == 16) {
             data.createdAt = data.createdAt.substring(0 until 10)
@@ -32,7 +33,7 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
 
     inner class LinearMinViewHolder(private val binding: ItemContentsLinearMinBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ContentsResponse.ContentsData) {
+        fun onBind(data: Contents) {
             changeTimeFormat(data) // 시간 형식 변경
             with(binding) {
                 Log.d(TAG, "onBind: $data")
@@ -46,7 +47,7 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
 
     inner class GridViewHolder(private val binding: ItemContentsGridBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ContentsResponse.ContentsData) {
+        fun onBind(data: Contents) {
             changeTimeFormat(data) // 시간 형식 변경
             with(binding) {
                 content = data
@@ -59,7 +60,7 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
 
     inner class LinearMaxViewHolder(private val binding: ItemContentsLinearMaxBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: ContentsResponse.ContentsData) {
+        fun onBind(data: Contents) {
             changeTimeFormat(data) // 시간 형식 변경
             with(binding) {
                 content = data
@@ -131,10 +132,12 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
     interface OnItemClickListener {
         fun onWebClick(v: View, position: Int)
     }
+
     // 아이템 더보기 클릭 리스너 인터페이스
     interface OnItemSetClickListener {
         fun onSetClick(v: View, position: Int)
     }
+
     // 아이템 해빗 클릭 리스너 인터페이스
     interface OnItemHavitClickListener {
         fun onHavitClick(v: ImageView, position: Int)
@@ -144,10 +147,12 @@ class ContentsAdapter : ListAdapter<ContentsResponse.ContentsData, RecyclerView.
     fun setItemClickListener(onItemClickListener: OnItemClickListener) {
         this.itemClickListener = onItemClickListener
     }
+
     // 외부에서 더보기 클릭 시 이벤트 설정
     fun setItemSetClickListner(onItemSetClickListener: OnItemSetClickListener) {
         this.itemSetClickListener = onItemSetClickListener
     }
+
     // 외부에서 해빗 클릭 시 이벤트 설정
     fun setHavitClickListener(onItemHavitClickListener: OnItemHavitClickListener) {
         this.itemHavitClickListener = onItemHavitClickListener

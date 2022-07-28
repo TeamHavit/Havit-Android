@@ -8,286 +8,302 @@
         <import type="android.view.View" />
 
         <variable
-            name="categoryCount"
-            type="Integer" />
-
-        <variable
             name="categoryViewModel"
             type="org.sopt.havit.ui.category.CategoryViewModel" />
+
+        <variable
+            name="state"
+            type="org.sopt.havit.domain.entity.NetworkState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_category"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="org.sopt.havit.ui.category.CategoryFragment">
 
+        <!--서버 연결 실패-->
+        <include
+            android:id="@+id/layout_network_error"
+            layout="@layout/layout_network_error"
+            android:visibility="@{categoryViewModel.loadState == state.FAIL ? View.VISIBLE : View.GONE, default = gone}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_top"
+            android:id="@+id/cl_category"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="match_parent"
+            android:visibility="@{categoryViewModel.loadState == state.FAIL ? View.GONE : View.VISIBLE, default = visible}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="11dp"
-                android:padding="3dp"
-                android:src="@drawable/ic_back_black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_all_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/category_entire_category"
-                android:textAppearance="@style/Header16Bold"
-                android:textColor="@color/havit_gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_modify"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="17dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="13dp"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="6dp"
-                android:text="@string/modify"
-                android:textAppearance="@style/Text14Regular"
-                android:textColor="@color/gray_3"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_middle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cl_top">
-
-
-            <TextView
-                android:id="@+id/tv_entire"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="21dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/category_entire"
-                android:textAppearance="@style/Sub13Regular"
-                android:textColor="#696969"
-                android:visibility="@{categoryCount &lt; 0 ? View.GONE : View.VISIBLE, default = gone}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:text="@{String.valueOf(categoryCount)}"
-                android:textAppearance="@style/Sub13Regular"
-                android:textColor="#696969"
-                android:visibility="@{categoryCount &lt; 0 ? View.GONE : View.VISIBLE, default = gone}"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_entire"
-                app:layout_constraintStart_toEndOf="@+id/tv_entire"
-                app:layout_constraintTop_toTopOf="@+id/tv_entire"
-                tools:text="0" />
-
-            <!-- 카테고리 개수 로딩 중 -->
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/sfl_count"
-                android:layout_width="56dp"
-                android:layout_height="0dp"
-                android:layout_marginVertical="10dp"
-                android:layout_marginStart="16dp"
-                android:visibility="@{categoryCount &lt; 0 ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/rectangle_gray_0_radius_6" />
-            </com.facebook.shimmer.ShimmerFrameLayout>
-
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_add"
-                android:layout_width="wrap_content"
+                android:id="@+id/cl_top"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="6dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/iv_category_add"
+                    android:id="@+id/iv_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_category_add"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="11dp"
+                    android:padding="3dp"
+                    android:src="@drawable/ic_back_black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_category_add"
+                    android:id="@+id/tv_all_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="11dp"
-                    android:text="@string/add_category"
-                    android:textAppearance="@style/Text12Semibold"
-                    android:textColor="@color/purple_text"
+                    android:text="@string/category_entire_category"
+                    android:textAppearance="@style/Header16Bold"
+                    android:textColor="@color/havit_gray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/iv_category_add"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_modify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="17dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="13dp"
+                    android:paddingHorizontal="15dp"
+                    android:paddingVertical="6dp"
+                    android:text="@string/modify"
+                    android:textAppearance="@style/Text14Regular"
+                    android:textColor="@color/gray_3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!-- 카테고리 존재 할 때 -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_contents"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:clipToPadding="false"
-            android:descendantFocusability="blocksDescendants"
-            android:paddingTop="6dp"
-            android:paddingBottom="?attr/actionBarSize"
-            android:visibility="@{categoryCount > 0 ? View.VISIBLE : View.GONE, default = gone}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cl_middle"
-            tools:itemCount="10"
-            tools:listitem="@layout/item_category" />
-
-        <!-- 카테고리가 없을 때 -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_empty"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:visibility="@{categoryCount == 0 ? View.VISIBLE : View.GONE, default = gone}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cl_middle">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="56dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_suggestion"
-                app:srcCompat="@drawable/img_graphic_nocategory" />
-
-            <TextView
-                android:id="@+id/tv_suggestion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/img_add_category_tip"
-                android:gravity="center"
-                android:paddingTop="5dp"
-                android:text="@string/category_suggestion"
-                android:textAppearance="@style/Text14Regular"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_no_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/home_category_empty"
-                android:textAppearance="@style/Header16Bold"
-                android:textColor="@color/havit_gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-            <TextView
-                android:id="@+id/tv_no_category_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
-                android:text="@string/category_create_recommend"
-                android:textAppearance="@style/Sub13Regular"
-                android:textColor="@color/gray_3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_no_category" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!-- 로딩 중 -->
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/sfl_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="@{categoryCount &lt; 0 ? View.VISIBLE : View.GONE}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cl_middle">
-
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_middle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_top">
 
-                <include layout="@layout/item_category_skeleton" />
 
-                <include layout="@layout/item_category_skeleton" />
+                <TextView
+                    android:id="@+id/tv_entire"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="21dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/category_entire"
+                    android:textAppearance="@style/Sub13Regular"
+                    android:textColor="#696969"
+                    android:visibility="@{categoryViewModel.loadState == state.SUCCESS ? View.VISIBLE : View.GONE, default = gone}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <include layout="@layout/item_category_skeleton" />
+                <TextView
+                    android:id="@+id/tv_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text="@{String.valueOf(categoryViewModel.categoryCount)}"
+                    android:textAppearance="@style/Sub13Regular"
+                    android:textColor="#696969"
+                    android:visibility="@{categoryViewModel.loadState == state.SUCCESS ? View.VISIBLE : View.GONE, default = gone}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_entire"
+                    app:layout_constraintStart_toEndOf="@+id/tv_entire"
+                    app:layout_constraintTop_toTopOf="@+id/tv_entire"
+                    tools:text="0" />
 
-                <include layout="@layout/item_category_skeleton" />
+                <!-- 카테고리 개수 로딩 중 -->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/sfl_count"
+                    android:layout_width="56dp"
+                    android:layout_height="0dp"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginStart="16dp"
+                    android:visibility="@{categoryViewModel.loadState == state.LOADING ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <include layout="@layout/item_category_skeleton" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/rectangle_gray_0_radius_6" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
-                <include layout="@layout/item_category_skeleton" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="6dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <include layout="@layout/item_category_skeleton" />
+                    <ImageView
+                        android:id="@+id/iv_category_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/ic_category_add"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <include layout="@layout/item_category_skeleton" />
+                    <TextView
+                        android:id="@+id/tv_category_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="11dp"
+                        android:text="@string/add_category"
+                        android:textAppearance="@style/Text12Semibold"
+                        android:textColor="@color/purple_text"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/iv_category_add"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include layout="@layout/item_category_skeleton" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include layout="@layout/item_category_skeleton" />
+            <!-- 카테고리 존재 할 때 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_contents"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:clipToPadding="false"
+                android:descendantFocusability="blocksDescendants"
+                android:paddingTop="6dp"
+                android:paddingBottom="?attr/actionBarSize"
+                android:visibility="@{Integer.valueOf(categoryViewModel.categoryCount) > 0 ? View.VISIBLE : View.GONE, default = gone}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_middle"
+                tools:itemCount="10"
+                tools:listitem="@layout/item_category" />
 
-                <include layout="@layout/item_category_skeleton" />
+            <!-- 카테고리가 없을 때 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_empty"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:visibility="@{Integer.valueOf(categoryViewModel.categoryCount) == 0 ? View.VISIBLE : View.GONE, default = gone}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_middle">
 
-                <include layout="@layout/item_category_skeleton" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="56dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_suggestion"
+                    app:srcCompat="@drawable/img_graphic_nocategory" />
 
-                <include layout="@layout/item_category_skeleton" />
-            </LinearLayout>
-        </com.facebook.shimmer.ShimmerFrameLayout>
+                <TextView
+                    android:id="@+id/tv_suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/img_add_category_tip"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:text="@string/category_suggestion"
+                    android:textAppearance="@style/Text14Regular"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_no_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/home_category_empty"
+                    android:textAppearance="@style/Header16Bold"
+                    android:textColor="@color/havit_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+                <TextView
+                    android:id="@+id/tv_no_category_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="@string/category_create_recommend"
+                    android:textAppearance="@style/Sub13Regular"
+                    android:textColor="@color/gray_3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_no_category" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 로딩 중 -->
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/sfl_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{categoryViewModel.loadState == state.LOADING ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_middle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/item_category_skeleton" />
+
+                    <include layout="@layout/item_category_skeleton" />
+
+                    <include layout="@layout/item_category_skeleton" />
+
+                    <include layout="@layout/item_category_skeleton" />
+
+                    <include layout="@layout/item_category_skeleton" />
+
+                    <include layout="@layout/item_category_skeleton" />
+
+                    <include layout="@layout/item_category_skeleton" />
+
+                    <include layout="@layout/item_category_skeleton" />
+
+                    <include layout="@layout/item_category_skeleton" />
+
+                    <include layout="@layout/item_category_skeleton" />
+
+                    <include layout="@layout/item_category_skeleton" />
+
+                    <include layout="@layout/item_category_skeleton" />
+
+                    <include layout="@layout/item_category_skeleton" />
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

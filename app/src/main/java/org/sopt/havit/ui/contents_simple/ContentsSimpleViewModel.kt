@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.ContentsSimpleResponse
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.util.MySharedPreference
 
 class ContentsSimpleViewModel(context: Context) : ViewModel() {
@@ -84,5 +85,17 @@ class ContentsSimpleViewModel(context: Context) : ViewModel() {
 
     fun updateContentsList(list: List<ContentsSimpleResponse.ContentsSimpleData>) {
         _contentsList.value = list
+    }
+
+    // 콘텐츠 삭제를 서버에게 요청하는 코드
+    fun deleteContents(contentsId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response =
+                    RetrofitObject.provideHavitApi(token)
+                        .deleteContents(contentsId)
+            } catch (e: Exception) {
+            }
+        }
     }
 }

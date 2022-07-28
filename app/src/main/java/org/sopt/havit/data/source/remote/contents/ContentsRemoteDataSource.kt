@@ -1,12 +1,9 @@
-package org.sopt.havit.domain.repository
+package org.sopt.havit.data.source.remote.contents
 
 import org.sopt.havit.data.remote.BasicResponse
-import org.sopt.havit.data.remote.ContentsHavitResponse
 import org.sopt.havit.domain.entity.Contents
 
-interface ContentsRepository {
-
-    suspend fun isSeen(contentsId: Int): ContentsHavitResponse
+interface ContentsRemoteDataSource {
 
     suspend fun getContentsByCategory(
         categoryId: Int,
@@ -20,4 +17,5 @@ interface ContentsRepository {
     ): List<Contents>
 
     suspend fun deleteContents(contentsId: Int): BasicResponse
+
 }
