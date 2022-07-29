@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="org.sopt.havit.ui.sign.SignInViewModel" />
+            type="org.sopt.havit.ui.sign.SignViewModel" />
 
     </data>
 
@@ -50,6 +50,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_tos_subtitle" />
 
         <TextView
+            android:id="@+id/tv_tos_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"

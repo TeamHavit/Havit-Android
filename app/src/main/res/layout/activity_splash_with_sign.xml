@@ -7,7 +7,7 @@
 
         <variable
             name="main"
-            type="org.sopt.havit.ui.sign.SignInViewModel" />
+            type="org.sopt.havit.ui.sign.SignViewModel" />
 
         <import type="android.view.View" />
 

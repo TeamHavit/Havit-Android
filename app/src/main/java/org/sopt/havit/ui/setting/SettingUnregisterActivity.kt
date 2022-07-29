@@ -63,7 +63,7 @@ class SettingUnregisterActivity :
         settingViewModel.unregister()
         MySharedPreference.clearXAuthToken(this)
         settingViewModel.removeHavitAuthToken()
-
+        MySharedPreference.saveFirstEnter(this)
         startActivity(Intent(this, SplashWithSignActivity::class.java))
         finishAffinity()
     }
