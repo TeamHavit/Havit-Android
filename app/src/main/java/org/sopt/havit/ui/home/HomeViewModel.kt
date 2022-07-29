@@ -42,7 +42,7 @@ class HomeViewModel(context: Context) : ViewModel() {
                         .getContentsRecent()
                 _contentsList.postValue(response.data)
                 _contentsLoadState.postValue(NetworkState.SUCCESS)
-                setLoadState()
+                checkLoadState()
             } catch (e: Exception) {
                 _contentsLoadState.postValue(NetworkState.FAIL)
             }
@@ -58,10 +58,10 @@ class HomeViewModel(context: Context) : ViewModel() {
                 val response =
                     RetrofitObject.provideHavitApi(token)
                         .getAllCategory()
-                setLoadState()
+                checkLoadState()
                 _categoryData.postValue(response.data)
                 _categoryLoadState.postValue(NetworkState.SUCCESS)
-                setLoadState()
+                checkLoadState()
             } catch (e: Exception) {
                 _categoryLoadState.postValue(NetworkState.FAIL)
             }
@@ -118,10 +118,10 @@ class HomeViewModel(context: Context) : ViewModel() {
                 val response =
                     RetrofitObject.provideHavitApi(token)
                         .getRecommendation()
-                setLoadState()
+                checkLoadState()
                 _recommendList.postValue(response.data)
                 _recommendLoadState.postValue(NetworkState.SUCCESS)
-                setLoadState()
+                checkLoadState()
             } catch (e: Exception) {
                 _recommendLoadState.postValue(NetworkState.FAIL)
             }
@@ -136,10 +136,10 @@ class HomeViewModel(context: Context) : ViewModel() {
             try {
                 val response = RetrofitObject.provideHavitApi(token)
                     .getNotification(NotificationActivity.before)
-                setLoadState()
+                checkLoadState()
                 _notificationList.postValue(response.data)
                 _notificationLoadState.postValue(NetworkState.SUCCESS)
-                setLoadState()
+                checkLoadState()
             } catch (e: Exception) {
                 _notificationLoadState.postValue(NetworkState.FAIL)
             }
@@ -158,7 +158,7 @@ class HomeViewModel(context: Context) : ViewModel() {
                 _userData.postValue(response.data)
                 _userLoadState.postValue(NetworkState.SUCCESS)
                 setReachRate(response.data) // 도달률 계산
-                setLoadState()
+                checkLoadState()
             } catch (e: Exception) {
                 _userLoadState.postValue(NetworkState.FAIL)
             }
@@ -182,11 +182,17 @@ class HomeViewModel(context: Context) : ViewModel() {
     }
 
     // skeleton
-    fun setLoadState() {
+    fun checkLoadState() {
         if (userLoadState.value == NetworkState.SUCCESS && categoryLoadState.value == NetworkState.SUCCESS
             && contentsLoadState.value == NetworkState.SUCCESS && recommendLoadState.value == NetworkState.SUCCESS
             && notificationLoadState.value == NetworkState.SUCCESS
         )
             _loadState.postValue(NetworkState.SUCCESS)
+//            _loadState.postValue(NetworkState.LOADING)
+    }
+
+    // 서버 실패
+    fun setLoadStateFail() {
+        _loadState.postValue(NetworkState.FAIL)
     }
 }

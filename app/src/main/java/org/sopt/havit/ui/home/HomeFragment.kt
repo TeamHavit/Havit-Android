@@ -109,6 +109,14 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
+    // 5초 이상 로딩 시 LoadState Fail로 설정
+    private fun checkTimeout() {
+        Handler().postDelayed({
+            if (homeViewModel.loadState.value == NetworkState.LOADING)
+                homeViewModel.setLoadStateFail()
+        }, 5000)
+    }
+
     private fun loadStateObserve() {
         with(homeViewModel) {
             loadState.observe(viewLifecycleOwner) { state ->
@@ -117,14 +125,17 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                 else // 로딩이 끝났다면
                     binding.sflHome.stopShimmer()
             }
+            checkTimeout()  // 5초 이상 로딩 시 LoadState Fail로 설정
+
             // 유저, 카테고리, 최근저장콘텐츠, 추천콘텐츠 서버 연결 확인
-            userLoadState.observe(viewLifecycleOwner) { setLoadState() }
-            categoryLoadState.observe(viewLifecycleOwner) { setLoadState() }
-            recommendLoadState.observe(viewLifecycleOwner) { setLoadState() }
-            contentsLoadState.observe(viewLifecycleOwner) { setLoadState() }
-            notificationLoadState.observe(viewLifecycleOwner) { setLoadState() }
+            userLoadState.observe(viewLifecycleOwner) { checkLoadState() }
+            categoryLoadState.observe(viewLifecycleOwner) { checkLoadState() }
+            recommendLoadState.observe(viewLifecycleOwner) { checkLoadState() }
+            contentsLoadState.observe(viewLifecycleOwner) { checkLoadState() }
+            notificationLoadState.observe(viewLifecycleOwner) { checkLoadState() }
         }
     }
+
 
     private fun initAdapter() {
         // 카테고리 adapter 초기화
@@ -177,7 +188,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     // popUp 삭제 버튼 클릭 이벤트
     private fun clickDeletePopup() {
         // popUp 삭제 버튼 클릭 시 수행되는 animation
-        val animation = TranslateAnimation(0.0f, 0.0f, 0.0f, binding.clPopup.height.toFloat() * -1)
+        val animation =
+            TranslateAnimation(0.0f, 0.0f, 0.0f, binding.clPopup.height.toFloat() * -1)
         animation.duration = 300 // 300 millis 동안 수행
         animation.fillAfter = false // fillAfter = false : 애니메이션 수행 후 view 원위치로
         binding.clPopup.startAnimation(animation)
@@ -187,7 +199,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }, 300)
 
         // MySharedPreference에 deletePopup버튼을 누른 현재 시각 저장
-        val deletePopupTime = System.currentTimeMillis() / (1000 * 60) // 1970.01.01부터 흐른 시간(분)
+        val deletePopupTime =
+            System.currentTimeMillis() / (1000 * 60) // 1970.01.01부터 흐른 시간(분)
         PopupSharedPreference.setDeletePopupTime(requireContext(), deletePopupTime)
         PopupSharedPreference.setIsPopup(requireContext(), false)
     }
@@ -299,7 +312,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     // 팝업 시간 변화 검사 : x를 누르고 3일이 지났는지
     private fun checkDeletePopupTime() {
-        val currentTime = System.currentTimeMillis() / (1000 * 60) // 1970.01.01부터 현재까지 흐른 시간(분)
+        val currentTime =
+            System.currentTimeMillis() / (1000 * 60) // 1970.01.01부터 현재까지 흐른 시간(분)
         val deletePopupTime =
             PopupSharedPreference.getDeletePopupTime(requireContext()) // deletePopup 버튼을 누른 시각
         isPopup = (currentTime - deletePopupTime) > 60 * 24 * 3
@@ -308,8 +322,14 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     // 도달률 최종 업데이트
     private fun updatePopup() {
         binding.isPopup = isPopup // 최종 isPopup 값 뷰에 반영
-        PopupSharedPreference.setIsPopup(requireContext(), isPopup) // 최종 isPopup 값 spf에 저장
-        PopupSharedPreference.setPopupText(requireContext(), popupText) // 도달률 텍스트 값 spf에 저장
+        PopupSharedPreference.setIsPopup(
+            requireContext(),
+            isPopup
+        ) // 최종 isPopup 값 spf에 저장
+        PopupSharedPreference.setPopupText(
+            requireContext(),
+            popupText
+        ) // 도달률 텍스트 값 spf에 저장
     }
 
     companion object {
