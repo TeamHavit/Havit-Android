@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentAddTosBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.setting.SettingPersonalDataActivity
 import org.sopt.havit.ui.setting.SettingPolicyActivity
@@ -36,6 +38,7 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
         binding.lifecycleOwner = viewLifecycleOwner
         setListeners()
         accessTokenObserver()
+        initIsServerErrorObserver()
     }
 
     override fun onResume() {
@@ -71,6 +74,9 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
         binding.tvPersonalData.setOnClickListener {
             startSettingPersonalDataActivity()
         }
+        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+            signInViewModel.postSignUp()
+        }
     }
 
     private fun initOnBackPressed() {
@@ -87,7 +93,7 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
 
     private fun startMainActivity() {
         startActivity(Intent(requireContext(), MainActivity::class.java))
-        requireActivity().finish()
+        requireActivity().finishAffinity()
     }
 
     private fun startSettingPolicyActivity() {
@@ -98,10 +104,17 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
         startActivity(Intent(requireContext(), SettingPersonalDataActivity::class.java))
     }
 
+    private fun initIsServerErrorObserver() {
+        signInViewModel.isServerNetwork.observe(viewLifecycleOwner) {
+            if (it == NetworkState.SUCCESS) {
+                startMainActivity()
+            }
+        }
+    }
+
     private fun accessTokenObserver() {
         signInViewModel.accessToken.observe(viewLifecycleOwner) {
-            startMainActivity()
-            MySharedPreference.setXAuthToken(requireContext(), it ?: "")
+            if (it != null) MySharedPreference.setXAuthToken(requireContext(), it)
         }
     }
 }

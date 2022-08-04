@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.remote.SignInResponse
 import org.sopt.havit.data.remote.SignUpRequest
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.util.Event
 import retrofit2.HttpException
@@ -24,6 +25,8 @@ class SignViewModel @Inject constructor(
         const val SPLASH_FROM_SHARE = true
         const val SPLASH_NORMAL_FLOW = false
     }
+
+    var isServerNetwork = MutableLiveData<NetworkState>()
 
     var loginGuidVisibility = MutableLiveData(false)
         private set
@@ -113,8 +116,10 @@ class SignViewModel @Inject constructor(
                 if (it.success) {
                     authRepository.saveAccessToken(requireNotNull(it.data.accessToken))
                     _accessToken.postValue(it.data.accessToken)
+                    isServerNetwork.postValue(NetworkState.SUCCESS)
                 }
             }.onFailure {
+                isServerNetwork.postValue(NetworkState.FAIL)
                 Log.d("error", "${(it as? HttpException)?.message}")
             }
         }

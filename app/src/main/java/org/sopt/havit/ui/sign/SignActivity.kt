@@ -1,14 +1,21 @@
 package org.sopt.havit.ui.sign
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.view.isVisible
+import androidx.viewpager2.widget.ViewPager2
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
+import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySignBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.util.EventObserver
+import org.sopt.havit.util.MySharedPreference
 
 @AndroidEntryPoint
 class SignActivity : BaseBindingActivity<ActivitySignBinding>(R.layout.activity_sign) {
@@ -21,6 +28,7 @@ class SignActivity : BaseBindingActivity<ActivitySignBinding>(R.layout.activity_
         initKakaoUserInfo()
         initSignViewPager()
         initIsMoveToNextOrBackObserver()
+        initIsServerErrorObserver()
     }
 
     private fun initKakaoUserInfo() {
@@ -46,6 +54,14 @@ class SignActivity : BaseBindingActivity<ActivitySignBinding>(R.layout.activity_
         binding.vpSign.adapter = signVpAdapter
         binding.indicatorSign.setViewPager2(binding.vpSign)
         binding.vpSign.isUserInputEnabled = false
+    }
+
+    private fun initIsServerErrorObserver() {
+        signInViewModel.isServerNetwork.observe(this) {
+            if (it == NetworkState.FAIL) {
+                binding.indicatorSign.isVisible = false
+            }
+        }
     }
 
     private fun initIsMoveToNextOrBackObserver() {

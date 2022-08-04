@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="state"
+            type="org.sopt.havit.domain.entity.NetworkState" />
+
         <variable
             name="vm"
             type="org.sopt.havit.ui.sign.SignViewModel" />
@@ -146,9 +152,21 @@
             android:textAppearance="@style/Text16Semibold"
             android:textColor="@color/white"
             btnColor="@{vm.isNextClick()}"
+            android:visibility="@{vm.isServerNetwork == state.FAIL ? View.GONE : View.VISIBLE, default = visible}"
             android:clickable="@{vm.isNextClick == true ? true : false}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <include
+            android:id="@+id/layout_network_error"
+            layout="@layout/layout_network_error"
+            android:visibility="@{vm.isServerNetwork == state.FAIL ? View.VISIBLE : View.GONE, default = gone}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
