@@ -99,11 +99,11 @@
             android:id="@+id/iv_save_url_text_delete"
             android:layout_width="17dp"
             android:layout_height="17dp"
+            android:layout_marginTop="13dp"
             android:layout_marginEnd="10dp"
             android:onClick="@{() -> vm.setSaveDataClear()}"
             android:src="@drawable/ic_delete_text"
             android:visibility="@{vm.saveDataUrl.empty ? View.INVISIBLE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@+id/et_save_url"
             app:layout_constraintEnd_toEndOf="@+id/et_save_url"
             app:layout_constraintTop_toTopOf="@+id/et_save_url" />
 
@@ -183,9 +183,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:padding="9dp"
                 android:background="@android:color/transparent"
                 android:onClick="@{() -> vm.setClipDataClear()}"
+                android:padding="9dp"
                 android:src="@drawable/ic_delete_toast"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
