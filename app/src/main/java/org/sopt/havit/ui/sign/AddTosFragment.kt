@@ -53,21 +53,6 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
         binding.btnTosBack.setOnClickListener {
             signInViewModel.setMoveToNextOrBack(false)
         }
-        binding.ivTosAll.setOnClickListener {
-            signInViewModel.setAllCheck()
-        }
-        binding.tvTosAll.setOnClickListener {
-            signInViewModel.setAllCheck()
-        }
-        binding.ivTosUse.setOnClickListener {
-            signInViewModel.setTosUseCheck()
-        }
-        binding.ivTosInfo.setOnClickListener {
-            signInViewModel.setTosInfoCheck()
-        }
-        binding.ivTosEvent.setOnClickListener {
-            signInViewModel.setTosEventCheck()
-        }
         binding.tvPolicy.setOnClickListener {
             startSettingPolicyActivity()
         }
@@ -114,7 +99,7 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
 
     private fun accessTokenObserver() {
         signInViewModel.accessToken.observe(viewLifecycleOwner) {
-            if (it != null) MySharedPreference.setXAuthToken(requireContext(), it)
+            if (it != "") MySharedPreference.setXAuthToken(requireContext(), it)
         }
     }
 }
