@@ -105,6 +105,11 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
             binding.ivBack.setOnClickListener {
                 requireActivity().finish()
             }
+        } else if (activityName == "ContentsFromMyPageActivity") {
+            binding.ivBack.visibility = View.VISIBLE
+            binding.ivBack.setOnClickListener {
+                requireActivity().finish()
+            }
         } else { // MainActivity
             binding.ivBack.visibility = View.GONE
             Log.d("activity_check", "Main")
