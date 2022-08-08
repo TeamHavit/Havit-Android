@@ -1,12 +1,12 @@
 package org.sopt.havit.ui.contents_simple
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
@@ -17,10 +17,7 @@ import org.sopt.havit.ui.contents.more.ContentsMoreFragment
 import org.sopt.havit.ui.home.HomeFragment
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.web.WebActivity
-import org.sopt.havit.util.CONTENT_CHECK_COMPLETE_TYPE
-import org.sopt.havit.util.CONTENT_DELETE_TYPE
-import org.sopt.havit.util.DialogUtil
-import org.sopt.havit.util.ToastUtil
+import org.sopt.havit.util.*
 import java.io.Serializable
 
 @AndroidEntryPoint
@@ -157,8 +154,19 @@ class ContentsSimpleActivity :
     }
 
     private fun decorationView() {
+        // 1dp를 float형으로 변환
+        val oneDp: Float = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 1f,
+            this.resources.displayMetrics
+        )
+
+        // divider 색 변경을 위한 CustomItemDecoration
         binding.rvContents.addItemDecoration(
-            DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
+            CustomDecoration(
+                oneDp,
+                oneDp,
+                Color.parseColor("#f3f3f3")
+            )
         )
     }
 
