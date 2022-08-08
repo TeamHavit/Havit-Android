@@ -182,7 +182,7 @@ class PickerFragment : BottomSheetDialogFragment() {
         }
 
         binding.fragmentPicker.layoutParams.height =
-            (resources.displayMetrics.heightPixels * 0.45).toInt()
+            (resources.displayMetrics.heightPixels * 0.38).toInt()
     }
 
     override fun onDestroy() {

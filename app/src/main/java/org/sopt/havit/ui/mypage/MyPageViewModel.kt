@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.remote.UserResponse
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.domain.repository.MyPageRepository
 import javax.inject.Inject
 
@@ -23,15 +24,20 @@ class MyPageViewModel @Inject constructor(private val myPageRepository: MyPageRe
     private val _description = MutableLiveData<String>()
     val description: LiveData<String> = _description
 
+    var isServerNetwork = MutableLiveData<NetworkState>()
+
     fun requestUserInfo() {
         viewModelScope.launch {
             kotlin.runCatching {
                 myPageRepository.getUserInfo()
             }.onSuccess {
-                _user.postValue(it)
-                _rate.postValue((it.totalSeenContentNumber.toDouble() / it.totalContentNumber.toDouble() * 100).toInt())
+                if (it.success) {
+                    isServerNetwork.postValue(NetworkState.SUCCESS)
+                    _user.postValue(it.data)
+                    _rate.postValue((it.data.totalSeenContentNumber.toDouble() / it.data.totalContentNumber.toDouble() * 100).toInt())
+                }
             }.onFailure {
-                _rate.postValue(0)
+                isServerNetwork.postValue(NetworkState.FAIL)
             }
         }
     }

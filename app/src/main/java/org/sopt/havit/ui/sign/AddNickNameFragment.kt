@@ -16,7 +16,7 @@ import org.sopt.havit.ui.base.BaseBindingFragment
 class AddNickNameFragment :
     BaseBindingFragment<FragmentAddNickNameBinding>(R.layout.fragment_add_nick_name) {
 
-    private val signInViewModel: SignInViewModel by activityViewModels()
+    private val signInViewModel: SignViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

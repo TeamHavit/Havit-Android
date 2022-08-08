@@ -1,9 +1,12 @@
 package org.sopt.havit.ui.sign
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.kakao.sdk.auth.model.Prompt
 import com.kakao.sdk.common.model.ClientError
@@ -14,8 +17,9 @@ import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySplashWithSignBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.onboarding.OnboardingActivity
 import org.sopt.havit.ui.share.ShareActivity
-import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_NORMAL_FLOW
+import org.sopt.havit.ui.sign.SignViewModel.Companion.SPLASH_NORMAL_FLOW
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.HavitAuthUtil
 import org.sopt.havit.util.MySharedPreference
@@ -24,7 +28,7 @@ import org.sopt.havit.util.MySharedPreference
 class SplashWithSignActivity :
     BaseBindingActivity<ActivitySplashWithSignBinding>(R.layout.activity_splash_with_sign) {
 
-    private val signInViewModel: SignInViewModel by viewModels()
+    private val signInViewModel: SignViewModel by viewModels()
     private val alphaLogoAnim by lazy {
         AnimationUtils.loadAnimation(
             this,
@@ -56,6 +60,7 @@ class SplashWithSignActivity :
         isReadyUserObserver()
     }
 
+
     private fun initWhereSplashComesFrom() {
         signInViewModel.setLoginGuideVisibility(
             intent.getBooleanExtra(
@@ -75,13 +80,20 @@ class SplashWithSignActivity :
     }
 
     private fun setSplashView() {
-
         if (signInViewModel.loginGuidVisibility.value == false) {
-            binding.ivSplashLogo.startAnimation(
-                alphaLogoAnim
-            )
+            binding.ivSplashLogo.startAnimation(alphaLogoAnim)
+            alphaLogoAnim.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(p0: Animation?) {}
+
+                override fun onAnimationRepeat(p0: Animation?) {}
+
+                override fun onAnimationEnd(p0: Animation?) {
+                    setAutoLogin()
+                }
+            })
+        } else {
+            setAutoLogin()
         }
-        setAutoLogin()
     }
 
     private fun setAutoLogin() {
@@ -90,9 +102,20 @@ class SplashWithSignActivity :
                 // TODO 인터넷 연결이 안되어 있을 때 로직 작성
             }
         }) { isLogin ->
-            if (isLogin) startMainActivity() else setLoginAnimation()
+            if (isLogin) startMainActivity()
+            else if (MySharedPreference.isFirstEnter(this)) startOnBoardingActivity()
+            else setLoginAnimation()
         }
     }
+
+    private val splashWithLoginLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_FIRST_USER) {
+                setLoginAnimation()
+            } else {
+                setLoginAnimation()
+            }
+        }
 
     private fun setListeners() {
         binding.btnKakaoLogin.setOnClickListener {
@@ -113,15 +136,19 @@ class SplashWithSignActivity :
     }
 
     private fun startMainActivity() {
+        MySharedPreference.saveFirstEnter(this)
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         finish()
     }
 
-    private fun startSignActivity() {
-        val intent = Intent(this, SignActivity::class.java)
-        startActivity(intent)
-        finish()
+    private fun startOnBoardingActivity() {
+        splashWithLoginLauncher.launch(
+            Intent(
+                this,
+                OnboardingActivity::class.java
+            )
+        )
     }
 
     private fun setLogin() {
@@ -189,7 +216,7 @@ class SplashWithSignActivity :
                 if (user.kakaoAccount?.genderNeedsAgreement == true) {
                     scopes.add("gender")
                 }
-                if (scopes.count() > 0) {
+                if (scopes.isNotEmpty()) {
                     Log.d("TAG", "사용자에게 추가 동의를 받아야 합니다.")
                     // scope 목록을 전달하여 카카오 로그인 요청
                     UserApiClient.instance.loginWithNewScopes(
@@ -234,9 +261,14 @@ class SplashWithSignActivity :
                     )
                     startMainActivity()
                 } else { // 신규 유저
-                    startSignActivity()
+                    startActivity(Intent(this, SignActivity::class.java))
                 }
             }
         )
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 }
