@@ -19,26 +19,16 @@ import org.sopt.havit.util.MySharedPreference
 class ShareActivity : AppCompatActivity() {
     private val viewModel: ShareViewModel by viewModels()
     private lateinit var splashWithSignActivityLauncher: ActivityResultLauncher<Intent>
-
     private lateinit var binding: ActivityShareBinding
-    private var makeLogin = false /*로그인 화면으로 넘기는 로직을 1회만 실행. 해당 로직이 없으면 로그인화면이 무한 반복 됨*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShareBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         initActivityLauncher()
         makeSignIn()
         setUrlOnViewModel()
-    }
-
-    private fun setUrlOnViewModel() {
-        val intent = this.intent
-        val url =
-            if (isEnterWithShareProcess(intent)) // 공유하기 버튼으로 진입시
-                intent?.getStringExtra(Intent.EXTRA_TEXT).toString()
-            else intent?.getStringExtra("url").toString() // MainActivity + 로 진입시
-        viewModel.setUrl(url)
     }
 
     private fun initActivityLauncher() {
@@ -74,17 +64,7 @@ class ShareActivity : AppCompatActivity() {
         HavitAuthUtil.isLoginNow({ isInternetConnected ->
             if (isInternetConnected) finish()
         }) { isLogin ->
-            if (isLogin) saveContents()
-            else if (makeLogin) finish()
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        HavitAuthUtil.isLoginNow({ isInternetConnected ->
-            if (isInternetConnected) finish()
-        }) { isLogin ->
-            if (!isLogin) makeLogin = true
+            if (isLogin) showBottomSheetShareFragment()
         }
     }
 
@@ -95,9 +75,18 @@ class ShareActivity : AppCompatActivity() {
         splashWithSignActivityLauncher.launch(intent)
     }
 
-    private fun saveContents() {
+    private fun showBottomSheetShareFragment() {
         val bottomSheet = BottomSheetShareFragment()
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+    }
+
+    private fun setUrlOnViewModel() {
+        val intent = this.intent
+        val url =
+            if (isEnterWithShareProcess(intent)) // 공유하기 버튼으로 진입시
+                intent?.getStringExtra(Intent.EXTRA_TEXT).toString()
+            else intent?.getStringExtra("url").toString() // MainActivity + 로 진입시
+        viewModel.setUrl(url)
     }
 
     override fun onDestroy() {
