@@ -52,7 +52,6 @@ class SignActivity : BaseBindingActivity<ActivitySignBinding>(R.layout.activity_
 
     private fun initSignViewPager() {
         binding.vpSign.adapter = signVpAdapter
-        binding.indicatorSign.setViewPager2(binding.vpSign)
         binding.vpSign.isUserInputEnabled = false
     }
 
