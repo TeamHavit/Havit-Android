@@ -1,7 +1,11 @@
 package org.sopt.havit.ui.share
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,6 +18,7 @@ import org.sopt.havit.util.MySharedPreference
 @AndroidEntryPoint
 class ShareActivity : AppCompatActivity() {
     private val viewModel: ShareViewModel by viewModels()
+    private lateinit var splashWithSignActivityLauncher: ActivityResultLauncher<Intent>
 
     private lateinit var binding: ActivityShareBinding
     private var makeLogin = false /*로그인 화면으로 넘기는 로직을 1회만 실행. 해당 로직이 없으면 로그인화면이 무한 반복 됨*/
@@ -22,13 +27,9 @@ class ShareActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityShareBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initActivityLauncher()
         makeSignIn()
         setUrlOnViewModel()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        startSavingContents()
     }
 
     private fun setUrlOnViewModel() {
@@ -38,6 +39,20 @@ class ShareActivity : AppCompatActivity() {
                 intent?.getStringExtra(Intent.EXTRA_TEXT).toString()
             else intent?.getStringExtra("url").toString() // MainActivity + 로 진입시
         viewModel.setUrl(url)
+    }
+
+    private fun initActivityLauncher() {
+        splashWithSignActivityLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                onSlashWithSignActivityFinish(it)
+            }
+    }
+
+    private fun onSlashWithSignActivityFinish(result: ActivityResult) {
+        when (result.resultCode) {
+            Activity.RESULT_OK -> startSavingContents()
+            else -> finish()
+        }
     }
 
     private fun isEnterWithShareProcess(intent: Intent?): Boolean {
@@ -51,6 +66,7 @@ class ShareActivity : AppCompatActivity() {
             if (isInternetConnected) finish()
         }) { isLogin ->
             if (!isLogin) moveToSplashWithSignActivity()
+            else startSavingContents()
         }
     }
 
@@ -73,11 +89,10 @@ class ShareActivity : AppCompatActivity() {
     }
 
     private fun moveToSplashWithSignActivity() {
-        startActivity(
-            Intent(this, SplashWithSignActivity::class.java).apply {
-                putExtra(WHERE_SPLASH_COME_FROM, SPLASH_FROM_SHARE)
-            }
-        )
+        val intent = Intent(this, SplashWithSignActivity::class.java).apply {
+            putExtra(WHERE_SPLASH_COME_FROM, SPLASH_FROM_SHARE)
+        }
+        splashWithSignActivityLauncher.launch(intent)
     }
 
     private fun saveContents() {
