@@ -11,7 +11,7 @@ import javax.inject.Inject
 class MyPageRepositoryImpl @Inject constructor(@ApplicationContext context: Context) :
     MyPageRepository {
     private val pref = MySharedPreference.getXAuthToken(context)
-    override suspend fun getUserInfo(): UserResponse.UserData {
-        return RetrofitObject.provideHavitApi(pref).getUserData().data
+    override suspend fun getUserInfo(): UserResponse {
+        return RetrofitObject.provideHavitApi(pref).getUserData()
     }
 }

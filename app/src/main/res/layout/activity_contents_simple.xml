@@ -90,6 +90,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/Text14Medium"
                     android:textColor="@color/gray_2"
+                    android:gravity="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

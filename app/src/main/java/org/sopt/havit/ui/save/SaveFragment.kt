@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -97,6 +96,8 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         (dialog as BottomSheetDialog).behavior.apply {
             state = BottomSheetBehavior.STATE_EXPANDED // 높이 고정
             skipCollapsed = true // HALF_EXPANDED 안되게 설정
+            isHideable = false
+            isDraggable = false
         }
         binding.clSaveBottom.layoutParams.height =
             (resources.displayMetrics.heightPixels * 0.94).toInt()
