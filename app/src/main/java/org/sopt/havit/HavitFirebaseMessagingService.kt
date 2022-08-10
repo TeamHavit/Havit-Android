@@ -59,12 +59,14 @@ class HavitFirebaseMessagingService : FirebaseMessagingService() {
         image: String? = null,
         url: String? = null
     ) {
-        Log.d("MyFirebaseMessagingService", "generateNotification")
+        Log.d("MyFirebaseMessagingService", "$title // $message")
+        val requestCode = System.currentTimeMillis().toInt()
 
         val intent = Intent(this, WebActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.putExtra("url", url)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent =
+            PendingIntent.getActivity(this, requestCode, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val builder = NotificationCompat.Builder(this, channelID)
             .setSmallIcon(R.drawable.ic_havit_radious_10)
@@ -86,7 +88,7 @@ class HavitFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.createNotificationChannel(notificationChannel)
         }
 
-        notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
+        notificationManager.notify(requestCode, builder.build())
     }
 
     companion object {

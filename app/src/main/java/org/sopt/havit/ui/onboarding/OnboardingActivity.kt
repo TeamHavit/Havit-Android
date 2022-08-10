@@ -7,6 +7,7 @@ import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityOnboardingBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.sign.SplashWithSignActivity
+import org.sopt.havit.util.MySharedPreference
 
 class OnboardingActivity :
     BaseBindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
@@ -18,7 +19,7 @@ class OnboardingActivity :
         setIndicator()
         checkLastOnboardingPage()
         setJoinBtnClickListener()
-        setSkipBtnClickListner()
+        setSkipBtnClickListener()
     }
 
     private fun setViewPager2Adapter() {
@@ -31,22 +32,24 @@ class OnboardingActivity :
 
     private fun checkLastOnboardingPage() {
         binding.vpOnboarding.registerOnPageChangeCallback(object :
-                ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-                    binding.lastOnboarding = (position == 4)
-                }
-            })
+            ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                binding.lastOnboarding = (position == 4)
+            }
+        })
     }
 
     private fun setJoinBtnClickListener() {
         binding.btnJoin.setOnClickListener {
+            MySharedPreference.saveFirstEnter(this)
             startSplashWithSignActivity()
         }
     }
 
-    private fun setSkipBtnClickListner() {
+    private fun setSkipBtnClickListener() {
         binding.tvSkip.setOnClickListener {
+            MySharedPreference.saveFirstEnter(this)
             startSplashWithSignActivity()
         }
     }
@@ -55,6 +58,10 @@ class OnboardingActivity :
         val intent = Intent(this, SplashWithSignActivity::class.java)
         setResult(RESULT_FIRST_USER, intent)
         finish()
+    }
+
+    override fun onBackPressed() {
+        // super.onBackPressed()    // 건너뛰기, 가입하기 버튼을 눌러야만
     }
 
     companion object {

@@ -19,29 +19,28 @@ import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.HavitAuthUtil
 import org.sopt.havit.util.MySharedPreference
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class SplashWithSignActivity :
     BaseBindingActivity<ActivitySplashWithSignBinding>(R.layout.activity_splash_with_sign) {
 
+
     @Inject
     lateinit var kakaoLoginService: KakaoLoginService
 
     private val signInViewModel: SignInViewModel by viewModels()
+    private var isFromShare by Delegates.notNull<Boolean>()
+
     private val alphaLogoAnim by lazy {
-        AnimationUtils.loadAnimation(
-            this,
-            R.anim.alpha_15_to_5_20000
-        ).apply {
+        AnimationUtils.loadAnimation(this, R.anim.alpha_15_to_5_20000).apply {
             fillAfter = true
             isFillEnabled = true
         }
     }
+
     private val alphaLoginAnim by lazy {
-        AnimationUtils.loadAnimation(
-            this,
-            R.anim.alpha_0_to_100_1500_delay_1000
-        ).apply {
+        AnimationUtils.loadAnimation(this, R.anim.alpha_0_to_100_1500_delay_1000).apply {
             fillAfter = true
             isFillEnabled = true
         }
@@ -54,6 +53,7 @@ class SplashWithSignActivity :
         initFcmToken()
         initSuccessKakaoLoginOserver()
         initWhereSplashComesFrom()
+        setLoginGuideIfFromShare()
         setSplashView()
         setListeners()
         isAlreadyUserObserver()
@@ -72,21 +72,18 @@ class SplashWithSignActivity :
 
 
     private fun initWhereSplashComesFrom() {
-        signInViewModel.setLoginGuideVisibility(
-            intent.getBooleanExtra(
-                ShareActivity.WHERE_SPLASH_COME_FROM,
-                SPLASH_NORMAL_FLOW
-            )
+        isFromShare = intent.getBooleanExtra(
+            ShareActivity.WHERE_SPLASH_COME_FROM, SPLASH_NORMAL_FLOW
         )
     }
 
+    private fun setLoginGuideIfFromShare() {
+        signInViewModel.setLoginGuideVisibility(isFromShare)
+    }
+
     private fun setLoginAnimation() {
-        binding.btnKakaoLogin.startAnimation(
-            alphaLoginAnim
-        )
-        binding.tvAnotherLogin.startAnimation(
-            alphaLoginAnim
-        )
+        binding.btnKakaoLogin.startAnimation(alphaLoginAnim)
+        binding.tvAnotherLogin.startAnimation(alphaLoginAnim)
     }
 
     private fun setSplashView() {
@@ -107,24 +104,20 @@ class SplashWithSignActivity :
     }
 
     private fun setAutoLogin() {
-        HavitAuthUtil.isLoginNow { isLogin ->
-            if (isLogin) {
-                startMainActivity()
-            } else {
-                if (MySharedPreference.isFirstEnter(this)) {
-                    startOnBoardingActivity()
-                } else setLoginAnimation()
+        HavitAuthUtil.isLoginNow({ isInternetConnected ->
+            if (isInternetConnected) {
+                finishAffinity()
             }
+        }) { isLogin ->
+            if (isLogin && MySharedPreference.getXAuthToken(this).isNotEmpty()) startMainActivity()
+            else if (MySharedPreference.isFirstEnter(this)) startOnBoardingActivity()
+            else setLoginAnimation()
         }
     }
 
     private val splashWithLoginLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_FIRST_USER) {
-                setLoginAnimation()
-            } else {
-                setLoginAnimation()
-            }
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            setLoginAnimation()
         }
 
     private fun setListeners() {
@@ -137,7 +130,6 @@ class SplashWithSignActivity :
     }
 
     private fun startMainActivity() {
-        MySharedPreference.saveFirstEnter(this)
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         finish()
@@ -145,10 +137,7 @@ class SplashWithSignActivity :
 
     private fun startOnBoardingActivity() {
         splashWithLoginLauncher.launch(
-            Intent(
-                this,
-                OnboardingActivity::class.java
-            )
+            Intent(this, OnboardingActivity::class.java)
         )
     }
 
@@ -163,11 +152,11 @@ class SplashWithSignActivity :
             this,
             EventObserver { isAlreadyUser ->
                 if (isAlreadyUser.data.isAlreadyUser == null) { // 기존 유저
-                    MySharedPreference.setXAuthToken(
-                        this,
-                        isAlreadyUser.data.accessToken ?: ""
-                    )
-                    startMainActivity()
+                    MySharedPreference.setXAuthToken(this, isAlreadyUser.data.accessToken ?: "")
+                    if (isFromShare) {
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    } else startMainActivity()
                 } else { // 신규 유저
                     startActivity(Intent(this, SignUpActivity::class.java))
                 }
