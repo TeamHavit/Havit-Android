@@ -75,7 +75,7 @@
                     android:layout_marginTop="17dp"
                     android:layout_marginEnd="6dp"
                     android:layout_marginBottom="13dp"
-                    android:clickable="@{vmCategory.categoryLoad ? false : true}"
+                    android:clickable="@{vmCategory.loadState == state.SUCCESS ? true : false}"
                     android:paddingHorizontal="15dp"
                     android:paddingVertical="6dp"
                     android:text="@string/modify"
