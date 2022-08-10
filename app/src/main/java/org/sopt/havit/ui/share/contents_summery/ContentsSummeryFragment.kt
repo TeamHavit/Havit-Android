@@ -23,6 +23,7 @@ import org.sopt.havit.databinding.FragmentContentsSummeryBinding
 import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.ui.share.ShareViewModel
 import org.sopt.havit.util.ADD_CONTENT_TYPE
+import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.MySharedPreference
 import org.sopt.havit.util.ToastUtil
 import java.util.regex.Matcher
@@ -206,9 +207,14 @@ class ContentsSummeryFragment : Fragment() {
         }
 
         binding.icClose.setOnClickListener {
-            MySharedPreference.clearTitle(requireContext())
-            requireActivity().finish()
+            val dialog = DialogUtil(DialogUtil.CANCEL_SAVE_CONTENTS, ::finishSavingContents)
+            dialog.show(parentFragmentManager, this.javaClass.name)
         }
+    }
+
+    private fun finishSavingContents() {
+        MySharedPreference.clearTitle(requireContext())
+        requireActivity().finish()
     }
 
     private fun setCustomToast() = ToastUtil(requireContext()).makeToast(ADD_CONTENT_TYPE)

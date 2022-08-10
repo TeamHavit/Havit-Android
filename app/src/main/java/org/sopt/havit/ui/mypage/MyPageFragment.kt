@@ -67,6 +67,9 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
         binding.ibMyPageSetting.setOnClickListener {
             startActivity(Intent(requireContext(), SettingActivity::class.java))
         }
+        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+            myPageViewModel.requestUserInfo()
+        }
     }
 
     companion object {

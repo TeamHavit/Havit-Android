@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="state"
+            type="org.sopt.havit.domain.entity.NetworkState" />
 
         <variable
             name="vm"
@@ -16,6 +21,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/bg_gradient_splash"
         tools:context=".ui.mypage.MyPageFragment">
+
 
         <TextView
             android:id="@+id/tv_rate"
@@ -282,6 +288,13 @@
             app:layout_constraintEnd_toEndOf="@+id/ib_my_page_setting"
             app:layout_constraintStart_toStartOf="@+id/tv_my_page_description"
             app:layout_constraintTop_toBottomOf="@+id/tv_my_page_description" />
+
+        <include
+            android:id="@+id/layout_network_error"
+            layout="@layout/layout_network_error"
+            android:visibility="@{vm.isServerNetwork == state.FAIL ? View.VISIBLE : View.GONE, default = gone}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
