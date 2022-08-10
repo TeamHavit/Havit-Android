@@ -18,6 +18,14 @@ class AuthLocalDataSourceImpl @Inject constructor(private val havitLocalPreferen
 
     override fun getKakaoToken(): String = havitLocalPreferences.getKakaoToken()
 
+    override fun getUserAge(): Int = havitLocalPreferences.userAge
+
+    override fun getUserGender(): String = havitLocalPreferences.userGender
+
+    override fun getUserEmail(): String = havitLocalPreferences.userEmail
+
+    override fun getUserNickName(): String = havitLocalPreferences.userNickName
+
     override fun removeHavitAuthToken() {
         havitLocalPreferences.removeHavitAuthLocalToken()
     }

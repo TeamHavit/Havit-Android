@@ -5,5 +5,9 @@ interface AuthLocalDataSource {
     fun getAccessToken(): String
     fun saveKakaoToken(kakaoToken: String)
     fun getKakaoToken(): String
+    fun getUserAge():Int
+    fun getUserGender():String
+    fun getUserEmail():String
+    fun getUserNickName():String
     fun removeHavitAuthToken()
 }

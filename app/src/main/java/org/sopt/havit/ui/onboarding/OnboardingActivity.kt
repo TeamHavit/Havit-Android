@@ -6,7 +6,6 @@ import androidx.viewpager2.widget.ViewPager2
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityOnboardingBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
-import org.sopt.havit.ui.sign.SignActivity
 import org.sopt.havit.ui.sign.SplashWithSignActivity
 
 class OnboardingActivity :

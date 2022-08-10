@@ -13,7 +13,7 @@
 
         <variable
             name="vm"
-            type="org.sopt.havit.ui.sign.SignViewModel" />
+            type="org.sopt.havit.ui.sign.SignUpViewModel" />
 
     </data>
 
