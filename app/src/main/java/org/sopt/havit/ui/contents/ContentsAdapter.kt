@@ -16,6 +16,8 @@ import org.sopt.havit.databinding.ItemContentsLinearMaxBinding
 import org.sopt.havit.databinding.ItemContentsLinearMinBinding
 import org.sopt.havit.domain.entity.Contents
 import org.sopt.havit.util.ContentsDiffCallback
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ContentsAdapter :
     ListAdapter<Contents, RecyclerView.ViewHolder>(ContentsDiffCallback) {
@@ -23,18 +25,20 @@ class ContentsAdapter :
     private lateinit var itemSetClickListener: OnItemSetClickListener
     private lateinit var itemHavitClickListener: OnItemHavitClickListener
 
-    private fun changeTimeFormat(data: Contents) {
-        // 글 생성 시각 형식 변경
-        if (data.createdAt.length == 16) {
-            data.createdAt = data.createdAt.substring(0 until 10)
-                .replace("-", ". ")
-        }
+    private fun setNotificationOption(data: Contents): String {
+        // 현재 시간 형식에 맞게 가져오기
+        val now = System.currentTimeMillis()
+        val nowDate = Date(now)
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
+        val getTime: String = sdf.format(nowDate)
+
+        return if (data.isNotified && getTime >= data.notificationTime) "after" else if (data.isNotified) "before" else "none"
     }
 
     inner class LinearMinViewHolder(private val binding: ItemContentsLinearMinBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: Contents) {
-            changeTimeFormat(data) // 시간 형식 변경
+            binding.notificationOption = setNotificationOption(data) // 시간 형식 변경
             with(binding) {
                 Log.d(TAG, "onBind: $data")
                 content = data
@@ -48,7 +52,7 @@ class ContentsAdapter :
     inner class GridViewHolder(private val binding: ItemContentsGridBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: Contents) {
-            changeTimeFormat(data) // 시간 형식 변경
+            binding.notificationOption = setNotificationOption(data) // 시간 형식 변경
             with(binding) {
                 content = data
                 ivHavit.tag = if (data.isSeen) "seen" else "unseen"
@@ -61,7 +65,7 @@ class ContentsAdapter :
     inner class LinearMaxViewHolder(private val binding: ItemContentsLinearMaxBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: Contents) {
-            changeTimeFormat(data) // 시간 형식 변경
+            binding.notificationOption = setNotificationOption(data) // 시간 형식 변경
             with(binding) {
                 content = data
                 ivHavit.tag = if (data.isSeen) "seen" else "unseen"
