@@ -1,15 +1,15 @@
 package org.sopt.havit.ui.sign
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.view.View
+import androidx.lifecycle.*
 import com.kakao.sdk.auth.model.OAuthToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.sopt.havit.R
 import org.sopt.havit.data.remote.SignInResponse
 import org.sopt.havit.data.remote.SignUpRequest
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.util.Event
 import retrofit2.HttpException
@@ -25,13 +25,14 @@ class SignViewModel @Inject constructor(
         const val SPLASH_NORMAL_FLOW = false
     }
 
+    var isServerNetwork = MutableLiveData<NetworkState>()
+
     var loginGuidVisibility = MutableLiveData(false)
         private set
 
     private var _isMoveToNextOrBack = MutableLiveData<Event<Boolean>>()
     var isMoveToNextOrBack: LiveData<Event<Boolean>> = _isMoveToNextOrBack
 
-    var isNextClick = MutableLiveData(false)
 
     private var _isAlreadyUser = MutableLiveData<Event<SignInResponse>>()
     var isAlreadyUser: LiveData<Event<SignInResponse>> = _isAlreadyUser
@@ -53,10 +54,27 @@ class SignViewModel @Inject constructor(
 
     var _havitUser = MutableLiveData<SignUpRequest>()
 
-    var isAllCheck = MutableLiveData(false)
     var isTosUseCheck = MutableLiveData(false)
     var isTosInfoCheck = MutableLiveData(false)
     var isTosEventCheck = MutableLiveData(false)
+
+    var isAllCheck = MediatorLiveData<Boolean>().apply {
+        addSource(isTosUseCheck) { value = checkTosAll() }
+        addSource(isTosInfoCheck) { value = checkTosAll() }
+        addSource(isTosEventCheck) { value = checkTosAll() }
+    }
+
+    private fun checkTosAll(): Boolean {
+        return isTosUseCheck.value == true && isTosInfoCheck.value == true && isTosEventCheck.value == true
+    }
+
+    var isNextClick = MediatorLiveData<Boolean>().apply {
+        addSource(isAllCheck) {
+            value =
+                isAllCheck.value == true || (isTosUseCheck.value == true && isTosInfoCheck.value == true)
+        }
+    }
+
 
     val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
@@ -113,8 +131,10 @@ class SignViewModel @Inject constructor(
                 if (it.success) {
                     authRepository.saveAccessToken(requireNotNull(it.data.accessToken))
                     _accessToken.postValue(it.data.accessToken)
+                    isServerNetwork.postValue(NetworkState.SUCCESS)
                 }
             }.onFailure {
+                isServerNetwork.postValue(NetworkState.FAIL)
                 Log.d("error", "${(it as? HttpException)?.message}")
             }
         }
@@ -129,11 +149,13 @@ class SignViewModel @Inject constructor(
             }.onSuccess {
                 if (it.success) {
                     _isAlreadyUser.postValue(Event(it))
-                    if (it.data.isAlreadyUser == null) authRepository.saveAccessToken(
-                        requireNotNull(
-                            it.data.accessToken
+                    if (it.data.isAlreadyUser == null) {
+                        authRepository.saveAccessToken(
+                            requireNotNull(
+                                it.data.accessToken
+                            )
                         )
-                    )
+                    }
                 }
             }.onFailure { Log.d("error", "${(it as? HttpException)?.message}") }
         }
@@ -152,26 +174,30 @@ class SignViewModel @Inject constructor(
         _kakaoToken.value = authRepository.getKakaoToken()
     }
 
-    fun setAllCheck() {
-        isAllCheck.value = !isAllCheck.value!!
-        isTosUseCheck.value = !isTosUseCheck.value!!
-        isTosInfoCheck.value = !isTosInfoCheck.value!!
-        isTosEventCheck.value = !isTosEventCheck.value!!
-        isNextClick.value = isAllCheck.value != false
+    fun clickTosListener(view: View) {
+        when (view.id) {
+            R.id.iv_tos_info -> isTosInfoCheck.value = !isTosInfoCheck.value!!
+            R.id.iv_tos_use -> isTosUseCheck.value = !isTosUseCheck.value!!
+            R.id.iv_tos_event -> isTosEventCheck.value = !isTosEventCheck.value!!
+            R.id.iv_tos_all, R.id.tv_tos_all -> {
+                setAllTosClick()
+            }
+        }
+
     }
 
-    fun setTosUseCheck() {
-        isTosUseCheck.value = !isTosUseCheck.value!!
-        isNextClick.value = isTosUseCheck.value == true && isTosInfoCheck.value == true
-    }
-
-    fun setTosInfoCheck() {
-        isTosInfoCheck.value = !isTosInfoCheck.value!!
-        isNextClick.value = isTosUseCheck.value == true && isTosInfoCheck.value == true
-    }
-
-    fun setTosEventCheck() {
-        isTosEventCheck.value = !isTosEventCheck.value!!
+    private fun setAllTosClick() {
+        if (isAllCheck.value == false) {
+            isAllCheck.value = true
+            isTosUseCheck.value = true
+            isTosInfoCheck.value = true
+            isTosEventCheck.value = true
+        } else {
+            isAllCheck.value = false
+            isTosUseCheck.value = false
+            isTosInfoCheck.value = false
+            isTosEventCheck.value = false
+        }
     }
 
     fun setNickName(name: String) {
