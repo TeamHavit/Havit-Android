@@ -35,7 +35,7 @@ class ContentsSimpleRvAdapter :
             val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
             val getTime: String = sdf.format(nowDate)
 
-            return if (getTime > data.notificationTime) "after"
+            return if (getTime >= data.notificationTime) "after"
             else "before"
         }
 
