@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.MainActivity
@@ -21,7 +20,7 @@ import org.sopt.havit.util.MySharedPreference
 @AndroidEntryPoint
 class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragment_add_tos) {
 
-    private val signInViewModel: SignViewModel by activityViewModels()
+    private val signUpViewModel: SignUpViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +33,7 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.vm = signInViewModel
+        binding.vm = signUpViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         setListeners()
         accessTokenObserver()
@@ -48,10 +47,10 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
 
     private fun setListeners() {
         binding.btnTosStart.setOnClickListener {
-            signInViewModel.postSignUp()
+            signUpViewModel.postSignUp()
         }
         binding.btnTosBack.setOnClickListener {
-            signInViewModel.setMoveToNextOrBack(false)
+            signUpViewModel.setMoveToNextOrBack(false)
         }
         binding.tvPolicy.setOnClickListener {
             startSettingPolicyActivity()
@@ -60,7 +59,7 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
             startSettingPersonalDataActivity()
         }
         binding.layoutNetworkError.ivRefresh.setOnClickListener {
-            signInViewModel.postSignUp()
+            signUpViewModel.postSignUp()
         }
     }
 
@@ -70,7 +69,7 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
                 viewLifecycleOwner,
                 object : OnBackPressedCallback(true) {
                     override fun handleOnBackPressed() {
-                        signInViewModel.setMoveToNextOrBack(false)
+                        signUpViewModel.setMoveToNextOrBack(false)
                     }
                 }
             )
@@ -90,7 +89,7 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
     }
 
     private fun initIsServerErrorObserver() {
-        signInViewModel.isServerNetwork.observe(viewLifecycleOwner) {
+        signUpViewModel.isServerNetwork.observe(viewLifecycleOwner) {
             if (it == NetworkState.SUCCESS) {
                 startMainActivity()
             }
@@ -98,7 +97,7 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
     }
 
     private fun accessTokenObserver() {
-        signInViewModel.accessToken.observe(viewLifecycleOwner) {
+        signUpViewModel.accessToken.observe(viewLifecycleOwner) {
             if (it != "") MySharedPreference.setXAuthToken(requireContext(), it)
         }
     }
