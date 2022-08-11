@@ -22,10 +22,7 @@ import org.sopt.havit.data.remote.CreateContentsRequest
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
 import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.ui.share.ShareViewModel
-import org.sopt.havit.util.ADD_CONTENT_TYPE
-import org.sopt.havit.util.DialogUtil
-import org.sopt.havit.util.MySharedPreference
-import org.sopt.havit.util.ToastUtil
+import org.sopt.havit.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -152,7 +149,7 @@ class ContentsSummeryFragment : Fragment() {
         }
 
         // 완료 버튼
-        binding.btnComplete.setOnClickListener {
+        binding.btnComplete.setOnSinglePostClickListener {
             initNetwork()
             categoryViewModel.shareDelay.observe(viewLifecycleOwner) {
                 if (it) {
