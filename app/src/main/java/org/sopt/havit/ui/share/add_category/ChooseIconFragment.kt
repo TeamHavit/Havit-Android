@@ -16,6 +16,7 @@ import org.sopt.havit.ui.share.add_category.IconAdapter.Companion.clickedPositio
 import org.sopt.havit.util.ADD_CATEGORY_TYPE
 import org.sopt.havit.util.MySharedPreference
 import org.sopt.havit.util.ToastUtil
+import org.sopt.havit.util.setOnSinglePostClickListener
 
 @AndroidEntryPoint
 class ChooseIconFragment :
@@ -48,7 +49,7 @@ class ChooseIconFragment :
     }
 
     private fun initClickNext() {
-        binding.btnNext.setOnClickListener {
+        binding.btnNext.setOnSinglePostClickListener {
             lifecycleScope.launch {
                 initNetwork()
                 if (requireActivity().toString().contains("CategoryAddActivity"))

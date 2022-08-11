@@ -19,8 +19,8 @@ object RetrofitObject {
         .build()
 
     private fun getOkhttpClient(jwt: String) = OkHttpClient.Builder().apply {
-        readTimeout(60, TimeUnit.SECONDS)
-        connectTimeout(60, TimeUnit.SECONDS)
+        readTimeout(20, TimeUnit.SECONDS)
+        connectTimeout(20, TimeUnit.SECONDS)
         writeTimeout(5, TimeUnit.SECONDS)
         addInterceptor(getLoggingInterceptor())
         addInterceptor(getTokenInterceptor(jwt))
