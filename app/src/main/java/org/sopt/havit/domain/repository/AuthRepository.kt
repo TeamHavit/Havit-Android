@@ -17,6 +17,14 @@ interface AuthRepository {
 
     fun removeHavitAuthToken()
 
+    fun getUserNickName(): String
+
+    fun getUserAge(): Int
+
+    fun getUserGender(): String
+
+    fun getUserEmail(): String
+
     suspend fun getSignIn(fcmToken: String, kakaoToken: String): SignInResponse
 
     suspend fun postSignUp(

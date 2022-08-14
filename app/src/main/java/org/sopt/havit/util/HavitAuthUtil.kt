@@ -6,9 +6,12 @@ import com.kakao.sdk.user.UserApiClient
 
 object HavitAuthUtil {
 
-    fun isLoginNow(isLogin: (Boolean) -> Unit) {
+    fun isLoginNow(isInternetConnected: (Boolean) -> Unit?, isLogin: (Boolean) -> Unit) {
         if (AuthApiClient.instance.hasToken()) {
-            UserApiClient.instance.accessTokenInfo { _, error ->
+            UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
+
+                if (tokenInfo == null) isInternetConnected(true)
+
                 if (error != null) {
                     if (error is KakaoSdkError && error.isInvalidTokenError()) {
                         isLogin(false) // 로그인 필요

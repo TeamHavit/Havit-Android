@@ -5,9 +5,15 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="state"
+            type="org.sopt.havit.domain.entity.NetworkState" />
+
         <variable
             name="vm"
-            type="org.sopt.havit.ui.sign.SignViewModel" />
+            type="org.sopt.havit.ui.sign.SignUpViewModel" />
 
     </data>
 
@@ -44,6 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="88dp"
+            android:onClick="@{vm::clickTosListener}"
             android:src="@{vm.isAllCheck == true ? @drawable/ic_tos_check : @drawable/ic_un_check}"
             tools:src="@drawable/ic_un_check"
             app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
@@ -55,6 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:text="@string/sign_tos_agree_all"
+            android:onClick="@{vm::clickTosListener}"
             android:textAppearance="@style/Header20Semibold"
             android:textColor="@color/gray_5"
             app:layout_constraintBottom_toBottomOf="@+id/iv_tos_all"
@@ -78,6 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="23dp"
             android:src="@{vm.isTosUseCheck == true ? @drawable/ic_tos_check : @drawable/ic_un_check}"
+            android:onClick="@{vm::clickTosListener}"
             tools:src="@drawable/ic_tos_check"
             app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
             app:layout_constraintTop_toBottomOf="@+id/view_tos" />
@@ -100,6 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:src="@{vm.isTosInfoCheck == true ? @drawable/ic_tos_check : @drawable/ic_un_check}"
+            android:onClick="@{vm::clickTosListener}"
             tools:src="@drawable/ic_un_check"
             app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
             app:layout_constraintTop_toBottomOf="@+id/iv_tos_use" />
@@ -121,6 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:onClick="@{vm::clickTosListener}"
             android:src="@{vm.isTosEventCheck == true ? @drawable/ic_tos_check : @drawable/ic_un_check}"
             tools:src="@drawable/ic_un_check"
             app:layout_constraintStart_toStartOf="@+id/tv_tos_subtitle"
@@ -146,9 +157,21 @@
             android:textAppearance="@style/Text16Semibold"
             android:textColor="@color/white"
             btnColor="@{vm.isNextClick()}"
+            android:visibility="@{vm.isServerNetwork == state.FAIL ? View.GONE : View.VISIBLE, default = visible}"
             android:clickable="@{vm.isNextClick == true ? true : false}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <include
+            android:id="@+id/layout_network_error"
+            layout="@layout/layout_network_error"
+            android:visibility="@{vm.isServerNetwork == state.FAIL ? View.VISIBLE : View.GONE, default = gone}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

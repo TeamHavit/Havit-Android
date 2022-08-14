@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
-import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
@@ -21,7 +20,7 @@ const val channelID = "notification_channel"
 const val channelName = "org.sopt.androidsharing"
 
 @AndroidEntryPoint
-class MyFirebaseMessagingService : FirebaseMessagingService() {
+class HavitFirebaseMessagingService : FirebaseMessagingService() {
     @Inject
     lateinit var firebaseTokenManager: FirebaseTokenManager
 
@@ -54,48 +53,42 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         return true
     }
 
-    private fun getRemoteView(title: String?, message: String?, image: String?): RemoteViews {
-        val remoteView = RemoteViews("org.sopt.havit", R.layout.push_notification)
-        remoteView.setTextViewText(R.id.tv_title, title)
-        remoteView.setTextViewText(R.id.tv_description, message)
-        remoteView.setImageViewResource(R.id.iv_image, R.drawable.ic_havit_radious_10)
-        return remoteView
-    }
-
     private fun generateNotification(
         title: String?,
         message: String?,
         image: String? = null,
         url: String? = null
     ) {
-        Log.d("MyFirebaseMessagingService", "generateNotification")
+        Log.d("MyFirebaseMessagingService", "$title // $message")
+        val requestCode = System.currentTimeMillis().toInt()
 
         val intent = Intent(this, WebActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         intent.putExtra("url", url)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent =
+            PendingIntent.getActivity(this, requestCode, intent, PendingIntent.FLAG_IMMUTABLE)
 
-        var builder = NotificationCompat.Builder(this, channelID)
+        val builder = NotificationCompat.Builder(this, channelID)
             .setSmallIcon(R.drawable.ic_havit_radious_10)
             .setAutoCancel(true)
             .setVibrate(longArrayOf(1000, 500, 1000, 500)) // 1초 울리고 0.5초 쉬고
             .setOnlyAlertOnce(true)
             .setContentIntent(pendingIntent)
-
-        builder = builder.setContent(getRemoteView(title, message, image)) // custom
+            .setContentTitle(title)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
 
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        /** Oreo Version 이상일때 처리 하는 코드 */
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.d(TAG, "under Oreo Version")
             val notificationChannel =
-                NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH)
+                NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_DEFAULT)
             notificationManager.createNotificationChannel(notificationChannel)
         }
 
-        notificationManager.notify(0, builder.build())
+        notificationManager.notify(requestCode, builder.build())
     }
 
     companion object {
