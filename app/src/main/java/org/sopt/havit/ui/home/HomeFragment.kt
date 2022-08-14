@@ -107,15 +107,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             requestNotificationTaken()  // 알림 예정 콘텐츠
             loadStateObserve()
         }
-        checkTimeout()  // 5초 이상 로딩 시 LoadState Fail로 설정
-    }
-
-    // 5초 이상 로딩 시 LoadState Fail로 설정
-    private fun checkTimeout() {
-        Handler().postDelayed({
-            if (homeViewModel.loadState.value == NetworkState.LOADING)
-                homeViewModel.setLoadStateFail()
-        }, 10000)
     }
 
     private fun loadStateObserve() {
@@ -135,7 +126,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             notificationLoadState.observe(viewLifecycleOwner) { checkLoadState() }
         }
     }
-
 
     private fun initAdapter() {
         // 카테고리 adapter 초기화

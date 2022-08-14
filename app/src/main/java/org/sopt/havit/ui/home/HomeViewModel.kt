@@ -41,8 +41,7 @@ class HomeViewModel(context: Context) : ViewModel() {
                     RetrofitObject.provideHavitApi(token)
                         .getContentsRecent()
                 _contentsList.postValue(response.data)
-                if (contentsLoadState.value != NetworkState.FAIL)
-                    _contentsLoadState.postValue(NetworkState.SUCCESS)
+                _contentsLoadState.postValue(NetworkState.SUCCESS)
                 checkLoadState()
             } catch (e: Exception) {
                 _contentsLoadState.postValue(NetworkState.FAIL)
@@ -61,8 +60,7 @@ class HomeViewModel(context: Context) : ViewModel() {
                         .getAllCategory()
                 checkLoadState()
                 _categoryData.postValue(response.data)
-                if (categoryLoadState.value != NetworkState.FAIL)
-                    _categoryLoadState.postValue(NetworkState.SUCCESS)
+                _categoryLoadState.postValue(NetworkState.SUCCESS)
                 checkLoadState()
             } catch (e: Exception) {
                 _categoryLoadState.postValue(NetworkState.FAIL)
@@ -122,8 +120,7 @@ class HomeViewModel(context: Context) : ViewModel() {
                         .getRecommendation()
                 checkLoadState()
                 _recommendList.postValue(response.data)
-                if (recommendLoadState.value != NetworkState.FAIL)
-                    _recommendLoadState.postValue(NetworkState.SUCCESS)
+                _recommendLoadState.postValue(NetworkState.SUCCESS)
                 checkLoadState()
             } catch (e: Exception) {
                 _recommendLoadState.postValue(NetworkState.FAIL)
@@ -141,8 +138,7 @@ class HomeViewModel(context: Context) : ViewModel() {
                     .getNotification(NotificationActivity.before)
                 checkLoadState()
                 _notificationList.postValue(response.data)
-                if (notificationLoadState.value != NetworkState.FAIL)
-                    _notificationLoadState.postValue(NetworkState.SUCCESS)
+                _notificationLoadState.postValue(NetworkState.SUCCESS)
                 checkLoadState()
             } catch (e: Exception) {
                 _notificationLoadState.postValue(NetworkState.FAIL)
@@ -160,8 +156,7 @@ class HomeViewModel(context: Context) : ViewModel() {
                     RetrofitObject.provideHavitApi(token)
                         .getUserData()
                 _userData.postValue(response.data)
-                if (userLoadState.value != NetworkState.FAIL)
-                    _userLoadState.postValue(NetworkState.SUCCESS)
+                _userLoadState.postValue(NetworkState.SUCCESS)
                 setReachRate(response.data) // 도달률 계산
                 checkLoadState()
             } catch (e: Exception) {
@@ -193,10 +188,5 @@ class HomeViewModel(context: Context) : ViewModel() {
             && notificationLoadState.value == NetworkState.SUCCESS
         )
             _loadState.postValue(NetworkState.SUCCESS)
-    }
-
-    // 서버 실패
-    fun setLoadStateFail() {
-        _loadState.postValue(NetworkState.FAIL)
     }
 }
