@@ -176,7 +176,8 @@ class HomeViewModel(context: Context) : ViewModel() {
         if (data.totalSeenContentNumber != 0 && data.totalContentNumber != 0) { // 콘텐츠 수가 0이 아니라면 rate 계산
             rate =
                 (data.totalSeenContentNumber.toDouble() / data.totalContentNumber.toDouble() * 100).toInt()
-        }
+        } else if (data.totalContentNumber == 0)
+            rate = -1
         _reachRate.postValue(rate)
         return rate
     }

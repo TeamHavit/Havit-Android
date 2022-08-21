@@ -133,7 +133,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.layoutCategory.vpCategory.adapter = categoryVpAdapter
         // 카테고리 indicator 초기화
         val indicator = binding.layoutCategory.indicatorCategory
-        indicator.setViewPager2(binding.layoutCategory.vpCategory)
+        indicator.attachTo(binding.layoutCategory.vpCategory)
         // 최근저장 콘텐츠 adapter 초기화
         binding.rvContents.adapter = contentsAdapter
         // 추천 콘텐츠 adapter 초기화
@@ -160,7 +160,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                     if (data.isNotEmpty()) {
                         val list = setList(data, userData.totalContentNumber)
                         categoryVpAdapter.updateList(list)
-                        binding.layoutCategory.indicatorCategory.setViewPager2(binding.layoutCategory.vpCategory)
+                        binding.layoutCategory.indicatorCategory.attachTo(binding.layoutCategory.vpCategory)
                     }
                 }
             }
@@ -273,6 +273,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     // 계산한 도달률(rate)로 popupText string값 지정
     private fun setPopupText(rate: Int): String =
         when (rate) {
+            -1 -> getString(R.string.home_popup_description0)
             in 0..33 -> getString(R.string.home_popup_description1)
             in 34..66 -> getString(R.string.home_popup_description2)
             in 67..99 -> getString(R.string.home_popup_description3)

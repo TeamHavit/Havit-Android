@@ -136,6 +136,7 @@
     <string name="notification_complete">알림 완료</string>
     <string name="notification_will_alarm_empty">알림 예정인 콘텐츠가 없습니다.</string>
     <string name="notification_done_alarm_empty">지난 알림 콘텐츠가 없습니다.</string>
+    <string name="home_popup_description0">콘텐츠를 저장해보세요!</string>
     <string name="home_popup_description1">비상이에요! 확인하지 않은 콘텐츠가 많이 있어요!</string>
     <string name="home_popup_description2">밀린 콘텐츠를 확인해 보는 건 어떨까요?</string>
     <string name="home_popup_description3">저장한 콘텐츠가 밀리지 않도록 조심하세요!</string>
