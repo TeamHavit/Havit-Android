@@ -30,6 +30,35 @@
         android:background="@color/white_gray"
         tools:context=".ui.home.HomeFragment">
 
+        <!-- 서버 연결 실패 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_network_error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{vmHome.loadState==state.FAIL ? View.VISIBLE : View.GONE}">
+
+            <include
+                android:id="@+id/layout_network_error"
+                layout="@layout/layout_network_error"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 로딩 중 -->
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/sfl_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{vmHome.loadState==state.LOADING ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include layout="@layout/fragment_home_skeleton" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -608,36 +637,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </org.sopt.havit.util.StickyScrollView>
-
-            <!-- 로딩 중 -->
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/sfl_home"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="@{vmHome.loadState==state.LOADING ? View.VISIBLE : View.GONE}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <include layout="@layout/fragment_home_skeleton" />
-            </com.facebook.shimmer.ShimmerFrameLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- 서버 연결 실패 -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_network_error"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="@{vmHome.loadState==state.FAIL ? View.VISIBLE : View.GONE}">
-
-            <include
-                android:id="@+id/layout_network_error"
-                layout="@layout/layout_network_error"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
