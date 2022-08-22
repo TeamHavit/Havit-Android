@@ -3,7 +3,7 @@ package org.sopt.havit.ui.contents.more.edit_notification
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
@@ -20,7 +20,7 @@ import org.sopt.havit.util.*
 class EditNotificationFromMoreFragment :
     BaseBindingFragment<FragmentEditNotificationFromMoreBinding>(R.layout.fragment_edit_notification_from_more),
     OnBackPressedHandler {
-    private val viewModel: EditNotificationFromMoreViewModel by activityViewModels()
+    private val viewModel: EditNotificationFromMoreViewModel by viewModels()
     private lateinit var bottomSheetDialogFragment: BottomSheetDialogFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
