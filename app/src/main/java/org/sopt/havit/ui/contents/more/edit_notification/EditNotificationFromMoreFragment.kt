@@ -11,6 +11,7 @@ import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentEditNotificationFromMoreBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment
+import org.sopt.havit.ui.contents.more.edit_notification.EditNotificationFromMoreViewModel.Companion.FAIL
 import org.sopt.havit.ui.contents.more.edit_notification.EditNotificationFromMoreViewModel.Companion.SUCCESS
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.ui.share.notification.PickerFragment
@@ -74,13 +75,14 @@ class EditNotificationFromMoreFragment :
     }
 
     private fun initToolbarListener() {
-        binding.tvComplete.setOnClickListener {
+        binding.tvComplete.setOnSingleClickListener {
             if (viewModel.isNotificationDataChanged()) {
                 viewModel.patchNotification()
                 viewModel.isNetworkCorrespondenceEnd.observe(
                     viewLifecycleOwner,
                     EventObserver { message ->
                         if (message == SUCCESS) ToastUtil(requireContext()).makeToast(SET_ALARM_TYPE)
+                        if (message == FAIL) ToastUtil(requireContext()).makeToast(ERROR_OCCUR_TYPE)
                         dismissBottomSheet()
                     }
                 )
@@ -119,7 +121,10 @@ class EditNotificationFromMoreFragment :
         viewModel.deleteNotification()
         viewModel.isNetworkCorrespondenceEnd.observe(
             viewLifecycleOwner,
-            EventObserver { dismissBottomSheet() }
+            EventObserver { message ->
+                if (message == FAIL) ToastUtil(requireContext()).makeToast(ERROR_OCCUR_TYPE)
+                dismissBottomSheet()
+            }
         )
     }
 

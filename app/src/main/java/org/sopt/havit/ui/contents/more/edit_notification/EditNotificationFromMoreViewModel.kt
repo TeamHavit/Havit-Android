@@ -1,7 +1,5 @@
 package org.sopt.havit.ui.contents.more.edit_notification
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -100,7 +98,6 @@ class EditNotificationFromMoreViewModel @Inject constructor(
                 _finalNotificationTime.value = null
                 userClicksOnButton(SUCCESS)
             }.onFailure {
-                Log.d(TAG, "deleteNotification: failure")
                 userClicksOnButton(FAIL)
             }
         }
@@ -117,10 +114,8 @@ class EditNotificationFromMoreViewModel @Inject constructor(
                 )
             }.onSuccess {
                 userClicksOnButton(SUCCESS)
-                Log.d(TAG, "patchNotification: onSuccess")
             }.onFailure {
                 userClicksOnButton(FAIL)
-                Log.d(TAG, "patchNotification: onFailure $it")
             }
         }
     }
