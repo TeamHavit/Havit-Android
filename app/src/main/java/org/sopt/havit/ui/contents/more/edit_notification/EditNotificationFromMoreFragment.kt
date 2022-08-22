@@ -122,6 +122,8 @@ class EditNotificationFromMoreFragment :
         viewModel.isNetworkCorrespondenceEnd.observe(
             viewLifecycleOwner,
             EventObserver { message ->
+                if (message == SUCCESS)
+                    ToastUtil(requireContext()).makeToast(DELETE_NOTIFICATION_COMPLETE_TYPE)
                 if (message == FAIL) ToastUtil(requireContext()).makeToast(ERROR_OCCUR_TYPE)
                 dismissBottomSheet()
             }
