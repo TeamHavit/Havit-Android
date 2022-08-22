@@ -14,9 +14,8 @@ import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentEditTitleFromMoreBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.CONTENTS_DATA
-import org.sopt.havit.util.DialogUtil
-import org.sopt.havit.util.EventObserver
-import org.sopt.havit.util.OnBackPressedHandler
+import org.sopt.havit.ui.contents.more.edit_notification.EditNotificationFromMoreViewModel.Companion.FAIL
+import org.sopt.havit.util.*
 
 @AndroidEntryPoint
 class EditTitleFromMoreFragment :
@@ -47,12 +46,15 @@ class EditTitleFromMoreFragment :
     }
 
     private fun initCompleteBtnClick() {
-        binding.tvComplete.setOnClickListener {
+        binding.tvComplete.setOnSingleClickListener {
             if (viewModel.isTitleModified()) {
                 viewModel.patchNewTitle()
                 viewModel.isNetworkCorrespondenceEnd.observe(
-                    requireActivity(),
-                    EventObserver { dismissBottomSheet() }
+                    viewLifecycleOwner,
+                    EventObserver { message ->
+                        if (message == FAIL) ToastUtil(requireContext()).makeToast(ERROR_OCCUR_TYPE)
+                        dismissBottomSheet()
+                    }
                 )
             } else dismissBottomSheet()
         }
