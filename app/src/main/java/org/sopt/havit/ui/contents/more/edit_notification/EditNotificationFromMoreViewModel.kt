@@ -90,8 +90,19 @@ class EditNotificationFromMoreViewModel @Inject constructor(
     }
 
     fun deleteNotification() {
-        _finalIndex.value = null
-        _finalNotificationTime.value = null
+        viewModelScope.launch {
+            kotlin.runCatching {
+                RetrofitObject.provideHavitApi(token).deleteContentNotification(
+                    requireNotNull(contentId.value)
+                )
+            }.onSuccess {
+                _finalIndex.value = null
+                _finalNotificationTime.value = null
+            }.onFailure {
+                Log.d(TAG, "deleteNotification: failure")
+            }
+        }
+
     }
 
     fun patchNotification() {
@@ -111,8 +122,6 @@ class EditNotificationFromMoreViewModel @Inject constructor(
             }
         }
     }
-
-    // TODO 알림삭제 api 아직 안나옴
 
     /** server event */
     private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
