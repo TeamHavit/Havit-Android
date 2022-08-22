@@ -12,6 +12,7 @@ import org.sopt.havit.databinding.FragmentEditCategoryFromMoreBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment
 import org.sopt.havit.ui.contents.more.edit_category.EditCategoryFromMoreViewModel.Companion.PATCH_CATEGORY
+import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.OnBackPressedHandler
 
@@ -85,10 +86,19 @@ class EditCategoryFromMoreFragment :
 
     override fun onBackPressed(): Boolean {
         if (viewModel.isCategoryModified()) {
-            // todo 카테고리 이동 취소 dialog 띄우기
+            showCancelEditCategoryWarningDialog()
             return true
         }
         return false
+    }
+
+    private fun showCancelEditCategoryWarningDialog() {
+        val dialog = DialogUtil(DialogUtil.CANCEL_EDIT_CATEGORY, ::doAfterConfirm)
+        dialog.show(childFragmentManager, this.javaClass.name)
+    }
+
+    private fun doAfterConfirm() {
+        dismissBottomSheet()
     }
 
     private fun dismissBottomSheet() {
