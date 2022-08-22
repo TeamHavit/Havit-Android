@@ -144,6 +144,16 @@ enum class ToastCase(
         R.layout.toast_text,
         R.string.category_modify_complete,
         CATEGORY_MODIFY_COMPLETE_TYPE
+    ),
+    MODIFY_TITLE_COMPLETE(
+        R.layout.toast_text,
+        R.string.title_modified,
+        MODIFY_TITLE_COMPLETE_TYPE
+    ),
+    DELETE_NOTIFICATION_COMPLETE(
+        R.layout.toast_set_alarm_complete,
+        R.string.alarm_deleted,
+        DELETE_NOTIFICATION_COMPLETE_TYPE
     );
 
     companion object {
@@ -165,6 +175,8 @@ const val CONTENT_CHECK_COMPLETE_TYPE = 8
 const val CANNOT_SEND_MAIL_TYPE = 9
 const val ERROR_OCCUR_TYPE = 10
 const val CATEGORY_MODIFY_COMPLETE_TYPE = 11
+const val MODIFY_TITLE_COMPLETE_TYPE = 13
+const val DELETE_NOTIFICATION_COMPLETE_TYPE = 14
 
 const val MARGIN_CONTENT_ADDED = 30
 const val MARGIN_HAVIT_COMPLETE = 40

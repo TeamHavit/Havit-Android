@@ -12,6 +12,7 @@ import org.sopt.havit.databinding.FragmentEditCategoryFromMoreBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment
 import org.sopt.havit.ui.contents.more.edit_category.EditCategoryFromMoreViewModel.Companion.FAIL
+import org.sopt.havit.ui.contents.more.edit_category.EditCategoryFromMoreViewModel.Companion.SUCCESS
 import org.sopt.havit.util.*
 
 @AndroidEntryPoint
@@ -71,6 +72,8 @@ class EditCategoryFromMoreFragment :
                 viewModel.isNetworkCorrespondenceEnd.observe( // 서버통신 완료된 후에 뷰 dismiss
                     viewLifecycleOwner,
                     EventObserver { message ->
+                        if (message == SUCCESS)
+                            ToastUtil(requireContext()).makeToast(CATEGORY_MODIFY_COMPLETE_TYPE)
                         if (message == FAIL) ToastUtil(requireContext()).makeToast(ERROR_OCCUR_TYPE)
                         dismissBottomSheet()
                     }
