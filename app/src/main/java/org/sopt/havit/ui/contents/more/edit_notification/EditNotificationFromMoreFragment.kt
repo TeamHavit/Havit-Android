@@ -3,7 +3,7 @@ package org.sopt.havit.ui.contents.more.edit_notification
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
@@ -11,6 +11,7 @@ import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentEditNotificationFromMoreBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment
+import org.sopt.havit.ui.contents.more.edit_notification.EditNotificationFromMoreViewModel.Companion.FAIL
 import org.sopt.havit.ui.contents.more.edit_notification.EditNotificationFromMoreViewModel.Companion.SUCCESS
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.ui.share.notification.PickerFragment
@@ -20,7 +21,7 @@ import org.sopt.havit.util.*
 class EditNotificationFromMoreFragment :
     BaseBindingFragment<FragmentEditNotificationFromMoreBinding>(R.layout.fragment_edit_notification_from_more),
     OnBackPressedHandler {
-    private val viewModel: EditNotificationFromMoreViewModel by activityViewModels()
+    private val viewModel: EditNotificationFromMoreViewModel by viewModels()
     private lateinit var bottomSheetDialogFragment: BottomSheetDialogFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,7 +47,7 @@ class EditNotificationFromMoreFragment :
     }
 
     private fun initDeleteNotiBtn() {
-        binding.btnDeleteNotification.setOnClickListener {
+        binding.btnDeleteNotification.setOnSingleClickListener {
             showDeleteNotificationWarningDialog()
         }
     }
@@ -74,13 +75,14 @@ class EditNotificationFromMoreFragment :
     }
 
     private fun initToolbarListener() {
-        binding.tvComplete.setOnClickListener {
+        binding.tvComplete.setOnSingleClickListener {
             if (viewModel.isNotificationDataChanged()) {
                 viewModel.patchNotification()
                 viewModel.isNetworkCorrespondenceEnd.observe(
-                    requireActivity(),
+                    viewLifecycleOwner,
                     EventObserver { message ->
                         if (message == SUCCESS) ToastUtil(requireContext()).makeToast(SET_ALARM_TYPE)
+                        if (message == FAIL) ToastUtil(requireContext()).makeToast(ERROR_OCCUR_TYPE)
                         dismissBottomSheet()
                     }
                 )
@@ -117,7 +119,13 @@ class EditNotificationFromMoreFragment :
 
     private fun doAfterDeleteConfirm() {
         viewModel.deleteNotification()
-        dismissBottomSheet()
+        viewModel.isNetworkCorrespondenceEnd.observe(
+            viewLifecycleOwner,
+            EventObserver { message ->
+                if (message == FAIL) ToastUtil(requireContext()).makeToast(ERROR_OCCUR_TYPE)
+                dismissBottomSheet()
+            }
+        )
     }
 
     private fun dismissBottomSheet() {

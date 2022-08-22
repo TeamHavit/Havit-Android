@@ -11,10 +11,8 @@ import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentEditCategoryFromMoreBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment
-import org.sopt.havit.ui.contents.more.edit_category.EditCategoryFromMoreViewModel.Companion.PATCH_CATEGORY
-import org.sopt.havit.util.DialogUtil
-import org.sopt.havit.util.EventObserver
-import org.sopt.havit.util.OnBackPressedHandler
+import org.sopt.havit.ui.contents.more.edit_category.EditCategoryFromMoreViewModel.Companion.FAIL
+import org.sopt.havit.util.*
 
 @AndroidEntryPoint
 class EditCategoryFromMoreFragment :
@@ -67,13 +65,14 @@ class EditCategoryFromMoreFragment :
     }
 
     private fun initCompleteBtnClick() {
-        binding.btnComplete.setOnClickListener {
+        binding.btnComplete.setOnSingleClickListener {
             if (viewModel.isCategoryModified()) {
                 viewModel.patchNewCategoryList()
                 viewModel.isNetworkCorrespondenceEnd.observe( // 서버통신 완료된 후에 뷰 dismiss
-                    requireActivity(),
-                    EventObserver {
-                        if (it == PATCH_CATEGORY) dismissBottomSheet()
+                    viewLifecycleOwner,
+                    EventObserver { message ->
+                        if (message == FAIL) ToastUtil(requireContext()).makeToast(ERROR_OCCUR_TYPE)
+                        dismissBottomSheet()
                     }
                 )
             } else dismissBottomSheet()
@@ -81,7 +80,7 @@ class EditCategoryFromMoreFragment :
     }
 
     private fun onCloseClicked() {
-        binding.icClose.setOnClickListener { dismissBottomSheet() }
+        binding.icClose.setOnSingleClickListener { dismissBottomSheet() }
     }
 
     override fun onBackPressed(): Boolean {
