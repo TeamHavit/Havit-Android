@@ -15,6 +15,7 @@ import org.sopt.havit.databinding.FragmentEditTitleFromMoreBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.CONTENTS_DATA
 import org.sopt.havit.ui.contents.more.edit_notification.EditNotificationFromMoreViewModel.Companion.FAIL
+import org.sopt.havit.ui.contents.more.edit_title.EditTitleFromMoreViewModel.Companion.SUCCESS
 import org.sopt.havit.util.*
 
 @AndroidEntryPoint
@@ -52,6 +53,8 @@ class EditTitleFromMoreFragment :
                 viewModel.isNetworkCorrespondenceEnd.observe(
                     viewLifecycleOwner,
                     EventObserver { message ->
+                        if (message == SUCCESS)
+                            ToastUtil(requireContext()).makeToast(MODIFY_TITLE_COMPLETE_TYPE)
                         if (message == FAIL) ToastUtil(requireContext()).makeToast(ERROR_OCCUR_TYPE)
                         dismissBottomSheet()
                     }
