@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.*
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.notification.NotificationActivity
 import org.sopt.havit.util.MySharedPreference
 
@@ -16,19 +17,19 @@ class HomeViewModel(context: Context) : ViewModel() {
     private val token = MySharedPreference.getXAuthToken(context)
 
     // 로딩 상태를 나타내는 변수
-    private val _loadState = MutableLiveData(true)
-    val loadState: LiveData<Boolean> = _loadState
+    private val _loadState = MutableLiveData(NetworkState.LOADING)
+    val loadState: LiveData<NetworkState> = _loadState
 
-    private val _contentsLoadState = MutableLiveData(true)
-    val contentsLoadState: LiveData<Boolean> = _contentsLoadState
-    private val _categoryLoadState = MutableLiveData(true)
-    val categoryLoadState: LiveData<Boolean> = _categoryLoadState
-    private val _recommendLoadState = MutableLiveData(true)
-    val recommendLoadState: LiveData<Boolean> = _recommendLoadState
-    private val _notificationLoadState = MutableLiveData(true)
-    val notificationLoadState: LiveData<Boolean> = _notificationLoadState
-    private val _userLoadState = MutableLiveData(true)
-    val userLoadState: LiveData<Boolean> = _userLoadState
+    private val _contentsLoadState = MutableLiveData(NetworkState.LOADING)
+    val contentsLoadState: LiveData<NetworkState> = _contentsLoadState
+    private val _categoryLoadState = MutableLiveData(NetworkState.LOADING)
+    val categoryLoadState: LiveData<NetworkState> = _categoryLoadState
+    private val _recommendLoadState = MutableLiveData(NetworkState.LOADING)
+    val recommendLoadState: LiveData<NetworkState> = _recommendLoadState
+    private val _notificationLoadState = MutableLiveData(NetworkState.LOADING)
+    val notificationLoadState: LiveData<NetworkState> = _notificationLoadState
+    private val _userLoadState = MutableLiveData(NetworkState.LOADING)
+    val userLoadState: LiveData<NetworkState> = _userLoadState
 
     // 최근저장 콘텐츠
     private val _contentsList = MutableLiveData<List<ContentsSimpleResponse.ContentsSimpleData>>()
@@ -40,9 +41,10 @@ class HomeViewModel(context: Context) : ViewModel() {
                     RetrofitObject.provideHavitApi(token)
                         .getContentsRecent()
                 _contentsList.postValue(response.data)
-                _contentsLoadState.postValue(false)
-                setLoadState()
+                _contentsLoadState.postValue(NetworkState.SUCCESS)
+                checkLoadState()
             } catch (e: Exception) {
+                _contentsLoadState.postValue(NetworkState.FAIL)
             }
         }
     }
@@ -56,11 +58,12 @@ class HomeViewModel(context: Context) : ViewModel() {
                 val response =
                     RetrofitObject.provideHavitApi(token)
                         .getAllCategory()
-                setLoadState()
+                checkLoadState()
                 _categoryData.postValue(response.data)
-                _categoryLoadState.postValue(false)
-                setLoadState()
+                _categoryLoadState.postValue(NetworkState.SUCCESS)
+                checkLoadState()
             } catch (e: Exception) {
+                _categoryLoadState.postValue(NetworkState.FAIL)
             }
         }
     }
@@ -115,11 +118,12 @@ class HomeViewModel(context: Context) : ViewModel() {
                 val response =
                     RetrofitObject.provideHavitApi(token)
                         .getRecommendation()
-                setLoadState()
+                checkLoadState()
                 _recommendList.postValue(response.data)
-                _recommendLoadState.postValue(false)
-                setLoadState()
+                _recommendLoadState.postValue(NetworkState.SUCCESS)
+                checkLoadState()
             } catch (e: Exception) {
+                _recommendLoadState.postValue(NetworkState.FAIL)
             }
         }
     }
@@ -132,12 +136,12 @@ class HomeViewModel(context: Context) : ViewModel() {
             try {
                 val response = RetrofitObject.provideHavitApi(token)
                     .getNotification(NotificationActivity.before)
-                setLoadState()
+                checkLoadState()
                 _notificationList.postValue(response.data)
-                _notificationLoadState.postValue(false)
-                setLoadState()
+                _notificationLoadState.postValue(NetworkState.SUCCESS)
+                checkLoadState()
             } catch (e: Exception) {
-
+                _notificationLoadState.postValue(NetworkState.FAIL)
             }
         }
     }
@@ -152,10 +156,11 @@ class HomeViewModel(context: Context) : ViewModel() {
                     RetrofitObject.provideHavitApi(token)
                         .getUserData()
                 _userData.postValue(response.data)
-                _userLoadState.postValue(false)
+                _userLoadState.postValue(NetworkState.SUCCESS)
                 setReachRate(response.data) // 도달률 계산
-                setLoadState()
+                checkLoadState()
             } catch (e: Exception) {
+                _userLoadState.postValue(NetworkState.FAIL)
             }
         }
     }
@@ -171,17 +176,18 @@ class HomeViewModel(context: Context) : ViewModel() {
         if (data.totalSeenContentNumber != 0 && data.totalContentNumber != 0) { // 콘텐츠 수가 0이 아니라면 rate 계산
             rate =
                 (data.totalSeenContentNumber.toDouble() / data.totalContentNumber.toDouble() * 100).toInt()
-        }
+        } else if (data.totalContentNumber == 0)
+            rate = -1
         _reachRate.postValue(rate)
         return rate
     }
 
     // skeleton
-    fun setLoadState() {
-        if (userLoadState.value == false && categoryLoadState.value == false
-            && contentsLoadState.value == false && recommendLoadState.value == false
-            && notificationLoadState.value == false
+    fun checkLoadState() {
+        if (userLoadState.value == NetworkState.SUCCESS && categoryLoadState.value == NetworkState.SUCCESS
+            && contentsLoadState.value == NetworkState.SUCCESS && recommendLoadState.value == NetworkState.SUCCESS
+            && notificationLoadState.value == NetworkState.SUCCESS
         )
-            _loadState.postValue(false)
+            _loadState.postValue(NetworkState.SUCCESS)
     }
 }
