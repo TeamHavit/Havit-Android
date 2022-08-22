@@ -98,8 +98,10 @@ class EditNotificationFromMoreViewModel @Inject constructor(
             }.onSuccess {
                 _finalIndex.value = null
                 _finalNotificationTime.value = null
+                userClicksOnButton(SUCCESS)
             }.onFailure {
                 Log.d(TAG, "deleteNotification: failure")
+                userClicksOnButton(FAIL)
             }
         }
 

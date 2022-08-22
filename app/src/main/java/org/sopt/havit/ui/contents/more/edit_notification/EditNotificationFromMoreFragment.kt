@@ -78,7 +78,7 @@ class EditNotificationFromMoreFragment :
             if (viewModel.isNotificationDataChanged()) {
                 viewModel.patchNotification()
                 viewModel.isNetworkCorrespondenceEnd.observe(
-                    requireActivity(),
+                    viewLifecycleOwner,
                     EventObserver { message ->
                         if (message == SUCCESS) ToastUtil(requireContext()).makeToast(SET_ALARM_TYPE)
                         dismissBottomSheet()
@@ -117,7 +117,10 @@ class EditNotificationFromMoreFragment :
 
     private fun doAfterDeleteConfirm() {
         viewModel.deleteNotification()
-        dismissBottomSheet()
+        viewModel.isNetworkCorrespondenceEnd.observe(
+            viewLifecycleOwner,
+            EventObserver { dismissBottomSheet() }
+        )
     }
 
     private fun dismissBottomSheet() {
