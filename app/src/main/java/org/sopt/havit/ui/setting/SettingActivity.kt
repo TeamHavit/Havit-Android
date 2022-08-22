@@ -14,10 +14,7 @@ import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.home.ServiceGuideActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.ui.sign.SplashWithSignActivity
-import org.sopt.havit.util.CANNOT_SEND_MAIL_TYPE
-import org.sopt.havit.util.MySharedPreference
-import org.sopt.havit.util.SERVICE_PREPARING_TYPE
-import org.sopt.havit.util.ToastUtil
+import org.sopt.havit.util.*
 
 @AndroidEntryPoint
 class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.activity_setting) {
@@ -89,12 +86,17 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         binding.tvCustomerCenter.setOnClickListener { sendMail() }
 
         // 로그아웃
-        binding.tvLogout.setOnClickListener { logout() }
+        binding.tvLogout.setOnClickListener { showLogoutDialog() }
 
         // 회원 탈퇴
         binding.clUnregister.setOnClickListener {
             startActivity(Intent(this, SettingUnregisterActivity::class.java))
         }
+    }
+
+    private fun showLogoutDialog() {
+        val dialog = DialogUtil(DialogUtil.LOGOUT, ::logout)
+        dialog.show(supportFragmentManager, this.javaClass.name)
     }
 
     private fun logout() {

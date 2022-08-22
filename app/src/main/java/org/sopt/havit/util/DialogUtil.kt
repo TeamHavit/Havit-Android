@@ -52,6 +52,7 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
             REMOVE_CATEGORY -> getString(R.string.remove_category_title)
             REMOVE_NOTIFICATION -> getString(R.string.remove_notification_title)
             REMOVE_CONTENTS -> getString(R.string.remove_contents_title)
+            LOGOUT -> getString(R.string.logout)
             else -> throw IllegalStateException()
         }
     }
@@ -65,6 +66,7 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
             REMOVE_CATEGORY -> getString(R.string.remove_category_description)
             REMOVE_NOTIFICATION -> getString(R.string.remove_notification_description)
             REMOVE_CONTENTS -> getString(R.string.remove_contents_description)
+            LOGOUT -> getString(R.string.logout_description)
             else -> throw IllegalStateException()
         }
     }
@@ -74,6 +76,7 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
             CANCEL_EDIT_CATEGORY, CANCEL_SAVE_CONTENTS,
             CANCEL_EDIT_TITLE, CANCEL_SET_NOTIFICATION -> getString(R.string.exit)
             REMOVE_CATEGORY, REMOVE_NOTIFICATION, REMOVE_CONTENTS -> getString(R.string.remove)
+            LOGOUT -> getString(R.string.check)
             else -> throw IllegalStateException()
         }
     }
@@ -82,7 +85,7 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
         when (dialogMode) {
             CANCEL_EDIT_CATEGORY, CANCEL_SAVE_CONTENTS, CANCEL_EDIT_TITLE, CANCEL_SET_NOTIFICATION
             -> binding.btnConfirm.setBackgroundResource(R.drawable.rectangle_havit_gray_bottom_right_radius_8)
-            REMOVE_CATEGORY, REMOVE_NOTIFICATION, REMOVE_CONTENTS
+            REMOVE_CATEGORY, REMOVE_NOTIFICATION, REMOVE_CONTENTS, LOGOUT
             -> binding.btnConfirm.setBackgroundResource(R.drawable.rectangle_havit_red_bottom_right_radius_8)
             else -> throw IllegalStateException()
         }
@@ -112,5 +115,6 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
         const val REMOVE_CATEGORY = 4
         const val REMOVE_NOTIFICATION = 5
         const val REMOVE_CONTENTS = 6
+        const val LOGOUT = 7
     }
 }
