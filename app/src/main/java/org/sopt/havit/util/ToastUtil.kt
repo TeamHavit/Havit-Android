@@ -147,7 +147,7 @@ enum class ToastCase(
     ),
     MODIFY_TITLE_COMPLETE(
         R.layout.toast_text,
-        R.string.modify_title,
+        R.string.title_modified,
         MODIFY_TITLE_COMPLETE_TYPE
     ),
     DELETE_NOTIFICATION_COMPLETE(
