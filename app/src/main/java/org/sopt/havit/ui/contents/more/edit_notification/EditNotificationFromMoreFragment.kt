@@ -47,7 +47,7 @@ class EditNotificationFromMoreFragment :
     }
 
     private fun initDeleteNotiBtn() {
-        binding.btnDeleteNotification.setOnClickListener {
+        binding.btnDeleteNotification.setOnSingleClickListener {
             showDeleteNotificationWarningDialog()
         }
     }

@@ -65,7 +65,7 @@ class EditCategoryFromMoreFragment :
     }
 
     private fun initCompleteBtnClick() {
-        binding.btnComplete.setOnClickListener {
+        binding.btnComplete.setOnSingleClickListener {
             if (viewModel.isCategoryModified()) {
                 viewModel.patchNewCategoryList()
                 viewModel.isNetworkCorrespondenceEnd.observe( // 서버통신 완료된 후에 뷰 dismiss
@@ -80,7 +80,7 @@ class EditCategoryFromMoreFragment :
     }
 
     private fun onCloseClicked() {
-        binding.icClose.setOnClickListener { dismissBottomSheet() }
+        binding.icClose.setOnSingleClickListener { dismissBottomSheet() }
     }
 
     override fun onBackPressed(): Boolean {

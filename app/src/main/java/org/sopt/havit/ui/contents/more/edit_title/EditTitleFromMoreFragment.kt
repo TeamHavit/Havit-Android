@@ -81,7 +81,7 @@ class EditTitleFromMoreFragment :
     }
 
     private fun onCloseClicked() {
-        binding.icClose.setOnClickListener {
+        binding.icClose.setOnSingleClickListener {
             if (viewModel.isTitleModified()) showEditTitleWarningDialog()
             else dismissBottomSheet()
         }
