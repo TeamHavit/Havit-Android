@@ -241,9 +241,11 @@
     <string name="delete_content">"콘텐츠가 삭제되었습니다"</string>
     <string name="delete_category">카테고리가 삭제되었습니다</string>
     <string name="alarm_set">알림이 설정되었습니다</string>
-    <string name="max_category">카테고리 최대 개수를 초과했습니다.</string>
-    <string name="category_added">&#160;카테고리가 추가되었습니다.</string>    <!-- &#160;는 띄어쓰기를 위한 문자열입니다-->
-    <string name="category_modify_complete">카테고리 수정 완료!</string>
+    <string name="max_category">카테고리 최대 개수를 초과했습니다</string>
+    <string name="category_added">&#160;카테고리가 추가되었습니다</string>    <!-- &#160;는 띄어쓰기를 위한 문자열입니다-->
+    <string name="category_modify_complete">카테고리가 수정되었습니다</string>
+    <string name="title_modified">제목이 수정되었습니다</string>
+    <string name="alarm_deleted">알림이 삭제되었습니다</string>
 
     <!-- error -->
     <string name="error_occur">문제가 발생했습니다</string>
