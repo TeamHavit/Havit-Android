@@ -115,9 +115,15 @@ class EditNotificationFromMoreViewModel @Inject constructor(
             }.onSuccess {
                 userClicksOnButton(SUCCESS)
             }.onFailure {
-                userClicksOnButton(FAIL)
+                if (isCode500("it.message")) {
+                    userClicksOnButton(REQUEST_DELETE)
+                } else userClicksOnButton(FAIL)
             }
         }
+    }
+
+    private fun isCode500(errorMessage: String?): Boolean {
+        return errorMessage?.substringAfter(" ")?.trim()?.toIntOrNull() == 500
     }
 
     /** server event */
@@ -132,5 +138,6 @@ class EditNotificationFromMoreViewModel @Inject constructor(
     companion object {
         const val SUCCESS = "SUCCESS"
         const val FAIL = "FAIL"
+        const val REQUEST_DELETE = "REQUEST_DELETE"
     }
 }
