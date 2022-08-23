@@ -17,7 +17,7 @@ import org.sopt.havit.ui.web.WebActivity
 import javax.inject.Inject
 
 const val channelID = "notification_channel"
-const val channelName = "org.sopt.androidsharing"
+const val channelName = "HAVIT"
 
 @AndroidEntryPoint
 class HavitFirebaseMessagingService : FirebaseMessagingService() {
@@ -59,7 +59,7 @@ class HavitFirebaseMessagingService : FirebaseMessagingService() {
         image: String? = null,
         url: String? = null
     ) {
-        Log.d("MyFirebaseMessagingService", "$title // $message")
+        Log.d("MyFirebaseMessagingService", "$title, $message")
         val requestCode = System.currentTimeMillis().toInt()
 
         val intent = Intent(this, WebActivity::class.java)
@@ -69,6 +69,7 @@ class HavitFirebaseMessagingService : FirebaseMessagingService() {
             PendingIntent.getActivity(this, requestCode, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val builder = NotificationCompat.Builder(this, channelID)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSmallIcon(R.drawable.ic_havit_radious_10)
             .setAutoCancel(true)
             .setVibrate(longArrayOf(1000, 500, 1000, 500)) // 1초 울리고 0.5초 쉬고
@@ -84,7 +85,7 @@ class HavitFirebaseMessagingService : FirebaseMessagingService() {
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel =
-                NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_DEFAULT)
+                NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(notificationChannel)
         }
 
