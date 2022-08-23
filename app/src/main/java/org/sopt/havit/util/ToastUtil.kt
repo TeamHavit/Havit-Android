@@ -89,7 +89,6 @@ enum class ToastCase(
         R.layout.toast_set_alarm_complete,
         R.string.alarm_set,
         SET_ALARM_TYPE,
-        yOffsetDp = MARGIN_SET_ALARM
     ),
     DELETE_CATEGORY(
         R.layout.toast_text,
@@ -188,4 +187,3 @@ const val MARGIN_CONTENT_ADDED = 30
 const val MARGIN_HAVIT_COMPLETE = 40
 const val MARGIN_NORMAL = 106
 const val MARGIN_PAST_TIME = 345
-const val MARGIN_SET_ALARM = 37
