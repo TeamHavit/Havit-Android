@@ -63,10 +63,12 @@ class HavitFirebaseMessagingService : FirebaseMessagingService() {
         val requestCode = System.currentTimeMillis().toInt()
 
         val intent = Intent(this, WebActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.putExtra("url", url)
         val pendingIntent =
-            PendingIntent.getActivity(this, requestCode, intent, PendingIntent.FLAG_IMMUTABLE)
+            PendingIntent.getActivity(
+                this, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT
+            )
 
         val builder = NotificationCompat.Builder(this, channelID)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
