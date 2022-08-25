@@ -117,8 +117,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
     private fun sendMail() {
         val intent = Intent().apply {
             action = Intent.ACTION_SENDTO
-            data = Uri.parse("mailto:")
-            putExtra(Intent.EXTRA_EMAIL, arrayOf("havitofficial29@gmail.com"))
+            data = Uri.parse("mailto:havitofficial29@gmail.com")
         }
         if (intent.resolveActivity(this.packageManager) != null) startActivity(intent)
         else ToastUtil(this).makeToast(CANNOT_SEND_MAIL_TYPE)
