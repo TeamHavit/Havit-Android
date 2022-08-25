@@ -28,7 +28,7 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
     private var viewType: String? = null
     var contents: ContentsMoreData? = null
-    private lateinit var onDismiss: () -> Unit
+    private lateinit var refreshDataOnBottomSheetDismiss: () -> Unit
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return object : BottomSheetDialog(requireContext()) {
@@ -44,7 +44,7 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
         arguments?.let {
             viewType = it.getString(VIEW_TYPE)
             contents = it.getParcelable(CONTENTS_DATA)
-            onDismiss = it.getSerializable(REFRESH_DATA) as () -> Unit
+            refreshDataOnBottomSheetDismiss = it.getSerializable(REFRESH_DATA) as () -> Unit
         }
     }
 
@@ -90,7 +90,7 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
 
     override fun dismiss() {
         super.dismiss()
-        onDismiss()
+        refreshDataOnBottomSheetDismiss()
     }
 
     companion object {
