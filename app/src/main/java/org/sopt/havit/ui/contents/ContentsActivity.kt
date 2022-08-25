@@ -298,7 +298,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                     dialog.show(supportFragmentManager, this.javaClass.name)
                 }
 
-                val requestContentsData = ::requestContentsData
+                val requestContentsData = ::requestContentsData as Serializable
                 val bundle = setBundle(dataMore, showDeleteDialog, requestContentsData, position)
                 val dialog = ContentsMoreFragment()
                 dialog.arguments = bundle
@@ -311,7 +311,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun setBundle(
         dataMore: ContentsMoreData?,
         showDeleteDialog: () -> Unit,
-        refreshData: () -> Unit,
+        refreshData: Serializable,
         position: Int
     ): Bundle {
         val bundle = Bundle()
