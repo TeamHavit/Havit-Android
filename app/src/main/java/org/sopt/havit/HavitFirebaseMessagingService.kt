@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -78,6 +79,7 @@ class HavitFirebaseMessagingService : FirebaseMessagingService() {
         val builder = NotificationCompat.Builder(this, channelID)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSmallIcon(R.drawable.ic_havit_radious_10)
+            .setColor(Color.argb(255, 133, 120, 255))
             .setAutoCancel(true)
             .setVibrate(longArrayOf(1000, 500, 1000, 500)) // 1초 울리고 0.5초 쉬고
             .setOnlyAlertOnce(true)
