@@ -20,6 +20,7 @@ import org.sopt.havit.ui.contents.more.edit_notification.EditNotificationFromMor
 import org.sopt.havit.ui.contents.more.edit_title.EditTitleFromMoreFragment
 import org.sopt.havit.util.OnBackPressedHandler
 import org.sopt.havit.util.getCurrentFragmentOnMore
+import java.io.Serializable
 
 @AndroidEntryPoint
 class BottomSheetMoreFragment : BottomSheetDialogFragment() {
@@ -27,6 +28,7 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
     private var viewType: String? = null
     var contents: ContentsMoreData? = null
+    private lateinit var onDismiss: () -> Unit
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return object : BottomSheetDialog(requireContext()) {
@@ -42,6 +44,7 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
         arguments?.let {
             viewType = it.getString(VIEW_TYPE)
             contents = it.getParcelable(CONTENTS_DATA)
+            onDismiss = it.getSerializable(REFRESH_DATA) as () -> Unit
         }
     }
 
@@ -85,17 +88,24 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
             (resources.displayMetrics.heightPixels * 0.94).toInt()
     }
 
+    override fun dismiss() {
+        super.dismiss()
+        onDismiss()
+    }
+
     companion object {
         @JvmStatic
-        fun newInstance(param: String, contents: ContentsMoreData) =
+        fun newInstance(param: String, contents: ContentsMoreData, onDismiss: () -> Unit) =
             BottomSheetMoreFragment().apply {
                 arguments = Bundle().apply {
                     putString(VIEW_TYPE, param)
                     putParcelable(CONTENTS_DATA, contents)
+                    putSerializable(REFRESH_DATA, onDismiss as? Serializable)
                 }
             }
 
         const val CONTENTS_DATA = "CONTENTS_DATA"
+        const val REFRESH_DATA = "REFRESH_DATA"
         const val VIEW_TYPE = "VIEW_TYPE"
         const val Edit_TITLE = "EDIT_TITLE"
         const val MOVE_CATEGORY = "MOVE_CATEGORY"
