@@ -108,8 +108,8 @@ class NotificationActivity :
                         }
                     dialog.show(supportFragmentManager, this.javaClass.name)
                 }
-
-                val bundle = setBundle(dataMore, showDeleteDialog, position)
+                val requestContentsData = ::setData
+                val bundle = setBundle(dataMore, showDeleteDialog, requestContentsData, position)
                 val dialog = ContentsMoreFragment()
                 dialog.arguments = bundle
                 dialog.show(supportFragmentManager, "setting")
@@ -134,6 +134,7 @@ class NotificationActivity :
     private fun setBundle(
         dataMore: ContentsMoreData?,
         showDeleteDialog: () -> Unit,
+        refreshData: () -> Unit,
         position: Int
     ): Bundle {
         val bundle = Bundle()
@@ -141,6 +142,10 @@ class NotificationActivity :
         bundle.putSerializable(
             ContentsMoreFragment.SHOW_DELETE_DIALOG,
             showDeleteDialog as Serializable
+        )
+        bundle.putSerializable(
+            ContentsMoreFragment.REFRESH_DATA,
+            refreshData as Serializable
         )
         bundle.putInt(ContentsMoreFragment.POSITION, position)
         return bundle
