@@ -71,7 +71,7 @@ class EditNotificationFromMoreFragment :
                     viewModel?.setNotificationTimeIndirectly(afterTime = intervalTime)
                 }
             }
-            rbtnChooseTime.setOnClickListener { showPickerFragment() }
+            rbtnChooseTime.setOnSingleClickListener { showPickerFragment() }
         }
     }
 
