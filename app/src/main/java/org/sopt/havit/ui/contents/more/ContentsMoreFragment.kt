@@ -13,11 +13,11 @@ import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.Edit_TI
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.MOVE_CATEGORY
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.SET_ALARM
 
-class ContentsMoreFragment :
-    BottomSheetDialogFragment() {
+class ContentsMoreFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentContentsMoreBinding
     private lateinit var contentsData: ContentsMoreData
     private lateinit var showDeleteDialog: () -> Unit
+    private lateinit var refreshData: () -> Unit
     private var pos = 0
     private lateinit var viewType: String
 
@@ -45,7 +45,7 @@ class ContentsMoreFragment :
     }
 
     private fun startBottomSheetWithDesignatedView() {
-        BottomSheetMoreFragment.newInstance(viewType, contentsData)
+        BottomSheetMoreFragment.newInstance(viewType, contentsData, refreshData)
             .show(parentFragmentManager, this.tag)
         dismiss()
     }
@@ -75,6 +75,7 @@ class ContentsMoreFragment :
     private fun setData() {
         contentsData = arguments?.getParcelable(CONTENTS_MORE_DATA) ?: throw IllegalStateException()
         showDeleteDialog = arguments?.getSerializable(SHOW_DELETE_DIALOG) as () -> Unit
+        refreshData = arguments?.getSerializable(REFRESH_DATA) as () -> Unit
         arguments?.getInt(POSITION, 0)?.let {
             pos = it
         }
@@ -104,6 +105,7 @@ class ContentsMoreFragment :
     companion object {
         const val CONTENTS_MORE_DATA = "ContentsMoreData"
         const val SHOW_DELETE_DIALOG = "showDeleteDialog"
+        const val REFRESH_DATA = "REFRESH_DATA"
         const val POSITION = "position"
     }
 }
