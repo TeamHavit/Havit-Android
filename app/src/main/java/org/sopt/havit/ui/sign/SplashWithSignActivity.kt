@@ -11,6 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySplashWithSignBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.onboarding.OnboardingActivity
 import org.sopt.havit.ui.share.ShareActivity
@@ -106,7 +107,7 @@ class SplashWithSignActivity :
     private fun setAutoLogin() {
         HavitAuthUtil.isLoginNow({ isInternetConnected ->
             if (isInternetConnected) {
-                finishAffinity()
+                signInViewModel.isServerNetwork.value = NetworkState.FAIL
             }
         }) { isLogin ->
             if (isLogin && MySharedPreference.getXAuthToken(this).isNotEmpty()) startMainActivity()
@@ -121,6 +122,7 @@ class SplashWithSignActivity :
         }
 
     private fun setListeners() {
+        binding.layoutNetworkError.ivRefresh.setOnClickListener { setAutoLogin() }
         binding.btnKakaoLogin.setOnClickListener { kakaoLoginService.setKakaoLogin(signInViewModel.kakaoLoginCallback) }
         binding.tvAnotherLogin.setOnClickListener {
             kakaoLoginService.setLoginWithAccount(

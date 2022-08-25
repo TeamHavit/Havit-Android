@@ -46,7 +46,6 @@ class SignInViewModel @Inject constructor(
 
     private val _kakaoToken = MutableLiveData<String>()
 
-
     val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
             _isSuccessKakaoLogin.value = Event(false)
