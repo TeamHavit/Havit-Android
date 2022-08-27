@@ -145,7 +145,7 @@ class NotificationActivity :
         )
         bundle.putSerializable(
             ContentsMoreFragment.REFRESH_DATA,
-            refreshData as Serializable
+            refreshData
         )
         bundle.putInt(ContentsMoreFragment.POSITION, position)
         return bundle
