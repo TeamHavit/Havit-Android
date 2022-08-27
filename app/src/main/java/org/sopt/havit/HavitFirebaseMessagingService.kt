@@ -73,13 +73,13 @@ class HavitFirebaseMessagingService : FirebaseMessagingService() {
         intent.putExtra("url", url)
         val pendingIntent =
             PendingIntent.getActivity(
-                this, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT
+                this, requestCode, intent, PendingIntent.FLAG_IMMUTABLE
             )
 
         val builder = NotificationCompat.Builder(this, channelID)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setSmallIcon(R.drawable.ic_havit_radious_10)
-            .setColor(Color.argb(255, 133, 120, 255))
+            .setSmallIcon(R.drawable.ic_logo_monochrome_purple)
+            .setColor(Color.argb(255, 133, 120, 255))   // havit_purple
             .setAutoCancel(true)
             .setVibrate(longArrayOf(1000, 500, 1000, 500)) // 1초 울리고 0.5초 쉬고
             .setOnlyAlertOnce(true)
