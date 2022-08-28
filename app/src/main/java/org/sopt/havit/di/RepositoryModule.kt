@@ -35,8 +35,8 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideMyPageRepository(
-        @ApplicationContext context: Context
-    ): MyPageRepository = MyPageRepositoryImpl(context)
+        authLocalDataSourceImpl: AuthLocalDataSourceImpl
+    ): MyPageRepository = MyPageRepositoryImpl(authLocalDataSourceImpl)
 
     @Provides
     @Singleton

@@ -7,9 +7,11 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.view.animation.TranslateAnimation
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentHomeBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.category.CategoryAddActivity
 import org.sopt.havit.ui.contents_simple.ContentsSimpleActivity
@@ -66,34 +68,34 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     // 추천 콘텐츠 클릭 -> 웹뷰로 이동
     private fun clickRecommendItemView() {
         recommendRvAdapter.setItemClickListener(object :
-                HomeRecommendRvAdapter.OnItemClickListener {
-                override fun onWebClick(v: View, position: Int) {
-                    val intent = Intent(v.context, WebActivity::class.java)
-                    homeViewModel.recommendList.value?.get(position)
-                        ?.let {
-                            intent.putExtra("url", it.url)
-                            intent.putExtra("contentsId", -1)
-                        }
-                    startActivity(intent)
-                }
-            })
+            HomeRecommendRvAdapter.OnItemClickListener {
+            override fun onWebClick(v: View, position: Int) {
+                val intent = Intent(v.context, WebActivity::class.java)
+                homeViewModel.recommendList.value?.get(position)
+                    ?.let {
+                        intent.putExtra("url", it.url)
+                        intent.putExtra("contentsId", -1)
+                    }
+                startActivity(intent)
+            }
+        })
     }
 
     // 최근 저장 콘텐츠 클릭 -> 웹뷰로 이동
     private fun clickRecentContentsItemView() {
         contentsAdapter.setItemClickListener(object :
-                HomeRecentContentsRvAdapter.OnItemClickListener {
-                override fun onWebClick(v: View, position: Int) {
-                    val intent = Intent(v.context, WebActivity::class.java)
-                    homeViewModel.contentsList.value?.get(position)
-                        ?.let {
-                            intent.putExtra("url", it.url)
-                            intent.putExtra("contentsId", it.id)
-                            intent.putExtra("isSeen", it.isSeen)
-                        }
-                    startActivity(intent)
-                }
-            })
+            HomeRecentContentsRvAdapter.OnItemClickListener {
+            override fun onWebClick(v: View, position: Int) {
+                val intent = Intent(v.context, WebActivity::class.java)
+                homeViewModel.contentsList.value?.get(position)
+                    ?.let {
+                        intent.putExtra("url", it.url)
+                        intent.putExtra("contentsId", it.id)
+                        intent.putExtra("isSeen", it.isSeen)
+                    }
+                startActivity(intent)
+            }
+        })
     }
 
     private fun setData() {
@@ -109,18 +111,19 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private fun loadStateObserve() {
         with(homeViewModel) {
-            loadState.observe(viewLifecycleOwner) {
-                if (it) // 로딩중이라면
+            loadState.observe(viewLifecycleOwner) { state ->
+                if (state == NetworkState.LOADING) // 로딩중이라면
                     binding.sflHome.startShimmer()
                 else // 로딩이 끝났다면
                     binding.sflHome.stopShimmer()
             }
+
             // 유저, 카테고리, 최근저장콘텐츠, 추천콘텐츠 서버 연결 확인
-            userLoadState.observe(viewLifecycleOwner) { setLoadState() }
-            categoryLoadState.observe(viewLifecycleOwner) { setLoadState() }
-            recommendLoadState.observe(viewLifecycleOwner) { setLoadState() }
-            contentsLoadState.observe(viewLifecycleOwner) { setLoadState() }
-            notificationLoadState.observe(viewLifecycleOwner) { setLoadState() }
+            userLoadState.observe(viewLifecycleOwner) { checkLoadState() }
+            categoryLoadState.observe(viewLifecycleOwner) { checkLoadState() }
+            recommendLoadState.observe(viewLifecycleOwner) { checkLoadState() }
+            contentsLoadState.observe(viewLifecycleOwner) { checkLoadState() }
+            notificationLoadState.observe(viewLifecycleOwner) { checkLoadState() }
         }
     }
 
@@ -130,7 +133,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.layoutCategory.vpCategory.adapter = categoryVpAdapter
         // 카테고리 indicator 초기화
         val indicator = binding.layoutCategory.indicatorCategory
-        indicator.setViewPager2(binding.layoutCategory.vpCategory)
+        indicator.attachTo(binding.layoutCategory.vpCategory)
         // 최근저장 콘텐츠 adapter 초기화
         binding.rvContents.adapter = contentsAdapter
         // 추천 콘텐츠 adapter 초기화
@@ -157,7 +160,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
                     if (data.isNotEmpty()) {
                         val list = setList(data, userData.totalContentNumber)
                         categoryVpAdapter.updateList(list)
-                        binding.layoutCategory.indicatorCategory.setViewPager2(binding.layoutCategory.vpCategory)
+                        binding.layoutCategory.indicatorCategory.attachTo(binding.layoutCategory.vpCategory)
                     }
                 }
             }
@@ -175,7 +178,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     // popUp 삭제 버튼 클릭 이벤트
     private fun clickDeletePopup() {
         // popUp 삭제 버튼 클릭 시 수행되는 animation
-        val animation = TranslateAnimation(0.0f, 0.0f, 0.0f, binding.clPopup.height.toFloat() * -1)
+        val animation =
+            TranslateAnimation(0.0f, 0.0f, 0.0f, binding.clPopup.height.toFloat() * -1)
         animation.duration = 300 // 300 millis 동안 수행
         animation.fillAfter = false // fillAfter = false : 애니메이션 수행 후 view 원위치로
         binding.clPopup.startAnimation(animation)
@@ -185,7 +189,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }, 300)
 
         // MySharedPreference에 deletePopup버튼을 누른 현재 시각 저장
-        val deletePopupTime = System.currentTimeMillis() / (1000 * 60) // 1970.01.01부터 흐른 시간(분)
+        val deletePopupTime =
+            System.currentTimeMillis() / (1000 * 60) // 1970.01.01부터 흐른 시간(분)
         PopupSharedPreference.setDeletePopupTime(requireContext(), deletePopupTime)
         PopupSharedPreference.setIsPopup(requireContext(), false)
     }
@@ -224,6 +229,15 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             val intent = Intent(requireActivity(), ServiceGuideActivity::class.java)
             startActivity(intent)
         }
+        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+            it.startAnimation(
+                AnimationUtils.loadAnimation(
+                    requireActivity(),
+                    R.anim.rotation_refresh
+                )
+            )
+            setData()
+        }
         clickRecommendItemView() // 추천콘텐츠 클릭->웹뷰로 이동
         clickRecentContentsItemView() // 최근저장 콘텐츠 클릭->웹뷰로 이동
     }
@@ -259,6 +273,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     // 계산한 도달률(rate)로 popupText string값 지정
     private fun setPopupText(rate: Int): String =
         when (rate) {
+            -1 -> getString(R.string.home_popup_description0)
             in 0..33 -> getString(R.string.home_popup_description1)
             in 34..66 -> getString(R.string.home_popup_description2)
             in 67..99 -> getString(R.string.home_popup_description3)
@@ -288,7 +303,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     // 팝업 시간 변화 검사 : x를 누르고 3일이 지났는지
     private fun checkDeletePopupTime() {
-        val currentTime = System.currentTimeMillis() / (1000 * 60) // 1970.01.01부터 현재까지 흐른 시간(분)
+        val currentTime =
+            System.currentTimeMillis() / (1000 * 60) // 1970.01.01부터 현재까지 흐른 시간(분)
         val deletePopupTime =
             PopupSharedPreference.getDeletePopupTime(requireContext()) // deletePopup 버튼을 누른 시각
         isPopup = (currentTime - deletePopupTime) > 60 * 24 * 3
@@ -297,8 +313,14 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     // 도달률 최종 업데이트
     private fun updatePopup() {
         binding.isPopup = isPopup // 최종 isPopup 값 뷰에 반영
-        PopupSharedPreference.setIsPopup(requireContext(), isPopup) // 최종 isPopup 값 spf에 저장
-        PopupSharedPreference.setPopupText(requireContext(), popupText) // 도달률 텍스트 값 spf에 저장
+        PopupSharedPreference.setIsPopup(
+            requireContext(),
+            isPopup
+        ) // 최종 isPopup 값 spf에 저장
+        PopupSharedPreference.setPopupText(
+            requireContext(),
+            popupText
+        ) // 도달률 텍스트 값 spf에 저장
     }
 
     companion object {

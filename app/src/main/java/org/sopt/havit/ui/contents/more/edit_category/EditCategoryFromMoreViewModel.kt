@@ -1,7 +1,5 @@
 package org.sopt.havit.ui.contents.more.edit_category
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,14 +26,6 @@ class EditCategoryFromMoreViewModel @Inject constructor(
     private var originCategoryId = MutableLiveData<List<Int>>()
     private var newCategoryId = MutableLiveData<List<Int>>()
     var isCategorySelectedAtLeastOne = MutableLiveData(true)
-
-    private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
-    val isNetworkCorrespondenceEnd: MutableLiveData<Event<String>>
-        get() = _isNetworkCorrespondenceEnd
-
-    private fun userClicksOnButton() {
-        _isNetworkCorrespondenceEnd.value = Event(PATCH_CATEGORY)
-    }
 
     fun initProperty(contentsMoreData: ContentsMoreData) {
         contentsId.value = contentsMoreData.id
@@ -89,14 +79,24 @@ class EditCategoryFromMoreViewModel @Inject constructor(
                 )
                 RetrofitObject.provideHavitApi(token).modifyContentCategory(body)
             }.onSuccess {
-                Log.d(TAG, "patchNewCategoryList: success")
+                userClicksOnButton(SUCCESS)
             }.onFailure {
-                Log.d(TAG, "patchNewCategoryList: failure ${it.message}")
-            }.run { userClicksOnButton() }
+                userClicksOnButton(FAIL)
+            }
         }
     }
 
+    /** server event */
+    private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
+    val isNetworkCorrespondenceEnd: MutableLiveData<Event<String>>
+        get() = _isNetworkCorrespondenceEnd
+
+    private fun userClicksOnButton(string: String) {
+        _isNetworkCorrespondenceEnd.value = Event(string)
+    }
+
     companion object {
-        const val PATCH_CATEGORY = "Patch Category"
+        const val SUCCESS = "SUCCESS"
+        const val FAIL = "FAIL"
     }
 }

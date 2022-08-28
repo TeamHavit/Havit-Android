@@ -141,6 +141,7 @@ object BindingAdapter {
     @JvmStatic
     fun setPopupDescription(textView: TextView, rate: Int) {
         when (rate) {
+            -1 -> textView.text = textView.context.getString(R.string.home_popup_description0)
             in 0..33 -> textView.text = textView.context.getString(R.string.home_popup_description1)
             in 34..66 ->
                 textView.text =

@@ -136,6 +136,7 @@
     <string name="notification_complete">알림 완료</string>
     <string name="notification_will_alarm_empty">알림 예정인 콘텐츠가 없습니다.</string>
     <string name="notification_done_alarm_empty">지난 알림 콘텐츠가 없습니다.</string>
+    <string name="home_popup_description0">콘텐츠를 저장해보세요!</string>
     <string name="home_popup_description1">비상이에요! 확인하지 않은 콘텐츠가 많이 있어요!</string>
     <string name="home_popup_description2">밀린 콘텐츠를 확인해 보는 건 어떨까요?</string>
     <string name="home_popup_description3">저장한 콘텐츠가 밀리지 않도록 조심하세요!</string>
@@ -160,6 +161,7 @@
     <string name="remove_notification_description">설정한 알림을 삭제하시겠습니까?\n다시 새로운 알림을 설정할 수 있습니다.</string>
     <string name="remove_contents_title">콘텐츠 삭제</string>
     <string name="remove_contents_description">해당 콘텐츠를 삭제하시겠습니까?\n삭제한 콘텐츠는 되돌릴 수 없습니다.</string>
+    <string name="logout_description">정말 로그아웃 하시겠습니까?</string>
     <string name="contents_category_close">닫기</string>
     <string name="url_hint">https://www.example.com/</string>
     <string name="ic_alarm">ic_alarm</string>
@@ -239,9 +241,12 @@
     <string name="delete_content">"콘텐츠가 삭제되었습니다"</string>
     <string name="delete_category">카테고리가 삭제되었습니다</string>
     <string name="alarm_set">알림이 설정되었습니다</string>
-    <string name="max_category">카테고리 최대 개수를 초과했습니다.</string>
-    <string name="category_added">&#160;카테고리가 추가되었습니다.</string>    <!-- &#160;는 띄어쓰기를 위한 문자열입니다-->
-    <string name="category_modify_complete">카테고리 수정 완료!</string>
+    <string name="max_category">카테고리 최대 개수를 초과했습니다</string>
+    <string name="category_added">&#160;카테고리가 추가되었습니다</string>    <!-- &#160;는 띄어쓰기를 위한 문자열입니다-->
+    <string name="category_modify_complete">카테고리가 수정되었습니다</string>
+    <string name="title_modified">제목이 수정되었습니다</string>
+    <string name="alarm_deleted">알림이 삭제되었습니다</string>
+    <string name="request_delete_notification">알림을 재설정하려면\n알림 삭제 후 다시 시도해주세요</string>
 
     <!-- error -->
     <string name="error_occur">문제가 발생했습니다</string>

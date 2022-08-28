@@ -15,8 +15,8 @@ import org.sopt.havit.ui.home.ServiceGuideActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.ui.sign.SplashWithSignActivity
 import org.sopt.havit.util.CANNOT_SEND_MAIL_TYPE
+import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.MySharedPreference
-import org.sopt.havit.util.SERVICE_PREPARING_TYPE
 import org.sopt.havit.util.ToastUtil
 
 @AndroidEntryPoint
@@ -62,12 +62,13 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
             intent.putExtra("android.provider.extra.APP_PACKAGE", packageName)
 
             startActivity(intent)
-//            startActivity(Intent(this, SettingAlarmActivity::class.java))
         }
 
         // 공지사항
         binding.clNotice.setOnClickListener {
-            ToastUtil(this).makeToast(SERVICE_PREPARING_TYPE)
+            startActivity(Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse(NOTICE_URL)
+            })
         }
 
         // 약관 및 정책
@@ -89,12 +90,17 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         binding.tvCustomerCenter.setOnClickListener { sendMail() }
 
         // 로그아웃
-        binding.tvLogout.setOnClickListener { logout() }
+        binding.tvLogout.setOnClickListener { showLogoutDialog() }
 
         // 회원 탈퇴
         binding.clUnregister.setOnClickListener {
             startActivity(Intent(this, SettingUnregisterActivity::class.java))
         }
+    }
+
+    private fun showLogoutDialog() {
+        val dialog = DialogUtil(DialogUtil.LOGOUT, ::logout)
+        dialog.show(supportFragmentManager, this.javaClass.name)
     }
 
     private fun logout() {
@@ -109,14 +115,13 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
             }
         }
         startActivity(Intent(this, SplashWithSignActivity::class.java))
-        finish()
+        finishAffinity()
     }
 
     private fun sendMail() {
         val intent = Intent().apply {
             action = Intent.ACTION_SENDTO
-            data = Uri.parse("mailto:")
-            putExtra(Intent.EXTRA_EMAIL, arrayOf("havitofficial29@gmail.com"))
+            data = Uri.parse("mailto:havitofficial29@gmail.com")
         }
         if (intent.resolveActivity(this.packageManager) != null) startActivity(intent)
         else ToastUtil(this).makeToast(CANNOT_SEND_MAIL_TYPE)
@@ -128,5 +133,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
     companion object {
         const val nickname = "nickname"
+        const val NOTICE_URL =
+            "https://skitter-sloth-be4.notion.site/What-is-Havit-3db94fcc0cdc4a38bddd87f790e0ac96"
     }
 }

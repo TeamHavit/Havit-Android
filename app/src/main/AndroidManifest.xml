@@ -148,7 +148,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.sign.SignActivity"
+            android:name=".ui.sign.SignUpActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait" />

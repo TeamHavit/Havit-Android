@@ -89,7 +89,6 @@ enum class ToastCase(
         R.layout.toast_set_alarm_complete,
         R.string.alarm_set,
         SET_ALARM_TYPE,
-        yOffsetDp = MARGIN_SET_ALARM
     ),
     DELETE_CATEGORY(
         R.layout.toast_text,
@@ -144,6 +143,21 @@ enum class ToastCase(
         R.layout.toast_text,
         R.string.category_modify_complete,
         CATEGORY_MODIFY_COMPLETE_TYPE
+    ),
+    MODIFY_TITLE_COMPLETE(
+        R.layout.toast_text,
+        R.string.title_modified,
+        MODIFY_TITLE_COMPLETE_TYPE
+    ),
+    DELETE_NOTIFICATION_COMPLETE(
+        R.layout.toast_set_alarm_complete,
+        R.string.alarm_deleted,
+        DELETE_NOTIFICATION_COMPLETE_TYPE
+    ),
+    REQUEST_DELETE_NOTIFICATION(
+        R.layout.toast_text,
+        R.string.request_delete_notification,
+        REQUEST_DELETE_NOTIFICATION_TYPE
     );
 
     companion object {
@@ -165,9 +179,11 @@ const val CONTENT_CHECK_COMPLETE_TYPE = 8
 const val CANNOT_SEND_MAIL_TYPE = 9
 const val ERROR_OCCUR_TYPE = 10
 const val CATEGORY_MODIFY_COMPLETE_TYPE = 11
+const val MODIFY_TITLE_COMPLETE_TYPE = 13
+const val DELETE_NOTIFICATION_COMPLETE_TYPE = 14
+const val REQUEST_DELETE_NOTIFICATION_TYPE = 15
 
 const val MARGIN_CONTENT_ADDED = 30
 const val MARGIN_HAVIT_COMPLETE = 40
 const val MARGIN_NORMAL = 106
 const val MARGIN_PAST_TIME = 345
-const val MARGIN_SET_ALARM = 37

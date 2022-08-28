@@ -40,65 +40,254 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/havit_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_topbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/havit_white">
+            android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_onboarding_first"
-                android:layout_width="match_parent"
+            <!-- 콘텐츠 저장 -->
+            <TextView
+                android:id="@+id/tv_contents_save"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="22dp"
+                android:background="@drawable/rectangle_gray_1_radius_11"
+                android:paddingHorizontal="9dp"
+                android:paddingVertical="3dp"
+                android:text="@string/onboarding_save_contents"
+                android:textAppearance="@style/Text12Semibold"
+                android:textColor="@color/gray_3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <include layout="@layout/fragment_onboarding_first" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_onboarding_second"
-                android:layout_width="match_parent"
+            <!-- 콘텐츠 저장 - 공유하기 -->
+            <TextView
+                android:id="@+id/tv_share"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="31dp"
-                app:layout_constraintTop_toBottomOf="@id/cl_onboarding_first">
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/onboarding_share"
+                android:textAppearance="@style/Header22Semibold"
+                android:textColor="@color/purple_main"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_contents_save" />
 
-                <include layout="@layout/fragment_onboarding_second" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_onboarding_third"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_share_description"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/onboarding_share_description"
+                android:textAppearance="@style/Medium15"
+                android:textColor="@color/gray_5"
+                app:layout_constraintStart_toStartOf="@+id/tv_share"
+                app:layout_constraintTop_toBottomOf="@+id/tv_share" />
+
+            <TextView
+                android:id="@+id/tv_share_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/onboarding_share_tip"
+                android:textAppearance="@style/Sub12Regular"
+                android:textColor="@color/gray_3"
+                app:layout_constraintStart_toStartOf="@+id/tv_share_description"
+                app:layout_constraintTop_toBottomOf="@+id/tv_share_description" />
+
+            <ImageView
+                android:id="@+id/iv_share"
+                android:layout_width="311dp"
+                android:layout_height="278dp"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="28dp"
+                android:src="@drawable/img_onboarding_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_share_tip" />
+
+            <!-- 콘텐츠 저장 - 링크 입력하기 -->
+            <TextView
+                android:id="@+id/tv_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="115dp"
+                android:text="@string/onboarding_link"
+                android:textAppearance="@style/Header22Semibold"
+                android:textColor="@color/purple_main"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_share" />
+
+            <TextView
+                android:id="@+id/tv_link_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/onboarding_link_description"
+                android:textAppearance="@style/Medium15"
+                android:textColor="@color/gray_5"
+                app:layout_constraintStart_toStartOf="@+id/tv_link"
+                app:layout_constraintTop_toBottomOf="@+id/tv_link" />
+
+            <ImageView
+                android:id="@+id/iv_link"
+                android:layout_width="357dp"
+                android:layout_height="299dp"
+                android:layout_marginTop="36dp"
+                android:src="@drawable/img_onboarding_2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_link_description" />
+
+            <!-- 콘텐츠 저장 - 카테고리에 저장 -->
+            <TextView
+                android:id="@+id/tv_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="172dp"
+                android:text="@string/onboarding_save_in_category"
+                android:textAppearance="@style/Header22Semibold"
+                android:textColor="@color/purple_main"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_link" />
+
+            <TextView
+                android:id="@+id/tv_category_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/onboarding_save_in_category_description"
+                android:textAppearance="@style/Medium15"
+                android:textColor="@color/gray_5"
+                app:layout_constraintStart_toStartOf="@+id/tv_category"
+                app:layout_constraintTop_toBottomOf="@+id/tv_category" />
+
+            <TextView
+                android:id="@+id/tv_category_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/onboarding_save_in_category_tip"
+                android:textAppearance="@style/Sub12Regular"
+                android:textColor="@color/gray_3"
+                app:layout_constraintStart_toStartOf="@+id/tv_category_description"
+                app:layout_constraintTop_toBottomOf="@+id/tv_category_description" />
+
+            <ImageView
+                android:id="@+id/iv_category"
+                android:layout_width="335dp"
+                android:layout_height="358dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/img_onboarding_3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_category_tip" />
+
+            <!-- 콘텐츠 커스터마이징 -->
+            <TextView
+                android:id="@+id/tv_customizing_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="129dp"
+                android:background="@drawable/rectangle_gray_1_radius_11"
+                android:paddingHorizontal="9dp"
+                android:paddingVertical="3dp"
+                android:text="@string/onboarding_contents_customizing"
+                android:textAppearance="@style/Text12Semibold"
+                android:textColor="@color/gray_3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_category" />
+
+            <TextView
+                android:id="@+id/tv_customizing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/onboarding_customize"
+                android:textAppearance="@style/Header22Semibold"
+                android:textColor="@color/purple_main"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_customizing_chip" />
+
+            <TextView
+                android:id="@+id/tv_customizing_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/onboarding_customize_description"
+                android:textAppearance="@style/Medium15"
+                android:textColor="@color/gray_5"
+                app:layout_constraintStart_toStartOf="@+id/tv_customizing"
+                app:layout_constraintTop_toBottomOf="@+id/tv_customizing" />
+
+            <ImageView
+                android:id="@+id/iv_customizing"
+                android:layout_width="327dp"
+                android:layout_height="280dp"
+                android:layout_marginStart="26dp"
                 android:layout_marginTop="41dp"
-                app:layout_constraintTop_toBottomOf="@id/cl_onboarding_second">
+                android:layout_marginEnd="22dp"
+                android:src="@drawable/img_onboarding_4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_customizing_description" />
 
-                <include layout="@layout/fragment_onboarding_third" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_onboarding_fourth"
-                android:layout_width="match_parent"
+            <!-- 콘텐츠 확인 -->
+            <TextView
+                android:id="@+id/tv_check_chip"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="41dp"
-                app:layout_constraintTop_toBottomOf="@id/cl_onboarding_third">
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="161dp"
+                android:background="@drawable/rectangle_gray_1_radius_11"
+                android:paddingHorizontal="9dp"
+                android:paddingVertical="3dp"
+                android:text="@string/onboarding_contents_checking"
+                android:textAppearance="@style/Text12Semibold"
+                android:textColor="@color/gray_3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_customizing" />
 
-                <include layout="@layout/fragment_onboarding_fourth" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_onboarding_fifth"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_check"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="81dp"
-                android:layout_marginBottom="136dp"
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/onboarding_contents_check"
+                android:textAppearance="@style/Header22Semibold"
+                android:textColor="@color/purple_main"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_check_chip" />
+
+            <TextView
+                android:id="@+id/tv_check_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/onboarding_contents_check_description"
+                android:textAppearance="@style/Medium15"
+                android:textColor="@color/gray_5"
+                app:layout_constraintStart_toStartOf="@+id/tv_check"
+                app:layout_constraintTop_toBottomOf="@+id/tv_check" />
+
+            <ImageView
+                android:id="@+id/iv_check"
+                android:layout_width="328dp"
+                android:layout_height="265dp"
+                android:layout_marginTop="45dp"
+                android:layout_marginBottom="221dp"
+                android:src="@drawable/img_onboarding_5"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_onboarding_fourth">
-
-                <include layout="@layout/fragment_onboarding_fifth" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_check_description" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

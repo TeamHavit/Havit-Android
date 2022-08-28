@@ -23,15 +23,6 @@ class EditTitleFromMoreViewModel @Inject constructor(
         private set
     var currTitle = MutableLiveData<String>()
 
-    private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
-    val isNetworkCorrespondenceEnd: MutableLiveData<Event<String>>
-        get() = _isNetworkCorrespondenceEnd
-
-    // Trigger the event by setting a new Event as a new value
-    private fun userClicksOnButton() {
-        _isNetworkCorrespondenceEnd.value = Event("Finish Server")
-    }
-
     fun isTitleModified() = originTitle.value != currTitle.value
 
     fun initProperty(contentsMoreData: ContentsMoreData) {
@@ -47,7 +38,25 @@ class EditTitleFromMoreViewModel @Inject constructor(
                     requireNotNull(contentsId.value),
                     ModifyTitleParams(requireNotNull(currTitle.value))
                 )
-            }.run { userClicksOnButton() }
+            }.onSuccess {
+                userClicksOnButton(SUCCESS)
+            }.onFailure {
+                userClicksOnButton(FAIL)
+            }
         }
+    }
+
+    /** server event */
+    private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
+    val isNetworkCorrespondenceEnd: MutableLiveData<Event<String>>
+        get() = _isNetworkCorrespondenceEnd
+
+    private fun userClicksOnButton(string: String) {
+        _isNetworkCorrespondenceEnd.value = Event(string)
+    }
+
+    companion object {
+        const val SUCCESS = "SUCCESS"
+        const val FAIL = "FAIL"
     }
 }

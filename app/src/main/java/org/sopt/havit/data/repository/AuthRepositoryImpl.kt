@@ -33,6 +33,14 @@ class AuthRepositoryImpl @Inject constructor(
 
     override fun removeHavitAuthToken() = authLocalDataSource.removeHavitAuthToken()
 
+    override fun getUserNickName(): String = authLocalDataSource.getUserNickName()
+
+    override fun getUserAge(): Int = authLocalDataSource.getUserAge()
+
+    override fun getUserGender(): String = authLocalDataSource.getUserGender()
+
+    override fun getUserEmail(): String = authLocalDataSource.getUserEmail()
+
     override suspend fun getSignIn(fcmToken: String, kakaoToken: String): SignInResponse {
         return authRemoteDataSource.checkNewUser(fcmToken, kakaoToken)
     }

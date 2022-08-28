@@ -11,6 +11,8 @@ import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.FragmentEditNotificationFromMoreBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment
+import org.sopt.havit.ui.contents.more.edit_notification.EditNotificationFromMoreViewModel.Companion.FAIL
+import org.sopt.havit.ui.contents.more.edit_notification.EditNotificationFromMoreViewModel.Companion.REQUEST_DELETE
 import org.sopt.havit.ui.contents.more.edit_notification.EditNotificationFromMoreViewModel.Companion.SUCCESS
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.ui.share.notification.PickerFragment
@@ -46,7 +48,7 @@ class EditNotificationFromMoreFragment :
     }
 
     private fun initDeleteNotiBtn() {
-        binding.btnDeleteNotification.setOnClickListener {
+        binding.btnDeleteNotification.setOnSingleClickListener {
             showDeleteNotificationWarningDialog()
         }
     }
@@ -69,25 +71,34 @@ class EditNotificationFromMoreFragment :
                     viewModel?.setNotificationTimeIndirectly(afterTime = intervalTime)
                 }
             }
-            rbtnChooseTime.setOnClickListener { showPickerFragment() }
+            rbtnChooseTime.setOnSingleClickListener { showPickerFragment() }
         }
     }
 
     private fun initToolbarListener() {
-        binding.tvComplete.setOnClickListener {
+        binding.tvComplete.setOnSingleClickListener {
             if (viewModel.isNotificationDataChanged()) {
                 viewModel.patchNotification()
-                viewModel.isNetworkCorrespondenceEnd.observe(
-                    requireActivity(),
-                    // TODO 서버 api 연동 이후에 이벤트처리 다시하기
-                    EventObserver { message ->
-                        if (message == SUCCESS)
-                            ToastUtil(requireContext()).makeToast(SET_ALARM_TYPE)
-                        dismissBottomSheet()
-                    }
-                )
+                observeModifyResponse()
+
             } else dismissBottomSheet()
         }
+    }
+
+    private fun observeModifyResponse() {
+        viewModel.isNetworkCorrespondenceEnd.observe(
+            viewLifecycleOwner,
+            EventObserver { message ->
+                when (message) {
+                    SUCCESS -> ToastUtil(requireContext()).makeToast(SET_ALARM_TYPE)
+                    REQUEST_DELETE -> ToastUtil(requireContext()).makeToast(
+                        REQUEST_DELETE_NOTIFICATION_TYPE
+                    )
+                    FAIL -> ToastUtil(requireContext()).makeToast(ERROR_OCCUR_TYPE)
+                }
+                dismissBottomSheet()
+            }
+        )
     }
 
     private fun showPickerFragment() {
@@ -119,7 +130,22 @@ class EditNotificationFromMoreFragment :
 
     private fun doAfterDeleteConfirm() {
         viewModel.deleteNotification()
-        dismissBottomSheet()
+        observeDeleteResponse()
+    }
+
+    private fun observeDeleteResponse() {
+        viewModel.isNetworkCorrespondenceEnd.observe(
+            viewLifecycleOwner,
+            EventObserver { message ->
+                when (message) {
+                    SUCCESS -> ToastUtil(requireContext()).makeToast(
+                        DELETE_NOTIFICATION_COMPLETE_TYPE
+                    )
+                    FAIL -> ToastUtil(requireContext()).makeToast(ERROR_OCCUR_TYPE)
+                }
+                dismissBottomSheet()
+            }
+        )
     }
 
     private fun dismissBottomSheet() {
