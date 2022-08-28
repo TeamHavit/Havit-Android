@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
@@ -23,7 +25,7 @@ import org.sopt.havit.util.*
 @AndroidEntryPoint
 class CategoryContentModifyActivity :
     BaseBindingActivity<ActivityCategoryContentModifyBinding>(R.layout.activity_category_content_modify) {
-    private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
+    private val categoryViewModel by viewModels<CategoryViewModel>()
     private var position = -1
     private var id = -1
     private var originCategoryImageId = -1

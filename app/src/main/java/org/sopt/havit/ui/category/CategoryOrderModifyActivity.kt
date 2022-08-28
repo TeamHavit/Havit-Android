@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryOrderModifyBinding
 import org.sopt.havit.domain.entity.NetworkState
@@ -17,11 +20,12 @@ import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.setOnSingleClickListener
 
+@AndroidEntryPoint
 class CategoryOrderModifyActivity :
     BaseBindingActivity<ActivityCategoryOrderModifyBinding>(R.layout.activity_category_order_modify) {
     private lateinit var getResult: ActivityResultLauncher<Intent>
     private lateinit var categoryOrderModifyAdapter: CategoryOrderModifyAdapter
-    private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
+    private val categoryViewModel by viewModels<CategoryViewModel>()
     private val originCategoryIdList = mutableListOf<Int>()
     lateinit var holder: RecyclerView.ViewHolder
 

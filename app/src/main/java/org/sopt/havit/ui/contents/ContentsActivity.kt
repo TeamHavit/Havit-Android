@@ -38,7 +38,7 @@ import java.io.Serializable
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
     private val contentsViewModel: ContentsViewModel by viewModels()
-    private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
+    private val categoryViewModel: CategoryViewModel by viewModels()
     private lateinit var getResult: ActivityResultLauncher<Intent>
     private var categoryId = 0
     private var categoryName = "error"
@@ -322,7 +322,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         )
         bundle.putSerializable(
             ContentsMoreFragment.REFRESH_DATA,
-            refreshData as Serializable
+            refreshData
         )
         bundle.putInt(ContentsMoreFragment.POSITION, position)
         return bundle

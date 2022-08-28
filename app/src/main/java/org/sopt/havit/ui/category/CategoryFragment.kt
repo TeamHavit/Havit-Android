@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
-import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentCategoryBinding
+import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsActivity
@@ -17,10 +19,11 @@ import org.sopt.havit.util.MAX_CATEGORY_NUM_EXCEEDED_TOP_TYPE
 import org.sopt.havit.util.ToastUtil
 import org.sopt.havit.util.setOnSingleClickListener
 
+@AndroidEntryPoint
 class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.fragment_category) {
     private var _categoryAdapter: CategoryAdapter? = null
     private val categoryAdapter get() = _categoryAdapter ?: error("adapter error")
-    private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(requireContext()) }
+    private val categoryViewModel by viewModels<CategoryViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -92,8 +95,8 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     private fun moveManage() {
         binding.tvModify.setOnSingleClickListener {
             val intent = Intent(activity, CategoryOrderModifyActivity::class.java)
-            val categoryItemList: ArrayList<CategoryResponse.AllCategoryData> =
-                categoryAdapter.categoryList as ArrayList<CategoryResponse.AllCategoryData>
+            val categoryItemList: ArrayList<Category> =
+                categoryAdapter.categoryList as ArrayList<Category>
             intent.putParcelableArrayListExtra(CATEGORY_ITEM_LIST, categoryItemList)
             startActivity(intent)
         }

@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemCategoryBinding
+import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.util.setOnSingleClickListener
 
 class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
@@ -18,7 +18,7 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
         return position.toLong() // or data id
     }
 
-    val categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
+    val categoryList = mutableListOf<Category>()
     private lateinit var itemClickListener: OnItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
@@ -52,7 +52,7 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
 
     class CategoryViewHolder(private val binding: ItemCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: CategoryResponse.AllCategoryData) {
+        fun onBind(data: Category) {
             binding.category = data
         }
     }
