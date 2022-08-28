@@ -40,7 +40,7 @@ class CategoryViewModel @Inject constructor(
     private val _modifyState = MutableLiveData<NetworkState>()
     val modifyState: LiveData<NetworkState> = _modifyState
 
-    fun requestCategoryTaken() {
+    fun getAllCategories() {
         viewModelScope.launch {
             kotlin.runCatching {
                 categoryRepository.getAllCategories()

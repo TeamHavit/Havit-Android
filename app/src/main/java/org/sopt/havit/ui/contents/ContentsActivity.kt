@@ -101,7 +101,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun setCategoryInfo() {
         // 카테고리 전체 정보를 서버를 통해 호출
-        categoryViewModel.requestCategoryTaken()
+        categoryViewModel.getAllCategories()
 
         // 카테고리 뷰에서 넘겨받은 데이터를 ContentsActivity의 변수에 할당
         categoryId =
