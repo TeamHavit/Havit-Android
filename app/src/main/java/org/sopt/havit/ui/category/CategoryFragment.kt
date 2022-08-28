@@ -15,6 +15,7 @@ import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsActivity
 import org.sopt.havit.util.MAX_CATEGORY_NUM_EXCEEDED_TOP_TYPE
 import org.sopt.havit.util.ToastUtil
+import org.sopt.havit.util.setOnSingleClickListener
 
 class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.fragment_category) {
     private var _categoryAdapter: CategoryAdapter? = null
@@ -89,7 +90,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     }
 
     private fun moveManage() {
-        binding.tvModify.setOnClickListener {
+        binding.tvModify.setOnSingleClickListener {
             val intent = Intent(activity, CategoryOrderModifyActivity::class.java)
             val categoryItemList: ArrayList<CategoryResponse.AllCategoryData> =
                 categoryAdapter.categoryList as ArrayList<CategoryResponse.AllCategoryData>
@@ -102,12 +103,12 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         val activityName = requireActivity().javaClass.simpleName.trim()
         if (activityName == "HomeCategoryAllActivity") { // HomeFragment->전체 보기 누른 경우
             Log.d("activity_check", "HomeCategory")
-            binding.ivBack.setOnClickListener {
+            binding.ivBack.setOnSingleClickListener {
                 requireActivity().finish()
             }
         } else if (activityName == "ContentsFromMyPageActivity") {
             binding.ivBack.visibility = View.VISIBLE
-            binding.ivBack.setOnClickListener {
+            binding.ivBack.setOnSingleClickListener {
                 requireActivity().finish()
             }
         } else { // MainActivity
@@ -133,7 +134,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     }
 
     private fun addCategory() {
-        binding.clAdd.setOnClickListener {
+        binding.clAdd.setOnSingleClickListener {
             if (categoryViewModel.categoryCount.value == CATEGORY_MAX)
                 ToastUtil(requireContext()).makeToast(MAX_CATEGORY_NUM_EXCEEDED_TOP_TYPE)
             else startActivity(Intent(requireActivity(), CategoryAddActivity::class.java))
@@ -141,7 +142,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
     }
 
     private fun refreshCategoryData() {
-        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+        binding.layoutNetworkError.ivRefresh.setOnSingleClickListener {
             it.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotation_refresh))
             requestCategoryData()
         }

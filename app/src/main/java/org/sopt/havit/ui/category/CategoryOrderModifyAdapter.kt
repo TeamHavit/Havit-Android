@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemCategoryModifyBinding
+import org.sopt.havit.util.setOnSingleClickListener
 import java.util.*
 
 class CategoryOrderModifyAdapter :
@@ -37,7 +38,7 @@ class CategoryOrderModifyAdapter :
     override fun onBindViewHolder(holder: CategoryOrderModifyViewHolder, position: Int) {
         holder.onBind(categoryList[position])
         // 리스트 내 항목 클릭 시 호출
-        holder.itemView.setOnClickListener {
+        holder.itemView.setOnSingleClickListener {
             itemClickListener.onClick(it, holder.layoutPosition)
         }
     }

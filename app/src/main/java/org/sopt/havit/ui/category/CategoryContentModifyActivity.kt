@@ -93,11 +93,11 @@ class CategoryContentModifyActivity :
     }
 
     private fun setBackBtnClickListener() {
-        binding.ivBack.setOnClickListener { setBackPressedAction() }
+        binding.ivBack.setOnSingleClickListener { setBackPressedAction() }
     }
 
     private fun setDeleteTitleBtnClickListener() {
-        binding.ivDeleteText.setOnClickListener { deleteCategoryTitle() }
+        binding.ivDeleteText.setOnSingleClickListener { deleteCategoryTitle() }
     }
 
     private fun setTextWatcher() {
@@ -135,12 +135,12 @@ class CategoryContentModifyActivity :
     }
 
     private fun setDeleteBtnClickListener() {
-        binding.btnRemove.setOnClickListener { showCategoryDeleteDialog() }
+        binding.btnRemove.setOnSingleClickListener { showCategoryDeleteDialog() }
     }
 
     // 완료 버튼 클릭 시
     private fun setModifyCompleteBtnClickListener() {
-        binding.tvComplete.setOnClickListener {
+        binding.tvComplete.setOnSingleClickListener {
             requestCategoryModify()
 
         }

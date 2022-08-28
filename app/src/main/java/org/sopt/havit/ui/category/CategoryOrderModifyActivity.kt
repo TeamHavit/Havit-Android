@@ -15,6 +15,7 @@ import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_MODIFY_CATEGORY
 import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.setOnSingleClickListener
 
 class CategoryOrderModifyActivity :
     BaseBindingActivity<ActivityCategoryOrderModifyBinding>(R.layout.activity_category_order_modify) {
@@ -140,7 +141,7 @@ class CategoryOrderModifyActivity :
     }
 
     private fun clickBack() {
-        binding.ivBack.setOnClickListener { setBackPressedAction() }
+        binding.ivBack.setOnSingleClickListener { setBackPressedAction() }
     }
 
     // drag & drop 코드
@@ -190,7 +191,7 @@ class CategoryOrderModifyActivity :
 
     // 완료 시 변경 된 순서 서버에 보내는 함수
     private fun setCompleteOrder() {
-        binding.tvComplete.setOnClickListener {
+        binding.tvComplete.setOnSingleClickListener {
             // id만 담긴 list 추출
             val categoryIdList = mutableListOf<Int>()
             for (item in categoryOrderModifyAdapter.categoryList) {

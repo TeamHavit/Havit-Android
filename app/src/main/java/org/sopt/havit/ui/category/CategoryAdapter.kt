@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemCategoryBinding
+import org.sopt.havit.util.setOnSingleClickListener
 
 class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
     // id 기준 이전의 것과 같다면 onBindViewHolder 호출 제외 -> 깜빡임 사라짐
@@ -32,7 +33,7 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
         holder.onBind(categoryList[position])
 
         // (1) 리스트 내 항목 클릭 시 onClick() 호출
-        holder.itemView.setOnClickListener {
+        holder.itemView.setOnSingleClickListener {
             itemClickListener.onClick(it, position)
         }
     }
