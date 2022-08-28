@@ -3,6 +3,7 @@ package org.sopt.havit.ui.category
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.widget.addTextChangedListener
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
 import org.sopt.havit.domain.entity.NetworkState
@@ -13,9 +14,9 @@ import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
 import org.sopt.havit.ui.contents.ContentsActivity
 import org.sopt.havit.ui.share.add_category.IconAdapter
 import org.sopt.havit.ui.share.add_category.IconAdapter.Companion.clickedPosition
-import org.sopt.havit.util.CustomToast
-import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.*
 
+@AndroidEntryPoint
 class CategoryContentModifyActivity :
     BaseBindingActivity<ActivityCategoryContentModifyBinding>(R.layout.activity_category_content_modify) {
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
@@ -121,6 +122,7 @@ class CategoryContentModifyActivity :
     private fun setModifyCompleteBtnClickListener() {
         binding.tvComplete.setOnClickListener {
             requestCategoryModify()
+
         }
     }
 
@@ -188,14 +190,12 @@ class CategoryContentModifyActivity :
     private fun observeDeleteState() {
         categoryViewModel.deleteState.observe(this) {
             when (it) {
-                NetworkState.FAIL -> CustomToast.showTextToast(
-                    this,
-                    resources.getString(R.string.error_occur_try_again)
+                NetworkState.FAIL -> ToastUtil(this@CategoryContentModifyActivity).makeToast(
+                    ERROR_OCCUR_TYPE
                 )
                 NetworkState.SUCCESS -> {
-                    CustomToast.showTextToast(
-                        this,
-                        resources.getString(R.string.category_has_been_deleted)
+                    ToastUtil(this@CategoryContentModifyActivity).makeToast(
+                        DELETE_CATEGORY_TOP_TYPE
                     )
 
                     sendCategoryDeleteResult()
@@ -209,18 +209,15 @@ class CategoryContentModifyActivity :
     private fun observeModifyState() {
         categoryViewModel.modifyState.observe(this) {
             when (it) {
-                NetworkState.FAIL -> CustomToast.showTextToast(
-                    this,
-                    resources.getString(R.string.error_occur_try_again)
+                NetworkState.FAIL -> ToastUtil(this@CategoryContentModifyActivity).makeToast(
+                    ERROR_OCCUR_TYPE
                 )
                 NetworkState.SUCCESS -> {
-                    CustomToast.showTextToast(
-                        this,
-                        resources.getString(R.string.category_modify_complete)
-                    )
-
                     sendCategoryModifyResult()
                     finish()
+                    ToastUtil(this@CategoryContentModifyActivity).makeToast(
+                        CATEGORY_MODIFY_COMPLETE_TYPE
+                    )
                 }
                 else -> {}
             }

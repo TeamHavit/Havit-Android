@@ -1,23 +1,24 @@
 package org.sopt.havit.ui.contents
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.ContentsMoreData
-import org.sopt.havit.data.remote.ContentsResponse
+import org.sopt.havit.domain.entity.Contents
 import org.sopt.havit.domain.entity.NetworkState
-import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.domain.repository.ContentsRepository
+import javax.inject.Inject
 
-class ContentsViewModel(context: Context) : ViewModel() {
-    private val token = MySharedPreference.getXAuthToken(context)
-    private val _contentsList = MutableLiveData<List<ContentsResponse.ContentsData>>()
-    val contentsList: LiveData<List<ContentsResponse.ContentsData>> = _contentsList
+@HiltViewModel
+class ContentsViewModel @Inject constructor(
+    private val contentsRepository: ContentsRepository
+) : ViewModel() {
+    private val _contentsList = MutableLiveData<List<Contents>>()
+    val contentsList: LiveData<List<Contents>> = _contentsList
 
     private val _contentsCount = MutableLiveData(-1)
     val contentsCount: LiveData<Int> = _contentsCount
@@ -31,19 +32,22 @@ class ContentsViewModel(context: Context) : ViewModel() {
 
     private val _requestSeenState = MutableLiveData(NetworkState.LOADING)
     val requestSeenState: LiveData<NetworkState> = _requestSeenState
+
     private val _requestDeleteState = MutableLiveData<NetworkState>()
     val requestDeleteState: LiveData<NetworkState> = _requestDeleteState
 
-    var contentsMore = MutableLiveData<ContentsMoreData>()
-
-    fun requestContentsTaken(categoryId: Int, option: String, filter: String) {
+    fun getContentsByCategory(categoryId: Int, option: String, filter: String) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                RetrofitObject.provideHavitApi(token)
-                    .getCategoryContents(categoryId, option, filter)
+                contentsRepository.getContentsByCategory(
+                    categoryId = categoryId,
+                    option = option,
+                    filter = filter
+                )
             }.onSuccess {
-                _contentsList.postValue(it.data)
-                _contentsCount.postValue(it.data.size)
+                _contentsList.postValue(it)
+                _contentsCount.postValue(it.size)
+
                 _loadState.postValue(NetworkState.SUCCESS)
             }.onFailure {
                 _loadState.postValue(NetworkState.FAIL)
@@ -51,14 +55,17 @@ class ContentsViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun requestContentsAllTaken(option: String, filter: String, name: String) {
+    fun getAllContents(option: String, filter: String) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                RetrofitObject.provideHavitApi(token).getAllContents(option, filter)
+                contentsRepository.getAllContents(
+                    option = option,
+                    filter = filter
+                )
             }.onSuccess {
-                _contentsList.postValue(it.data)
-                _contentsCount.postValue(it.data.size)
-                _categoryName.postValue(name)
+                _contentsList.postValue(it)
+                _contentsCount.postValue(it.size)
+
                 _loadState.postValue(NetworkState.SUCCESS)
             }.onFailure {
                 _loadState.postValue(NetworkState.FAIL)
@@ -69,7 +76,7 @@ class ContentsViewModel(context: Context) : ViewModel() {
     fun setIsSeen(contentsId: Int) {
         viewModelScope.launch {
             kotlin.runCatching {
-                RetrofitObject.provideHavitApi(token).isHavit(ContentsHavitRequest(contentsId))
+                contentsRepository.isSeen(contentsId)
             }.onSuccess {
                 _requestSeenState.postValue(NetworkState.SUCCESS)
             }.onFailure {
@@ -78,15 +85,11 @@ class ContentsViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun setContentsView(data: ContentsMoreData) {
-        contentsMore.value = data
-    }
-
     // 콘텐츠 삭제를 서버에게 요청하는 코드
-    fun requestContentsDelete(contentsId: Int) {
+    fun deleteContents(contentsId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                RetrofitObject.provideHavitApi(token).deleteContents(contentsId)
+                contentsRepository.deleteContents(contentsId)
             }.onSuccess {
                 _requestDeleteState.postValue(NetworkState.SUCCESS)
             }.onFailure {
@@ -105,7 +108,7 @@ class ContentsViewModel(context: Context) : ViewModel() {
         _categoryName.value = name
     }
 
-    fun updateContentsList(list: List<ContentsResponse.ContentsData>) {
+    fun updateContentsList(list: List<Contents>) {
         _contentsList.value = list
     }
 

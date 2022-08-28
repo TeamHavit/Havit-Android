@@ -7,6 +7,7 @@ import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityOnboardingBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.sign.SignActivity
+import org.sopt.havit.ui.sign.SplashWithSignActivity
 
 class OnboardingActivity :
     BaseBindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
@@ -41,15 +42,20 @@ class OnboardingActivity :
 
     private fun setJoinBtnClickListener() {
         binding.btnJoin.setOnClickListener {
-            val intent = Intent(this, SignActivity::class.java)
-            startActivity(intent)
+            startSplashWithSignActivity()
         }
     }
 
     private fun setSkipBtnClickListner() {
         binding.tvSkip.setOnClickListener {
-            binding.vpOnboarding.currentItem = 4
+            startSplashWithSignActivity()
         }
+    }
+
+    private fun startSplashWithSignActivity() {
+        val intent = Intent(this, SplashWithSignActivity::class.java)
+        setResult(RESULT_FIRST_USER, intent)
+        finish()
     }
 
     companion object {

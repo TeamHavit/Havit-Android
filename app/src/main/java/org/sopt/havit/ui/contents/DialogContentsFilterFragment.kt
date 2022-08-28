@@ -43,12 +43,12 @@ class DialogContentsFilterFragment : BottomSheetDialogFragment() {
             // checkedId가 기존 filter와 다른 경우 이벤트 실행
             // 조건문을 넣어주지 않으면 기존 checkedId = -1 에서 삼항연산자를 통해 바뀌기 때문에 show()와 동시에 함수가 실행된다
             if (binding.filter != (
-                when (checkedId) {
-                    R.id.rb_recent -> "created_at"
-                    R.id.rb_past -> "reverse"
-                    else -> "seen_at"
-                }.also { binding.filter = it }
-                )
+                        when (checkedId) {
+                            R.id.rb_recent -> "created_at"
+                            R.id.rb_past -> "reverse"
+                            else -> "seen_at"
+                        }.also { binding.filter = it }
+                        )
             ) {
                 filterClickListener.onClick(requireNotNull(binding.filter)) // 함수 실행
             }

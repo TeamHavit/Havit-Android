@@ -112,7 +112,8 @@ dependencies {
     // Jsoup
     implementation 'org.jsoup:jsoup:1.13.1'
 
-
+    // Splash Screen
+    implementation 'androidx.core:core-splashscreen:1.0.0-rc01'
 
 
     // gson

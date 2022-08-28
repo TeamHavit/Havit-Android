@@ -17,14 +17,18 @@ class NotificationViewModel(context: Context) : ViewModel() {
 
     private val _contentsList = MutableLiveData<List<NotificationData>>()
     val contentsList: LiveData<List<NotificationData>> = _contentsList
+    private val _contentLoadState = MutableLiveData(true)
+    val contentLoadState: LiveData<Boolean> = _contentLoadState
 
     fun requestContentsTaken(option: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                _contentLoadState.postValue(true)
                 val response =
                     RetrofitObject.provideHavitApi(token)
                         .getNotification(option)
                 _contentsList.postValue(response.data)
+                _contentLoadState.postValue(false)
             } catch (e: Exception) {
             }
         }
@@ -46,5 +50,17 @@ class NotificationViewModel(context: Context) : ViewModel() {
 
     fun updateContentsList(list: List<NotificationData>) {
         _contentsList.value = list
+    }
+
+    // 콘텐츠 삭제를 서버에게 요청하는 코드
+    fun deleteContents(contentsId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response =
+                    RetrofitObject.provideHavitApi(token)
+                        .deleteContents(contentsId)
+            } catch (e: Exception) {
+            }
+        }
     }
 }

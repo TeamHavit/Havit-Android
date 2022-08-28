@@ -12,10 +12,11 @@ import org.sopt.havit.data.remote.SignInResponse
 import org.sopt.havit.data.remote.SignUpRequest
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.util.Event
+import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(
+class SignViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
@@ -109,10 +110,12 @@ class SignInViewModel @Inject constructor(
                     requireNotNull(_kakaoToken.value)
                 )
             }.onSuccess {
-                authRepository.saveAccessToken(requireNotNull(it.data.accessToken))
-                _accessToken.postValue(it.data.accessToken)
+                if (it.success) {
+                    authRepository.saveAccessToken(requireNotNull(it.data.accessToken))
+                    _accessToken.postValue(it.data.accessToken)
+                }
             }.onFailure {
-                throw it
+                Log.d("error", "${(it as? HttpException)?.message}")
             }
         }
     }
@@ -124,14 +127,20 @@ class SignInViewModel @Inject constructor(
                     requireNotNull(_fcmToken.value), requireNotNull(_kakaoToken.value)
                 )
             }.onSuccess {
-                _isAlreadyUser.postValue(Event(it))
-                if (it.data.isAlreadyUser == null) authRepository.saveAccessToken(requireNotNull(it.data.accessToken))
-            }.onFailure { throw it }
+                if (it.success) {
+                    _isAlreadyUser.postValue(Event(it))
+                    if (it.data.isAlreadyUser == null) authRepository.saveAccessToken(
+                        requireNotNull(
+                            it.data.accessToken
+                        )
+                    )
+                }
+            }.onFailure { Log.d("error", "${(it as? HttpException)?.message}") }
         }
     }
 
     fun setFcmToken() {
-        _fcmToken.value = authRepository.getFcmToken()
+        authRepository.getFcmToken { token -> _fcmToken.value = token }
     }
 
     fun setKakaoToken(token: String) {
