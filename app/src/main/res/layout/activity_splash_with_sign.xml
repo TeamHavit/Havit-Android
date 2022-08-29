@@ -11,6 +11,11 @@
 
         <import type="android.view.View" />
 
+        <variable
+            name="state"
+            type="org.sopt.havit.domain.entity.NetworkState" />
+
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -94,6 +99,13 @@
             android:visibility="@{main.loginGuidVisibility == true ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <include
+            android:id="@+id/layout_network_error"
+            layout="@layout/layout_network_error"
+            android:visibility="@{main.isServerNetwork == state.FAIL ? View.VISIBLE : View.GONE, default = gone}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
