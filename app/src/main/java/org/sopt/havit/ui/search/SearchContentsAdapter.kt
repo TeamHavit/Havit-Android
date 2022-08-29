@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.databinding.ItemContentsSearchBinding
 import org.sopt.havit.domain.entity.Contents
+import java.text.SimpleDateFormat
+import java.util.*
 
 class SearchContentsAdapter :
     RecyclerView.Adapter<SearchContentsAdapter.SearchContentsViewHolder>() {
@@ -16,6 +18,16 @@ class SearchContentsAdapter :
     private lateinit var itemClickListener: OnItemClickListener // 콘텐츠 아이템 클릭리스너
     private lateinit var itemSettingClickListener: OnItemSettingClickListener // 더보기 아이템 클릭리스너
     private lateinit var itemHavitClickListener: OnItemHavitClickListener // 해빗하기 클릭 리스너
+
+    private fun setNotificationOption(data: Contents): String {
+        // 현재 시간 형식에 맞게 가져오기
+        val now = System.currentTimeMillis()
+        val nowDate = Date(now)
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
+        val getTime: String = sdf.format(nowDate)
+
+        return if (data.isNotified && getTime >= data.notificationTime) "after" else if (data.isNotified) "before" else "none"
+    }
 
     interface OnItemClickListener {
         fun onClick(v: View, data: Contents)
@@ -65,6 +77,7 @@ class SearchContentsAdapter :
     ) {
         fun bind(position: Int, data: Contents) {
             binding.content = data
+            binding.notiView = setNotificationOption(data)
             contentsClick(position, data)
             isRead = data.isSeen
         }
