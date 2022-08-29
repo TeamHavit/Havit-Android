@@ -16,6 +16,7 @@ import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.setting.SettingPersonalDataActivity
 import org.sopt.havit.ui.setting.SettingPolicyActivity
 import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.util.setOnSinglePostClickListener
 
 @AndroidEntryPoint
 class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragment_add_tos) {
@@ -46,7 +47,7 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
     }
 
     private fun setListeners() {
-        binding.btnTosStart.setOnClickListener {
+        binding.btnTosStart.setOnSinglePostClickListener {
             signUpViewModel.postSignUp()
         }
         binding.btnTosBack.setOnClickListener {
@@ -58,7 +59,7 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
         binding.tvPersonalData.setOnClickListener {
             startSettingPersonalDataActivity()
         }
-        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+        binding.layoutNetworkError.ivRefresh.setOnSinglePostClickListener {
             signUpViewModel.postSignUp()
         }
     }
