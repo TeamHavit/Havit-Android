@@ -18,6 +18,10 @@
 
     </style>
 
+    <style name="Theme.RemoveSplash" parent="Theme.Havit">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
     <style name="Theme.Transparent" parent="Theme.Havit">
         <item name="android:windowDisablePreview">true</item>
     </style>

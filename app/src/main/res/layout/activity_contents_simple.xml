@@ -10,6 +10,10 @@
         <variable
             name="vmContents"
             type="org.sopt.havit.ui.contents_simple.ContentsSimpleViewModel" />
+
+        <variable
+            name="state"
+            type="org.sopt.havit.domain.entity.NetworkState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,107 +22,131 @@
         tools:context=".ui.contents_simple.ContentsSimpleActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_topbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white_gray"
-            android:visibility="@{vmContents.loadState ? View.GONE : View.VISIBLE}"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="13dp"
-                android:layout_marginBottom="11dp"
-                android:padding="3dp"
-                android:src="@drawable/ic_back_black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_topbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="21dp"
-                android:layout_marginBottom="16dp"
-                android:text="@{vmContents.topBarName}"
-                android:textAppearance="@style/Header16Bold"
-                android:textColor="@color/havit_gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/contents_simple_recent_save" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_contents"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:overScrollMode="never"
-            android:visibility="@{vmContents.contentsList.isEmpty()? View.GONE : View.VISIBLE}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cl_topbar"
-            tools:listitem="@layout/item_contents_linear_min" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_contents_empty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:visibility="@{vmContents.contentsList.isEmpty()? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cl_topbar">
-
-            <TextView
-                android:id="@+id/tv_contents_empty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Text14Medium"
-                android:textColor="@color/gray_2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@{vmContents.emptyContents}" />
-
-            <ImageView
-                android:id="@+id/iv_contents_empty"
-                android:layout_width="203dp"
-                android:layout_height="246dp"
-                android:src="@drawable/img_graphic_nocontents"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_contents_empty" />
-
-            <TextView
-                android:id="@+id/tv_add_contents"
-                android:layout_width="233dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="57dp"
-                android:background="@drawable/rectangle_purple_main_radius_44"
-                android:gravity="center"
-                android:paddingVertical="14dp"
-                android:text="@string/contents_simple_add_contents"
-                android:textAppearance="@style/Button15Medium"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_contents_empty" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <!-- 로딩 중 -->
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/sfl_contents"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{vmContents.loadState ? View.VISIBLE : View.GONE}"
-            app:layout_constraintTop_toTopOf="parent">
+            android:visibility="@{vmContents.loadState==state.FAIL ? View.GONE : View.VISIBLE}">
 
-            <include layout="@layout/activity_contents_simple_skeleton" />
-        </com.facebook.shimmer.ShimmerFrameLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_topbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_gray"
+                android:visibility="@{vmContents.loadState==state.LOADING ? View.GONE : View.VISIBLE}"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginBottom="11dp"
+                    android:padding="3dp"
+                    android:src="@drawable/ic_back_black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_topbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="21dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@{vmContents.topBarName}"
+                    android:textAppearance="@style/Header16Bold"
+                    android:textColor="@color/havit_gray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/contents_simple_recent_save" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_contents"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:overScrollMode="never"
+                android:visibility="@{vmContents.contentsList.isEmpty()? View.GONE : View.VISIBLE}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_topbar"
+                tools:listitem="@layout/item_contents_linear_min" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_contents_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="@{vmContents.contentsList.isEmpty()? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_topbar">
+
+                <TextView
+                    android:id="@+id/tv_contents_empty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAppearance="@style/Text14Medium"
+                    android:textColor="@color/gray_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@{vmContents.emptyContents}" />
+
+                <ImageView
+                    android:id="@+id/iv_contents_empty"
+                    android:layout_width="203dp"
+                    android:layout_height="246dp"
+                    android:src="@drawable/img_graphic_nocontents"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_contents_empty" />
+
+                <TextView
+                    android:id="@+id/tv_add_contents"
+                    android:layout_width="233dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="57dp"
+                    android:background="@drawable/rectangle_purple_main_radius_44"
+                    android:gravity="center"
+                    android:paddingVertical="14dp"
+                    android:text="@string/contents_simple_add_contents"
+                    android:textAppearance="@style/Button15Medium"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_contents_empty" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- 로딩 중 -->
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/sfl_contents"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{vmContents.loadState==state.LOADING? View.VISIBLE : View.GONE}"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <include layout="@layout/activity_contents_simple_skeleton" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_network_error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{vmContents.loadState==state.FAIL? View.VISIBLE : View.GONE}">
+
+            <include
+                android:id="@+id/layout_network_error"
+                layout="@layout/layout_network_error"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

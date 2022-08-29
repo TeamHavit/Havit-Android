@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,18 +27,17 @@ import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_POSITION
 import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.ui.contents.DialogContentsFilterFragment.Companion.CONTENTS_FILTER
+import org.sopt.havit.ui.contents.more.ContentsMoreFragment
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
-import org.sopt.havit.util.CONTENT_CHECK_COMPLETE_TYPE
-import org.sopt.havit.util.ERROR_OCCUR_TYPE
-import org.sopt.havit.util.ToastUtil
+import org.sopt.havit.util.*
 import java.io.Serializable
 
 @AndroidEntryPoint
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
-    private val contentsViewModel: ContentsViewModel by lazy { ContentsViewModel(this) }
+    private val contentsViewModel: ContentsViewModel by viewModels()
     private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
     private lateinit var getResult: ActivityResultLauncher<Intent>
     private var categoryId = 0
@@ -48,6 +48,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private var contentsFilter = "created_at" // 정렬 필터 (최신순/과거순/최근조회순)
     private lateinit var currentHavitView: ImageView
     private var currentHavitPosition = -1
+    private var deleteContentsPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +77,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         clickItemMore()
         refreshContentsData()
         setHavitAction()
+        observeDeleteState()
     }
 
     override fun onResume() {
@@ -85,9 +87,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun requestContentsData() {
         if (categoryId <= -1) {
-            contentsViewModel.requestContentsAllTaken(contentsOption, contentsFilter, categoryName)
+            contentsViewModel.getAllContents(contentsOption, contentsFilter)
+            contentsViewModel.setCategoryName(categoryName)
         } else {
-            contentsViewModel.requestContentsTaken(categoryId, contentsOption, contentsFilter)
+            contentsViewModel.getContentsByCategory(categoryId, contentsOption, contentsFilter)
         }
     }
 
@@ -271,6 +274,8 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     private fun clickItemMore() {
         contentsAdapter.setItemSetClickListner(object : ContentsAdapter.OnItemSetClickListener {
             override fun onSetClick(v: View, position: Int) {
+                deleteContentsPosition = position
+
                 val dataMore = contentsViewModel.contentsList.value?.get(position)?.let {
                     ContentsMoreData(
                         it.id,
@@ -282,16 +287,19 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                         it.notificationTime
                     )
                 }
-                // 더보기 -> 삭제 클릭 시 수행될 삭제 함수
-                val removeItem: (Int) -> Unit = {
-                    val list =
-                        contentsAdapter.currentList.toMutableList() // mutable로 해주어야 삭제(수정) 가능
-                    list.removeAt(it)
-                    // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
-                    contentsViewModel.updateContentsList(list)
-                    contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
+
+                val showDeleteDialog: () -> Unit = {
+                    val dialog =
+                        DialogUtil(DialogUtil.REMOVE_CONTENTS) {
+                            contentsViewModel.deleteContents(
+                                requireNotNull(dataMore?.id)
+                            )
+                        }
+                    dialog.show(supportFragmentManager, this.javaClass.name)
                 }
-                val bundle = setBundle(dataMore, removeItem, position)
+
+                val requestContentsData = ::requestContentsData as Serializable
+                val bundle = setBundle(dataMore, showDeleteDialog, requestContentsData, position)
                 val dialog = ContentsMoreFragment()
                 dialog.arguments = bundle
                 dialog.show(supportFragmentManager, "setting")
@@ -302,14 +310,47 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     // ContentsMoreFragment에 보낼 bundle 생성
     private fun setBundle(
         dataMore: ContentsMoreData?,
-        removeItem: (Int) -> Unit,
+        showDeleteDialog: () -> Unit,
+        refreshData: Serializable,
         position: Int
     ): Bundle {
         val bundle = Bundle()
         bundle.putParcelable(ContentsMoreFragment.CONTENTS_MORE_DATA, dataMore)
-        bundle.putSerializable(ContentsMoreFragment.REMOVE_ITEM, removeItem as Serializable)
+        bundle.putSerializable(
+            ContentsMoreFragment.SHOW_DELETE_DIALOG,
+            showDeleteDialog as Serializable
+        )
+        bundle.putSerializable(
+            ContentsMoreFragment.REFRESH_DATA,
+            refreshData as Serializable
+        )
         bundle.putInt(ContentsMoreFragment.POSITION, position)
         return bundle
+    }
+
+    private fun observeDeleteState() {
+        contentsViewModel.requestDeleteState.observe(this) {
+            when (it) {
+                NetworkState.FAIL -> {
+                    ToastUtil(this).makeToast(
+                        ERROR_OCCUR_TYPE
+                    )
+                }
+                NetworkState.SUCCESS -> {
+                    val list =
+                        contentsAdapter.currentList.toMutableList() // mutable로 해주어야 삭제(수정) 가능
+                    list.removeAt(deleteContentsPosition)
+                    // 뷰모델의 콘텐츠 리스트 변수를 업데이트 -> observer를 통해 adapter의 list도 업데이트 된다
+                    contentsViewModel.updateContentsList(list)
+                    contentsViewModel.decreaseContentsCount(1) // 콘텐츠 개수 1 감소
+
+                    ToastUtil(this).makeToast(
+                        CONTENT_DELETE_TYPE
+                    )
+                }
+                else -> {}
+            }
+        }
     }
 
     private fun setChipOrder() {

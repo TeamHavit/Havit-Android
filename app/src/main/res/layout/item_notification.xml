@@ -17,14 +17,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp">
+        android:paddingStart="16dp">
 
         <TextView
             android:id="@+id/tv_notification_time"
+            notificationTimeOnContentsView="@{content.notificationTime}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            notificationTimeOnContentsView="@{content.notificationTime}"
             android:textAppearance="@style/Text12Semibold"
             android:textColor="@{option==`after`? @color/gray_3 : @color/purple_main, default=@color/purple_main}"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,13 +61,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="7dp"
-            android:layout_marginEnd="54dp"
+            android:layout_marginEnd="-10dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:text="@{content.title}"
             android:textAppearance="@style/Medium15"
             android:textColor="@color/havit_gray"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_more"
             app:layout_constraintStart_toEndOf="@id/fl_image"
             app:layout_constraintTop_toTopOf="@id/fl_image"
             tools:text="슈슈슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉..." />
@@ -77,13 +77,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:layout_marginEnd="54dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{content.description}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_3"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_title"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
             tools:text="상세내용 상세내용 상세내용 상세내용은 한줄만만..." />
@@ -101,6 +100,7 @@
             tools:text="2022.05.05 ·" />
 
         <TextView
+            android:id="@+id/tv_url"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="20"
@@ -109,7 +109,7 @@
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintBottom_toBottomOf="@id/tv_date"
-            app:layout_constraintEnd_toStartOf="@id/iv_havit"
+            app:layout_constraintEnd_toEndOf="@id/tv_description"
             app:layout_constraintStart_toEndOf="@id/tv_date"
             app:layout_constraintTop_toTopOf="@id/tv_date"
             tools:text="www.brunch.com.dididididi..." />
@@ -118,14 +118,21 @@
             android:id="@+id/iv_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:paddingStart="26dp"
+            android:paddingTop="19dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="32dp"
             android:src="@drawable/ic_more"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_title" />
+            app:layout_constraintTop_toTopOf="@id/tv_notification_time" />
 
         <ImageView
             android:id="@+id/iv_havit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="14dp"
+            android:paddingTop="15dp"
             android:src="@{content.isSeen ? @drawable/ic_contents_read_2 : @drawable/ic_contents_unread, default=@drawable/ic_contents_read_2}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

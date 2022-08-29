@@ -1,36 +1,35 @@
 package org.sopt.havit
 
-import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Build
 import android.util.Log
-import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
-import org.sopt.havit.data.local.SettingPreference
 import org.sopt.havit.ui.web.WebActivity
+import org.sopt.havit.util.useBitmapImg
 import javax.inject.Inject
 
 const val channelID = "notification_channel"
-const val channelName = "org.sopt.androidsharing"
+const val channelName = "HAVIT"
 
 @AndroidEntryPoint
-@SuppressLint("MissingFirebaseInstanceTokenRefresh")
-class MyFirebaseMessagingService : FirebaseMessagingService() {
+class HavitFirebaseMessagingService : FirebaseMessagingService() {
     @Inject
-    lateinit var pref: SettingPreference
+    lateinit var firebaseTokenManager: FirebaseTokenManager
 
     override fun onNewToken(token: String) {
-        // 토큰 변경될 때
-        Log.d("MyFirebaseMessagingService", "Refreshed token: $token")
+        super.onNewToken(token)
+        firebaseTokenManager.sendRegistrationToServer(token)
     }
 
     // 1. push 알림 들어옴
@@ -44,7 +43,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val description = dataFromServer["body"]
             val image = dataFromServer["image"]
             val url = dataFromServer["url"]
-            generateNotification(title, description, image, url)
+
+            useBitmapImg(this, image) { bitmapImage ->
+                generateNotification(title, description, bitmapImage, url)
+            }
         }
 
         // 2-2. notification 확인
@@ -57,48 +59,47 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         return true
     }
 
-    private fun getRemoteView(title: String?, message: String?, image: String?): RemoteViews {
-        val remoteView = RemoteViews("org.sopt.havit", R.layout.push_notification)
-        remoteView.setTextViewText(R.id.tv_title, title)
-        remoteView.setTextViewText(R.id.tv_description, message)
-        remoteView.setImageViewResource(R.id.iv_image, R.drawable.ic_havit_radious_10)
-        return remoteView
-    }
-
     private fun generateNotification(
         title: String?,
         message: String?,
-        image: String? = null,
+        image: Bitmap? = null,
         url: String? = null
     ) {
-        Log.d("MyFirebaseMessagingService", "generateNotification")
+        Log.d("MyFirebaseMessagingService", "$title, $message")
+        val requestCode = System.currentTimeMillis().toInt()
 
         val intent = Intent(this, WebActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.putExtra("url", url)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent =
+            PendingIntent.getActivity(
+                this, requestCode, intent, PendingIntent.FLAG_IMMUTABLE
+            )
 
-        var builder = NotificationCompat.Builder(this, channelID)
-            .setSmallIcon(R.drawable.ic_havit_radious_10)
+        val builder = NotificationCompat.Builder(this, channelID)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setSmallIcon(R.drawable.ic_logo_monochrome_purple)
+            .setColor(Color.argb(255, 133, 120, 255))   // havit_purple
             .setAutoCancel(true)
             .setVibrate(longArrayOf(1000, 500, 1000, 500)) // 1초 울리고 0.5초 쉬고
             .setOnlyAlertOnce(true)
             .setContentIntent(pendingIntent)
-
-        builder = builder.setContent(getRemoteView(title, message, image)) // custom
+            .setContentTitle(title)
+            .setLargeIcon(image)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
 
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        /** Oreo Version 이하일때 처리 하는 코드 */
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.d(TAG, "under Oreo Version")
             val notificationChannel =
                 NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(notificationChannel)
         }
 
-        notificationManager.notify(0, builder.build())
+        notificationManager.notify(requestCode, builder.build())
     }
 
     companion object {

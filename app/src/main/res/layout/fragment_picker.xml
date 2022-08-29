@@ -61,7 +61,7 @@
     <NumberPicker
         android:id="@+id/picker_date"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="120dp"
         android:descendantFocusability="blocksDescendants"
         android:elevation="1dp"
         android:theme="@style/CustomPickerTheme"
@@ -74,7 +74,7 @@
     <TimePicker
         android:id="@+id/picker_time"
         android:layout_width="230dp"
-        android:layout_height="180dp"
+        android:layout_height="150dp"
         android:descendantFocusability="blocksDescendants"
         android:elevation="1dp"
         android:numbersSelectorColor="@color/havit_purple"

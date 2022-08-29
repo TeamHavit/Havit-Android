@@ -1,44 +1,46 @@
 package org.sopt.havit.ui.sign
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import com.kakao.sdk.auth.model.Prompt
-import com.kakao.sdk.common.model.ClientError
-import com.kakao.sdk.common.model.ClientErrorCause
-import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySplashWithSignBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.onboarding.OnboardingActivity
 import org.sopt.havit.ui.share.ShareActivity
 import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_NORMAL_FLOW
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.HavitAuthUtil
 import org.sopt.havit.util.MySharedPreference
+import javax.inject.Inject
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class SplashWithSignActivity :
     BaseBindingActivity<ActivitySplashWithSignBinding>(R.layout.activity_splash_with_sign) {
 
+
+    @Inject
+    lateinit var kakaoLoginService: KakaoLoginService
+
     private val signInViewModel: SignInViewModel by viewModels()
+    private var isFromShare by Delegates.notNull<Boolean>()
+
     private val alphaLogoAnim by lazy {
-        AnimationUtils.loadAnimation(
-            this,
-            R.anim.alpha_15_to_5_20000
-        ).apply {
+        AnimationUtils.loadAnimation(this, R.anim.alpha_15_to_5_20000).apply {
             fillAfter = true
             isFillEnabled = true
         }
     }
+
     private val alphaLoginAnim by lazy {
-        AnimationUtils.loadAnimation(
-            this,
-            R.anim.alpha_0_to_100_1500_delay_1000
-        ).apply {
+        AnimationUtils.loadAnimation(this, R.anim.alpha_0_to_100_1500_delay_1000).apply {
             fillAfter = true
             isFillEnabled = true
         }
@@ -48,63 +50,82 @@ class SplashWithSignActivity :
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.main = signInViewModel
+        initFcmToken()
+        initSuccessKakaoLoginOserver()
         initWhereSplashComesFrom()
+        setLoginGuideIfFromShare()
         setSplashView()
         setListeners()
         isAlreadyUserObserver()
         isNeedScopesObserver()
-        isReadyUserObserver()
     }
 
+    private fun initFcmToken() {
+        signInViewModel.initFcmToken()
+    }
+
+    private fun initSuccessKakaoLoginOserver() {
+        signInViewModel.isSuccessKakaoLogin.observe(this, EventObserver {
+            if (it) signInViewModel.getSignIn()
+        })
+    }
+
+
     private fun initWhereSplashComesFrom() {
-        signInViewModel.setLoginGuideVisibility(
-            intent.getBooleanExtra(
-                ShareActivity.WHERE_SPLASH_COME_FROM,
-                SPLASH_NORMAL_FLOW
-            )
+        isFromShare = intent.getBooleanExtra(
+            ShareActivity.WHERE_SPLASH_COME_FROM, SPLASH_NORMAL_FLOW
         )
+    }
+
+    private fun setLoginGuideIfFromShare() {
+        signInViewModel.setLoginGuideVisibility(isFromShare)
     }
 
     private fun setLoginAnimation() {
-        binding.btnKakaoLogin.startAnimation(
-            alphaLoginAnim
-        )
-        binding.tvAnotherLogin.startAnimation(
-            alphaLoginAnim
-        )
+        binding.btnKakaoLogin.startAnimation(alphaLoginAnim)
+        binding.tvAnotherLogin.startAnimation(alphaLoginAnim)
     }
 
     private fun setSplashView() {
-
         if (signInViewModel.loginGuidVisibility.value == false) {
-            binding.ivSplashLogo.startAnimation(
-                alphaLogoAnim
-            )
+            binding.ivSplashLogo.startAnimation(alphaLogoAnim)
+            alphaLogoAnim.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(p0: Animation?) {}
+
+                override fun onAnimationRepeat(p0: Animation?) {}
+
+                override fun onAnimationEnd(p0: Animation?) {
+                    setAutoLogin()
+                }
+            })
+        } else {
+            setAutoLogin()
         }
-        setAutoLogin()
     }
 
     private fun setAutoLogin() {
-        HavitAuthUtil.isLoginNow { isLogin ->
-            if (isLogin) startMainActivity() else setLoginAnimation()
+        HavitAuthUtil.isLoginNow({ isInternetConnected ->
+            if (isInternetConnected) {
+                finishAffinity()
+            }
+        }) { isLogin ->
+            if (isLogin && MySharedPreference.getXAuthToken(this).isNotEmpty()) startMainActivity()
+            else if (MySharedPreference.isFirstEnter(this)) startOnBoardingActivity()
+            else setLoginAnimation()
         }
     }
 
-    private fun setListeners() {
-        binding.btnKakaoLogin.setOnClickListener {
-            setLogin()
+    private val splashWithLoginLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            setLoginAnimation()
         }
+
+    private fun setListeners() {
+        binding.btnKakaoLogin.setOnClickListener { kakaoLoginService.setKakaoLogin(signInViewModel.kakaoLoginCallback) }
         binding.tvAnotherLogin.setOnClickListener {
-            UserApiClient.instance.loginWithKakaoAccount(
-                this,
-                prompts = listOf(Prompt.LOGIN)
-            ) { token, error ->
-                if (error != null) {
-                    Log.d("TAG", "로그인 실패", error)
-                } else if (token != null) {
-                    Log.d("TAG", "로그인 성공 ${token.accessToken}")
-                }
-            }
+            kakaoLoginService.setLoginWithAccount(
+                signInViewModel.kakaoLoginCallback
+            )
         }
     }
 
@@ -114,108 +135,15 @@ class SplashWithSignActivity :
         finish()
     }
 
-    private fun startSignActivity() {
-        val intent = Intent(this, SignActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-    private fun setLogin() {
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
-            UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
-                if (error != null) {
-                    Log.d("TAG", "카카오톡으로 로그인 실패", error)
-
-                    // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
-                    // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
-                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                        return@loginWithKakaoTalk
-                    }
-
-                    // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
-                    UserApiClient.instance.loginWithKakaoAccount(
-                        this,
-                        callback = signInViewModel.kakaoLoginCallback
-                    )
-                } else if (token != null) {
-                    Log.d("TAG", "카카오톡으로 로그인 성공 ${token.accessToken}")
-                    signInViewModel.setKakaoToken(token.accessToken)
-                    signInViewModel.setFcmToken()
-                    signInViewModel.setNeedScopes()
-                }
-            }
-        } else {
-            UserApiClient.instance.loginWithKakaoAccount(
-                this,
-                callback = signInViewModel.kakaoLoginCallback
-            )
-        }
-    }
-
-    private fun getKakaoUserInfo() {
-        UserApiClient.instance.me { user, error ->
-            if (error != null) {
-                Log.d("TAG", "사용자 정보 요청 실패", error)
-            } else if (user != null) {
-                Log.d("TAG", "사용자 정보 요청 성공")
-                val age = user.kakaoAccount?.ageRange.toString().split("_")
-                signInViewModel.setKakaoUserInfo(
-                    (age[1].toInt() + age[2].toInt()) / 2,
-                    user.kakaoAccount?.email ?: "",
-                    user.kakaoAccount?.gender.toString(),
-                    user.kakaoAccount?.profile?.nickname ?: ""
-                )
-                signInViewModel.setReadyUser()
-            }
-        }
-    }
-
-    private fun isNeedNewScopes() {
-        UserApiClient.instance.me { user, error ->
-            if (error != null) {
-                Log.d("TAG", "사용자 정보 요청 실패", error)
-            } else if (user != null) {
-                val scopes = mutableListOf<String>()
-                if (user.kakaoAccount?.emailNeedsAgreement == true) {
-                    scopes.add("account_email")
-                }
-                if (user.kakaoAccount?.ageRangeNeedsAgreement == true) {
-                    scopes.add("age_range")
-                }
-                if (user.kakaoAccount?.genderNeedsAgreement == true) {
-                    scopes.add("gender")
-                }
-                if (scopes.count() > 0) {
-                    Log.d("TAG", "사용자에게 추가 동의를 받아야 합니다.")
-                    // scope 목록을 전달하여 카카오 로그인 요청
-                    UserApiClient.instance.loginWithNewScopes(
-                        this,
-                        scopes
-                    ) { token, error ->
-                        if (error != null) {
-                            Log.d("TAG", "사용자 추가 동의 실패", error)
-                        } else {
-                            Log.d("TAG", "allowed scopes: ${token!!.scopes}")
-                            // 사용자 정보 재요청
-                            getKakaoUserInfo()
-                        }
-                    }
-                } else {
-                    getKakaoUserInfo()
-                }
-            }
-        }
+    private fun startOnBoardingActivity() {
+        splashWithLoginLauncher.launch(
+            Intent(this, OnboardingActivity::class.java)
+        )
     }
 
     private fun isNeedScopesObserver() {
         signInViewModel.isNeedScopes.observe(this) {
-            isNeedNewScopes()
-        }
-    }
-
-    private fun isReadyUserObserver() {
-        signInViewModel.isReadyUser.observe(this) {
-            signInViewModel.getSignIn()
+            kakaoLoginService.getUserNeedNewScopes()
         }
     }
 
@@ -224,15 +152,20 @@ class SplashWithSignActivity :
             this,
             EventObserver { isAlreadyUser ->
                 if (isAlreadyUser.data.isAlreadyUser == null) { // 기존 유저
-                    MySharedPreference.setXAuthToken(
-                        this,
-                        isAlreadyUser.data.accessToken ?: ""
-                    )
-                    startMainActivity()
+                    MySharedPreference.setXAuthToken(this, isAlreadyUser.data.accessToken ?: "")
+                    if (isFromShare) {
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    } else startMainActivity()
                 } else { // 신규 유저
-                    startSignActivity()
+                    startActivity(Intent(this, SignUpActivity::class.java))
                 }
             }
         )
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 }

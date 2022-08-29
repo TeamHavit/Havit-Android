@@ -1,14 +1,14 @@
 package org.sopt.havit.ui.contents.more.edit_notification
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsMoreData
+import org.sopt.havit.data.remote.ModifyContentNotificationParams
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
@@ -52,7 +52,7 @@ class EditNotificationFromMoreViewModel @Inject constructor(
         get() = _tempIndex
 
     private var _finalIndex = MutableLiveData<Int?>()
-    val finalIndex: LiveData<Int?>
+    private val finalIndex: LiveData<Int?>
         get() = _finalIndex
 
     fun syncTempDataWithFinalData() {
@@ -60,9 +60,14 @@ class EditNotificationFromMoreViewModel @Inject constructor(
         _tempIndex.value = finalIndex.value
     }
 
-    fun syncFinalDataWithTempData() {
+    private fun syncFinalDataWithTempData() {
         _finalNotificationTime.value = tempNotificationTime.value
         _finalIndex.value = tempIndex.value
+    }
+
+    private fun resetFinalData() {
+        _finalIndex.value = null
+        _finalNotificationTime.value = null
     }
 
     fun setNotificationTimeDirectly(time: String?) {
@@ -88,26 +93,43 @@ class EditNotificationFromMoreViewModel @Inject constructor(
     }
 
     fun deleteNotification() {
-        _finalIndex.value = null
-        _finalNotificationTime.value = null
+        viewModelScope.launch {
+            kotlin.runCatching {
+                RetrofitObject.provideHavitApi(token).deleteContentNotification(
+                    requireNotNull(contentId.value)
+                )
+            }.onSuccess {
+                resetFinalData()
+                userClicksOnButton(SUCCESS)
+            }.onFailure {
+                userClicksOnButton(FAIL)
+            }
+        }
+
     }
 
     fun patchNotification() {
         viewModelScope.launch {
+            val time = tempNotificationTime.value?.substring(0, 16)?.replace(".", "-")
             kotlin.runCatching {
-                val time = tempNotificationTime.value?.substring(0, 16)?.replace(".", "-")
-                // TODO 알림수정 api 아직 안나옴
+                RetrofitObject.provideHavitApi(token).modifyContentNotification(
+                    requireNotNull(contentId.value),
+                    ModifyContentNotificationParams(requireNotNull(time))
+                )
             }.onSuccess {
+                syncFinalDataWithTempData()
                 userClicksOnButton(SUCCESS)
-                Log.d(TAG, "patchNotification: onSuccess")
             }.onFailure {
-                userClicksOnButton(FAIL)
-                Log.d(TAG, "patchNotification: onFailure $it")
+                if (isCode500(it.message))
+                    userClicksOnButton(REQUEST_DELETE)
+                else userClicksOnButton(FAIL)
             }
         }
     }
 
-    // TODO 알림삭제 api 아직 안나옴
+    private fun isCode500(errorMessage: String?): Boolean {
+        return errorMessage?.substringAfter(" ")?.trim()?.toIntOrNull() == 500
+    }
 
     /** server event */
     private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
@@ -121,5 +143,6 @@ class EditNotificationFromMoreViewModel @Inject constructor(
     companion object {
         const val SUCCESS = "SUCCESS"
         const val FAIL = "FAIL"
+        const val REQUEST_DELETE = "REQUEST_DELETE"
     }
 }

@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.ContentsSimpleResponse
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.util.MySharedPreference
 
 class ContentsSimpleViewModel(context: Context) : ViewModel() {
@@ -26,9 +27,9 @@ class ContentsSimpleViewModel(context: Context) : ViewModel() {
     private val _topBarName = MutableLiveData<String>()
     val topBarName: LiveData<String> = _topBarName
 
-    // loading 진행 여부 변수. 로딩중 : true / 로딩완료 : false
-    private val _loadState = MutableLiveData<Boolean>(true)
-    val loadState: LiveData<Boolean> = _loadState
+    // loading 진행 여부 변수.
+    private val _loadState = MutableLiveData(NetworkState.LOADING)
+    val loadState: LiveData<NetworkState> = _loadState
 
     fun requestContentsTaken(contentsType: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -38,15 +39,15 @@ class ContentsSimpleViewModel(context: Context) : ViewModel() {
                         RetrofitObject.provideHavitApi(token)
                             .getContentsUnseen()
                     _contentsList.postValue(response.data)
-                    _loadState.postValue(false)
                 } else {
                     val response =
                         RetrofitObject.provideHavitApi(token)
                             .getContentsRecent()
                     _contentsList.postValue(response.data)
-                    _loadState.postValue(false)
                 }
+                _loadState.postValue(NetworkState.SUCCESS)
             } catch (e: Exception) {
+                _loadState.postValue(NetworkState.FAIL)
             }
         }
     }
@@ -72,7 +73,9 @@ class ContentsSimpleViewModel(context: Context) : ViewModel() {
                     RetrofitObject.provideHavitApi(token)
                         .isHavit(ContentsHavitRequest(contentsId))
                 _isHavit.postValue(response.data.isSeen)
+                _loadState.postValue(NetworkState.SUCCESS)
             } catch (e: Exception) {
+                _loadState.postValue(NetworkState.FAIL)
             }
         }
     }
@@ -84,5 +87,19 @@ class ContentsSimpleViewModel(context: Context) : ViewModel() {
 
     fun updateContentsList(list: List<ContentsSimpleResponse.ContentsSimpleData>) {
         _contentsList.value = list
+    }
+
+    // 콘텐츠 삭제를 서버에게 요청하는 코드
+    fun deleteContents(contentsId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response =
+                    RetrofitObject.provideHavitApi(token)
+                        .deleteContents(contentsId)
+                _loadState.postValue(NetworkState.SUCCESS)
+            } catch (e: Exception) {
+                _loadState.postValue(NetworkState.FAIL)
+            }
+        }
     }
 }

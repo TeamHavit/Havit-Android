@@ -16,7 +16,7 @@ import org.sopt.havit.ui.base.BaseBindingFragment
 class AddNickNameFragment :
     BaseBindingFragment<FragmentAddNickNameBinding>(R.layout.fragment_add_nick_name) {
 
-    private val signInViewModel: SignInViewModel by activityViewModels()
+    private val signUpViewModel: SignUpViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +29,7 @@ class AddNickNameFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.vm = signInViewModel
+        binding.vm = signUpViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         setTextWatcher()
         setListener()
@@ -42,16 +42,16 @@ class AddNickNameFragment :
 
     private fun setTextWatcher() {
         binding.etNickname.addTextChangedListener {
-            signInViewModel.setNickName(binding.etNickname.text.toString())
+            signUpViewModel.setNickName(binding.etNickname.text.toString())
         }
     }
 
     private fun setListener() {
         binding.btnNicknameNext.setOnClickListener {
-            signInViewModel.setMoveToNextOrBack(true)
+            signUpViewModel.setMoveToNextOrBack(true)
         }
         binding.ivNicknameDeleteText.setOnClickListener {
-            signInViewModel.setClearNickName()
+            signUpViewModel.setClearNickName()
         }
         binding.btnNicknameBack.setOnClickListener {
             requireActivity().finish()

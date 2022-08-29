@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class com.kakao.sdk.**.model.* { <fields>; }
+-keep class * extends com.google.gson.TypeAdapter
+-keep class org.sopt.havit.data.remote.** { *; }
+-keep class org.sopt.havit.domain.entity.** { *; }

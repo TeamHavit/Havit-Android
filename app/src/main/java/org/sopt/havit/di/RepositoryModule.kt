@@ -14,6 +14,7 @@ import org.sopt.havit.data.repository.SearchRepositoryImpl
 import org.sopt.havit.data.source.local.AuthLocalDataSourceImpl
 import org.sopt.havit.data.source.remote.AuthRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
+import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSourceImpl
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.domain.repository.ContentsRepository
 import org.sopt.havit.domain.repository.MyPageRepository
@@ -34,14 +35,15 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideMyPageRepository(
-        @ApplicationContext context: Context
-    ): MyPageRepository = MyPageRepositoryImpl(context)
+        authLocalDataSourceImpl: AuthLocalDataSourceImpl
+    ): MyPageRepository = MyPageRepositoryImpl(authLocalDataSourceImpl)
 
     @Provides
     @Singleton
     fun provideContentsRepository(
-        @ApplicationContext context: Context
-    ): ContentsRepository = ContentsRepositoryImpl(context)
+        @ApplicationContext context: Context,
+        contentsRemoteDataSourceImpl: ContentsRemoteDataSourceImpl
+    ): ContentsRepository = ContentsRepositoryImpl(context, contentsRemoteDataSourceImpl)
 
     @Provides
     @Singleton

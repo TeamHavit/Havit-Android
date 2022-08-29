@@ -8,6 +8,7 @@ object MySharedPreference {
     private const val STORAGE_KEY = "HAVIT"
     private const val X_AUTH_TOKEN_1 = "TOKEN" // 정아
     private const val CONTENTS_TITLE = "TITLE"
+    private const val FIRST_USER = "FIRST_USER"
     private const val NOTI_TIME = "notification_time"
 
     fun setTitle(context: Context, title: String) {
@@ -51,6 +52,20 @@ object MySharedPreference {
         val prefs: SharedPreferences =
             context.getSharedPreferences(X_AUTH_TOKEN_1, Context.MODE_PRIVATE)
         prefs.edit().clear().apply()
+    }
+
+    fun saveFirstEnter(context: Context) {
+        val prefs: SharedPreferences =
+            context.getSharedPreferences(FIRST_USER, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = prefs.edit()
+        editor.putBoolean(FIRST_USER, false)
+        editor.apply()
+    }
+
+    fun isFirstEnter(context: Context): Boolean {
+        val pref: SharedPreferences =
+            context.getSharedPreferences(FIRST_USER, Context.MODE_PRIVATE)
+        return pref.getBoolean(FIRST_USER, true)
     }
 
 }

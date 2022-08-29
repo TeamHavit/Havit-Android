@@ -23,6 +23,7 @@ import org.sopt.havit.util.CalenderUtil.dayStrMapper
 import org.sopt.havit.util.CalenderUtil.setTimePickerInterval
 import org.sopt.havit.util.PAST_TIME_TYPE
 import org.sopt.havit.util.ToastUtil
+import org.sopt.havit.util.setOnSingleClickListener
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -130,7 +131,7 @@ class PickerFragment : BottomSheetDialogFragment() {
     private fun getFocusedMin() = DecimalFormat("00").format(timePicker.minute * 5)
 
     private fun initCompleteBtnClick() {
-        binding.btnComplete.setOnClickListener {
+        binding.btnComplete.setOnSingleClickListener {
             if (isSelectedTimeAvailable()) {
                 viewModel.setNotificationTimeDirectly(getSelectedNotiTime())
                 modifyViewModel.setNotificationTimeDirectly(getSelectedNotiTime())
@@ -182,7 +183,7 @@ class PickerFragment : BottomSheetDialogFragment() {
         }
 
         binding.fragmentPicker.layoutParams.height =
-            (resources.displayMetrics.heightPixels * 0.45).toInt()
+            (resources.displayMetrics.heightPixels * 0.38).toInt()
     }
 
     override fun onDestroy() {

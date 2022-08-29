@@ -1,6 +1,6 @@
 package org.sopt.havit.ui.share.contents_summery
 
-import android.content.Intent
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,9 +23,9 @@ import org.sopt.havit.data.remote.CreateContentsRequest
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
 import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.ui.share.ShareViewModel
-import org.sopt.havit.util.ADD_CONTENT_TYPE
-import org.sopt.havit.util.MySharedPreference
-import org.sopt.havit.util.ToastUtil
+import org.sopt.havit.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class ContentsSummeryFragment : Fragment() {
@@ -59,16 +59,16 @@ class ContentsSummeryFragment : Fragment() {
         toolbarClickListener()
     }
 
-    private fun getUrl(): String {
-        val intent = activity?.intent
-        if (isEnterWithShareBtn(intent)) // 공유하기 버튼으로 진입시
-            return intent?.getStringExtra(Intent.EXTRA_TEXT).toString()
-        return intent?.getStringExtra("url").toString() // MainActivity FIB 로 진입시
-    }
-
-    private fun isEnterWithShareBtn(intent: Intent?): Boolean {
-        return (intent?.action == Intent.ACTION_SEND) && (intent.type == "text/plain")
-    }
+//    private fun getUrl(): String {
+//        val intent = activity?.intent
+//        if (isEnterWithShareBtn(intent)) // 공유하기 버튼으로 진입시
+//            return intent?.getStringExtra(Intent.EXTRA_TEXT).toString()
+//        return intent?.getStringExtra("url").toString() // MainActivity FIB 로 진입시
+//    }
+//
+//    private fun isEnterWithShareBtn(intent: Intent?): Boolean {
+//        return (intent?.action == Intent.ACTION_SEND) && (intent.type == "text/plain")
+//    }
 
     private fun getCategoryList() {
         // 선택된 카테고리 배열 생성
@@ -82,7 +82,7 @@ class ContentsSummeryFragment : Fragment() {
     }
 
     private fun setContents() {
-        val url = getUrl()
+        val url = viewModel.url.value ?: throw IllegalStateException("Url cannot be null")
         ogData = ContentsSummeryData(ogUrl = url)
         GlobalScope.launch {
             getOgData(url)
@@ -93,12 +93,24 @@ class ContentsSummeryFragment : Fragment() {
         }
     }
 
+    private fun extractUrl(content: String?): String {
+        return try {
+            val regex = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"
+            val p: Pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE)
+            val m: Matcher = p.matcher(content)
+            if (m.find()) m.group() else ""
+        } catch (e: java.lang.Exception) {
+            ""
+        }
+    }
+
     private suspend fun getOgData(url: String) {
         GlobalScope.launch {
             kotlin.runCatching {
                 val doc: Document = Jsoup.connect(url).get()
                 val ogTags = doc.select("meta[property^=og:]")
                 ogData.apply {
+                    this.ogUrl = url
                     if (ogTags.size == 0) return@apply
                     ogTags.forEachIndexed { index, _ ->
                         val tag = ogTags[index]
@@ -139,7 +151,7 @@ class ContentsSummeryFragment : Fragment() {
         }
 
         // 완료 버튼
-        binding.btnComplete.setOnClickListener {
+        binding.btnComplete.setOnSinglePostClickListener {
             initNetwork()
             categoryViewModel.shareDelay.observe(viewLifecycleOwner) {
                 if (it) {
@@ -172,12 +184,16 @@ class ContentsSummeryFragment : Fragment() {
                 }
 
                 val createContentsRequest = CreateContentsRequest(
-                    ogData.ogTitle,
-                    ogData.ogUrl,
+                    title = ogData.ogTitle,
+                    url = ogData.ogUrl,
+                    description = ogData.ogDescription,
+                    imageUrl = ogData.ogImage ?: "",
                     isNotified = notification,
                     notificationTime = time,
                     categoryIds = cateIdInt
                 )
+
+                Log.d(TAG, "initNetwork: $createContentsRequest")
 
                 RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
                     .createContents(createContentsRequest)
@@ -194,9 +210,14 @@ class ContentsSummeryFragment : Fragment() {
         }
 
         binding.icClose.setOnClickListener {
-            MySharedPreference.clearTitle(requireContext())
-            requireActivity().finish()
+            val dialog = DialogUtil(DialogUtil.CANCEL_SAVE_CONTENTS, ::finishSavingContents)
+            dialog.show(parentFragmentManager, this.javaClass.name)
         }
+    }
+
+    private fun finishSavingContents() {
+        MySharedPreference.clearTitle(requireContext())
+        requireActivity().finish()
     }
 
     private fun setCustomToast() = ToastUtil(requireContext()).makeToast(ADD_CONTENT_TYPE)
