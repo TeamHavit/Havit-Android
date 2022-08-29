@@ -19,6 +19,7 @@ import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_NORMAL_FLOW
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.HavitAuthUtil
 import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.util.setOnSinglePostClickListener
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -123,7 +124,7 @@ class SplashWithSignActivity :
 
     private fun setListeners() {
         binding.layoutNetworkError.ivRefresh.setOnClickListener { setAutoLogin() }
-        binding.btnKakaoLogin.setOnClickListener { kakaoLoginService.setKakaoLogin(signInViewModel.kakaoLoginCallback) }
+        binding.btnKakaoLogin.setOnSinglePostClickListener { kakaoLoginService.setKakaoLogin(signInViewModel.kakaoLoginCallback) }
         binding.tvAnotherLogin.setOnClickListener {
             kakaoLoginService.setLoginWithAccount(
                 signInViewModel.kakaoLoginCallback
