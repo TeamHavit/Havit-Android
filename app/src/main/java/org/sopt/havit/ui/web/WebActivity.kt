@@ -9,9 +9,11 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.item_contents_linear_min.view.*
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityWebBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
+import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_web) {
@@ -50,7 +52,10 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
     }
 
     private fun setUrlLaunch(url: String) {
-        if (Regex(NAVER_SHORTEN_URL).containsMatchIn(url)) {
+        if (Regex(NAVER_SHORTEN_URL).containsMatchIn(url) or
+            Regex(NOTION_SHORTEN_URL).containsMatchIn(url) or
+            Regex(DAANGN_SHORTEN_URL).containsMatchIn(url)
+        ) {
             val intent = Intent().apply {
                 action = Intent.ACTION_VIEW
                 addCategory(Intent.CATEGORY_BROWSABLE)
@@ -108,6 +113,8 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
     companion object {
         const val NAVER_SHORTEN_URL = "naver.me"
+        const val NOTION_SHORTEN_URL = "notion.so"
+        const val DAANGN_SHORTEN_URL = "daangn.com"
     }
 
 
