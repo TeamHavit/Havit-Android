@@ -48,14 +48,18 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
         binding.rvSearch.adapter = searchContentsAdapter
     }
 
+    private fun getSearchData() {
+        if (categoryId.isEmpty()) searchViewModel.getSearchContents(binding.etSearch.text.toString())
+        else searchViewModel.getSearchContentsInCategories(
+            categoryId,
+            binding.etSearch.text.toString()
+        )
+    }
+
     private fun setListeners() {
         binding.etSearch.setOnEditorActionListener { _, i, _ ->
             if (i == EditorInfo.IME_ACTION_SEARCH) {
-                if (categoryId.isEmpty()) searchViewModel.getSearchContents(binding.etSearch.text.toString())
-                else searchViewModel.getSearchContentsInCategories(
-                    categoryId,
-                    binding.etSearch.text.toString()
-                )
+                getSearchData()
                 KeyBoardUtil.hideKeyBoard(this)
 
                 return@setOnEditorActionListener true
@@ -87,7 +91,8 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
                         data.notificationTime
                     )
 
-                    val bundle = setBundle(dataMore, showDeleteDialog, pos)
+                    val requestSearchData = ::getSearchData as Serializable
+                    val bundle = setBundle(dataMore, showDeleteDialog, requestSearchData, pos)
                     val dialog = ContentsMoreFragment()
                     dialog.arguments = bundle
                     dialog.show(supportFragmentManager, "setting")
@@ -134,6 +139,7 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
     private fun setBundle(
         dataMore: ContentsMoreData?,
         showDeleteDialog: () -> Unit,
+        refreshData: Serializable,
         position: Int
     ): Bundle {
         val bundle = Bundle()
@@ -141,6 +147,10 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
         bundle.putSerializable(
             ContentsMoreFragment.SHOW_DELETE_DIALOG,
             showDeleteDialog as Serializable
+        )
+        bundle.putSerializable(
+            ContentsMoreFragment.REFRESH_DATA,
+            refreshData as Serializable
         )
         bundle.putInt(ContentsMoreFragment.POSITION, position)
         return bundle

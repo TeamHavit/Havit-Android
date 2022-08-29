@@ -246,6 +246,7 @@
     <string name="category_modify_complete">카테고리가 수정되었습니다</string>
     <string name="title_modified">제목이 수정되었습니다</string>
     <string name="alarm_deleted">알림이 삭제되었습니다</string>
+    <string name="request_delete_notification">알림을 재설정하려면\n알림 삭제 후 다시 시도해주세요</string>
 
     <!-- error -->
     <string name="error_occur">문제가 발생했습니다</string>

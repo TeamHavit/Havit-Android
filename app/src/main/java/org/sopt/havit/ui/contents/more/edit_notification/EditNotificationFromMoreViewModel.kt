@@ -52,7 +52,7 @@ class EditNotificationFromMoreViewModel @Inject constructor(
         get() = _tempIndex
 
     private var _finalIndex = MutableLiveData<Int?>()
-    val finalIndex: LiveData<Int?>
+    private val finalIndex: LiveData<Int?>
         get() = _finalIndex
 
     fun syncTempDataWithFinalData() {
@@ -60,9 +60,14 @@ class EditNotificationFromMoreViewModel @Inject constructor(
         _tempIndex.value = finalIndex.value
     }
 
-    fun syncFinalDataWithTempData() {
+    private fun syncFinalDataWithTempData() {
         _finalNotificationTime.value = tempNotificationTime.value
         _finalIndex.value = tempIndex.value
+    }
+
+    private fun resetFinalData() {
+        _finalIndex.value = null
+        _finalNotificationTime.value = null
     }
 
     fun setNotificationTimeDirectly(time: String?) {
@@ -94,8 +99,7 @@ class EditNotificationFromMoreViewModel @Inject constructor(
                     requireNotNull(contentId.value)
                 )
             }.onSuccess {
-                _finalIndex.value = null
-                _finalNotificationTime.value = null
+                resetFinalData()
                 userClicksOnButton(SUCCESS)
             }.onFailure {
                 userClicksOnButton(FAIL)
@@ -113,11 +117,18 @@ class EditNotificationFromMoreViewModel @Inject constructor(
                     ModifyContentNotificationParams(requireNotNull(time))
                 )
             }.onSuccess {
+                syncFinalDataWithTempData()
                 userClicksOnButton(SUCCESS)
             }.onFailure {
-                userClicksOnButton(FAIL)
+                if (isCode500(it.message))
+                    userClicksOnButton(REQUEST_DELETE)
+                else userClicksOnButton(FAIL)
             }
         }
+    }
+
+    private fun isCode500(errorMessage: String?): Boolean {
+        return errorMessage?.substringAfter(" ")?.trim()?.toIntOrNull() == 500
     }
 
     /** server event */
@@ -132,5 +143,6 @@ class EditNotificationFromMoreViewModel @Inject constructor(
     companion object {
         const val SUCCESS = "SUCCESS"
         const val FAIL = "FAIL"
+        const val REQUEST_DELETE = "REQUEST_DELETE"
     }
 }

@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.share.contents_summery
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -81,7 +82,7 @@ class ContentsSummeryFragment : Fragment() {
     }
 
     private fun setContents() {
-        val url = viewModel.url.value ?: return
+        val url = viewModel.url.value ?: throw IllegalStateException("Url cannot be null")
         ogData = ContentsSummeryData(ogUrl = url)
         GlobalScope.launch {
             getOgData(url)
@@ -109,6 +110,7 @@ class ContentsSummeryFragment : Fragment() {
                 val doc: Document = Jsoup.connect(url).get()
                 val ogTags = doc.select("meta[property^=og:]")
                 ogData.apply {
+                    this.ogUrl = url
                     if (ogTags.size == 0) return@apply
                     ogTags.forEachIndexed { index, _ ->
                         val tag = ogTags[index]
@@ -182,12 +184,16 @@ class ContentsSummeryFragment : Fragment() {
                 }
 
                 val createContentsRequest = CreateContentsRequest(
-                    ogData.ogTitle,
-                    ogData.ogUrl,
+                    title = ogData.ogTitle,
+                    url = ogData.ogUrl,
+                    description = ogData.ogDescription,
+                    imageUrl = ogData.ogImage ?: "",
                     isNotified = notification,
                     notificationTime = time,
                     categoryIds = cateIdInt
                 )
+
+                Log.d(TAG, "initNetwork: $createContentsRequest")
 
                 RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
                     .createContents(createContentsRequest)
