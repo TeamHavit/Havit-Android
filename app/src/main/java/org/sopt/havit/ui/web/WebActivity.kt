@@ -1,9 +1,12 @@
 package org.sopt.havit.ui.web
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
+import android.net.http.SslError
 import android.os.Bundle
-import android.webkit.WebViewClient
+import android.util.Log
+import android.webkit.*
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
@@ -52,26 +55,32 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
     }
 
     private fun setUrlLaunch(url: String) {
-        if (Regex(NAVER_SHORTEN_URL).containsMatchIn(url) or
-            Regex(NOTION_SHORTEN_URL).containsMatchIn(url) or
-            Regex(DAANGN_SHORTEN_URL).containsMatchIn(url)
-        ) {
-            val intent = Intent().apply {
-                action = Intent.ACTION_VIEW
-                addCategory(Intent.CATEGORY_BROWSABLE)
-                addCategory(Intent.CATEGORY_DEFAULT)
-                data = Uri.parse(url)
+        binding.wbCustom.apply {
+            webChromeClient = WebChromeClient()
+            webViewClient = object : WebViewClient() {
+                override fun shouldOverrideUrlLoading(
+                    view: WebView?,
+                    request: WebResourceRequest?
+                ): Boolean {
+                    if (!(request?.url.toString().startsWith("towneers:"))) {
+                        val intent = Intent().apply {
+                            action = Intent.ACTION_VIEW
+                            addCategory(Intent.CATEGORY_BROWSABLE)
+                            addCategory(Intent.CATEGORY_DEFAULT)
+                            data = Uri.parse(request?.url.toString())
+                        }
+                        startActivity(intent)
+                        finish()
+                    }
+                    return true
+                }
             }
-            startActivity(intent)
-            finish()
-        } else {
-            binding.wbCustom.apply {
-                webViewClient = WebViewClient()
-                settings.javaScriptEnabled = true
-            }
-            binding.wbCustom.loadUrl(url)
-            webViewModel.setUrl(url)
+            settings.javaScriptEnabled = true
+            settings.domStorageEnabled = true
+            settings.setSupportMultipleWindows(true)
+            loadUrl(url)
         }
+        webViewModel.setUrl(url)
     }
 
     private fun setListeners() {
@@ -102,20 +111,5 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         toast.view = view
         toast.show()
     }
-
-    override fun onBackPressed() {
-        if (binding.wbCustom.canGoBack()) {
-            binding.wbCustom.goBack()
-        } else {
-            finish()
-        }
-    }
-
-    companion object {
-        const val NAVER_SHORTEN_URL = "naver.me"
-        const val NOTION_SHORTEN_URL = "notion.so"
-        const val DAANGN_SHORTEN_URL = "daangn.com"
-    }
-
 
 }
