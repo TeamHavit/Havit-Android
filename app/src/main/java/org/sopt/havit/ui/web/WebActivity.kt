@@ -1,9 +1,6 @@
 package org.sopt.havit.ui.web
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.Uri
-import android.net.http.SslError
 import android.os.Bundle
 import android.util.Log
 import android.webkit.*
@@ -12,11 +9,9 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.item_contents_linear_min.view.*
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityWebBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
-import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_web) {
@@ -63,13 +58,12 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
                     request: WebResourceRequest?
                 ): Boolean {
                     if (!(request?.url.toString().startsWith("towneers:"))) {
-                        val intent = Intent().apply {
-                            action = Intent.ACTION_VIEW
-                            addCategory(Intent.CATEGORY_BROWSABLE)
-                            addCategory(Intent.CATEGORY_DEFAULT)
-                            data = Uri.parse(request?.url.toString())
-                        }
-                        startActivity(intent)
+                        startActivity(
+                            Intent.parseUri(
+                                request?.url.toString(),
+                                Intent.URI_INTENT_SCHEME
+                            )
+                        )
                         finish()
                     }
                     return true
