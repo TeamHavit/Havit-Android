@@ -1,11 +1,16 @@
 package org.sopt.havit.domain.entity
 
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Category(
+    val contentNumber: Int,
     val id: Int,
-    val title: String,
+    var imageId: Int,
+    @SerializedName("imageUrl")
+    var url: String,
     val orderIndex: Int,
-    val imageId: Int,
-    val imageUrl: String,
-    val contentNumber: Int?,
-    var isSelected: Boolean
-)
+    var title: String
+) : Parcelable

@@ -2,10 +2,12 @@ package org.sopt.havit.ui.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityHomeCategoryAllBinding
 import org.sopt.havit.ui.category.CategoryFragment
 
+@AndroidEntryPoint
 class HomeCategoryAllActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeCategoryAllBinding

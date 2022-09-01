@@ -7,18 +7,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import org.sopt.havit.data.mapper.ContentsMapper
-import org.sopt.havit.data.repository.AuthRepositoryImpl
-import org.sopt.havit.data.repository.ContentsRepositoryImpl
-import org.sopt.havit.data.repository.MyPageRepositoryImpl
-import org.sopt.havit.data.repository.SearchRepositoryImpl
+import org.sopt.havit.data.repository.*
 import org.sopt.havit.data.source.local.AuthLocalDataSourceImpl
 import org.sopt.havit.data.source.remote.AuthRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
+import org.sopt.havit.data.source.remote.category.CategoryRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSourceImpl
-import org.sopt.havit.domain.repository.AuthRepository
-import org.sopt.havit.domain.repository.ContentsRepository
-import org.sopt.havit.domain.repository.MyPageRepository
-import org.sopt.havit.domain.repository.SearchRepository
+import org.sopt.havit.domain.repository.*
 import javax.inject.Singleton
 
 @Module
@@ -44,6 +39,12 @@ object RepositoryModule {
         @ApplicationContext context: Context,
         contentsRemoteDataSourceImpl: ContentsRemoteDataSourceImpl
     ): ContentsRepository = ContentsRepositoryImpl(context, contentsRemoteDataSourceImpl)
+
+    @Provides
+    @Singleton
+    fun provideCategoryRepository(
+        categoryRemoteDataSourceImpl: CategoryRemoteDataSourceImpl
+    ): CategoryRepository = CategoryRepositoryImpl(categoryRemoteDataSourceImpl)
 
     @Provides
     @Singleton

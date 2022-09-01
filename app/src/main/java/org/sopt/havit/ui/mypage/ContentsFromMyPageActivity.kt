@@ -2,12 +2,14 @@ package org.sopt.havit.ui.mypage
 
 import android.content.Intent
 import android.os.Bundle
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityContentsFromMyPageBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryFragment
 import org.sopt.havit.ui.contents.ContentsActivity
 
+@AndroidEntryPoint
 class ContentsFromMyPageActivity :
     BaseBindingActivity<ActivityContentsFromMyPageBinding>(R.layout.activity_contents_from_my_page) {
 

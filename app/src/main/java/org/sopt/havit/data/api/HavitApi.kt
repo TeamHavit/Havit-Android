@@ -2,6 +2,7 @@ package org.sopt.havit.data.api
 
 import org.sopt.havit.data.remote.*
 import org.sopt.havit.data.remote.base.BaseResponse
+import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.domain.entity.Contents
 import retrofit2.http.*
 
@@ -24,7 +25,7 @@ interface HavitApi {
     ): ContentsHavitResponse
 
     @GET("category")
-    suspend fun getAllCategory(): CategoryResponse
+    suspend fun getAllCategories(): BaseResponse<List<Category>>
 
     @GET("content/{contentId}/category")
     suspend fun getAllCategoryList(
@@ -66,14 +67,14 @@ interface HavitApi {
     suspend fun getRecommendation(): RecommendationResponse
 
     @PATCH("category/order")
-    suspend fun modifyCategoryOrder(
-        @Body body: CategoryOrderRequest
+    suspend fun updateCategoryOrder(
+        @Body body: UpdateCategoriesOrderRequest
     ): BasicResponse
 
     @PATCH("category/{categoryId}")
-    suspend fun modifyCategoryContent(
+    suspend fun updateCategoryInfo(
         @Path("categoryId") categoryId: Int,
-        @Body body: CategoryModifyRequest
+        @Body body: UpdateCategoryInfoRequest
     ): BasicResponse
 
     @GET("content?option=&filter=")
