@@ -15,9 +15,10 @@ class AuthRemoteDataSourceImpl @Inject constructor(private val api: HavitApi) :
         age: Int,
         gender: String,
         fcmToken: String,
-        kakaoToken: String
+        kakaoToken: String,
+        isMarketing: Boolean
     ): SignUpResponse {
-        return api.postSignUp(SignUpRequest(age, email, fcmToken, gender, kakaoToken, nickName))
+        return api.postSignUp(SignUpRequest(age, email, fcmToken, gender, kakaoToken, nickName,isMarketing))
     }
 
     override suspend fun checkNewUser(fcmToken: String, kakaoToken: String): SignInResponse {

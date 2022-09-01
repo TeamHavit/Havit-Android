@@ -51,8 +51,9 @@ class AuthRepositoryImpl @Inject constructor(
         age: Int,
         gender: String,
         fcmToken: String,
-        kakaoToken: String
+        kakaoToken: String,
+        isMarketing: Boolean
     ): SignUpResponse {
-        return authRemoteDataSource.postSignUp(email, nickName, age, gender, fcmToken, kakaoToken)
+        return authRemoteDataSource.postSignUp(email, nickName, age, gender, fcmToken, kakaoToken, isMarketing)
     }
 }
