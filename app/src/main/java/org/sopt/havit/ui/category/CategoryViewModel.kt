@@ -20,13 +20,11 @@ class CategoryViewModel @Inject constructor(
     val categoryCount: LiveData<Int> = _categoryCount
 
     private val _categoryList = MutableLiveData<ArrayList<Category>>()
-    val categoryList: LiveData<ArrayList<Category>> = _categoryList
+    val categoryList: LiveData<ArrayList<Category>>
+        get() = _categoryList
 
     private val _shareDelay = MutableLiveData(false)
     val shareDelay: LiveData<Boolean> = _shareDelay
-
-    private val _categoryLoad = MutableLiveData(true)
-    val categoryLoad: LiveData<Boolean> = _categoryLoad
 
     private val _deleteState = MutableLiveData<NetworkState>()
     val deleteState: LiveData<NetworkState> = _deleteState
@@ -35,7 +33,8 @@ class CategoryViewModel @Inject constructor(
     val orderModifyState: LiveData<NetworkState> = _orderModifyState
 
     private val _loadState = MutableLiveData(NetworkState.LOADING)
-    val loadState: LiveData<NetworkState> = _loadState
+    val loadState: LiveData<NetworkState>
+        get() = _loadState
 
     private val _modifyState = MutableLiveData<NetworkState>()
     val modifyState: LiveData<NetworkState> = _modifyState
