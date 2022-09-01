@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.databinding.ItemContentsSimpleBinding
-import org.sopt.havit.util.setOnSingleClickListener
 import org.sopt.havit.util.setOnSinglePostClickListener
 import java.text.SimpleDateFormat
 import java.util.*
