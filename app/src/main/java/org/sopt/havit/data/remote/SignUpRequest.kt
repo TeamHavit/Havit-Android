@@ -6,5 +6,6 @@ data class SignUpRequest(
     val fcmToken: String,
     val gender: String,
     val kakaoAccessToken: String,
-    val nickname: String
+    val nickname: String,
+    val isMarketing: Boolean
 )

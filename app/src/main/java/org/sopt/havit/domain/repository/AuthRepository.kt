@@ -33,6 +33,7 @@ interface AuthRepository {
         age: Int,
         gender: String,
         fcmToken: String,
-        kakaoToken: String
+        kakaoToken: String,
+        isMarketing: Boolean
     ): SignUpResponse
 }
