@@ -1,8 +1,14 @@
 package org.sopt.havit.ui.category
 
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
@@ -19,7 +25,7 @@ import org.sopt.havit.util.*
 @AndroidEntryPoint
 class CategoryContentModifyActivity :
     BaseBindingActivity<ActivityCategoryContentModifyBinding>(R.layout.activity_category_content_modify) {
-    private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
+    private val categoryViewModel by viewModels<CategoryViewModel>()
     private var position = -1
     private var id = -1
     private var originCategoryImageId = -1
@@ -45,6 +51,22 @@ class CategoryContentModifyActivity :
 
     override fun onBackPressed() {
         setBackPressedAction()
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val v = currentFocus
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    v.clearFocus()
+                    val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event)
     }
 
     private fun setCategoryIntentData() {
@@ -73,11 +95,11 @@ class CategoryContentModifyActivity :
     }
 
     private fun setBackBtnClickListener() {
-        binding.ivBack.setOnClickListener { setBackPressedAction() }
+        binding.ivBack.setOnSingleClickListener { setBackPressedAction() }
     }
 
     private fun setDeleteTitleBtnClickListener() {
-        binding.ivDeleteText.setOnClickListener { deleteCategoryTitle() }
+        binding.ivDeleteText.setOnSingleClickListener { deleteCategoryTitle() }
     }
 
     private fun setTextWatcher() {
@@ -115,12 +137,12 @@ class CategoryContentModifyActivity :
     }
 
     private fun setDeleteBtnClickListener() {
-        binding.btnRemove.setOnClickListener { showCategoryDeleteDialog() }
+        binding.btnRemove.setOnSingleClickListener { showCategoryDeleteDialog() }
     }
 
     // 완료 버튼 클릭 시
     private fun setModifyCompleteBtnClickListener() {
-        binding.tvComplete.setOnClickListener {
+        binding.tvComplete.setOnSingleClickListener {
             requestCategoryModify()
 
         }

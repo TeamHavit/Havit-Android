@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.databinding.ItemCategoryToggleBinding
-import org.sopt.havit.domain.entity.Category
+import org.sopt.havit.domain.entity.CategoryWithSelected
 
 class EditCategoryAdapter(private val onCategoryClick: (Int) -> Unit) :
-    ListAdapter<Category, EditCategoryAdapter.CategoryViewHolder>(CategoryDataComparator()) {
+    ListAdapter<CategoryWithSelected, EditCategoryAdapter.CategoryViewHolder>(CategoryDataComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -26,7 +26,7 @@ class EditCategoryAdapter(private val onCategoryClick: (Int) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
             position: Int,
-            category: Category,
+            category: CategoryWithSelected,
             onCategoryClick: (Int) -> Unit
         ) {
             binding.category = category
@@ -34,8 +34,13 @@ class EditCategoryAdapter(private val onCategoryClick: (Int) -> Unit) :
         }
     }
 
-    private class CategoryDataComparator : DiffUtil.ItemCallback<Category>() {
-        override fun areItemsTheSame(oldItem: Category, newItem: Category) = true
-        override fun areContentsTheSame(oldItem: Category, newItem: Category) = oldItem == newItem
+    private class CategoryDataComparator : DiffUtil.ItemCallback<CategoryWithSelected>() {
+        override fun areItemsTheSame(oldItem: CategoryWithSelected, newItem: CategoryWithSelected) =
+            true
+
+        override fun areContentsTheSame(
+            oldItem: CategoryWithSelected,
+            newItem: CategoryWithSelected
+        ) = oldItem == newItem
     }
 }

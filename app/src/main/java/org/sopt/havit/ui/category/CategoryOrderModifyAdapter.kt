@@ -4,13 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemCategoryModifyBinding
+import org.sopt.havit.domain.entity.Category
+import org.sopt.havit.util.setOnSingleClickListener
 import java.util.*
 
 class CategoryOrderModifyAdapter :
     RecyclerView.Adapter<CategoryOrderModifyAdapter.CategoryOrderModifyViewHolder>() {
-    var categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
+    var categoryList = mutableListOf<Category>()
     private lateinit var itemClickListener: OnItemClickListener
 
     fun removeData(position: Int) {
@@ -37,7 +38,7 @@ class CategoryOrderModifyAdapter :
     override fun onBindViewHolder(holder: CategoryOrderModifyViewHolder, position: Int) {
         holder.onBind(categoryList[position])
         // 리스트 내 항목 클릭 시 호출
-        holder.itemView.setOnClickListener {
+        holder.itemView.setOnSingleClickListener {
             itemClickListener.onClick(it, holder.layoutPosition)
         }
     }
@@ -56,7 +57,7 @@ class CategoryOrderModifyAdapter :
 
     class CategoryOrderModifyViewHolder(private val binding: ItemCategoryModifyBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: CategoryResponse.AllCategoryData) {
+        fun onBind(data: Category) {
             binding.category = data
         }
     }

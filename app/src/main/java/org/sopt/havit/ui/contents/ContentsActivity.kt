@@ -38,7 +38,7 @@ import java.io.Serializable
 class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.activity_contents) {
     private lateinit var contentsAdapter: ContentsAdapter
     private val contentsViewModel: ContentsViewModel by viewModels()
-    private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(this) }
+    private val categoryViewModel: CategoryViewModel by viewModels()
     private lateinit var getResult: ActivityResultLauncher<Intent>
     private var categoryId = 0
     private var categoryName = "error"
@@ -101,7 +101,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun setCategoryInfo() {
         // 카테고리 전체 정보를 서버를 통해 호출
-        categoryViewModel.requestCategoryTaken()
+        categoryViewModel.getAllCategories()
 
         // 카테고리 뷰에서 넘겨받은 데이터를 ContentsActivity의 변수에 할당
         categoryId =
@@ -322,7 +322,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         )
         bundle.putSerializable(
             ContentsMoreFragment.REFRESH_DATA,
-            refreshData as Serializable
+            refreshData
         )
         bundle.putInt(ContentsMoreFragment.POSITION, position)
         return bundle

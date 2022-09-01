@@ -1,5 +1,5 @@
 package org.sopt.havit.data.remote
 
-data class CategoryOrderRequest(
+data class UpdateCategoriesOrderRequest(
     val categoryIndexArray: List<Int>
 )
