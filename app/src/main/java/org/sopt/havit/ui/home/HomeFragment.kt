@@ -19,6 +19,7 @@ import org.sopt.havit.ui.notification.NotificationActivity
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.PopupSharedPreference
+import org.sopt.havit.util.setOnSingleClickListener
 
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val homeViewModel: HomeViewModel by lazy { HomeViewModel(requireContext()) }
@@ -229,7 +230,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             val intent = Intent(requireActivity(), ServiceGuideActivity::class.java)
             startActivity(intent)
         }
-        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+        binding.layoutNetworkError.ivRefresh.setOnSingleClickListener {
             it.startAnimation(
                 AnimationUtils.loadAnimation(
                     requireActivity(),
