@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.databinding.ItemDialogContentsTopBinding
 import org.sopt.havit.domain.entity.Category
+import org.sopt.havit.util.setOnSingleClickListener
 
 class ContentsCategoryAdapter(private val categoryId: Int) :
     RecyclerView.Adapter<ContentsCategoryAdapter.ContentsCategoryViewHolder>() {
@@ -24,7 +25,7 @@ class ContentsCategoryAdapter(private val categoryId: Int) :
         holder.onBind(contentsCategoryList[position])
 
         // (1) 리스트 내 항목 클릭 시 onClick() 호출
-        holder.itemView.setOnClickListener {
+        holder.itemView.setOnSingleClickListener {
             itemClickListener.onClick(it, position)
         }
     }
