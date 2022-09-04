@@ -75,8 +75,8 @@ class ContentsMoreFragment : BottomSheetDialogFragment() {
     // 이전 뷰에서 bundle로 보낸 content 데이터 받아오기
     private fun setData() {
         contentsData = arguments?.getParcelable(CONTENTS_MORE_DATA) ?: throw IllegalStateException()
-        showDeleteDialog = arguments?.getSerializable(SHOW_DELETE_DIALOG)
-        refreshData = arguments?.getSerializable(REFRESH_DATA)
+        showDeleteDialog = arguments?.getSerializable(SHOW_DELETE_DIALOG) as () -> Unit
+        refreshData = arguments?.getSerializable(REFRESH_DATA) as () -> Unit
         arguments?.getInt(POSITION, 0)?.let {
             pos = it
         }
