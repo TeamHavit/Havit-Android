@@ -117,7 +117,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun refreshContentsData() {
-        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+        binding.layoutNetworkError.ivRefresh.setOnSingleClickListener {
             it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotation_refresh))
             requestContentsData()
         }
@@ -154,7 +154,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun changeLayout() {
-        binding.ivLayout.setOnClickListener {
+        binding.ivLayout.setOnSingleClickListener {
             // 기존 viewholder를 binding하는 것을 막기 위해 제거
             binding.rvContents.removeAllViews()
 
@@ -179,7 +179,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun clickBack() {
-        binding.ivBack.setOnClickListener {
+        binding.ivBack.setOnSingleClickListener {
             finish()
         }
     }
@@ -197,14 +197,14 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun clickAddContents() {
-        binding.tvAddContents.setOnClickListener {
+        binding.tvAddContents.setOnSingleClickListener {
             SaveFragment(categoryName).show(supportFragmentManager, "언니 사랑해")
         }
     }
 
     // 최신순, 과거순, 최근 조회순 다이얼로그별 화면 설정
     private fun setOrderDialog() {
-        binding.clOrder.setOnClickListener {
+        binding.clOrder.setOnSingleClickListener {
             val dialog = DialogContentsFilterFragment().apply {
                 arguments = Bundle().apply {
                     putString(CONTENTS_FILTER, contentsFilter)
@@ -231,7 +231,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun setCategoryListDialog() {
-        binding.clCategory.setOnClickListener {
+        binding.clCategory.setOnSingleClickListener {
             DialogContentsCategoryFragment().apply {
                 arguments = Bundle().apply {
                     putParcelableArrayList(CATEGORY_ITEM_LIST, categoryViewModel.categoryList.value)
@@ -245,7 +245,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
     }
 
     private fun moveSearch() {
-        binding.clSearch.setOnClickListener {
+        binding.clSearch.setOnSingleClickListener {
             val intent = Intent(this, SearchActivity::class.java)
             intent.putExtra(
                 CATEGORY_NAME,
@@ -355,19 +355,19 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     private fun setChipOrder() {
         with(binding) {
-            chAll.setOnClickListener {
+            chAll.setOnSingleClickListener {
                 contentsOption = "all"
                 requestContentsData()
             }
-            chSeen.setOnClickListener {
+            chSeen.setOnSingleClickListener {
                 contentsOption = "true"
                 requestContentsData()
             }
-            chUnseen.setOnClickListener {
+            chUnseen.setOnSingleClickListener {
                 contentsOption = "false"
                 requestContentsData()
             }
-            chAlarm.setOnClickListener {
+            chAlarm.setOnSingleClickListener {
                 contentsOption = "notified"
                 requestContentsData()
             }
@@ -376,7 +376,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
 
     // 수정버튼을 클릭했을 때
     private fun clickModify() {
-        binding.tvModify.setOnClickListener {
+        binding.tvModify.setOnSingleClickListener {
             // 카테고리 이름 list
             val categoryTitleList = ArrayList<String>()
             for (item in categoryViewModel.categoryList.value!!)

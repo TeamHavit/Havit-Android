@@ -12,6 +12,7 @@ import org.sopt.havit.databinding.FragmentContentsMoreBinding
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.Edit_TITLE
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.MOVE_CATEGORY
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.SET_ALARM
+import org.sopt.havit.util.setOnSingleClickListener
 
 class ContentsMoreFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentContentsMoreBinding
@@ -51,21 +52,21 @@ class ContentsMoreFragment : BottomSheetDialogFragment() {
     }
 
     private fun initModifyTitleClick() {
-        binding.clEditTitle.setOnClickListener {
+        binding.clEditTitle.setOnSingleClickListener {
             viewType = Edit_TITLE
             startBottomSheetWithDesignatedView()
         }
     }
 
     private fun initMoveCategoryClick() {
-        binding.clMoveCategory.setOnClickListener {
+        binding.clMoveCategory.setOnSingleClickListener {
             viewType = MOVE_CATEGORY
             startBottomSheetWithDesignatedView()
         }
     }
 
     private fun initSetAlarm() {
-        binding.clSetAlarm.setOnClickListener {
+        binding.clSetAlarm.setOnSingleClickListener {
             viewType = SET_ALARM
             startBottomSheetWithDesignatedView()
         }
@@ -74,8 +75,8 @@ class ContentsMoreFragment : BottomSheetDialogFragment() {
     // 이전 뷰에서 bundle로 보낸 content 데이터 받아오기
     private fun setData() {
         contentsData = arguments?.getParcelable(CONTENTS_MORE_DATA) ?: throw IllegalStateException()
-        showDeleteDialog = arguments?.getSerializable(SHOW_DELETE_DIALOG) as () -> Unit
-        refreshData = arguments?.getSerializable(REFRESH_DATA) as () -> Unit
+        showDeleteDialog = arguments?.getSerializable(SHOW_DELETE_DIALOG)
+        refreshData = arguments?.getSerializable(REFRESH_DATA)
         arguments?.getInt(POSITION, 0)?.let {
             pos = it
         }
@@ -84,7 +85,7 @@ class ContentsMoreFragment : BottomSheetDialogFragment() {
     }
 
     private fun initShareClick() {
-        binding.clEditShare.setOnClickListener {
+        binding.clEditShare.setOnSingleClickListener {
             val intent = Intent(Intent.ACTION_SEND).apply {
                 putExtra(Intent.EXTRA_TEXT, contentsData.url)
                 type = "text/html"
@@ -96,7 +97,7 @@ class ContentsMoreFragment : BottomSheetDialogFragment() {
 
     // 콘텐츠 삭제 버튼 클릭 시 동작 정의
     private fun clickDelete() {
-        binding.clEditDelete.setOnClickListener {
+        binding.clEditDelete.setOnSingleClickListener {
             showDeleteDialog()
             dismiss()
         }
