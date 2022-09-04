@@ -8,7 +8,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.*
+import org.sopt.havit.data.remote.ContentsSimpleResponse
+import org.sopt.havit.data.remote.NotificationResponse
+import org.sopt.havit.data.remote.RecommendationResponse
+import org.sopt.havit.data.remote.UserResponse
 import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.notification.NotificationActivity

@@ -88,6 +88,6 @@ class HomeRecentContentsRvAdapter :
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
             (oldData[oldItemPosition].id == newData[newItemPosition].id) &&
-                (oldData[oldItemPosition].title == newData[newItemPosition].title)
+                    (oldData[oldItemPosition].title == newData[newItemPosition].title)
     }
 }
