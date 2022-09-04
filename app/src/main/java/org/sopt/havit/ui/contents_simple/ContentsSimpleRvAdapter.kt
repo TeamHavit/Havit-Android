@@ -145,7 +145,8 @@ class ContentsSimpleRvAdapter :
             (
                     (oldData[oldItemPosition].id == newData[newItemPosition].id) &&
                             (oldData[oldItemPosition].isSeen == newData[newItemPosition].isSeen) &&
-                            (oldData[oldItemPosition].title == newData[newItemPosition].title)
+                            (oldData[oldItemPosition].title == newData[newItemPosition].title) &&
+                            (oldData[oldItemPosition].notificationTime == newData[newItemPosition].notificationTime)
                     )
     }
 }
