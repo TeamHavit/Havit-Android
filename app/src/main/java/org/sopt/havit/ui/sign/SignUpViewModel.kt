@@ -60,7 +60,8 @@ class SignUpViewModel @Inject constructor(
                     requireNotNull(authRepository.getUserAge()),
                     requireNotNull(authRepository.getUserGender()),
                     requireNotNull(_fcmToken.value),
-                    requireNotNull(authRepository.getKakaoToken())
+                    requireNotNull(authRepository.getKakaoToken()),
+                    requireNotNull(isTosEventCheck.value)
                 )
             }.onSuccess {
                 if (it.success) {
