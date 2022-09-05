@@ -153,7 +153,7 @@ class ContentsSimpleActivity :
 
     // 서버 연결 오류 시 새로 고침(서버 재호출)
     private fun clickRefreshData() {
-        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+        binding.layoutNetworkError.ivRefresh.setOnSingleClickListener {
             it.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotation_refresh))
             setContents()
         }

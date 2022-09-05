@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.databinding.ItemContentsSimpleBinding
+import org.sopt.havit.util.setOnSinglePostClickListener
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -73,7 +74,7 @@ class ContentsSimpleRvAdapter :
             itemMoreClickListener.onMoreClick(it, holder.layoutPosition)
         }
         // 아이템 해빗 클릭 시 onHavitClick() 호출
-        holder.itemView.findViewById<View>(R.id.iv_havit).setOnClickListener {
+        holder.itemView.findViewById<View>(R.id.iv_havit).setOnSinglePostClickListener {
             itemHavitClickListener.onHavitClick(
                 holder.itemView.findViewById(R.id.iv_havit),
                 holder.layoutPosition
@@ -144,7 +145,8 @@ class ContentsSimpleRvAdapter :
             (
                     (oldData[oldItemPosition].id == newData[newItemPosition].id) &&
                             (oldData[oldItemPosition].isSeen == newData[newItemPosition].isSeen) &&
-                            (oldData[oldItemPosition].title == newData[newItemPosition].title)
+                            (oldData[oldItemPosition].title == newData[newItemPosition].title) &&
+                            (oldData[oldItemPosition].notificationTime == newData[newItemPosition].notificationTime)
                     )
     }
 }
