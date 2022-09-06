@@ -52,8 +52,8 @@ class ShareActivity : AppCompatActivity() {
     }
 
     private fun makeSignIn() {
-        HavitAuthUtil.isLoginNow({ isInternetConnected ->
-            if (isInternetConnected) finish()
+        HavitAuthUtil.isLoginNow({ isInternetNotConnected ->
+            if (isInternetNotConnected) showBottomSheetNetworkErrorFragment()
         }) { isLogin ->
             if (!isLogin) moveToSplashWithSignActivity()
             else showBottomSheetShareFragment()
@@ -65,6 +65,11 @@ class ShareActivity : AppCompatActivity() {
             putExtra(WHERE_SPLASH_COME_FROM, SPLASH_FROM_SHARE)
         }
         splashWithSignActivityLauncher.launch(intent)
+    }
+
+    private fun showBottomSheetNetworkErrorFragment() {
+        val bottomSheet = BottomSheetNetworkErrorFragment()
+        bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
     private fun showBottomSheetShareFragment() {
