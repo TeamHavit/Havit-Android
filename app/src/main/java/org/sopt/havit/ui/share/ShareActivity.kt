@@ -12,7 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.ActivityShareBinding
 import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_FROM_SHARE
 import org.sopt.havit.ui.sign.SplashWithSignActivity
-import org.sopt.havit.util.HavitAuthUtil
 import org.sopt.havit.util.MySharedPreference
 
 @AndroidEntryPoint
@@ -52,12 +51,11 @@ class ShareActivity : AppCompatActivity() {
     }
 
     private fun makeSignIn() {
-        HavitAuthUtil.isLoginNow({ isInternetNotConnected ->
-            if (isInternetNotConnected) showBottomSheetNetworkErrorFragment()
-        }) { isLogin ->
-            if (!isLogin) moveToSplashWithSignActivity()
-            else showBottomSheetShareFragment()
-        }
+        viewModel.makeSignIn(
+            internetError = { showBottomSheetNetworkErrorFragment() },
+            onUnAuthorized = { moveToSplashWithSignActivity() },
+            onAuthorized = { showBottomSheetShareFragment() }
+        )
     }
 
     private fun moveToSplashWithSignActivity() {

@@ -8,6 +8,7 @@ import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
 import org.sopt.havit.util.Event
+import org.sopt.havit.util.HavitAuthUtil
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -19,6 +20,20 @@ class ShareViewModel @Inject constructor(
 ) : ViewModel() {
     /** token */
     val token = authRepository.getAccessToken()
+
+    /** auth */
+    fun makeSignIn(
+        internetError: () -> Unit,
+        onUnAuthorized: () -> Unit,
+        onAuthorized: () -> Unit
+    ) {
+        HavitAuthUtil.isLoginNow({ isInternetNotConnected ->
+            if (isInternetNotConnected) internetError()
+        }) { isLogin ->
+            if (!isLogin) onUnAuthorized()
+            else onAuthorized()
+        }
+    }
 
     /** url*/
     private var _url = MutableLiveData<String>()
