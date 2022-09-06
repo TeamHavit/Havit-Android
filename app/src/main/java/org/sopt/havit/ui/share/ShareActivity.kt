@@ -40,7 +40,7 @@ class ShareActivity : AppCompatActivity() {
 
     private fun onSlashWithSignActivityFinish(result: ActivityResult) {
         when (result.resultCode) {
-            Activity.RESULT_OK -> startSavingContents()
+            Activity.RESULT_OK -> showBottomSheetShareFragment()
             else -> finish()
         }
     }
@@ -56,15 +56,7 @@ class ShareActivity : AppCompatActivity() {
             if (isInternetConnected) finish()
         }) { isLogin ->
             if (!isLogin) moveToSplashWithSignActivity()
-            else startSavingContents()
-        }
-    }
-
-    private fun startSavingContents() {
-        HavitAuthUtil.isLoginNow({ isInternetConnected ->
-            if (isInternetConnected) finish()
-        }) { isLogin ->
-            if (isLogin) showBottomSheetShareFragment()
+            else showBottomSheetShareFragment()
         }
     }
 
