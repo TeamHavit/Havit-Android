@@ -1,8 +1,10 @@
 package org.sopt.havit.ui.share
 
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,6 +15,7 @@ import org.sopt.havit.databinding.ActivityShareBinding
 import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_FROM_SHARE
 import org.sopt.havit.ui.sign.SplashWithSignActivity
 import org.sopt.havit.util.MySharedPreference
+import java.io.Serializable
 
 @AndroidEntryPoint
 class ShareActivity : AppCompatActivity() {
@@ -51,6 +54,7 @@ class ShareActivity : AppCompatActivity() {
     }
 
     private fun makeSignIn() {
+        Log.d(TAG, "makeSignIn: ")
         viewModel.makeSignIn(
             internetError = { showBottomSheetNetworkErrorFragment() },
             onUnAuthorized = { moveToSplashWithSignActivity() },
@@ -66,7 +70,11 @@ class ShareActivity : AppCompatActivity() {
     }
 
     private fun showBottomSheetNetworkErrorFragment() {
-        val bottomSheet = BottomSheetNetworkErrorFragment()
+        val bottomSheet = BottomSheetNetworkErrorFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(ON_NETWORK_ERROR_DISMISS, { makeSignIn() } as Serializable)
+            }
+        }
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
@@ -87,9 +95,11 @@ class ShareActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         MySharedPreference.clearTitle(this)
+        Log.d(TAG, "onDestroy: shareActivity destroyed // makeSignIn")
     }
 
     companion object {
         const val WHERE_SPLASH_COME_FROM = "WHERE_SPLASH_COME_FROM"
+        const val ON_NETWORK_ERROR_DISMISS = "ON_NETWORK_ERROR_DISMISS"
     }
 }

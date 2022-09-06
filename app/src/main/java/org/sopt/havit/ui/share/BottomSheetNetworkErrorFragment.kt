@@ -1,7 +1,6 @@
 package org.sopt.havit.ui.share
 
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,16 +12,25 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentBottomSheetNetworkErrorBinding
+import org.sopt.havit.ui.share.ShareActivity.Companion.ON_NETWORK_ERROR_DISMISS
 import org.sopt.havit.util.setOnSingleClickListener
 
 class BottomSheetNetworkErrorFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentBottomSheetNetworkErrorBinding? = null
     private val binding get() = _binding!!
+    private lateinit var onDismiss: () -> Unit
     private val viewModel: ShareViewModel by activityViewModels()
 
     // Round Corner
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return BottomSheetDialog(requireContext(), R.style.AppBottomSheetDialogTheme)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            onDismiss = it.getSerializable(ON_NETWORK_ERROR_DISMISS) as () -> Unit
+        }
     }
 
     override fun onCreateView(
@@ -42,7 +50,10 @@ class BottomSheetNetworkErrorFragment : BottomSheetDialogFragment() {
     }
 
     private fun onClickCloseButton() {
-        binding.ibClose.setOnClickListener { dismiss() }
+        binding.ibClose.setOnClickListener {
+            dismiss()
+            requireActivity().finish()
+        }
     }
 
     private fun setBottomSheetHeight() {
@@ -63,20 +74,15 @@ class BottomSheetNetworkErrorFragment : BottomSheetDialogFragment() {
                 )
             )
             viewModel.makeSignIn(internetError = {},
-                onUnAuthorized = { restartShareActivity() },
-                onAuthorized = { restartShareActivity() })
+                onUnAuthorized = { dismiss() },
+                onAuthorized = { dismiss() })
         }
     }
 
-    private fun restartShareActivity() {
-        dismiss()
-        startActivity(Intent(requireContext(), ShareActivity::class.java))
-    }
-
     override fun onDestroy() {
+        onDismiss()
         super.onDestroy()
         _binding = null
-        requireActivity().finish()
     }
 
 }
