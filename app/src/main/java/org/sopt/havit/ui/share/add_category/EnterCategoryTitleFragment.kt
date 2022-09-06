@@ -35,8 +35,8 @@ class EnterCategoryTitleFragment :
             kotlin.runCatching {
                 val response =
                     RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
-                        .getAllCategory()
-                for (element in response.data) categoryTitleList += element.title
+                        .getAllCategories().data ?: emptyList()
+                for (element in response) categoryTitleList += element.title
             }
         }
     }

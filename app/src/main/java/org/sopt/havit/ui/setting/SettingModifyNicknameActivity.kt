@@ -9,6 +9,7 @@ import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.KeyBoardUtil.setUpAsSoftKeyboard
+import org.sopt.havit.util.setOnSinglePostClickListener
 
 @AndroidEntryPoint
 class SettingModifyNicknameActivity :
@@ -39,7 +40,7 @@ class SettingModifyNicknameActivity :
         // 텍스트 삭제 버튼
         binding.ivNicknameDelete.setOnClickListener { binding.etNickname.text.clear() }
         // 완료 버튼
-        binding.btnComplete.setOnClickListener {
+        binding.btnComplete.setOnSinglePostClickListener {
             settingViewModel.requestNewNickname(binding.etNickname.text.toString())
             finish()
         }

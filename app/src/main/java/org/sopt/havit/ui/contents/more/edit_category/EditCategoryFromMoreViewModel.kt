@@ -9,7 +9,7 @@ import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.mapper.CategoryMapper
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.data.remote.ModifyContentCategoryParams
-import org.sopt.havit.domain.entity.Category
+import org.sopt.havit.domain.entity.CategoryWithSelected
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.util.Event
 import javax.inject.Inject
@@ -21,7 +21,7 @@ class EditCategoryFromMoreViewModel @Inject constructor(
 ) : ViewModel() {
     private val token = authRepository.getAccessToken()
     private val contentsId = MutableLiveData<Int>()
-    var categoryList = MutableLiveData<List<Category>>()
+    var categoryList = MutableLiveData<List<CategoryWithSelected>>()
         private set
     private var originCategoryId = MutableLiveData<List<Int>>()
     private var newCategoryId = MutableLiveData<List<Int>>()

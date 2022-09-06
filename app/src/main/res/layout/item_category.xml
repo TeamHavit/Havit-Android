@@ -7,7 +7,7 @@
 
         <variable
             name="category"
-            type="org.sopt.havit.data.remote.CategoryResponse.AllCategoryData" />
+            type="org.sopt.havit.domain.entity.Category" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

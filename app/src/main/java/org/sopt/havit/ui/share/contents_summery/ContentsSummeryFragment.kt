@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -37,7 +38,7 @@ class ContentsSummeryFragment : Fragment() {
     private lateinit var cateIdString: List<String>
     private lateinit var cateIdInt: MutableList<Int>
     private lateinit var ogData: ContentsSummeryData
-    private val categoryViewModel: CategoryViewModel by lazy { CategoryViewModel(requireContext()) }
+    private val categoryViewModel: CategoryViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

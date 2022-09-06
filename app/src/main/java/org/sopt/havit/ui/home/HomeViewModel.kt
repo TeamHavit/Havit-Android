@@ -8,7 +8,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.*
+import org.sopt.havit.data.remote.ContentsSimpleResponse
+import org.sopt.havit.data.remote.NotificationResponse
+import org.sopt.havit.data.remote.RecommendationResponse
+import org.sopt.havit.data.remote.UserResponse
+import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.notification.NotificationActivity
 import org.sopt.havit.util.MySharedPreference
@@ -50,16 +54,16 @@ class HomeViewModel(context: Context) : ViewModel() {
     }
 
     // 카테고리 전체 데이터
-    private val _categoryData = MutableLiveData<List<CategoryResponse.AllCategoryData>>()
-    val categoryData: LiveData<List<CategoryResponse.AllCategoryData>> = _categoryData
+    private val _categoryData = MutableLiveData<List<Category>>()
+    val categoryData: LiveData<List<Category>> = _categoryData
     fun requestCategoryTaken() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response =
                     RetrofitObject.provideHavitApi(token)
-                        .getAllCategory()
+                        .getAllCategories()
                 checkLoadState()
-                _categoryData.postValue(response.data)
+                _categoryData.postValue(response.data ?: emptyList())
                 _categoryLoadState.postValue(NetworkState.SUCCESS)
                 checkLoadState()
             } catch (e: Exception) {
@@ -71,12 +75,12 @@ class HomeViewModel(context: Context) : ViewModel() {
     // category 전체 데이터를 6개씩 잘라 List로 묶는 함수
     fun setList(
         data:
-        List<CategoryResponse.AllCategoryData>,
+        List<Category>,
         totalNum: Int
-    ): MutableList<List<CategoryResponse.AllCategoryData>> {
-        val list = mutableListOf(listOf<CategoryResponse.AllCategoryData>())
+    ): MutableList<List<Category>> {
+        val list = mutableListOf(listOf<Category>())
         var count = 0
-        val firstData = CategoryResponse.AllCategoryData(
+        val firstData = Category(
             totalNum,
             -1,
             -1,
@@ -87,7 +91,7 @@ class HomeViewModel(context: Context) : ViewModel() {
         list.clear()
         while (data.size > count) {
             if (count == 0) {
-                val firstPage = mutableListOf<CategoryResponse.AllCategoryData>()
+                val firstPage = mutableListOf<Category>()
                 firstPage.clear()
                 firstPage.add(firstData)
                 val min = if (data.size < 5) (data.size - 1) else 4

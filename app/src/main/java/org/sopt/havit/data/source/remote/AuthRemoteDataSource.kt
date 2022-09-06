@@ -11,7 +11,8 @@ interface AuthRemoteDataSource {
         age: Int,
         gender: String,
         fcmToken: String,
-        kakaoToken: String
+        kakaoToken: String,
+        isMarketing: Boolean
     ): SignUpResponse
 
     suspend fun checkNewUser(fcmToken: String, kakaoToken: String): SignInResponse

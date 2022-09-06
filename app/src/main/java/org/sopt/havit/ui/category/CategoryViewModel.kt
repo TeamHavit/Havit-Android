@@ -1,33 +1,30 @@
 package org.sopt.havit.ui.category
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.CategoryModifyRequest
-import org.sopt.havit.data.remote.CategoryOrderRequest
-import org.sopt.havit.data.remote.CategoryResponse
+import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.domain.entity.NetworkState
-import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.domain.repository.CategoryRepository
+import javax.inject.Inject
 
-class CategoryViewModel(context: Context) : ViewModel() {
-    private val token = MySharedPreference.getXAuthToken(context)
+@HiltViewModel
+class CategoryViewModel @Inject constructor(
+    private val categoryRepository: CategoryRepository
+) : ViewModel() {
 
     private val _categoryCount = MutableLiveData(-1)
     val categoryCount: LiveData<Int> = _categoryCount
 
-    private val _categoryList = MutableLiveData<ArrayList<CategoryResponse.AllCategoryData>>()
-    val categoryList: LiveData<ArrayList<CategoryResponse.AllCategoryData>> = _categoryList
+    private val _categoryList = MutableLiveData<ArrayList<Category>>()
+    val categoryList: LiveData<ArrayList<Category>>
+        get() = _categoryList
 
     private val _shareDelay = MutableLiveData(false)
     val shareDelay: LiveData<Boolean> = _shareDelay
-
-    private val _categoryLoad = MutableLiveData(true)
-    val categoryLoad: LiveData<Boolean> = _categoryLoad
 
     private val _deleteState = MutableLiveData<NetworkState>()
     val deleteState: LiveData<NetworkState> = _deleteState
@@ -36,60 +33,58 @@ class CategoryViewModel(context: Context) : ViewModel() {
     val orderModifyState: LiveData<NetworkState> = _orderModifyState
 
     private val _loadState = MutableLiveData(NetworkState.LOADING)
-    val loadState: LiveData<NetworkState> = _loadState
+    val loadState: LiveData<NetworkState>
+        get() = _loadState
 
     private val _modifyState = MutableLiveData<NetworkState>()
     val modifyState: LiveData<NetworkState> = _modifyState
 
-    fun requestCategoryTaken() {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun getAllCategories() {
+        viewModelScope.launch {
             kotlin.runCatching {
-                val response =
-                    RetrofitObject.provideHavitApi(token).getAllCategory()
-                _categoryList.postValue(response.data as ArrayList<CategoryResponse.AllCategoryData>)
-                _categoryCount.postValue(response.data.size)
+                categoryRepository.getAllCategories()
             }.onSuccess {
-                _loadState.postValue(NetworkState.SUCCESS)
+                _categoryList.value = it as ArrayList<Category>
+                _categoryCount.value = it.size
+                _loadState.value = NetworkState.SUCCESS
             }.onFailure {
-                _loadState.postValue(NetworkState.FAIL)
+                _loadState.value = NetworkState.FAIL
             }
         }
     }
 
     fun requestCategoryOrder(list: List<Int>) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             kotlin.runCatching {
-                val list = CategoryOrderRequest(list)
-                RetrofitObject.provideHavitApi(token).modifyCategoryOrder(list)
+                categoryRepository.updateCategoryOrder(categoryIndexArray = list)
             }.onSuccess {
-                _orderModifyState.postValue(NetworkState.SUCCESS)
+                _orderModifyState.value = NetworkState.SUCCESS
             }.onFailure {
-                _orderModifyState.postValue(NetworkState.FAIL)
+                _orderModifyState.value = NetworkState.FAIL
             }
         }
     }
 
     fun requestCategoryContent(id: Int, imageId: Int, title: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             kotlin.runCatching {
-                val content = CategoryModifyRequest(title, imageId)
-                RetrofitObject.provideHavitApi(token).modifyCategoryContent(id, content)
+                categoryRepository.updateCategoryInfo(id = id, title = title, imageId = imageId)
             }.onSuccess {
-                _modifyState.postValue(NetworkState.SUCCESS)
+                _modifyState.value = NetworkState.SUCCESS
             }.onFailure {
-                _modifyState.postValue(NetworkState.FAIL)
+                _modifyState.value = NetworkState.FAIL
             }
         }
     }
 
     fun requestCategoryDelete(id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             kotlin.runCatching {
-                RetrofitObject.provideHavitApi(token).deleteCategory(id)
+                categoryRepository.deleteCategory(id)
             }.onSuccess {
-                _deleteState.postValue(NetworkState.SUCCESS)
+                _deleteState.value = NetworkState.SUCCESS
             }.onFailure {
-                _deleteState.postValue(NetworkState.FAIL)
+                _deleteState.value = NetworkState.FAIL
             }
         }
     }

@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
-import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemHomeCategoryListBinding
+import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.ui.category.CategoryFragment
 import org.sopt.havit.ui.contents.ContentsActivity
 
@@ -16,7 +16,7 @@ class HomeCategoryRvAdapter(page: Int) :
     RecyclerView.Adapter<HomeCategoryRvAdapter.HomeCategoryRvViewHolder>() {
 
     private lateinit var binding: ItemHomeCategoryListBinding
-    val categoryList = mutableListOf<CategoryResponse.AllCategoryData>()
+    val categoryList = mutableListOf<Category>()
     private var viewType = 1
     private val pagePosition = page
 
@@ -26,7 +26,7 @@ class HomeCategoryRvAdapter(page: Int) :
 
     class HomeCategoryRvViewHolder(private val binding: ItemHomeCategoryListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: CategoryResponse.AllCategoryData, position: Int) {
+        fun onBind(data: Category, position: Int) {
             binding.homeCategoryData = data
             binding.tvTitle.text = data.title
             if (position == isFirst) {

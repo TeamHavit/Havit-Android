@@ -69,11 +69,11 @@ class DialogOkUtil(private val dialogMode: Int, private val doAfterConfirm: () -
     }
 
     private fun clickListener() {
-        binding.ivClose.setOnClickListener {
+        binding.ivClose.setOnSingleClickListener {
             dismiss()
             doAfterConfirm()
         }
-        binding.btnConfirm.setOnClickListener {
+        binding.btnConfirm.setOnSinglePostClickListener {
             dismiss()
             doAfterConfirm()
         }

@@ -72,6 +72,7 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
         with(searchContentsAdapter) {
             setItemSettingClickListener(object : SearchContentsAdapter.OnItemSettingClickListener {
                 override fun onSettingClick(v: View, data: Contents, pos: Int) {
+
                     val showDeleteDialog: () -> Unit = {
                         val dialog =
                             DialogUtil(DialogUtil.REMOVE_CONTENTS) {
@@ -164,6 +165,13 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
     }
 
     private fun observers() {
+        searchViewModel.searchReload.observe(this) {
+            if (categoryId.isEmpty()) searchViewModel.getSearchContents(binding.etSearch.text.toString())
+            else searchViewModel.getSearchContentsInCategories(
+                categoryId,
+                binding.etSearch.text.toString()
+            )
+        }
         searchViewModel.searchResult.observe(this) {
             if (!it.isNullOrEmpty()) {
                 searchContentsAdapter.setItem(it)

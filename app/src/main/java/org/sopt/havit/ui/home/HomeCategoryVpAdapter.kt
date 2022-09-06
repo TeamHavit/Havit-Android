@@ -4,16 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.ItemHomeCategoryRecyclerviewBinding
+import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.ui.home.HomeCategoryRvAdapter.Companion.isFirst
 
 class HomeCategoryVpAdapter : RecyclerView.Adapter<HomeCategoryVpAdapter.HomeCategoryViewHolder>() {
-    var categoryList = mutableListOf<List<CategoryResponse.AllCategoryData>>()
+    var categoryList = mutableListOf<List<Category>>()
 
     class HomeCategoryViewHolder(private val binding: ItemHomeCategoryRecyclerviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: List<CategoryResponse.AllCategoryData>, position: Int) {
+        fun onBind(data: List<Category>, position: Int) {
             val rvCategoryAdapter = HomeCategoryRvAdapter(position)
             binding.rvCategory.adapter = rvCategoryAdapter
             rvCategoryAdapter.categoryList.addAll(
@@ -40,7 +40,7 @@ class HomeCategoryVpAdapter : RecyclerView.Adapter<HomeCategoryVpAdapter.HomeCat
 
     override fun getItemCount(): Int = categoryList.size
 
-    fun updateList(items: List<List<CategoryResponse.AllCategoryData>>?) {
+    fun updateList(items: List<List<Category>>?) {
         items?.let {
             val diffCallback = DiffUtilCallback(this.categoryList, items)
             val diffResult = DiffUtil.calculateDiff(diffCallback)
@@ -53,8 +53,8 @@ class HomeCategoryVpAdapter : RecyclerView.Adapter<HomeCategoryVpAdapter.HomeCat
     }
 
     inner class DiffUtilCallback(
-        private val oldData: List<List<CategoryResponse.AllCategoryData>>,
-        private val newData: List<List<CategoryResponse.AllCategoryData>>
+        private val oldData: List<List<Category>>,
+        private val newData: List<List<Category>>
     ) : DiffUtil.Callback() {
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             val oldItem = oldData[oldItemPosition]

@@ -13,8 +13,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.sopt.havit.R
-import org.sopt.havit.data.remote.CategoryResponse
 import org.sopt.havit.databinding.FragmentDialogContentsCategoryBinding
+import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ITEM_LIST
 
@@ -23,7 +23,7 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
     val binding get() = _binding!!
     private var _contentsCategoryAdapter: ContentsCategoryAdapter? = null
     private val contentsCategoryAdapter get() = _contentsCategoryAdapter ?: error("adapter error")
-    private lateinit var categoryList: ArrayList<CategoryResponse.AllCategoryData>
+    private lateinit var categoryList: ArrayList<Category>
     private var categoryId = 0
 
     override fun onCreateView(
@@ -40,9 +40,9 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
             false
         )
 
-        categoryList = requireArguments().getParcelableArrayList<CategoryResponse.AllCategoryData>(
+        categoryList = requireArguments().getParcelableArrayList<Category>(
             CATEGORY_ITEM_LIST
-        ) as ArrayList<CategoryResponse.AllCategoryData>
+        ) as ArrayList<Category>
         categoryId = requireArguments().getInt(CATEGORY_ID)
         return binding.root
     }
