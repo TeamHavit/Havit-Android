@@ -19,6 +19,7 @@ import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_IMAGE_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ITEM_LIST
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_POSITION
 
 class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentDialogContentsCategoryBinding? = null
@@ -122,6 +123,7 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
                 intent.putExtra(CATEGORY_ID, it.id)
                 intent.putExtra(CATEGORY_NAME, it.title)
                 intent.putExtra(CATEGORY_IMAGE_ID, it.imageId)
+                intent.putExtra(CATEGORY_POSITION, position)
             }
         startActivity(intent)
         requireActivity().finish()
