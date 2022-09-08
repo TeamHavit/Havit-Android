@@ -16,7 +16,9 @@ import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentDialogContentsCategoryBinding
 import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_IMAGE_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ITEM_LIST
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
 
 class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentDialogContentsCategoryBinding? = null
@@ -101,12 +103,12 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
     // 클릭한 카테고리로 이동
     private fun setCategoryItemClickListener() {
         contentsCategoryAdapter.setItemCategoryClickListener(object :
-                ContentsCategoryAdapter.OnItemClickListener {
-                override fun onClick(v: View, position: Int) {
-                    setCategoryItemBackGroundColor(v)
-                    moveSelectedCategoryContents(position)
-                }
-            })
+            ContentsCategoryAdapter.OnItemClickListener {
+            override fun onClick(v: View, position: Int) {
+                setCategoryItemBackGroundColor(v)
+                moveSelectedCategoryContents(position)
+            }
+        })
     }
 
     private fun setCategoryItemBackGroundColor(view: View) {
@@ -117,8 +119,9 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
         val intent = Intent(requireActivity(), ContentsActivity::class.java)
         contentsCategoryAdapter.contentsCategoryList[position]
             .let {
-                intent.putExtra("categoryId", it.id)
-                intent.putExtra("categoryName", it.title)
+                intent.putExtra(CATEGORY_ID, it.id)
+                intent.putExtra(CATEGORY_NAME, it.title)
+                intent.putExtra(CATEGORY_IMAGE_ID, it.imageId)
             }
         startActivity(intent)
         requireActivity().finish()
