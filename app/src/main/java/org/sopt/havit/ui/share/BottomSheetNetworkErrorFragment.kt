@@ -50,7 +50,7 @@ class BottomSheetNetworkErrorFragment : BottomSheetDialogFragment() {
     }
 
     private fun onClickCloseButton() {
-        binding.ibClose.setOnClickListener {
+        binding.networkErrorLayout.ibClose.setOnClickListener {
             dismiss()
             requireActivity().finish()
         }
@@ -66,7 +66,7 @@ class BottomSheetNetworkErrorFragment : BottomSheetDialogFragment() {
     }
 
     private fun onClickRefreshButton() {
-        binding.ivRefresh.setOnSingleClickListener {
+        binding.networkErrorLayout.ivRefresh.setOnSingleClickListener {
             it.startAnimation(
                 AnimationUtils.loadAnimation(
                     requireContext(),
