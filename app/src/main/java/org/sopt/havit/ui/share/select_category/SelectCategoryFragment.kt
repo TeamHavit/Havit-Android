@@ -5,17 +5,20 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentSelectCategoryBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.ui.contents.more.edit_category.EditCategoryAdapter
 import org.sopt.havit.ui.share.ShareViewModel
 
+@AndroidEntryPoint
 class SelectCategoryFragment :
     BaseBindingFragment<FragmentSelectCategoryBinding>(R.layout.fragment_select_category) {
 
     private val viewModel: ShareViewModel by activityViewModels()
 
-    private lateinit var categorySelectableAdapter: CategorySelectableAdapter
+    private lateinit var categoryAdapter: EditCategoryAdapter
     lateinit var clickCountList: Array<Boolean>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,52 +43,20 @@ class SelectCategoryFragment :
     }
 
     private fun initAdapter() {
-        categorySelectableAdapter = CategorySelectableAdapter()
-        binding.selectCategory.rvCategory.adapter = categorySelectableAdapter
+        binding.selectCategory.rvCategory.adapter =
+            EditCategoryAdapter(::onCategoryClick).also { categoryAdapter = it }
+
+    }
+
+    private fun onCategoryClick(position: Int) {
+        viewModel.onCategoryClick(position)
+        categoryAdapter.notifyItemChanged(position)
     }
 
     private fun setCategoryDataOnAdapter() {
-        viewModel.categoryList.observe(viewLifecycleOwner) {
-            categorySelectableAdapter.apply {
-                categorySelectableList.addAll(it)
-                clickedCategory = MutableList(it.size) { false }
-                notifyDataSetChanged()
-            }
-            onClickCategory()
+        viewModel.categoryList.observe(viewLifecycleOwner) { list ->
+            categoryAdapter.submitList(list)
         }
-    }
-
-    private fun onClickCategory() {
-        val categorySize = viewModel.categoryNum.value ?: throw IllegalStateException()
-        clickCountList = Array(categorySize) { false }
-
-        categorySelectableAdapter.setItemClickListener(object :
-            CategorySelectableAdapter.OnItemClickListener {
-            override fun onClick(v: View, position: Int) {
-
-                clickCountList[position] = !clickCountList[position]
-
-                if (isSelectedLeastOneCategory()) {
-                    binding.selectCategory.btnNext.isEnabled = true
-                    binding.selectCategory.btnNext.setBackgroundResource(R.drawable.rectangle_havit_purple)
-                } else {
-                    binding.selectCategory.btnNext.isEnabled = false
-                    binding.selectCategory.btnNext.setBackgroundResource(R.drawable.rectangle_gray_2)
-                }
-            }
-        })
-    }
-
-    private fun isSelectedLeastOneCategory(): Boolean {
-        val cateSize = clickCountList.size
-        var isMoreThanOne = false
-        for (i in 0 until cateSize) {
-            if (clickCountList[i]) {
-                isMoreThanOne = true
-                break
-            }
-        }
-        return isMoreThanOne
     }
 
     private fun initListener() {

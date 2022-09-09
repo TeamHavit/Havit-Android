@@ -9,7 +9,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.CategoryResponse.AllCategoryData
+import org.sopt.havit.data.mapper.CategoryMapper
+import org.sopt.havit.domain.entity.CategoryWithSelected
+import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
@@ -19,10 +21,12 @@ import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 @HiltViewModel
 class ShareViewModel @Inject constructor(
-    authRepository: AuthRepository
+    authRepository: AuthRepository,
+    private val categoryMapper: CategoryMapper
 ) : ViewModel() {
     /** token */
     val token = authRepository.getAccessToken()
@@ -48,24 +52,60 @@ class ShareViewModel @Inject constructor(
     private val _categoryNum = MutableLiveData<Int>()
     val categoryNum: LiveData<Int> = _categoryNum
 
-    private val _categoryList = MutableLiveData<List<AllCategoryData>>()
-    val categoryList: LiveData<List<AllCategoryData>> = _categoryList
+    private val _categoryList = MutableLiveData<MutableList<CategoryWithSelected>>()
+    val categoryList: LiveData<MutableList<CategoryWithSelected>> = _categoryList
+
+    private var selectedCategoryId = MutableLiveData<List<Int>>()
+
+    var categoryViewState: NetworkStatus by Delegates.observable(NetworkStatus.Init()) { _, _, newState ->
+        when (newState) {
+            is NetworkStatus.Init -> {}
+            is NetworkStatus.Loading -> {}
+            is NetworkStatus.Success -> {}
+            is NetworkStatus.Error -> {}
+        }
+    }
 
     fun getCategoryData() {
+        categoryViewState = NetworkStatus.Loading()
         viewModelScope.launch {
             kotlin.runCatching {
                 val response = RetrofitObject.provideHavitApi(token).getCategoryList().data
-
-                Log.d(TAG, "getCategoryData: $response, ${response.size}")
-                _categoryList.value = response
+                _categoryList.value = response.toMutableList()
                 _categoryNum.value = response.size
                 _hasCategory.value = response.isNotEmpty()
             }.onSuccess {
-
+                Log.d(TAG, "getCategoryData: success $_categoryList")
+                categoryViewState = NetworkStatus.Success()
             }.onFailure {
-
+                Log.d(TAG, "getCategoryData: failure $_categoryList")
+                categoryViewState = NetworkStatus.Error(it)
+            }.run {
+                Log.d(TAG, "getCategoryData: run")
+                //categoryViewState = NetworkStatus.Init()
             }
         }
+    }
+
+    fun onCategoryClick(position: Int) {
+        toggleItemSelected(position)
+        setIsCategorySelectedAtLeastOne()
+    }
+
+    private fun toggleItemSelected(position: Int) {
+        Log.d(TAG, "toggleItemSelected: $position")
+        categoryList.value?.let {
+            it[position].isSelected = !it[position].isSelected
+        }
+    }
+
+    var isCategorySelectedAtLeastOne = MutableLiveData(true)
+
+    private fun setIsCategorySelectedAtLeastOne() {
+        selectedCategoryId.value = categoryList.value?.filter { it.isSelected == true }?.map {
+            categoryMapper.toCategoryId(it)
+        }
+        isCategorySelectedAtLeastOne.value = selectedCategoryId.value?.size != 0
     }
 
 
