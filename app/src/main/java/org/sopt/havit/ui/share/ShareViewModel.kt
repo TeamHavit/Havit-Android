@@ -1,9 +1,15 @@
 package org.sopt.havit.ui.share
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.remote.CategoryResponse.AllCategoryData
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
@@ -34,6 +40,34 @@ class ShareViewModel @Inject constructor(
             else onAuthorized()
         }
     }
+
+    /** Category */
+    private val _hasCategory = MutableLiveData(true)
+    val hasCategory: LiveData<Boolean> = _hasCategory
+
+    private val _categoryNum = MutableLiveData<Int>()
+    val categoryNum: LiveData<Int> = _categoryNum
+
+    private val _categoryList = MutableLiveData<List<AllCategoryData>>()
+    val categoryList: LiveData<List<AllCategoryData>> = _categoryList
+
+    fun getCategoryData() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                val response = RetrofitObject.provideHavitApi(token).getCategoryList().data
+
+                Log.d(TAG, "getCategoryData: $response, ${response.size}")
+                _categoryList.value = response
+                _categoryNum.value = response.size
+                _hasCategory.value = response.isNotEmpty()
+            }.onSuccess {
+
+            }.onFailure {
+
+            }
+        }
+    }
+
 
     /** url*/
     private var _url = MutableLiveData<String>()

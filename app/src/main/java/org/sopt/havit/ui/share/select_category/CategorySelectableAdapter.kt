@@ -13,7 +13,7 @@ import org.sopt.havit.databinding.ItemCategorySelectableBinding
 class CategorySelectableAdapter :
     RecyclerView.Adapter<CategorySelectableAdapter.CategorySelectableViewHolder>() {
     val categorySelectableList = mutableListOf<CategoryResponse.AllCategoryData>()
-    lateinit var clickedCategory: Array<Boolean>
+    var clickedCategory = mutableListOf<Boolean>()
 //    var clickedCategory = Array(categorySelectableList.size) { _ -> false }
 
     override fun onCreateViewHolder(

@@ -54,7 +54,6 @@ class ShareActivity : AppCompatActivity() {
     }
 
     private fun makeSignIn() {
-        Log.d(TAG, "makeSignIn: ")
         viewModel.makeSignIn(
             internetError = { showBottomSheetNetworkErrorFragment() },
             onUnAuthorized = { moveToSplashWithSignActivity() },
