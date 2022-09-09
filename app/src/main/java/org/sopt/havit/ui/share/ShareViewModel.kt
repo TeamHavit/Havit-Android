@@ -21,7 +21,6 @@ import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import javax.inject.Inject
-import kotlin.properties.Delegates
 
 @HiltViewModel
 class ShareViewModel @Inject constructor(
@@ -57,31 +56,22 @@ class ShareViewModel @Inject constructor(
 
     private var selectedCategoryId = MutableLiveData<List<Int>>()
 
-    var categoryViewState: NetworkStatus by Delegates.observable(NetworkStatus.Init()) { _, _, newState ->
-        when (newState) {
-            is NetworkStatus.Init -> {}
-            is NetworkStatus.Loading -> {}
-            is NetworkStatus.Success -> {}
-            is NetworkStatus.Error -> {}
-        }
-    }
+    private val _categoryViewState = MutableLiveData<NetworkStatus>()
+    val categoryViewState: LiveData<NetworkStatus> = _categoryViewState
 
     fun getCategoryData() {
-        categoryViewState = NetworkStatus.Loading()
         viewModelScope.launch {
+            _categoryViewState.value = NetworkStatus.Loading()
             kotlin.runCatching {
                 val response = RetrofitObject.provideHavitApi(token).getCategoryList().data
                 _categoryList.value = response.toMutableList()
                 _categoryNum.value = response.size
                 _hasCategory.value = response.isNotEmpty()
             }.onSuccess {
-                Log.d(TAG, "getCategoryData: success $_categoryList")
-                categoryViewState = NetworkStatus.Success()
+                _categoryViewState.value = NetworkStatus.Success()
             }.onFailure {
-                Log.d(TAG, "getCategoryData: failure $_categoryList")
-                categoryViewState = NetworkStatus.Error(it)
+                _categoryViewState.value = NetworkStatus.Error(it)
             }.run {
-                Log.d(TAG, "getCategoryData: run")
                 //categoryViewState = NetworkStatus.Init()
             }
         }

@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.sopt.havit.R
+import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.util.CalenderUtil.setDateFormat
 import org.sopt.havit.util.CalenderUtil.setDateFormatOnCategoryView
 import org.sopt.havit.util.CalenderUtil.setDateFormatOnRadioBtn
@@ -205,5 +206,11 @@ object BindingAdapter {
     @JvmStatic
     fun AppCompatButton.setBtnEnable(isEnabled: Boolean) {
         this.isEnabled = isEnabled
+    }
+
+    @BindingAdapter("showOnError")
+    @JvmStatic
+    fun View.showError(responseState: NetworkStatus) {
+        visibility = if (responseState is NetworkStatus.Error) View.VISIBLE else View.GONE
     }
 }

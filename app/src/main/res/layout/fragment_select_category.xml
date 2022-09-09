@@ -11,6 +11,10 @@
             name="viewModel"
             type="org.sopt.havit.ui.share.ShareViewModel" />
 
+        <variable
+            name="view"
+            type="org.sopt.havit.domain.model.NetworkStatus" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,9 +79,11 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/category_view_on_error"
+            showOnError="@{viewModel.categoryViewState}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            tools:visibility="gone">
 
             <include
                 android:id="@+id/network_error_layout"
