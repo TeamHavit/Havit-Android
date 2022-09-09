@@ -20,7 +20,10 @@ class HomeRecentContentsRvAdapter :
             if (data.createdAt.length == 16) {
                 changeTimeFormat(data) // 시간 형식 변경
             }
-            data.description = data.description.replace(" ", "\u00a0") // tvHeader 단어 자동줄바꿈 막는 코드
+            binding.homeRecentData = data.apply {
+                this.description =
+                    this.description?.replace(" ", "\u00a0") ?: "" // tvHeader 단어 자동줄바꿈 막는 코드
+            }
             binding.homeRecentData = data
         }
 
