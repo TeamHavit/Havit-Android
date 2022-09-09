@@ -9,7 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentSelectCategoryBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
-import org.sopt.havit.ui.contents.more.edit_category.EditCategoryAdapter
+import org.sopt.havit.ui.contents.more.edit_category.SelectableCategoryAdapter
 import org.sopt.havit.ui.share.ShareViewModel
 
 @AndroidEntryPoint
@@ -18,7 +18,7 @@ class SelectCategoryFragment :
 
     private val viewModel: ShareViewModel by activityViewModels()
 
-    private lateinit var categoryAdapter: EditCategoryAdapter
+    private lateinit var categoryAdapter: SelectableCategoryAdapter
     lateinit var clickCountList: Array<Boolean>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,7 +45,7 @@ class SelectCategoryFragment :
 
     private fun initAdapter() {
         binding.selectCategory.rvCategory.adapter =
-            EditCategoryAdapter(::onCategoryClick).also { categoryAdapter = it }
+            SelectableCategoryAdapter(::onCategoryClick).also { categoryAdapter = it }
 
     }
 

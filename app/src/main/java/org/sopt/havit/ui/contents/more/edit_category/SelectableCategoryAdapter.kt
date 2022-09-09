@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.databinding.ItemCategoryToggleBinding
 import org.sopt.havit.domain.entity.CategoryWithSelected
 
-class EditCategoryAdapter(private val onCategoryClick: (Int) -> Unit) :
-    ListAdapter<CategoryWithSelected, EditCategoryAdapter.CategoryViewHolder>(CategoryDataComparator()) {
+class SelectableCategoryAdapter(private val onCategoryClick: (Int) -> Unit) :
+    ListAdapter<CategoryWithSelected, SelectableCategoryAdapter.CategoryViewHolder>(
+        CategoryDataComparator()
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
