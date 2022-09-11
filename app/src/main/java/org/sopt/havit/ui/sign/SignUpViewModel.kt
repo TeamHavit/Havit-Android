@@ -56,7 +56,7 @@ class SignUpViewModel @Inject constructor(
             kotlin.runCatching {
                 authRepository.postSignUp(
                     requireNotNull(authRepository.getUserEmail()),
-                    requireNotNull(authRepository.getUserNickName()),
+                    requireNotNull(nickName.value),
                     requireNotNull(authRepository.getUserAge()),
                     requireNotNull(authRepository.getUserGender()),
                     requireNotNull(_fcmToken.value),
