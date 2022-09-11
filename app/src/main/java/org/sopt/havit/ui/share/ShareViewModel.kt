@@ -54,7 +54,9 @@ class ShareViewModel @Inject constructor(
     private val _categoryList = MutableLiveData<MutableList<CategoryWithSelected>>()
     val categoryList: LiveData<MutableList<CategoryWithSelected>> = _categoryList
 
-    private var selectedCategoryId = MutableLiveData<List<Int>>()
+    private var _selectedCategoryId = MutableLiveData<List<Int>>()
+    val selectedCategoryId: LiveData<List<Int>> = _selectedCategoryId
+
 
     private val _categoryViewState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())
     val categoryViewState: LiveData<NetworkStatus> = _categoryViewState
@@ -88,13 +90,13 @@ class ShareViewModel @Inject constructor(
         }
     }
 
-    var isCategorySelectedAtLeastOne = MutableLiveData(true)
+    var isCategorySelectedAtLeastOne = MutableLiveData(false)
 
     private fun setIsCategorySelectedAtLeastOne() {
-        selectedCategoryId.value = categoryList.value?.filter { it.isSelected == true }?.map {
+        _selectedCategoryId.value = categoryList.value?.filter { it.isSelected }?.map {
             categoryMapper.toCategoryId(it)
         }
-        isCategorySelectedAtLeastOne.value = selectedCategoryId.value?.size != 0
+        isCategorySelectedAtLeastOne.value = _selectedCategoryId.value?.size != 0
     }
 
 

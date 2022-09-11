@@ -26,6 +26,7 @@ class SelectCategoryFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
+        binding.selectCategory.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         getCategoryData()
@@ -75,10 +76,8 @@ class SelectCategoryFragment :
 
     private fun initListener() {
         binding.selectCategory.btnNext.setOnClickListener {
-            findNavController().navigate(   // 카테고리 리스트 스트링으로 변경하여 전송
-                SelectCategoryFragmentDirections.actionSelectCategoryFragmentToContentsSummeryFragment(
-                    getSelectedCategoryNum()
-                )
+            findNavController().navigate(
+                SelectCategoryFragmentDirections.actionSelectCategoryFragmentToContentsSummeryFragment()
             )
         }
 
@@ -99,16 +98,6 @@ class SelectCategoryFragment :
         toast.show()
     }
 
-    private fun getSelectedCategoryNum(): String {
-        var selectedCategory = ""
-        for (i in clickCountList.indices) {
-            if (clickCountList[i]) {
-                val cateId = viewModel.categoryList.value?.get(i)?.id
-                selectedCategory += ("$cateId ")
-            }
-        }
-        return selectedCategory
-    }
 
     companion object {
         private const val MAX_CATEGORY_NUM = 23
