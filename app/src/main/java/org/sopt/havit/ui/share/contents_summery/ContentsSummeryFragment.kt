@@ -25,8 +25,6 @@ import org.sopt.havit.databinding.FragmentContentsSummeryBinding
 import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.ui.share.ShareViewModel
 import org.sopt.havit.util.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class ContentsSummeryFragment : Fragment() {
@@ -55,31 +53,8 @@ class ContentsSummeryFragment : Fragment() {
         binding.lifecycleOwner = this
 
         setContents()
-        getCategoryList()
         initListener()
         toolbarClickListener()
-    }
-
-//    private fun getUrl(): String {
-//        val intent = activity?.intent
-//        if (isEnterWithShareBtn(intent)) // 공유하기 버튼으로 진입시
-//            return intent?.getStringExtra(Intent.EXTRA_TEXT).toString()
-//        return intent?.getStringExtra("url").toString() // MainActivity FIB 로 진입시
-//    }
-//
-//    private fun isEnterWithShareBtn(intent: Intent?): Boolean {
-//        return (intent?.action == Intent.ACTION_SEND) && (intent.type == "text/plain")
-//    }
-
-    private fun getCategoryList() {
-        // 선택된 카테고리 배열 생성
-        cateIdString = args.contentsCategoryIds.split(" ")
-        // split 이후 마지막 값에 공백이 들어가는 문제 해결
-        cateIdString = cateIdString.subList(0, cateIdString.size - 1)
-
-        // 배열 초기화 및 값 할당
-        cateIdInt = MutableList(cateIdString.size) { 0 }
-        for (i in cateIdString.indices) cateIdInt[i] = ((cateIdString[i]).toInt())
     }
 
     private fun setContents() {
@@ -94,16 +69,6 @@ class ContentsSummeryFragment : Fragment() {
         }
     }
 
-    private fun extractUrl(content: String?): String {
-        return try {
-            val regex = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"
-            val p: Pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE)
-            val m: Matcher = p.matcher(content)
-            if (m.find()) m.group() else ""
-        } catch (e: java.lang.Exception) {
-            ""
-        }
-    }
 
     private suspend fun getOgData(url: String) {
         GlobalScope.launch {
@@ -191,7 +156,7 @@ class ContentsSummeryFragment : Fragment() {
                     imageUrl = ogData.ogImage ?: "",
                     isNotified = notification,
                     notificationTime = time,
-                    categoryIds = cateIdInt
+                    categoryIds = viewModel.selectedCategoryId.value ?: return@launch
                 )
 
                 Log.d(TAG, "initNetwork: $createContentsRequest")

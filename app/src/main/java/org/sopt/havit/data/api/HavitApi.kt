@@ -33,7 +33,7 @@ interface HavitApi {
     ): AllCategoryResponse
 
     @GET("category")
-    suspend fun getCategoryNum(): CategoryResponse
+    suspend fun getCategoryList(): CategoryResponse
 
     @POST("category")
     suspend fun addCategory(

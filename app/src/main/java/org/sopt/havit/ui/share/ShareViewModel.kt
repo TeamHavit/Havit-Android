@@ -1,13 +1,22 @@
 package org.sopt.havit.ui.share
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.mapper.CategoryMapper
+import org.sopt.havit.domain.entity.CategoryWithSelected
+import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
 import org.sopt.havit.util.Event
+import org.sopt.havit.util.HavitAuthUtil
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -15,10 +24,81 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ShareViewModel @Inject constructor(
-    authRepository: AuthRepository
+    authRepository: AuthRepository,
+    private val categoryMapper: CategoryMapper
 ) : ViewModel() {
     /** token */
     val token = authRepository.getAccessToken()
+
+    /** auth */
+    fun makeSignIn(
+        internetError: () -> Unit,
+        onUnAuthorized: () -> Unit,
+        onAuthorized: () -> Unit
+    ) {
+        HavitAuthUtil.isLoginNow({ isInternetNotConnected ->
+            if (isInternetNotConnected) internetError()
+        }) { isLogin ->
+            if (!isLogin) onUnAuthorized()
+            else onAuthorized()
+        }
+    }
+
+    /** Category */
+    private val _hasCategory = MutableLiveData(true)
+    val hasCategory: LiveData<Boolean> = _hasCategory
+
+    private val _categoryNum = MutableLiveData<Int>()
+    val categoryNum: LiveData<Int> = _categoryNum
+
+    private val _categoryList = MutableLiveData<MutableList<CategoryWithSelected>>()
+    val categoryList: LiveData<MutableList<CategoryWithSelected>> = _categoryList
+
+    private var _selectedCategoryId = MutableLiveData<List<Int>>()
+    val selectedCategoryId: LiveData<List<Int>> = _selectedCategoryId
+
+
+    private val _categoryViewState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())
+    val categoryViewState: LiveData<NetworkStatus> = _categoryViewState
+
+    fun getCategoryData() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                val response = RetrofitObject.provideHavitApi(token).getCategoryList().data
+                _categoryList.value = response.toMutableList()
+                _categoryNum.value = response.size
+                _hasCategory.value = response.isNotEmpty()
+            }.onSuccess {
+                _categoryViewState.value = NetworkStatus.Success()
+            }.onFailure {
+                _categoryViewState.value = NetworkStatus.Error(it)
+            }.run {
+                //categoryViewState = NetworkStatus.Init()
+            }
+        }
+    }
+
+    fun onCategoryClick(position: Int) {
+        toggleItemSelected(position)
+        setIsCategorySelectedAtLeastOne()
+    }
+
+    private fun toggleItemSelected(position: Int) {
+        Log.d(TAG, "toggleItemSelected: $position")
+        categoryList.value?.let {
+            it[position].isSelected = !it[position].isSelected
+        }
+    }
+
+    var isCategorySelectedAtLeastOne = MutableLiveData(false)
+
+    private fun setIsCategorySelectedAtLeastOne() {
+        _selectedCategoryId.value = categoryList.value?.filter { it.isSelected }?.map {
+            categoryMapper.toCategoryId(it)
+        }
+        isCategorySelectedAtLeastOne.value = _selectedCategoryId.value?.size != 0
+    }
+
 
     /** url*/
     private var _url = MutableLiveData<String>()

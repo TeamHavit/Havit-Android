@@ -20,7 +20,7 @@ class EditCategoryFromMoreFragment :
     BaseBindingFragment<FragmentEditCategoryFromMoreBinding>(R.layout.fragment_edit_category_from_more),
     OnBackPressedHandler {
     private val viewModel: EditCategoryFromMoreViewModel by viewModels()
-    private lateinit var categoryAdapter: EditCategoryAdapter
+    private lateinit var categoryAdapter: SelectableCategoryAdapter
     private lateinit var bottomSheetDialogFragment: BottomSheetDialogFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,7 +42,7 @@ class EditCategoryFromMoreFragment :
 
     private fun initRvAdapter() {
         binding.rvCategory.adapter =
-            EditCategoryAdapter(::onCategoryClick).also { categoryAdapter = it }
+            SelectableCategoryAdapter(::onCategoryClick).also { categoryAdapter = it }
     }
 
     private fun initRvList() {

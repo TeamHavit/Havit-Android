@@ -12,8 +12,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.ActivityShareBinding
 import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_FROM_SHARE
 import org.sopt.havit.ui.sign.SplashWithSignActivity
-import org.sopt.havit.util.HavitAuthUtil
 import org.sopt.havit.util.MySharedPreference
+import java.io.Serializable
 
 @AndroidEntryPoint
 class ShareActivity : AppCompatActivity() {
@@ -40,7 +40,7 @@ class ShareActivity : AppCompatActivity() {
 
     private fun onSlashWithSignActivityFinish(result: ActivityResult) {
         when (result.resultCode) {
-            Activity.RESULT_OK -> startSavingContents()
+            Activity.RESULT_OK -> showBottomSheetShareFragment()
             else -> finish()
         }
     }
@@ -52,20 +52,11 @@ class ShareActivity : AppCompatActivity() {
     }
 
     private fun makeSignIn() {
-        HavitAuthUtil.isLoginNow({ isInternetConnected ->
-            if (isInternetConnected) finish()
-        }) { isLogin ->
-            if (!isLogin) moveToSplashWithSignActivity()
-            else startSavingContents()
-        }
-    }
-
-    private fun startSavingContents() {
-        HavitAuthUtil.isLoginNow({ isInternetConnected ->
-            if (isInternetConnected) finish()
-        }) { isLogin ->
-            if (isLogin) showBottomSheetShareFragment()
-        }
+        viewModel.makeSignIn(
+            internetError = { showBottomSheetNetworkErrorFragment() },
+            onUnAuthorized = { moveToSplashWithSignActivity() },
+            onAuthorized = { showBottomSheetShareFragment() }
+        )
     }
 
     private fun moveToSplashWithSignActivity() {
@@ -73,6 +64,15 @@ class ShareActivity : AppCompatActivity() {
             putExtra(WHERE_SPLASH_COME_FROM, SPLASH_FROM_SHARE)
         }
         splashWithSignActivityLauncher.launch(intent)
+    }
+
+    private fun showBottomSheetNetworkErrorFragment() {
+        val bottomSheet = BottomSheetNetworkErrorFragment().apply {
+            arguments = Bundle().apply {
+                putSerializable(ON_NETWORK_ERROR_DISMISS, { makeSignIn() } as Serializable)
+            }
+        }
+        bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
     private fun showBottomSheetShareFragment() {
@@ -96,5 +96,6 @@ class ShareActivity : AppCompatActivity() {
 
     companion object {
         const val WHERE_SPLASH_COME_FROM = "WHERE_SPLASH_COME_FROM"
+        const val ON_NETWORK_ERROR_DISMISS = "ON_NETWORK_ERROR_DISMISS"
     }
 }
