@@ -163,8 +163,8 @@ object BindingAdapter {
     @BindingAdapter("notificationTimeOnContentsView")
     @JvmStatic
     fun TextView.setNotificationText(string: String?) {
-        if (string?.isEmpty() == true) return
-        this.text = setDateFormatOnCategoryView(requireNotNull(string))
+        if (string?.isEmpty() == true) this.text = ""
+        else this.text = setDateFormatOnCategoryView(requireNotNull(string))
     }
 
     @BindingAdapter("app:textVisibility")

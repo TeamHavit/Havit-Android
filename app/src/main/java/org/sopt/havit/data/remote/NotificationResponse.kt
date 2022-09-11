@@ -10,7 +10,7 @@ data class NotificationResponse(
         val id: Int,
         val notificationTime: String,
         val title: String,
-        val description: String,
+        val description: String?,
         val image: String,
         val url: String,
         var isSeen: Boolean,
