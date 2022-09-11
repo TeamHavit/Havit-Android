@@ -56,12 +56,11 @@ class ShareViewModel @Inject constructor(
 
     private var selectedCategoryId = MutableLiveData<List<Int>>()
 
-    private val _categoryViewState = MutableLiveData<NetworkStatus>()
+    private val _categoryViewState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())
     val categoryViewState: LiveData<NetworkStatus> = _categoryViewState
 
     fun getCategoryData() {
         viewModelScope.launch {
-            _categoryViewState.value = NetworkStatus.Loading()
             kotlin.runCatching {
                 val response = RetrofitObject.provideHavitApi(token).getCategoryList().data
                 _categoryList.value = response.toMutableList()

@@ -2,6 +2,7 @@ package org.sopt.havit.ui.share.select_category
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -11,6 +12,7 @@ import org.sopt.havit.databinding.FragmentSelectCategoryBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.edit_category.SelectableCategoryAdapter
 import org.sopt.havit.ui.share.ShareViewModel
+import org.sopt.havit.util.setOnSingleClickListener
 
 @AndroidEntryPoint
 class SelectCategoryFragment :
@@ -31,6 +33,7 @@ class SelectCategoryFragment :
         setCategoryDataOnAdapter()
         initListener()
         toolbarClickListener()
+        onClickRefreshButtonOnNetworkError()
     }
 
     private fun getCategoryData() {
@@ -38,8 +41,18 @@ class SelectCategoryFragment :
     }
 
     private fun toolbarClickListener() {
-        binding.icClose.setOnClickListener {
+        binding.icClose.setOnSingleClickListener {
             requireActivity().finish()
+        }
+        binding.networkErrorLayout.ibClose.setOnSingleClickListener {
+            requireActivity().finish()
+        }
+    }
+
+    private fun onClickRefreshButtonOnNetworkError() {
+        binding.networkErrorLayout.ivRefresh.setOnSingleClickListener {
+            it.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotation_refresh))
+            viewModel.getCategoryData()
         }
     }
 
