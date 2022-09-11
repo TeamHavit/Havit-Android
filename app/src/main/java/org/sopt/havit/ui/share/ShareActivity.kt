@@ -1,10 +1,8 @@
 package org.sopt.havit.ui.share
 
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -94,7 +92,6 @@ class ShareActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         MySharedPreference.clearTitle(this)
-        Log.d(TAG, "onDestroy: shareActivity destroyed // makeSignIn")
     }
 
     companion object {

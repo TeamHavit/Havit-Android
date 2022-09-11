@@ -24,6 +24,7 @@
         tools:context=".ui.share.select_category.SelectCategoryFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            hideOnError="@{viewModel.categoryViewState}"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
