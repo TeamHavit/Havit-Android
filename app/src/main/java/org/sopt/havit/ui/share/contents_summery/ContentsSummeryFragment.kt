@@ -11,7 +11,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -32,9 +31,6 @@ class ContentsSummeryFragment : Fragment() {
 
     private var _binding: FragmentContentsSummeryBinding? = null
     private val binding get() = _binding!!
-    private val args by navArgs<ContentsSummeryFragmentArgs>()
-    private lateinit var cateIdString: List<String>
-    private lateinit var cateIdInt: MutableList<Int>
     private lateinit var ogData: ContentsSummeryData
     private val categoryViewModel: CategoryViewModel by viewModels()
 
