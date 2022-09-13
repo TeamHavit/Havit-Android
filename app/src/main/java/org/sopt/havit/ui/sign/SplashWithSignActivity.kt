@@ -7,6 +7,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.MainActivity
 import org.sopt.havit.R
@@ -69,6 +70,10 @@ class SplashWithSignActivity :
     private fun initSuccessKakaoLoginOserver() {
         signInViewModel.isSuccessKakaoLogin.observe(this, EventObserver {
             if (it) signInViewModel.getSignIn()
+            else UserApiClient.instance.loginWithKakaoAccount(
+                this,
+                callback = signInViewModel.kakaoLoginCallback
+            )
         })
     }
 
