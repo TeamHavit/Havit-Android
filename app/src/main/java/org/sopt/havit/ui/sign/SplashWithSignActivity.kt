@@ -116,6 +116,7 @@ class SplashWithSignActivity :
                 signInViewModel.isServerNetwork.value = NetworkState.FAIL
             }
         }) { isLogin ->
+            signInViewModel.isServerNetwork.value = NetworkState.SUCCESS
             if (isLogin && MySharedPreference.getXAuthToken(this).isNotEmpty()) startMainActivity()
             else if (MySharedPreference.isFirstEnter(this)) startOnBoardingActivity()
             else setLoginAnimation()
