@@ -42,10 +42,14 @@ class KakaoLoginService @Inject constructor(
 
     fun setKakaoLogin(kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit) {
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-            UserApiClient.instance.loginWithKakaoTalk(
-                context,
-                callback = kakaoLoginCallback
-            )
+            UserApiClient.instance.loginWithKakaoTalk(context) { _, error ->
+                if (error != null) {
+                    UserApiClient.instance.loginWithKakaoAccount(
+                        context,
+                        callback = kakaoLoginCallback
+                    )
+                }
+            }
         } else {
             UserApiClient.instance.loginWithKakaoAccount(
                 context,
