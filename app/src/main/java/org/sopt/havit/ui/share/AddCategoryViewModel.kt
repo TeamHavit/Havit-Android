@@ -77,10 +77,15 @@ class AddCategoryViewModel @Inject constructor(
                     .addCategory(CategoryAddRequest(title, imageId))
             }.onSuccess {
                 _addCategoryViewState.value = NetworkStatus.Success()
+                clearIconPosition()
             }.onFailure {
                 _addCategoryViewState.value = NetworkStatus.Error(it)
             }
         }
+    }
+
+    private fun clearIconPosition() {
+        _selectedIconPosition.value = 0
     }
 
 }
