@@ -41,6 +41,10 @@ class AddCategoryViewModel @Inject constructor(
         }
     }
 
+    fun isCategoryNameAlreadyExist(currentTitle: String): Boolean {
+        return existingCategoryList.value?.contains(currentTitle) ?: false
+    }
+
     private val _addCategoryViewState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())
     val addCategoryViewState: LiveData<NetworkStatus> = _addCategoryViewState
 

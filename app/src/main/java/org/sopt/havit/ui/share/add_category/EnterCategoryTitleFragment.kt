@@ -36,10 +36,18 @@ class EnterCategoryTitleFragment :
 
     private fun setTextWatcher() {
         binding.etCategoryTitle.addTextChangedListener {
-            val title = binding.etCategoryTitle.text.toString()
-            binding.isDuplicated =
-                title in ((viewModel.existingCategoryList.value) ?: return@addTextChangedListener)
+            val currentTitle = binding.etCategoryTitle.text.toString()
+            trimCurrentTitle(currentTitle)
+            updateIsDuplicateState(currentTitle)
         }
+    }
+
+    private fun trimCurrentTitle(currentTitle: String) {
+        binding.etCategoryTitle.setText(currentTitle.trim())
+    }
+
+    private fun updateIsDuplicateState(currentTitle: String) {
+        binding.isDuplicated = viewModel.isCategoryNameAlreadyExist(currentTitle)
     }
 
     private fun initClickListener() {
