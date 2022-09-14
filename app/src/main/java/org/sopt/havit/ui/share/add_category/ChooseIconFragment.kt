@@ -2,6 +2,7 @@ package org.sopt.havit.ui.share.add_category
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -12,6 +13,7 @@ import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.CategoryAddRequest
 import org.sopt.havit.databinding.FragmentChooseIconBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.ui.share.AddCategoryViewModel
 import org.sopt.havit.ui.share.add_category.IconAdapter.Companion.clickedPosition
 import org.sopt.havit.util.ADD_CATEGORY_TYPE
 import org.sopt.havit.util.MySharedPreference
@@ -21,6 +23,8 @@ import org.sopt.havit.util.setOnSinglePostClickListener
 @AndroidEntryPoint
 class ChooseIconFragment :
     BaseBindingFragment<FragmentChooseIconBinding>(R.layout.fragment_choose_icon) {
+
+    private val viewModel: AddCategoryViewModel by viewModels()
     private lateinit var iconAdapter: IconAdapter
     private val args by navArgs<ChooseIconFragmentArgs>()
 
@@ -37,7 +41,7 @@ class ChooseIconFragment :
     }
 
     private fun initAdapter() {
-        clickedPosition = 0 // navigation 백스택 관리코드 작성하면 지우기
+        clickedPosition = viewModel.selectedIconPosition.value ?: 0
         binding.rvIcon.adapter = IconAdapter(::onIconClick).also { iconAdapter = it }
     }
 
@@ -46,6 +50,7 @@ class ChooseIconFragment :
         clickedPosition = position
         iconAdapter.notifyItemChanged(previousPosition)
         iconAdapter.notifyItemChanged(clickedPosition)
+        viewModel.setSelectedIconPosition(position)
     }
 
     private fun initClickNext() {

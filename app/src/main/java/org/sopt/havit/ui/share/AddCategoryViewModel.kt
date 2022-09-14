@@ -20,7 +20,7 @@ class AddCategoryViewModel @Inject constructor(
     val token = authRepository.getAccessToken()
 
     private val _existingCategoryList = MutableLiveData<List<String>>()
-    val existingCategoryList: LiveData<List<String>> = _existingCategoryList
+    private val existingCategoryList: LiveData<List<String>> = _existingCategoryList
 
     private val _enterCategoryNameViewState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())
     val enterCategoryNameViewState: LiveData<NetworkStatus> = _enterCategoryNameViewState
@@ -42,7 +42,17 @@ class AddCategoryViewModel @Inject constructor(
     }
 
     fun isCategoryNameAlreadyExist(currentTitle: String): Boolean {
-        return existingCategoryList.value?.contains(currentTitle) ?: false
+        val list = existingCategoryList.value?.toList() ?: throw IllegalStateException()
+        return list.stream().anyMatch { anotherString: String? ->
+            currentTitle.equals(anotherString, ignoreCase = true)
+        }
+    }
+
+    private val _selectedIconPosition = MutableLiveData(0)
+    val selectedIconPosition: LiveData<Int> = _selectedIconPosition
+
+    fun setSelectedIconPosition(position: Int) {
+        _selectedIconPosition.value = position
     }
 
     private val _addCategoryViewState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())
