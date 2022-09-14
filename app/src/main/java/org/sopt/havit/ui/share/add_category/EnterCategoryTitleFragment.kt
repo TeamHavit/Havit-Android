@@ -36,14 +36,9 @@ class EnterCategoryTitleFragment :
 
     private fun setTextWatcher() {
         binding.etCategoryTitle.addTextChangedListener {
-            val currentTitle = binding.etCategoryTitle.text.toString()
-            trimCurrentTitle(currentTitle)
+            val currentTitle = binding.etCategoryTitle.text.toString().trim()
             updateIsDuplicateState(currentTitle)
         }
-    }
-
-    private fun trimCurrentTitle(currentTitle: String) {
-        binding.etCategoryTitle.setText(currentTitle.trim())
     }
 
     private fun updateIsDuplicateState(currentTitle: String) {
@@ -53,9 +48,7 @@ class EnterCategoryTitleFragment :
     private fun initClickListener() {
         binding.btnNext.setOnClickListener {
             findNavController().navigate(
-                EnterCategoryTitleFragmentDirections.actionEnterCategoryTitleFragmentToChooseIconFragment(
-                    binding.etCategoryTitle.text.toString()
-                )
+                R.id.action_enterCategoryTitleFragment_to_chooseIconFragment
             )
         }
 
