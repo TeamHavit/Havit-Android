@@ -3,7 +3,7 @@ package org.sopt.havit.ui.share.add_category
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
@@ -17,7 +17,7 @@ import org.sopt.havit.util.KeyBoardUtil.setUpAsSoftKeyboard
 class EnterCategoryTitleFragment :
     BaseBindingFragment<FragmentEnterCategoryTitleBinding>(R.layout.fragment_enter_category_title) {
 
-    private val viewModel: AddCategoryViewModel by viewModels()
+    private val viewModel: AddCategoryViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
