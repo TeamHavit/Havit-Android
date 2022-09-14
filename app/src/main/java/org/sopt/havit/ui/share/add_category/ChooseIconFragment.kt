@@ -2,6 +2,7 @@ package org.sopt.havit.ui.share.add_category
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,6 +15,7 @@ import org.sopt.havit.ui.share.AddCategoryViewModel
 import org.sopt.havit.ui.share.add_category.IconAdapter.Companion.clickedPosition
 import org.sopt.havit.util.ADD_CATEGORY_TYPE
 import org.sopt.havit.util.ToastUtil
+import org.sopt.havit.util.setOnSingleClickListener
 import org.sopt.havit.util.setOnSinglePostClickListener
 
 @AndroidEntryPoint
@@ -25,15 +27,27 @@ class ChooseIconFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+
         initAdapter()
-        initClickNext()
+        initNormalViewClickNext()
+        initNetworkErrorViewClickListener()
         toolbarClickListener()
         observeNetworkStatus()
     }
 
     private fun toolbarClickListener() {
-        binding.icBack.setOnClickListener { findNavController().popBackStack() }
-        binding.icClose.setOnClickListener { requireActivity().finish() }
+        binding.icBack.setOnSingleClickListener { findNavController().popBackStack() }
+        binding.icClose.setOnSingleClickListener { requireActivity().finish() }
+    }
+
+    private fun initNetworkErrorViewClickListener() {
+        binding.layoutNetworkError.ibClose.setOnSingleClickListener { requireActivity().finish() }
+        binding.layoutNetworkError.ivRefresh.setOnSingleClickListener {
+            it.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotation_refresh))
+            viewModel.addCategory()
+        }
     }
 
     private fun initAdapter() {
@@ -49,7 +63,7 @@ class ChooseIconFragment :
         viewModel.setSelectedIconPosition(position)
     }
 
-    private fun initClickNext() {
+    private fun initNormalViewClickNext() {
         binding.btnNext.setOnSinglePostClickListener {
             viewModel.addCategory()
         }
@@ -62,7 +76,6 @@ class ChooseIconFragment :
                     showCustomToast()
                     navigateView()
                 }
-                is NetworkStatus.Error -> {} // todo show error view
                 else -> return@observe
             }
         }

@@ -18,7 +18,6 @@
         <variable
             name="view"
             type="org.sopt.havit.domain.model.NetworkStatus" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
