@@ -64,6 +64,7 @@ class AddCategoryViewModel @Inject constructor(
         _selectedIconPosition.value = position
     }
 
+    /** Add category */
     private val _addCategoryViewState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())
     val addCategoryViewState: LiveData<NetworkStatus> = _addCategoryViewState
 

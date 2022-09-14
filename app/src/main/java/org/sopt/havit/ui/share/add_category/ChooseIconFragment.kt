@@ -7,7 +7,9 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentChooseIconBinding
+import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.ui.category.CategoryAddActivity
 import org.sopt.havit.ui.share.AddCategoryViewModel
 import org.sopt.havit.ui.share.add_category.IconAdapter.Companion.clickedPosition
 import org.sopt.havit.util.ADD_CATEGORY_TYPE
@@ -26,6 +28,7 @@ class ChooseIconFragment :
         initAdapter()
         initClickNext()
         toolbarClickListener()
+        observeNetworkStatus()
     }
 
     private fun toolbarClickListener() {
@@ -49,10 +52,28 @@ class ChooseIconFragment :
     private fun initClickNext() {
         binding.btnNext.setOnSinglePostClickListener {
             viewModel.addCategory()
-            if (requireActivity().toString().contains("CategoryAddActivity"))
-                requireActivity().finish() // 분기처리 그지 깽깽이 같은데 오늘 자고 더 좋은방법 연구할게요...
-            findNavController().navigate(R.id.action_chooseIconFragment_to_selectCategoryFragment)
         }
+    }
+
+    private fun observeNetworkStatus() {
+        viewModel.addCategoryViewState.observe(viewLifecycleOwner) {
+            when (it) {
+                is NetworkStatus.Success -> {
+                    showCustomToast()
+                    navigateView()
+                }
+                is NetworkStatus.Error -> {} // todo show error view
+                else -> return@observe
+            }
+        }
+    }
+
+    private fun navigateView() {
+        val currentParent = requireActivity()::class.java.simpleName
+        val categoryActivity = CategoryAddActivity::class.java.simpleName
+        if (currentParent == categoryActivity)
+            requireActivity().finish()
+        findNavController().navigate(R.id.action_chooseIconFragment_to_selectCategoryFragment)
     }
 
     private fun showCustomToast() {
