@@ -47,11 +47,11 @@ class EnterCategoryTitleFragment :
 
     private fun initClickListener() {
         binding.btnNext.setOnClickListener {
+            viewModel.setCategoryTitle(binding.etCategoryTitle.text.toString())
             findNavController().navigate(
                 R.id.action_enterCategoryTitleFragment_to_chooseIconFragment
             )
         }
-
         binding.ivDeleteText.setOnClickListener { binding.etCategoryTitle.text.clear() }
     }
 

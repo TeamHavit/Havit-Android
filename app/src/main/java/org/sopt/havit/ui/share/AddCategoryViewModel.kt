@@ -19,6 +19,7 @@ class AddCategoryViewModel @Inject constructor(
     /** token */
     val token = authRepository.getAccessToken()
 
+    /** Existing Category */
     private val _existingCategoryList = MutableLiveData<List<String>>()
     private val existingCategoryList: LiveData<List<String>> = _existingCategoryList
 
@@ -46,6 +47,14 @@ class AddCategoryViewModel @Inject constructor(
         return list.stream().anyMatch { anotherString: String? ->
             currentTitle.equals(anotherString, ignoreCase = true)
         }
+    }
+
+    /** Category Title */
+    private val _categoryTitle = MutableLiveData<String>()
+    val categoryTitle: LiveData<String> = _categoryTitle
+
+    fun setCategoryTitle(title: String) {
+        _categoryTitle.value = title
     }
 
     private val _selectedIconPosition = MutableLiveData(0)
