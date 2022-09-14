@@ -19,9 +19,7 @@ class SelectCategoryFragment :
     BaseBindingFragment<FragmentSelectCategoryBinding>(R.layout.fragment_select_category) {
 
     private val viewModel: ShareViewModel by activityViewModels()
-
     private lateinit var categoryAdapter: SelectableCategoryAdapter
-    lateinit var clickCountList: Array<Boolean>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
