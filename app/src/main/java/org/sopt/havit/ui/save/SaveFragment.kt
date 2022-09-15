@@ -9,6 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -20,6 +23,7 @@ import org.sopt.havit.databinding.FragmentSaveBinding
 import org.sopt.havit.ui.share.ShareActivity
 import org.sopt.havit.util.KeyBoardHeightProvider
 import org.sopt.havit.util.KeyBoardUtil
+import org.sopt.havit.util.KeyBoardUtil.hideKeyBoard
 import org.sopt.havit.util.KeyBoardUtil.openKeyBoard
 import java.net.URL
 
@@ -54,9 +58,9 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
     }
 
     private fun setDialogKeyBoard() {
-        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         dialog?.setOnShowListener {
-            setOpenKeyBoard()
+            binding.etSaveUrl.requestFocus()
+            setKeyBoardOpenOrHide()
             getKeyBoardHeight()
         }
     }
@@ -101,14 +105,13 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         }
         binding.clSaveBottom.layoutParams.height =
             (resources.displayMetrics.heightPixels * 0.94).toInt()
+
     }
 
-    private fun setOpenKeyBoard() {
-        openKeyBoard(requireContext(), binding.etSaveUrl)
-    }
-
-    private fun hideKeyBoard() {
-        KeyBoardUtil.hideKeyBoard(requireActivity())
+    private fun setKeyBoardOpenOrHide() {
+        val inputMethodManager =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0)
     }
 
     private fun startShareActivity() {
@@ -129,13 +132,13 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
             saveViewModel.setClipDataClear()
         }
         binding.btnSaveClose.setOnClickListener {
-            hideKeyBoard()
+            setKeyBoardOpenOrHide()
             dismiss()
         }
         binding.btnSaveNext.setOnClickListener {
             if (isFullPath(binding.etSaveUrl.text.toString())) {
                 startShareActivity()
-                hideKeyBoard()
+                setKeyBoardOpenOrHide()
                 dismiss()
             } else {
                 binding.clSaveUrlValid.isVisible = true

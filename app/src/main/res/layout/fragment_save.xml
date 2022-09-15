@@ -19,10 +19,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/rectangle_white_radius_24"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:context=".ui.save.SaveFragment">
 
 
@@ -71,7 +67,7 @@
             app:layout_constraintStart_toEndOf="@+id/tv_save_info1"
             app:layout_constraintTop_toTopOf="@+id/tv_save_info1" />
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_save_url"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -79,9 +75,11 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/rectangle_white_gray_radius_4"
             android:backgroundTint="@null"
+            android:imeOptions="flagNoExtractUi"
             android:hint="@string/url_hint"
             android:inputType="textMultiLine"
             android:maxLines="6"
+            android:focusable="true"
             android:paddingVertical="12dp"
             android:paddingStart="12dp"
             android:paddingEnd="38dp"
@@ -195,15 +193,13 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_save_next"
             btnColor="@{vm.saveDataUrl.empty ? false : true}"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="58dp"
             android:clickable="@{vm.saveDataUrl.empty ? false : true}"
             android:text="@string/next"
             android:textAppearance="@style/Text16Semibold"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
