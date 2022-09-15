@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
@@ -68,6 +69,12 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
             startActivity(Intent(requireContext(), SettingActivity::class.java))
         }
         binding.layoutNetworkError.ivRefresh.setOnClickListener {
+            it.startAnimation(
+                AnimationUtils.loadAnimation(
+                    requireContext(),
+                    R.anim.rotation_refresh
+                )
+            )
             myPageViewModel.requestUserInfo()
         }
     }
