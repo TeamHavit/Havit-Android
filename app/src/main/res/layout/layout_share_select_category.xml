@@ -43,6 +43,7 @@
             android:id="@+id/rv_category"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            showOnSuccess="@{viewModel.categoryViewState}"
             android:layout_marginTop="28dp"
             android:paddingHorizontal="16dp"
             android:paddingBottom="10dp"
@@ -52,6 +53,21 @@
             tools:itemCount="3"
             tools:listitem="@layout/item_category_selectable" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_category_skeleton"
+            showOnLoading="@{viewModel.categoryViewState}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="28dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_next"
+            app:layout_constraintTop_toBottomOf="@id/tv_choose_category">
+
+            <include
+                android:id="@+id/category_skeleton"
+                layout="@layout/layout_category_list_skeleton" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_next"
             android:layout_width="match_parent"
@@ -59,11 +75,11 @@
             android:background="@drawable/rectangle_gray_2"
             android:enabled="false"
             android:paddingBottom="22dp"
-            app:btnBackground="@{viewModel.isCategorySelectedAtLeastOne}"
-            app:btnEnabled="@{viewModel.isCategorySelectedAtLeastOne}"
             android:text="@string/next"
             android:textAppearance="@style/Text16Semibold"
             android:textColor="@color/white"
+            app:btnBackground="@{viewModel.isCategorySelectedAtLeastOne}"
+            app:btnEnabled="@{viewModel.isCategorySelectedAtLeastOne}"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

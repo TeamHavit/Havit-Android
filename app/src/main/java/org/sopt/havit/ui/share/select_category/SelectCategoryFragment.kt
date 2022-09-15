@@ -27,9 +27,9 @@ class SelectCategoryFragment :
         binding.selectCategory.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        getCategoryData()
         initAdapter()
         setCategoryDataOnAdapter()
+        getCategoryData()
         initListener()
         toolbarClickListener()
         onClickRefreshButtonOnNetworkError()
@@ -96,6 +96,10 @@ class SelectCategoryFragment :
         toast.show()
     }
 
+    override fun onDestroyView() {
+        viewModel.clearCategoryViewState()
+        super.onDestroyView()
+    }
 
     companion object {
         private const val MAX_CATEGORY_NUM = 23
