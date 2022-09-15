@@ -64,11 +64,12 @@ class ShareViewModel @Inject constructor(
     fun getCategoryData() {
         viewModelScope.launch {
             kotlin.runCatching {
-                val response = RetrofitObject.provideHavitApi(token).getCategoryList().data
-                _categoryList.value = response.toMutableList()
-                _categoryNum.value = response.size
-                _hasCategory.value = response.isNotEmpty()
+                _categoryViewState.value = NetworkStatus.Loading()
+                RetrofitObject.provideHavitApi(token).getCategoryList().data
             }.onSuccess {
+                _categoryList.value = it.toMutableList()
+                _categoryNum.value = it.size
+                _hasCategory.value = it.isNotEmpty()
                 _categoryViewState.value = NetworkStatus.Success()
             }.onFailure {
                 _categoryViewState.value = NetworkStatus.Error(it)
@@ -76,6 +77,10 @@ class ShareViewModel @Inject constructor(
                 //categoryViewState = NetworkStatus.Init()
             }
         }
+    }
+
+    fun clearCategoryViewState() {
+        _categoryViewState.value = NetworkStatus.Init()
     }
 
     fun onCategoryClick(position: Int) {

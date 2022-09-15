@@ -163,7 +163,7 @@ fun TextView.setNotificationTime(selectedIndex: Int, notiTime: String?) {
     else context.getString(R.string.choose_time)
 }
 
-@BindingAdapter("app:imageVisibility")
+@BindingAdapter("imageVisibility")
 fun ImageView.imageVisibility(isSelected: Boolean) {
     this.visibility = if (isSelected) View.VISIBLE else View.GONE
 }
@@ -186,11 +186,21 @@ fun AppCompatButton.setBtnEnable(isEnabled: Boolean) {
 }
 
 @BindingAdapter("showOnError")
-fun View.showError(responseState: NetworkStatus) {
+fun View.showOnError(responseState: NetworkStatus) {
     visibility = if (responseState is NetworkStatus.Error) View.VISIBLE else View.GONE
 }
 
 @BindingAdapter("hideOnError")
 fun View.hideOnError(responseState: NetworkStatus) {
     visibility = if (responseState is NetworkStatus.Error) View.GONE else View.VISIBLE
+}
+
+@BindingAdapter("showOnLoading")
+fun View.showOnLoading(responseState: NetworkStatus) {
+    visibility = if (responseState is NetworkStatus.Loading) View.VISIBLE else View.GONE
+}
+
+@BindingAdapter("showOnSuccess")
+fun View.showOnSuccess(responseState: NetworkStatus) {
+    visibility = if (responseState is NetworkStatus.Success) View.VISIBLE else View.GONE
 }
