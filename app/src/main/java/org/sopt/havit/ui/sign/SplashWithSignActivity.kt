@@ -7,6 +7,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.MainActivity
@@ -129,7 +130,15 @@ class SplashWithSignActivity :
         }
 
     private fun setListeners() {
-        binding.layoutNetworkError.ivRefresh.setOnClickListener { setAutoLogin() }
+        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+            it.startAnimation(
+                AnimationUtils.loadAnimation(
+                    this,
+                    R.anim.rotation_refresh
+                )
+            )
+            setAutoLogin()
+        }
         binding.btnKakaoLogin.setOnSinglePostClickListener { kakaoLoginService.setKakaoLogin(signInViewModel.kakaoLoginCallback) }
         binding.tvAnotherLogin.setOnClickListener {
             kakaoLoginService.setLoginWithAccount(
