@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,6 +61,12 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
             startSettingPersonalDataActivity()
         }
         binding.layoutNetworkError.ivRefresh.setOnSinglePostClickListener {
+            it.startAnimation(
+                AnimationUtils.loadAnimation(
+                    requireContext(),
+                    R.anim.rotation_refresh
+                )
+            )
             signUpViewModel.postSignUp()
         }
     }
