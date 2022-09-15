@@ -3,15 +3,20 @@ package org.sopt.havit.ui.web
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.AnimationUtils
 import android.webkit.*
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityWebBinding
+import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.util.EventObserver
+import retrofit2.http.Url
 
 @AndroidEntryPoint
 class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_web) {
@@ -25,6 +30,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         initHavitSeen()
         setUrlCheck()
         setListeners()
+        initIsHavitObserver()
     }
 
     override fun onResume() {
@@ -68,6 +74,16 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
                     }
                     return true
                 }
+
+
+                override fun onReceivedError(
+                    view: WebView?,
+                    request: WebResourceRequest?,
+                    error: WebResourceError?
+                ) {
+                    super.onReceivedError(view, request, error)
+                    webViewModel.isServerNetwork.value = NetworkState.FAIL
+                }
             }
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
@@ -77,12 +93,24 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         webViewModel.setUrl(url)
     }
 
+    private fun checkUrlNetwork(url: String) {
+        if (URLUtil.isValidUrl(url)) {
+            webViewModel.isServerNetwork.value = NetworkState.SUCCESS
+            setUrlCheck()
+        } else {
+            webViewModel.isServerNetwork.value = NetworkState.FAIL
+        }
+    }
+
+    private fun initIsHavitObserver() {
+        webViewModel.isHavit.observe(this, EventObserver {
+            if (it) setCustomToast()
+        })
+    }
+
     private fun setListeners() {
         binding.llWebview.setOnClickListener {
             webViewModel.setHavit(intent!!.getIntExtra("contentsId", 0))
-            if (webViewModel.isHavit.value == true) {
-                setCustomToast()
-            }
         }
         binding.ibWebBack.setOnClickListener {
             finish()
@@ -91,10 +119,19 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
             val intentShare = Intent(Intent.ACTION_SEND)
             intentShare.putExtra(Intent.EXTRA_TEXT, intent.getStringExtra("url"))
             intentShare.type = "text/plain"
-            startActivity(Intent.createChooser(intentShare, "앱을 선택 해 주세요."))
+            startActivity(Intent.createChooser(intentShare, "앱을 선택해 주세요."))
         }
         binding.ibWebReload.setOnClickListener {
             binding.wbCustom.reload()
+        }
+        binding.layoutNetworkError.ivRefresh.setOnClickListener {
+            it.startAnimation(
+                AnimationUtils.loadAnimation(
+                    this,
+                    R.anim.rotation_refresh
+                )
+            )
+            checkUrlNetwork(requireNotNull(intent.getStringExtra("url")))
         }
 
     }
@@ -104,6 +141,11 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         val view = layoutInflater.inflate(R.layout.toast_havit_complete, null)
         toast.view = view
         toast.show()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        super.finish()
     }
 
 }

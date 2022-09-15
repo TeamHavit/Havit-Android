@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="state"
+            type="org.sopt.havit.domain.entity.NetworkState" />
+
         <variable
             name="vm"
             type="org.sopt.havit.ui.web.WebViewModel" />
@@ -116,7 +122,7 @@
                 <ImageView
                     android:id="@+id/iv_webview_unread"
                     android:layout_gravity="center"
-                    imgRes="@{vm.isHavit == true ? @drawable/ic_contents_read_2 : @drawable/ic_contents_unread}"
+                    imgRes="@{vm.isHavit.peekContent() == true ? @drawable/ic_contents_read_2 : @drawable/ic_contents_unread}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -125,14 +131,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@{vm.isHavit == true ? @string/webview_read: @string/webview_unread}"
+                    android:text="@{vm.isHavit.peekContent() == true ? @string/webview_read: @string/webview_unread}"
                     android:textAppearance="@style/Sub13Regular"
-                    android:textColor="@{vm.isHavit == true ? @color/havit_gray : @color/gray_2}"
+                    android:textColor="@{vm.isHavit.peekContent() == true ? @color/havit_gray : @color/gray_2}"
                      />
 
 
 
             </LinearLayout>
         </LinearLayout>
+
+        <include
+            android:id="@+id/layout_network_error"
+            layout="@layout/layout_network_error"
+            android:visibility="@{vm.isServerNetwork == state.FAIL ? View.VISIBLE : View.GONE, default = gone}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
