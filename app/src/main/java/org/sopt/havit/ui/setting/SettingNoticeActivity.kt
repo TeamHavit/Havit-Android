@@ -45,6 +45,4 @@ class SettingNoticeActivity :
     private fun getNoticeList() {
         viewModel.getNoticeList()
     }
-
-
 }

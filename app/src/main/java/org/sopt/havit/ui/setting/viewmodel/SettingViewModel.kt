@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.NewNicknameRequest
 import org.sopt.havit.data.remote.UserResponse
+import org.sopt.havit.domain.entity.Notice
 import org.sopt.havit.domain.repository.AuthRepository
 import javax.inject.Inject
 
@@ -88,12 +89,15 @@ class SettingViewModel @Inject constructor(
         }
     }
 
+    private val _noticeList = MutableLiveData<List<Notice>>()
+    val noticeList: LiveData<List<Notice>> = _noticeList
+
     fun getNoticeList() {
         viewModelScope.launch {
             kotlin.runCatching {
-                RetrofitObject.provideHavitApi(token).getNoticeList()
+                RetrofitObject.provideHavitApi(token).getNoticeList().data
             }.onSuccess {
-                Log.d(TAG, "getNoticeList: $it")
+                _noticeList.value = it
             }.onFailure {
                 Log.d(TAG, "getNoticeList: fail $it")
             }
