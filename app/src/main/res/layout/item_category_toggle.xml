@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="category"
             type="org.sopt.havit.domain.entity.CategoryWithSelected" />
@@ -57,7 +59,8 @@
             android:layout_marginEnd="17dp"
             android:background="@drawable/ic_check"
             android:contentDescription="@string/is_selected"
-            app:imageVisibility="@{category.isSelected}"
+            imageVisibility="@{category.isSelected}"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
