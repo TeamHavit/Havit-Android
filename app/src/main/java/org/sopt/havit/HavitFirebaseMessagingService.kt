@@ -44,7 +44,9 @@ class HavitFirebaseMessagingService : FirebaseMessagingService() {
             val image = dataFromServer["image"]
             val url = dataFromServer["url"]
 
-            useBitmapImg(this, image) { bitmapImage ->
+            if (image == DUMMY_IMAGE_URL)
+                generateNotification(title, description, url = url)
+            else useBitmapImg(this, image) { bitmapImage ->
                 generateNotification(title, description, bitmapImage, url)
             }
         }
@@ -119,5 +121,7 @@ class HavitFirebaseMessagingService : FirebaseMessagingService() {
         }
 
         const val TAG = "MyFirebaseMessagingService"
+        const val DUMMY_IMAGE_URL =
+            "https://havit-bucket.s3.ap-northeast-2.amazonaws.com/havit_content_dummy.png"
     }
 }
