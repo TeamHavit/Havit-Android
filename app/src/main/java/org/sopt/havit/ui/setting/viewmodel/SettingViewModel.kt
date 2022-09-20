@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.setting.viewmodel
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +11,7 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.NewNicknameRequest
 import org.sopt.havit.data.remote.UserResponse
+import org.sopt.havit.domain.entity.Notice
 import org.sopt.havit.domain.repository.AuthRepository
 import javax.inject.Inject
 
@@ -83,6 +85,21 @@ class SettingViewModel @Inject constructor(
                 RetrofitObject.provideHavitApi(token).deleteUser()
             } catch (e: Exception) {
                 Log.d("SETTING", "error : $e")
+            }
+        }
+    }
+
+    private val _noticeList = MutableLiveData<List<Notice>>()
+    val noticeList: LiveData<List<Notice>> = _noticeList
+
+    fun getNoticeList() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                RetrofitObject.provideHavitApi(token).getNoticeList().data
+            }.onSuccess {
+                _noticeList.value = it
+            }.onFailure {
+                Log.d(TAG, "getNoticeList: fail $it")
             }
         }
     }

@@ -14,10 +14,7 @@ import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.home.ServiceGuideActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.ui.sign.SplashWithSignActivity
-import org.sopt.havit.util.CANNOT_SEND_MAIL_TYPE
-import org.sopt.havit.util.DialogUtil
-import org.sopt.havit.util.MySharedPreference
-import org.sopt.havit.util.ToastUtil
+import org.sopt.havit.util.*
 
 @AndroidEntryPoint
 class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.activity_setting) {
@@ -42,17 +39,17 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
     private fun setClickListener() {
         // 뒤로가기
-        binding.ivBack.setOnClickListener { finish() }
+        binding.ivBack.setOnSingleClickListener { finish() }
 
         // 프로필 수정
-        binding.ivEdit.setOnClickListener {
+        binding.ivEdit.setOnSingleClickListener {
             val intent = Intent(this, SettingModifyNicknameActivity::class.java)
             intent.putExtra(nickname, settingViewModel.user.value?.nickname)
             startActivity(intent)
         }
 
         // 알림 설정
-        binding.clSettingAlarm.setOnClickListener {
+        binding.clSettingAlarm.setOnSingleClickListener {
             val intent = Intent()
             intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -65,35 +62,33 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         }
 
         // 공지사항
-        binding.clNotice.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse(NOTICE_URL)
-            })
+        binding.clNotice.setOnSingleClickListener {
+            startActivity(Intent(this, SettingNoticeActivity::class.java))
         }
 
         // 약관 및 정책
-        binding.clPolicy.setOnClickListener {
+        binding.clPolicy.setOnSingleClickListener {
             startActivity(Intent(this, SettingPolicyActivity::class.java))
         }
 
         // 서비스 이용방법
-        binding.clHowToUse.setOnClickListener {
+        binding.clHowToUse.setOnSingleClickListener {
             startActivity(Intent(this, ServiceGuideActivity::class.java))
         }
 
         // 개인정보 처리 방침
-        binding.clPersonalData.setOnClickListener {
+        binding.clPersonalData.setOnSingleClickListener {
             startActivity(Intent(this, SettingPersonalDataActivity::class.java))
         }
 
         // 고객센터
-        binding.tvCustomerCenter.setOnClickListener { sendMail() }
+        binding.tvCustomerCenter.setOnSingleClickListener { sendMail() }
 
         // 로그아웃
-        binding.tvLogout.setOnClickListener { showLogoutDialog() }
+        binding.tvLogout.setOnSingleClickListener { showLogoutDialog() }
 
         // 회원 탈퇴
-        binding.clUnregister.setOnClickListener {
+        binding.clUnregister.setOnSingleClickListener {
             startActivity(Intent(this, SettingUnregisterActivity::class.java))
         }
     }
