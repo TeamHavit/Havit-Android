@@ -53,10 +53,15 @@ class EnterCategoryTitleFragment :
 
     private fun initNormalViewClickListener() {
         binding.btnNext.setOnClickListener {
-            viewModel.setCategoryTitle(binding.etCategoryTitle.text.toString())
-            findNavController().navigate(
-                R.id.action_enterCategoryTitleFragment_to_chooseIconFragment
-            )
+            val categoryNameWithNoWhiteSpace = binding.etCategoryTitle.text.trim()
+            if (categoryNameWithNoWhiteSpace.isBlank())
+                binding.etCategoryTitle.setText(categoryNameWithNoWhiteSpace)
+            else {
+                viewModel.setCategoryTitle(categoryNameWithNoWhiteSpace.toString())
+                findNavController().navigate(
+                    R.id.action_enterCategoryTitleFragment_to_chooseIconFragment
+                )
+            }
         }
         binding.ivDeleteText.setOnClickListener { binding.etCategoryTitle.text.clear() }
     }
