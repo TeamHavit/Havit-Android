@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.setting.viewmodel
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -83,6 +84,18 @@ class SettingViewModel @Inject constructor(
                 RetrofitObject.provideHavitApi(token).deleteUser()
             } catch (e: Exception) {
                 Log.d("SETTING", "error : $e")
+            }
+        }
+    }
+
+    fun getNoticeList() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                RetrofitObject.provideHavitApi(token).getNoticeList()
+            }.onSuccess {
+                Log.d(TAG, "getNoticeList: $it")
+            }.onFailure {
+                Log.d(TAG, "getNoticeList: fail $it")
             }
         }
     }
