@@ -18,17 +18,16 @@ import org.sopt.havit.util.CalenderUtil
 import org.sopt.havit.util.Event
 import org.sopt.havit.util.HavitAuthUtil
 import java.util.*
-import java.util.regex.Matcher
 import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
 class ShareViewModel @Inject constructor(
-    authRepository: AuthRepository,
+    private val authRepository: AuthRepository,
     private val categoryMapper: CategoryMapper
 ) : ViewModel() {
     /** token */
-    val token = authRepository.getAccessToken()
+    fun getAccessToken() = authRepository.getAccessToken()
 
     /** auth */
     fun makeSignIn(
@@ -65,7 +64,7 @@ class ShareViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 _categoryViewState.value = NetworkStatus.Loading()
-                RetrofitObject.provideHavitApi(token).getCategoryList().data
+                RetrofitObject.provideHavitApi(getAccessToken()).getCategoryList().data
             }.onSuccess {
                 _categoryList.value = it.toMutableList()
                 _categoryNum.value = it.size
@@ -114,14 +113,20 @@ class ShareViewModel @Inject constructor(
     }
 
     private fun extractUrl(content: String?): String {
-        return try {
-            val regex = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]"
-            val p: Pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE)
-            val m: Matcher = p.matcher(content)
-            if (m.find()) m.group() else ""
-        } catch (e: java.lang.Exception) {
-            ""
+        val urlPattern = Pattern.compile(
+            "(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)"
+                    + "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*"
+                    + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)",
+            Pattern.CASE_INSENSITIVE or Pattern.MULTILINE or Pattern.DOTALL
+        )
+        val matcher = urlPattern.matcher(content)
+        while (matcher.find()) {
+            val matchStart = matcher.start(1)
+            val matchEnd = matcher.end()
+            return content?.substring(matchStart, matchEnd) ?: ""
         }
+        return ""
+        // todo edit configuration 사용을 위해 빈스트링("")을 return 했으나,throw 로직으로 전환 예정
     }
 
     /** title */

@@ -178,6 +178,7 @@
             android:name=".ui.sign.SplashWithSignActivity"
             android:configChanges="orientation"
             android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.RemoveSplash">
             <intent-filter>
