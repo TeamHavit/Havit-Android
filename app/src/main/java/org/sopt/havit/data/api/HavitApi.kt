@@ -4,6 +4,7 @@ import org.sopt.havit.data.remote.*
 import org.sopt.havit.data.remote.base.BaseResponse
 import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.domain.entity.Contents
+import org.sopt.havit.domain.entity.Notice
 import retrofit2.http.*
 
 interface HavitApi {
@@ -140,4 +141,7 @@ interface HavitApi {
     suspend fun refreshFcmToken(
         @Body body: FcmTokenParams
     ): BasicResponse
+
+    @GET("notice")
+    suspend fun getNoticeList(): BaseResponse<List<Notice>>
 }
