@@ -23,11 +23,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ShareViewModel @Inject constructor(
-    authRepository: AuthRepository,
+    private val authRepository: AuthRepository,
     private val categoryMapper: CategoryMapper
 ) : ViewModel() {
     /** token */
-    val token = authRepository.getAccessToken()
+    fun getAccessToken() = authRepository.getAccessToken()
 
     /** auth */
     fun makeSignIn(
@@ -64,7 +64,7 @@ class ShareViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 _categoryViewState.value = NetworkStatus.Loading()
-                RetrofitObject.provideHavitApi(token).getCategoryList().data
+                RetrofitObject.provideHavitApi(getAccessToken()).getCategoryList().data
             }.onSuccess {
                 _categoryList.value = it.toMutableList()
                 _categoryNum.value = it.size
