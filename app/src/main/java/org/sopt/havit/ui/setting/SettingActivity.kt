@@ -66,9 +66,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
         // 공지사항
         binding.clNotice.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse(NOTICE_URL)
-            })
+            startActivity(Intent(this, SettingNoticeActivity::class.java))
         }
 
         // 약관 및 정책
