@@ -118,8 +118,8 @@ class ContentsSummeryFragment : Fragment() {
             categoryViewModel.shareDelay.observe(viewLifecycleOwner) {
                 if (it) {
                     categoryViewModel.setShareDelay(false)
-                    requireActivity().finish()
                     setCustomToast()
+                    requireActivity().finish()
                 }
             }
         }
