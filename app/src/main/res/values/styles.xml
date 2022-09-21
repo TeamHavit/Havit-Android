@@ -14,7 +14,7 @@
     </style>
 
     <style name="DisableDialogBackground" parent="Theme.AppCompat.Dialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@drawable/bg_transparent</item>
     </style>
 
 </resources>
