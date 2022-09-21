@@ -3,10 +3,7 @@ package org.sopt.havit.ui.share.contents_summery
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -21,27 +18,18 @@ import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsSummeryData
 import org.sopt.havit.data.remote.CreateContentsRequest
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
+import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.ui.share.ShareViewModel
 import org.sopt.havit.util.*
 
 @AndroidEntryPoint
-class ContentsSummeryFragment : Fragment() {
+class ContentsSummeryFragment :
+    BaseBindingFragment<FragmentContentsSummeryBinding>(R.layout.fragment_contents_summery) {
     private val viewModel: ShareViewModel by activityViewModels()
 
-    private var _binding: FragmentContentsSummeryBinding? = null
-    private val binding get() = _binding!!
     private lateinit var ogData: ContentsSummeryData
     private val categoryViewModel: CategoryViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentContentsSummeryBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
