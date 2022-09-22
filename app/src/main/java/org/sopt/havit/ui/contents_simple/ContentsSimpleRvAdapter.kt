@@ -63,7 +63,7 @@ class ContentsSimpleRvAdapter :
         holder: ContentsSimpleViewHolder,
         position: Int
     ) {
-        holder.onBind(contentsList[position])
+        holder.onBind(contentsList[holder.layoutPosition])
 
         // 아이템 전체 클릭 시 onWebClick() 호출
         holder.itemView.setOnClickListener {
