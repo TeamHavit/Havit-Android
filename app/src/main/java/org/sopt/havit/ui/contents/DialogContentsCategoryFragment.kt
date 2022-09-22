@@ -113,7 +113,8 @@ class DialogContentsCategoryFragment : BottomSheetDialogFragment() {
     }
 
     private fun setCategoryItemBackGroundColor(view: View) {
-        view.findViewById<View>(R.id.cl_contents_dialog_top).isSelected = true
+        view.findViewById<View>(R.id.cl_contents_dialog_top)
+            .setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.purple_category))
     }
 
     private fun moveSelectedCategoryContents(position: Int) {
