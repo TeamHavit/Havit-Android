@@ -55,8 +55,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     override fun onStart() {
         super.onStart()
-        categoryDataObserve() // 카테고리 초기화
-        recentContentsDataObserve() // 추천콘텐츠 초기화
+        categoryDataObserve()   // 카테고리 초기화
+        recentContentsDataObserve() // 최근저장 콘텐츠 초기화
         notificationDataObserve()   // 알림 아이콘 초기화
         initReachRate() // 도달률 관련 데이터 초기화
     }
@@ -142,6 +142,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.rvRecommend.adapter = recommendRvAdapter
     }
 
+    // 최근 저장 콘텐츠
     private fun recentContentsDataObserve() {
         with(homeViewModel) {
             contentsList.observe(viewLifecycleOwner) { data ->

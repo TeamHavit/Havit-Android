@@ -21,7 +21,7 @@ class NotificationRvAdapter :
     class NotificationViewHolder(val binding: ItemNotificationBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(data: NotificationResponse.NotificationData, position: Int) {
+        fun onBind(data: NotificationResponse.NotificationData) {
             binding.content = data
             binding.option = NotificationActivity.option
             setIvHavit(data.isSeen)
@@ -48,22 +48,21 @@ class NotificationRvAdapter :
         holder: NotificationViewHolder,
         position: Int
     ) {
-        val safePosition = holder.layoutPosition
-        holder.onBind(contentsList[safePosition], safePosition)
+        holder.onBind(contentsList[holder.layoutPosition])
 
         // 아이템 전체 클릭 시 onWebClick() 호출
         holder.itemView.setOnClickListener {
-            itemClickListener.onWebClick(it, safePosition)
+            itemClickListener.onWebClick(it, holder.layoutPosition)
         }
         // 아이템 더보기 클릭 시 onMoreClick() 호출
         holder.binding.ivMore.setOnClickListener {
-            itemMoreClickListener.onMoreClick(it, safePosition)
+            itemMoreClickListener.onMoreClick(it, holder.layoutPosition)
         }
         // 아이템 해빗 클릭 시 onHavitClick() 호출
         holder.binding.ivHavit.setOnClickListener {
             itemHavitClickListener.onHavitClick(
                 holder.binding.ivHavit,
-                safePosition
+                holder.layoutPosition
             )
         }
     }
