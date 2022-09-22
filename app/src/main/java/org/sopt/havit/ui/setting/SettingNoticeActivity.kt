@@ -10,6 +10,7 @@ import org.sopt.havit.databinding.ActivitySettingNoticeBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.setting.adapter.NoticeAdapter
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
+import org.sopt.havit.util.setOnSingleClickListener
 
 @AndroidEntryPoint
 class SettingNoticeActivity :
@@ -24,6 +25,7 @@ class SettingNoticeActivity :
         initAdapter()
         setNoticeDataOnAdapter()
         getNoticeList()
+        onClickBackButton()
     }
 
     private fun initAdapter() {
@@ -44,5 +46,11 @@ class SettingNoticeActivity :
 
     private fun getNoticeList() {
         viewModel.getNoticeList()
+    }
+
+    private fun onClickBackButton() {
+        binding.ivBack.setOnSingleClickListener {
+            finish()
+        }
     }
 }
