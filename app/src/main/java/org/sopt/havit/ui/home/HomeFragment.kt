@@ -19,6 +19,7 @@ import org.sopt.havit.ui.notification.NotificationActivity
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.PopupSharedPreference
+import org.sopt.havit.util.setDragSensitivity
 import org.sopt.havit.util.setOnSingleClickListener
 
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
@@ -49,6 +50,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         recommendationDataObserve()
         // Every clickEvent
         setClickEvent()
+        disableRvSmoothScroll()
+        setVpSensitivity()
 
         return binding.root
     }
@@ -64,6 +67,14 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     override fun onResume() {
         super.onResume()
         setData()
+    }
+
+    private fun disableRvSmoothScroll() {
+        binding.svMain.isSmoothScrollingEnabled = false
+    }
+
+    private fun setVpSensitivity() {
+        binding.layoutCategory.vpCategory.setDragSensitivity(0.1f)
     }
 
     // 추천 콘텐츠 클릭 -> 웹뷰로 이동
