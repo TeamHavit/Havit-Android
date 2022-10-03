@@ -15,6 +15,8 @@ data class ContentsSimpleResponse(
         var isSeen: Boolean,
         val notificationTime: String,
         val title: String,
-        val url: String
+        val url: String,
+        val firstCategory: String,
+        val extraCategoryCount: Int,
     )
 }

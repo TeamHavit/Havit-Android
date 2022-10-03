@@ -51,14 +51,14 @@
                 android:ellipsize="end"
                 android:gravity="start"
                 android:maxLines="1"
-                android:text="@{homeRecentData.title}"
+                android:text="@{homeRecentData.extraCategoryCount > 0? homeRecentData.firstCategory + ` 외 ` + String.valueOf(homeRecentData.extraCategoryCount) + `개` : homeRecentData.firstCategory}"
                 android:textAppearance="@style/Mini10Regular"
                 android:textColor="@color/purple_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="카테고리 이름d`dddddddddddd" />
+                tools:text="카테고리 외 n개" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -72,7 +72,7 @@
             android:gravity="start"
             android:maxLines="2"
             android:minLines="2"
-            android:text="@{homeRecentData.description}"
+            android:text="@{homeRecentData.title}"
             android:textAppearance="@style/Text14Medium"
             android:textColor="@color/havit_gray"
             app:layout_constraintBottom_toTopOf="@id/tv_time"
