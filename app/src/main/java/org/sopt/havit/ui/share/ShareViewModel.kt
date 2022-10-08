@@ -277,12 +277,13 @@ class ShareViewModel @Inject constructor(
         val categoryIds = selectedCategoryId.value ?: throw IllegalStateException()
 
         return CreateContentsRequest(
-            ogData.ogTitle, ogData.ogUrl,
-            ogData.ogDescription,
-            imageUrl,
-            notification,
-            time,
-            categoryIds
+            title = ogData.ogTitle,
+            url = ogData.ogUrl,
+            description = ogData.ogDescription,
+            imageUrl = imageUrl,
+            isNotified = notification,
+            notificationTime = time,
+            categoryIds = categoryIds
         )
     }
 

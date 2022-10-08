@@ -34,6 +34,7 @@ class ShareActivity : AppCompatActivity() {
         initActivityLauncher()
         makeSignIn()
         setUrlOnViewModel()
+        viewModel.setCrawlingContents()
     }
 
     private fun initActivityLauncher() {
