@@ -2,6 +2,7 @@ package org.sopt.havit.ui.share.contents_summery
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +30,7 @@ class ContentsSummeryFragment :
         setContents()
         initListener()
         toolbarClickListener()
+        onClickRefreshButtonOnNetworkError()
     }
 
     private fun setContents() {
@@ -93,6 +95,13 @@ class ContentsSummeryFragment :
     private fun finishSavingContents() {
         preference.clearTitle()
         requireActivity().finish()
+    }
+
+    private fun onClickRefreshButtonOnNetworkError() {
+        binding.networkErrorLayout.ivRefresh.setOnSingleClickListener {
+            it.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotation_refresh))
+            saveContents()
+        }
     }
 
     private fun setCustomToast() = ToastUtil(requireContext()).makeToast(ADD_CONTENT_TYPE)
