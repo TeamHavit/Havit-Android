@@ -16,7 +16,6 @@ import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.setting.SettingPersonalDataActivity
 import org.sopt.havit.ui.setting.SettingPolicyActivity
-import org.sopt.havit.util.MySharedPreference
 import org.sopt.havit.util.setOnSinglePostClickListener
 
 @AndroidEntryPoint
@@ -106,7 +105,7 @@ class AddTosFragment : BaseBindingFragment<FragmentAddTosBinding>(R.layout.fragm
 
     private fun accessTokenObserver() {
         signUpViewModel.accessToken.observe(viewLifecycleOwner) {
-            if (it != "") MySharedPreference.setXAuthToken(requireContext(), it)
+            if (it != "") signUpViewModel.setAuthToken(it)
         }
     }
 }

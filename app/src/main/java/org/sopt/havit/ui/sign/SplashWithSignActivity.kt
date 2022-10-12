@@ -7,7 +7,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.MainActivity
@@ -20,7 +19,7 @@ import org.sopt.havit.ui.share.ShareActivity
 import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_NORMAL_FLOW
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.HavitAuthUtil
-import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.util.HavitSharedPreference
 import org.sopt.havit.util.setOnSinglePostClickListener
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -32,6 +31,9 @@ class SplashWithSignActivity :
 
     @Inject
     lateinit var kakaoLoginService: KakaoLoginService
+
+    @Inject
+    lateinit var preference: HavitSharedPreference
 
     private val signInViewModel: SignInViewModel by viewModels()
     private var isFromShare by Delegates.notNull<Boolean>()
@@ -118,8 +120,8 @@ class SplashWithSignActivity :
             }
         }) { isLogin ->
             signInViewModel.isServerNetwork.value = NetworkState.SUCCESS
-            if (isLogin && MySharedPreference.getXAuthToken(this).isNotEmpty()) startMainActivity()
-            else if (MySharedPreference.isFirstEnter(this)) startOnBoardingActivity()
+            if (isLogin && preference.getXAuthToken().isNotEmpty()) startMainActivity()
+            else if (preference.isFirstEnter()) startOnBoardingActivity()
             else setLoginAnimation()
         }
     }
@@ -139,7 +141,11 @@ class SplashWithSignActivity :
             )
             setAutoLogin()
         }
-        binding.btnKakaoLogin.setOnSinglePostClickListener { kakaoLoginService.setKakaoLogin(signInViewModel.kakaoLoginCallback) }
+        binding.btnKakaoLogin.setOnSinglePostClickListener {
+            kakaoLoginService.setKakaoLogin(
+                signInViewModel.kakaoLoginCallback
+            )
+        }
         binding.tvAnotherLogin.setOnClickListener {
             kakaoLoginService.setLoginWithAccount(
                 signInViewModel.kakaoLoginCallback
@@ -170,7 +176,7 @@ class SplashWithSignActivity :
             this,
             EventObserver { isAlreadyUser ->
                 if (isAlreadyUser.data.isAlreadyUser == null) { // 기존 유저
-                    MySharedPreference.setXAuthToken(this, isAlreadyUser.data.accessToken ?: "")
+                    preference.setXAuthToken(isAlreadyUser.data.accessToken ?: "")
                     if (isFromShare) {
                         setResult(Activity.RESULT_OK)
                         finish()

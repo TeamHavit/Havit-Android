@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.TranslateAnimation
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentHomeBinding
 import org.sopt.havit.domain.entity.NetworkState
@@ -21,8 +23,9 @@ import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.PopupSharedPreference
 import org.sopt.havit.util.setOnSingleClickListener
 
+@AndroidEntryPoint
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
-    private val homeViewModel: HomeViewModel by lazy { HomeViewModel(requireContext()) }
+    private val homeViewModel: HomeViewModel by viewModels()
     private val contentsAdapter: HomeRecentContentsRvAdapter by lazy { HomeRecentContentsRvAdapter() }
     private lateinit var recommendRvAdapter: HomeRecommendRvAdapter
     private lateinit var categoryVpAdapter: HomeCategoryVpAdapter

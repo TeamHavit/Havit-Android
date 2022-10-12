@@ -1,6 +1,5 @@
 package org.sopt.havit.ui.contents_simple
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,11 +10,14 @@ import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.domain.entity.NetworkState
-import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.util.HavitSharedPreference
+import javax.inject.Inject
 
-class ContentsSimpleViewModel(context: Context) : ViewModel() {
+class ContentsSimpleViewModel @Inject constructor(
+    preference: HavitSharedPreference
+) : ViewModel() {
 
-    private val token = MySharedPreference.getXAuthToken(context)
+    private val token = preference.getXAuthToken()
 
     private val _contentsList = MutableLiveData<List<ContentsSimpleResponse.ContentsSimpleData>>()
     val contentsList: LiveData<List<ContentsSimpleResponse.ContentsSimpleData>> = _contentsList

@@ -9,12 +9,14 @@ import org.sopt.havit.R
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.util.Event
+import org.sopt.havit.util.HavitSharedPreference
 import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val preference: HavitSharedPreference
 ) : ViewModel() {
 
     var isServerNetwork = MutableLiveData<NetworkState>()
@@ -78,6 +80,10 @@ class SignUpViewModel @Inject constructor(
 
     fun initFcmToken() {
         authRepository.getFcmToken { token -> _fcmToken.value = token }
+    }
+
+    fun setAuthToken(token: String) {
+        preference.setXAuthToken(token)
     }
 
 

@@ -1,7 +1,5 @@
 package org.sopt.havit.data.repository
 
-import android.content.Context
-import dagger.hilt.android.qualifiers.ApplicationContext
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.BasicResponse
 import org.sopt.havit.data.remote.ContentsHavitRequest
@@ -9,15 +7,15 @@ import org.sopt.havit.data.remote.ContentsHavitResponse
 import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSource
 import org.sopt.havit.domain.entity.Contents
 import org.sopt.havit.domain.repository.ContentsRepository
-import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.util.HavitSharedPreference
 import javax.inject.Inject
 
 class ContentsRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val contentsRemoteDataSource: ContentsRemoteDataSource
+    private val contentsRemoteDataSource: ContentsRemoteDataSource,
+    preference: HavitSharedPreference
 ) : ContentsRepository {
 
-    private val pref = MySharedPreference.getXAuthToken(context)
+    private val pref = preference.getXAuthToken()
 
     override suspend fun isSeen(contentsId: Int): ContentsHavitResponse {
         return RetrofitObject.provideHavitApi(pref).isHavit(ContentsHavitRequest(contentsId))
