@@ -11,8 +11,6 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 import org.sopt.havit.R
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsSummeryData
@@ -42,37 +40,14 @@ class ContentsSummeryFragment :
     }
 
     private fun setContents() {
-        val url = viewModel.url.value ?: throw IllegalStateException("Url cannot be null")
-        ogData = ContentsSummeryData(ogUrl = url)
         GlobalScope.launch {
-            getOgData(url)
+            viewModel.getOgData()
+            ogData = viewModel.ogData.value ?: throw IllegalStateException("크롤링 과정에서 문제 발생")
             if (MySharedPreference.getTitle(requireContext()).isNotEmpty())
                 ogData.ogTitle = MySharedPreference.getTitle(requireContext())
             if (ogData.ogTitle == "") ogData.ogTitle = "제목 없는 콘텐츠"
             binding.contentsSummeryData = ogData
         }
-    }
-
-
-    private suspend fun getOgData(url: String) {
-        GlobalScope.launch {
-            kotlin.runCatching {
-                val doc: Document = Jsoup.connect(url).get()
-                val ogTags = doc.select("meta[property^=og:]")
-                ogData.apply {
-                    this.ogUrl = url
-                    if (ogTags.size == 0) return@apply
-                    ogTags.forEachIndexed { index, _ ->
-                        val tag = ogTags[index]
-                        when (tag.attr("property")) {
-                            "og:image" -> this.ogImage = tag.attr("content")
-                            "og:description" -> this.ogDescription = tag.attr("content")
-                            "og:title" -> this.ogTitle = tag.attr("content")
-                        }
-                    }
-                }
-            }
-        }.join()
     }
 
     private fun initListener() {

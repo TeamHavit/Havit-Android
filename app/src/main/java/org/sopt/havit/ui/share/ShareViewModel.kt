@@ -7,9 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.select.Elements
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.mapper.CategoryMapper
+import org.sopt.havit.data.remote.ContentsSummeryData
 import org.sopt.havit.domain.entity.CategoryWithSelected
 import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.domain.repository.AuthRepository
@@ -55,7 +60,6 @@ class ShareViewModel @Inject constructor(
 
     private var _selectedCategoryId = MutableLiveData<List<Int>>()
     val selectedCategoryId: LiveData<List<Int>> = _selectedCategoryId
-
 
     private val _categoryViewState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())
     val categoryViewState: LiveData<NetworkStatus> = _categoryViewState
@@ -188,6 +192,45 @@ class ShareViewModel @Inject constructor(
         _finalIndex.value = null
         _finalNotificationTime.value = null
     }
+
+    /** Contents Data */
+
+    private val _ogData = MutableLiveData<ContentsSummeryData>()
+    val ogData: LiveData<ContentsSummeryData> = _ogData
+
+    suspend fun getOgData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val doc: Document = Jsoup.connect(url.value).get()
+                doc.select("meta[property^=og:]")
+            }.onSuccess {
+                throwExceptionIfDataUnavailable(it.size)
+                val contentsSummeryData = getDataByOgTags(it)
+                _ogData.postValue(contentsSummeryData)
+            }.onFailure {
+                Log.d(TAG, "crawling fail / $it ")
+            }
+        }.join()
+    }
+
+    private fun throwExceptionIfDataUnavailable(dataSize: Int) {
+        if (dataSize == 0) throw IllegalStateException()
+    }
+
+    private fun getDataByOgTags(it: Elements): ContentsSummeryData {
+        return ContentsSummeryData().apply {
+            it.forEachIndexed { index, _ ->
+                val tag = it[index]
+                when (it[index].attr("property")) {
+                    "og:url" -> this.ogUrl = tag.attr("content")
+                    "og:image" -> this.ogImage = tag.attr("content")
+                    "og:description" -> this.ogDescription = tag.attr("content")
+                    "og:title" -> this.ogTitle = tag.attr("content")
+                }
+            }
+        }
+    }
+
 
     /** server event */
     private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
