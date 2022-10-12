@@ -10,9 +10,14 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.FragmentEditTitleBinding
 import org.sopt.havit.util.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class EditTitleFragment : Fragment(), OnBackPressedHandler {
+
+    @Inject
+    lateinit var preference: HavitSharedPreference
+
     private var binding: FragmentEditTitleBinding by AutoClearedValue()
     private val args by navArgs<EditTitleFragmentArgs>()
 
@@ -49,7 +54,7 @@ class EditTitleFragment : Fragment(), OnBackPressedHandler {
     private fun initClickListener() {
         binding.icBack.setOnClickListener { onBackClicked() }
         binding.tvComplete.setOnClickListener {
-            MySharedPreference.setTitle(requireContext(), binding.etTitle.text.toString())
+            preference.setTitle(binding.etTitle.text.toString())
             goBack()
         }
     }

@@ -2,16 +2,20 @@ package org.sopt.havit.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-object MySharedPreference {
+class HavitSharedPreference @Inject constructor(@ApplicationContext private val context: Context) {
 
-    private const val STORAGE_KEY = "HAVIT"
-    private const val X_AUTH_TOKEN_1 = "TOKEN" // 정아
-    private const val CONTENTS_TITLE = "TITLE"
-    private const val FIRST_USER = "FIRST_USER"
-    private const val NOTI_TIME = "notification_time"
+    companion object {
+        private const val STORAGE_KEY = "HAVIT"
+        private const val X_AUTH_TOKEN_1 = "TOKEN" // 정아
+        private const val CONTENTS_TITLE = "TITLE"
+        private const val FIRST_USER = "FIRST_USER"
+        private const val NOTI_TIME = "notification_time"
+    }
 
-    fun setTitle(context: Context, title: String) {
+    fun setTitle(title: String) {
         val prefs: SharedPreferences =
             context.getSharedPreferences(CONTENTS_TITLE, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = prefs.edit()
@@ -19,19 +23,19 @@ object MySharedPreference {
         editor.apply()
     }
 
-    fun getTitle(context: Context): String {
+    fun getTitle(): String {
         val pref: SharedPreferences =
             context.getSharedPreferences(CONTENTS_TITLE, Context.MODE_PRIVATE)
         return pref.getString(CONTENTS_TITLE, "").toString()
     }
 
-    fun clearTitle(context: Context) {
+    fun clearTitle() {
         val pref: SharedPreferences =
             context.getSharedPreferences(CONTENTS_TITLE, Context.MODE_PRIVATE)
         pref.edit().clear().apply()
     }
 
-    fun setXAuthToken(context: Context, xAuthToken: String) {
+    fun setXAuthToken(xAuthToken: String) {
         val prefs: SharedPreferences =
             context.getSharedPreferences(X_AUTH_TOKEN_1, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = prefs.edit()
@@ -42,19 +46,19 @@ object MySharedPreference {
         editor.apply()
     }
 
-    fun getXAuthToken(context: Context): String {
+    fun getXAuthToken(): String {
         val prefs: SharedPreferences =
             context.getSharedPreferences(X_AUTH_TOKEN_1, Context.MODE_PRIVATE)
         return prefs.getString(X_AUTH_TOKEN_1, "").toString()
     }
 
-    fun clearXAuthToken(context: Context) {
+    fun clearXAuthToken() {
         val prefs: SharedPreferences =
             context.getSharedPreferences(X_AUTH_TOKEN_1, Context.MODE_PRIVATE)
         prefs.edit().clear().apply()
     }
 
-    fun saveFirstEnter(context: Context) {
+    fun saveFirstEnter() {
         val prefs: SharedPreferences =
             context.getSharedPreferences(FIRST_USER, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = prefs.edit()
@@ -62,10 +66,9 @@ object MySharedPreference {
         editor.apply()
     }
 
-    fun isFirstEnter(context: Context): Boolean {
+    fun isFirstEnter(): Boolean {
         val pref: SharedPreferences =
             context.getSharedPreferences(FIRST_USER, Context.MODE_PRIVATE)
         return pref.getBoolean(FIRST_USER, true)
     }
-
 }

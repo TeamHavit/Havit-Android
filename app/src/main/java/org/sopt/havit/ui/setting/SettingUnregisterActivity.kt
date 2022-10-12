@@ -12,12 +12,16 @@ import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.ui.sign.SplashWithSignActivity
 import org.sopt.havit.util.DialogOkUtil
-import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.util.HavitSharedPreference
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingUnregisterActivity :
     BaseBindingActivity<ActivitySettingUnregisterBinding>(R.layout.activity_setting_unregister) {
     private val settingViewModel: SettingViewModel by viewModels()
+
+    @Inject
+    lateinit var preference: HavitSharedPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,9 +65,9 @@ class SettingUnregisterActivity :
         }
 
         settingViewModel.unregister()
-        MySharedPreference.clearXAuthToken(this)
+        preference.clearXAuthToken()
         settingViewModel.removeHavitAuthToken()
-        MySharedPreference.saveFirstEnter(this)
+        preference.saveFirstEnter()
         startActivity(Intent(this, SplashWithSignActivity::class.java))
         finishAffinity()
     }

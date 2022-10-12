@@ -12,11 +12,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.ActivityShareBinding
 import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_FROM_SHARE
 import org.sopt.havit.ui.sign.SplashWithSignActivity
-import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.util.HavitSharedPreference
 import java.io.Serializable
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ShareActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var preference: HavitSharedPreference
+
     private val viewModel: ShareViewModel by viewModels()
     private lateinit var splashWithSignActivityLauncher: ActivityResultLauncher<Intent>
     private lateinit var binding: ActivityShareBinding
@@ -91,7 +96,7 @@ class ShareActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        MySharedPreference.clearTitle(this)
+        preference.clearTitle()
     }
 
     companion object {

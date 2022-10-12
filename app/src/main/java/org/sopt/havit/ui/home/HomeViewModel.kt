@@ -1,10 +1,10 @@
 package org.sopt.havit.ui.home
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
@@ -15,10 +15,14 @@ import org.sopt.havit.data.remote.UserResponse
 import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.notification.NotificationActivity
-import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.util.HavitSharedPreference
+import javax.inject.Inject
 
-class HomeViewModel(context: Context) : ViewModel() {
-    private val token = MySharedPreference.getXAuthToken(context)
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    preference: HavitSharedPreference
+) : ViewModel() {
+    private val token = preference.getXAuthToken()
 
     // 로딩 상태를 나타내는 변수
     private val _loadState = MutableLiveData(NetworkState.LOADING)

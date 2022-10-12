@@ -15,10 +15,14 @@ import org.sopt.havit.ui.home.ServiceGuideActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.ui.sign.SplashWithSignActivity
 import org.sopt.havit.util.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.activity_setting) {
     private val settingViewModel: SettingViewModel by viewModels()
+
+    @Inject
+    lateinit var preference: HavitSharedPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,8 +104,8 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
     private fun logout() {
         settingViewModel.removeHavitAuthToken()
-        MySharedPreference.clearXAuthToken(this)
-        MySharedPreference.saveFirstEnter(this)
+        preference.clearXAuthToken()
+        preference.saveFirstEnter()
         UserApiClient.instance.logout { error ->
             if (error != null) {
                 Log.e("SETTING", "로그아웃 실패. SDK에서 토큰 삭제됨", error)

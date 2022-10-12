@@ -1,35 +1,26 @@
 package org.sopt.havit.ui.share.contents_summery
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 import org.sopt.havit.R
-import org.sopt.havit.data.RetrofitObject
-import org.sopt.havit.data.remote.ContentsSummeryData
-import org.sopt.havit.data.remote.CreateContentsRequest
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
+import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.ui.base.BaseBindingFragment
-import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.ui.share.ShareViewModel
 import org.sopt.havit.util.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ContentsSummeryFragment :
     BaseBindingFragment<FragmentContentsSummeryBinding>(R.layout.fragment_contents_summery) {
     private val viewModel: ShareViewModel by activityViewModels()
 
-    private lateinit var ogData: ContentsSummeryData
-    private val categoryViewModel: CategoryViewModel by viewModels()
+    @Inject
+    lateinit var preference: HavitSharedPreference
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,40 +30,11 @@ class ContentsSummeryFragment :
         setContents()
         initListener()
         toolbarClickListener()
+        onClickRefreshButtonOnNetworkError()
     }
 
     private fun setContents() {
-        val url = viewModel.url.value ?: throw IllegalStateException("Url cannot be null")
-        ogData = ContentsSummeryData(ogUrl = url)
-        GlobalScope.launch {
-            getOgData(url)
-            if (MySharedPreference.getTitle(requireContext()).isNotEmpty())
-                ogData.ogTitle = MySharedPreference.getTitle(requireContext())
-            if (ogData.ogTitle == "") ogData.ogTitle = "제목 없는 콘텐츠"
-            binding.contentsSummeryData = ogData
-        }
-    }
-
-
-    private suspend fun getOgData(url: String) {
-        GlobalScope.launch {
-            kotlin.runCatching {
-                val doc: Document = Jsoup.connect(url).get()
-                val ogTags = doc.select("meta[property^=og:]")
-                ogData.apply {
-                    this.ogUrl = url
-                    if (ogTags.size == 0) return@apply
-                    ogTags.forEachIndexed { index, _ ->
-                        val tag = ogTags[index]
-                        when (tag.attr("property")) {
-                            "og:image" -> this.ogImage = tag.attr("content")
-                            "og:description" -> this.ogDescription = tag.attr("content")
-                            "og:title" -> this.ogTitle = tag.attr("content")
-                        }
-                    }
-                }
-            }
-        }.join()
+        viewModel.setCrawlingContents()
     }
 
     private fun initListener() {
@@ -102,56 +64,21 @@ class ContentsSummeryFragment :
 
         // 완료 버튼
         binding.btnComplete.setOnSinglePostClickListener {
-            initNetwork()
-            categoryViewModel.shareDelay.observe(viewLifecycleOwner) {
-                if (it) {
-                    categoryViewModel.setShareDelay(false)
-                    setCustomToast()
-                    requireActivity().finish()
+            saveContents()
+            viewModel.saveContentsViewState.observe(viewLifecycleOwner) {
+                when (it) {
+                    is NetworkStatus.Success -> {
+                        setCustomToast()
+                        requireActivity().finish()
+                    }
+                    else -> return@observe
                 }
             }
         }
     }
 
-    private fun initNetwork() {
-        lifecycleScope.launch {
-            try {
-                // 알림 설정 여부에 따른 notification 과 time 변수 초기화
-                val notification: Boolean
-                val time: String
-
-                val reservedNotification =
-                    viewModel.finalNotificationTime.value
-
-                if (reservedNotification == null) {
-                    time = ""
-                    notification = false
-                } else {
-                    time = reservedNotification
-                        .replace(".", "-")
-                        .substring(0, 16)
-                    notification = true
-                }
-
-                val createContentsRequest = CreateContentsRequest(
-                    title = ogData.ogTitle,
-                    url = ogData.ogUrl,
-                    description = ogData.ogDescription,
-                    imageUrl = ogData.ogImage ?: "",
-                    isNotified = notification,
-                    notificationTime = time,
-                    categoryIds = viewModel.selectedCategoryId.value ?: return@launch
-                )
-
-                Log.d(TAG, "initNetwork: $createContentsRequest")
-
-                RetrofitObject.provideHavitApi(MySharedPreference.getXAuthToken(requireContext()))
-                    .createContents(createContentsRequest)
-                categoryViewModel.setShareDelay(true)
-            } catch (e: Exception) {
-                Log.d("Server Failed", e.toString())
-            }
-        }
+    private fun saveContents() {
+        viewModel.saveContents()
     }
 
     private fun toolbarClickListener() {
@@ -166,8 +93,15 @@ class ContentsSummeryFragment :
     }
 
     private fun finishSavingContents() {
-        MySharedPreference.clearTitle(requireContext())
+        preference.clearTitle()
         requireActivity().finish()
+    }
+
+    private fun onClickRefreshButtonOnNetworkError() {
+        binding.networkErrorLayout.ivRefresh.setOnSingleClickListener {
+            it.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotation_refresh))
+            saveContents()
+        }
     }
 
     private fun setCustomToast() = ToastUtil(requireContext()).makeToast(ADD_CONTENT_TYPE)

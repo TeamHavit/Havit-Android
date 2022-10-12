@@ -7,6 +7,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
@@ -24,7 +25,7 @@ import java.io.Serializable
 class ContentsSimpleActivity :
     BaseBindingActivity<ActivityContentsSimpleBinding>(R.layout.activity_contents_simple) {
 
-    private val contentsViewModel: ContentsSimpleViewModel by lazy { ContentsSimpleViewModel(this) }
+    private val contentsViewModel: ContentsSimpleViewModel by viewModels()
     private lateinit var contentsAdapter: ContentsSimpleRvAdapter
     private lateinit var contentsType: String
 

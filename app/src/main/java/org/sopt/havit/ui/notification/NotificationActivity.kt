@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +25,7 @@ import java.io.Serializable
 @AndroidEntryPoint
 class NotificationActivity :
     BaseBindingActivity<ActivityNotificationBinding>(R.layout.activity_notification) {
-    private val notificationViewModel: NotificationViewModel by lazy { NotificationViewModel(this) }
+    private val notificationViewModel: NotificationViewModel by viewModels()
     private lateinit var notificationAdapter: NotificationRvAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {

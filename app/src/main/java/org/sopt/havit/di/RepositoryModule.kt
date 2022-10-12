@@ -1,10 +1,8 @@
 package org.sopt.havit.di
 
-import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import org.sopt.havit.data.mapper.ContentsMapper
 import org.sopt.havit.data.repository.*
@@ -14,6 +12,7 @@ import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.category.CategoryRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSourceImpl
 import org.sopt.havit.domain.repository.*
+import org.sopt.havit.util.HavitSharedPreference
 import javax.inject.Singleton
 
 @Module
@@ -36,9 +35,10 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideContentsRepository(
-        @ApplicationContext context: Context,
-        contentsRemoteDataSourceImpl: ContentsRemoteDataSourceImpl
-    ): ContentsRepository = ContentsRepositoryImpl(context, contentsRemoteDataSourceImpl)
+        contentsRemoteDataSourceImpl: ContentsRemoteDataSourceImpl,
+        havitSharedPreference: HavitSharedPreference
+    ): ContentsRepository =
+        ContentsRepositoryImpl(contentsRemoteDataSourceImpl, havitSharedPreference)
 
     @Provides
     @Singleton

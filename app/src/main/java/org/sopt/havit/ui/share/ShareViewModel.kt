@@ -7,9 +7,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.select.Elements
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.mapper.CategoryMapper
+import org.sopt.havit.data.remote.ContentsSummeryData
+import org.sopt.havit.data.remote.CreateContentsRequest
 import org.sopt.havit.domain.entity.CategoryWithSelected
 import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.domain.repository.AuthRepository
@@ -17,6 +23,7 @@ import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
 import org.sopt.havit.util.Event
 import org.sopt.havit.util.HavitAuthUtil
+import org.sopt.havit.util.HavitSharedPreference
 import java.util.*
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -24,7 +31,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ShareViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val categoryMapper: CategoryMapper
+    private val categoryMapper: CategoryMapper,
+    private val preference: HavitSharedPreference
 ) : ViewModel() {
     /** token */
     fun getAccessToken() = authRepository.getAccessToken()
@@ -56,7 +64,6 @@ class ShareViewModel @Inject constructor(
     private var _selectedCategoryId = MutableLiveData<List<Int>>()
     val selectedCategoryId: LiveData<List<Int>> = _selectedCategoryId
 
-
     private val _categoryViewState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())
     val categoryViewState: LiveData<NetworkStatus> = _categoryViewState
 
@@ -72,8 +79,6 @@ class ShareViewModel @Inject constructor(
                 _categoryViewState.value = NetworkStatus.Success()
             }.onFailure {
                 _categoryViewState.value = NetworkStatus.Error(it)
-            }.run {
-                //categoryViewState = NetworkStatus.Init()
             }
         }
     }
@@ -189,6 +194,99 @@ class ShareViewModel @Inject constructor(
         _finalNotificationTime.value = null
     }
 
+    /** Contents Data */
+
+    private val _ogData = MutableLiveData<ContentsSummeryData>()
+    val ogData: LiveData<ContentsSummeryData> = _ogData
+
+    fun setCrawlingContents() {
+        viewModelScope.launch {
+            getOgData()
+            setModifyTitle()
+            setDefaultIfTitleDataNotExist()
+        }
+    }
+
+    private fun setModifyTitle() {
+        if (preference.getTitle().isNotEmpty())
+            ogData.value?.ogTitle = preference.getTitle()
+    }
+
+    private fun setDefaultIfTitleDataNotExist() {
+        if (ogData.value?.ogTitle == "")
+            _ogData.value?.ogTitle = NO_TITLE_CONTENTS
+    }
+
+    private suspend fun getOgData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val doc: Document = Jsoup.connect(url.value).get()
+                doc.select("meta[property^=og:]")
+            }.onSuccess {
+                throwExceptionIfDataUnavailable(it.size)
+                val contentsSummeryData = getDataByOgTags(it)
+                _ogData.postValue(contentsSummeryData)
+            }.onFailure {
+                Log.d(TAG, "crawling fail / $it ")
+            }
+        }.join()
+    }
+
+    private fun throwExceptionIfDataUnavailable(dataSize: Int) {
+        if (dataSize == 0) throw IllegalStateException()
+    }
+
+    private fun getDataByOgTags(it: Elements): ContentsSummeryData {
+        return ContentsSummeryData().apply {
+            it.forEachIndexed { index, _ ->
+                val tag = it[index]
+                when (it[index].attr("property")) {
+                    "og:url" -> this.ogUrl = tag.attr("content")
+                    "og:image" -> this.ogImage = tag.attr("content")
+                    "og:description" -> this.ogDescription = tag.attr("content")
+                    "og:title" -> this.ogTitle = tag.attr("content")
+                }
+            }
+        }
+    }
+
+    private val _saveContentsViewState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())
+    val saveContentsViewState: LiveData<NetworkStatus> = _saveContentsViewState
+
+    fun saveContents() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                val createContentsRequest = getCreateContentsRequest()
+                RetrofitObject.provideHavitApi(preference.getXAuthToken())
+                    .createContents(createContentsRequest)
+            }.onSuccess {
+                _saveContentsViewState.value = NetworkStatus.Success()
+            }.onFailure {
+                _saveContentsViewState.value = NetworkStatus.Error(it)
+            }
+        }
+    }
+
+    private fun getCreateContentsRequest(): CreateContentsRequest {
+
+        val ogData = ogData.value ?: throw IllegalStateException()
+        val imageUrl = ogData.ogImage ?: ""
+        val reservedNotification = finalNotificationTime.value
+        val notification = reservedNotification != null
+        val time = reservedNotification?.replace(".", "-")?.substring(0, 16) ?: ""
+        val categoryIds = selectedCategoryId.value ?: throw IllegalStateException()
+
+        return CreateContentsRequest(
+            ogData.ogTitle, ogData.ogUrl,
+            ogData.ogDescription,
+            imageUrl,
+            notification,
+            time,
+            categoryIds
+        )
+    }
+
+
     /** server event */
     private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
     val isNetworkCorrespondenceEnd: MutableLiveData<Event<String>>
@@ -196,5 +294,9 @@ class ShareViewModel @Inject constructor(
 
     private fun userClicksOnButton() {
         _isNetworkCorrespondenceEnd.value = Event("Finish Server")
+    }
+
+    companion object {
+        const val NO_TITLE_CONTENTS = "제목 없는 콘텐츠"
     }
 }

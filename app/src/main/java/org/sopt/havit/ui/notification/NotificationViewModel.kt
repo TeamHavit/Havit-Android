@@ -1,19 +1,23 @@
 package org.sopt.havit.ui.notification
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.NotificationResponse.NotificationData
-import org.sopt.havit.util.MySharedPreference
+import org.sopt.havit.util.HavitSharedPreference
+import javax.inject.Inject
 
-class NotificationViewModel(context: Context) : ViewModel() {
-    private val token = MySharedPreference.getXAuthToken(context)
+@HiltViewModel
+class NotificationViewModel @Inject constructor(
+    preference: HavitSharedPreference
+) : ViewModel() {
+    private val token = preference.getXAuthToken()
 
     private val _contentsList = MutableLiveData<List<NotificationData>>()
     val contentsList: LiveData<List<NotificationData>> = _contentsList
