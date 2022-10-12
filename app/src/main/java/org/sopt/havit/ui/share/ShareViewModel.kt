@@ -22,6 +22,7 @@ import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
 import org.sopt.havit.util.Event
 import org.sopt.havit.util.HavitAuthUtil
+import org.sopt.havit.util.HavitSharedPreference
 import java.util.*
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -29,7 +30,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ShareViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val categoryMapper: CategoryMapper
+    private val categoryMapper: CategoryMapper,
+    private val preference: HavitSharedPreference
 ) : ViewModel() {
     /** token */
     fun getAccessToken() = authRepository.getAccessToken()
@@ -198,6 +200,24 @@ class ShareViewModel @Inject constructor(
     private val _ogData = MutableLiveData<ContentsSummeryData>()
     val ogData: LiveData<ContentsSummeryData> = _ogData
 
+    fun setCrawlingContents() {
+        viewModelScope.launch {
+            getOgData()
+            setModifyTitle()
+            setDefaultIfTitleDataNotExist()
+        }
+    }
+
+    private fun setModifyTitle() {
+        if (preference.getTitle().isNotEmpty())
+            ogData.value?.ogTitle = preference.getTitle()
+    }
+
+    private fun setDefaultIfTitleDataNotExist() {
+        if (ogData.value?.ogTitle == "")
+            _ogData.value?.ogTitle = NO_TITLE_CONTENTS
+    }
+
     suspend fun getOgData() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -239,5 +259,9 @@ class ShareViewModel @Inject constructor(
 
     private fun userClicksOnButton() {
         _isNetworkCorrespondenceEnd.value = Event("Finish Server")
+    }
+
+    companion object {
+        const val NO_TITLE_CONTENTS = "제목 없는 콘텐츠"
     }
 }

@@ -6,10 +6,6 @@
     <data>
 
         <variable
-            name="ContentsSummeryData"
-            type="org.sopt.havit.data.remote.ContentsSummeryData" />
-
-        <variable
             name="viewModel"
             type="org.sopt.havit.ui.share.ShareViewModel" />
 
@@ -81,7 +77,7 @@
                 android:src="@drawable/img_contents_dummy_3"
                 app:civ_border_color="@color/black"
                 app:layout_constraintTop_toTopOf="parent"
-                app:ogImage="@{ContentsSummeryData.ogImage}"
+                app:ogImage="@{viewModel.ogData.ogImage}"
                 tools:src="@drawable/img_contents_dummy_3" />
 
             <TextView
@@ -94,7 +90,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:lines="2"
-                android:text="@{ContentsSummeryData.ogTitle}"
+                android:text="@{viewModel.ogData.ogTitle}"
                 android:textAppearance="@style/Header20Semibold"
                 android:textColor="@color/gray_4"
                 app:layout_constraintTop_toBottomOf="@id/iv_og_image"
@@ -109,7 +105,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:lines="1"
-                android:text="@{ContentsSummeryData.ogUrl}"
+                android:text="@{viewModel.ogData.ogUrl}"
                 android:textAppearance="@style/Sub12Regular"
                 android:textColor="@color/gray_2"
                 app:layout_constraintEnd_toEndOf="parent"
