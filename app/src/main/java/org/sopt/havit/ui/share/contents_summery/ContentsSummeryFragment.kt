@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentContentsSummeryBinding
+import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.share.ShareViewModel
 import org.sopt.havit.util.*
@@ -62,13 +63,15 @@ class ContentsSummeryFragment :
         // 완료 버튼
         binding.btnComplete.setOnSinglePostClickListener {
             saveContents()
-//            categoryViewModel.shareDelay.observe(viewLifecycleOwner) {
-//                if (it) {
-//                    categoryViewModel.setShareDelay(false)
-//                    setCustomToast()
-//                    requireActivity().finish()
-//                }
-//            }
+            viewModel.saveContentsViewState.observe(viewLifecycleOwner) {
+                when (it) {
+                    is NetworkStatus.Success -> {
+                        setCustomToast()
+                        requireActivity().finish()
+                    }
+                    else -> return@observe
+                }
+            }
         }
     }
 

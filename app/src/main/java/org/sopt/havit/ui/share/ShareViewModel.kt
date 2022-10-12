@@ -79,8 +79,6 @@ class ShareViewModel @Inject constructor(
                 _categoryViewState.value = NetworkStatus.Success()
             }.onFailure {
                 _categoryViewState.value = NetworkStatus.Error(it)
-            }.run {
-                //categoryViewState = NetworkStatus.Init()
             }
         }
     }
@@ -252,6 +250,9 @@ class ShareViewModel @Inject constructor(
         }
     }
 
+    private val _saveContentsViewState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())
+    val saveContentsViewState: LiveData<NetworkStatus> = _saveContentsViewState
+
     fun saveContents() {
         viewModelScope.launch {
             kotlin.runCatching {
@@ -259,9 +260,9 @@ class ShareViewModel @Inject constructor(
                 RetrofitObject.provideHavitApi(preference.getXAuthToken())
                     .createContents(createContentsRequest)
             }.onSuccess {
-                Log.d(TAG, "saveContents: success")
+                _saveContentsViewState.value = NetworkStatus.Success()
             }.onFailure {
-                Log.d(TAG, "saveContents: fail")
+                _saveContentsViewState.value = NetworkStatus.Error(it)
             }
         }
     }
