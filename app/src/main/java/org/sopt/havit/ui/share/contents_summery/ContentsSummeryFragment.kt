@@ -27,14 +27,9 @@ class ContentsSummeryFragment :
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        setContents()
         initListener()
         toolbarClickListener()
         onClickRefreshButtonOnNetworkError()
-    }
-
-    private fun setContents() {
-        viewModel.setCrawlingContents()
     }
 
     private fun initListener() {
