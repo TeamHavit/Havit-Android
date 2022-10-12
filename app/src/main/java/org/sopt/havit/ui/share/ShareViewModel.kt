@@ -15,6 +15,7 @@ import org.jsoup.select.Elements
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.mapper.CategoryMapper
 import org.sopt.havit.data.remote.ContentsSummeryData
+import org.sopt.havit.data.remote.CreateContentsRequest
 import org.sopt.havit.domain.entity.CategoryWithSelected
 import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.domain.repository.AuthRepository
@@ -218,7 +219,7 @@ class ShareViewModel @Inject constructor(
             _ogData.value?.ogTitle = NO_TITLE_CONTENTS
     }
 
-    suspend fun getOgData() {
+    private suspend fun getOgData() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 val doc: Document = Jsoup.connect(url.value).get()
@@ -249,6 +250,39 @@ class ShareViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun saveContents() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                val createContentsRequest = getCreateContentsRequest()
+                RetrofitObject.provideHavitApi(preference.getXAuthToken())
+                    .createContents(createContentsRequest)
+            }.onSuccess {
+                Log.d(TAG, "saveContents: success")
+            }.onFailure {
+                Log.d(TAG, "saveContents: fail")
+            }
+        }
+    }
+
+    private fun getCreateContentsRequest(): CreateContentsRequest {
+
+        val ogData = ogData.value ?: throw IllegalStateException()
+        val imageUrl = ogData.ogImage ?: ""
+        val reservedNotification = finalNotificationTime.value
+        val notification = reservedNotification != null
+        val time = reservedNotification?.replace(".", "-")?.substring(0, 16) ?: ""
+        val categoryIds = selectedCategoryId.value ?: throw IllegalStateException()
+
+        return CreateContentsRequest(
+            ogData.ogTitle, ogData.ogUrl,
+            ogData.ogDescription,
+            imageUrl,
+            notification,
+            time,
+            categoryIds
+        )
     }
 
 

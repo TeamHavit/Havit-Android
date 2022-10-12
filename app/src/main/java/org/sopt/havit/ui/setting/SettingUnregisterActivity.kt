@@ -21,7 +21,7 @@ class SettingUnregisterActivity :
     private val settingViewModel: SettingViewModel by viewModels()
 
     @Inject
-    private lateinit var preference: HavitSharedPreference
+    lateinit var preference: HavitSharedPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
