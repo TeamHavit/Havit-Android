@@ -21,7 +21,6 @@ import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
-import org.sopt.havit.util.Event
 import org.sopt.havit.util.HavitAuthUtil
 import org.sopt.havit.util.HavitSharedPreference
 import java.util.*
@@ -93,7 +92,6 @@ class ShareViewModel @Inject constructor(
     }
 
     private fun toggleItemSelected(position: Int) {
-        Log.d(TAG, "toggleItemSelected: $position")
         categoryList.value?.let {
             it[position].isSelected = !it[position].isSelected
         }
@@ -119,9 +117,9 @@ class ShareViewModel @Inject constructor(
 
     private fun extractUrl(content: String?): String {
         val urlPattern = Pattern.compile(
-            "(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)"
-                    + "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*"
-                    + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)",
+            "(?:^|[\\W])((ht|f)tp(s?)://|www\\.)"
+                    + "(([\\w\\-]+\\.)+?([\\w\\-.~]+/?)*"
+                    + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]*$~@!:/{};']*)",
             Pattern.CASE_INSENSITIVE or Pattern.MULTILINE or Pattern.DOTALL
         )
         val matcher = urlPattern.matcher(content)
@@ -130,15 +128,8 @@ class ShareViewModel @Inject constructor(
             val matchEnd = matcher.end()
             return content?.substring(matchStart, matchEnd) ?: ""
         }
-        return ""
-        // todo edit configuration 사용을 위해 빈스트링("")을 return 했으나,throw 로직으로 전환 예정
+        throw IllegalStateException()
     }
-
-    /** title */
-    var originTitle = MutableLiveData<String>()
-        private set
-    var currTitle = MutableLiveData<String>()
-    fun isTitleModified() = originTitle.value != currTitle.value
 
     /** notification time */
     private var _finalNotificationTime = MutableLiveData<String?>()
@@ -237,14 +228,13 @@ class ShareViewModel @Inject constructor(
     }
 
     private fun getDataByOgTags(it: Elements): ContentsSummeryData {
-        return ContentsSummeryData().apply {
+        return ContentsSummeryData(ogUrl = url.value.toString()).apply {
             it.forEachIndexed { index, _ ->
                 val tag = it[index]
                 when (it[index].attr("property")) {
-                    "og:url" -> this.ogUrl = tag.attr("content")
-                    "og:image" -> this.ogImage = tag.attr("content")
-                    "og:description" -> this.ogDescription = tag.attr("content")
-                    "og:title" -> this.ogTitle = tag.attr("content")
+                    "og:image" -> ogImage = tag.attr("content")
+                    "og:description" -> ogDescription = tag.attr("content")
+                    "og:title" -> ogTitle = tag.attr("content")
                 }
             }
         }
@@ -285,16 +275,6 @@ class ShareViewModel @Inject constructor(
             notificationTime = time,
             categoryIds = categoryIds
         )
-    }
-
-
-    /** server event */
-    private val _isNetworkCorrespondenceEnd = MutableLiveData<Event<String>>()
-    val isNetworkCorrespondenceEnd: MutableLiveData<Event<String>>
-        get() = _isNetworkCorrespondenceEnd
-
-    private fun userClicksOnButton() {
-        _isNetworkCorrespondenceEnd.value = Event("Finish Server")
     }
 
     companion object {
