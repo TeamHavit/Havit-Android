@@ -16,8 +16,11 @@ import javax.inject.Inject
 class WebViewModel @Inject constructor(private val contentsRepository: ContentsRepository) :
     ViewModel() {
 
-    var _isHavit = MutableLiveData<Event<Boolean>>()
+    private var _isHavit = MutableLiveData<Event<Boolean>>()
     val isHavit: LiveData<Event<Boolean>> = _isHavit
+
+    private var _isClick = MutableLiveData<Event<Boolean>>()
+    val isClick: LiveData<Event<Boolean>> = _isClick
 
     var contentsUrl = MutableLiveData<String>()
 
@@ -25,6 +28,7 @@ class WebViewModel @Inject constructor(private val contentsRepository: ContentsR
 
     fun init(havit: Boolean) {
         _isHavit.value = Event(havit)
+        _isClick.value = Event(!havit)
     }
 
     fun setHavit(contentsId: Int) {
@@ -35,6 +39,7 @@ class WebViewModel @Inject constructor(private val contentsRepository: ContentsR
                 if (it.success) {
                     isServerNetwork.postValue(NetworkState.SUCCESS)
                     _isHavit.value = Event(!(_isHavit.value!!.peekContent()))
+                    _isClick.value = Event(!(_isClick.value!!.peekContent()))
                 }
             }.onFailure {
                 isServerNetwork.postValue(NetworkState.FAIL)

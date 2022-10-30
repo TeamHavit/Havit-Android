@@ -27,14 +27,14 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.vm = webViewModel
+        initIsHavit()
         initHavitSeen()
         setUrlCheck()
         setListeners()
         initIsHavitObserver()
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun initIsHavit() {
         webViewModel.init(intent.getBooleanExtra("isSeen", false))
     }
 
@@ -63,7 +63,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
                     view: WebView?,
                     request: WebResourceRequest?
                 ): Boolean {
-                    if (!(request?.url.toString().startsWith("towneers:"))) {
+                    if (request?.url.toString().startsWith("towneers:")) {
                         startActivity(
                             Intent.parseUri(
                                 request?.url.toString(),
@@ -72,7 +72,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
                         )
                         finish()
                     }
-                    return true
+                    return false
                 }
 
 
@@ -104,7 +104,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
     private fun initIsHavitObserver() {
         webViewModel.isHavit.observe(this, EventObserver {
-            if (it) setCustomToast()
+            if (it && webViewModel.isClick.value?.peekContent() == true) setCustomToast()
         })
     }
 
