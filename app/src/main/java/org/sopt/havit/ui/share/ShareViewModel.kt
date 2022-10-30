@@ -93,7 +93,6 @@ class ShareViewModel @Inject constructor(
     }
 
     private fun toggleItemSelected(position: Int) {
-        Log.d(TAG, "toggleItemSelected: $position")
         categoryList.value?.let {
             it[position].isSelected = !it[position].isSelected
         }
@@ -130,8 +129,7 @@ class ShareViewModel @Inject constructor(
             val matchEnd = matcher.end()
             return content?.substring(matchStart, matchEnd) ?: ""
         }
-        return ""
-        // todo edit configuration 사용을 위해 빈스트링("")을 return 했으나,throw 로직으로 전환 예정
+        throw IllegalStateException()
     }
 
     /** title */
@@ -237,14 +235,13 @@ class ShareViewModel @Inject constructor(
     }
 
     private fun getDataByOgTags(it: Elements): ContentsSummeryData {
-        return ContentsSummeryData().apply {
+        return ContentsSummeryData(ogUrl = url.value.toString()).apply {
             it.forEachIndexed { index, _ ->
                 val tag = it[index]
                 when (it[index].attr("property")) {
-                    "og:url" -> this.ogUrl = tag.attr("content")
-                    "og:image" -> this.ogImage = tag.attr("content")
-                    "og:description" -> this.ogDescription = tag.attr("content")
-                    "og:title" -> this.ogTitle = tag.attr("content")
+                    "og:image" -> ogImage = tag.attr("content")
+                    "og:description" -> ogDescription = tag.attr("content")
+                    "og:title" -> ogTitle = tag.attr("content")
                 }
             }
         }
