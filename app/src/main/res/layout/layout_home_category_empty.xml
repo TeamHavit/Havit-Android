@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vmHome"
+            type="org.sopt.havit.ui.home.HomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_home_category_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_category_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@{vmHome.userData.nickname}"
+            android:textAppearance="@style/Header17Semibold"
+            android:textColor="@color/havit_gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="000" />
+
+        <TextView
+            android:id="@+id/tv_category_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_user_category"
+            android:textAppearance="@style/Header17Semibold"
+            android:textColor="@color/havit_gray"
+            app:layout_constraintStart_toEndOf="@id/tv_category_user_name"
+            app:layout_constraintTop_toTopOf="@id/tv_category_user_name" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_category_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/white_gray"
+            app:layout_constraintTop_toBottomOf="@id/tv_category_user_name">
+
+            <TextView
+                android:id="@+id/tv_category_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="43dp"
+                android:text="@string/home_category_empty"
+                android:textAppearance="@style/Header16Medium"
+                android:textColor="@color/havit_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_recommend_create_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:gravity="center_horizontal"
+                android:lineHeight="18sp"
+                android:text="@string/home_category_empty_recommend_create_category"
+                android:textAppearance="@style/Sub13Regular"
+                android:textColor="@color/gray_3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_category_empty" />
+
+            <ImageView
+                android:id="@+id/iv_category"
+                android:layout_width="102dp"
+                android:layout_height="102dp"
+                android:layout_marginTop="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_category_empty"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_recommend_create_category" />
+
+            <TextView
+                android:id="@+id/tv_add_category"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="51dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="36dp"
+                android:background="@drawable/rectangle_purple_category_radius_44"
+                android:gravity="center"
+                android:paddingVertical="14dp"
+                android:text="@string/home_category_empty_create_category"
+                android:textAppearance="@style/Medium15"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_category" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

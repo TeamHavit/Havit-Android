@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vmSetting"
+            type="org.sopt.havit.ui.setting.viewmodel.SettingViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.setting.SettingActivity">
+
+        <!-- 상단바 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginBottom="14dp"
+                android:src="@drawable/ic_back_black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/setting"
+                android:textAppearance="@style/Header16Bold"
+                android:textColor="@color/havit_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 스크롤 영역 -->
+        <ScrollView
+            android:id="@+id/sv_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_tool_bar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="22dp"
+                    android:text="@{vmSetting.user.nickname}"
+                    android:textAppearance="@style/Header22Semibold"
+                    android:textColor="@color/purple_main"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="박태준" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:text="@string/setting_nickname_end"
+                    android:textAppearance="@style/Header22Semibold"
+                    android:textColor="@color/gray_3"
+                    app:layout_constraintStart_toEndOf="@id/tv_nickname"
+                    app:layout_constraintTop_toTopOf="@id/tv_nickname" />
+
+                <TextView
+                    android:id="@+id/tv_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@{vmSetting.user.email}"
+                    android:textAppearance="@style/Text12Semibold"
+                    android:textColor="@color/gray_2"
+                    app:layout_constraintStart_toStartOf="@id/tv_nickname"
+                    app:layout_constraintTop_toBottomOf="@id/tv_nickname"
+                    tools:text="babotaejun@kakao.com" />
+
+                <ImageView
+                    android:id="@+id/iv_edit"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_edit_gray"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_nickname"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_nickname" />
+                <!-- 유저 정보 아래의 회색 선 -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="27dp"
+                    android:background="@color/white_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_email" />
+
+                <TextView
+                    android:id="@+id/tv_setting_small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="59dp"
+                    android:text="@string/setting"
+                    android:textAppearance="@style/Text12Semibold"
+                    android:textColor="@color/gray_2"
+                    app:layout_constraintStart_toStartOf="@id/tv_email"
+                    app:layout_constraintTop_toBottomOf="@id/tv_email" />
+
+                <!-- 알림 설정 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_setting_alarm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_setting_small">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/setting_alarm"
+                        android:textAppearance="@style/List16Semibold"
+                        android:textColor="@color/gray_4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_go_gray_2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/gray_0"
+                    app:layout_constraintTop_toBottomOf="@id/cl_setting_alarm" />
+
+                <TextView
+                    android:id="@+id/tv_service_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="44dp"
+                    android:text="@string/service_info"
+                    android:textAppearance="@style/Text12Semibold"
+                    android:textColor="@color/gray_2"
+                    app:layout_constraintStart_toStartOf="@id/tv_nickname"
+                    app:layout_constraintTop_toBottomOf="@id/cl_setting_alarm" />
+                <!-- 공지사항 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_notice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_service_info">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/service_notice"
+                        android:textAppearance="@style/List16Semibold"
+                        android:textColor="@color/gray_4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_go_gray_2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- 약관 및 정책 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_policy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/cl_notice">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/service_policy"
+                        android:textAppearance="@style/List16Semibold"
+                        android:textColor="@color/gray_4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_go_gray_2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- 서비스 이용방법 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_how_to_use"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/cl_policy">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/service_how_to_use"
+                        android:textAppearance="@style/List16Semibold"
+                        android:textColor="@color/gray_4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_go_gray_2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- 개인정보 처리 방침 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_personal_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/cl_how_to_use">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/service_personal_data"
+                        android:textAppearance="@style/List16Semibold"
+                        android:textColor="@color/gray_4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_go_gray_2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="27dp"
+                    android:background="@color/gray_0"
+                    app:layout_constraintTop_toBottomOf="@id/cl_personal_data" />
+
+                <!-- 도움말 및 기타 -->
+                <TextView
+                    android:id="@+id/tv_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="55dp"
+                    android:text="@string/help_and_others"
+                    android:textAppearance="@style/Text12Semibold"
+                    android:textColor="@color/gray_2"
+                    app:layout_constraintStart_toStartOf="@id/tv_nickname"
+                    app:layout_constraintTop_toBottomOf="@id/cl_personal_data" />
+
+                <!-- 고객센터 -->
+                <TextView
+                    android:id="@+id/tv_customer_center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="30dp"
+                    android:paddingStart="18dp"
+                    android:text="@string/customer_center"
+                    android:textAppearance="@style/Text16Semibold"
+                    android:textColor="@color/gray_4"
+                    app:layout_constraintStart_toStartOf="@id/tv_nickname"
+                    app:layout_constraintTop_toBottomOf="@id/tv_help"
+                    tools:ignore="RtlSymmetry" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/customer_center_email"
+                    android:textAppearance="@style/Text15Semibold"
+                    android:textColor="@color/gray_3"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_customer_center"
+                    app:layout_constraintEnd_toEndOf="@id/iv_edit"
+                    app:layout_constraintTop_toTopOf="@id/tv_customer_center" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/white_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tv_customer_center">
+                    <!-- 로그아웃 -->
+                    <TextView
+                        android:id="@+id/tv_logout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="17dp"
+                        android:background="@color/gray_1"
+                        android:gravity="center"
+                        android:paddingVertical="18dp"
+                        android:text="@string/logout"
+                        android:textAppearance="@style/Text15Semibold"
+                        android:textColor="@color/gray_3"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    <!-- 회원 탈퇴 -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_unregister"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="61dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_logout">
+                        <!-- 회원탈퇴 -->
+                        <TextView
+                            android:id="@+id/tv_unregister"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/unregister"
+                            android:textAppearance="@style/Text12Semibold"
+                            android:textColor="@color/gray_2"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="2dp"
+                            android:background="@color/gray_2"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@id/tv_unregister"
+                            app:layout_constraintStart_toStartOf="@id/tv_unregister"
+                            app:layout_constraintTop_toBottomOf="@id/tv_unregister" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="org.sopt.havit.ui.share.AddCategoryViewModel" />
+
+        <variable
+            name="isDuplicated"
+            type="Boolean" />
+
+        <variable
+            name="view"
+            type="org.sopt.havit.domain.model.NetworkStatus" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/enterCategoryTitleFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.share.add_category.EnterCategoryTitleFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_normal"
+            hideOnError="@{viewModel.enterCategoryNameViewState}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <!-- Toolbar -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/ic_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:contentDescription="@string/back_button"
+                    android:src="@drawable/ic_back_black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="14dp"
+                    android:text="@string/add_category"
+                    android:textAppearance="@style/Header16Bold"
+                    android:textColor="@color/havit_gray"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ic_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@string/button_close"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_close_black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Toolbar 아래 뷰 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_tool_bar">
+
+                <TextView
+                    android:id="@+id/tv_enter_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginTop="39dp"
+                    android:text="@string/enter_category"
+                    android:textAppearance="@style/Header22Semibold"
+                    android:textColor="@color/gray_5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/et_category_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginTop="29dp"
+                    android:ellipsize="end"
+                    android:hint="@string/enter_category_title"
+                    android:lines="1"
+                    android:maxLength="15"
+                    android:singleLine="true"
+                    android:textAppearance="@style/Header19Medium"
+                    android:textColor="@color/havit_gray"
+                    android:textColorHint="@color/gray_2"
+                    android:theme="@style/PurpleEditTextStyle"
+                    app:layout_constraintTop_toBottomOf="@id/tv_enter_title" />
+
+                <ImageView
+                    android:id="@+id/iv_delete_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_delete_text"
+                    android:visibility="@{etCategoryTitle.text.length() == 0? View.INVISIBLE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@id/et_category_title"
+                    app:layout_constraintEnd_toEndOf="@id/et_category_title"
+                    app:layout_constraintTop_toTopOf="@id/et_category_title" />
+
+
+                <TextView
+                    android:id="@+id/tv_category_length_limit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:text="@string/category_length_limit"
+                    android:textAppearance="@style/Mini10Regular"
+                    android:textColor="@color/gray_3"
+                    app:layout_constraintEnd_toEndOf="@id/et_category_title"
+                    app:layout_constraintTop_toBottomOf="@id/et_category_title" />
+
+                <TextView
+                    android:id="@+id/tv_category_length_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:text="@{String.valueOf(etCategoryTitle.text.length())}"
+                    android:textAppearance="@style/Mini10Regular"
+                    android:textColor="@color/havit_purple"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_category_length_limit"
+                    app:layout_constraintEnd_toStartOf="@id/tv_category_length_limit"
+                    app:layout_constraintTop_toTopOf="@id/tv_category_length_limit"
+                    tools:text="0" />
+
+                <!-- 중복 카테고리 -->
+                <ImageView
+                    android:id="@+id/iv_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_notice_red"
+                    android:visibility="@{isDuplicated ? View.VISIBLE : View.INVISIBLE, default = gone}"
+                    app:layout_constraintStart_toStartOf="@id/tv_enter_title"
+                    app:layout_constraintTop_toBottomOf="@id/et_category_title" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="@string/duplicate_category"
+                    android:textAppearance="@style/Sub12Regular"
+                    android:textColor="@color/havit_red"
+                    android:visibility="@{isDuplicated ? View.VISIBLE : View.INVISIBLE, default = gone}"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_notice"
+                    app:layout_constraintStart_toEndOf="@id/iv_notice"
+                    app:layout_constraintTop_toTopOf="@id/iv_notice" />
+
+                <Button
+                    android:id="@+id/btn_next"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@{(!isDuplicated &amp;&amp; (etCategoryTitle.text.length() != 0)) ? @drawable/rectangle_havit_purple : @drawable/rectangle_gray_2}"
+                    android:enabled="@{(!isDuplicated &amp;&amp; (etCategoryTitle.text.length() != 0)) }"
+                    android:text="@string/next"
+                    android:textAppearance="@style/Text16Semibold"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_network_error"
+            showOnError="@{viewModel.enterCategoryNameViewState}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="BottomSheetNetworkErrorFragment">
+
+            <include
+                android:id="@+id/layout_network_error"
+                layout="@layout/layout_bottom_sheet_network_error" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

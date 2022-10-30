@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="option"
+            type="String" />
+
+        <variable
+            name="content"
+            type="org.sopt.havit.data.remote.NotificationResponse.NotificationData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp">
+
+        <TextView
+            android:id="@+id/tv_notification_time"
+            notificationTimeOnContentsView="@{content.notificationTime}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textAppearance="@style/Text12Semibold"
+            android:textColor="@{option==`after`? @color/gray_3 : @color/purple_main, default=@color/purple_main}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2021.11.17 오전 12:30 " />
+
+        <FrameLayout
+            android:id="@+id/fl_image"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_notification_time">
+
+            <ImageView
+                android:id="@+id/iv_thumbnail"
+                imageSearch="@{content.image}"
+                android:layout_width="102dp"
+                android:layout_height="104dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/img_contents_dummy" />
+
+            <ImageView
+                android:id="@+id/iv_alarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@{option==`after`? @drawable/ic_alarmtag_gray_inactive : @drawable/ic_alarmtag_purple, default=@drawable/ic_alarmtag_purple}" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="-10dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{content.title}"
+            android:textAppearance="@style/Medium15"
+            android:textColor="@color/havit_gray"
+            app:layout_constraintEnd_toStartOf="@id/iv_more"
+            app:layout_constraintStart_toEndOf="@id/fl_image"
+            app:layout_constraintTop_toTopOf="@id/fl_image"
+            tools:text="슈슈슉 이것은 제목입니다 슈슉슉슉 이것은 제목입니다 슈슉..." />
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{content.description}"
+            android:textAppearance="@style/Mini9Regular"
+            android:textColor="@color/gray_3"
+            app:layout_constraintEnd_toEndOf="@id/tv_title"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            tools:text="상세내용 상세내용 상세내용 상세내용은 한줄만만..." />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="33dp"
+            android:text="@{String.valueOf(content.createdAt) + ` · `}"
+            android:textAppearance="@style/Mini9Regular"
+            android:textColor="@color/gray_2"
+            app:layout_constraintBottom_toBottomOf="@id/fl_image"
+            app:layout_constraintStart_toStartOf="@id/tv_description"
+            tools:text="2022.05.05 ·" />
+
+        <TextView
+            android:id="@+id/tv_url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="20"
+            android:maxLines="1"
+            android:text="@{content.url}"
+            android:textAppearance="@style/Mini9Regular"
+            android:textColor="@color/gray_2"
+            app:layout_constraintBottom_toBottomOf="@id/tv_date"
+            app:layout_constraintEnd_toEndOf="@id/tv_description"
+            app:layout_constraintStart_toEndOf="@id/tv_date"
+            app:layout_constraintTop_toTopOf="@id/tv_date"
+            tools:text="www.brunch.com.dididididi..." />
+
+        <ImageView
+            android:id="@+id/iv_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:paddingStart="26dp"
+            android:paddingTop="19dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="32dp"
+            android:src="@drawable/ic_more"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_notification_time" />
+
+        <ImageView
+            android:id="@+id/iv_havit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="14dp"
+            android:paddingTop="15dp"
+            android:src="@{content.isSeen ? @drawable/ic_contents_read_2 : @drawable/ic_contents_unread, default=@drawable/ic_contents_read_2}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

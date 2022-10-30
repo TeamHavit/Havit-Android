@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle_white_radius_8">
+
+        <TextView
+            android:id="@+id/tv_popup_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="22dp"
+            android:text="@string/cancel_set_notification_title"
+            android:textAppearance="@style/PopupTitle"
+            android:textColor="@color/havit_gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_popup_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/cancel_set_notification_description"
+            android:textAppearance="@style/Text14Medium"
+            android:textColor="@color/gray_3"
+            app:layout_constraintStart_toStartOf="@id/tv_popup_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_popup_title" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/rectangle_gray_0_radius_8"
+            android:paddingVertical="17dp"
+            android:text="@string/cancel"
+            android:textAppearance="@style/Header17Semibold"
+            android:textColor="@color/gray_3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_exit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_popup_description" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_exit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_havit_gray_bottom_right_radius_8"
+            android:paddingVertical="17dp"
+            android:text="@string/exit"
+            android:textAppearance="@style/Header17Semibold"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/btn_cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_cancel"
+            app:layout_constraintTop_toTopOf="@id/btn_cancel" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

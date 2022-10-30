@@ -1,16 +1,377 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Havit" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Havit" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondary">@color/havit_purple</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/gray_4</item>
         <!-- Customize your theme here. -->
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="bottomSheetDialogTheme">@style/HavitBottomSheetDialogStyle</item>
+
+    </style>
+
+    <style name="Theme.RemoveSplash" parent="Theme.Havit">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="Theme.Transparent" parent="Theme.Havit">
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
+    <style name="HavitBottomSheetDialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalStyle</item>
+    </style>
+
+    <style name="ModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rectangle_white_top_radius_24</item>
+    </style>
+
+    <style name="toolBarStyle" parent="@style/TextAppearance.AppCompat.Title">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="PurpleEditTextStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlActivated">@color/havit_purple</item>
+        <item name="colorControlNormal">@color/havit_purple</item>
+        <item name="colorControlHighlight">@color/havit_purple</item>
+        <item name="colorAccent">@color/havit_purple</item>
+        <item name="android:textCursorDrawable">@drawable/rectangle_havit_purple_cursor</item>
+    </style>
+
+    <style name="Theme.AppCompat.Transparent.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+    <!-- values/fonts.xml -->
+    <style name="Bold38">
+        <item name="android:fontFamily">@font/pretendard</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">38dp</item>
+        <item name="android:letterSpacing">-0.038</item>
+        <item name="android:lineSpacingExtra">7dp</item>
+    </style>
+
+    <style name="Header22Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">22dp</item>
+        <item name="android:letterSpacing">-0.022</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Header20Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Text20Medium">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Text27Medium">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">27dp</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:lineSpacingExtra">8dp</item>
+    </style>
+
+    <style name="Light20">
+        <item name="android:fontFamily">@font/pretendard_light</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Header19Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">19dp</item>
+        <item name="android:letterSpacing">-0.019</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+        <item name="android:textColor">@color/gray_4</item>
+    </style>
+
+    <style name="Header19Medium">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">19dp</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Header18Medium">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+
+    <style name="Header17Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:letterSpacing">-0.017</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Extrabold16">
+        <item name="android:fontFamily">@font/pretendard_extrabold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:letterSpacing">-0.016</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Header16Bold">
+        <item name="android:fontFamily">@font/pretendard</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:letterSpacing">-0.016</item>
+        <item name="android:lineSpacingExtra">6dp</item>
+    </style>
+
+    <style name="Text16Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="List16Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+    </style>
+
+    <style name="Header16Medium">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:letterSpacing">-0.016</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Text16Regular">
+        <item name="android:fontFamily">@font/pretendard</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:letterSpacing">-0.016</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Text15Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:letterSpacing">-0.015</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Button15Medium">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Medium15">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:letterSpacing">-0.015</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Text14Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:letterSpacing">-0.014</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Text14SemiboldLineSpacing">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:letterSpacing">-0.014</item>
+        <item name="android:lineSpacingExtra">15dp</item>
+    </style>
+
+    <style name="Text14Medium">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:letterSpacing">-0.014</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Text14Regular">
+        <item name="android:fontFamily">@font/pretendard</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:letterSpacing">-0.014</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Sub13Regular">
+        <item name="android:fontFamily">@font/pretendard</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">13dp</item>
+        <item name="android:letterSpacing">-0.015</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Text12Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:letterSpacing">-0.012</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Text12Regular">
+        <item name="android:fontFamily">@font/pretendard</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:letterSpacing">-0.012</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Sub12Medium">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:letterSpacing">-0.012</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Sub12Regular">
+        <item name="android:fontFamily">@font/pretendard</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Mini10Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Mini10Regular">
+        <item name="android:fontFamily">@font/pretendard</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Semibold9">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">9dp</item>
+        <item name="android:letterSpacing">-0.009</item>
+        <item name="android:lineSpacingExtra">6dp</item>
+    </style>
+
+    <style name="Mini9Regular">
+        <item name="android:fontFamily">@font/pretendard</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">9dp</item>
+        <item name="android:letterSpacing">-0.009</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Mini8Light">
+        <item name="android:fontFamily">@font/pretendard_light</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">8dp</item>
+        <item name="android:letterSpacing">-0.008</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="PopupTitle">
+        <item name="android:fontFamily">@font/pretendard</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:letterSpacing">-0.018</item>
+        <item name="android:lineSpacingExtra">4dp</item>
+    </style>
+
+    <style name="CustomAlertDialogStyle">
+        <!-- 꽉 채운 화면에 배경 없이 (custom view 영역만 보일 것이다.) -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowMinWidthMajor">100%</item>
+        <item name="android:windowMinWidthMinor">100%</item>
+
+        <!-- Dialog 가 센터에 나오도록 하자. -->
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="Order18Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Order16Semibold">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:letterSpacing">-0.016</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="Theme.Havit.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Havit.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Havit.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="CustomPickerTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@android:color/transparent</item> <!-- 구분선 -->
+        <item name="android:textSize">22dp</item>
+        <item name="android:textColorPrimary">@color/havit_purple</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textColorHighlight">@color/gray_0</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">-0.022</item>
+        <item name="android:lineSpacingExtra">5dp</item>
     </style>
 </resources>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="org.sopt.havit.ui.save.SaveViewModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_save_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rectangle_white_radius_24"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:context=".ui.save.SaveFragment">
+
+
+        <TextView
+            android:id="@+id/tv_save_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="31dp"
+            android:text="@string/save_title"
+            android:textAppearance="@style/Header16Bold"
+            android:textColor="@color/havit_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btn_save_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_close_black"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_save_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_save_title" />
+
+        <TextView
+            android:id="@+id/tv_save_info1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="52dp"
+            android:text="@string/save_info1"
+            android:textAppearance="@style/Header16Bold"
+            android:textColor="@color/havit_purple"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_save_close" />
+
+        <TextView
+            android:id="@+id/tv_save_info2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save_info2"
+            android:textAppearance="@style/Header16Bold"
+            android:textColor="@color/havit_gray"
+            app:layout_constraintStart_toEndOf="@+id/tv_save_info1"
+            app:layout_constraintTop_toTopOf="@+id/tv_save_info1" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_save_url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rectangle_white_gray_radius_4"
+            android:backgroundTint="@null"
+            android:imeOptions="flagNoExtractUi"
+            android:hint="@string/url_hint"
+            android:inputType="textMultiLine"
+            android:maxLines="6"
+            android:focusable="true"
+            android:paddingVertical="12dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="38dp"
+            android:scrollbars="vertical"
+            android:text="@={vm.saveDataUrl}"
+            android:textAppearance="@style/Sub13Regular"
+            android:textColor="@color/gray_4"
+            android:theme="@style/PurpleEditTextStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_save_info1"
+            app:layout_constraintTop_toBottomOf="@+id/tv_save_info1"
+            tools:ignore="TextFields" />
+
+        <ImageView
+            android:id="@+id/iv_save_url_text_delete"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="10dp"
+            android:onClick="@{() -> vm.setSaveDataClear()}"
+            android:src="@drawable/ic_delete_text"
+            android:visibility="@{vm.saveDataUrl.empty ? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="@+id/et_save_url"
+            app:layout_constraintTop_toTopOf="@+id/et_save_url" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_save_url_valid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@+id/et_save_url"
+            app:layout_constraintTop_toBottomOf="@+id/et_save_url">
+
+
+            <ImageView
+                android:id="@+id/iv_unvalid_url"
+                android:layout_width="11dp"
+                android:layout_height="12dp"
+                android:src="@drawable/ic_notice_red"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_unvalid_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/save_url_valid"
+                android:textAppearance="@style/Sub12Regular"
+                android:textColor="@color/havit_red"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_unvalid_url"
+                app:layout_constraintStart_toEndOf="@+id/iv_unvalid_url"
+                app:layout_constraintTop_toTopOf="@+id/iv_unvalid_url" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_paste_clip_board"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:layout_marginHorizontal="17dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_save_paste_toast"
+            android:elevation="15dp"
+            android:visibility="@{vm.clipDataUrl == `` ? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintBottom_toTopOf="@+id/btn_save_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/tv_save_url"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginTop="15dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="@{vm.clipDataUrl}"
+                android:textAppearance="@style/Sub12Regular"
+                android:textColor="@color/gray_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_save_url_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/save_paste_title"
+                android:textAppearance="@style/Text14Semibold"
+                android:textColor="@color/gray_4"
+                app:layout_constraintEnd_toEndOf="@+id/tv_save_url"
+                app:layout_constraintStart_toStartOf="@+id/tv_save_url"
+                app:layout_constraintTop_toBottomOf="@+id/tv_save_url" />
+
+            <ImageView
+                android:id="@+id/iv_save_url_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/transparent"
+                android:onClick="@{() -> vm.setClipDataClear()}"
+                android:padding="9dp"
+                android:src="@drawable/ic_delete_toast"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_save_next"
+            btnColor="@{vm.saveDataUrl.empty ? false : true}"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:clickable="@{vm.saveDataUrl.empty ? false : true}"
+            android:text="@string/next"
+            android:textAppearance="@style/Text16Semibold"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vmSetting"
+            type="org.sopt.havit.ui.setting.viewmodel.SettingViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.setting.SettingModifyNicknameActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginBottom="14dp"
+                android:src="@drawable/ic_back_black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_modify_mydata"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/setting_modify"
+                android:textAppearance="@style/Header16Bold"
+                android:textColor="@color/havit_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="21dp"
+            android:text="@string/nickname"
+            android:textAppearance="@style/Text12Semibold"
+            android:textColor="@color/gray_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_tool_bar" />
+
+        <EditText
+            android:id="@+id/et_nickname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="17dp"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:hint="@string/edit_nickname"
+            android:lines="1"
+            android:maxLength="15"
+            android:paddingVertical="4dp"
+            android:textAppearance="@style/Header18Medium"
+            android:textColor="@color/havit_gray"
+            android:textColorHint="@color/gray_2"
+            android:textCursorDrawable="@drawable/rectangle_havit_purple_cursor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_nickname" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/havit_purple"
+            app:layout_constraintEnd_toEndOf="@+id/et_nickname"
+            app:layout_constraintStart_toStartOf="@+id/et_nickname"
+            app:layout_constraintTop_toBottomOf="@+id/et_nickname" />
+
+        <ImageView
+            android:id="@+id/iv_nickname_delete"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_delete_text_gray"
+            android:visibility="@{etNickname.text.length() > 0? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/et_nickname"
+            app:layout_constraintEnd_toEndOf="@+id/et_nickname"
+            app:layout_constraintTop_toTopOf="@+id/et_nickname" />
+
+        <TextView
+            android:id="@+id/tv_nickname_length_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="3dp"
+            android:text="@string/nickname_length_limit"
+            android:textAppearance="@style/Sub13Regular"
+            android:textColor="@color/gray_2"
+            app:layout_constraintEnd_toEndOf="@id/et_nickname"
+            app:layout_constraintTop_toBottomOf="@+id/et_nickname" />
+
+        <TextView
+            android:id="@+id/tv_nickname_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(etNickname.text.length())}"
+            android:textAppearance="@style/Sub13Regular"
+            android:textColor="@{etNickname.text.length() > 0? @color/havit_purple : @color/gray_2}"
+            app:layout_constraintEnd_toStartOf="@id/tv_nickname_length_limit"
+            app:layout_constraintTop_toTopOf="@id/tv_nickname_length_limit"
+            tools:text="7" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_complete"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@{etNickname.text.length() > 0? @drawable/rectangle_havit_purple : @drawable/rectangle_gray_2}"
+            android:enabled="@{etNickname.text.length() > 0? true : false}"
+            android:text="@string/complete"
+            android:textAppearance="@style/Text16Semibold"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

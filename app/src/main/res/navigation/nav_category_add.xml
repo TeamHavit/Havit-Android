@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_category_add"
+    app:startDestination="@id/enterCategoryTitleFragment">
+    <fragment
+        android:id="@+id/enterCategoryTitleFragment"
+        android:name="org.sopt.havit.ui.share.add_category.EnterCategoryTitleFragment"
+        android:label="fragment_category_name"
+        tools:layout="@layout/fragment_enter_category_title">
+        <action
+            android:id="@+id/action_enterCategoryTitleFragment_to_chooseIconFragment"
+            app:destination="@id/chooseIconFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseIconFragment"
+        android:name="org.sopt.havit.ui.share.add_category.ChooseIconFragment"
+        android:label="fragment_choose_icon"
+        tools:layout="@layout/fragment_choose_icon" >
+        <argument
+            android:name="category_title"
+            app:argType="string"
+            android:defaultValue="카테고리 제목" />
+        <action
+            android:id="@+id/action_chooseIconFragment_to_selectCategoryFragment"
+            app:popUpTo="@id/chooseIconFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+</navigation>

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="isChecked"
+            type="Boolean" />
+
+        <variable
+            name="vmSetting"
+            type="org.sopt.havit.ui.setting.viewmodel.SettingViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.setting.SettingUnregisterActivity">
+
+        <!-- 상단바 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginBottom="14dp"
+                android:src="@drawable/ic_back_black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_unregister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/unregister"
+                android:textAppearance="@style/Header16Bold"
+                android:textColor="@color/havit_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_save_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="13dp"
+            android:text="@string/save_contents_state"
+            android:textAppearance="@style/Header16Bold"
+            android:textColor="@color/gray_4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_tool_bar" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_save_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rectangle_white_radius_all_20"
+            android:elevation="4dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="22dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_save_state">
+            <!-- 저장된 콘텐츠 -->
+            <TextView
+                android:id="@+id/tv_saved_contents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/saved_contents"
+                android:textAppearance="@style/Text14Semibold"
+                android:textColor="@color/gray_3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_saved_contents_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(vmSetting.user.totalContentNumber) + `개`}"
+                android:textAppearance="@style/Text14Semibold"
+                android:textColor="@color/gray_4"
+                app:layout_constraintBottom_toBottomOf="@id/tv_saved_contents"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_saved_contents"
+                tools:text="100개" />
+            <!-- 저장된 카테고리 -->
+            <TextView
+                android:id="@+id/tv_saved_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/saved_category"
+                android:textAppearance="@style/Text14Semibold"
+                android:textColor="@color/gray_3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_saved_contents" />
+
+            <TextView
+                android:id="@+id/tv_saved_category_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(vmSetting.user.totalCategoryNumber) + `개`}"
+                android:textAppearance="@style/Text14Semibold"
+                android:textColor="@color/gray_4"
+                app:layout_constraintBottom_toBottomOf="@id/tv_saved_category"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_saved_category"
+                tools:text="10개" />
+            <!-- 확인한 콘텐츠 -->
+            <TextView
+                android:id="@+id/tv_seen_contents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/seen_contents"
+                android:textAppearance="@style/Text14Semibold"
+                android:textColor="@color/gray_3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_saved_category" />
+
+            <TextView
+                android:id="@+id/tv_seen_contents_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(vmSetting.user.totalSeenContentNumber) + `개`}"
+                android:textAppearance="@style/Text14Semibold"
+                android:textColor="@color/gray_4"
+                app:layout_constraintBottom_toBottomOf="@id/tv_seen_contents"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_seen_contents"
+                tools:text="70개" />
+            <!-- 확인하지 않은 콘텐츠 -->
+            <TextView
+                android:id="@+id/tv_unseen_contents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="23dp"
+                android:text="@string/unseen_contents"
+                android:textAppearance="@style/Text14Semibold"
+                android:textColor="@color/gray_3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_seen_contents" />
+
+            <TextView
+                android:id="@+id/tv_unseen_contents_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(vmSetting.user.totalContentNumber - vmSetting.user.totalSeenContentNumber) + `개`}"
+                android:textAppearance="@style/Text14Semibold"
+                android:textColor="@color/gray_4"
+                app:layout_constraintBottom_toBottomOf="@id/tv_unseen_contents"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_unseen_contents"
+                tools:text="30개" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="23dp"
+            android:background="@color/white_gray"
+            app:layout_constraintTop_toBottomOf="@id/cl_save_state" />
+
+        <TextView
+            android:id="@+id/tv_unregister_caution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="56dp"
+            android:text="@string/unregister_caution"
+            android:textAppearance="@style/Header16Bold"
+            android:textColor="@color/gray_4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_save_state" />
+
+        <TextView
+            android:id="@+id/tv_caution1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="22dp"
+            android:text="@string/unregister_caution_1"
+            android:textAppearance="@style/Sub12Regular"
+            android:textColor="@color/gray_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_unregister_caution" />
+
+        <TextView
+            android:id="@+id/tv_caution2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:lineHeight="17sp"
+            android:text="@string/unregister_caution_2"
+            android:textAppearance="@style/Sub12Regular"
+            android:textColor="@color/gray_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_caution1" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="29dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_caution2">
+
+            <ImageView
+                android:id="@+id/iv_check"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:src="@{isChecked? @drawable/ic_active_check_circle : @drawable/ic_un_check}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:text="@string/unregister_caution_check"
+                android:textAppearance="@style/Text14Medium"
+                android:textColor="@color/gray_4"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_check"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_unregister"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="26dp"
+            android:background="@color/white_gray"
+            android:paddingBottom="71dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_check">
+
+            <TextView
+                android:id="@+id/tv_unregister_short"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@{isChecked? @color/caution : @color/gray_1}"
+                android:gravity="center"
+                android:paddingVertical="18dp"
+                android:text="@string/unregister_short"
+                android:textAppearance="@style/Text16Semibold"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
