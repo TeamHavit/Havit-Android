@@ -1,7 +1,5 @@
 package org.sopt.havit.ui.share
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -193,18 +191,12 @@ class ShareViewModel @Inject constructor(
     fun setCrawlingContents() {
         viewModelScope.launch {
             getOgData()
-            setModifyTitle()
             setDefaultIfTitleDataNotExist()
         }
     }
 
-    private fun setModifyTitle() {
-        if (preference.getTitle().isNotEmpty())
-            ogData.value?.ogTitle = preference.getTitle()
-    }
-
     private fun setDefaultIfTitleDataNotExist() {
-        if (ogData.value?.ogTitle == "")
+        if (ogData.value?.ogTitle.isNullOrBlank())
             _ogData.value?.ogTitle = NO_TITLE_CONTENTS
     }
 
@@ -218,7 +210,7 @@ class ShareViewModel @Inject constructor(
                 val contentsSummeryData = getDataByOgTags(it)
                 _ogData.postValue(contentsSummeryData)
             }.onFailure {
-                Log.d(TAG, "crawling fail / $it ")
+                _ogData.postValue(ContentsSummeryData(ogUrl = url.value.toString()))
             }
         }.join()
     }
