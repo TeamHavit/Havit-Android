@@ -43,11 +43,13 @@ class HavitFirebaseMessagingService : FirebaseMessagingService() {
             val description = dataFromServer["body"]
             val image = dataFromServer["image"]
             val url = dataFromServer["url"]
+            val isSeen = dataFromServer["isSeen"].toBoolean()
+            val contentId = dataFromServer["contentId"]?.toInt()
 
             if (image == DUMMY_IMAGE_URL)
-                generateNotification(title, description, url = url)
+                generateNotification(title, description, isSeen, contentId, url = url)
             else useBitmapImg(this, image) { bitmapImage ->
-                generateNotification(title, description, bitmapImage, url)
+                generateNotification(title, description, isSeen, contentId, bitmapImage, url)
             }
         }
 
@@ -64,19 +66,24 @@ class HavitFirebaseMessagingService : FirebaseMessagingService() {
     private fun generateNotification(
         title: String?,
         message: String?,
+        isSeen: Boolean? = null,
+        contentId: Int? = null,
         image: Bitmap? = null,
         url: String? = null
     ) {
-        Log.d("MyFirebaseMessagingService", "$title, $message")
         val requestCode = System.currentTimeMillis().toInt()
 
         val intent = Intent(this, WebActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.putExtra("url", url)
-        val pendingIntent =
-            PendingIntent.getActivity(
-                this, requestCode, intent, PendingIntent.FLAG_IMMUTABLE
-            )
+        intent.apply {
+            putExtra("url", url)
+            putExtra("isSeen", isSeen)
+            putExtra("contentsId", contentId)
+        }
+        val pendingIntent = PendingIntent.getActivity(
+            this, requestCode, intent, PendingIntent.FLAG_IMMUTABLE
+        )
 
         val builder = NotificationCompat.Builder(this, channelID)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
