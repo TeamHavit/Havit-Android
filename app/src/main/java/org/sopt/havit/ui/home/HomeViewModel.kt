@@ -78,8 +78,7 @@ class HomeViewModel @Inject constructor(
 
     // category 전체 데이터를 6개씩 잘라 List로 묶는 함수
     fun setList(
-        data:
-        List<Category>,
+        data: List<Category>,
         totalNum: Int
     ): MutableList<List<Category>> {
         val list = mutableListOf(listOf<Category>())
