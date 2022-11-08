@@ -59,8 +59,7 @@ class HomeCategoryVpAdapter : RecyclerView.Adapter<HomeCategoryVpAdapter.HomeCat
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             val oldItem = oldData[oldItemPosition]
             val newItem = newData[newItemPosition]
-
-            return oldItem == newItem
+            return oldItem.size == newItem.size
         }
 
         override fun getOldListSize(): Int = oldData.size
