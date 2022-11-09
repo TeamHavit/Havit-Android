@@ -89,15 +89,26 @@
 
         <TextView
             android:id="@+id/tv_date"
+            saveTimeOnContentsView="@{content.createdAt}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="33dp"
-            android:text="@{String.valueOf(content.createdAt) + ` · `}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintBottom_toBottomOf="@id/fl_image"
             app:layout_constraintStart_toStartOf="@id/tv_description"
-            tools:text="2022.05.05 ·" />
+            tools:text="2022.05.05" />
+
+        <TextView
+            android:id="@+id/tv_contents_divider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contents_divider"
+            android:textAppearance="@style/Mini9Regular"
+            android:textColor="@color/gray_2"
+            app:layout_constraintBottom_toBottomOf="@id/tv_date"
+            app:layout_constraintStart_toEndOf="@id/tv_date"
+            app:layout_constraintTop_toTopOf="@id/tv_date" />
 
         <TextView
             android:id="@+id/tv_url"
@@ -110,7 +121,7 @@
             android:textColor="@color/gray_2"
             app:layout_constraintBottom_toBottomOf="@id/tv_date"
             app:layout_constraintEnd_toEndOf="@id/tv_description"
-            app:layout_constraintStart_toEndOf="@id/tv_date"
+            app:layout_constraintStart_toEndOf="@id/tv_contents_divider"
             app:layout_constraintTop_toTopOf="@id/tv_date"
             tools:text="www.brunch.com.dididididi..." />
 

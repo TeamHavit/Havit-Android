@@ -99,24 +99,23 @@
 
         <TextView
             android:id="@+id/tv_date"
+            saveTimeOnContentsView="@{content.createdAt}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="6dp"
-            android:text="@{content.createdAt}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintBottom_toTopOf="@id/tv_alarm"
             app:layout_constraintStart_toEndOf="@+id/fl_image"
-            tools:text="2021. 11. 24" />
+            tools:text="2021. 11. 24 " />
 
         <TextView
             android:id="@+id/tv_divider"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="1dp"
-            android:maxLines="1"
             android:text="@string/contents_divider"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
@@ -129,7 +128,6 @@
             android:id="@+id/tv_url"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="1dp"
             android:ellipsize="end"
             android:ems="10"
             android:maxLines="1"

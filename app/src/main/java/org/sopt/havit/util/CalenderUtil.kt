@@ -24,9 +24,6 @@ object CalenderUtil {
     val dateAndTimeWithDotFormatMD: DateFormat
         get() = SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.getDefault())
 
-    val calWithHavitFormat_YMD_HM: DateFormat
-        get() = SimpleDateFormat("yyyy-MM-dd hh:mm", Locale.getDefault())
-
     fun setTimePickerInterval(timePicker: TimePicker) {
         val minutePicker = timePicker.findViewById(
             Resources.getSystem().getIdentifier("minute", "id", "android")
@@ -79,5 +76,9 @@ object CalenderUtil {
     fun setDateFormat(originTime: String): String {
         val time = setDateFormatOnRadioBtn(originTime)
         return "$time 알림 예정"
+    }
+
+    fun setDotsDateFormatOnContentsView(originTime: String): String {
+        return originTime.substring(0, 10).replace("-", ". ")
     }
 }
