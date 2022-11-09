@@ -78,7 +78,7 @@ object CalenderUtil {
         return "$time 알림 예정"
     }
 
-    fun setDotsDateFormatOnContentsView(originTime: String): String {
+    fun setDotsDateFormat(originTime: String): String {
         return originTime.substring(0, 10).replace("-", ". ")
     }
 }
