@@ -76,10 +76,10 @@
 
         <TextView
             android:id="@+id/tv_edit_create"
+            saveTimeOnContentsView="@{data.createdAt}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="9dp"
-            android:text="@{data.createdAt}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintBottom_toBottomOf="@+id/cv_more"
