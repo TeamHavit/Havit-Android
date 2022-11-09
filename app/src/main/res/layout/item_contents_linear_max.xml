@@ -79,10 +79,10 @@
 
         <TextView
             android:id="@+id/tv_date"
+            saveTimeOnContentsView="@{content.createdAt}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
-            android:text="@{content.createdAt}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintStart_toStartOf="@+id/tv_description"
@@ -94,7 +94,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="1dp"
-            android:layout_marginStart="6dp"
             android:maxLines="1"
             android:text="@string/contents_divider"
             android:textAppearance="@style/Mini9Regular"
@@ -108,7 +107,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="1dp"
-            android:layout_marginStart="6dp"
             android:ellipsize="end"
             android:ems="10"
             android:maxLines="1"
@@ -124,11 +122,11 @@
 
         <TextView
             android:id="@+id/tv_alarm"
+            notificationTimeOnContentsView="@{content.notificationTime}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="12dp"
-            notificationTimeOnContentsView="@{content.notificationTime}"
             android:textAppearance="@style/Semibold9"
             android:textColor="@{notificationOption==`after`? @color/gray_3 : @color/purple_main, default=@color/purple_main}"
             app:layout_constraintBottom_toBottomOf="parent"
