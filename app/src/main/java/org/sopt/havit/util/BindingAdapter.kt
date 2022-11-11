@@ -145,7 +145,7 @@ fun TextView.setAlarmText(string: String?) {
     this.text = if (string == null) "알림 설정" else setDateFormat(string)
 }
 
-@BindingAdapter("saveTimeOnContentsView")
+@BindingAdapter("setDotsDateFormat")
 fun TextView.setSaveText(string: String) {
     this.text = setDotsDateFormat(string)
 }

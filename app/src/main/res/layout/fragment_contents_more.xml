@@ -76,7 +76,7 @@
 
         <TextView
             android:id="@+id/tv_edit_create"
-            saveTimeOnContentsView="@{data.createdAt}"
+            setDotsDateFormat="@{data.createdAt}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="9dp"
@@ -90,7 +90,6 @@
             android:id="@+id/tv_dot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="7dp"
             android:gravity="center_vertical"
             android:includeFontPadding="false"
             android:text="@string/contents_divider"
@@ -104,7 +103,6 @@
             android:id="@+id/tv_url"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:ellipsize="end"
             android:ems="21"
             android:maxLines="1"

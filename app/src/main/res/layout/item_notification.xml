@@ -89,7 +89,7 @@
 
         <TextView
             android:id="@+id/tv_date"
-            saveTimeOnContentsView="@{content.createdAt}"
+            setDotsDateFormat="@{content.createdAt}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="33dp"
