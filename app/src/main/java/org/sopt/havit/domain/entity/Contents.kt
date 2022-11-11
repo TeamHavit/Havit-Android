@@ -1,7 +1,7 @@
 package org.sopt.havit.domain.entity
 
 data class Contents(
-    var createdAt: String,
+    val createdAt: String,
     val description: String,
     val id: Int,
     val image: String,

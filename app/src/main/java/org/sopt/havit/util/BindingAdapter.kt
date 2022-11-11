@@ -17,6 +17,7 @@ import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.util.CalenderUtil.setDateFormat
 import org.sopt.havit.util.CalenderUtil.setDateFormatOnCategoryView
 import org.sopt.havit.util.CalenderUtil.setDateFormatOnRadioBtn
+import org.sopt.havit.util.CalenderUtil.setDotsDateFormat
 import org.sopt.havit.util.DpToPxUtil.px
 
 // item_category
@@ -142,6 +143,11 @@ fun setPopupDescription(textView: TextView, rate: Int) {
 @BindingAdapter("android:alarmText")
 fun TextView.setAlarmText(string: String?) {
     this.text = if (string == null) "알림 설정" else setDateFormat(string)
+}
+
+@BindingAdapter("setDotsDateFormat")
+fun TextView.setSaveText(string: String) {
+    this.text = setDotsDateFormat(string)
 }
 
 @BindingAdapter("notificationTimeOnContentsView")
