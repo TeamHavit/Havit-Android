@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.sopt.havit.BuildConfig.HAVIT_SERVER_BASE_URL_DEBUG
 import org.sopt.havit.data.source.local.AuthLocalDataSourceImpl
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -58,10 +59,8 @@ object RetrofitModule {
         client: OkHttpClient,
         gson: Gson
     ): Retrofit = Retrofit.Builder()
-        .baseUrl(baseUrl)
+        .baseUrl(HAVIT_SERVER_BASE_URL_DEBUG)
         .client(client)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
-
-    private const val baseUrl = "https://asia-northeast3-havit-wesopt29.cloudfunctions.net/api/"
 }

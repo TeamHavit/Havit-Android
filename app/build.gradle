@@ -8,6 +8,9 @@ plugins {
     id 'kotlin-android-extensions'
 }
 
+def Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdk 31
 
@@ -17,8 +20,12 @@ android {
         targetSdk 31
         versionCode 100
         versionName "1.0.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField(
+                "String",
+                "HAVIT_SERVER_BASE_URL_DEBUG",
+                properties.getProperty("HAVIT_SERVER_BASE_URL_DEBUG")
+        )
     }
 
     buildTypes {
