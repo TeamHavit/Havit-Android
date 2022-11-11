@@ -23,8 +23,13 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField(
                 "String",
-                "HAVIT_SERVER_BASE_URL_DEBUG",
-                properties.getProperty("HAVIT_SERVER_BASE_URL_DEBUG")
+                "HAVIT_BASE_URL_DEBUG",
+                properties.getProperty("HAVIT_BASE_URL_DEBUG")
+        )
+        buildConfigField(
+                "String",
+                "HAVIT_BASE_URL_RELEASE",
+                properties.getProperty("HAVIT_BASE_URL_RELEASE")
         )
     }
 

@@ -9,7 +9,9 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.sopt.havit.BuildConfig.HAVIT_SERVER_BASE_URL_DEBUG
+import org.sopt.havit.BuildConfig
+import org.sopt.havit.BuildConfig.DEBUG
+import org.sopt.havit.BuildConfig.HAVIT_BASE_URL_RELEASE
 import org.sopt.havit.data.source.local.AuthLocalDataSourceImpl
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -59,7 +61,7 @@ object RetrofitModule {
         client: OkHttpClient,
         gson: Gson
     ): Retrofit = Retrofit.Builder()
-        .baseUrl(HAVIT_SERVER_BASE_URL_DEBUG)
+        .baseUrl(if (DEBUG) BuildConfig.HAVIT_BASE_URL_DEBUG else HAVIT_BASE_URL_RELEASE)
         .client(client)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
