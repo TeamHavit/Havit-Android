@@ -9,12 +9,12 @@ import retrofit2.http.*
 
 interface HavitApi {
 
-    @GET("content/search/?keyword=")
+    @GET("content/search?")
     suspend fun getSearchContents(
         @Query("keyword") keyword: String
     ): ContentsSearchResponse
 
-    @GET("content/search?categoryId=&keyword=")
+    @GET("content/search?")
     suspend fun getSearchCategory(
         @Query("categoryId") categoryId: String,
         @Query("keyword") keyword: String
@@ -46,7 +46,7 @@ interface HavitApi {
         @Body body: CreateContentsRequest
     ): CreateContentsResponse
 
-    @GET("category/{categoryId}?option=&filter=")
+    @GET("category/{categoryId}?")
     suspend fun getCategoryContents(
         @Path("categoryId") categoryId: Int,
         @Query("option") option: String,
@@ -78,7 +78,7 @@ interface HavitApi {
         @Body body: UpdateCategoryInfoRequest
     ): BasicResponse
 
-    @GET("content?option=&filter=")
+    @GET("content?")
     suspend fun getAllContents(
         @Query("option") option: String,
         @Query("filter") filter: String
@@ -113,7 +113,7 @@ interface HavitApi {
         @Body body: SignUpRequest
     ): SignUpResponse
 
-    @GET("content/notification?option=")
+    @GET("content/notification?")
     suspend fun getNotification(
         @Query("option") option: String,
     ): NotificationResponse
