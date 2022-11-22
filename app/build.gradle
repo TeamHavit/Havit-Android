@@ -33,6 +33,16 @@ android {
         )
     }
 
+    flavorDimensions "google-services"
+    productFlavors {
+        prod {
+            dimension "google-services"
+        }
+        dev {
+            dimension "google-services"
+        }
+    }
+
     buildTypes {
         release {
             debuggable false
