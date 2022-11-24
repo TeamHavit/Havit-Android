@@ -23,14 +23,32 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField(
                 "String",
-                "HAVIT_BASE_URL_DEBUG",
-                properties.getProperty("HAVIT_BASE_URL_DEBUG")
+                "HAVIT_BASE_URL_DEV",
+                properties.getProperty("HAVIT_BASE_URL_DEV")
         )
         buildConfigField(
                 "String",
-                "HAVIT_BASE_URL_RELEASE",
-                properties.getProperty("HAVIT_BASE_URL_RELEASE")
+                "HAVIT_BASE_URL_PROD",
+                properties.getProperty("HAVIT_BASE_URL_PROD")
         )
+    }
+
+    flavorDimensions "server"
+    productFlavors {
+        prod {
+            dimension "server"
+            applicationIdSuffix ".prod"
+            manifestPlaceholders = [appLabel: "HAVIT"]
+            buildConfigField 'boolean', 'IS_PROD', "true"
+            buildConfigField 'boolean', 'IS_DEV', "false"
+        }
+        dev {
+            dimension "server"
+            applicationIdSuffix ".dev"
+            manifestPlaceholders = [appLabel: "(Dev)HAVIT"]
+            buildConfigField 'boolean', 'IS_PROD', "false"
+            buildConfigField 'boolean', 'IS_DEV', "true"
+        }
     }
 
     buildTypes {

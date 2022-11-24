@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 object RetrofitObject {
 
     private fun getRetrofitBuild(jwt: String) = Retrofit.Builder()
-        .baseUrl(if (DEBUG) HAVIT_BASE_URL_DEBUG else HAVIT_BASE_URL_RELEASE)
+        .baseUrl(if (IS_DEV) HAVIT_BASE_URL_DEV else HAVIT_BASE_URL_PROD)
         .client(getOkhttpClient(jwt))
         .addConverterFactory(GsonConverterFactory.create())
         .build()
