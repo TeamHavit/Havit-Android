@@ -33,13 +33,13 @@ android {
         )
     }
 
-    flavorDimensions "google-services"
+    flavorDimensions "server"
     productFlavors {
         prod {
-            dimension "google-services"
+            dimension "server"
         }
         dev {
-            dimension "google-services"
+            dimension "server"
         }
     }
 
