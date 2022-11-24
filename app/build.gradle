@@ -38,10 +38,12 @@ android {
         prod {
             dimension "server"
             applicationIdSuffix ".prod"
+            manifestPlaceholders = [appLabel: "HAVIT"]
         }
         dev {
             dimension "server"
             applicationIdSuffix ".dev"
+            manifestPlaceholders = [appLabel: "(Dev)HAVIT"]
         }
     }
 
