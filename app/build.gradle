@@ -37,9 +37,11 @@ android {
     productFlavors {
         prod {
             dimension "server"
+            applicationIdSuffix ".prod"
         }
         dev {
             dimension "server"
+            applicationIdSuffix ".dev"
         }
     }
 
