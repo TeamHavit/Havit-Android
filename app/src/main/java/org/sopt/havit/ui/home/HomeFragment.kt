@@ -168,9 +168,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private fun categoryDataObserve() {
         with(homeViewModel) {
-            categoryData.observe(viewLifecycleOwner) { data ->
-                if (data.isNotEmpty()) {
-                    val list = setList(data, data.size)
+            addSourceOnIsReadyToSetCategory()
+            isReadyToSetCategory.observe(viewLifecycleOwner) { isServerLoadComplete ->
+                if (isServerLoadComplete) {
+                    val list = setList()
                     categoryVpAdapter.updateList(list)
                     binding.layoutCategory.indicatorCategory.attachTo(binding.layoutCategory.vpCategory)
                 }
