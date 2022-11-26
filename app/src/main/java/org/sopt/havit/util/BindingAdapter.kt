@@ -100,7 +100,6 @@ fun ImageView.defaultImageLinearMax(url: String?) {
 fun ImageView.setOgImage(url: String?) {
     Glide.with(context)
         .load(url)
-        .transform(CenterCrop(), RoundedCorners(px(6)))
         .placeholder(R.drawable.img_contents_dummy_3)
         .into(this)
 }
