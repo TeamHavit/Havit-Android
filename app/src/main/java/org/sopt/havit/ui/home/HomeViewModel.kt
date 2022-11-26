@@ -1,9 +1,6 @@
 package org.sopt.havit.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -77,38 +74,31 @@ class HomeViewModel @Inject constructor(
     }
 
     // category 전체 데이터를 6개씩 잘라 List로 묶는 함수
-    fun setList(
-        data: List<Category>,
-        totalNum: Int
-    ): MutableList<List<Category>> {
+    fun setList(): MutableList<List<Category>> {
+        val categoryData = requireNotNull(categoryData.value)
+        val totalContentsNum = requireNotNull(userData.value?.totalContentNumber)
+
         val list = mutableListOf(listOf<Category>())
         var count = 0
-        val firstData = Category(
-            totalNum,
-            -1,
-            -1,
-            "",
-            -1,
-            "모든 콘텐츠"
-        )
+        val firstData = Category(totalContentsNum, -1, -1, "", -1, "모든 콘텐츠")
         list.clear()
-        while (data.size > count) {
+        while (categoryData.size > count) {
             if (count == 0) {
                 val firstPage = mutableListOf<Category>()
                 firstPage.clear()
                 firstPage.add(firstData)
-                val min = if (data.size < 5) (data.size - 1) else 4
+                val min = if (categoryData.size < 5) (categoryData.size - 1) else 4
                 for (i in 0..min) {
-                    firstPage.add(data[i])
+                    firstPage.add(categoryData[i])
                 }
                 list.add(firstPage)
                 count += 5
             } else {
-                if (data.size - count >= 6) {
-                    list.add(data.subList(count, count + 6))
+                if (categoryData.size - count >= 6) {
+                    list.add(categoryData.subList(count, count + 6))
                     count += 6
                 } else {
-                    list.add(data.subList(count, data.size))
+                    list.add(categoryData.subList(count, categoryData.size))
                     break
                 }
             }
@@ -197,4 +187,25 @@ class HomeViewModel @Inject constructor(
         )
             _loadState.postValue(NetworkState.SUCCESS)
     }
+
+    // userdata(totalContents), CategoryData 두개가 모두 로드되어야만 카테고리 뷰 작업 가능
+    private val _isReadyToSetCategory = MediatorLiveData<Boolean>()
+    val isReadyToSetCategory: LiveData<Boolean> = _isReadyToSetCategory
+
+    fun addSourceOnIsReadyToSetCategory() {
+        _isReadyToSetCategory.addSource(userData) {
+            setIsReadyToSetCategory(userData, categoryData)
+        }
+        _isReadyToSetCategory.addSource(categoryData) {
+            setIsReadyToSetCategory(userData, categoryData)
+        }
+    }
+
+    private fun setIsReadyToSetCategory(
+        userData: LiveData<UserResponse.UserData>,
+        categoryData: LiveData<List<Category>>
+    ) {
+        _isReadyToSetCategory.value = userData.value != null && categoryData.value != null
+    }
+
 }
