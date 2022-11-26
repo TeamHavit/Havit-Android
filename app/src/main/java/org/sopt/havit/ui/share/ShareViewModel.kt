@@ -9,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.select.Elements
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.mapper.CategoryMapper
 import org.sopt.havit.data.remote.ContentsSummeryData
@@ -203,10 +202,8 @@ class ShareViewModel @Inject constructor(
     private suspend fun getOgData() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val doc: Document = Jsoup.connect(url.value).get()
-                doc.select("meta[property^=og:]")
+                Jsoup.connect(url.value).get()
             }.onSuccess {
-                throwExceptionIfDataUnavailable(it.size)
                 val contentsSummeryData = getDataByOgTags(it)
                 _ogData.postValue(contentsSummeryData)
             }.onFailure {
@@ -215,20 +212,18 @@ class ShareViewModel @Inject constructor(
         }.join()
     }
 
-    private fun throwExceptionIfDataUnavailable(dataSize: Int) {
-        if (dataSize == 0) throw IllegalStateException()
-    }
-
-    private fun getDataByOgTags(it: Elements): ContentsSummeryData {
+    private fun getDataByOgTags(it: Document): ContentsSummeryData {
+        val doc = it.select("meta[property^=og:]")
         return ContentsSummeryData(ogUrl = url.value.toString()).apply {
-            it.forEachIndexed { index, _ ->
-                val tag = it[index]
-                when (it[index].attr("property")) {
+            doc.forEachIndexed { index, _ ->
+                val tag = doc[index]
+                when (doc[index].attr("property")) {
                     "og:image" -> ogImage = tag.attr("content")
                     "og:description" -> ogDescription = tag.attr("content")
                     "og:title" -> ogTitle = tag.attr("content")
                 }
             }
+            if (this.ogTitle == "") this.ogTitle = it.title()
         }
     }
 
