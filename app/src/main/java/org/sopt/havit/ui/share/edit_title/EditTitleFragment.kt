@@ -5,19 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.FragmentEditTitleBinding
-import org.sopt.havit.util.*
-import javax.inject.Inject
+import org.sopt.havit.ui.share.ShareViewModel
+import org.sopt.havit.util.AutoClearedValue
+import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.KeyBoardUtil
+import org.sopt.havit.util.OnBackPressedHandler
 
 @AndroidEntryPoint
 class EditTitleFragment : Fragment(), OnBackPressedHandler {
-
-    @Inject
-    lateinit var preference: HavitSharedPreference
-
+    private val viewModel: ShareViewModel by activityViewModels()
     private var binding: FragmentEditTitleBinding by AutoClearedValue()
     private val args by navArgs<EditTitleFragmentArgs>()
 
@@ -44,7 +45,9 @@ class EditTitleFragment : Fragment(), OnBackPressedHandler {
         }
     }
 
-    private fun setOriginTitle() = binding.etTitle.setText(args.contentsOriginTitle)
+    private fun setOriginTitle() = binding.etTitle.setText(
+        viewModel.ogData.value?.ogTitle ?: throw IllegalStateException("Og Data Not Initialized")
+    )
 
     private fun setKeyBoardUp() = KeyBoardUtil.openKeyBoard(requireContext(), binding.etTitle)
 
@@ -54,7 +57,7 @@ class EditTitleFragment : Fragment(), OnBackPressedHandler {
     private fun initClickListener() {
         binding.icBack.setOnClickListener { onBackClicked() }
         binding.tvComplete.setOnClickListener {
-            preference.setTitle(binding.etTitle.text.toString())
+            viewModel.ogData.value?.ogTitle = binding.etTitle.text.toString()
             goBack()
         }
     }

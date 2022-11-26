@@ -70,7 +70,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_tool_bar">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_og_image"
                     android:layout_width="match_parent"
                     android:layout_height="173dp"
@@ -79,9 +79,9 @@
                     android:contentDescription="@string/og_image"
                     android:scaleType="centerCrop"
                     android:src="@drawable/img_contents_dummy_3"
-                    app:civ_border_color="@color/black"
                     app:layout_constraintTop_toTopOf="parent"
                     app:ogImage="@{viewModel.ogData.ogImage}"
+                    app:shapeAppearance="@style/roundedImageView6dp"
                     tools:src="@drawable/img_contents_dummy_3" />
 
                 <TextView
@@ -169,7 +169,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_complete"
                     android:layout_width="match_parent"
                     android:layout_height="85dp"

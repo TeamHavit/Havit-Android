@@ -14,6 +14,6 @@ data class NotificationResponse(
         val image: String,
         val url: String,
         var isSeen: Boolean,
-        var createdAt: String
+        val createdAt: String
     )
 }

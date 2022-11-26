@@ -1,7 +1,5 @@
 package org.sopt.havit.ui.share
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.select.Elements
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.mapper.CategoryMapper
 import org.sopt.havit.data.remote.ContentsSummeryData
@@ -193,50 +190,40 @@ class ShareViewModel @Inject constructor(
     fun setCrawlingContents() {
         viewModelScope.launch {
             getOgData()
-            setModifyTitle()
             setDefaultIfTitleDataNotExist()
         }
     }
 
-    private fun setModifyTitle() {
-        if (preference.getTitle().isNotEmpty())
-            ogData.value?.ogTitle = preference.getTitle()
-    }
-
     private fun setDefaultIfTitleDataNotExist() {
-        if (ogData.value?.ogTitle == "")
+        if (ogData.value?.ogTitle.isNullOrBlank())
             _ogData.value?.ogTitle = NO_TITLE_CONTENTS
     }
 
     private suspend fun getOgData() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val doc: Document = Jsoup.connect(url.value).get()
-                doc.select("meta[property^=og:]")
+                Jsoup.connect(url.value).get()
             }.onSuccess {
-                throwExceptionIfDataUnavailable(it.size)
                 val contentsSummeryData = getDataByOgTags(it)
                 _ogData.postValue(contentsSummeryData)
             }.onFailure {
-                Log.d(TAG, "crawling fail / $it ")
+                _ogData.postValue(ContentsSummeryData(ogUrl = url.value.toString()))
             }
         }.join()
     }
 
-    private fun throwExceptionIfDataUnavailable(dataSize: Int) {
-        if (dataSize == 0) throw IllegalStateException()
-    }
-
-    private fun getDataByOgTags(it: Elements): ContentsSummeryData {
+    private fun getDataByOgTags(it: Document): ContentsSummeryData {
+        val doc = it.select("meta[property^=og:]")
         return ContentsSummeryData(ogUrl = url.value.toString()).apply {
-            it.forEachIndexed { index, _ ->
-                val tag = it[index]
-                when (it[index].attr("property")) {
+            doc.forEachIndexed { index, _ ->
+                val tag = doc[index]
+                when (doc[index].attr("property")) {
                     "og:image" -> ogImage = tag.attr("content")
                     "og:description" -> ogDescription = tag.attr("content")
                     "og:title" -> ogTitle = tag.attr("content")
                 }
             }
+            if (this.ogTitle == "") this.ogTitle = it.title()
         }
     }
 
