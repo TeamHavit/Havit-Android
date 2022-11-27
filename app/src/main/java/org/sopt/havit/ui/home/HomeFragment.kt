@@ -60,6 +60,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         recentContentsDataObserve() // 최근저장 콘텐츠 초기화
         notificationDataObserve()   // 알림 아이콘 초기화
         initReachRate() // 도달률 관련 데이터 초기화
+        addSourceOnIsReadyToSetCategory()
 
         return binding.root
     }
@@ -67,6 +68,10 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
     override fun onResume() {
         super.onResume()
         setData()
+    }
+
+    private fun addSourceOnIsReadyToSetCategory() {
+        homeViewModel.addSourceOnIsReadyToSetCategory()
     }
 
     private fun disableRvSmoothScroll() {
@@ -168,7 +173,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private fun categoryDataObserve() {
         with(homeViewModel) {
-            addSourceOnIsReadyToSetCategory()
             isReadyToSetCategory.observe(viewLifecycleOwner) { isServerLoadComplete ->
                 if (isServerLoadComplete) {
                     val list = setList()
