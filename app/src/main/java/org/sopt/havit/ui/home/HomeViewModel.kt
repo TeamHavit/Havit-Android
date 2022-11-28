@@ -201,6 +201,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun removeSourceOnIsReadyToSetCategory() {
+        _isReadyToSetCategory.removeSource(userData)
+        _isReadyToSetCategory.removeSource(categoryData)
+    }
+
     private fun setIsReadyToSetCategory(
         userData: LiveData<UserResponse.UserData>,
         categoryData: LiveData<List<Category>>
