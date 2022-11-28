@@ -70,6 +70,11 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         setData()
     }
 
+    override fun onDestroyView() {
+        homeViewModel.removeSourceOnIsReadyToSetCategory()
+        super.onDestroyView()
+    }
+
     private fun addSourceOnIsReadyToSetCategory() {
         homeViewModel.addSourceOnIsReadyToSetCategory()
     }
