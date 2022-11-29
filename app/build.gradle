@@ -32,7 +32,6 @@ android {
     productFlavors {
         prod {
             dimension "server"
-            applicationIdSuffix ".prod"
             manifestPlaceholders = [appLabel: "HAVIT"]
             buildConfigField 'boolean', 'IS_PROD', "true"
             buildConfigField 'boolean', 'IS_DEV', "false"
@@ -72,7 +71,7 @@ android {
         dataBinding true
     }
 
-    androidExtensions{
+    androidExtensions {
         experimental = true
     }
 }
