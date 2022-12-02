@@ -10,6 +10,8 @@ import org.sopt.havit.R
 import org.sopt.havit.databinding.ItemHomeCategoryListBinding
 import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.ui.category.CategoryFragment
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
 import org.sopt.havit.ui.contents.ContentsActivity
 
 class HomeCategoryRvAdapter(page: Int) :
@@ -24,7 +26,7 @@ class HomeCategoryRvAdapter(page: Int) :
         return viewType
     }
 
-    class HomeCategoryRvViewHolder(private val binding: ItemHomeCategoryListBinding) :
+    inner class HomeCategoryRvViewHolder(private val binding: ItemHomeCategoryListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: Category, position: Int) {
             binding.homeCategoryData = data
@@ -40,6 +42,14 @@ class HomeCategoryRvAdapter(page: Int) :
                         binding.ivIcon.visibility = View.VISIBLE
                     }
                 }
+            }
+            binding.root.setOnClickListener {
+                val intent = Intent(it.context, ContentsActivity::class.java)
+                intent.putExtra(CATEGORY_ID, data.id)
+                intent.putExtra(CATEGORY_NAME, data.title)
+                intent.putExtra(CategoryFragment.CATEGORY_POSITION, pagePosition * 6 + position - 1)
+                intent.putExtra(CategoryFragment.CATEGORY_IMAGE_ID, data.imageId)
+                startActivity(it.context, intent, null)
             }
         }
     }
@@ -66,15 +76,6 @@ class HomeCategoryRvAdapter(page: Int) :
         position: Int
     ) {
         holder.onBind(categoryList[position], position)
-
-        holder.itemView.setOnClickListener {
-            val intent = Intent(it.context, ContentsActivity::class.java)
-            intent.putExtra(CategoryFragment.CATEGORY_ID, categoryList[position].id)
-            intent.putExtra(CategoryFragment.CATEGORY_NAME, categoryList[position].title)
-            intent.putExtra(CategoryFragment.CATEGORY_POSITION, pagePosition * 6 + position - 1)
-            intent.putExtra(CategoryFragment.CATEGORY_IMAGE_ID, categoryList[position].imageId)
-            startActivity(holder.itemView.context, intent, null)
-        }
     }
 
     override fun getItemCount(): Int = categoryList.size
