@@ -9,10 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ItemHomeCategoryListBinding
 import org.sopt.havit.domain.entity.Category
-import org.sopt.havit.ui.category.CategoryFragment
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_IMAGE_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_POSITION
 import org.sopt.havit.ui.contents.ContentsActivity
+import org.sopt.havit.util.setOnSingleClickListener
 
 class HomeCategoryRvAdapter(page: Int) :
     RecyclerView.Adapter<HomeCategoryRvAdapter.HomeCategoryRvViewHolder>() {
@@ -43,12 +45,12 @@ class HomeCategoryRvAdapter(page: Int) :
                     }
                 }
             }
-            binding.root.setOnClickListener {
+            binding.root.setOnSingleClickListener {
                 val intent = Intent(it.context, ContentsActivity::class.java)
                 intent.putExtra(CATEGORY_ID, data.id)
                 intent.putExtra(CATEGORY_NAME, data.title)
-                intent.putExtra(CategoryFragment.CATEGORY_POSITION, pagePosition * 6 + position - 1)
-                intent.putExtra(CategoryFragment.CATEGORY_IMAGE_ID, data.imageId)
+                intent.putExtra(CATEGORY_POSITION, pagePosition * 6 + position - 1)
+                intent.putExtra(CATEGORY_IMAGE_ID, data.imageId)
                 startActivity(it.context, intent, null)
             }
         }
