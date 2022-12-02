@@ -19,7 +19,7 @@ android {
         applicationId "org.sopt.havit"
         minSdk 23
         targetSdk 31
-        versionCode 100
+        versionCode 101
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "HAVIT_BASE_URL_DEV", properties["HAVIT_BASE_URL_DEV"])
@@ -32,7 +32,6 @@ android {
     productFlavors {
         prod {
             dimension "server"
-            applicationIdSuffix ".prod"
             manifestPlaceholders = [appLabel: "HAVIT"]
             buildConfigField 'boolean', 'IS_PROD', "true"
             buildConfigField 'boolean', 'IS_DEV', "false"
@@ -72,7 +71,7 @@ android {
         dataBinding true
     }
 
-    androidExtensions{
+    androidExtensions {
         experimental = true
     }
 }
