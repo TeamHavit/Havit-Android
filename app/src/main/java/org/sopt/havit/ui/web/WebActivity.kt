@@ -74,16 +74,6 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
                     }
                     return false
                 }
-
-
-                override fun onReceivedError(
-                    view: WebView?,
-                    request: WebResourceRequest?,
-                    error: WebResourceError?
-                ) {
-                    super.onReceivedError(view, request, error)
-                    webViewModel.isServerNetwork.value = NetworkState.FAIL
-                }
             }
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true

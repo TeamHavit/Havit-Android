@@ -56,20 +56,27 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         disableRvSmoothScroll()
         setVpSensitivity()
 
-        return binding.root
-    }
-
-    override fun onStart() {
-        super.onStart()
         categoryDataObserve()   // 카테고리 초기화
         recentContentsDataObserve() // 최근저장 콘텐츠 초기화
         notificationDataObserve()   // 알림 아이콘 초기화
         initReachRate() // 도달률 관련 데이터 초기화
+        addSourceOnIsReadyToSetCategory()
+
+        return binding.root
     }
 
     override fun onResume() {
         super.onResume()
         setData()
+    }
+
+    override fun onDestroyView() {
+        homeViewModel.removeSourceOnIsReadyToSetCategory()
+        super.onDestroyView()
+    }
+
+    private fun addSourceOnIsReadyToSetCategory() {
+        homeViewModel.addSourceOnIsReadyToSetCategory()
     }
 
     private fun disableRvSmoothScroll() {
@@ -171,13 +178,11 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private fun categoryDataObserve() {
         with(homeViewModel) {
-            userData.observe(viewLifecycleOwner) { userData ->
-                categoryData.observe(viewLifecycleOwner) { data ->
-                    if (data.isNotEmpty()) {
-                        val list = setList(data, userData.totalContentNumber)
-                        categoryVpAdapter.updateList(list)
-                        binding.layoutCategory.indicatorCategory.attachTo(binding.layoutCategory.vpCategory)
-                    }
+            isReadyToSetCategory.observe(viewLifecycleOwner) { isServerLoadComplete ->
+                if (isServerLoadComplete) {
+                    val list = setList()
+                    categoryVpAdapter.updateList(list)
+                    binding.layoutCategory.indicatorCategory.attachTo(binding.layoutCategory.vpCategory)
                 }
             }
         }

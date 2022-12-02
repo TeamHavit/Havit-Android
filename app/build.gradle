@@ -8,6 +8,10 @@ plugins {
     id 'kotlin-android-extensions'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def kakao_native_app_key = properties.get('KAKAO_NATIVE_APP_KEY_NO_QUEOTS')
+
 android {
     compileSdk 31
 
@@ -15,10 +19,30 @@ android {
         applicationId "org.sopt.havit"
         minSdk 23
         targetSdk 31
-        versionCode 100
+        versionCode 101
         versionName "1.0.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "HAVIT_BASE_URL_DEV", properties["HAVIT_BASE_URL_DEV"])
+        buildConfigField("String", "HAVIT_BASE_URL_PROD", properties["HAVIT_BASE_URL_PROD"])
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", properties['KAKAO_NATIVE_APP_KEY'])
+        manifestPlaceholders = [KAKAO_NATIVE_APP_KEY: kakao_native_app_key]
+    }
+
+    flavorDimensions "server"
+    productFlavors {
+        prod {
+            dimension "server"
+            manifestPlaceholders = [appLabel: "HAVIT"]
+            buildConfigField 'boolean', 'IS_PROD', "true"
+            buildConfigField 'boolean', 'IS_DEV', "false"
+        }
+        dev {
+            dimension "server"
+            applicationIdSuffix ".dev"
+            manifestPlaceholders = [appLabel: "(Dev)HAVIT"]
+            buildConfigField 'boolean', 'IS_PROD', "false"
+            buildConfigField 'boolean', 'IS_DEV', "true"
+        }
     }
 
     buildTypes {
@@ -47,7 +71,7 @@ android {
         dataBinding true
     }
 
-    androidExtensions{
+    androidExtensions {
         experimental = true
     }
 }

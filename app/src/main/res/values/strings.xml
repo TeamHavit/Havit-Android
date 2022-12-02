@@ -58,7 +58,7 @@
     <string name="home_category_empty_create_category">카테고리 추가</string>
     <string name="home_contents_empty">저장한 콘텐츠가 없습니다</string>
     <string name="home_category_save">저장 콘텐츠</string>
-    <string name="contents_divider">·</string>
+    <string name="contents_divider">&#160;·&#160;</string>
     <string name="contents_alarm_plan"> 알림 예정</string>
     <string name="contents_order_default">최근순</string>
     <string name="contents_search_hint">원하는 콘텐츠를 검색하세요</string>
