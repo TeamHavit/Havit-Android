@@ -591,13 +591,12 @@
                             tools:listitem="@layout/item_home_recommend_list" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <!-- 제작자 정보 -->
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/cl_footer"
-                        android:layout_width="match_parent"
+                        android:id="@+id/cl_logo"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/white_gray"
-                        android:paddingTop="21dp"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginBottom="58dp"
                         android:paddingBottom="?attr/actionBarSize"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -605,305 +604,26 @@
                         app:layout_constraintTop_toBottomOf="@id/cl_recommend">
 
                         <ImageView
-                            android:id="@+id/iv_footer_logo"
-                            android:layout_width="11dp"
-                            android:layout_height="11dp"
-                            android:layout_marginStart="23dp"
-                            android:src="@drawable/havit_logo_footer"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/tv_footer_logo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:text="@string/footer_logo"
-                            android:textAppearance="@style/Semibold9"
-                            android:textColor="@color/gray_1"
-                            app:layout_constraintStart_toEndOf="@id/iv_footer_logo"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <!-- 제작자정보 - 기획 -->
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/cl_footer_plan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="19dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/iv_footer_logo">
-
-                            <TextView
-                                android:id="@+id/tv_footer_plan"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/footer_plan"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_2"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/tv_plan_taejoon"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:text="@string/plan_taejoon"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tv_footer_plan" />
-
-                            <TextView
-                                android:id="@+id/tv_plan_jeein"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:text="@string/plan_jeein"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toEndOf="@id/tv_plan_taejoon"
-                                app:layout_constraintTop_toTopOf="@id/tv_plan_taejoon" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <!-- 제작자정보 - ios -->
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/cl_footer_ios"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            app:layout_constraintEnd_toStartOf="@id/cl_footer_server"
-                            app:layout_constraintStart_toEndOf="@id/cl_footer_plan"
-                            app:layout_constraintTop_toTopOf="@id/cl_footer_plan">
-
-                            <TextView
-                                android:id="@+id/tv_footer_ios"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/footer_ios"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_2"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/tv_ios_yoonah"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:text="@string/ios_yoonah"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tv_footer_ios" />
-
-                            <TextView
-                                android:id="@+id/tv_ios_seunghyeon"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:text="@string/ios_seunghyeon"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toEndOf="@id/tv_ios_yoonah"
-                                app:layout_constraintTop_toTopOf="@id/tv_ios_yoonah" />
-
-                            <TextView
-                                android:id="@+id/tv_ios_yebin"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:text="@string/ios_yebin"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toEndOf="@id/tv_ios_seunghyeon"
-                                app:layout_constraintTop_toTopOf="@id/tv_ios_yoonah" />
-
-                            <TextView
-                                android:id="@+id/tv_ios_suyeon"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:text="@string/ios_suyeon"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toEndOf="@id/tv_ios_yebin"
-                                app:layout_constraintTop_toTopOf="@id/tv_ios_yoonah" />
-
-                            <TextView
-                                android:id="@+id/tv_ios_sujin"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:text="@string/ios_sujin"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toEndOf="@id/tv_ios_suyeon"
-                                app:layout_constraintTop_toTopOf="@id/tv_ios_yoonah" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <!-- 제작자정보 - server -->
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/cl_footer_server"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="24dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/cl_footer_plan">
-
-                            <TextView
-                                android:id="@+id/tv_footer_server"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/footer_server"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_2"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/tv_server_hyosik"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:text="@string/server_hyosik"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tv_footer_server" />
-
-                            <TextView
-                                android:id="@+id/tv_server_jeongah"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:text="@string/server_jeongah"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toEndOf="@id/tv_server_hyosik"
-                                app:layout_constraintTop_toTopOf="@id/tv_server_hyosik" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <!-- 제작자정보 - design -->
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/cl_footer_design"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="30dp"
+                            android:id="@+id/iv_logo_box"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/ic_logo_box"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/cl_footer_plan">
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                            <TextView
-                                android:id="@+id/tv_footer_design"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/footer_design"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_2"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                        <ImageView
+                            android:id="@+id/iv_text_logo"
+                            android:layout_width="68dp"
+                            android:layout_height="12dp"
+                            android:layout_marginStart="12dp"
+                            android:src="@drawable/text_logo_small_gray2"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/iv_logo_box"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                            <TextView
-                                android:id="@+id/tv_design_minyoung"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:text="@string/design_minyoung"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tv_footer_design" />
-
-                            <TextView
-                                android:id="@+id/tv_design_green"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:text="@string/design_green"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toEndOf="@id/tv_design_minyoung"
-                                app:layout_constraintTop_toTopOf="@id/tv_design_minyoung" />
-
-                            <TextView
-                                android:id="@+id/tv_design_yujin"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:text="@string/design_yujin"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toEndOf="@id/tv_design_green"
-                                app:layout_constraintTop_toTopOf="@id/tv_design_minyoung" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <!-- 제작자정보 - aos -->
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/cl_footer_aos"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintStart_toStartOf="@id/cl_footer_ios"
-                            app:layout_constraintTop_toTopOf="@id/cl_footer_design">
-
-                            <TextView
-                                android:id="@+id/tv_footer_aos"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/footer_aos"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_2"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/tv_aos_hyorim"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:text="@string/aos_hyorim"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tv_footer_aos" />
-
-                            <TextView
-                                android:id="@+id/tv_aos_yubin"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:text="@string/aos_yubin"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toEndOf="@id/tv_aos_hyorim"
-                                app:layout_constraintTop_toTopOf="@id/tv_aos_hyorim" />
-
-                            <TextView
-                                android:id="@+id/tv_aos_hyein"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:text="@string/aos_hyein"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toEndOf="@id/tv_aos_yubin"
-                                app:layout_constraintTop_toTopOf="@id/tv_aos_hyorim" />
-
-                            <TextView
-                                android:id="@+id/tv_aos_nayoung"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:text="@string/aos_nayoung"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toEndOf="@id/tv_aos_hyein"
-                                app:layout_constraintTop_toTopOf="@id/tv_aos_hyorim" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </org.sopt.havit.util.StickyScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
