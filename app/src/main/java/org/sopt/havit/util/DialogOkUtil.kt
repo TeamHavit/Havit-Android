@@ -80,6 +80,9 @@ class DialogOkUtil(private val dialogMode: Int, private val doAfterConfirm: () -
     }
 
     override fun onDestroyView() {
+        if (dialogMode == UNREGISTER) {
+            doAfterConfirm()
+        }
         super.onDestroyView()
         _binding = null
     }
