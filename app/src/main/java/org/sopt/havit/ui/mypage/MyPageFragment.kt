@@ -13,6 +13,10 @@ import org.sopt.havit.databinding.FragmentMyPageBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.ContentsActivity
 import org.sopt.havit.ui.setting.SettingActivity
+import org.sopt.havit.util.GoogleAnalyticsUtil
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_CHECKED_CONTENT
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_MY_CATEGORY
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_MY_CONTENT
 
 @AndroidEntryPoint
 class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
@@ -42,6 +46,7 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
 
     private fun setListeners() {
         binding.clCategoryNum.setOnClickListener {
+            GoogleAnalyticsUtil.logClickEvent(CLICK_MY_CATEGORY)
             startActivity(
                 Intent(
                     requireContext(),
@@ -50,6 +55,7 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
             )
         }
         binding.clSavedContents.setOnClickListener {
+            GoogleAnalyticsUtil.logClickEvent(CLICK_MY_CONTENT)
             startActivity(
                 Intent(requireContext(), ContentsActivity::class.java).apply {
                     putExtra("categoryId", ALL_CONTENTS_ID)
@@ -58,6 +64,7 @@ class MyPageFragment : BaseBindingFragment<FragmentMyPageBinding>(R.layout.fragm
             )
         }
         binding.clSeenContents.setOnClickListener {
+            GoogleAnalyticsUtil.logClickEvent(CLICK_CHECKED_CONTENT)
             startActivity(
                 Intent(requireContext(), ContentsActivity::class.java).apply {
                     putExtra("categoryId", SEEN_CONTENTS_ID)

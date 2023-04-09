@@ -7,10 +7,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.domain.entity.Contents
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.domain.repository.ContentsRepository
+import org.sopt.havit.util.GoogleAnalyticsUtil
 import javax.inject.Inject
 
 @HiltViewModel
@@ -78,6 +78,10 @@ class ContentsViewModel @Inject constructor(
             kotlin.runCatching {
                 contentsRepository.isSeen(contentsId)
             }.onSuccess {
+                GoogleAnalyticsUtil.logClickEventWithContentCheck(
+                    GoogleAnalyticsUtil.CLICK_CONTENT_CHECK,
+                    it.data.isSeen
+                )
                 _requestSeenState.postValue(NetworkState.SUCCESS)
             }.onFailure {
                 _requestSeenState.postValue(NetworkState.FAIL)

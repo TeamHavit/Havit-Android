@@ -12,6 +12,7 @@ import org.sopt.havit.domain.entity.Contents
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.domain.repository.ContentsRepository
 import org.sopt.havit.domain.usecase.SearchUseCase
+import org.sopt.havit.util.GoogleAnalyticsUtil
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,20 +24,18 @@ class SearchViewModel @Inject constructor(
     private val _searchResult = MutableLiveData<List<Contents>>()
     var searchResult: LiveData<List<Contents>> = _searchResult
 
-    var searchResultSize = MutableLiveData(0)
 
-    private var _searchReload = MutableLiveData<Boolean>(false)
+    private var _searchReload = MutableLiveData(false)
     var searchReload: LiveData<Boolean> = _searchReload
 
-    fun setReload() {
-        _searchReload.value = !(_searchReload.value)!!
-    }
 
     var searchTv = MutableLiveData(false)
     private var isSeenCheck = MutableLiveData(false)
 
     private var _isRead = MutableLiveData<Boolean>()
     var isRead: LiveData<Boolean> = _isRead
+
+    var isServerNetwork = MutableLiveData<NetworkState>()
 
     fun getSearchContents(keyWord: String) {
         viewModelScope.launch {
@@ -59,10 +58,19 @@ class SearchViewModel @Inject constructor(
 
     fun setIsSeen(contentsId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = contentsRepository.isSeen(contentsId)
-                isSeenCheck.postValue(response.success)
-            } catch (e: Exception) {
+            kotlin.runCatching {
+                contentsRepository.isSeen(contentsId)
+
+            }.onSuccess {
+                isServerNetwork.postValue(NetworkState.SUCCESS)
+                isSeenCheck.postValue(it.success)
+                GoogleAnalyticsUtil.logClickEventWithContentCheck(
+                    GoogleAnalyticsUtil.CLICK_CONTENT_CHECK,
+                    it.data.isSeen
+                )
+
+            }.onFailure {
+                isServerNetwork.postValue(NetworkState.FAIL)
             }
         }
     }
