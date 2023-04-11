@@ -1,5 +1,6 @@
 package org.sopt.havit.util
 
+import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -52,14 +53,16 @@ object GoogleAnalyticsUtil {
     fun logClickEventWithContentCheck(contentName: String, contentCheck: Boolean) {
         if (IS_DEV) {
             Firebase.analytics.setUserProperty(ANALYTICS_USER_PROP, STATUS_INSTANT)
-            Firebase.analytics.logEvent(contentName) {
-                param(CONTENT_CHECK, contentCheck.toString())
+            val params = Bundle().apply {
+                putBoolean(CONTENT_CHECK, contentCheck)
             }
+            Firebase.analytics.logEvent(contentName, params)
         } else {
             Firebase.analytics.setUserProperty(ANALYTICS_USER_PROP, STATUS_INSTALLED)
-            Firebase.analytics.logEvent(contentName) {
-                param(CONTENT_CHECK, contentCheck.toString())
+            val params = Bundle().apply {
+                putBoolean(CONTENT_CHECK, contentCheck)
             }
+            Firebase.analytics.logEvent(contentName, params)
         }
     }
 
