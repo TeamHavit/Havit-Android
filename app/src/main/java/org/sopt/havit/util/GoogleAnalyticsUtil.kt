@@ -5,7 +5,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
-import org.sopt.havit.BuildConfig.IS_DEV
+import org.sopt.havit.BuildConfig.IS_PROD
 
 object GoogleAnalyticsUtil {
 
@@ -27,12 +27,7 @@ object GoogleAnalyticsUtil {
     const val CONTENT_SCREEN_TIME = "CONTENT_SCREEN_TIME"
 
     fun logScreenEvent(screenName: String) {
-        if (IS_DEV) {
-            Firebase.analytics.setUserProperty(ANALYTICS_USER_PROP, STATUS_INSTANT)
-            Firebase.analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
-                param(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
-            }
-        } else {
+        if (IS_PROD) {
             Firebase.analytics.setUserProperty(ANALYTICS_USER_PROP, STATUS_INSTALLED)
             Firebase.analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
                 param(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
@@ -41,23 +36,14 @@ object GoogleAnalyticsUtil {
     }
 
     fun logClickEvent(contentName: String) {
-        if (IS_DEV) {
-            Firebase.analytics.setUserProperty(ANALYTICS_USER_PROP, STATUS_INSTANT)
-            Firebase.analytics.logEvent(contentName, null)
-        } else {
+        if (IS_PROD) {
             Firebase.analytics.setUserProperty(ANALYTICS_USER_PROP, STATUS_INSTALLED)
             Firebase.analytics.logEvent(contentName, null)
         }
     }
 
     fun logClickEventWithContentCheck(contentName: String, contentCheck: Boolean) {
-        if (IS_DEV) {
-            Firebase.analytics.setUserProperty(ANALYTICS_USER_PROP, STATUS_INSTANT)
-            val params = Bundle().apply {
-                putBoolean(CONTENT_CHECK, contentCheck)
-            }
-            Firebase.analytics.logEvent(contentName, params)
-        } else {
+        if (IS_PROD) {
             Firebase.analytics.setUserProperty(ANALYTICS_USER_PROP, STATUS_INSTALLED)
             val params = Bundle().apply {
                 putBoolean(CONTENT_CHECK, contentCheck)
@@ -67,17 +53,11 @@ object GoogleAnalyticsUtil {
     }
 
     fun logScreenDurationTimeEvent(contentName: String, durationTime: Long) {
-        if (IS_DEV) {
-            Firebase.analytics.setUserProperty(ANALYTICS_USER_PROP, STATUS_INSTANT)
-            Firebase.analytics.logEvent(contentName) {
-                param(SCREEN_TIME, durationTime)
-            }
-        } else {
+        if (IS_PROD) {
             Firebase.analytics.setUserProperty(ANALYTICS_USER_PROP, STATUS_INSTALLED)
             Firebase.analytics.logEvent(contentName) {
                 param(SCREEN_TIME, durationTime)
             }
         }
     }
-
 }
