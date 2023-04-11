@@ -64,11 +64,6 @@ class SearchViewModel @Inject constructor(
             }.onSuccess {
                 isServerNetwork.postValue(NetworkState.SUCCESS)
                 isSeenCheck.postValue(it.success)
-                GoogleAnalyticsUtil.logClickEventWithContentCheck(
-                    GoogleAnalyticsUtil.CLICK_CONTENT_CHECK,
-                    it.data.isSeen
-                )
-
             }.onFailure {
                 isServerNetwork.postValue(NetworkState.FAIL)
             }

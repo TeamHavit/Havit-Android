@@ -106,6 +106,10 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
     private fun setListeners() {
         binding.llWebview.setOnClickListener {
+            GoogleAnalyticsUtil.logClickEventWithContentCheck(
+                GoogleAnalyticsUtil.CLICK_CONTENT_CHECK,
+                !(webViewModel.isHavit.value!!.peekContent())
+            )
             webViewModel.setHavit(intent!!.getIntExtra("contentsId", 0))
         }
         binding.ibWebBack.setOnClickListener {

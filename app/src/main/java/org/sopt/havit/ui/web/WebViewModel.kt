@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.domain.repository.ContentsRepository
 import org.sopt.havit.util.Event
-import org.sopt.havit.util.GoogleAnalyticsUtil
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,10 +39,6 @@ class WebViewModel @Inject constructor(private val contentsRepository: ContentsR
                     isServerNetwork.postValue(NetworkState.SUCCESS)
                     _isHavit.value = Event(!(_isHavit.value!!.peekContent()))
                     _isClick.value = Event(!(_isClick.value!!.peekContent()))
-                    GoogleAnalyticsUtil.logClickEventWithContentCheck(
-                        GoogleAnalyticsUtil.CLICK_CONTENT_CHECK,
-                        _isHavit.value!!.peekContent()
-                    )
                 }
             }.onFailure {
                 isServerNetwork.postValue(NetworkState.FAIL)
