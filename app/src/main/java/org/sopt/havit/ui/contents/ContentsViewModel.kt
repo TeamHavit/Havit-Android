@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.domain.entity.Contents
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.domain.repository.ContentsRepository

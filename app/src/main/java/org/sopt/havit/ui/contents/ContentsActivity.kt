@@ -432,6 +432,10 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 contentsViewModel.setIsSeen(contentsAdapter.currentList[position].id)
                 currentHavitView = v
                 currentHavitPosition = position
+                GoogleAnalyticsUtil.logClickEventWithContentCheck(
+                    GoogleAnalyticsUtil.CLICK_CONTENT_CHECK,
+                    !(contentsAdapter.currentList[position].isSeen)
+                )
             }
         })
     }
