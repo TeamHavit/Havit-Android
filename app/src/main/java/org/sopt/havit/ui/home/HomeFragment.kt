@@ -24,9 +24,6 @@ import org.sopt.havit.util.PopupSharedPreference
 import org.sopt.havit.util.setDragSensitivity
 import org.sopt.havit.util.setOnSingleClickListener
 import org.sopt.havit.util.GoogleAnalyticsUtil
-import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_GO_BACK
-import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_REFRESH
-import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SHARE
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_MUST_SEE_CONTENT
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SEARCH_CONTENT
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_WHOLE_CATEGORY
