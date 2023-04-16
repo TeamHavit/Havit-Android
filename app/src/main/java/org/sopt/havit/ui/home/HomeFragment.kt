@@ -23,6 +23,16 @@ import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.PopupSharedPreference
 import org.sopt.havit.util.setDragSensitivity
 import org.sopt.havit.util.setOnSingleClickListener
+import org.sopt.havit.util.GoogleAnalyticsUtil
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_GO_BACK
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_REFRESH
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SHARE
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_MUST_SEE_CONTENT
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SEARCH_CONTENT
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_WHOLE_CATEGORY
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_HAVIT_SERVICE_GUIDE
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SEE_MORE
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_RECOMMENDED_SITE
 
 @AndroidEntryPoint
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
@@ -92,6 +102,8 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         recommendRvAdapter.setItemClickListener(object :
             HomeRecommendRvAdapter.OnItemClickListener {
             override fun onWebClick(v: View, position: Int) {
+                GoogleAnalyticsUtil.logClickEventWithRecommendedSiteNum(CLICK_RECOMMENDED_SITE, position)
+
                 val intent = Intent(v.context, WebActivity::class.java)
                 homeViewModel.recommendList.value?.get(position)
                     ?.let {
@@ -229,24 +241,29 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             startActivity(intent)
         }
         binding.clReachContents.setOnClickListener {
+            GoogleAnalyticsUtil.logClickEvent(CLICK_MUST_SEE_CONTENT)
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
             intent.putExtra(CONTENT_TYPE, "unseen")
             startActivity(intent)
         }
         binding.layoutCategory.tvCategoryAll.setOnClickListener {
+            GoogleAnalyticsUtil.logClickEvent(CLICK_WHOLE_CATEGORY)
             val intent = Intent(requireActivity(), HomeCategoryAllActivity::class.java)
             startActivity((intent))
         }
         binding.clSearchClickable.setOnClickListener {
+            GoogleAnalyticsUtil.logClickEvent(CLICK_SEARCH_CONTENT)
             val intent = Intent(requireActivity(), SearchActivity::class.java)
             startActivity(intent)
         }
         binding.tvMoreContents.setOnClickListener {
+            GoogleAnalyticsUtil.logClickEvent(CLICK_SEE_MORE)
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
             intent.putExtra(CONTENT_TYPE, "recent")
             startActivity(intent)
         }
         binding.ivServiceGuide.setOnClickListener {
+            GoogleAnalyticsUtil.logClickEvent(CLICK_HAVIT_SERVICE_GUIDE)
             val intent = Intent(requireActivity(), ServiceGuideActivity::class.java)
             startActivity(intent)
         }
