@@ -10,34 +10,33 @@ import org.sopt.havit.BuildConfig.IS_PROD
 object GoogleAnalyticsUtil {
 
     private const val STATUS_INSTALLED = "installed"
-    private const val STATUS_INSTANT = "instant"
     private const val ANALYTICS_USER_PROP = "app_type"
 
 
-    private const val CONTENT_CHECK = "CONTENT_CHECK"
-    private const val SCREEN_TIME = "SCREEN_TIME"
-    private const val SITE_NUM = "SITE_NUM"
+    private const val CONTENT_CHECK = "click_content_check"
+    private const val SCREEN_TIME = "content_screen_time"
+    private const val SITE_NUM = "site_num"
 
-    const val CLICK_MY_CATEGORY = "CLICK_MY_CATEGORY"
-    const val CLICK_MY_CONTENT = "CLICK_MY_CONTENT"
-    const val CLICK_CHECKED_CONTENT = "CLICK_CHECKED_CONTENT"
-    const val CLICK_GO_BACK = "CLICK_GO_BACK"
-    const val CLICK_REFRESH = "CLICK_REFRESH"
-    const val CLICK_SHARE = "CLICK_SHARE"
-    const val CLICK_CONTENT_CHECK = "CLICK_CONTENT_CHECK"
-    const val CONTENT_SCREEN_TIME = "CONTENT_SCREEN_TIME"
+    const val CLICK_MY_CATEGORY = "click_my_category"
+    const val CLICK_MY_CONTENT = "click_my_content"
+    const val CLICK_CHECKED_CONTENT = "click_checked_content"
+    const val CLICK_GO_BACK = "click_go_back"
+    const val CLICK_REFRESH = "click_refresh"
+    const val CLICK_SHARE = "click_share"
+    const val CLICK_CONTENT_CHECK = "click_content_check"
+    const val CONTENT_SCREEN_TIME = "content_screen_time"
 
     // 홈
-    const val CLICK_MUST_SEE_CONTENT = "CLICK_MUST_SEE_CONTENT"
-    const val CLICK_SEARCH_CONTENT = "CLICK_SEARCH_CONTENT"
-    const val CLICK_WHOLE_CATEGORY = "CLICK_WHOLE_CATEGORY"
-    const val CLICK_HAVIT_SERVICE_GUIDE = "CLICK_HAVIT_SERVICE_GUIDE"
-    const val CLICK_SEE_MORE = "CLICK_SEE_MORE"
-    const val CLICK_RECOMMENDED_SITE = "CLICK_RECOMMENDED_SITE"
-    const val GNB_HOME = "GNB_HOME"
-    const val GNB_CATEGORY = "GNB_CATEGORY"
-    const val GNB_MYPAGE = "GNB_MYPAGE"
-    const val GNB_ADD_CONTENT = "GNB_ADD_CONTENT"
+    const val CLICK_MUST_SEE_CONTENT = "click_must_see_content"
+    const val CLICK_SEARCH_CONTENT = "click_search_content"
+    const val CLICK_WHOLE_CATEGORY = "click_whole_category"
+    const val CLICK_HAVIT_SERVICE_GUIDE = "click_havit_service_guide"
+    const val CLICK_SEE_MORE = "click_see_more"
+    const val CLICK_RECOMMENDED_SITE = "click_recommended_site"
+    const val GNB_HOME = "gnb_home"
+    const val GNB_CATEGORY = "gnb_category"
+    const val GNB_MYPAGE = "gnb_mypage"
+    const val GNB_ADD_CONTENT = "gnb_add_content"
 
     fun logScreenEvent(screenName: String) {
         if (IS_PROD) {
