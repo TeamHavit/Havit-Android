@@ -4,12 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.ActivityMainBinding
-import org.sopt.havit.ui.category.CategoryFragment
-import org.sopt.havit.ui.home.HomeFragment
-import org.sopt.havit.ui.mypage.MyPageFragment
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.util.GoogleAnalyticsUtil
 import org.sopt.havit.util.GoogleAnalyticsUtil.GNB_ADD_CONTENT
@@ -23,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var navView: BottomNavigationView
+    private var isInitialized: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,12 +34,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBottomNavi() {
-        // TODO GA붙이기 위해 임의로 막아놓은 코드
-        //navView = binding.navView
-        //navHostFragment =
-        //    supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
-        //navController = navHostFragment.navController
-        //navView.setupWithNavController(navController)
+        navView = binding.navView
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        navController = navHostFragment.navController
+        // 바텀네비게이션 클릭 시 ga 이벤트 보냄
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.navigation_home -> {
+                    // 처음 홈 화면 진입 시는 클릭해서 진입한게 아니므로 이벤트 보내지 않음
+                    if (isInitialized) {
+                        GoogleAnalyticsUtil.logClickEvent(GNB_HOME)
+                    } else {
+                        isInitialized = true
+                    }
+                }
+                R.id.navigation_category -> {
+                    GoogleAnalyticsUtil.logClickEvent(GNB_CATEGORY)
+                }
+                R.id.navigation_my_page -> {
+                    GoogleAnalyticsUtil.logClickEvent(GNB_MYPAGE)
+                }
+                else -> {}
+            }
+        }
+        navView.setupWithNavController(navController)
         binding.navView.background = null
     }
 
@@ -51,31 +69,5 @@ class MainActivity : AppCompatActivity() {
             GoogleAnalyticsUtil.logClickEvent(GNB_ADD_CONTENT)
             SaveFragment("").show(supportFragmentManager, "save")
         }
-
-        binding.navView.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.navigation_home -> {
-                    changeFragment(HomeFragment::class.java.name)
-                    GoogleAnalyticsUtil.logClickEvent(GNB_HOME)
-                }
-                R.id.navigation_category -> {
-                    changeFragment(CategoryFragment::class.java.name)
-                    GoogleAnalyticsUtil.logClickEvent(GNB_CATEGORY)
-                }
-                R.id.navigation_my_page -> {
-                    changeFragment(MyPageFragment::class.java.name)
-                    GoogleAnalyticsUtil.logClickEvent(GNB_MYPAGE)
-                }
-                else -> {}
-            }
-            true
-        }
-    }
-
-    private fun changeFragment(className: String) {
-        val fragment = supportFragmentManager.fragmentFactory.instantiate(classLoader, className)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.nav_host_fragment_activity_main, fragment).commit()
-        //supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment_activity_main, fragment).commit()
     }
 }
