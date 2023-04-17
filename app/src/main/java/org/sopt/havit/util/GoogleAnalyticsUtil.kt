@@ -9,13 +9,28 @@ import org.sopt.havit.BuildConfig.IS_PROD
 
 object GoogleAnalyticsUtil {
 
+    // property
     private const val STATUS_INSTALLED = "installed"
     private const val ANALYTICS_USER_PROP = "app_type"
 
-
+    // parameter
     private const val CONTENT_CHECK = "click_content_check"
     private const val SCREEN_TIME = "content_screen_time"
     private const val SITE_NUM = "site_num"
+
+    // save contents
+    const val SELECT_CATEGORY = "select_category"
+    const val CONTENT_CUSTOM = "content_custom"
+    const val CLICK_COMPLETE_SAVE_CONTENT = "click_complete_save_content"
+    const val SETTING_ALARM = "setting_alarm"
+    const val CLICK_COMPLETE_SETTING_ALARM = "click_complete_setting_alarm"
+    const val MODIFY_TITLE = "modify_title"
+    const val CLICK_COMPLETE_MODIFY_TITLE = "click_complete_modify_title"
+
+    // create category
+    const val ADD_CATEGORY = "add_category"
+    const val SELECT_ICON = "select_icon"
+    const val CLICK_COMPLETE_SELECT_ICON = "click_complete_select_icon"
 
     const val CLICK_MY_CATEGORY = "click_my_category"
     const val CLICK_MY_CONTENT = "click_my_content"
