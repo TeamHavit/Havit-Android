@@ -15,8 +15,9 @@ object GoogleAnalyticsUtil {
 
     // parameter
     private const val CONTENT_CHECK = "click_content_check"
-    private const val SCREEN_TIME = "content_screen_time"
+    private const val SCREEN_TIME = "screen_time"
     private const val SITE_NUM = "site_num"
+    private const val ICON_NUM = "icon_num"
 
     // save contents
     const val SELECT_CATEGORY = "select_category"
@@ -92,9 +93,16 @@ object GoogleAnalyticsUtil {
         if (IS_PROD) {
             Firebase.analytics.setUserProperty(ANALYTICS_USER_PROP, STATUS_INSTALLED)
             val params = Bundle().apply {
-                putString(SITE_NUM, siteNum.toString())
+                putInt(SITE_NUM, siteNum)
             }
             Firebase.analytics.logEvent(contentName, params)
         }
+    }
+
+    fun logClickEventOnAddCategory(iconNum: Int) {
+        val params = Bundle().apply {
+            putInt(ICON_NUM, iconNum)
+        }
+        Firebase.analytics.logEvent(CLICK_COMPLETE_SELECT_ICON, params)
     }
 }

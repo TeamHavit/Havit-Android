@@ -13,10 +13,8 @@ import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.category.CategoryAddActivity
 import org.sopt.havit.ui.share.AddCategoryViewModel
 import org.sopt.havit.ui.share.add_category.IconAdapter.Companion.clickedPosition
-import org.sopt.havit.util.ADD_CATEGORY_TYPE
-import org.sopt.havit.util.ToastUtil
-import org.sopt.havit.util.setOnSingleClickListener
-import org.sopt.havit.util.setOnSinglePostClickListener
+import org.sopt.havit.util.*
+import org.sopt.havit.util.GoogleAnalyticsUtil.SELECT_ICON
 
 @AndroidEntryPoint
 class ChooseIconFragment :
@@ -35,6 +33,7 @@ class ChooseIconFragment :
         initNetworkErrorViewClickListener()
         toolbarClickListener()
         observeNetworkStatus()
+        setScreenEventLogging()
     }
 
     private fun toolbarClickListener() {
@@ -66,8 +65,15 @@ class ChooseIconFragment :
     private fun initNormalViewClickNext() {
         binding.btnNext.setOnSinglePostClickListener {
             viewModel.addCategory()
+            setClickEventLogging()
         }
     }
+
+    private fun setClickEventLogging() {
+        val iconIdx = requireNotNull(viewModel.selectedIconPosition.value)
+        GoogleAnalyticsUtil.logClickEventOnAddCategory(iconNum = iconIdx)
+    }
+
 
     private fun observeNetworkStatus() {
         viewModel.addCategoryViewState.observe(viewLifecycleOwner) {
@@ -94,5 +100,9 @@ class ChooseIconFragment :
             toastType = ADD_CATEGORY_TYPE,
             categoryName = viewModel.categoryTitle.value ?: throw IllegalStateException()
         )
+    }
+
+    private fun setScreenEventLogging() {
+        GoogleAnalyticsUtil.logScreenEvent(SELECT_ICON)
     }
 }
