@@ -12,6 +12,8 @@ import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.share.ShareViewModel
 import org.sopt.havit.util.*
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_COMPLETE_SAVE_CONTENT
+import org.sopt.havit.util.GoogleAnalyticsUtil.CONTENT_CUSTOM
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -30,6 +32,7 @@ class ContentsSummeryFragment :
         initListener()
         toolbarClickListener()
         onClickRefreshButtonOnNetworkError()
+        setScreenEventLogging()
     }
 
     private fun initListener() {
@@ -74,6 +77,7 @@ class ContentsSummeryFragment :
 
     private fun saveContents() {
         viewModel.saveContents()
+        setClickEventLogging()
     }
 
     private fun toolbarClickListener() {
@@ -97,6 +101,14 @@ class ContentsSummeryFragment :
             it.startAnimation(AnimationUtils.loadAnimation(context, R.anim.rotation_refresh))
             saveContents()
         }
+    }
+
+    private fun setScreenEventLogging() {
+        GoogleAnalyticsUtil.logScreenEvent(CONTENT_CUSTOM)
+    }
+
+    private fun setClickEventLogging() {
+        GoogleAnalyticsUtil.logClickEvent(CLICK_COMPLETE_SAVE_CONTENT)
     }
 
     private fun setCustomToast() = ToastUtil(requireContext()).makeToast(ADD_CONTENT_TYPE)

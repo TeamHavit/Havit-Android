@@ -12,6 +12,8 @@ import org.sopt.havit.databinding.FragmentSelectCategoryBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.edit_category.SelectableCategoryAdapter
 import org.sopt.havit.ui.share.ShareViewModel
+import org.sopt.havit.util.GoogleAnalyticsUtil
+import org.sopt.havit.util.GoogleAnalyticsUtil.SELECT_CATEGORY
 import org.sopt.havit.util.setOnSingleClickListener
 
 @AndroidEntryPoint
@@ -33,6 +35,7 @@ class SelectCategoryFragment :
         initListener()
         toolbarClickListener()
         onClickRefreshButtonOnNetworkError()
+        setScreenEventLogging()
     }
 
     private fun getCategoryData() {
@@ -94,6 +97,10 @@ class SelectCategoryFragment :
         val toast = Toast(requireContext())
         toast.view = layoutInflater.inflate(R.layout.toast_max_category, null)
         toast.show()
+    }
+
+    private fun setScreenEventLogging() {
+        GoogleAnalyticsUtil.logScreenEvent(SELECT_CATEGORY)
     }
 
     override fun onDestroyView() {

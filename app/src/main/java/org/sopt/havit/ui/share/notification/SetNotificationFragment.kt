@@ -15,6 +15,9 @@ import org.sopt.havit.ui.share.notification.SetNotificationFragment.Companion.TH
 import org.sopt.havit.ui.share.notification.SetNotificationFragment.Companion.TWENTY_FOUR
 import org.sopt.havit.ui.share.notification.SetNotificationFragment.Companion.TWO
 import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.GoogleAnalyticsUtil
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_COMPLETE_SETTING_ALARM
+import org.sopt.havit.util.GoogleAnalyticsUtil.SETTING_ALARM
 import org.sopt.havit.util.OnBackPressedHandler
 import java.util.*
 
@@ -33,6 +36,7 @@ class SetNotificationFragment :
         initRadioGroupListener()
         initToolbarListener()
         initDeleteNotiBtn()
+        setScreenEventLogging()
     }
 
     private fun initDeleteNotiBtn() {
@@ -68,8 +72,13 @@ class SetNotificationFragment :
         binding.icBack.setOnClickListener { onBackClicked() }
         binding.tvComplete.setOnClickListener {
             viewModel.syncFinalDataWithTempData()
+            setClickEventLogging()
             goBack()
         }
+    }
+
+    private fun setClickEventLogging() {
+        GoogleAnalyticsUtil.logClickEvent(CLICK_COMPLETE_SETTING_ALARM)
     }
 
     private fun showPickerFragment() {
@@ -112,6 +121,10 @@ class SetNotificationFragment :
 
     private fun goBack() {
         findNavController().popBackStack()
+    }
+
+    private fun setScreenEventLogging() {
+        GoogleAnalyticsUtil.logScreenEvent(SETTING_ALARM)
     }
 
     companion object {
