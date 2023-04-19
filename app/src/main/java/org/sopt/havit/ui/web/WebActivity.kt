@@ -3,11 +3,11 @@ package org.sopt.havit.ui.web
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
+import android.view.View.GONE
 import android.view.animation.AnimationUtils
 import android.webkit.*
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
@@ -46,7 +46,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
     private fun initHavitSeen() {
         if (intent.getIntExtra("contentsId", -1) == -1) {
-            binding.llWebBottom.isVisible = false
+            binding.llWebview.visibility = GONE
         }
         if (!intent.getBooleanExtra("isSeen", false)) {
             Glide.with(this).load(R.drawable.ic_contents_unread).into(binding.ivWebviewUnread)
