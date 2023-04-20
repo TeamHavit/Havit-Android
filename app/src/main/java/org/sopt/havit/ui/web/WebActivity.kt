@@ -25,14 +25,14 @@ import org.sopt.havit.util.GoogleAnalyticsUtil.CONTENT_SCREEN_TIME
 class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_web) {
 
     private val webViewModel: WebViewModel by viewModels()
-    private var startTime: Long = 0
-    private var endTime: Long = 0
+    private var startTime: Int = 0
+    private var endTime: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.vm = webViewModel
-        startTime = SystemClock.elapsedRealtime()
+        startTime = SystemClock.elapsedRealtime().toInt()
         initIsHavit()
         initHavitSeen()
         setUrlCheck()
@@ -113,6 +113,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
             webViewModel.setHavit(intent!!.getIntExtra("contentsId", 0))
         }
         binding.ibWebBack.setOnClickListener {
+            setWebViewDurationTimeLogging()
             GoogleAnalyticsUtil.logClickEvent(CLICK_GO_BACK)
             finish()
         }
@@ -146,16 +147,16 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         toast.show()
     }
 
+    private fun setWebViewDurationTimeLogging() {
+        endTime = SystemClock.elapsedRealtime().toInt()
+        GoogleAnalyticsUtil.logScreenDurationTimeEvent(CONTENT_SCREEN_TIME, endTime - startTime)
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         super.finish()
+        setWebViewDurationTimeLogging()
         GoogleAnalyticsUtil.logClickEvent(CLICK_GO_BACK)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        endTime = SystemClock.elapsedRealtime()
-        GoogleAnalyticsUtil.logScreenDurationTimeEvent(CONTENT_SCREEN_TIME, endTime - startTime)
     }
 
 }
