@@ -33,10 +33,11 @@ object GoogleAnalyticsUtil {
         Firebase.analytics.logEvent(contentName, params)
     }
 
-    fun logScreenDurationTimeEvent(contentName: String, durationTime: Long) {
-        Firebase.analytics.logEvent(contentName) {
-            param(SCREEN_TIME, durationTime)
+    fun logScreenDurationTimeEvent(contentName: String, durationTime: Int) {
+        val params = Bundle().apply {
+            putInt(SCREEN_TIME, durationTime)
         }
+        Firebase.analytics.logEvent(contentName, params)
     }
 
     fun logClickEventWithRecommendedSiteNum(contentName: String, siteNum: Int) {
