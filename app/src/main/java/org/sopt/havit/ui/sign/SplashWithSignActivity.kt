@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,6 +73,8 @@ class SplashWithSignActivity :
                 kakaoLoginService.getUserNeedNewScopes { isGetUserInfo ->
                     if (isGetUserInfo) signInViewModel.getSignIn()
                 }
+            } else {
+                kakaoLoginService.setLoginWithAccount(signInViewModel.kakaoLoginCallback)
             }
         })
     }
