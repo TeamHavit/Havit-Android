@@ -17,8 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
-    private val kakaoLoginService: KakaoLoginService
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     companion object {
@@ -44,24 +43,15 @@ class SignInViewModel @Inject constructor(
 
     private val _kakaoToken = MutableLiveData<String>()
 
-    private val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+    val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
             _isSuccessKakaoLogin.value = Event(false)
+            Log.d("TAG", "카카오계정으로 로그인 실패 ${error}")
         } else if (token != null) {
             Log.d("TAG", "카카오계정으로 로그인 성공 ${token.accessToken}")
+            _isSuccessKakaoLogin.value = Event(true)
             setKakaoToken(token.accessToken)
-            kakaoLoginService.getUserNeedNewScopes {
-                _isSuccessKakaoLogin.value = Event(it)
-            }
         }
-    }
-
-    fun setKakaoLogin() {
-        kakaoLoginService.setKakaoLogin(kakaoLoginCallback)
-    }
-
-    fun setKakaoWithAccountLogin() {
-        kakaoLoginService.setLoginWithAccount(kakaoLoginCallback)
     }
 
 

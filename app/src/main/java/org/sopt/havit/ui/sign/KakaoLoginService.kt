@@ -14,8 +14,6 @@ class KakaoLoginService @Inject constructor(
     @ActivityContext private val context: Context,
     private val preferences: HavitAuthLocalPreferences
 ) {
-
-
     fun setLoginWithAccount(kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit) {
         UserApiClient.instance.loginWithKakaoAccount(
             context,

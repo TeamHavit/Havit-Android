@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +30,9 @@ class SplashWithSignActivity :
 
     @Inject
     lateinit var preference: HavitSharedPreference
+
+    @Inject
+    lateinit var kakaoLoginService: KakaoLoginService
 
     private val signInViewModel: SignInViewModel by viewModels()
     private var isFromShare by Delegates.notNull<Boolean>()
@@ -65,8 +69,12 @@ class SplashWithSignActivity :
     }
 
     private fun initSuccessKakaoLoginObserver() {
-        signInViewModel.isSuccessKakaoLogin.observe(this, EventObserver {
-            if (it) signInViewModel.getSignIn()
+        signInViewModel.isSuccessKakaoLogin.observe(this, EventObserver { isSuccess ->
+            if (isSuccess) {
+                kakaoLoginService.getUserNeedNewScopes { isGetUserInfo ->
+                    if (isGetUserInfo) signInViewModel.getSignIn()
+                }
+            }
         })
     }
 
@@ -132,10 +140,10 @@ class SplashWithSignActivity :
             setAutoLogin()
         }
         binding.btnKakaoLogin.setOnSinglePostClickListener {
-            signInViewModel.setKakaoLogin()
+            kakaoLoginService.setKakaoLogin(signInViewModel.kakaoLoginCallback)
         }
         binding.tvAnotherLogin.setOnClickListener {
-            signInViewModel.setKakaoWithAccountLogin()
+            kakaoLoginService.setLoginWithAccount(signInViewModel.kakaoLoginCallback)
         }
     }
 
