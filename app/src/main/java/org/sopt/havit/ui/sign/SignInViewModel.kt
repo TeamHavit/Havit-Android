@@ -17,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val kakaoLoginService: KakaoLoginService
 ) : ViewModel() {
 
     companion object {
@@ -33,9 +34,6 @@ class SignInViewModel @Inject constructor(
     private var _isAlreadyUser = MutableLiveData<Event<SignInResponse>>()
     var isAlreadyUser: LiveData<Event<SignInResponse>> = _isAlreadyUser
 
-    private var _isNeedScopes = MutableLiveData<Event<Boolean>>()
-    var isNeedScopes: LiveData<Event<Boolean>> = _isNeedScopes
-
     private var _accessToken = MutableLiveData<String>()
     var accessToken: LiveData<String> = _accessToken
 
@@ -46,15 +44,24 @@ class SignInViewModel @Inject constructor(
 
     private val _kakaoToken = MutableLiveData<String>()
 
-    val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+    private val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
             _isSuccessKakaoLogin.value = Event(false)
         } else if (token != null) {
             Log.d("TAG", "카카오계정으로 로그인 성공 ${token.accessToken}")
             setKakaoToken(token.accessToken)
-            _isNeedScopes.value = Event(true)
-            _isSuccessKakaoLogin.value = Event(true)
+            kakaoLoginService.getUserNeedNewScopes {
+                _isSuccessKakaoLogin.value = Event(it)
+            }
         }
+    }
+
+    fun setKakaoLogin() {
+        kakaoLoginService.setKakaoLogin(kakaoLoginCallback)
+    }
+
+    fun setKakaoWithAccountLogin() {
+        kakaoLoginService.setLoginWithAccount(kakaoLoginCallback)
     }
 
 
