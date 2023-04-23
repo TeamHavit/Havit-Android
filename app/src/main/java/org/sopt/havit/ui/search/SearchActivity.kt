@@ -17,6 +17,7 @@ import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.contents.more.ContentsMoreFragment
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.GoogleAnalyticsUtil
 import org.sopt.havit.util.KeyBoardUtil
 import java.io.Serializable
 
@@ -118,6 +119,10 @@ class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activ
                 ) {
                     searchContentsAdapter.searchContents[pos].isSeen = !(data.isSeen)
                     searchViewModel.setIsSeen(data.id)
+                    GoogleAnalyticsUtil.logClickEventWithContentCheck(
+                        GoogleAnalyticsUtil.CLICK_CONTENT_CHECK,
+                        data.isSeen
+                    )
                     if (v.tag == "seen") {
                         Glide.with(v.context)
                             .load(R.drawable.ic_contents_unread)

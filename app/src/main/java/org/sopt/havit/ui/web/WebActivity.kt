@@ -2,13 +2,12 @@ package org.sopt.havit.ui.web
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.os.SystemClock
+import android.view.View.GONE
 import android.view.animation.AnimationUtils
 import android.webkit.*
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
@@ -16,17 +15,24 @@ import org.sopt.havit.databinding.ActivityWebBinding
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.util.EventObserver
-import retrofit2.http.Url
+import org.sopt.havit.util.GoogleAnalyticsUtil
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_GO_BACK
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_REFRESH
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SHARE
+import org.sopt.havit.util.GoogleAnalyticsUtil.CONTENT_SCREEN_TIME
 
 @AndroidEntryPoint
 class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_web) {
 
     private val webViewModel: WebViewModel by viewModels()
+    private var startTime: Int = 0
+    private var endTime: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.vm = webViewModel
+        startTime = SystemClock.elapsedRealtime().toInt()
         initIsHavit()
         initHavitSeen()
         setUrlCheck()
@@ -40,7 +46,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
     private fun initHavitSeen() {
         if (intent.getIntExtra("contentsId", -1) == -1) {
-            binding.llWebBottom.isVisible = false
+            binding.llWebview.visibility = GONE
         }
         if (!intent.getBooleanExtra("isSeen", false)) {
             Glide.with(this).load(R.drawable.ic_contents_unread).into(binding.ivWebviewUnread)
@@ -100,18 +106,26 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
     private fun setListeners() {
         binding.llWebview.setOnClickListener {
+            GoogleAnalyticsUtil.logClickEventWithContentCheck(
+                GoogleAnalyticsUtil.CLICK_CONTENT_CHECK,
+                !(webViewModel.isHavit.value!!.peekContent())
+            )
             webViewModel.setHavit(intent!!.getIntExtra("contentsId", 0))
         }
         binding.ibWebBack.setOnClickListener {
+            setWebViewDurationTimeLogging()
+            GoogleAnalyticsUtil.logClickEvent(CLICK_GO_BACK)
             finish()
         }
         binding.llWebShare.setOnClickListener {
+            GoogleAnalyticsUtil.logClickEvent(CLICK_SHARE)
             val intentShare = Intent(Intent.ACTION_SEND)
             intentShare.putExtra(Intent.EXTRA_TEXT, intent.getStringExtra("url"))
             intentShare.type = "text/plain"
             startActivity(Intent.createChooser(intentShare, "앱을 선택해 주세요."))
         }
         binding.ibWebReload.setOnClickListener {
+            GoogleAnalyticsUtil.logClickEvent(CLICK_REFRESH)
             binding.wbCustom.reload()
         }
         binding.layoutNetworkError.ivRefresh.setOnClickListener {
@@ -133,9 +147,16 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         toast.show()
     }
 
+    private fun setWebViewDurationTimeLogging() {
+        endTime = SystemClock.elapsedRealtime().toInt()
+        GoogleAnalyticsUtil.logScreenDurationTimeEvent(CONTENT_SCREEN_TIME, endTime - startTime)
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         super.finish()
+        setWebViewDurationTimeLogging()
+        GoogleAnalyticsUtil.logClickEvent(CLICK_GO_BACK)
     }
 
 }

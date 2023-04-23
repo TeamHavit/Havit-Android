@@ -11,10 +11,9 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.FragmentEditTitleBinding
 import org.sopt.havit.ui.share.ShareViewModel
-import org.sopt.havit.util.AutoClearedValue
-import org.sopt.havit.util.DialogUtil
-import org.sopt.havit.util.KeyBoardUtil
-import org.sopt.havit.util.OnBackPressedHandler
+import org.sopt.havit.util.*
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_COMPLETE_MODIFY_TITLE
+import org.sopt.havit.util.GoogleAnalyticsUtil.MODIFY_TITLE
 
 @AndroidEntryPoint
 class EditTitleFragment : Fragment(), OnBackPressedHandler {
@@ -36,6 +35,7 @@ class EditTitleFragment : Fragment(), OnBackPressedHandler {
         setKeyBoardUp()
         initClickListener()
         setCursor()
+        setScreenEventLogging()
     }
 
     private fun setCursor() {
@@ -58,8 +58,13 @@ class EditTitleFragment : Fragment(), OnBackPressedHandler {
         binding.icBack.setOnClickListener { onBackClicked() }
         binding.tvComplete.setOnClickListener {
             viewModel.ogData.value?.ogTitle = binding.etTitle.text.toString()
+            setClickEventLogging()
             goBack()
         }
+    }
+
+    private fun setClickEventLogging() {
+        GoogleAnalyticsUtil.logClickEvent(CLICK_COMPLETE_MODIFY_TITLE)
     }
 
     private fun onBackClicked() {
@@ -82,5 +87,9 @@ class EditTitleFragment : Fragment(), OnBackPressedHandler {
 
     private fun goBack() {
         findNavController().popBackStack()
+    }
+
+    private fun setScreenEventLogging() {
+        GoogleAnalyticsUtil.logScreenEvent(MODIFY_TITLE)
     }
 }

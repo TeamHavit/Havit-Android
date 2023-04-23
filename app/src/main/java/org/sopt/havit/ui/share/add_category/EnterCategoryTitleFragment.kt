@@ -12,6 +12,8 @@ import org.sopt.havit.databinding.FragmentEnterCategoryTitleBinding
 import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.share.AddCategoryViewModel
+import org.sopt.havit.util.GoogleAnalyticsUtil
+import org.sopt.havit.util.GoogleAnalyticsUtil.ADD_CATEGORY
 import org.sopt.havit.util.KeyBoardUtil
 import org.sopt.havit.util.KeyBoardUtil.setUpAsSoftKeyboard
 import org.sopt.havit.util.setOnSingleClickListener
@@ -34,6 +36,7 @@ class EnterCategoryTitleFragment :
         setKeyBoardState()
         toolbarClickListener()
         setUpAsSoftKeyboard(view) // 다음버튼 위/아래 움직이게
+        setScreenEventLogging()
     }
 
     private fun getExistingCategoryList() {
@@ -87,4 +90,8 @@ class EnterCategoryTitleFragment :
                 KeyBoardUtil.openKeyBoard(requireContext(), binding.etCategoryTitle)
             else KeyBoardUtil.hideKeyBoard(requireActivity())
         }
+
+    private fun setScreenEventLogging() {
+        GoogleAnalyticsUtil.logScreenEvent(ADD_CATEGORY)
+    }
 }
