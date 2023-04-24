@@ -15,4 +15,5 @@ object ServiceModule {
     @Singleton
     fun provideHavitService(retrofit: Retrofit): HavitApi =
         retrofit.create(HavitApi::class.java)
+
 }

@@ -7,7 +7,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.MainActivity
 import org.sopt.havit.R
@@ -28,12 +27,11 @@ import kotlin.properties.Delegates
 class SplashWithSignActivity :
     BaseBindingActivity<ActivitySplashWithSignBinding>(R.layout.activity_splash_with_sign) {
 
+    @Inject
+    lateinit var preference: HavitSharedPreference
 
     @Inject
     lateinit var kakaoLoginService: KakaoLoginService
-
-    @Inject
-    lateinit var preference: HavitSharedPreference
 
     private val signInViewModel: SignInViewModel by viewModels()
     private var isFromShare by Delegates.notNull<Boolean>()
@@ -57,26 +55,27 @@ class SplashWithSignActivity :
         setContentView(binding.root)
         binding.main = signInViewModel
         initFcmToken()
-        initSuccessKakaoLoginOserver()
+        initSuccessKakaoLoginObserver()
         initWhereSplashComesFrom()
         setLoginGuideIfFromShare()
         setSplashView()
         setListeners()
         isAlreadyUserObserver()
-        isNeedScopesObserver()
     }
 
     private fun initFcmToken() {
         signInViewModel.initFcmToken()
     }
 
-    private fun initSuccessKakaoLoginOserver() {
-        signInViewModel.isSuccessKakaoLogin.observe(this, EventObserver {
-            if (it) signInViewModel.getSignIn()
-            else UserApiClient.instance.loginWithKakaoAccount(
-                this,
-                callback = signInViewModel.kakaoLoginCallback
-            )
+    private fun initSuccessKakaoLoginObserver() {
+        signInViewModel.isSuccessKakaoLogin.observe(this, EventObserver { isSuccess ->
+            if (isSuccess) {
+                kakaoLoginService.getUserNeedNewScopes { isGetUserInfo ->
+                    if (isGetUserInfo) signInViewModel.getSignIn()
+                }
+            } else {
+                kakaoLoginService.setLoginWithAccount(signInViewModel.kakaoLoginCallback)
+            }
         })
     }
 
@@ -142,14 +141,10 @@ class SplashWithSignActivity :
             setAutoLogin()
         }
         binding.btnKakaoLogin.setOnSinglePostClickListener {
-            kakaoLoginService.setKakaoLogin(
-                signInViewModel.kakaoLoginCallback
-            )
+            kakaoLoginService.setKakaoLogin(signInViewModel.kakaoLoginCallback)
         }
         binding.tvAnotherLogin.setOnClickListener {
-            kakaoLoginService.setLoginWithAccount(
-                signInViewModel.kakaoLoginCallback
-            )
+            kakaoLoginService.setLoginWithAccount(signInViewModel.kakaoLoginCallback)
         }
     }
 
@@ -163,12 +158,6 @@ class SplashWithSignActivity :
         splashWithLoginLauncher.launch(
             Intent(this, OnboardingActivity::class.java)
         )
-    }
-
-    private fun isNeedScopesObserver() {
-        signInViewModel.isNeedScopes.observe(this) {
-            kakaoLoginService.getUserNeedNewScopes()
-        }
     }
 
     private fun isAlreadyUserObserver() {

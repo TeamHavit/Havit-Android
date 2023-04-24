@@ -33,9 +33,6 @@ class SignInViewModel @Inject constructor(
     private var _isAlreadyUser = MutableLiveData<Event<SignInResponse>>()
     var isAlreadyUser: LiveData<Event<SignInResponse>> = _isAlreadyUser
 
-    private var _isNeedScopes = MutableLiveData<Event<Boolean>>()
-    var isNeedScopes: LiveData<Event<Boolean>> = _isNeedScopes
-
     private var _accessToken = MutableLiveData<String>()
     var accessToken: LiveData<String> = _accessToken
 
@@ -48,12 +45,14 @@ class SignInViewModel @Inject constructor(
 
     val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
-            _isSuccessKakaoLogin.value = Event(false)
+            if (error.toString().contains("statusCode=302")) {
+                _isSuccessKakaoLogin.value = Event(false)
+            }
+            Log.d("TAG", "카카오계정으로 로그인 실패 ${error}")
         } else if (token != null) {
             Log.d("TAG", "카카오계정으로 로그인 성공 ${token.accessToken}")
-            setKakaoToken(token.accessToken)
-            _isNeedScopes.value = Event(true)
             _isSuccessKakaoLogin.value = Event(true)
+            setKakaoToken(token.accessToken)
         }
     }
 
