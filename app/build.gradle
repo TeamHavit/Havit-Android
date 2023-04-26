@@ -6,6 +6,7 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
     id 'kotlin-android-extensions'
+    id 'com.google.firebase.crashlytics'
 }
 
 Properties properties = new Properties()
@@ -136,10 +137,11 @@ dependencies {
      *  bom 이외의 sdk에 버전 지정을 하지 않게 주의
      * */
 
-    implementation platform('com.google.firebase:firebase-bom:29.0.2')
+    implementation platform('com.google.firebase:firebase-bom:31.5.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-messaging:23.0.0'
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.0'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     // Jsoup
     implementation 'org.jsoup:jsoup:1.13.1'
