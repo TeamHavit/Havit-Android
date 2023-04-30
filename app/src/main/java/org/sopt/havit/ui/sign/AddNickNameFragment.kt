@@ -42,7 +42,10 @@ class AddNickNameFragment :
 
     private fun setTextWatcher() {
         binding.etNickname.addTextChangedListener {
-            signUpViewModel.setNickName(binding.etNickname.text.toString())
+            signUpViewModel.setNickName(
+                binding.etNickname.text.toString().replace("\\s".toRegex(), "")
+            )
+            binding.etNickname.setSelection(binding.etNickname.length())
         }
     }
 
