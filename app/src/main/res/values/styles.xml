@@ -22,4 +22,10 @@
         <item name="cornerSize">6dp</item>
     </style>
 
+    <style name="roundedImageView4dp">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+
 </resources>
