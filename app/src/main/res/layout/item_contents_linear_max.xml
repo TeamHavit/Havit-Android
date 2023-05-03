@@ -35,7 +35,8 @@
                 android:id="@+id/iv_thumbnail"
                 imageDefaultLinearMax="@{content.image}"
                 android:layout_width="match_parent"
-                android:layout_height="184dp" />
+                android:layout_height="184dp"
+                android:scaleType="centerCrop" />
 
             <ImageView
                 android:id="@+id/iv_alarm"
