@@ -25,7 +25,7 @@ import org.sopt.havit.util.DpToPxUtil.px
 fun ImageView.loadImage(url: String?) {
     Glide.with(context)
         .load(url)
-        .placeholder(R.drawable.img_contents_dummy)
+        .placeholder(R.drawable.img_contents_dummy_3)
         .into(this)
 }
 
