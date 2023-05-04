@@ -31,11 +31,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_thumbnail"
                 imageDefaultGrid="@{content.image}"
                 android:layout_width="match_parent"
-                android:layout_height="109dp" />
+                app:shapeAppearance="@style/roundedImageView4dp"
+                android:layout_height="109dp"
+                android:scaleType="centerCrop" />
 
             <ImageView
                 android:id="@+id/iv_alarm"
@@ -89,10 +91,10 @@
 
         <TextView
             android:id="@+id/tv_date"
+            setDotsDateFormat="@{content.createdAt}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            setDotsDateFormat="@{content.createdAt}"
             android:textAppearance="@style/Mini9Regular"
             android:textColor="@color/gray_2"
             app:layout_constraintStart_toStartOf="@+id/tv_url"
