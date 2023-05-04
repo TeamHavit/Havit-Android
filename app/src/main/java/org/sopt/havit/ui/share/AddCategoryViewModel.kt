@@ -44,9 +44,7 @@ class AddCategoryViewModel @Inject constructor(
 
     fun isCategoryNameAlreadyExist(currentTitle: String): Boolean {
         val list = existingCategoryList.value?.toList() ?: throw IllegalStateException()
-        return list.stream().anyMatch { anotherString: String? ->
-            currentTitle.equals(anotherString, ignoreCase = true)
-        }
+        return list.any { it.equals(currentTitle, ignoreCase = false) }
     }
 
     /** Category Title */
