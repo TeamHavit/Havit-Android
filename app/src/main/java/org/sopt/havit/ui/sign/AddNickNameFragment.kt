@@ -42,15 +42,21 @@ class AddNickNameFragment :
 
     private fun setTextWatcher() {
         binding.etNickname.addTextChangedListener {
-            signUpViewModel.setNickName(
-                binding.etNickname.text.toString().replace("\\s".toRegex(), "")
-            )
+            val hasSpace = binding.etNickname.text?.toString()?.contains("\\s".toRegex()) ?: false
+            if (hasSpace) { // 닉네임에 띄어쓰기 포함
+                signUpViewModel.nickNameStatus.value = NickNameTextStatus.HAS_SPACING
+            } else if (binding.etNickname.text?.toString()?.isEmpty() == true) { // 닉네임이 공백일 때
+                signUpViewModel.nickNameStatus.value = NickNameTextStatus.EMPTY
+            } else { // 정상 닉네임 입력할 때
+                signUpViewModel.nickNameStatus.value = NickNameTextStatus.FILLED
+            }
             binding.etNickname.setSelection(binding.etNickname.length())
         }
     }
 
     private fun setListener() {
         binding.btnNicknameNext.setOnClickListener {
+            signUpViewModel.setNickName(binding.etNickname.text.toString())
             signUpViewModel.setMoveToNextOrBack(true)
         }
         binding.ivNicknameDeleteText.setOnClickListener {
