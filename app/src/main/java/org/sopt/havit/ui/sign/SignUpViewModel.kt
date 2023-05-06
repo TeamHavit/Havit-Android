@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.domain.entity.NetworkState
@@ -22,6 +23,8 @@ class SignUpViewModel @Inject constructor(
     var isServerNetwork = MutableLiveData<NetworkState>()
 
     var nickName = MutableLiveData(authRepository.getUserNickName())
+
+    val nickNameStatus = MutableStateFlow(NickNameTextStatus.EMPTY)
 
     private var _fcmToken = MutableLiveData<String>()
 
@@ -122,6 +125,7 @@ class SignUpViewModel @Inject constructor(
 
     fun setClearNickName() {
         nickName.value = ""
+        nickNameStatus.value = NickNameTextStatus.EMPTY
     }
 
     fun setMoveToNextOrBack(move: Boolean) {
