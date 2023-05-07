@@ -204,6 +204,8 @@
     <string name="customer_center_email">havitofficial29@gmail.com</string>
     <string name="version_info">버전 정보</string>
     <string name="logout">로그아웃</string>
+    <string name="latest_version">최신 버전</string>
+    <string name="update">업데이트</string>
     <!-- 환경설정 - 내 정보 수정 -->
     <string name="unregister">회원 탈퇴</string>
     <string name="save_contents_state">나의 콘텐츠 저장 현황</string>
@@ -278,4 +280,5 @@
     <string name="service_preparing">서비스 준비중입니다</string>
     <string name="cannot_send_mail">메일을 전송할 수 없습니다</string>
     <string name="error_occurred">문제 발생</string>
+    <string name="current_version">현재 버전&#160;</string>
 </resources>
