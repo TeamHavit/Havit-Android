@@ -1,47 +1,62 @@
 package org.sopt.havit.ui.setting.viewmodel
 
+import android.app.Application
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.sopt.havit.BuildConfig
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.remote.NewNicknameRequest
 import org.sopt.havit.data.remote.UserResponse
 import org.sopt.havit.domain.entity.Notice
+import org.sopt.havit.domain.entity.VersionState
 import org.sopt.havit.domain.repository.AuthRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingViewModel @Inject constructor(
-    private val authRepository: AuthRepository
-) : ViewModel() {
-//    private val token = MySharedPreference.getXAuthToken(context)
-
+    private val authRepository: AuthRepository,
+    application: Application
+) : AndroidViewModel(application) {
     private val token = authRepository.getAccessToken()
 
     private val _user = MutableLiveData<UserResponse.UserData>()
     val user: LiveData<UserResponse.UserData> = _user
-    private val _version = MutableLiveData<String>()
-    val version: LiveData<String> = _version
-    private val _isLatest = MutableLiveData<Boolean>()
-    val isLatest: LiveData<Boolean> = _isLatest
+    private val _currentVersion = MutableLiveData<String>()
+    val currentVersion: LiveData<String> = _currentVersion
+    private val _versionState = MutableLiveData(VersionState.Unknown)
+    val versionState: LiveData<VersionState> = _versionState
 
     // 환경설정_내정보수정
     private val _nickname = MutableLiveData<String>()
     val nickname: LiveData<String> = _nickname
 
     // version 정보 가져옴
-    fun setVersion(appVersion: String) {
-        _version.postValue(appVersion)
-        Log.d("TOKEN", "setting token : $token")
-        if (appVersion == "1.0")
-            _isLatest.postValue(true)
-        else
-            _isLatest.postValue(false)
+    fun setCurrentVersion() {
+        _currentVersion.postValue(BuildConfig.VERSION_NAME)
+    }
+
+    fun getLatestVersion() {
+        val context = getApplication<Application>().applicationContext
+        val appUpdateManager = AppUpdateManagerFactory.create(context)
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+                _versionState.postValue(VersionState.Update)
+            } else {
+                _versionState.postValue(VersionState.Latest)
+            }
+        }.addOnFailureListener { exception ->
+            _versionState.postValue(VersionState.Unknown)
+            Log.e(TAG, "error getting update info(Play Store가 설치된 앱에서 사용해주세요)", exception)
+        }
     }
 
     // user data 가져옴

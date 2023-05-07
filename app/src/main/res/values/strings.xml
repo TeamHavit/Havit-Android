@@ -281,4 +281,5 @@
     <string name="cannot_send_mail">메일을 전송할 수 없습니다</string>
     <string name="error_occurred">문제 발생</string>
     <string name="current_version">현재 버전&#160;</string>
+    <string name="dash">-</string>
 </resources>
