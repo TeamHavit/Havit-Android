@@ -33,7 +33,6 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.vmSetting = settingViewModel
-        setVersion()
         setClickListener()
         getLatestVersion()
         observeIsLatest()
@@ -43,10 +42,6 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
     override fun onResume() {
         super.onResume()
         setData()
-    }
-
-    private fun setVersion() {
-        settingViewModel.setCurrentVersion()
     }
 
     private fun getLatestVersion() {

@@ -26,22 +26,15 @@ class SettingViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
     private val token = authRepository.getAccessToken()
-
     private val _user = MutableLiveData<UserResponse.UserData>()
     val user: LiveData<UserResponse.UserData> = _user
-    private val _currentVersion = MutableLiveData<String>()
-    val currentVersion: LiveData<String> = _currentVersion
+    val currentVersion: String = BuildConfig.VERSION_NAME
     private val _versionState = MutableLiveData(VersionState.Unknown)
     val versionState: LiveData<VersionState> = _versionState
 
     // 환경설정_내정보수정
     private val _nickname = MutableLiveData<String>()
     val nickname: LiveData<String> = _nickname
-
-    // version 정보 가져옴
-    fun setCurrentVersion() {
-        _currentVersion.postValue(BuildConfig.VERSION_NAME)
-    }
 
     fun getLatestVersion() {
         val context = getApplication<Application>().applicationContext
