@@ -156,4 +156,8 @@ dependencies {
     // 스켈레톤 shimmer
     implementation "com.facebook.shimmer:shimmer:0.5.0"
 
+    // google play core
+    implementation 'com.google.android.play:app-update:2.0.1'
+    implementation 'com.google.android.play:app-update-ktx:2.0.1'
+
 }
