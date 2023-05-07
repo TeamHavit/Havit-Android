@@ -17,6 +17,7 @@ import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.ui.sign.SplashWithSignActivity
 import org.sopt.havit.util.CANNOT_SEND_MAIL_TYPE
 import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.ERROR_OCCUR_TYPE
 import org.sopt.havit.util.HavitSharedPreference
 import org.sopt.havit.util.ToastUtil
 import org.sopt.havit.util.setOnSingleClickListener
@@ -36,6 +37,7 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         setClickListener()
         getLatestVersion()
         observeIsLatest()
+        onClickUpdate()
     }
 
     override fun onResume() {
@@ -50,6 +52,27 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
     private fun getLatestVersion() {
         settingViewModel.getLatestVersion()
     }
+
+    private fun onClickUpdate() {
+        binding.tvVersionStatus.setOnSingleClickListener {
+            if (settingViewModel.versionState.value == VersionState.Update) {
+                linkToPlayStore()
+            }
+        }
+    }
+
+    private fun linkToPlayStore() {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("market://details?id=$packageName")
+                setPackage("com.android.vending")
+            }
+            startActivity(intent)
+        } catch (e: Exception) {
+            ToastUtil(this).makeToast(ERROR_OCCUR_TYPE)
+        }
+    }
+
 
     private fun setVersionLatestState() {
         with(binding.tvVersionStatus) {

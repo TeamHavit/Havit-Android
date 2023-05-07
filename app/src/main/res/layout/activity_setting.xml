@@ -354,23 +354,26 @@
                         android:id="@+id/tv_version_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text=""
+                        android:paddingHorizontal="18dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="30dp"
                         android:textAppearance="@style/Text15Semibold"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_version_info"
-                        tools:text="최신 버전" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="업데이트"
+                        tools:textColor="@color/gray_3" />
 
                     <TextView
                         android:id="@+id/tv_version_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="13dp"
+                        android:layout_marginEnd="18dp"
                         android:text="@{vmSetting.currentVersion}"
                         android:textAppearance="@style/Sub12Regular"
                         android:textColor="@color/gray_2"
-                        app:layout_constraintEnd_toEndOf="@id/tv_version_status"
-                        app:layout_constraintTop_toBottomOf="@id/tv_version_status"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_version_info"
                         tools:text="1.0.5" />
 
                     <TextView
