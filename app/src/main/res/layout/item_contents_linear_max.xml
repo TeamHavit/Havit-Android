@@ -31,11 +31,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_thumbnail"
                 imageDefaultLinearMax="@{content.image}"
                 android:layout_width="match_parent"
-                android:layout_height="184dp" />
+                app:shapeAppearance="@style/roundedImageView4dp"
+                android:layout_height="184dp"
+                android:scaleType="centerCrop" />
 
             <ImageView
                 android:id="@+id/iv_alarm"

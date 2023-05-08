@@ -6,6 +6,7 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
     id 'kotlin-android-extensions'
+    id 'com.google.firebase.crashlytics'
 }
 
 Properties properties = new Properties()
@@ -19,8 +20,8 @@ android {
         applicationId "org.sopt.havit"
         minSdk 23
         targetSdk 31
-        versionCode 105
-        versionName "1.0.5"
+        versionCode 106
+        versionName "1.0.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "HAVIT_BASE_URL_DEV", properties["HAVIT_BASE_URL_DEV"])
         buildConfigField("String", "HAVIT_BASE_URL_PROD", properties["HAVIT_BASE_URL_PROD"])
@@ -136,10 +137,11 @@ dependencies {
      *  bom 이외의 sdk에 버전 지정을 하지 않게 주의
      * */
 
-    implementation platform('com.google.firebase:firebase-bom:29.0.2')
+    implementation platform('com.google.firebase:firebase-bom:31.5.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-messaging:23.0.0'
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.0'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
     // Jsoup
     implementation 'org.jsoup:jsoup:1.13.1'
@@ -153,5 +155,13 @@ dependencies {
 
     // 스켈레톤 shimmer
     implementation "com.facebook.shimmer:shimmer:0.5.0"
+
+    // google play core
+    implementation 'com.google.android.play:app-update:2.0.1'
+    implementation 'com.google.android.play:app-update-ktx:2.0.1'
+
+    // google play service
+    implementation 'com.google.android.gms:play-services-base:18.0.1'
+    implementation 'com.google.android.gms:play-services-tasks:18.0.1'
 
 }

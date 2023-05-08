@@ -69,20 +69,12 @@ class DialogOkUtil(private val dialogMode: Int, private val doAfterConfirm: () -
     }
 
     private fun clickListener() {
-        binding.ivClose.setOnSingleClickListener {
-            dismiss()
-            doAfterConfirm()
-        }
-        binding.btnConfirm.setOnSinglePostClickListener {
-            dismiss()
-            doAfterConfirm()
-        }
+        binding.ivClose.setOnSingleClickListener { dismiss() }
+        binding.btnConfirm.setOnSinglePostClickListener { dismiss() }
     }
 
     override fun onDestroyView() {
-        if (dialogMode == UNREGISTER) {
-            doAfterConfirm()
-        }
+        doAfterConfirm()
         super.onDestroyView()
         _binding = null
     }
