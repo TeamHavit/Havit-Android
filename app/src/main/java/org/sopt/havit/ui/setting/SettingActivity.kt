@@ -5,16 +5,22 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.AndroidEntryPoint
-import org.sopt.havit.BuildConfig
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingBinding
+import org.sopt.havit.domain.entity.VersionState
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.home.ServiceGuideActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.ui.sign.SplashWithSignActivity
-import org.sopt.havit.util.*
+import org.sopt.havit.util.CANNOT_SEND_MAIL_TYPE
+import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.ERROR_OCCUR_TYPE
+import org.sopt.havit.util.HavitSharedPreference
+import org.sopt.havit.util.ToastUtil
+import org.sopt.havit.util.setOnSingleClickListener
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -27,8 +33,10 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.vmSetting = settingViewModel
-        setVersion()
         setClickListener()
+        getLatestVersion()
+        observeIsLatest()
+        onClickUpdate()
     }
 
     override fun onResume() {
@@ -36,10 +44,63 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
         setData()
     }
 
-    private fun setVersion() {
-        val version = BuildConfig.VERSION_NAME // build.gradle->defaultConfig에 있는 version_name
-        settingViewModel.setVersion(version)
+    private fun getLatestVersion() {
+        settingViewModel.getLatestVersion()
     }
+
+    private fun onClickUpdate() {
+        binding.tvVersionStatus.setOnSingleClickListener {
+            if (settingViewModel.versionState.value == VersionState.Update) {
+                linkToPlayStore()
+            }
+        }
+    }
+
+    private fun linkToPlayStore() {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("market://details?id=$packageName")
+                setPackage("com.android.vending")
+            }
+            startActivity(intent)
+        } catch (e: Exception) {
+            ToastUtil(this).makeToast(ERROR_OCCUR_TYPE)
+        }
+    }
+
+
+    private fun setVersionLatestState() {
+        with(binding.tvVersionStatus) {
+            setText(R.string.latest_version)
+            setTextColor(ContextCompat.getColor(this@SettingActivity, R.color.gray_3))
+        }
+    }
+
+    private fun setVersionUpdateState() {
+        with(binding.tvVersionStatus) {
+            setText(R.string.update)
+            setTextColor(ContextCompat.getColor(this@SettingActivity, R.color.havit_purple))
+        }
+    }
+
+    private fun setVersionUnknownState() {
+        with(binding.tvVersionStatus) {
+            setText(R.string.dash)
+            setTextColor(ContextCompat.getColor(this@SettingActivity, R.color.gray_3))
+        }
+    }
+
+    private fun observeIsLatest() {
+        settingViewModel.versionState.observe(this) { versionState ->
+            versionState ?: return@observe
+            when (versionState) {
+                VersionState.Latest -> setVersionLatestState()
+                VersionState.Update -> setVersionUpdateState()
+                VersionState.Unknown -> setVersionUnknownState()
+            }
+        }
+    }
+
 
     private fun setClickListener() {
         // 뒤로가기
@@ -132,7 +193,5 @@ class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.act
 
     companion object {
         const val nickname = "nickname"
-        const val NOTICE_URL =
-            "https://skitter-sloth-be4.notion.site/What-is-Havit-3db94fcc0cdc4a38bddd87f790e0ac96"
     }
 }
