@@ -282,4 +282,5 @@
     <string name="error_occurred">문제 발생</string>
     <string name="current_version">현재 버전&#160;</string>
     <string name="dash">-</string>
+    <string name="notice_nickname_spacing">닉네임에 띄어쓰기는 사용할 수 없습니다.</string>
 </resources>
