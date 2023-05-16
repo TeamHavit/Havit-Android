@@ -12,15 +12,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.ActivityShareBinding
 import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_FROM_SHARE
 import org.sopt.havit.ui.sign.SplashWithSignActivity
-import org.sopt.havit.util.HavitSharedPreference
 import java.io.Serializable
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ShareActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var preference: HavitSharedPreference
 
     private val viewModel: ShareViewModel by viewModels()
     private lateinit var splashWithSignActivityLauncher: ActivityResultLauncher<Intent>
@@ -93,11 +88,6 @@ class ShareActivity : AppCompatActivity() {
                 intent?.getStringExtra(Intent.EXTRA_TEXT).toString()
             else intent?.getStringExtra("url").toString() // MainActivity + 로 진입시
         viewModel.setUrl(url)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        preference.clearTitle()
     }
 
     companion object {
