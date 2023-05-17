@@ -2,6 +2,8 @@ package org.sopt.havit.ui.share
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -30,7 +32,7 @@ class ShareActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityShareBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         initActivityLauncher()
         makeSignIn()
         setUrlOnViewModel()
@@ -93,6 +95,12 @@ class ShareActivity : AppCompatActivity() {
                 intent?.getStringExtra(Intent.EXTRA_TEXT).toString()
             else intent?.getStringExtra("url").toString() // MainActivity + 로 진입시
         viewModel.setUrl(url)
+    }
+
+    override fun setRequestedOrientation(requestedOrientation: Int) {
+        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
+            super.setRequestedOrientation(requestedOrientation)
+        }
     }
 
     override fun onDestroy() {

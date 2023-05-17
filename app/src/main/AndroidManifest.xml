@@ -76,9 +76,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.category.CategoryAddActivity"
-            android:configChanges="orientation"
+            android:configChanges="orientation|screenSize"
             android:exported="false"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/Theme.AppCompat.Transparent.NoActionBar" />
 
         <service
@@ -133,9 +133,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.share.ShareActivity"
-            android:configChanges="orientation"
+            android:configChanges="orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/Theme.AppCompat.Transparent.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
