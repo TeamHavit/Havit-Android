@@ -88,7 +88,7 @@ class ContentsMoreFragment : BottomSheetDialogFragment() {
         binding.clEditShare.setOnSingleClickListener {
             val intent = Intent(Intent.ACTION_SEND).apply {
                 putExtra(Intent.EXTRA_TEXT, contentsData.url)
-                type = "text/html"
+                type = "text/plain"
             }
             startActivity(Intent.createChooser(intent, null))
             dismiss()
