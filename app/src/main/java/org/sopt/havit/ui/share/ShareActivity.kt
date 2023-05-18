@@ -2,6 +2,8 @@ package org.sopt.havit.ui.share
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -23,7 +25,9 @@ class ShareActivity : BaseBindingActivity<ActivityShareBinding>(R.layout.activit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        binding = ActivityShareBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         initActivityLauncher()
         makeSignIn()
         setUrlOnViewModel()
@@ -88,6 +92,12 @@ class ShareActivity : BaseBindingActivity<ActivityShareBinding>(R.layout.activit
         viewModel.setUrl(url)
     }
 
+    override fun setRequestedOrientation(requestedOrientation: Int) {
+        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
+            super.setRequestedOrientation(requestedOrientation)
+        }
+    }
+    
     companion object {
         const val WHERE_SPLASH_COME_FROM = "WHERE_SPLASH_COME_FROM"
         const val ON_NETWORK_ERROR_DISMISS = "ON_NETWORK_ERROR_DISMISS"
