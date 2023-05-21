@@ -8,7 +8,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
@@ -17,6 +16,8 @@ import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_IMAGE_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME_LIST
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_POSITION
 import org.sopt.havit.ui.contents.ContentsActivity
 import org.sopt.havit.ui.share.add_category.IconAdapter
 import org.sopt.havit.ui.share.add_category.IconAdapter.Companion.clickedPosition
@@ -74,9 +75,9 @@ class CategoryContentModifyActivity :
             intent.getStringExtra(CATEGORY_NAME).toString().also {
                 originCategoryName = it
             }
-        position = intent.getIntExtra("position", 0)
+        position = intent.getIntExtra(CATEGORY_POSITION, 0)
         id = intent.getIntExtra(CATEGORY_ID, 0)
-        categoryTitleList = intent.getStringArrayListExtra("categoryNameList") as ArrayList<String>
+        categoryTitleList = intent.getStringArrayListExtra(CATEGORY_NAME_LIST) as ArrayList<String>
         preActivity = intent.getStringExtra("preActivity").toString()
     }
 
@@ -165,14 +166,14 @@ class CategoryContentModifyActivity :
     private fun sendCategoryModifyResult() {
         // 카테고리 수정 관리 뷰로 보내는 intent
         val orderIntent = Intent(this, CategoryOrderModifyActivity::class.java).apply {
-            putExtra("position", position)
-            putExtra("categoryName", binding.categoryTitle)
-            putExtra("imageId", clickedPosition + 1)
+            putExtra(CATEGORY_POSITION, position)
+            putExtra(CATEGORY_NAME, binding.categoryTitle)
+            putExtra(CATEGORY_IMAGE_ID, clickedPosition + 1)
         }
         // 콘텐츠 뷰로 보내는 intent
         val contentsIntent = Intent(this, ContentsActivity::class.java).apply {
-            putExtra("categoryName", binding.categoryTitle)
-            putExtra("imageId", clickedPosition + 1)
+            putExtra(CATEGORY_NAME, binding.categoryTitle)
+            putExtra(CATEGORY_IMAGE_ID, clickedPosition + 1)
         }
 
         when (preActivity) {
@@ -190,9 +191,7 @@ class CategoryContentModifyActivity :
     private fun sendCategoryDeleteResult() {
         // 카테고리 수정 관리 뷰로 보내는 intent
         val orderIntent = Intent(this, CategoryOrderModifyActivity::class.java).apply {
-            putExtra("position", position)
-            putExtra("categoryName", binding.etCategory.text)
-            putExtra("id", id)
+            putExtra(CATEGORY_POSITION, position)
         }
         // 콘텐츠 뷰로 보내는 intent
         val contentsIntent = Intent(this, ContentsActivity::class.java)
