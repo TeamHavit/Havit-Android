@@ -389,7 +389,6 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 putExtra(CATEGORY_NAME, categoryName)
                 putExtra(CATEGORY_IMAGE_ID, categoryIconId)
                 putStringArrayListExtra(CATEGORY_NAME_LIST, categoryTitleList)
-                putExtra("preActivity", "ContentsActivity")
             }
 
             getResult.launch(intent)

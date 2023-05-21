@@ -140,7 +140,6 @@ class CategoryOrderModifyActivity :
                     }
                     putExtra(CATEGORY_POSITION, position)
                     putStringArrayListExtra(CATEGORY_NAME_LIST, categoryTitleList)
-                    putExtra("preActivity", "CategoryOrderModifyActivity")
                 }
 
                 // 데이터를 담고 전달
