@@ -161,10 +161,10 @@ class CategoryContentModifyActivity :
     }
 
     private fun sendCategoryModifyResult() {
-        if (callingActivity != null) {
-            val callingActivityName = callingActivity!!.className
+        callingActivity?.let { callingActivity ->
+            val callingActivityName = callingActivity.className
 
-            val intent = Intent(this, callingActivity!!.className.javaClass).apply {
+            val intent = Intent(this, callingActivity.className.javaClass).apply {
                 putExtra(CATEGORY_NAME, binding.categoryTitle)
                 putExtra(CATEGORY_IMAGE_ID, clickedPosition + 1)
             }
@@ -176,10 +176,10 @@ class CategoryContentModifyActivity :
     }
 
     private fun sendCategoryDeleteResult() {
-        if (callingActivity != null) {
-            val callingActivityName = callingActivity!!.className
+        callingActivity?.let { callingActivity ->
+            val callingActivityName = callingActivity.className
 
-            val intent = Intent(this, callingActivity!!.className.javaClass)
+            val intent = Intent(this, callingActivity.className.javaClass)
             if (callingActivityName == CategoryOrderModifyActivity::class.java.name) {
                 intent.putExtra(CATEGORY_POSITION, position)
             }
