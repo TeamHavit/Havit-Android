@@ -126,6 +126,7 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         const val CATEGORY_POSITION = "position"
         const val CATEGORY_IMAGE_ID = "imageId"
         const val CATEGORY_ITEM_LIST = "categoryItemList"
+        const val CATEGORY_NAME_LIST = "categoryNameList"
         const val MAIN_ACTIVITY = "MainActivity"
     }
 }

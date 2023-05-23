@@ -6,7 +6,6 @@ import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +15,12 @@ import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_DELETE_CATEGORY
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_MODIFY_CATEGORY
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_IMAGE_ID
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ITEM_LIST
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME_LIST
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_POSITION
 import org.sopt.havit.util.CustomToast
 import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.setOnSingleClickListener
@@ -74,7 +79,7 @@ class CategoryOrderModifyActivity :
 
     private fun setCategoryItemListData() {
         categoryOrderModifyAdapter.categoryList =
-            requireNotNull(intent.getParcelableArrayListExtra("categoryItemList"))
+            requireNotNull(intent.getParcelableArrayListExtra(CATEGORY_ITEM_LIST))
         initOriginCategoryIdList()
 
         categoryOrderModifyAdapter.notifyDataSetChanged()
@@ -92,7 +97,7 @@ class CategoryOrderModifyActivity :
             when (it.resultCode) {
                 RESULT_DELETE_CATEGORY -> { // 삭제
                     // 삭제할 카테고리의 정보를 받아옴
-                    val position = it.data?.getIntExtra("position", 0) ?: 0
+                    val position = it.data?.getIntExtra(CATEGORY_POSITION, 0) ?: 0
 
                     // 리사이클러뷰 변경
                     categoryOrderModifyAdapter.removeData(position)
@@ -101,9 +106,9 @@ class CategoryOrderModifyActivity :
                 }
                 RESULT_MODIFY_CATEGORY -> { // 카테고리 이름 & 아이콘 수정
                     // 수정할 카테고리의 정보를 받아옴
-                    val position = it.data?.getIntExtra("position", 0) ?: 0
-                    val name = it.data?.getStringExtra("categoryName") ?: "null"
-                    val image = it.data?.getIntExtra("imageId", 0) ?: 0
+                    val position = it.data?.getIntExtra(CATEGORY_POSITION, 0) ?: 0
+                    val name = it.data?.getStringExtra(CATEGORY_NAME) ?: "null"
+                    val image = it.data?.getIntExtra(CATEGORY_IMAGE_ID, 0) ?: 0
 
                     // 리사이클러뷰 변경
                     with(categoryOrderModifyAdapter.categoryList[position]) {
@@ -129,13 +134,12 @@ class CategoryOrderModifyActivity :
 
                 val intent = Intent(v.context, CategoryContentModifyActivity::class.java).apply {
                     categoryOrderModifyAdapter.categoryList[position].let {
-                        putExtra("categoryId", it.id)
-                        putExtra("categoryName", it.title)
-                        putExtra("imageId", it.imageId)
+                        putExtra(CATEGORY_ID, it.id)
+                        putExtra(CATEGORY_NAME, it.title)
+                        putExtra(CATEGORY_IMAGE_ID, it.imageId)
                     }
-                    putExtra("position", position)
-                    putStringArrayListExtra("categoryNameList", categoryTitleList)
-                    putExtra("preActivity", "CategoryOrderModifyActivity")
+                    putExtra(CATEGORY_POSITION, position)
+                    putStringArrayListExtra(CATEGORY_NAME_LIST, categoryTitleList)
                 }
 
                 // 데이터를 담고 전달
