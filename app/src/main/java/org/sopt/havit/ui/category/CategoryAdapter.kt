@@ -30,6 +30,8 @@ class CategoryAdapter(
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+        // 서버에서 불러온 orderIndex 값이 항상 update 되지 않기 때문에 adapterPosition으로 변경
+        categoryList[position].orderIndex = holder.adapterPosition
         holder.onBind(categoryList[position])
     }
 
