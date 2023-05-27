@@ -2,7 +2,6 @@ package org.sopt.havit.data.local
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.kakao.sdk.navi.Constants.USER_ID
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
