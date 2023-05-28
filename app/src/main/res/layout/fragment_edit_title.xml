@@ -113,10 +113,12 @@
             tools:text="콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈저쩌구 블라블라 줄바꿈 테스트으으ㅡ으 줄바꿈 테스트으으ㅡ으" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_warning_whitespace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="29dp"
             android:layout_marginBottom="28dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
