@@ -11,9 +11,13 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.FragmentEditTitleBinding
 import org.sopt.havit.ui.share.ShareViewModel
-import org.sopt.havit.util.*
+import org.sopt.havit.util.AutoClearedValue
+import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.GoogleAnalyticsUtil
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_COMPLETE_MODIFY_TITLE
 import org.sopt.havit.util.GoogleAnalyticsUtil.MODIFY_TITLE
+import org.sopt.havit.util.KeyBoardUtil
+import org.sopt.havit.util.OnBackPressedHandler
 
 @AndroidEntryPoint
 class EditTitleFragment : Fragment(), OnBackPressedHandler {
@@ -36,6 +40,7 @@ class EditTitleFragment : Fragment(), OnBackPressedHandler {
         initClickListener()
         setCursor()
         setScreenEventLogging()
+        adjustWarningMessagePositionToKeyBoard()
     }
 
     private fun setCursor() {
@@ -61,6 +66,11 @@ class EditTitleFragment : Fragment(), OnBackPressedHandler {
             setClickEventLogging()
             goBack()
         }
+    }
+
+    private fun adjustWarningMessagePositionToKeyBoard() {
+        // 공백 warning 위/아래 움직이게
+        this.view?.let { KeyBoardUtil.setUpAsSoftKeyboard(it) }
     }
 
     private fun setClickEventLogging() {
