@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.sopt.havit.BuildConfig
 import org.sopt.havit.data.RetrofitObject
 import org.sopt.havit.data.mapper.CategoryMapper
 import org.sopt.havit.data.remote.ContentsSummeryData
@@ -20,7 +21,8 @@ import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
 import org.sopt.havit.util.HavitAuthUtil
 import org.sopt.havit.util.HavitSharedPreference
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -58,7 +60,7 @@ class ShareViewModel @Inject constructor(
     val categoryList: LiveData<MutableList<CategoryWithSelected>> = _categoryList
 
     private var _selectedCategoryId = MutableLiveData<List<Int>>()
-    val selectedCategoryId: LiveData<List<Int>> = _selectedCategoryId
+    private val selectedCategoryId: LiveData<List<Int>> = _selectedCategoryId
 
     private val _categoryViewState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())
     val categoryViewState: LiveData<NetworkStatus> = _categoryViewState
@@ -114,7 +116,7 @@ class ShareViewModel @Inject constructor(
 
     private fun extractUrl(content: String?): String {
         val urlPattern = Pattern.compile(
-            "(?:^|[\\W])((ht|f)tp(s?)://|www\\.)"
+            "(?:^|\\W)((ht|f)tp(s?)://|www\\.)"
                     + "(([\\w\\-]+\\.)+?([\\w\\-.~]+/?)*"
                     + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]*$~@!:/{};']*)",
             Pattern.CASE_INSENSITIVE or Pattern.MULTILINE or Pattern.DOTALL
@@ -125,6 +127,7 @@ class ShareViewModel @Inject constructor(
             val matchEnd = matcher.end()
             return content?.substring(matchStart, matchEnd) ?: ""
         }
+        if (BuildConfig.IS_DEV) return "https://www.havit.app/"
         throw IllegalStateException()
     }
 
