@@ -16,19 +16,14 @@ import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.GoogleAnalyticsUtil
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_COMPLETE_SAVE_CONTENT
 import org.sopt.havit.util.GoogleAnalyticsUtil.CONTENT_CUSTOM
-import org.sopt.havit.util.HavitSharedPreference
 import org.sopt.havit.util.ToastUtil
 import org.sopt.havit.util.setOnSingleClickListener
 import org.sopt.havit.util.setOnSinglePostClickListener
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ContentsSummeryFragment :
     BaseBindingFragment<FragmentContentsSummeryBinding>(R.layout.fragment_contents_summery) {
     private val viewModel: ShareViewModel by activityViewModels()
-
-    @Inject
-    lateinit var preference: HavitSharedPreference
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

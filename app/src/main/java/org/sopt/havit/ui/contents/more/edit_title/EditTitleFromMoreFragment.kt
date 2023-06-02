@@ -1,11 +1,10 @@
 package org.sopt.havit.ui.contents.more.edit_title
 
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,7 +15,14 @@ import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.contents.more.BottomSheetMoreFragment.Companion.CONTENTS_DATA
 import org.sopt.havit.ui.contents.more.edit_notification.EditNotificationFromMoreViewModel.Companion.FAIL
 import org.sopt.havit.ui.contents.more.edit_title.EditTitleFromMoreViewModel.Companion.SUCCESS
-import org.sopt.havit.util.*
+import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.ERROR_OCCUR_TYPE
+import org.sopt.havit.util.EventObserver
+import org.sopt.havit.util.KeyBoardUtil
+import org.sopt.havit.util.MODIFY_TITLE_COMPLETE_TYPE
+import org.sopt.havit.util.OnBackPressedHandler
+import org.sopt.havit.util.ToastUtil
+import org.sopt.havit.util.setOnSingleClickListener
 
 @AndroidEntryPoint
 class EditTitleFromMoreFragment :
@@ -35,6 +41,8 @@ class EditTitleFromMoreFragment :
         setKeyBoardUp()
         setCursor()
         onCloseClicked()
+        adjustWarningMessagePositionToKeyBoard()
+        showWhitespaceWarningMessage()
     }
 
     private fun getBundleData(): Parcelable? {
@@ -65,11 +73,6 @@ class EditTitleFromMoreFragment :
 
     private fun setKeyBoardUp() {
         bottomSheetDialogFragment.dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-        bottomSheetDialogFragment.dialog?.setOnShowListener {
-            val imm =
-                requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
-        }
     }
 
     private fun setCursor() {
@@ -79,6 +82,22 @@ class EditTitleFromMoreFragment :
                 binding.etTitle.setSelection(
                     viewModel.originTitle.value?.length!!
                 )
+            }
+        }
+    }
+
+    private fun adjustWarningMessagePositionToKeyBoard() {
+        // 공백 warning 위/아래 움직이게
+        this.view?.let { KeyBoardUtil.setUpAsSoftKeyboard(it) }
+    }
+
+    private fun showWhitespaceWarningMessage() {
+        binding.etTitle.addTextChangedListener {
+            val title = it.toString()
+            if (title.isNotEmpty() && title.isBlank()) { // 공백만 있는 경우
+                binding.clWarningWhitespace.visibility = View.VISIBLE
+            } else {
+                binding.clWarningWhitespace.visibility = View.GONE
             }
         }
     }
