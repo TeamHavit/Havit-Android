@@ -154,7 +154,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="@{isOnlySpace ? @string/notice_title_spacing : @string/duplicate_category}"
+            android:text="@{isOnlySpace ? @string/whitespace_disable_on_title : @string/duplicate_category}"
             android:textAppearance="@style/Sub12Regular"
             android:textColor="@color/havit_red"
             android:visibility="@{(isDuplicated || isOnlySpace) ? View.VISIBLE : View.INVISIBLE, default = gone}"
