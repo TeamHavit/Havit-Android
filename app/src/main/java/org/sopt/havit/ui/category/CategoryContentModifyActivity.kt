@@ -39,7 +39,7 @@ class CategoryContentModifyActivity :
 
         initIconAdapter()
         setCategoryIntentData()
-        setTextWatcher()
+        checkCategoryTitleValidation()
         setBackBtnClickListener()
         setDeleteTitleBtnClickListener()
         setDeleteBtnClickListener()
@@ -100,27 +100,37 @@ class CategoryContentModifyActivity :
         binding.ivDeleteText.setOnSingleClickListener { deleteCategoryTitle() }
     }
 
-    private fun setTextWatcher() {
+    private fun checkCategoryTitleValidation() {
         binding.etCategory.addTextChangedListener {
-            // 중복된 카테고리 명인지 검사 & 현재 카테고리 명인지 검사(현재 카테고리 명이라면 중복이 아님을 명시)
-            binding.isDuplicated =
-                (binding.categoryTitle in categoryTitleList && binding.categoryTitle != originCategoryName)
+            binding.categoryTitle?.let { categoryTitle ->
+                binding.isOnlySpace = isOnlySpace(categoryTitle)
+                binding.isDuplicated = isDuplicated(categoryTitle)
+            }
         }
     }
 
+    private fun isOnlySpace(categoryTitle: String): Boolean =
+        categoryTitle.isNotEmpty() && categoryTitle.trim().isEmpty()
+
+    private fun isDuplicated(categoryTitle: String): Boolean =
+        (categoryTitle.trim() in categoryTitleList && categoryTitle.trim() != originCategoryName)
+
     private fun deleteCategoryTitle() = binding.etCategory.text.clear()
 
-    // 뒤로가기 시 액션
     private fun setBackPressedAction() {
-        if (isModified()) {
+        if (isNotModified()) {
             finish()
         } else {
             showBackAlertDialog()
         }
     }
 
-    private fun isModified() =
-        (binding.categoryTitle == originCategoryName && clickedPosition == originCategoryImageId)
+    private fun isNotModified(): Boolean {
+        binding.categoryTitle?.let { categoryTitle ->
+            return (categoryTitle.trim() == originCategoryName && clickedPosition == originCategoryImageId)
+        }
+        return false
+    }
 
     // 뒤로가기 시 뜨는 dialog
     private fun showBackAlertDialog() {
@@ -142,16 +152,15 @@ class CategoryContentModifyActivity :
     private fun setModifyCompleteBtnClickListener() {
         binding.tvComplete.setOnSingleClickListener {
             requestCategoryModify()
-
         }
     }
 
     private fun requestCategoryModify() {
         // 서버로 카테고리 내용 수정 요청
         categoryViewModel.requestCategoryContent(
-            id,
-            clickedPosition + 1,
-            binding.categoryTitle.toString()
+            id = id,
+            imageId = clickedPosition + 1,
+            title = binding.categoryTitle!!.trim()
         )
     }
 
@@ -165,7 +174,7 @@ class CategoryContentModifyActivity :
             val callingActivityName = callingActivity.className
 
             val intent = Intent(this, callingActivity.className.javaClass).apply {
-                putExtra(CATEGORY_NAME, binding.categoryTitle)
+                putExtra(CATEGORY_NAME, binding.categoryTitle!!.trim())
                 putExtra(CATEGORY_IMAGE_ID, clickedPosition + 1)
             }
             if (callingActivityName == CategoryOrderModifyActivity::class.java.name) {
