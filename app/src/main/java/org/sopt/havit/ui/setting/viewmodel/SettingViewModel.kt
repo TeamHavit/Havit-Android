@@ -66,7 +66,8 @@ class SettingViewModel @Inject constructor(
 
     // 프로필수정뷰 - editText에 닉네임 초기화
     fun setNickname(nickname: String) {
-        _nickname.postValue(nickname)
+        _nickname.value = nickname
+
     }
 
     // 프로필수정뷰 - 닉네임 수정
@@ -81,6 +82,12 @@ class SettingViewModel @Inject constructor(
                 Log.d("Request New Nickname", "error : $e")
             }
         }
+    }
+
+    private val _isNicknameHasWhiteSpace = MutableLiveData(false)
+    val isNicknameHasWhiteSpace: LiveData<Boolean> = _isNicknameHasWhiteSpace
+    fun isNickNameContainWhiteSpace() {
+        _isNicknameHasWhiteSpace.value = nickname.value?.contains(" ") ?: false
     }
 
     fun removeHavitAuthToken() {
