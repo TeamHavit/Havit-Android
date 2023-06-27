@@ -45,27 +45,28 @@ class EnterCategoryTitleFragment :
 
     private fun setTextWatcher() {
         binding.etCategoryTitle.addTextChangedListener {
-            val currentTitle = binding.etCategoryTitle.text.toString().trim()
-            updateIsDuplicateState(currentTitle)
+            val currentTitle = binding.etCategoryTitle.text.toString()
+            viewModel.setCategoryTitle(currentTitle)
+            viewModel.checkCategoryNameValid()
         }
-    }
-
-    private fun updateIsDuplicateState(currentTitle: String) {
-        binding.isDuplicated = viewModel.isCategoryNameAlreadyExist(currentTitle)
     }
 
     private fun initNormalViewClickListener() {
-        binding.btnNext.setOnClickListener {
-            val categoryNameWithNoWhiteSpace = binding.etCategoryTitle.text.trim()
-            if (categoryNameWithNoWhiteSpace.isBlank())
-                binding.etCategoryTitle.setText(categoryNameWithNoWhiteSpace)
-            else {
-                viewModel.setCategoryTitle(categoryNameWithNoWhiteSpace.toString())
-                findNavController().navigate(
-                    R.id.action_enterCategoryTitleFragment_to_chooseIconFragment
-                )
+        binding.btnNext.setOnSingleClickListener {
+            val trimCategoryTitle = binding.etCategoryTitle.text.trim().toString()
+            viewModel.setCategoryTitle(trimCategoryTitle)
+
+            val isCategoryNameValid: Boolean = viewModel.getCategoryNameValid()
+            if (!isCategoryNameValid) {
+                binding.etCategoryTitle.setText(trimCategoryTitle)
+                binding.etCategoryTitle.setSelection(trimCategoryTitle.length)
+                return@setOnSingleClickListener
             }
+
+            viewModel.setCategoryTitle(trimCategoryTitle)
+            findNavController().navigate(R.id.action_enterCategoryTitleFragment_to_chooseIconFragment)
         }
+
         binding.ivDeleteText.setOnClickListener { binding.etCategoryTitle.text.clear() }
     }
 
