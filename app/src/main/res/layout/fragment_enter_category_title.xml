@@ -110,6 +110,18 @@
                     android:theme="@style/PurpleEditTextStyle"
                     app:layout_constraintTop_toBottomOf="@id/tv_enter_title" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="@id/et_category_title"
+                    app:layout_constraintTop_toBottomOf="@id/et_category_title"
+                    tools:visibility="visible">
+
+                    <include layout="@layout/layout_title_whitespace_warning" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
                 <ImageView
                     android:id="@+id/iv_delete_text"
                     android:layout_width="wrap_content"
@@ -126,6 +138,7 @@
                     android:id="@+id/tv_category_length_limit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="4dp"
                     android:text="@string/category_length_limit"
                     android:textAppearance="@style/Mini10Regular"
@@ -168,7 +181,7 @@
                     app:layout_constraintStart_toEndOf="@id/iv_notice"
                     app:layout_constraintTop_toTopOf="@id/iv_notice" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_next"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
