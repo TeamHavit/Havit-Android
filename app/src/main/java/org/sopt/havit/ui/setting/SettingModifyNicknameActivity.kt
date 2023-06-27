@@ -39,6 +39,7 @@ class SettingModifyNicknameActivity :
             val nickname = binding.etNickname.text.toString()
             settingViewModel.setNickname(nickname)
             settingViewModel.isNickNameContainWhiteSpace()
+            settingViewModel.isNicknameValid()
         }
     }
 
