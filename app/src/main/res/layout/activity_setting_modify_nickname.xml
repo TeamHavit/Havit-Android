@@ -140,7 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@{vmSetting.isNicknameAvailable ? @drawable/rectangle_havit_purple : @drawable/rectangle_gray_2}"
-            android:enabled="@{vmSetting.isNicknameAvailable ? true : false}"
+            android:enabled="@{vmSetting.isNicknameAvailable}"
             android:text="@string/complete"
             android:textAppearance="@style/Text16Semibold"
             android:textColor="@color/white"

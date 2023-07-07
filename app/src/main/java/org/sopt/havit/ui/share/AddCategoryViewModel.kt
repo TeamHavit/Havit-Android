@@ -42,10 +42,6 @@ class AddCategoryViewModel @Inject constructor(
         }
     }
 
-    fun isCategoryNameAlreadyExist(currentTitle: String): Boolean {
-        val list = existingCategoryList.value?.toList() ?: throw IllegalStateException()
-        return list.any { it.equals(currentTitle, ignoreCase = false) }
-    }
 
     /** Category Title */
     private val _categoryTitle = MutableLiveData<String>()
@@ -53,6 +49,40 @@ class AddCategoryViewModel @Inject constructor(
 
     fun setCategoryTitle(title: String) {
         _categoryTitle.value = title
+    }
+
+    private val _isDuplicateName = MutableLiveData(false)
+    val isDuplicateName: LiveData<Boolean> = _isDuplicateName
+
+    private fun checkCategoryNameAlreadyExist() {
+        val list = existingCategoryList.value?.toList() ?: emptyList()
+        _isDuplicateName.value = list.any { it.equals(categoryTitle.value, ignoreCase = false) }
+    }
+
+    private val _isWhiteSpace = MutableLiveData(false)
+    val isWhiteSpace: LiveData<Boolean> = _isWhiteSpace
+
+    private fun checkWhiteSpace() {
+        val title = categoryTitle.value ?: ""
+        _isWhiteSpace.value = title.isNotEmpty() && title.isBlank()
+    }
+
+    private val _isCategoryNameValid = MutableLiveData<Boolean>()
+    val isCategoryNameValid: LiveData<Boolean> = _isCategoryNameValid
+
+    fun checkCategoryNameValid() {
+        checkWhiteSpace()
+        checkCategoryNameAlreadyExist()
+
+        val isWhiteSpace = isWhiteSpace.value ?: false
+        val isDuplicateName = isDuplicateName.value ?: false
+        val isNotEmpty = categoryTitle.value?.isNotEmpty() ?: false
+        _isCategoryNameValid.value = !isWhiteSpace && !isDuplicateName && isNotEmpty
+    }
+
+    fun getCategoryNameValid(): Boolean {
+        checkCategoryNameValid()
+        return isCategoryNameValid.value ?: false
     }
 
     private val _selectedIconPosition = MutableLiveData(0)

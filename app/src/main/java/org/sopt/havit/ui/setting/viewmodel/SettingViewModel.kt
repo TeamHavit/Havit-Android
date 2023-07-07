@@ -79,18 +79,22 @@ class SettingViewModel @Inject constructor(
     }
 
     // 프로필수정뷰 - 닉네임 수정
-    fun requestNewNickname(newNickname: String) {
+    fun fetchNickname() {
         viewModelScope.launch {
-            try {
-                val response = RetrofitObject.provideHavitApi(token).modifyUserNickname(
+            kotlin.runCatching {
+                val newNickname = nickname.value?.trim()
+                    ?: throw IllegalArgumentException("nickname cannot be null")
+                RetrofitObject.provideHavitApi(token).modifyUserNickname(
                     NewNicknameRequest(newNickname)
                 )
-                Log.d("Request New Nickname", "requestNewNickname: response : $response")
-            } catch (e: Exception) {
-                Log.d("Request New Nickname", "error : $e")
+            }.onSuccess {
+                Log.d(TAG, "requestNewNickname: success")
+            }.onFailure {
+                Log.d(TAG, "requestNewNickname: fail $it")
             }
         }
     }
+
 
     private val _isNicknameHasWhiteSpace = MutableLiveData(false)
     val isNicknameHasWhiteSpace: LiveData<Boolean> = _isNicknameHasWhiteSpace

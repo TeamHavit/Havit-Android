@@ -121,11 +121,11 @@
                     app:layout_constraintEnd_toEndOf="@id/et_category_title"
                     app:layout_constraintTop_toTopOf="@id/et_category_title" />
 
-
                 <TextView
                     android:id="@+id/tv_category_length_limit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="4dp"
                     android:text="@string/category_length_limit"
                     android:textAppearance="@style/Mini10Regular"
@@ -146,34 +146,38 @@
                     app:layout_constraintTop_toTopOf="@id/tv_category_length_limit"
                     tools:text="0" />
 
-                <!-- 중복 카테고리 -->
-                <ImageView
-                    android:id="@+id/iv_notice"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_whitespace_warning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_notice_red"
-                    android:visibility="@{isDuplicated ? View.VISIBLE : View.INVISIBLE, default = gone}"
-                    app:layout_constraintStart_toStartOf="@id/tv_enter_title"
-                    app:layout_constraintTop_toBottomOf="@id/et_category_title" />
+                    android:layout_marginTop="8dp"
+                    android:visibility="@{viewModel.isWhiteSpace ? View.VISIBLE : View.INVISIBLE, default = gone}"
+                    app:layout_constraintStart_toStartOf="@id/et_category_title"
+                    app:layout_constraintTop_toBottomOf="@id/et_category_title"
+                    tools:visibility="visible">
 
-                <TextView
+                    <include layout="@layout/layout_title_whitespace_warning" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_duplicate_title_warning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="@string/duplicate_category"
-                    android:textAppearance="@style/Sub12Regular"
-                    android:textColor="@color/havit_red"
-                    android:visibility="@{isDuplicated ? View.VISIBLE : View.INVISIBLE, default = gone}"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_notice"
-                    app:layout_constraintStart_toEndOf="@id/iv_notice"
-                    app:layout_constraintTop_toTopOf="@id/iv_notice" />
+                    android:layout_marginTop="8dp"
+                    android:visibility="@{viewModel.isDuplicateName ? View.VISIBLE : View.INVISIBLE, default = gone}"
+                    app:layout_constraintStart_toStartOf="@id/et_category_title"
+                    app:layout_constraintTop_toBottomOf="@id/et_category_title"
+                    tools:visibility="gone">
 
-                <Button
+                    <include layout="@layout/layout_duplicate_title_warning" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_next"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="@{(!isDuplicated &amp;&amp; (etCategoryTitle.text.length() != 0)) ? @drawable/rectangle_havit_purple : @drawable/rectangle_gray_2}"
-                    android:enabled="@{(!isDuplicated &amp;&amp; (etCategoryTitle.text.length() != 0)) }"
+                    android:background="@{(viewModel.isCategoryNameValid ? @drawable/rectangle_havit_purple : @drawable/rectangle_gray_2)}"
+                    android:enabled="@{viewModel.isCategoryNameValid}"
                     android:text="@string/next"
                     android:textAppearance="@style/Text16Semibold"
                     android:textColor="@color/white"

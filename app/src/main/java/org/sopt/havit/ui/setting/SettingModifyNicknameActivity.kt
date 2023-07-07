@@ -50,7 +50,7 @@ class SettingModifyNicknameActivity :
         binding.ivNicknameDelete.setOnClickListener { binding.etNickname.text.clear() }
         // 완료 버튼
         binding.btnComplete.setOnSinglePostClickListener {
-            settingViewModel.requestNewNickname(binding.etNickname.text.toString())
+            settingViewModel.fetchNickname()
             finish()
         }
     }
