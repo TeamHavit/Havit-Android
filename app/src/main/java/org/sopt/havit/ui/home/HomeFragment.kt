@@ -20,16 +20,16 @@ import org.sopt.havit.ui.contents_simple.ContentsSimpleActivity
 import org.sopt.havit.ui.notification.NotificationActivity
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
+import org.sopt.havit.util.GoogleAnalyticsUtil
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_HAVIT_SERVICE_GUIDE
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_MUST_SEE_CONTENT
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_RECOMMENDED_SITE
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SEARCH_CONTENT
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SEE_MORE
+import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_WHOLE_CATEGORY
 import org.sopt.havit.util.PopupSharedPreference
 import org.sopt.havit.util.setDragSensitivity
 import org.sopt.havit.util.setOnSingleClickListener
-import org.sopt.havit.util.GoogleAnalyticsUtil
-import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_MUST_SEE_CONTENT
-import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SEARCH_CONTENT
-import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_WHOLE_CATEGORY
-import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_HAVIT_SERVICE_GUIDE
-import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SEE_MORE
-import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_RECOMMENDED_SITE
 
 @AndroidEntryPoint
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_home) {
@@ -66,7 +66,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         categoryDataObserve()   // 카테고리 초기화
         recentContentsDataObserve() // 최근저장 콘텐츠 초기화
         notificationDataObserve()   // 알림 아이콘 초기화
-        initReachRate() // 도달률 관련 데이터 초기화
+        initReachRate() // 목표 달성률 관련 데이터 초기화
         addSourceOnIsReadyToSetCategory()
 
         return binding.root
@@ -99,14 +99,15 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         recommendRvAdapter.setItemClickListener(object :
             HomeRecommendRvAdapter.OnItemClickListener {
             override fun onWebClick(v: View, position: Int) {
-                GoogleAnalyticsUtil.logClickEventWithRecommendedSiteNum(CLICK_RECOMMENDED_SITE, position)
+                GoogleAnalyticsUtil.logClickEventWithRecommendedSiteNum(
+                    CLICK_RECOMMENDED_SITE, position
+                )
 
                 val intent = Intent(v.context, WebActivity::class.java)
-                homeViewModel.recommendList.value?.get(position)
-                    ?.let {
-                        intent.putExtra("url", it.url)
-                        intent.putExtra("contentsId", -1)
-                    }
+                homeViewModel.recommendList.value?.get(position)?.let {
+                    intent.putExtra("url", it.url)
+                    intent.putExtra("contentsId", -1)
+                }
                 startActivity(intent)
             }
         })
@@ -131,7 +132,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private fun setData() {
         with(homeViewModel) {
-            requestUserDataTaken() // 도달률
+            requestUserDataTaken() // 목표 달성률
             requestContentsTaken() // 최근 저장 콘텐츠
             requestCategoryTaken() // 카테고리
             requestRecommendTaken() // 추천 콘텐츠
@@ -295,17 +296,17 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
     }
 
-    // 도달률 관련 데이터(팝업, 도달률 그래프 등) 초기화
+    // 목표 달성률 관련 데이터(팝업, 목표 달성률 그래프 등) 초기화
     private fun initReachRate() {
         with(homeViewModel) {
             userData.observe(viewLifecycleOwner) {
-                val rate = setReachRate(it) // 도달률 계산
+                val rate = setReachRate(it) // 목표 달성률 계산
                 initPopup(rate)
             }
         }
     }
 
-    // 계산한 도달률(rate)로 popupText string값 지정
+    // 계산한 목표 달성률(rate)로 popupText string값 지정
     private fun setPopupText(rate: Int): String =
         when (rate) {
             -1 -> getString(R.string.home_popup_description0)
@@ -316,21 +317,20 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             else -> getString(R.string.home_popup_description1)
         }
 
-    // 도달률 팝업 초기화
+    // 목표 달성률 팝업 초기화
     private fun initPopup(rate: Int) {
         isPopup = PopupSharedPreference.getIsPopup(requireContext())
-        popupText = setPopupText(rate) // 측정한 도달률로 popupText string값 지정
-        checkPopupText() // 도달률 구간변화 검사
+        popupText = setPopupText(rate) // 측정한 목표 달성률로 popupText string값 지정
+        checkPopupText() // 목표 달성률 구간변화 검사
         // isPopup 값이 false일 경우 팝업 시간 변화 검사
-        if (!isPopup)
-            checkDeletePopupTime()
-        updatePopup() // 도달률 최종 업데이트
+        if (!isPopup) checkDeletePopupTime()
+        updatePopup() // 목표 달성률 최종 업데이트
     }
 
-    // 도달률 구간변화 검사
+    // 목표 달성률 구간변화 검사
     private fun checkPopupText() {
         val prevPopupText = PopupSharedPreference.getPopupText(requireContext())
-        // 도달률 구간에 변경이 있을 경우 isPopup 값 true로 변경
+        // 목표 달성률 구간에 변경이 있을 경우 isPopup 값 true로 변경
         if (prevPopupText != popupText) {
             isPopup = true
         }
@@ -345,17 +345,15 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         isPopup = (currentTime - deletePopupTime) > 60 * 24 * 3
     }
 
-    // 도달률 최종 업데이트
+    // 목표 달성률 최종 업데이트
     private fun updatePopup() {
         binding.isPopup = isPopup // 최종 isPopup 값 뷰에 반영
         PopupSharedPreference.setIsPopup(
-            requireContext(),
-            isPopup
+            requireContext(), isPopup
         ) // 최종 isPopup 값 spf에 저장
         PopupSharedPreference.setPopupText(
-            requireContext(),
-            popupText
-        ) // 도달률 텍스트 값 spf에 저장
+            requireContext(), popupText
+        ) // 목표 달성률 텍스트 값 spf에 저장
     }
 
     companion object {

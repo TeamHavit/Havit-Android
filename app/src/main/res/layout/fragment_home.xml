@@ -164,7 +164,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
-                    <!-- 도달률 -->
+                    <!-- 목표 달성률 -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_reach"
                         android:layout_width="0dp"
