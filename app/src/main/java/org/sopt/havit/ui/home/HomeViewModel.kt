@@ -1,6 +1,10 @@
 package org.sopt.havit.ui.home
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -154,7 +158,7 @@ class HomeViewModel @Inject constructor(
                         .getUserData()
                 _userData.postValue(response.data)
                 _userLoadState.postValue(NetworkState.SUCCESS)
-                setReachRate(response.data) // 도달률 계산
+                setReachRate(response.data) // 목표 달성률 계산
                 checkLoadState()
             } catch (e: Exception) {
                 _userLoadState.postValue(NetworkState.FAIL)
@@ -162,11 +166,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    // 도달률
+    // 목표 달성률
     private var _reachRate = MutableLiveData<Int>()
     val reachRate: LiveData<Int> = _reachRate
 
-    // 도달률 계산
+    // 목표 달성률 계산
     fun setReachRate(data: UserResponse.UserData): Int {
         var rate = 0
         // 전체 콘텐츠 수 or 본 콘텐츠 수가 0일 경우 예외처리
