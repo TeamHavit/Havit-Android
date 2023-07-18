@@ -24,3 +24,12 @@
 -keep class * extends com.google.gson.TypeAdapter
 -keep class org.sopt.havit.data.remote.** { *; }
 -keep class org.sopt.havit.domain.entity.** { *; }
+
+-assumenosideeffects class android.util.Log {
+    public static boolean isLoggable(java.lang.String, int);
+    public static int v(...);
+    public static int d(...);
+    public static int i(...);
+    public static int w(...);
+    public static int e(...);
+}

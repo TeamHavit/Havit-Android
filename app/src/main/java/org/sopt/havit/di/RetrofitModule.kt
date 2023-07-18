@@ -38,15 +38,18 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpInterceptor(
+    fun provideOkHttpClient(
         interceptor: Interceptor
     ): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(
-                HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
-            )
-            .addInterceptor(interceptor)
-            .build()
+        return OkHttpClient.Builder().apply {
+            addInterceptor(interceptor)
+
+            if (DEBUG) {
+                addInterceptor(HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                })
+            }
+        }.build()
     }
 
     @Provides

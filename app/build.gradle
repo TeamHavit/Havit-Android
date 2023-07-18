@@ -20,8 +20,8 @@ android {
         applicationId "org.sopt.havit"
         minSdk 23
         targetSdk 31
-        versionCode 106
-        versionName "1.0.6"
+        versionCode 108
+        versionName "1.0.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "HAVIT_BASE_URL_DEV", properties["HAVIT_BASE_URL_DEV"])
         buildConfigField("String", "HAVIT_BASE_URL_PROD", properties["HAVIT_BASE_URL_PROD"])
@@ -99,11 +99,7 @@ dependencies {
     implementation 'androidx.browser:browser:1.4.0'
 
     //kakao
-    implementation "com.kakao.sdk:v2-user:2.5.0" // 카카오 로그인
-    implementation "com.kakao.sdk:v2-talk:2.3.0" // 친구, 메시지(카카오톡)
-    implementation "com.kakao.sdk:v2-story:2.3.0" // 카카오스토리
-    implementation "com.kakao.sdk:v2-link:2.3.0" // 메시지(카카오링크)
-    implementation "com.kakao.sdk:v2-navi:2.3.0" // 카카오내비
+    implementation "com.kakao.sdk:v2-user:2.11.0" // 카카오 로그인
     implementation 'com.kakao.sdk:usermgmt:1.27.0' // 카카오 로그인 버튼 만들 때 사용
 
     // Retrofit
@@ -137,12 +133,11 @@ dependencies {
      *  bom 이외의 sdk에 버전 지정을 하지 않게 주의
      * */
 
-    implementation platform('com.google.firebase:firebase-bom:31.5.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
-
+    implementation 'com.google.firebase:firebase-analytics-ktx'
     // Jsoup
     implementation 'org.jsoup:jsoup:1.13.1'
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -11,9 +12,14 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.FragmentEditTitleBinding
 import org.sopt.havit.ui.share.ShareViewModel
-import org.sopt.havit.util.*
+import org.sopt.havit.ui.share.ShareViewModel.Companion.NO_TITLE_CONTENTS
+import org.sopt.havit.util.AutoClearedValue
+import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.GoogleAnalyticsUtil
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_COMPLETE_MODIFY_TITLE
 import org.sopt.havit.util.GoogleAnalyticsUtil.MODIFY_TITLE
+import org.sopt.havit.util.KeyBoardUtil
+import org.sopt.havit.util.OnBackPressedHandler
 
 @AndroidEntryPoint
 class EditTitleFragment : Fragment(), OnBackPressedHandler {
@@ -36,6 +42,8 @@ class EditTitleFragment : Fragment(), OnBackPressedHandler {
         initClickListener()
         setCursor()
         setScreenEventLogging()
+        adjustWarningMessagePositionToKeyBoard()
+        showWhitespaceWarningMessage()
     }
 
     private fun setCursor() {
@@ -57,9 +65,26 @@ class EditTitleFragment : Fragment(), OnBackPressedHandler {
     private fun initClickListener() {
         binding.icBack.setOnClickListener { onBackClicked() }
         binding.tvComplete.setOnClickListener {
-            viewModel.ogData.value?.ogTitle = binding.etTitle.text.toString()
+            viewModel.ogData.value?.ogTitle =
+                binding.etTitle.text.toString().ifBlank { NO_TITLE_CONTENTS }
             setClickEventLogging()
             goBack()
+        }
+    }
+
+    private fun adjustWarningMessagePositionToKeyBoard() {
+        // 공백 warning 위/아래 움직이게
+        this.view?.let { KeyBoardUtil.setUpAsSoftKeyboard(it) }
+    }
+
+    private fun showWhitespaceWarningMessage() {
+        binding.etTitle.addTextChangedListener {
+            val title = it.toString()
+            if (title.isNotEmpty() && title.isBlank()) { // 공백만 있는 경우
+                binding.clWarningWhitespace.visibility = View.VISIBLE
+            } else {
+                binding.clWarningWhitespace.visibility = View.GONE
+            }
         }
     }
 

@@ -21,8 +21,11 @@ object RetrofitObject {
         readTimeout(20, TimeUnit.SECONDS)
         connectTimeout(20, TimeUnit.SECONDS)
         writeTimeout(5, TimeUnit.SECONDS)
-        addInterceptor(getLoggingInterceptor())
         addInterceptor(getTokenInterceptor(jwt))
+
+        if (DEBUG) {
+            addInterceptor(getLoggingInterceptor())
+        }
     }.build()
 
     private fun getTokenInterceptor(jwt: String) = Interceptor {

@@ -11,18 +11,19 @@ import org.sopt.havit.databinding.FragmentContentsSummeryBinding
 import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.share.ShareViewModel
-import org.sopt.havit.util.*
+import org.sopt.havit.util.ADD_CONTENT_TYPE
+import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.GoogleAnalyticsUtil
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_COMPLETE_SAVE_CONTENT
 import org.sopt.havit.util.GoogleAnalyticsUtil.CONTENT_CUSTOM
-import javax.inject.Inject
+import org.sopt.havit.util.ToastUtil
+import org.sopt.havit.util.setOnSingleClickListener
+import org.sopt.havit.util.setOnSinglePostClickListener
 
 @AndroidEntryPoint
 class ContentsSummeryFragment :
     BaseBindingFragment<FragmentContentsSummeryBinding>(R.layout.fragment_contents_summery) {
     private val viewModel: ShareViewModel by activityViewModels()
-
-    @Inject
-    lateinit var preference: HavitSharedPreference
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,6 +70,7 @@ class ContentsSummeryFragment :
                         setCustomToast()
                         requireActivity().finish()
                     }
+
                     else -> return@observe
                 }
             }
@@ -92,7 +94,6 @@ class ContentsSummeryFragment :
     }
 
     private fun finishSavingContents() {
-        preference.clearTitle()
         requireActivity().finish()
     }
 

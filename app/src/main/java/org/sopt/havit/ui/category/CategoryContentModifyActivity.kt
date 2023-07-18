@@ -8,7 +8,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
@@ -17,7 +16,8 @@ import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_IMAGE_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
-import org.sopt.havit.ui.contents.ContentsActivity
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME_LIST
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_POSITION
 import org.sopt.havit.ui.share.add_category.IconAdapter
 import org.sopt.havit.ui.share.add_category.IconAdapter.Companion.clickedPosition
 import org.sopt.havit.util.*
@@ -32,7 +32,6 @@ class CategoryContentModifyActivity :
     private lateinit var originCategoryName: String
     private lateinit var iconAdapter: IconAdapter
     private lateinit var categoryTitleList: ArrayList<String>
-    private lateinit var preActivity: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +39,7 @@ class CategoryContentModifyActivity :
 
         initIconAdapter()
         setCategoryIntentData()
-        setTextWatcher()
+        checkCategoryTitleValidation()
         setBackBtnClickListener()
         setDeleteTitleBtnClickListener()
         setDeleteBtnClickListener()
@@ -74,10 +73,9 @@ class CategoryContentModifyActivity :
             intent.getStringExtra(CATEGORY_NAME).toString().also {
                 originCategoryName = it
             }
-        position = intent.getIntExtra("position", 0)
+        position = intent.getIntExtra(CATEGORY_POSITION, 0)
         id = intent.getIntExtra(CATEGORY_ID, 0)
-        categoryTitleList = intent.getStringArrayListExtra("categoryNameList") as ArrayList<String>
-        preActivity = intent.getStringExtra("preActivity").toString()
+        categoryTitleList = intent.getStringArrayListExtra(CATEGORY_NAME_LIST) as ArrayList<String>
     }
 
     private fun initIconAdapter() {
@@ -102,27 +100,37 @@ class CategoryContentModifyActivity :
         binding.ivDeleteText.setOnSingleClickListener { deleteCategoryTitle() }
     }
 
-    private fun setTextWatcher() {
+    private fun checkCategoryTitleValidation() {
         binding.etCategory.addTextChangedListener {
-            // 중복된 카테고리 명인지 검사 & 현재 카테고리 명인지 검사(현재 카테고리 명이라면 중복이 아님을 명시)
-            binding.isDuplicated =
-                (binding.categoryTitle in categoryTitleList && binding.categoryTitle != originCategoryName)
+            binding.categoryTitle?.let { categoryTitle ->
+                binding.isOnlySpace = isOnlySpace(categoryTitle)
+                binding.isDuplicated = isDuplicated(categoryTitle)
+            }
         }
     }
 
+    private fun isOnlySpace(categoryTitle: String): Boolean =
+        categoryTitle.isNotEmpty() && categoryTitle.trim().isEmpty()
+
+    private fun isDuplicated(categoryTitle: String): Boolean =
+        (categoryTitle.trim() in categoryTitleList && categoryTitle.trim() != originCategoryName)
+
     private fun deleteCategoryTitle() = binding.etCategory.text.clear()
 
-    // 뒤로가기 시 액션
     private fun setBackPressedAction() {
-        if (isModified()) {
+        if (isNotModified()) {
             finish()
         } else {
             showBackAlertDialog()
         }
     }
 
-    private fun isModified() =
-        (binding.categoryTitle == originCategoryName && clickedPosition == originCategoryImageId)
+    private fun isNotModified(): Boolean {
+        binding.categoryTitle?.let { categoryTitle ->
+            return (categoryTitle.trim() == originCategoryName && clickedPosition == originCategoryImageId)
+        }
+        return false
+    }
 
     // 뒤로가기 시 뜨는 dialog
     private fun showBackAlertDialog() {
@@ -144,16 +152,15 @@ class CategoryContentModifyActivity :
     private fun setModifyCompleteBtnClickListener() {
         binding.tvComplete.setOnSingleClickListener {
             requestCategoryModify()
-
         }
     }
 
     private fun requestCategoryModify() {
         // 서버로 카테고리 내용 수정 요청
         categoryViewModel.requestCategoryContent(
-            id,
-            clickedPosition + 1,
-            binding.categoryTitle.toString()
+            id = id,
+            imageId = clickedPosition + 1,
+            title = binding.categoryTitle!!.trim()
         )
     }
 
@@ -163,49 +170,29 @@ class CategoryContentModifyActivity :
     }
 
     private fun sendCategoryModifyResult() {
-        // 카테고리 수정 관리 뷰로 보내는 intent
-        val orderIntent = Intent(this, CategoryOrderModifyActivity::class.java).apply {
-            putExtra("position", position)
-            putExtra("categoryName", binding.categoryTitle)
-            putExtra("imageId", clickedPosition + 1)
-        }
-        // 콘텐츠 뷰로 보내는 intent
-        val contentsIntent = Intent(this, ContentsActivity::class.java).apply {
-            putExtra("categoryName", binding.categoryTitle)
-            putExtra("imageId", clickedPosition + 1)
-        }
+        callingActivity?.let { callingActivity ->
+            val callingActivityName = callingActivity.className
 
-        when (preActivity) {
-            "ContentsActivity" -> setResult(
-                RESULT_MODIFY_CATEGORY,
-                contentsIntent
-            ) // ContentsActivity로 데이터 전달
-            "CategoryOrderModifyActivity" -> setResult(
-                RESULT_MODIFY_CATEGORY,
-                orderIntent
-            ) // CategoryOrderModifyActivity로 데이터 전달
+            val intent = Intent(this, callingActivity.className.javaClass).apply {
+                putExtra(CATEGORY_NAME, binding.categoryTitle!!.trim())
+                putExtra(CATEGORY_IMAGE_ID, clickedPosition + 1)
+            }
+            if (callingActivityName == CategoryOrderModifyActivity::class.java.name) {
+                intent.putExtra(CATEGORY_POSITION, position)
+            }
+            setResult(RESULT_MODIFY_CATEGORY, intent)
         }
     }
 
     private fun sendCategoryDeleteResult() {
-        // 카테고리 수정 관리 뷰로 보내는 intent
-        val orderIntent = Intent(this, CategoryOrderModifyActivity::class.java).apply {
-            putExtra("position", position)
-            putExtra("categoryName", binding.etCategory.text)
-            putExtra("id", id)
-        }
-        // 콘텐츠 뷰로 보내는 intent
-        val contentsIntent = Intent(this, ContentsActivity::class.java)
+        callingActivity?.let { callingActivity ->
+            val callingActivityName = callingActivity.className
 
-        when (preActivity) {
-            "ContentsActivity" -> setResult(
-                RESULT_DELETE_CATEGORY,
-                contentsIntent
-            ) // ContentsActivity로 데이터 전달
-            "CategoryOrderModifyActivity" -> setResult(
-                RESULT_DELETE_CATEGORY,
-                orderIntent
-            ) // CategoryOrderModifyActivity로 데이터 전달
+            val intent = Intent(this, callingActivity.className.javaClass)
+            if (callingActivityName == CategoryOrderModifyActivity::class.java.name) {
+                intent.putExtra(CATEGORY_POSITION, position)
+            }
+            setResult(RESULT_DELETE_CATEGORY, intent)
         }
     }
 

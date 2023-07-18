@@ -11,6 +11,6 @@ data class Category(
     var imageId: Int,
     @SerializedName("imageUrl")
     var url: String,
-    val orderIndex: Int,
+    var orderIndex: Int,
     var title: String
 ) : Parcelable

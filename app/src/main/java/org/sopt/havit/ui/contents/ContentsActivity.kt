@@ -24,6 +24,7 @@ import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_IMAGE_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ITEM_LIST
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
+import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME_LIST
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_POSITION
 import org.sopt.havit.ui.category.CategoryViewModel
 import org.sopt.havit.ui.contents.DialogContentsFilterFragment.Companion.CONTENTS_FILTER
@@ -261,9 +262,9 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 val intent = Intent(v.context, WebActivity::class.java)
                 contentsViewModel.contentsList.value?.get(position)
                     ?.let {
-                        intent.putExtra("url", it.url)
-                        intent.putExtra("contentsId", it.id)
-                        intent.putExtra("isSeen", it.isSeen)
+                        intent.putExtra(CONTENTS_URL, it.url)
+                        intent.putExtra(CONTENT_ID, it.id)
+                        intent.putExtra(CONTENT_IS_SEEN, it.isSeen)
                     }
                 startActivity(intent)
             }
@@ -387,8 +388,7 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
                 putExtra(CATEGORY_ID, categoryId)
                 putExtra(CATEGORY_NAME, categoryName)
                 putExtra(CATEGORY_IMAGE_ID, categoryIconId)
-                putStringArrayListExtra("categoryNameList", categoryTitleList)
-                putExtra("preActivity", "ContentsActivity")
+                putStringArrayListExtra(CATEGORY_NAME_LIST, categoryTitleList)
             }
 
             getResult.launch(intent)
@@ -496,5 +496,9 @@ class ContentsActivity : BaseBindingActivity<ActivityContentsBinding>(R.layout.a
         const val GRID_LAYOUT = 2
         const val LINEAR_MAX_LAYOUT = 3
         var layout = 1
+
+        const val CONTENTS_URL = "url"
+        const val CONTENT_ID = "contentsId"
+        const val CONTENT_IS_SEEN = "isSeen"
     }
 }

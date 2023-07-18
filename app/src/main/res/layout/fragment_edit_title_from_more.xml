@@ -100,7 +100,7 @@
             <EditText
                 android:id="@+id/et_title"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="22dp"
                 android:layout_marginTop="40dp"
                 android:autofillHints="false"
@@ -108,6 +108,8 @@
                 android:gravity="center"
                 android:importantForAutofill="auto"
                 android:inputType="textMultiLine"
+                android:maxLines="6"
+                android:minLines="6"
                 android:scrollHorizontally="false"
                 android:selectAllOnFocus="true"
                 android:text="@={viewModel.currTitle}"
@@ -115,7 +117,21 @@
                 android:textColor="@color/gray_4"
                 android:theme="@style/PurpleEditTextStyle"
                 app:layout_constraintTop_toBottomOf="@id/tv_description"
-                tools:text="콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘줄바꿈 테스트으으ㅡ으콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈 테스트으으ㅡ으콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈 테스트으으ㅡ으콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈 테스트으으ㅡ으콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈 테스트으으ㅡ으" />
+                tools:text="콘텐츠 제목 어쩌구 저쩌구 블라블라 줄바꿈저쩌구 블라블라 줄바꿈 테스트으으ㅡ으 줄바꿈 테스트으으ㅡ으" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_warning_whitespace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="29dp"
+                android:layout_marginBottom="28dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <include layout="@layout/layout_title_whitespace_warning" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

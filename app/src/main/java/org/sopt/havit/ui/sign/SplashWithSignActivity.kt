@@ -2,6 +2,8 @@ package org.sopt.havit.ui.sign
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.os.Build
 import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -53,6 +55,7 @@ class SplashWithSignActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         binding.main = signInViewModel
         initFcmToken()
         initSuccessKakaoLoginObserver()
@@ -175,6 +178,12 @@ class SplashWithSignActivity :
                 }
             }
         )
+    }
+
+    override fun setRequestedOrientation(requestedOrientation: Int) {
+        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
+            super.setRequestedOrientation(requestedOrientation)
+        }
     }
 
     override fun onBackPressed() {

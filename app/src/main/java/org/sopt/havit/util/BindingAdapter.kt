@@ -31,9 +31,7 @@ fun ImageView.loadImage(url: String?) {
 
 @BindingAdapter("iconSrc")
 fun ImageView.loadIcon(url: String?) {
-    Glide.with(context)
-        .load(url)
-        .placeholder(R.drawable.img_contents_dummy)
+    Glide.with(context).load(url).placeholder(R.drawable.img_contents_dummy_3)
         .circleCrop()
         .into(this)
 }
@@ -61,28 +59,22 @@ fun setBtnColor(btn: Button, isNext: Boolean) {
 
 @BindingAdapter("imageSearch")
 fun ImageView.loadSearch(url: String?) {
-    Glide.with(context)
-        .load(url)
-        .transform(CenterCrop(), RoundedCorners(px(4)))
-        .placeholder(R.drawable.img_contents_dummy)
+    Glide.with(context).load(url).transform(CenterCrop(), RoundedCorners(px(4)))
+        .placeholder(R.drawable.img_contents_dummy_3)
         .into(this)
 }
 
 @BindingAdapter("imageDefaultLinearMin")
 fun ImageView.defaultImageLinearMin(url: String?) {
-    Glide.with(context)
-        .load(url)
-        .transform(CenterCrop(), RoundedCorners(px(4)))
-        .placeholder(R.drawable.img_contents_dummy)
+    Glide.with(context).load(url).transform(CenterCrop(), RoundedCorners(px(4)))
+        .placeholder(R.drawable.img_contents_dummy_3)
         .into(this)
 }
 
 @BindingAdapter("imageDefaultGrid")
 fun ImageView.defaultImageGrid(url: String?) {
-    Glide.with(context)
-        .load(url)
-        .transform(CenterCrop(), RoundedCorners(px(4)))
-        .placeholder(R.drawable.img_contents_dummy_2)
+    Glide.with(context).load(url).transform(CenterCrop(), RoundedCorners(px(4)))
+        .placeholder(R.drawable.img_contents_dummy_3)
         .into(this)
 }
 
@@ -132,9 +124,11 @@ fun setPopupDescription(textView: TextView, rate: Int) {
         in 34..66 ->
             textView.text =
                 textView.context.getString(R.string.home_popup_description2)
+
         in 67..99 ->
             textView.text =
                 textView.context.getString(R.string.home_popup_description3)
+
         100 -> textView.text = textView.context.getString(R.string.home_popup_description4)
     }
 }

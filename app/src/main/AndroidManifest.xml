@@ -63,6 +63,7 @@
         <activity
             android:name=".ui.setting.SettingModifyNicknameActivity"
             android:configChanges="orientation"
+            android:windowSoftInputMode="stateVisible"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
@@ -76,9 +77,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.category.CategoryAddActivity"
-            android:configChanges="orientation"
+            android:configChanges="orientation|screenSize"
             android:exported="false"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/Theme.AppCompat.Transparent.NoActionBar" />
 
         <service
@@ -133,9 +134,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.share.ShareActivity"
-            android:configChanges="orientation"
+            android:configChanges="orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/Theme.AppCompat.Transparent.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -152,9 +153,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:configChanges="orientation"
+            android:configChanges="orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="unspecified">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -178,10 +179,10 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.sign.SplashWithSignActivity"
-            android:configChanges="orientation"
+            android:configChanges="orientation|screenSize"
             android:exported="true"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/Theme.RemoveSplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -192,7 +193,7 @@
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_app_key" />
+            android:value="${KAKAO_NATIVE_APP_KEY}" />
     </application>
 
 </manifest>

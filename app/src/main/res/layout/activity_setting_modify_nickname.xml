@@ -67,28 +67,39 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="17dp"
-            android:layout_marginTop="20dp"
-            android:background="@null"
+            android:layout_marginTop="27dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/edit_nickname"
+            android:inputType="text"
             android:lines="1"
             android:maxLength="15"
-            android:paddingVertical="4dp"
+            android:maxLines="1"
             android:textAppearance="@style/Header18Medium"
             android:textColor="@color/havit_gray"
             android:textColorHint="@color/gray_2"
             android:textCursorDrawable="@drawable/rectangle_havit_purple_cursor"
+            android:theme="@style/PurpleEditTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_nickname" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="2dp"
-            android:background="@color/havit_purple"
-            app:layout_constraintEnd_toEndOf="@+id/et_nickname"
-            app:layout_constraintStart_toStartOf="@+id/et_nickname"
-            app:layout_constraintTop_toBottomOf="@+id/et_nickname" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_warning_whitespace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:visibility="@{vmSetting.isNicknameHasWhiteSpace ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="@id/et_nickname"
+            app:layout_constraintTop_toBottomOf="@id/et_nickname"
+            tools:visibility="visible">
+
+            <include
+                layout="@layout/layout_nickname_whitespace_warning"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="0dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <ImageView
             android:id="@+id/iv_nickname_delete"
@@ -105,7 +116,7 @@
             android:id="@+id/tv_nickname_length_limit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="3dp"
             android:text="@string/nickname_length_limit"
             android:textAppearance="@style/Sub13Regular"
@@ -128,8 +139,8 @@
             android:id="@+id/btn_complete"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@{etNickname.text.length() > 0? @drawable/rectangle_havit_purple : @drawable/rectangle_gray_2}"
-            android:enabled="@{etNickname.text.length() > 0? true : false}"
+            android:background="@{vmSetting.isNicknameAvailable ? @drawable/rectangle_havit_purple : @drawable/rectangle_gray_2}"
+            android:enabled="@{vmSetting.isNicknameAvailable}"
             android:text="@string/complete"
             android:textAppearance="@style/Text16Semibold"
             android:textColor="@color/white"

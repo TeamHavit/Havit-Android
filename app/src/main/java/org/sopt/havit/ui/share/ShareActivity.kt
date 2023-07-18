@@ -2,35 +2,32 @@ package org.sopt.havit.ui.share
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
+import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityShareBinding
+import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_FROM_SHARE
 import org.sopt.havit.ui.sign.SplashWithSignActivity
-import org.sopt.havit.util.HavitSharedPreference
 import java.io.Serializable
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class ShareActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var preference: HavitSharedPreference
+class ShareActivity : BaseBindingActivity<ActivityShareBinding>(R.layout.activity_share) {
 
     private val viewModel: ShareViewModel by viewModels()
     private lateinit var splashWithSignActivityLauncher: ActivityResultLauncher<Intent>
-    private lateinit var binding: ActivityShareBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShareBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         initActivityLauncher()
         makeSignIn()
         setUrlOnViewModel()
@@ -95,11 +92,12 @@ class ShareActivity : AppCompatActivity() {
         viewModel.setUrl(url)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        preference.clearTitle()
+    override fun setRequestedOrientation(requestedOrientation: Int) {
+        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
+            super.setRequestedOrientation(requestedOrientation)
+        }
     }
-
+    
     companion object {
         const val WHERE_SPLASH_COME_FROM = "WHERE_SPLASH_COME_FROM"
         const val ON_NETWORK_ERROR_DISMISS = "ON_NETWORK_ERROR_DISMISS"

@@ -4,7 +4,6 @@
     <string name="title_category">Category</string>
     <string name="title_my_page">MyPage</string>
     <string name="app_name">HAVIT</string>
-    <string name="kakao_app_key">6069fb41c205cbbf8f213b32eec7f2c8</string>
     <string name="category_entire_category">전체 카테고리</string>
     <string name="modify">수정</string>
     <string name="category_entire">전체 </string>
@@ -42,7 +41,7 @@
     <string name="aos_yubin">최유빈</string>
     <string name="aos_hyein">김혜인</string>
     <string name="aos_nayoung">안나영</string>
-    <string name="home_reach_user">님의 도달률</string>
+    <string name="home_reach_user">님의 목표 달성률</string>
     <string name="home_reach_contents">봐야 하는 콘텐츠</string>
     <string name="home_reach_percent">%</string>
     <string name="home_search">원하는 콘텐츠를 검색하세요</string>
@@ -246,7 +245,7 @@
     <string name="onboarding_customize_description">콘텐츠의 제목을 원하는 내용으로 수정하고\n저장한 콘텐츠를 잊지 않도록 알림설정을 해보세요.</string>
     <string name="onboarding_join">가입하기</string>
     <string name="onboarding_contents_check">콘텐츠 확인하기</string>
-    <string name="onboarding_contents_check_description">확인할 콘텐츠를 체크해보세요.\n콘텐츠를 체크함에 따라 도달률이 올라갑니다.</string>
+    <string name="onboarding_contents_check_description">확인할 콘텐츠를 체크해보세요.\n콘텐츠를 체크함에 따라 목표 달성률이 올라갑니다.</string>
     <string name="onboarding_contents_checking">콘텐츠 확인</string>
     <!-- splash -->
     <string name="splash_title">모든 콘텐츠를\n내 손 안에</string>
@@ -283,4 +282,7 @@
     <string name="current_version">현재 버전&#160;</string>
     <string name="dash">-</string>
     <string name="notice_nickname_spacing">닉네임에 띄어쓰기는 사용할 수 없습니다.</string>
+    <string name="whitespace_disable_on_title">제목에 띄어쓰기만 사용할 수 없습니다.</string>
+    <string name="disable_whitespace_on_nickname">닉네임에 띄어쓰기는 사용할 수 없습니다.</string>
+
 </resources>
