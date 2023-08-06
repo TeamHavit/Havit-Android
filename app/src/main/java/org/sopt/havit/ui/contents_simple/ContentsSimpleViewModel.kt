@@ -7,19 +7,16 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.domain.entity.NetworkState
-import org.sopt.havit.util.HavitSharedPreference
 import javax.inject.Inject
 
 @HiltViewModel
 class ContentsSimpleViewModel @Inject constructor(
-    preference: HavitSharedPreference
+    private val havitApi: HavitApi
 ) : ViewModel() {
-
-    private val token = preference.getXAuthToken()
 
     private val _contentsList = MutableLiveData<List<ContentsSimpleResponse.ContentsSimpleData>>()
     val contentsList: LiveData<List<ContentsSimpleResponse.ContentsSimpleData>> = _contentsList
@@ -40,13 +37,11 @@ class ContentsSimpleViewModel @Inject constructor(
             try {
                 if (contentsType == "unseen") {
                     val response =
-                        RetrofitObject.provideHavitApi(token)
-                            .getContentsUnseen()
+                        havitApi.getContentsUnseen()
                     _contentsList.postValue(response.data)
                 } else {
                     val response =
-                        RetrofitObject.provideHavitApi(token)
-                            .getContentsRecent()
+                        havitApi.getContentsRecent()
                     _contentsList.postValue(response.data)
                 }
                 _loadState.postValue(NetworkState.SUCCESS)
@@ -74,8 +69,7 @@ class ContentsSimpleViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val response =
-                    RetrofitObject.provideHavitApi(token)
-                        .isHavit(ContentsHavitRequest(contentsId))
+                    havitApi.isHavit(ContentsHavitRequest(contentsId))
                 _isHavit.postValue(response.data.isSeen)
                 _loadState.postValue(NetworkState.SUCCESS)
             } catch (e: Exception) {
@@ -97,9 +91,7 @@ class ContentsSimpleViewModel @Inject constructor(
     fun deleteContents(contentsId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response =
-                    RetrofitObject.provideHavitApi(token)
-                        .deleteContents(contentsId)
+                havitApi.deleteContents(contentsId)
                 _loadState.postValue(NetworkState.SUCCESS)
             } catch (e: Exception) {
                 _loadState.postValue(NetworkState.FAIL)

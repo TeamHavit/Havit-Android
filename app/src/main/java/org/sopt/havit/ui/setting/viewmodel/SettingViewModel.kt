@@ -12,7 +12,7 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.havit.BuildConfig
-import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.remote.NewNicknameRequest
 import org.sopt.havit.data.remote.UserResponse
 import org.sopt.havit.domain.entity.Notice
@@ -23,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    application: Application
+    application: Application,
+    private val havitApi: HavitApi
 ) : AndroidViewModel(application) {
     private val token = authRepository.getAccessToken()
     private val _user = MutableLiveData<UserResponse.UserData>()
@@ -56,8 +57,7 @@ class SettingViewModel @Inject constructor(
     fun requestUserInfo() {
         viewModelScope.launch {
             try {
-                val response = RetrofitObject.provideHavitApi(token)
-                    .getUserData()
+                val response = havitApi.getUserData()
                 _user.postValue(response.data)
             } catch (e: Exception) {
             }
@@ -84,9 +84,7 @@ class SettingViewModel @Inject constructor(
             kotlin.runCatching {
                 val newNickname = nickname.value?.trim()
                     ?: throw IllegalArgumentException("nickname cannot be null")
-                RetrofitObject.provideHavitApi(token).modifyUserNickname(
-                    NewNicknameRequest(newNickname)
-                )
+                havitApi.modifyUserNickname(NewNicknameRequest(newNickname))
             }.onSuccess {
                 Log.d(TAG, "requestNewNickname: success")
             }.onFailure {
@@ -109,7 +107,7 @@ class SettingViewModel @Inject constructor(
     fun unregister() {
         viewModelScope.launch {
             try {
-                RetrofitObject.provideHavitApi(token).deleteUser()
+                havitApi.deleteUser()
             } catch (e: Exception) {
                 Log.d("SETTING", "error : $e")
             }
@@ -122,7 +120,7 @@ class SettingViewModel @Inject constructor(
     fun getNoticeList() {
         viewModelScope.launch {
             kotlin.runCatching {
-                RetrofitObject.provideHavitApi(token).getNoticeList().data
+                havitApi.getNoticeList().data
             }.onSuccess {
                 _noticeList.value = it
             }.onFailure {

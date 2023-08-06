@@ -7,17 +7,15 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.remote.ContentsHavitRequest
 import org.sopt.havit.data.remote.NotificationResponse.NotificationData
-import org.sopt.havit.util.HavitSharedPreference
 import javax.inject.Inject
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
-    preference: HavitSharedPreference
+    private val havitApi: HavitApi
 ) : ViewModel() {
-    private val token = preference.getXAuthToken()
 
     private val _contentsList = MutableLiveData<List<NotificationData>>()
     val contentsList: LiveData<List<NotificationData>> = _contentsList
@@ -29,8 +27,7 @@ class NotificationViewModel @Inject constructor(
             try {
                 _contentLoadState.postValue(true)
                 val response =
-                    RetrofitObject.provideHavitApi(token)
-                        .getNotification(option)
+                    havitApi.getNotification(option)
                 _contentsList.postValue(response.data)
                 _contentLoadState.postValue(false)
             } catch (e: Exception) {
@@ -44,8 +41,7 @@ class NotificationViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val response =
-                    RetrofitObject.provideHavitApi(token)
-                        .isHavit(ContentsHavitRequest(contentsId))
+                    havitApi.isHavit(ContentsHavitRequest(contentsId))
                 _isSeen.postValue(response.data.isSeen)
             } catch (e: Exception) {
             }
@@ -60,9 +56,7 @@ class NotificationViewModel @Inject constructor(
     fun deleteContents(contentsId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response =
-                    RetrofitObject.provideHavitApi(token)
-                        .deleteContents(contentsId)
+                havitApi.deleteContents(contentsId)
             } catch (e: Exception) {
             }
         }

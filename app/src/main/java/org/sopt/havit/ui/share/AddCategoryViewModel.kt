@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.remote.CategoryAddRequest
 import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.domain.repository.AuthRepository
@@ -15,6 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddCategoryViewModel @Inject constructor(
     authRepository: AuthRepository,
+    private val havitApi: HavitApi
 ) : ViewModel() {
 
     /** token */
@@ -30,7 +31,7 @@ class AddCategoryViewModel @Inject constructor(
     fun getExistingCategoryList() {
         viewModelScope.launch {
             kotlin.runCatching {
-                RetrofitObject.provideHavitApi(token).getAllCategories().data ?: emptyList()
+                havitApi.getAllCategories().data ?: emptyList()
             }.onSuccess { categoryList ->
                 val tmp: MutableList<String> = mutableListOf()
                 for (element in categoryList) tmp.add(element.title)
@@ -102,8 +103,7 @@ class AddCategoryViewModel @Inject constructor(
                 val title = categoryTitle.value ?: throw IllegalStateException("title")
                 val imageId = selectedIconPosition.value?.plus(1)
                     ?: throw IllegalStateException("position")
-                RetrofitObject.provideHavitApi(token)
-                    .addCategory(CategoryAddRequest(title, imageId))
+                havitApi.addCategory(CategoryAddRequest(title, imageId))
             }.onSuccess {
                 _addCategoryViewState.value = NetworkStatus.Success()
                 clearIconPosition()
