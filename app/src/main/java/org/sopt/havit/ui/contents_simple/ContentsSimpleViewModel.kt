@@ -40,8 +40,7 @@ class ContentsSimpleViewModel @Inject constructor(
                         havitApi.getContentsUnseen()
                     _contentsList.postValue(response.data)
                 } else {
-                    val response =
-                        havitApi.getContentsRecent()
+                    val response = havitApi.getContentsRecent()
                     _contentsList.postValue(response.data)
                 }
                 _loadState.postValue(NetworkState.SUCCESS)
@@ -68,8 +67,7 @@ class ContentsSimpleViewModel @Inject constructor(
     fun setIsSeen(contentsId: Int) {
         viewModelScope.launch {
             try {
-                val response =
-                    havitApi.isHavit(ContentsHavitRequest(contentsId))
+                val response = havitApi.isHavit(ContentsHavitRequest(contentsId))
                 _isHavit.postValue(response.data.isSeen)
                 _loadState.postValue(NetworkState.SUCCESS)
             } catch (e: Exception) {

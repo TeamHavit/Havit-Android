@@ -44,8 +44,7 @@ class HomeViewModel @Inject constructor(
     fun requestContentsTaken() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response =
-                    havitApi.getContentsRecent()
+                val response = havitApi.getContentsRecent()
                 _contentsList.postValue(response.data)
                 _contentsLoadState.postValue(NetworkState.SUCCESS)
                 checkLoadState()
@@ -61,8 +60,7 @@ class HomeViewModel @Inject constructor(
     fun requestCategoryTaken() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response =
-                    havitApi.getAllCategories()
+                val response = havitApi.getAllCategories()
                 checkLoadState()
                 _categoryData.postValue(response.data ?: emptyList())
                 _categoryLoadState.postValue(NetworkState.SUCCESS)
@@ -112,8 +110,7 @@ class HomeViewModel @Inject constructor(
     fun requestRecommendTaken() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response =
-                    havitApi.getRecommendation()
+                val response = havitApi.getRecommendation()
                 checkLoadState()
                 _recommendList.postValue(response.data)
                 _recommendLoadState.postValue(NetworkState.SUCCESS)
@@ -147,8 +144,7 @@ class HomeViewModel @Inject constructor(
     fun requestUserDataTaken() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response =
-                    havitApi.getUserData()
+                val response = havitApi.getUserData()
                 _userData.postValue(response.data)
                 _userLoadState.postValue(NetworkState.SUCCESS)
                 setReachRate(response.data) // 목표 달성률 계산

@@ -26,8 +26,7 @@ class NotificationViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _contentLoadState.postValue(true)
-                val response =
-                    havitApi.getNotification(option)
+                val response = havitApi.getNotification(option)
                 _contentsList.postValue(response.data)
                 _contentLoadState.postValue(false)
             } catch (e: Exception) {
@@ -40,8 +39,7 @@ class NotificationViewModel @Inject constructor(
     fun setIsSeen(contentsId: Int) {
         viewModelScope.launch {
             try {
-                val response =
-                    havitApi.isHavit(ContentsHavitRequest(contentsId))
+                val response = havitApi.isHavit(ContentsHavitRequest(contentsId))
                 _isSeen.postValue(response.data.isSeen)
             } catch (e: Exception) {
             }

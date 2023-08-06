@@ -8,7 +8,7 @@ import javax.inject.Inject
 class HavitSharedPreference @Inject constructor(@ApplicationContext private val context: Context) {
 
     companion object {
-        private const val X_AUTH_TOKEN = "ACCESS_TOKEN" // 정아
+        private const val X_AUTH_TOKEN = "ACCESS_TOKEN"
         private const val FIRST_USER = "FIRST_USER"
     }
 
