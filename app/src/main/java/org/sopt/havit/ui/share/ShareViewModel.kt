@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.sopt.havit.BuildConfig
-import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.mapper.CategoryMapper
 import org.sopt.havit.data.remote.ContentsSummeryData
 import org.sopt.havit.data.remote.CreateContentsRequest
@@ -20,7 +20,6 @@ import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
 import org.sopt.havit.util.HavitAuthUtil
-import org.sopt.havit.util.HavitSharedPreference
 import java.util.Calendar
 import java.util.Date
 import java.util.regex.Pattern
@@ -30,7 +29,7 @@ import javax.inject.Inject
 class ShareViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val categoryMapper: CategoryMapper,
-    private val preference: HavitSharedPreference
+    private val havitApi: HavitApi
 ) : ViewModel() {
     /** token */
     fun getAccessToken() = authRepository.getAccessToken()
@@ -69,7 +68,7 @@ class ShareViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 _categoryViewState.value = NetworkStatus.Loading()
-                RetrofitObject.provideHavitApi(getAccessToken()).getCategoryList().data
+                havitApi.getCategoryList().data
             }.onSuccess {
                 _categoryList.value = it.toMutableList()
                 _categoryNum.value = it.size
@@ -237,8 +236,7 @@ class ShareViewModel @Inject constructor(
         viewModelScope.launch {
             kotlin.runCatching {
                 val createContentsRequest = getCreateContentsRequest()
-                RetrofitObject.provideHavitApi(preference.getXAuthToken())
-                    .createContents(createContentsRequest)
+                havitApi.createContents(createContentsRequest)
             }.onSuccess {
                 _saveContentsViewState.value = NetworkStatus.Success()
             }.onFailure {

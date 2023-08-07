@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.mapper.ContentsMapper
 import org.sopt.havit.data.repository.*
 import org.sopt.havit.data.source.local.AuthLocalDataSourceImpl
@@ -12,7 +13,6 @@ import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.category.CategoryRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSourceImpl
 import org.sopt.havit.domain.repository.*
-import org.sopt.havit.util.HavitSharedPreference
 import javax.inject.Singleton
 
 @Module
@@ -29,16 +29,16 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideMyPageRepository(
-        authLocalDataSourceImpl: AuthLocalDataSourceImpl
-    ): MyPageRepository = MyPageRepositoryImpl(authLocalDataSourceImpl)
+        havitApi: HavitApi
+    ): MyPageRepository = MyPageRepositoryImpl(havitApi)
 
     @Provides
     @Singleton
     fun provideContentsRepository(
         contentsRemoteDataSourceImpl: ContentsRemoteDataSourceImpl,
-        havitSharedPreference: HavitSharedPreference
+        havitApi: HavitApi
     ): ContentsRepository =
-        ContentsRepositoryImpl(contentsRemoteDataSourceImpl, havitSharedPreference)
+        ContentsRepositoryImpl(contentsRemoteDataSourceImpl, havitApi)
 
     @Provides
     @Singleton
