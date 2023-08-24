@@ -51,7 +51,7 @@ class BottomSheetShareFragment : BottomSheetDialogFragment() {
             override fun onBackPressed() {
                 if ((getTopmostFragmentOrNull() as? OnBackPressedHandler)?.onBackPressed() == true) return
                 val navController = binding.fcvShare.findNavController()
-                if (navController.graph.findStartDestination() == navController.currentDestination) super.onBackPressed()
+                if (navController.graph.findStartDestination() == navController.currentDestination) dismiss()
                 else navController.popBackStack()
             }
         }

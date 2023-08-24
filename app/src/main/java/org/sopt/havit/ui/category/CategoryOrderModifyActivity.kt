@@ -3,6 +3,7 @@ package org.sopt.havit.ui.category
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -34,9 +35,16 @@ class CategoryOrderModifyActivity :
     private val originCategoryIdList = mutableListOf<Int>()
     lateinit var holder: RecyclerView.ViewHolder
 
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            setBackPressedAction()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        this.onBackPressedDispatcher.addCallback(this, callback)
 
         initAdapter()
         setResult()
@@ -46,10 +54,6 @@ class CategoryOrderModifyActivity :
         initDrag()
         setCompleteOrder()
         observeOrderModifyState()
-    }
-
-    override fun onBackPressed() {
-        setBackPressedAction()
     }
 
     private fun setBackPressedAction() {

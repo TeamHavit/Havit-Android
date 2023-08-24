@@ -9,6 +9,6 @@ class SettingPersonalDataActivity :
     BaseBindingActivity<ActivitySettingPersonalDataBinding>(R.layout.activity_setting_personal_data) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.ivBack.setOnClickListener { super.onBackPressed() }
+        binding.ivBack.setOnClickListener { this.finish() }
     }
 }

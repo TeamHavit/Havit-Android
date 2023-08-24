@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,8 +34,15 @@ class CategoryContentModifyActivity :
     private lateinit var iconAdapter: IconAdapter
     private lateinit var categoryTitleList: ArrayList<String>
 
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            setBackPressedAction()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.onBackPressedDispatcher.addCallback(this, callback)
         setContentView(binding.root)
 
         initIconAdapter()
@@ -46,10 +54,6 @@ class CategoryContentModifyActivity :
         setModifyCompleteBtnClickListener()
         observeDeleteState()
         observeModifyState()
-    }
-
-    override fun onBackPressed() {
-        setBackPressedAction()
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
