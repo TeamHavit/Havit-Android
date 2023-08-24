@@ -14,12 +14,12 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 def kakao_native_app_key = properties.get('KAKAO_NATIVE_APP_KEY_NO_QUEOTS')
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "org.sopt.havit"
         minSdk 23
-        targetSdk 31
+        targetSdk 33
         versionCode 108
         versionName "1.0.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
