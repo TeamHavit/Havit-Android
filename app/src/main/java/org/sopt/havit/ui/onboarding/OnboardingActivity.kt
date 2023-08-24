@@ -34,7 +34,7 @@ class OnboardingActivity :
     }
 
     private fun setIndicator() {
-        attachTo(viewPager)
+        binding.indicatorOnboarding.attachTo(binding.vpOnboarding)
     }
 
     private fun checkLastOnboardingPage() {
