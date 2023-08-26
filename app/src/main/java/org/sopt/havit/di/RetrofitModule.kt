@@ -44,6 +44,7 @@ object RetrofitModule {
 
     private fun handle401Error(context: Context, authLocalDataSourceImpl: AuthLocalDataSourceImpl) {
         authLocalDataSourceImpl.removeHavitAuthToken()
+        authLocalDataSourceImpl.saveAccessToken(authLocalDataSourceImpl.getRefreshToken())
         val intent = Intent(context, SplashWithSignActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         context.startActivity(intent)

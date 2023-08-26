@@ -26,6 +26,7 @@ class HavitAuthLocalPreferences @Inject constructor(
 
     fun getXAuthToken(): String = prefs.getString(ACCESS_TOKEN, "").toString()
     fun setRefreshToken(token: String) = prefs.edit().putString(REFRESH_TOKEN, token).apply()
+    fun getRefreshToken(): String = prefs.getString(REFRESH_TOKEN, "").toString()
 
     fun setKakaoToken(token: String) = prefs.edit().putString(KAKAO_TOKEN, token).apply()
 
