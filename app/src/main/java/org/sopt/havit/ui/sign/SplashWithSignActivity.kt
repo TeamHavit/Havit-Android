@@ -1,14 +1,20 @@
 package org.sopt.havit.ui.sign
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.MainActivity
 import org.sopt.havit.R
@@ -37,6 +43,8 @@ class SplashWithSignActivity :
 
     private val signInViewModel: SignInViewModel by viewModels()
     private var isFromShare by Delegates.notNull<Boolean>()
+
+    private val REQUEST_PERMISSION_CODE = 0
 
     private val alphaLogoAnim by lazy {
         AnimationUtils.loadAnimation(this, R.anim.alpha_15_to_5_20000).apply {
@@ -107,7 +115,7 @@ class SplashWithSignActivity :
                 override fun onAnimationRepeat(p0: Animation?) {}
 
                 override fun onAnimationEnd(p0: Animation?) {
-                    setAutoLogin()
+                    checkAlarmPermission()
                 }
             })
         } else {
@@ -161,6 +169,46 @@ class SplashWithSignActivity :
         splashWithLoginLauncher.launch(
             Intent(this, OnboardingActivity::class.java)
         )
+    }
+
+    private fun checkAlarmPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && PackageManager.PERMISSION_DENIED == ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            )
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                REQUEST_PERMISSION_CODE
+            )
+
+        } else {
+            setAutoLogin()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            REQUEST_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startOnBoardingActivity() //권한 설정 완료
+                } else {
+                    //권한 설정 취소
+                    val intent: Intent =
+                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(
+                            Uri.parse("package:" + this.packageName)
+                        )
+                    startActivity(intent)
+                    this.finish()
+                }
+            }
+        }
     }
 
     private fun isAlreadyUserObserver() {
