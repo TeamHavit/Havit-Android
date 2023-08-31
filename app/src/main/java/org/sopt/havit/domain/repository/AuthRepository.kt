@@ -8,6 +8,7 @@ interface AuthRepository {
     fun getFcmToken(getFcmToken: (String) -> Unit)
 
     fun saveAccessToken(accessToken: String)
+    fun saveRefreshToken(refreshToken: String)
 
     fun saveKakaoToken(kakaoToken: String)
 

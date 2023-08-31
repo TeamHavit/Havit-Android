@@ -11,6 +11,7 @@ class HavitAuthLocalPreferences @Inject constructor(
 ) {
     companion object {
         private const val ACCESS_TOKEN = "ACCESS_TOKEN"
+        private const val REFRESH_TOKEN = "REFRESH_TOKEN"
         private const val KAKAO_TOKEN = "KAKAO_TOKEN"
         private const val USER_EMAIL = "USER_EMAIL"
         private const val USER_AGE = "USER_AGE"
@@ -24,6 +25,8 @@ class HavitAuthLocalPreferences @Inject constructor(
     fun setXAuthToken(token: String) = prefs.edit().putString(ACCESS_TOKEN, token).apply()
 
     fun getXAuthToken(): String = prefs.getString(ACCESS_TOKEN, "").toString()
+    fun setRefreshToken(token: String) = prefs.edit().putString(REFRESH_TOKEN, token).apply()
+    fun getRefreshToken(): String = prefs.getString(REFRESH_TOKEN, "").toString()
 
     fun setKakaoToken(token: String) = prefs.edit().putString(KAKAO_TOKEN, token).apply()
 
