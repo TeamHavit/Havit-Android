@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -30,11 +31,18 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
     var contents: ContentsMoreData? = null
     private lateinit var refreshDataOnBottomSheetDismiss: () -> Unit
 
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if ((getCurrentFragmentOnMore() as? OnBackPressedHandler)?.onBackPressed() == false)
+                dismiss()
+        }
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return object : BottomSheetDialog(requireContext()) {
-            override fun onBackPressed() {
-                if ((getCurrentFragmentOnMore() as? OnBackPressedHandler)?.onBackPressed() == true) return
-                dismiss()
+            override fun onCreate(savedInstanceState: Bundle?) {
+                super.onCreate(savedInstanceState)
+                onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
             }
         }
     }
@@ -112,3 +120,4 @@ class BottomSheetMoreFragment : BottomSheetDialogFragment() {
         const val SET_ALARM = "SET_ALARM"
     }
 }
+
