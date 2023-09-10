@@ -6,19 +6,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.data.remote.ModifyContentNotificationParams
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
 import org.sopt.havit.util.Event
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
 class EditNotificationFromMoreViewModel @Inject constructor(
-    authRepository: AuthRepository
+    authRepository: AuthRepository,
+    private val havitApi: HavitApi
 ) : ViewModel() {
     /** token */
     val token = authRepository.getAccessToken()
@@ -95,7 +97,7 @@ class EditNotificationFromMoreViewModel @Inject constructor(
     fun deleteNotification() {
         viewModelScope.launch {
             kotlin.runCatching {
-                RetrofitObject.provideHavitApi(token).deleteContentNotification(
+                havitApi.deleteContentNotification(
                     requireNotNull(contentId.value)
                 )
             }.onSuccess {
@@ -112,7 +114,7 @@ class EditNotificationFromMoreViewModel @Inject constructor(
         viewModelScope.launch {
             val time = tempNotificationTime.value?.substring(0, 16)?.replace(".", "-")
             kotlin.runCatching {
-                RetrofitObject.provideHavitApi(token).modifyContentNotification(
+                havitApi.modifyContentNotification(
                     requireNotNull(contentId.value),
                     ModifyContentNotificationParams(requireNotNull(time))
                 )

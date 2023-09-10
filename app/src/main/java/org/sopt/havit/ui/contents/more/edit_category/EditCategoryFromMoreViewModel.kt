@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.mapper.CategoryMapper
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.data.remote.ModifyContentCategoryParams
@@ -17,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class EditCategoryFromMoreViewModel @Inject constructor(
     authRepository: AuthRepository,
-    private val categoryMapper: CategoryMapper
+    private val categoryMapper: CategoryMapper,
+    private val havitApi: HavitApi
 ) : ViewModel() {
     private val token = authRepository.getAccessToken()
     private val contentsId = MutableLiveData<Int>()
@@ -60,7 +61,7 @@ class EditCategoryFromMoreViewModel @Inject constructor(
     fun getCategoryListWithSelectedInfo() {
         viewModelScope.launch {
             kotlin.runCatching {
-                val response = RetrofitObject.provideHavitApi(token).getAllCategoryList(
+                val response = havitApi.getAllCategoryList(
                     requireNotNull(contentsId.value)
                 )
                 categoryList.value = response.data
@@ -77,7 +78,7 @@ class EditCategoryFromMoreViewModel @Inject constructor(
                     contentId = requireNotNull(contentsId.value),
                     newCategoryIds = requireNotNull(newCategoryId.value)
                 )
-                RetrofitObject.provideHavitApi(token).modifyContentCategory(body)
+                havitApi.modifyContentCategory(body)
             }.onSuccess {
                 userClicksOnButton(SUCCESS)
             }.onFailure {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -20,6 +21,15 @@ import org.sopt.havit.util.getTopmostFragmentOrNull
 class BottomSheetShareFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentBottomSheetShareBinding? = null
     private val binding get() = _binding!!
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if ((getTopmostFragmentOrNull() as? OnBackPressedHandler)?.onBackPressed() == true) return
+            val navController = binding.fcvShare.findNavController()
+            if (navController.graph.findStartDestination() == navController.currentDestination) dismiss()
+            else navController.popBackStack()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,11 +58,9 @@ class BottomSheetShareFragment : BottomSheetDialogFragment() {
     // 안드로이드 자체 뒤로가기 눌렀을 때 BackPressed 감지
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return object : BottomSheetDialog(requireContext(), R.style.AppBottomSheetDialogTheme) {
-            override fun onBackPressed() {
-                if ((getTopmostFragmentOrNull() as? OnBackPressedHandler)?.onBackPressed() == true) return
-                val navController = binding.fcvShare.findNavController()
-                if (navController.graph.findStartDestination() == navController.currentDestination) super.onBackPressed()
-                else navController.popBackStack()
+            override fun onCreate(savedInstanceState: Bundle?) {
+                super.onCreate(savedInstanceState)
+                onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
             }
         }
     }

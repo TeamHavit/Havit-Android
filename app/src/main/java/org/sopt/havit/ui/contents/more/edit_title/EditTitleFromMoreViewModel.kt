@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.data.remote.ModifyTitleParams
 import org.sopt.havit.domain.repository.AuthRepository
@@ -14,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditTitleFromMoreViewModel @Inject constructor(
-    authRepository: AuthRepository
+    authRepository: AuthRepository,
+    private val havitApi: HavitApi
 ) : ViewModel() {
     val token = authRepository.getAccessToken()
     var contentsId = MutableLiveData<Int>()
@@ -34,7 +35,7 @@ class EditTitleFromMoreViewModel @Inject constructor(
     fun patchNewTitle() {
         viewModelScope.launch {
             kotlin.runCatching {
-                RetrofitObject.provideHavitApi(token).modifyContentTitle(
+                havitApi.modifyContentTitle(
                     requireNotNull(contentsId.value),
                     ModifyTitleParams(requireNotNull(currTitle.value))
                 )

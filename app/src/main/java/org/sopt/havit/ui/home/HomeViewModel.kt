@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.remote.ContentsSimpleResponse
 import org.sopt.havit.data.remote.NotificationResponse
 import org.sopt.havit.data.remote.RecommendationResponse
@@ -16,14 +16,12 @@ import org.sopt.havit.data.remote.UserResponse
 import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.notification.NotificationActivity
-import org.sopt.havit.util.HavitSharedPreference
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    preference: HavitSharedPreference
+    private val havitApi: HavitApi
 ) : ViewModel() {
-    private val token = preference.getXAuthToken()
 
     // 로딩 상태를 나타내는 변수
     private val _loadState = MutableLiveData(NetworkState.LOADING)
@@ -46,9 +44,7 @@ class HomeViewModel @Inject constructor(
     fun requestContentsTaken() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response =
-                    RetrofitObject.provideHavitApi(token)
-                        .getContentsRecent()
+                val response = havitApi.getContentsRecent()
                 _contentsList.postValue(response.data)
                 _contentsLoadState.postValue(NetworkState.SUCCESS)
                 checkLoadState()
@@ -64,9 +60,7 @@ class HomeViewModel @Inject constructor(
     fun requestCategoryTaken() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response =
-                    RetrofitObject.provideHavitApi(token)
-                        .getAllCategories()
+                val response = havitApi.getAllCategories()
                 checkLoadState()
                 _categoryData.postValue(response.data ?: emptyList())
                 _categoryLoadState.postValue(NetworkState.SUCCESS)
@@ -116,9 +110,7 @@ class HomeViewModel @Inject constructor(
     fun requestRecommendTaken() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response =
-                    RetrofitObject.provideHavitApi(token)
-                        .getRecommendation()
+                val response = havitApi.getRecommendation()
                 checkLoadState()
                 _recommendList.postValue(response.data)
                 _recommendLoadState.postValue(NetworkState.SUCCESS)
@@ -135,8 +127,7 @@ class HomeViewModel @Inject constructor(
     fun requestNotificationTaken() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = RetrofitObject.provideHavitApi(token)
-                    .getNotification(NotificationActivity.before)
+                val response = havitApi.getNotification(NotificationActivity.before)
                 checkLoadState()
                 _notificationList.postValue(response.data)
                 _notificationLoadState.postValue(NetworkState.SUCCESS)
@@ -153,9 +144,7 @@ class HomeViewModel @Inject constructor(
     fun requestUserDataTaken() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response =
-                    RetrofitObject.provideHavitApi(token)
-                        .getUserData()
+                val response = havitApi.getUserData()
                 _userData.postValue(response.data)
                 _userLoadState.postValue(NetworkState.SUCCESS)
                 setReachRate(response.data) // 목표 달성률 계산

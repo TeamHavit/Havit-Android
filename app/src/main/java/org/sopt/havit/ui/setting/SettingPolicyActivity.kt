@@ -9,6 +9,6 @@ class SettingPolicyActivity :
     BaseBindingActivity<ActivitySettingPolicyBinding>(R.layout.activity_setting_policy) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.ivBack.setOnClickListener { super.onBackPressed() }
+        binding.ivBack.setOnClickListener { finish() }
     }
 }

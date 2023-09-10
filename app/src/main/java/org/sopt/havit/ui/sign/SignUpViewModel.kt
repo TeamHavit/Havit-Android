@@ -71,6 +71,7 @@ class SignUpViewModel @Inject constructor(
             }.onSuccess {
                 if (it.success) {
                     authRepository.saveAccessToken(requireNotNull(it.data.accessToken))
+                    authRepository.saveRefreshToken(requireNotNull(it.data.refreshToken))
                     _accessToken.postValue(it.data.accessToken)
                     isServerNetwork.postValue(NetworkState.SUCCESS)
                 }

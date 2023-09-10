@@ -23,6 +23,10 @@ class AuthRepositoryImpl @Inject constructor(
         authLocalDataSource.saveAccessToken(accessToken)
     }
 
+    override fun saveRefreshToken(refreshToken: String) {
+        authLocalDataSource.saveRefreshToken(refreshToken)
+    }
+
     override fun saveKakaoToken(kakaoToken: String) {
         authLocalDataSource.saveKakaoToken(kakaoToken)
     }

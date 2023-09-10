@@ -14,14 +14,14 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 def kakao_native_app_key = properties.get('KAKAO_NATIVE_APP_KEY_NO_QUEOTS')
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "org.sopt.havit"
         minSdk 23
-        targetSdk 31
-        versionCode 108
-        versionName "1.0.8"
+        targetSdk 33
+        versionCode 110
+        versionName "1.0.10"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "HAVIT_BASE_URL_DEV", properties["HAVIT_BASE_URL_DEV"])
         buildConfigField("String", "HAVIT_BASE_URL_PROD", properties["HAVIT_BASE_URL_PROD"])
@@ -80,7 +80,7 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -100,7 +100,6 @@ dependencies {
 
     //kakao
     implementation "com.kakao.sdk:v2-user:2.11.0" // 카카오 로그인
-    implementation 'com.kakao.sdk:usermgmt:1.27.0' // 카카오 로그인 버튼 만들 때 사용
 
     // Retrofit
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'

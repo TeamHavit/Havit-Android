@@ -7,6 +7,7 @@ import android.view.View.GONE
 import android.view.animation.AnimationUtils
 import android.webkit.*
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,9 +29,18 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
     private var startTime: Int = 0
     private var endTime: Int = 0
 
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            setBackPressedAction()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        this.onBackPressedDispatcher.addCallback(this, callback)
+
         binding.vm = webViewModel
         startTime = SystemClock.elapsedRealtime().toInt()
         initIsHavit()
@@ -152,11 +162,9 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         GoogleAnalyticsUtil.logScreenDurationTimeEvent(CONTENT_SCREEN_TIME, endTime - startTime)
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
+    private fun setBackPressedAction() {
         super.finish()
         setWebViewDurationTimeLogging()
         GoogleAnalyticsUtil.logClickEvent(CLICK_GO_BACK)
     }
-
 }

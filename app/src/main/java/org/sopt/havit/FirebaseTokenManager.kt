@@ -5,21 +5,18 @@ import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.sopt.havit.data.RetrofitObject
+import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.remote.FcmTokenParams
-import org.sopt.havit.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class FirebaseTokenManager @Inject constructor(
-    authRepository: AuthRepository,
+    private val havitApi: HavitApi
 ) {
-    private val accessToken = authRepository.getAccessToken()
 
     fun sendRegistrationToServer(fcmToken: String) {
         CoroutineScope(Dispatchers.IO).launch {
             kotlin.runCatching {
-                RetrofitObject.provideHavitApi(accessToken)
-                    .refreshFcmToken(FcmTokenParams(fcmToken))
+                havitApi.refreshFcmToken(FcmTokenParams(fcmToken))
             }.onSuccess {
                 Log.d(ContentValues.TAG, "onNewToken: success")
             }.onFailure {
