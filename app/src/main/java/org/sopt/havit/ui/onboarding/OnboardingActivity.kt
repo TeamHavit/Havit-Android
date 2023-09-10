@@ -34,7 +34,7 @@ class OnboardingActivity :
     }
 
     private fun setIndicator() {
-        binding.indicatorOnboarding.setViewPager2(binding.vpOnboarding)
+        binding.indicatorOnboarding.attachTo(binding.vpOnboarding)
     }
 
     private fun checkLastOnboardingPage() {
@@ -65,10 +65,6 @@ class OnboardingActivity :
         val intent = Intent(this, SplashWithSignActivity::class.java)
         setResult(RESULT_FIRST_USER, intent)
         finish()
-    }
-
-    override fun onBackPressed() {
-        // super.onBackPressed()    // 건너뛰기, 가입하기 버튼을 눌러야만
     }
 
     companion object {

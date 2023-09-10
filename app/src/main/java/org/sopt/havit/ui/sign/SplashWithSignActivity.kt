@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
@@ -60,9 +61,18 @@ class SplashWithSignActivity :
         }
     }
 
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            finish()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        this.onBackPressedDispatcher.addCallback(this, callback)
+
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         binding.main = signInViewModel
         initFcmToken()
@@ -232,10 +242,5 @@ class SplashWithSignActivity :
         if (Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
             super.setRequestedOrientation(requestedOrientation)
         }
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finish()
     }
 }
