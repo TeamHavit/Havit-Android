@@ -1,8 +1,10 @@
 package org.sopt.havit.di
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.local.HavitAuthLocalPreferences
@@ -12,6 +14,8 @@ import org.sopt.havit.data.source.remote.AuthRemoteDataSource
 import org.sopt.havit.data.source.remote.AuthRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.SearchRemoteDataSource
 import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
+import org.sopt.havit.data.source.remote.SystemMaintenanceDataSource
+import org.sopt.havit.data.source.remote.SystemMaintenanceDataSourceImpl
 import org.sopt.havit.data.source.remote.category.CategoryRemoteDataSource
 import org.sopt.havit.data.source.remote.category.CategoryRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSource
@@ -46,4 +50,9 @@ object DataSourceModule {
     @Singleton
     fun provideCategoryRemoteDataSource(api: HavitApi): CategoryRemoteDataSource =
         CategoryRemoteDataSourceImpl(api)
+
+    @Provides
+    @Singleton
+    fun provideSystemMaintenanceDataSource(@ApplicationContext context: Context): SystemMaintenanceDataSource =
+        SystemMaintenanceDataSourceImpl(context = context)
 }
