@@ -137,12 +137,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-config-ktx'
+
     // Jsoup
     implementation 'org.jsoup:jsoup:1.13.1'
 
     // Splash Screen
     implementation 'androidx.core:core-splashscreen:1.0.0-rc01'
-
 
     // gson
     implementation "com.google.code.gson:gson:2.8.8" //to use SerializedName
