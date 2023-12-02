@@ -1,17 +1,23 @@
 package org.sopt.havit.data.repository
 
-import org.sopt.havit.data.source.remote.SystemMaintenanceDataSource
+import org.sopt.havit.data.source.remote.RemoteConfigDataSource
 import org.sopt.havit.domain.repository.SystemMaintenanceRepository
 import javax.inject.Inject
 
 class SystemMaintenanceRepositoryImpl @Inject constructor(
-    private val systemMaintenanceRemoteDataSource: SystemMaintenanceDataSource,
+    private val systemMaintenanceRemoteDataSource: RemoteConfigDataSource,
 ) : SystemMaintenanceRepository {
-    override fun isSystemMaintenance(): Boolean {
-        return systemMaintenanceRemoteDataSource.isSystemMaintenance() ?: false
+    override suspend fun isSystemMaintenance(): Boolean {
+        val isSystemUnderMaintenance = systemMaintenanceRemoteDataSource.fetchRemoteConfig(
+            "isSystemUnderMaintenance", Boolean::class.java
+        ) as? Boolean
+        return isSystemUnderMaintenance ?: false
     }
 
-    override fun getSystemMaintenanceMessage(): String {
-        return systemMaintenanceRemoteDataSource.getSystemMaintenanceMessage() ?: "unknown error"
+    override suspend fun getSystemMaintenanceMessage(): String {
+        val systemMaintenanceMessage = systemMaintenanceRemoteDataSource.fetchRemoteConfig(
+            "systemMaintenanceMessage", String::class.java
+        ) as? String
+        return systemMaintenanceMessage ?: ""
     }
 }

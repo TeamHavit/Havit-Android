@@ -9,8 +9,8 @@ import org.sopt.havit.data.mapper.ContentsMapper
 import org.sopt.havit.data.repository.*
 import org.sopt.havit.data.source.local.AuthLocalDataSourceImpl
 import org.sopt.havit.data.source.remote.AuthRemoteDataSourceImpl
+import org.sopt.havit.data.source.remote.RemoteConfigDataSourceImpl
 import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
-import org.sopt.havit.data.source.remote.SystemMaintenanceDataSourceImpl
 import org.sopt.havit.data.source.remote.category.CategoryRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSourceImpl
 import org.sopt.havit.domain.repository.*
@@ -58,6 +58,6 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideSystemMaintenanceRepository(
-        systemMaintenanceDataSource: SystemMaintenanceDataSourceImpl,
+        systemMaintenanceDataSource: RemoteConfigDataSourceImpl,
     ): SystemMaintenanceRepository = SystemMaintenanceRepositoryImpl(systemMaintenanceDataSource)
 }

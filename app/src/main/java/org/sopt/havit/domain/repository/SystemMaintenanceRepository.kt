@@ -2,7 +2,7 @@ package org.sopt.havit.domain.repository
 
 interface SystemMaintenanceRepository {
 
-    fun isSystemMaintenance(): Boolean
+    suspend fun isSystemMaintenance(): Boolean
 
-    fun getSystemMaintenanceMessage(): String
+    suspend fun getSystemMaintenanceMessage(): String
 }
