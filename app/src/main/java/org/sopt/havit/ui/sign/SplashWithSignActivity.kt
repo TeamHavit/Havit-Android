@@ -69,12 +69,14 @@ class SplashWithSignActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
 
         this.onBackPressedDispatcher.addCallback(this, callback)
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         binding.main = signInViewModel
+
+        signInViewModel.fetchIsSystemMaintenance()
+        observeSystemUnderMaintenance()
         initFcmToken()
         initSuccessKakaoLoginObserver()
         initWhereSplashComesFrom()
@@ -82,6 +84,10 @@ class SplashWithSignActivity :
         setSplashView()
         setListeners()
         isAlreadyUserObserver()
+    }
+
+    private fun observeSystemUnderMaintenance() {
+        signInViewModel.isSystemMaintenance.observe(this, systemMaintenanceObserver)
     }
 
     private fun initFcmToken() {
@@ -201,7 +207,7 @@ class SplashWithSignActivity :
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {

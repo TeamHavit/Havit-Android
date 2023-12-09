@@ -2,10 +2,8 @@ package org.sopt.havit.ui.share
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -17,6 +15,8 @@ import org.sopt.havit.data.remote.CreateContentsRequest
 import org.sopt.havit.domain.entity.CategoryWithSelected
 import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.domain.repository.AuthRepository
+import org.sopt.havit.domain.repository.SystemMaintenanceRepository
+import org.sopt.havit.ui.base.BaseViewModel
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
 import org.sopt.havit.util.HavitAuthUtil
@@ -29,8 +29,9 @@ import javax.inject.Inject
 class ShareViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val categoryMapper: CategoryMapper,
-    private val havitApi: HavitApi
-) : ViewModel() {
+    private val havitApi: HavitApi,
+    systemMaintenanceRepository: SystemMaintenanceRepository,
+) : BaseViewModel(systemMaintenanceRepository) {
     /** token */
     fun getAccessToken() = authRepository.getAccessToken()
 
@@ -38,7 +39,7 @@ class ShareViewModel @Inject constructor(
     fun makeSignIn(
         internetError: () -> Unit,
         onUnAuthorized: () -> Unit,
-        onAuthorized: () -> Unit
+        onAuthorized: () -> Unit,
     ) {
         HavitAuthUtil.isLoginNow({ isInternetNotConnected ->
             if (isInternetNotConnected) internetError()
@@ -202,7 +203,7 @@ class ShareViewModel @Inject constructor(
     }
 
     private suspend fun getOgData() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             kotlin.runCatching {
                 Jsoup.connect(url.value).get()
             }.onSuccess {

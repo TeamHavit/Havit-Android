@@ -27,6 +27,8 @@ class ShareActivity : BaseBindingActivity<ActivityShareBinding>(R.layout.activit
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        shareViewModel.fetchIsSystemMaintenance()
+        observeSystemUnderMaintenance()
         setScreenOrientation()
         initializeActivityResultLauncher()
         handleShareFlow()
@@ -95,6 +97,10 @@ class ShareActivity : BaseBindingActivity<ActivityShareBinding>(R.layout.activit
         if (Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
             super.setRequestedOrientation(requestedOrientation)
         }
+    }
+
+    private fun observeSystemUnderMaintenance() {
+        shareViewModel.isSystemMaintenance.observe(this, systemMaintenanceObserver)
     }
 
     companion object {

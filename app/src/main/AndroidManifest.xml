@@ -28,10 +28,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity">
 
-        <!-- todo 작업 끝나고 exported 속성 변경 -->
         <activity
             android:name=".ui.system_maintenance.SystemMaintenanceActivity"
-            android:exported="true" />
+            android:exported="false" />
 
         <activity
             android:name=".ui.setting.SettingNoticeActivity"
