@@ -11,7 +11,7 @@ import javax.inject.Inject
 class RemoteConfigDataSourceImpl @Inject constructor() : RemoteConfigDataSource {
 
     private val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig.apply {
-        setConfigSettingsAsync(remoteConfigSettings { minimumFetchIntervalInSeconds = 180 })
+        setConfigSettingsAsync(remoteConfigSettings { minimumFetchIntervalInSeconds = 60 })
     }
 
     override suspend fun fetchRemoteConfig(configKey: String, valueType: Type): Any {
