@@ -9,6 +9,7 @@ import org.sopt.havit.data.mapper.ContentsMapper
 import org.sopt.havit.data.repository.*
 import org.sopt.havit.data.source.local.AuthLocalDataSourceImpl
 import org.sopt.havit.data.source.remote.AuthRemoteDataSourceImpl
+import org.sopt.havit.data.source.remote.RemoteConfigDataSourceImpl
 import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.category.CategoryRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSourceImpl
@@ -22,34 +23,41 @@ object RepositoryModule {
     @Singleton
     fun provideSearchRepository(
         searchRemoteDataSourceImpl: SearchRemoteDataSourceImpl,
-        contentsMapper: ContentsMapper
+        contentsMapper: ContentsMapper,
     ): SearchRepository =
         SearchRepositoryImpl(searchRemoteDataSourceImpl, contentsMapper)
 
     @Provides
     @Singleton
     fun provideMyPageRepository(
-        havitApi: HavitApi
+        havitApi: HavitApi,
     ): MyPageRepository = MyPageRepositoryImpl(havitApi)
 
     @Provides
     @Singleton
     fun provideContentsRepository(
         contentsRemoteDataSourceImpl: ContentsRemoteDataSourceImpl,
-        havitApi: HavitApi
+        havitApi: HavitApi,
     ): ContentsRepository =
         ContentsRepositoryImpl(contentsRemoteDataSourceImpl, havitApi)
 
     @Provides
     @Singleton
     fun provideCategoryRepository(
-        categoryRemoteDataSourceImpl: CategoryRemoteDataSourceImpl
+        categoryRemoteDataSourceImpl: CategoryRemoteDataSourceImpl,
     ): CategoryRepository = CategoryRepositoryImpl(categoryRemoteDataSourceImpl)
 
     @Provides
     @Singleton
     fun provideAuthRepository(
         authRemoteDataSourceImpl: AuthRemoteDataSourceImpl,
-        authLocalDataSourceImpl: AuthLocalDataSourceImpl
+        authLocalDataSourceImpl: AuthLocalDataSourceImpl,
     ): AuthRepository = AuthRepositoryImpl(authRemoteDataSourceImpl, authLocalDataSourceImpl)
+
+
+    @Provides
+    @Singleton
+    fun provideSystemMaintenanceRepository(
+        systemMaintenanceDataSource: RemoteConfigDataSourceImpl,
+    ): SystemMaintenanceRepository = SystemMaintenanceRepositoryImpl(systemMaintenanceDataSource)
 }

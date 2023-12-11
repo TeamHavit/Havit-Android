@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.sopt.havit">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <queries>
         <package android:name="com.kakao.talk" />
@@ -24,7 +25,13 @@
         android:roundIcon="@mipmap/ic_launcher_havit_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Havit"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:ignore="LockedOrientationActivity">
+
+        <activity
+            android:name=".ui.system_maintenance.SystemMaintenanceActivity"
+            android:exported="false" />
+
         <activity
             android:name=".ui.setting.SettingNoticeActivity"
             android:configChanges="orientation"
@@ -64,9 +71,9 @@
         <activity
             android:name=".ui.setting.SettingModifyNicknameActivity"
             android:configChanges="orientation"
-            android:windowSoftInputMode="stateVisible"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".ui.setting.SettingActivity"
             android:configChanges="orientation"
