@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.sopt.havit.BuildConfig
 import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.mapper.CategoryMapper
 import org.sopt.havit.data.remote.ContentsSummeryData
@@ -144,7 +144,7 @@ class ShareViewModel @Inject constructor(
         get() = _tempIndex
 
     private var _finalIndex = MutableLiveData<Int?>()
-    val finalIndex: LiveData<Int?>
+    private val finalIndex: LiveData<Int?>
         get() = _finalIndex
 
     fun syncTempDataWithFinalData() {
@@ -196,15 +196,10 @@ class ShareViewModel @Inject constructor(
         }
     }
 
-    private fun setDefaultIfTitleDataNotExist() {
-        if (ogData.value?.ogTitle.isNullOrBlank())
-            _ogData.value?.ogTitle = NO_TITLE_CONTENTS
-    }
-
     private suspend fun getOgData() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                Jsoup.connect(url.value).get()
+                Jsoup.connect(url.value).timeout(5000).get()
             }.onSuccess {
                 val contentsSummeryData = getDataByOgTags(it)
                 _ogData.postValue(contentsSummeryData)
@@ -214,19 +209,25 @@ class ShareViewModel @Inject constructor(
         }.join()
     }
 
-    private fun getDataByOgTags(it: Document): ContentsSummeryData {
-        val doc = it.select("meta[property^=og:]")
-        return ContentsSummeryData(ogUrl = url.value.toString()).apply {
-            doc.forEachIndexed { index, _ ->
-                val tag = doc[index]
-                when (doc[index].attr("property")) {
-                    "og:image" -> ogImage = tag.attr("content")
-                    "og:description" -> ogDescription = tag.attr("content")
-                    "og:title" -> ogTitle = tag.attr("content")
-                }
+    private fun setDefaultIfTitleDataNotExist() {
+        val ogData = ogData.value
+        if (ogData?.ogTitle.isNullOrBlank())
+            ogData?.ogTitle = NO_TITLE_CONTENTS
+    }
+
+    private fun getDataByOgTags(document: Document): ContentsSummeryData {
+        val ogTags = document.select("meta[property^=og:]")
+        val summaryData = ContentsSummeryData(ogUrl = url.value.toString())
+        ogTags.forEach { tag ->
+            val content = tag.attr("content")
+            when (tag.attr("property")) {
+                "og:image" -> summaryData.ogImage = content
+                "og:description" -> summaryData.ogDescription = content
+                "og:title" -> summaryData.ogTitle = content
             }
-            if (this.ogTitle == "") this.ogTitle = it.title()
         }
+        if (summaryData.ogTitle.isEmpty()) summaryData.ogTitle = document.title()
+        return summaryData
     }
 
     private val _saveContentsViewState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())
