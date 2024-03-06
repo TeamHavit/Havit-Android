@@ -114,7 +114,7 @@ class ShareViewModel @Inject constructor(
         _url.value = extractUrl(url)
     }
 
-    private fun extractUrl(content: String?): String {
+    private fun extractUrl(content: String): String {
         val urlPattern = Pattern.compile(
             "(?:^|\\W)((ht|f)tp(s?)://|www\\.)"
                     + "(([\\w\\-]+\\.)+?([\\w\\-.~]+/?)*"
@@ -125,9 +125,8 @@ class ShareViewModel @Inject constructor(
         while (matcher.find()) {
             val matchStart = matcher.start(1)
             val matchEnd = matcher.end()
-            return content?.substring(matchStart, matchEnd) ?: ""
+            return content.substring(matchStart, matchEnd)
         }
-        if (BuildConfig.IS_DEV) return "https://www.havit.app/"
         throw IllegalStateException()
     }
 
