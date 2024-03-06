@@ -16,6 +16,8 @@ import org.sopt.havit.databinding.ActivityShareBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_FROM_SHARE
 import org.sopt.havit.ui.sign.SplashWithSignActivity
+import org.sopt.havit.util.INVALID_URL_TYPE
+import org.sopt.havit.util.ToastUtil
 import java.io.Serializable
 
 @AndroidEntryPoint
@@ -89,8 +91,26 @@ class ShareActivity : BaseBindingActivity<ActivityShareBinding>(R.layout.activit
     }
 
     private fun extractAndSetUrl() {
-        val url = intent?.getStringExtra(Intent.EXTRA_TEXT) ?: intent?.getStringExtra("url")
-        shareViewModel.setUrl(url.toString())
+        val url = getUrlFromExtra()
+        try {
+            checkUrlNotNull(url)
+            shareViewModel.setUrl(url.toString())
+        } catch (e: IllegalStateException) {
+            onUrlInvalid()
+        }
+    }
+
+    private fun getUrlFromExtra(): String? {
+        return intent?.getStringExtra(Intent.EXTRA_TEXT) ?: intent?.getStringExtra("url")
+    }
+
+    private fun checkUrlNotNull(url: String?) {
+        requireNotNull(url) { throw IllegalStateException() }
+    }
+
+    private fun onUrlInvalid() {
+        ToastUtil(this).makeToast(INVALID_URL_TYPE)
+        finish()
     }
 
     override fun setRequestedOrientation(requestedOrientation: Int) {
