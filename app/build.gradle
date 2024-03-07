@@ -20,8 +20,8 @@ android {
         applicationId "org.sopt.havit"
         minSdk 23
         targetSdk 33
-        versionCode 110
-        versionName "1.0.10"
+        versionCode 111
+        versionName "1.0.11"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "HAVIT_BASE_URL_DEV", properties["HAVIT_BASE_URL_DEV"])
         buildConfigField("String", "HAVIT_BASE_URL_PROD", properties["HAVIT_BASE_URL_PROD"])
