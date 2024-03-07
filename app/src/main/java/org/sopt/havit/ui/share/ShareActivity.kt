@@ -32,7 +32,6 @@ class ShareActivity : BaseBindingActivity<ActivityShareBinding>(R.layout.activit
         shareViewModel.fetchIsSystemMaintenance()
         observeSystemUnderMaintenance()
         setScreenOrientation()
-        initializeActivityResultLauncher()
         handleShareFlow()
     }
 
@@ -70,6 +69,7 @@ class ShareActivity : BaseBindingActivity<ActivityShareBinding>(R.layout.activit
     }
 
     private fun moveToSplashWithSign() {
+        initializeActivityResultLauncher()
         val intent = Intent(this, SplashWithSignActivity::class.java).apply {
             putExtra(WHERE_SPLASH_COME_FROM, SPLASH_FROM_SHARE)
         }
