@@ -2,14 +2,12 @@ package org.sopt.havit.ui.share
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.sopt.havit.BuildConfig
 import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.mapper.CategoryMapper
 import org.sopt.havit.data.remote.ContentsSummeryData
@@ -17,6 +15,8 @@ import org.sopt.havit.data.remote.CreateContentsRequest
 import org.sopt.havit.domain.entity.CategoryWithSelected
 import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.domain.repository.AuthRepository
+import org.sopt.havit.domain.repository.SystemMaintenanceRepository
+import org.sopt.havit.ui.base.BaseViewModel
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
 import org.sopt.havit.util.HavitAuthUtil
@@ -29,8 +29,9 @@ import javax.inject.Inject
 class ShareViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val categoryMapper: CategoryMapper,
-    private val havitApi: HavitApi
-) : ViewModel() {
+    private val havitApi: HavitApi,
+    systemMaintenanceRepository: SystemMaintenanceRepository,
+) : BaseViewModel(systemMaintenanceRepository) {
     /** token */
     fun getAccessToken() = authRepository.getAccessToken()
 
@@ -38,7 +39,7 @@ class ShareViewModel @Inject constructor(
     fun makeSignIn(
         internetError: () -> Unit,
         onUnAuthorized: () -> Unit,
-        onAuthorized: () -> Unit
+        onAuthorized: () -> Unit,
     ) {
         HavitAuthUtil.isLoginNow({ isInternetNotConnected ->
             if (isInternetNotConnected) internetError()
@@ -113,7 +114,7 @@ class ShareViewModel @Inject constructor(
         _url.value = extractUrl(url)
     }
 
-    private fun extractUrl(content: String?): String {
+    private fun extractUrl(content: String): String {
         val urlPattern = Pattern.compile(
             "(?:^|\\W)((ht|f)tp(s?)://|www\\.)"
                     + "(([\\w\\-]+\\.)+?([\\w\\-.~]+/?)*"
@@ -124,9 +125,8 @@ class ShareViewModel @Inject constructor(
         while (matcher.find()) {
             val matchStart = matcher.start(1)
             val matchEnd = matcher.end()
-            return content?.substring(matchStart, matchEnd) ?: ""
+            return content.substring(matchStart, matchEnd)
         }
-        if (BuildConfig.IS_DEV) return "https://www.havit.app/"
         throw IllegalStateException()
     }
 
@@ -144,7 +144,7 @@ class ShareViewModel @Inject constructor(
         get() = _tempIndex
 
     private var _finalIndex = MutableLiveData<Int?>()
-    val finalIndex: LiveData<Int?>
+    private val finalIndex: LiveData<Int?>
         get() = _finalIndex
 
     fun syncTempDataWithFinalData() {
@@ -196,15 +196,10 @@ class ShareViewModel @Inject constructor(
         }
     }
 
-    private fun setDefaultIfTitleDataNotExist() {
-        if (ogData.value?.ogTitle.isNullOrBlank())
-            _ogData.value?.ogTitle = NO_TITLE_CONTENTS
-    }
-
     private suspend fun getOgData() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                Jsoup.connect(url.value).get()
+                Jsoup.connect(url.value).timeout(5000).get()
             }.onSuccess {
                 val contentsSummeryData = getDataByOgTags(it)
                 _ogData.postValue(contentsSummeryData)
@@ -214,19 +209,25 @@ class ShareViewModel @Inject constructor(
         }.join()
     }
 
-    private fun getDataByOgTags(it: Document): ContentsSummeryData {
-        val doc = it.select("meta[property^=og:]")
-        return ContentsSummeryData(ogUrl = url.value.toString()).apply {
-            doc.forEachIndexed { index, _ ->
-                val tag = doc[index]
-                when (doc[index].attr("property")) {
-                    "og:image" -> ogImage = tag.attr("content")
-                    "og:description" -> ogDescription = tag.attr("content")
-                    "og:title" -> ogTitle = tag.attr("content")
-                }
+    private fun setDefaultIfTitleDataNotExist() {
+        val ogData = ogData.value
+        if (ogData?.ogTitle.isNullOrBlank())
+            ogData?.ogTitle = NO_TITLE_CONTENTS
+    }
+
+    private fun getDataByOgTags(document: Document): ContentsSummeryData {
+        val ogTags = document.select("meta[property^=og:]")
+        val summaryData = ContentsSummeryData(ogUrl = url.value.toString())
+        ogTags.forEach { tag ->
+            val content = tag.attr("content")
+            when (tag.attr("property")) {
+                "og:image" -> summaryData.ogImage = content
+                "og:description" -> summaryData.ogDescription = content
+                "og:title" -> summaryData.ogTitle = content
             }
-            if (this.ogTitle == "") this.ogTitle = it.title()
         }
+        if (summaryData.ogTitle.isEmpty()) summaryData.ogTitle = document.title()
+        return summaryData
     }
 
     private val _saveContentsViewState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())

@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.share
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -15,81 +16,101 @@ import org.sopt.havit.databinding.ActivityShareBinding
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_FROM_SHARE
 import org.sopt.havit.ui.sign.SplashWithSignActivity
+import org.sopt.havit.util.INVALID_URL_TYPE
+import org.sopt.havit.util.ToastUtil
 import java.io.Serializable
 
 @AndroidEntryPoint
 class ShareActivity : BaseBindingActivity<ActivityShareBinding>(R.layout.activity_share) {
 
-    private val viewModel: ShareViewModel by viewModels()
-    private lateinit var splashWithSignActivityLauncher: ActivityResultLauncher<Intent>
+    private val shareViewModel: ShareViewModel by viewModels()
+    private lateinit var splashWithSignLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityShareBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        initActivityLauncher()
-        makeSignIn()
-        setUrlOnViewModel()
-        viewModel.setCrawlingContents()
+
+        shareViewModel.fetchIsSystemMaintenance()
+        observeSystemUnderMaintenance()
+        setScreenOrientation()
+        initializeActivityResultLauncher()
+        handleShareFlow()
     }
 
-    private fun initActivityLauncher() {
-        splashWithSignActivityLauncher =
+    @SuppressLint("SourceLockedOrientationActivity")
+    private fun setScreenOrientation() {
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
+
+    private fun initializeActivityResultLauncher() {
+        splashWithSignLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                onSlashWithSignActivityFinish(it)
+                handleSplashActivityResult(it)
             }
     }
 
-    private fun onSlashWithSignActivityFinish(result: ActivityResult) {
+    private fun handleSplashActivityResult(result: ActivityResult) {
         when (result.resultCode) {
-            Activity.RESULT_OK -> showBottomSheetShareFragment()
+            Activity.RESULT_OK -> showShareBottomSheet()
             else -> finish()
         }
     }
 
-    private fun isEnterWithShareProcess(intent: Intent?): Boolean {
-        // 공유하기 버튼으로 진입하면 return true
-        // MainActivity 의 + 버튼으로 진입하면 return false
-        return (intent?.action == Intent.ACTION_SEND) && (intent.type == "text/plain")
+    private fun handleShareFlow() {
+        initiateSignIn()
+        extractAndSetUrl()
+        shareViewModel.setCrawlingContents()
     }
 
-    private fun makeSignIn() {
-        viewModel.makeSignIn(
-            internetError = { showBottomSheetNetworkErrorFragment() },
-            onUnAuthorized = { moveToSplashWithSignActivity() },
-            onAuthorized = { showBottomSheetShareFragment() }
+    private fun initiateSignIn() {
+        shareViewModel.makeSignIn(
+            internetError = { showNetworkErrorBottomSheet() },
+            onUnAuthorized = { moveToSplashWithSign() },
+            onAuthorized = { showShareBottomSheet() }
         )
     }
 
-    private fun moveToSplashWithSignActivity() {
+    private fun moveToSplashWithSign() {
         val intent = Intent(this, SplashWithSignActivity::class.java).apply {
             putExtra(WHERE_SPLASH_COME_FROM, SPLASH_FROM_SHARE)
         }
-        splashWithSignActivityLauncher.launch(intent)
+        splashWithSignLauncher.launch(intent)
     }
 
-    private fun showBottomSheetNetworkErrorFragment() {
+    private fun showNetworkErrorBottomSheet() {
         val bottomSheet = BottomSheetNetworkErrorFragment().apply {
             arguments = Bundle().apply {
-                putSerializable(ON_NETWORK_ERROR_DISMISS, { makeSignIn() } as Serializable)
+                putSerializable(ON_NETWORK_ERROR_DISMISS, { initiateSignIn() } as Serializable)
             }
         }
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
-    private fun showBottomSheetShareFragment() {
+    private fun showShareBottomSheet() {
         val bottomSheet = BottomSheetShareFragment()
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
-    private fun setUrlOnViewModel() {
-        val intent = this.intent
-        val url =
-            if (isEnterWithShareProcess(intent)) // 공유하기 버튼으로 진입시
-                intent?.getStringExtra(Intent.EXTRA_TEXT).toString()
-            else intent?.getStringExtra("url").toString() // MainActivity + 로 진입시
-        viewModel.setUrl(url)
+    private fun extractAndSetUrl() {
+        val url = getUrlFromExtra()
+        try {
+            checkUrlNotNull(url)
+            shareViewModel.setUrl(url.toString())
+        } catch (e: IllegalStateException) {
+            onUrlInvalid()
+        }
+    }
+
+    private fun getUrlFromExtra(): String? {
+        return intent?.getStringExtra(Intent.EXTRA_TEXT) ?: intent?.getStringExtra("url")
+    }
+
+    private fun checkUrlNotNull(url: String?) {
+        requireNotNull(url) { throw IllegalStateException() }
+    }
+
+    private fun onUrlInvalid() {
+        ToastUtil(this).makeToast(INVALID_URL_TYPE)
+        finish()
     }
 
     override fun setRequestedOrientation(requestedOrientation: Int) {
@@ -97,7 +118,11 @@ class ShareActivity : BaseBindingActivity<ActivityShareBinding>(R.layout.activit
             super.setRequestedOrientation(requestedOrientation)
         }
     }
-    
+
+    private fun observeSystemUnderMaintenance() {
+        shareViewModel.isSystemMaintenance.observe(this, systemMaintenanceObserver)
+    }
+
     companion object {
         const val WHERE_SPLASH_COME_FROM = "WHERE_SPLASH_COME_FROM"
         const val ON_NETWORK_ERROR_DISMISS = "ON_NETWORK_ERROR_DISMISS"

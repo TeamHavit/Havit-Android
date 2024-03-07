@@ -284,5 +284,7 @@
     <string name="notice_nickname_spacing">닉네임에 띄어쓰기는 사용할 수 없습니다.</string>
     <string name="whitespace_disable_on_title">제목에 띄어쓰기만 사용할 수 없습니다.</string>
     <string name="disable_whitespace_on_nickname">닉네임에 띄어쓰기는 사용할 수 없습니다.</string>
+    <string name="system_under_maintenance">시스템 점검 안내</string>
+    <string name="invalid_url">유효하지 않은 URL입니다.</string>
 
 </resources>

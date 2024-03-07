@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.sopt.havit.ui.system_maintenance.SystemMaintenanceViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.system_maintenance.SystemMaintenanceActivity">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_notice"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_notice"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.38" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_notice_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="43dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/system_under_maintenance"
+            android:textAppearance="@style/Text15Semibold"
+            android:textColor="@color/havit_purple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_notice"
+            tools:text="시스템 점검 안내" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_notice_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="43dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@{viewModel.systemMaintenanceMessage}"
+            android:textAppearance="@style/Sub12Medium"
+            android:textColor="@color/gray_4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_notice_title"
+            tools:text="현재 시스템 점검중입니다.\n불편을 끼쳐드려 죄송합니다." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

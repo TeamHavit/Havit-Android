@@ -20,8 +20,8 @@ android {
         applicationId "org.sopt.havit"
         minSdk 23
         targetSdk 33
-        versionCode 110
-        versionName "1.0.10"
+        versionCode 111
+        versionName "1.0.11"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "HAVIT_BASE_URL_DEV", properties["HAVIT_BASE_URL_DEV"])
         buildConfigField("String", "HAVIT_BASE_URL_PROD", properties["HAVIT_BASE_URL_PROD"])
@@ -137,12 +137,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-config-ktx'
+
     // Jsoup
     implementation 'org.jsoup:jsoup:1.13.1'
 
     // Splash Screen
     implementation 'androidx.core:core-splashscreen:1.0.0-rc01'
-
 
     // gson
     implementation "com.google.code.gson:gson:2.8.8" //to use SerializedName

@@ -2,18 +2,21 @@ package org.sopt.havit.ui.web
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.domain.repository.ContentsRepository
+import org.sopt.havit.domain.repository.SystemMaintenanceRepository
+import org.sopt.havit.ui.base.BaseViewModel
 import org.sopt.havit.util.Event
 import javax.inject.Inject
 
 @HiltViewModel
-class WebViewModel @Inject constructor(private val contentsRepository: ContentsRepository) :
-    ViewModel() {
+class WebViewModel @Inject constructor(
+    private val contentsRepository: ContentsRepository,
+    systemMaintenanceRepository: SystemMaintenanceRepository,
+) : BaseViewModel(systemMaintenanceRepository) {
 
     private var _isHavit = MutableLiveData<Event<Boolean>>()
     val isHavit: LiveData<Event<Boolean>> = _isHavit
