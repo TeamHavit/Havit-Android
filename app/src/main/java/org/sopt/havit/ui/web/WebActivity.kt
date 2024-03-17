@@ -3,7 +3,6 @@ package org.sopt.havit.ui.web
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
-import android.view.View
 import android.view.View.GONE
 import android.view.animation.AnimationUtils
 import android.webkit.URLUtil
@@ -14,14 +13,13 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityWebBinding
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.GoogleAnalyticsUtil
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_GO_BACK
@@ -57,8 +55,8 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         initHavitSeen()
         setWebViewBottomBar()
         setUrlCheck()
-        setListeners()
         initIsHavitObserver()
+        setListeners()
     }
 
     private fun initIsHavit() {
@@ -164,6 +162,14 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
             )
             checkUrlNetwork(requireNotNull(intent.getStringExtra("url")))
         }
+        binding.btnSave.setOnClickListener {
+            SaveFragment("categoryName").apply {
+                arguments = Bundle().apply {
+                    putString("url", webViewModel.contentsUrl.toString())
+                }
+            }.show(supportFragmentManager, TAG)
+
+        }
 
     }
 
@@ -187,5 +193,9 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
     private fun observeSystemUnderMaintenance() {
         webViewModel.isSystemMaintenance.observe(this, systemMaintenanceObserver)
+    }
+
+    companion object {
+        const val TAG = "WebActivity"
     }
 }
