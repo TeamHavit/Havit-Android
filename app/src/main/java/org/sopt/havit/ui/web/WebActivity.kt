@@ -3,6 +3,7 @@ package org.sopt.havit.ui.web
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
+import android.view.View
 import android.view.View.GONE
 import android.view.animation.AnimationUtils
 import android.webkit.URLUtil
@@ -13,6 +14,8 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
@@ -25,6 +28,7 @@ import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_GO_BACK
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_REFRESH
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SHARE
 import org.sopt.havit.util.GoogleAnalyticsUtil.CONTENT_SCREEN_TIME
+
 
 @AndroidEntryPoint
 class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_web) {
@@ -51,6 +55,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         observeSystemUnderMaintenance()
         initIsHavit()
         initHavitSeen()
+        setWebViewBottomBar()
         setUrlCheck()
         setListeners()
         initIsHavitObserver()
@@ -71,6 +76,12 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
             Glide.with(this).load(R.drawable.ic_contents_read_2).into(binding.ivWebviewUnread)
             binding.tvWebviewUnread.text = "콘텐츠 확인하기"
         }
+    }
+
+    private fun setWebViewBottomBar() {
+        val caller = intent.getStringExtra("caller")
+        webViewModel.setWebBottomBarAndSaveBtn(caller != "CommunityDetailActivity")
+
     }
 
     private fun setUrlCheck() {

@@ -93,7 +93,8 @@
             android:text="저장하기"
             android:textAppearance="@style/Button15Medium"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/ll_web_bottom"
+            android:visibility="@{vm.isSavedContents().peekContent()? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -104,6 +105,7 @@
             android:background="@color/white_gray"
             android:orientation="horizontal"
             android:weightSum="2"
+            android:visibility="@{vm.isSavedContents().peekContent()? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -134,7 +136,7 @@
 
                 <ImageView
                     android:id="@+id/iv_webview_unread"
-                    imgRes="@{vm.isHavit.peekContent() == true ? @drawable/ic_contents_read_2 : @drawable/ic_contents_unread}"
+                    imgRes="@{vm.isHavit().peekContent() == true ? @drawable/ic_contents_read_2 : @drawable/ic_contents_unread}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center" />
@@ -144,9 +146,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@{vm.isHavit.peekContent() == true ? @string/webview_read: @string/webview_unread}"
+                    android:text="@{vm.isHavit().peekContent() == true ? @string/webview_read: @string/webview_unread}"
                     android:textAppearance="@style/Sub13Regular"
-                    android:textColor="@{vm.isHavit.peekContent() == true ? @color/havit_gray : @color/gray_2}" />
+                    android:textColor="@{vm.isHavit().peekContent() == true ? @color/havit_gray : @color/gray_2}" />
 
 
             </LinearLayout>
