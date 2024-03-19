@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -276,6 +277,21 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
         clickRecommendItemView() // 추천콘텐츠 클릭->웹뷰로 이동
         clickRecentContentsItemView() // 최근저장 콘텐츠 클릭->웹뷰로 이동
+
+        binding.tvTabCommunity.setOnSingleClickListener {
+            setHomeOrCommunity(isHome = false)
+        }
+
+        binding.tvTabHome.setOnSingleClickListener {
+            setHomeOrCommunity(isHome = true)
+        }
+    }
+
+    private fun setHomeOrCommunity(isHome: Boolean) {
+        binding.clCommunity.visibility = if (isHome) View.GONE else View.VISIBLE
+        binding.svMain.visibility = if (isHome) View.VISIBLE else View.GONE
+        binding.tvTabHome.isEnabled = !isHome
+        binding.tvTabCommunity.isEnabled = isHome
     }
 
     private fun recommendationDataObserve() {
