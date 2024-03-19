@@ -111,6 +111,69 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{vmHome.loadState==state.LOADING ? View.GONE : View.VISIBLE}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cl_topbar">
+
+                <View
+                    android:id="@+id/view_tab"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="9dp"
+                    android:background="@color/gray_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_tab_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="8dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/selector_home_tab_underline"
+                    android:textAppearance="@style/Text14Semibold"
+                    android:textColor="@drawable/selector_home_tab_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_tab_community"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="21dp"
+                    android:paddingHorizontal="2dp"
+                    android:paddingVertical="8dp"
+                    android:text="@string/community"
+                    android:enabled="false"
+                    android:background="@drawable/selector_home_tab_underline"
+                    android:textAppearance="@style/Text14Semibold"
+                    android:textColor="@drawable/selector_home_tab_text"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_tab_home"
+                    app:layout_constraintStart_toEndOf="@+id/tv_tab_home"
+                    app:layout_constraintTop_toTopOf="@+id/tv_tab_home" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/new_icon"
+                    android:layout_marginBottom="15dp"
+                    android:textAppearance="@style/Mini10Semibold"
+                    android:textColor="@color/purple_text"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_tab_community"
+                    app:layout_constraintStart_toEndOf="@+id/tv_tab_community"
+                    app:layout_constraintTop_toTopOf="@+id/tv_tab_community" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <org.sopt.havit.util.StickyScrollView
                 android:id="@+id/sv_main"
                 android:layout_width="match_parent"
@@ -118,7 +181,7 @@
                 android:orientation="vertical"
                 android:visibility="@{vmHome.loadState==state.LOADING ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_topbar">
+                app:layout_constraintTop_toBottomOf="@id/cl_tab">
 
                 <!-- 스크롤되는 뷰 -->
                 <androidx.constraintlayout.widget.ConstraintLayout

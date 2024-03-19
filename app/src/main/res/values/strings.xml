@@ -247,6 +247,9 @@
     <string name="onboarding_contents_check">콘텐츠 확인하기</string>
     <string name="onboarding_contents_check_description">확인할 콘텐츠를 체크해보세요.\n콘텐츠를 체크함에 따라 목표 달성률이 올라갑니다.</string>
     <string name="onboarding_contents_checking">콘텐츠 확인</string>
+    <string name="home">홈</string>
+    <string name="community">커뮤니티</string>
+    <string name="new_icon">N</string>
     <!-- splash -->
     <string name="splash_title">모든 콘텐츠를\n내 손 안에</string>
     <string name="splash_another_account"><u>다른 카카오 계정으로 로그인</u></string>
