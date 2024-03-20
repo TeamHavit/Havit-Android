@@ -172,9 +172,9 @@
                     app:layout_constraintBottom_toBottomOf="@+id/tv_tab_community"
                     app:layout_constraintStart_toEndOf="@+id/tv_tab_community"
                     app:layout_constraintTop_toTopOf="@+id/tv_tab_community" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- 커뮤니티 -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_community"
                 android:layout_width="match_parent"
@@ -185,15 +185,163 @@
                 app:layout_constraintTop_toBottomOf="@id/cl_tab">
 
                 <TextView
+                    android:id="@+id/tv_community_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="커뮤니티"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="19dp"
+                    android:text="함께 콘텐츠를 나눠보세요!"
+                    android:textAppearance="@style/Text16Semibold"
+                    android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_create_community_contents"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="12dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_edit_black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <HorizontalScrollView
+                    android:id="@+id/hsv_community_chip"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="17dp"
+                    android:scrollbars="none"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_community_title">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cg_community_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:checkedChip="@id/ch_all"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:selectionRequired="true"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_all"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="17dp"
+                            android:text="@string/category_entire"
+                            android:textAppearance="@style/Text12Semibold"
+                            android:textColor="@color/selector_chip_text"
+                            app:chipBackgroundColor="@color/selector_chip"
+                            app:chipMinTouchTargetSize="0dp"
+                            app:textEndPadding="10dp"
+                            app:textStartPadding="10dp" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_travel"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="여행/맛집"
+                            android:textAppearance="@style/Text12Semibold"
+                            android:textColor="@color/selector_chip_text"
+                            app:chipBackgroundColor="@color/selector_chip"
+                            app:chipMinTouchTargetSize="0dp"
+                            app:textEndPadding="10dp"
+                            app:textStartPadding="10dp" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_job"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="직장/자기계발"
+                            android:textAppearance="@style/Text12Semibold"
+                            android:textColor="@color/selector_chip_text"
+                            app:chipBackgroundColor="@color/selector_chip"
+                            app:chipMinTouchTargetSize="0dp"
+                            app:textEndPadding="10dp"
+                            app:textStartPadding="10dp" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_life"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="라이프"
+                            android:textAppearance="@style/Text12Semibold"
+                            android:textColor="@color/selector_chip_text"
+                            app:chipBackgroundColor="@color/selector_chip"
+                            app:chipMinTouchTargetSize="0dp"
+                            app:textEndPadding="10dp"
+                            app:textStartPadding="10dp" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_knowledge"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="시사/지식"
+                            android:textAppearance="@style/Text12Semibold"
+                            android:textColor="@color/selector_chip_text"
+                            app:chipBackgroundColor="@color/selector_chip"
+                            app:chipMinTouchTargetSize="0dp"
+                            app:textEndPadding="10dp"
+                            app:textStartPadding="10dp" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_hobby"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="취미/건강"
+                            android:textAppearance="@style/Text12Semibold"
+                            android:textColor="@color/selector_chip_text"
+                            app:chipBackgroundColor="@color/selector_chip"
+                            app:chipMinTouchTargetSize="0dp"
+                            app:textEndPadding="10dp"
+                            app:textStartPadding="10dp" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_entertainment"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="17dp"
+                            android:text="엔터테인먼트"
+                            android:textAppearance="@style/Text12Semibold"
+                            android:textColor="@color/selector_chip_text"
+                            app:chipBackgroundColor="@color/selector_chip"
+                            app:chipMinTouchTargetSize="0dp"
+                            app:textEndPadding="10dp"
+                            app:textStartPadding="10dp" />
+
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+
+                <View
+                    android:id="@+id/view_community_chip"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/gray_0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/hsv_community_chip" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_community_chip"
+                    tools:listitem="@layout/item_community" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- 디폴트 홈-->
             <org.sopt.havit.util.StickyScrollView
                 android:id="@+id/sv_main"
                 android:layout_width="match_parent"
@@ -709,6 +857,50 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </org.sopt.havit.util.StickyScrollView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_community_tooltip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="-19dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/cl_community"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_community_tooltip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_community_tooltip" />
+
+                <TextView
+                    android:id="@+id/tv_community_tooltip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginTop="9dp"
+                    android:fontFamily="@font/pretendard"
+                    android:text="소개하고 싶은 콘텐츠를 공유해보세요!"
+                    android:textColor="@color/gray_0"
+                    android:textSize="11dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_close_community_tooltip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="9dp"
+                    android:padding="3dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_community_tooltip"
+                    app:layout_constraintEnd_toEndOf="@+id/iv_community_tooltip"
+                    app:layout_constraintTop_toTopOf="@+id/tv_community_tooltip"
+                    app:srcCompat="@drawable/ic_close_white" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

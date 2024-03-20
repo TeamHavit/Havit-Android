@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -289,6 +288,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
 
     private fun setHomeOrCommunity(isHome: Boolean) {
         binding.clCommunity.visibility = if (isHome) View.GONE else View.VISIBLE
+        binding.clCommunityTooltip.visibility = if (isHome) View.GONE else View.VISIBLE
         binding.svMain.visibility = if (isHome) View.VISIBLE else View.GONE
         binding.tvTabHome.isEnabled = !isHome
         binding.tvTabCommunity.isEnabled = isHome
