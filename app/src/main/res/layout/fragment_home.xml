@@ -116,8 +116,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="@{vmHome.loadState==state.LOADING ? View.GONE : View.VISIBLE}"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_topbar">
 
                 <View
@@ -126,21 +126,21 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="9dp"
                     android:background="@color/gray_1"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_tab_home"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/selector_home_tab_underline"
                     android:enabled="false"
                     android:paddingHorizontal="5dp"
                     android:paddingVertical="8dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginStart="16dp"
                     android:text="@string/home"
-                    android:background="@drawable/selector_home_tab_underline"
                     android:textAppearance="@style/Text14Semibold"
                     android:textColor="@drawable/selector_home_tab_text"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -152,10 +152,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="21dp"
+                    android:background="@drawable/selector_home_tab_underline"
                     android:paddingHorizontal="2dp"
                     android:paddingVertical="8dp"
                     android:text="@string/community"
-                    android:background="@drawable/selector_home_tab_underline"
                     android:textAppearance="@style/Text14Semibold"
                     android:textColor="@drawable/selector_home_tab_text"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_tab_home"
@@ -165,8 +165,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/new_icon"
                     android:layout_marginBottom="15dp"
+                    android:text="@string/new_icon"
                     android:textAppearance="@style/Mini10Semibold"
                     android:textColor="@color/purple_text"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_tab_community"
@@ -864,28 +864,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="13dp"
                 android:layout_marginBottom="-19dp"
+                android:background="@drawable/bg_community_tooltip"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cl_community"
                 app:layout_constraintEnd_toEndOf="parent">
-
-                <ImageView
-                    android:id="@+id/iv_community_tooltip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_community_tooltip" />
 
                 <TextView
                     android:id="@+id/tv_community_tooltip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="9dp"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="12dp"
                     android:fontFamily="@font/pretendard"
+                    android:padding="5dp"
                     android:text="소개하고 싶은 콘텐츠를 공유해보세요!"
                     android:textColor="@color/gray_0"
                     android:textSize="11dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -894,9 +890,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="9dp"
-                    android:padding="3dp"
+                    android:padding="2dp"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_community_tooltip"
-                    app:layout_constraintEnd_toEndOf="@+id/iv_community_tooltip"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_community_tooltip"
                     app:layout_constraintTop_toTopOf="@+id/tv_community_tooltip"
                     app:srcCompat="@drawable/ic_close_white" />
             </androidx.constraintlayout.widget.ConstraintLayout>
