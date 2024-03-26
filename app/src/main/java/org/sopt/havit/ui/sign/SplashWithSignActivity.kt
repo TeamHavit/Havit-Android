@@ -75,7 +75,6 @@ class SplashWithSignActivity :
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         binding.main = signInViewModel
 
-        signInViewModel.fetchIsSystemMaintenance()
         observeSystemUnderMaintenance()
         initFcmToken()
         initSuccessKakaoLoginObserver()

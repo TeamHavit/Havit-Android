@@ -31,7 +31,6 @@ class ShareActivity : BaseActivity<ActivityShareBinding>(R.layout.activity_share
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        shareViewModel.fetchIsSystemMaintenance()
         observeSystemUnderMaintenance()
         setScreenOrientation()
         handleShareFlow()

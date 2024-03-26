@@ -47,7 +47,6 @@ class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
         binding.vm = webViewModel
         startTime = SystemClock.elapsedRealtime().toInt()
 
-        webViewModel.fetchIsSystemMaintenance()
         observeSystemUnderMaintenance()
         initIsHavit()
         initHavitSeen()
