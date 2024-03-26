@@ -65,7 +65,10 @@ class ShareActivity : BaseActivity<ActivityShareBinding>(R.layout.activity_share
         shareViewModel.makeSignIn(
             internetError = { showNetworkErrorBottomSheet() },
             onUnAuthorized = { moveToSplashWithSign() },
-            onAuthorized = { showShareBottomSheet() }
+            onAuthorized = {
+                showShareBottomSheet()
+                isForcedUpdateNeeded()
+            }
         )
     }
 
@@ -122,6 +125,19 @@ class ShareActivity : BaseActivity<ActivityShareBinding>(R.layout.activity_share
 
     private fun observeSystemUnderMaintenance() {
         shareViewModel.isSystemMaintenance.observe(this, systemMaintenanceObserver)
+    }
+
+    private fun isForcedUpdateNeeded() {
+        lifecycleScope.launch {
+            shareViewModel.isForcedUpdatedNeeded
+                .collect(::showForcedUpdateDialogIfNeeded)
+        }
+    }
+
+    private fun showForcedUpdateDialogIfNeeded(isForcedUpdateNeeded: Boolean) {
+        if (isForcedUpdateNeeded) {
+            showForcedUpdateNeededDialog()
+        }
     }
 
     companion object {
