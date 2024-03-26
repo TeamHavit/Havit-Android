@@ -13,8 +13,10 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityWebBinding
 import org.sopt.havit.domain.entity.NetworkState
@@ -53,6 +55,11 @@ class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
         setUrlCheck()
         setListeners()
         initIsHavitObserver()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        isForcedUpdateNeeded()
     }
 
     private fun initIsHavit() {
@@ -175,5 +182,12 @@ class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
 
     private fun observeSystemUnderMaintenance() {
         webViewModel.isSystemMaintenance.observe(this, systemMaintenanceObserver)
+    }
+
+    private fun isForcedUpdateNeeded() {
+        lifecycleScope.launch {
+            webViewModel.isForcedUpdatedNeeded
+                .collect(::showForcedUpdateDialogIfNeeded)
+        }
     }
 }

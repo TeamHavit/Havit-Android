@@ -134,12 +134,6 @@ class ShareActivity : BaseActivity<ActivityShareBinding>(R.layout.activity_share
         }
     }
 
-    private fun showForcedUpdateDialogIfNeeded(isForcedUpdateNeeded: Boolean) {
-        if (isForcedUpdateNeeded) {
-            showForcedUpdateNeededDialog()
-        }
-    }
-
     companion object {
         const val WHERE_SPLASH_COME_FROM = "WHERE_SPLASH_COME_FROM"
         const val ON_NETWORK_ERROR_DISMISS = "ON_NETWORK_ERROR_DISMISS"

@@ -31,9 +31,15 @@ abstract class BaseActivity<T : ViewDataBinding>(
         finish()
     }
 
-    fun showForcedUpdateNeededDialog() {
+    private fun showForcedUpdateNeededDialog() {
         val dialog = DialogOkUtil(DialogOkUtil.FORCED_UPDATE, ::moveToPlayStore, false)
         dialog.show(this.supportFragmentManager, this.javaClass.name)
+    }
+
+    fun showForcedUpdateDialogIfNeeded(isForcedUpdateNeeded: Boolean) {
+        if (isForcedUpdateNeeded) {
+            showForcedUpdateNeededDialog()
+        }
     }
 
     private fun moveToPlayStore() {
