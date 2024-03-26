@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityWebBinding
 import org.sopt.havit.domain.entity.NetworkState
-import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.GoogleAnalyticsUtil
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_GO_BACK
@@ -27,7 +27,7 @@ import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SHARE
 import org.sopt.havit.util.GoogleAnalyticsUtil.CONTENT_SCREEN_TIME
 
 @AndroidEntryPoint
-class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_web) {
+class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
 
     private val webViewModel: WebViewModel by viewModels()
     private var startTime: Int = 0

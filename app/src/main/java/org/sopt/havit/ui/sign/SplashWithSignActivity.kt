@@ -21,7 +21,7 @@ import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySplashWithSignBinding
 import org.sopt.havit.domain.entity.NetworkState
-import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.onboarding.OnboardingActivity
 import org.sopt.havit.ui.share.ShareActivity
 import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_NORMAL_FLOW
@@ -34,7 +34,7 @@ import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class SplashWithSignActivity :
-    BaseBindingActivity<ActivitySplashWithSignBinding>(R.layout.activity_splash_with_sign) {
+    BaseActivity<ActivitySplashWithSignBinding>(R.layout.activity_splash_with_sign) {
 
     @Inject
     lateinit var preference: HavitSharedPreference

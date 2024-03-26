@@ -10,10 +10,12 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityShareBinding
-import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_FROM_SHARE
 import org.sopt.havit.ui.sign.SplashWithSignActivity
 import org.sopt.havit.util.INVALID_URL_TYPE
@@ -21,7 +23,7 @@ import org.sopt.havit.util.ToastUtil
 import java.io.Serializable
 
 @AndroidEntryPoint
-class ShareActivity : BaseBindingActivity<ActivityShareBinding>(R.layout.activity_share) {
+class ShareActivity : BaseActivity<ActivityShareBinding>(R.layout.activity_share) {
 
     private val shareViewModel: ShareViewModel by viewModels()
     private lateinit var splashWithSignLauncher: ActivityResultLauncher<Intent>

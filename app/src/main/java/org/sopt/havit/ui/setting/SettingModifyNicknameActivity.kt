@@ -6,14 +6,14 @@ import androidx.core.widget.addTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingModifyNicknameBinding
-import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.util.KeyBoardUtil.setUpAsSoftKeyboard
 import org.sopt.havit.util.setOnSinglePostClickListener
 
 @AndroidEntryPoint
 class SettingModifyNicknameActivity :
-    BaseBindingActivity<ActivitySettingModifyNicknameBinding>(R.layout.activity_setting_modify_nickname) {
+    BaseActivity<ActivitySettingModifyNicknameBinding>(R.layout.activity_setting_modify_nickname) {
     private val settingViewModel: SettingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

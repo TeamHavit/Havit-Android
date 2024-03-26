@@ -13,7 +13,7 @@ import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.data.remote.NotificationResponse
 import org.sopt.havit.databinding.ActivityNotificationBinding
-import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.contents.more.ContentsMoreFragment
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.CONTENT_CHECK_COMPLETE_TYPE
@@ -24,7 +24,7 @@ import java.io.Serializable
 
 @AndroidEntryPoint
 class NotificationActivity :
-    BaseBindingActivity<ActivityNotificationBinding>(R.layout.activity_notification) {
+    BaseActivity<ActivityNotificationBinding>(R.layout.activity_notification) {
     private val notificationViewModel: NotificationViewModel by viewModels()
     private lateinit var notificationAdapter: NotificationRvAdapter
 

@@ -8,9 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import org.sopt.havit.ui.system_maintenance.SystemMaintenanceActivity
+import org.sopt.havit.util.DialogOkUtil
 
 
-abstract class BaseBindingActivity<T : ViewDataBinding>(
+abstract class BaseActivity<T : ViewDataBinding>(
     @LayoutRes private val layoutRes: Int,
 ) : AppCompatActivity() {
     lateinit var binding: T
