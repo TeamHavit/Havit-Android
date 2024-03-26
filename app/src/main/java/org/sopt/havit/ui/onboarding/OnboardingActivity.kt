@@ -6,14 +6,14 @@ import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityOnboardingBinding
-import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.sign.SplashWithSignActivity
 import org.sopt.havit.util.HavitSharedPreference
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class OnboardingActivity :
-    BaseBindingActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
+    BaseActivity<ActivityOnboardingBinding>(R.layout.activity_onboarding) {
 
     @Inject
     lateinit var preference: HavitSharedPreference

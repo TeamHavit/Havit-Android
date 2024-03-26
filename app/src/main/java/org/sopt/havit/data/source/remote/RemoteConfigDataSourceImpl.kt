@@ -4,9 +4,11 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.lang.reflect.Type
 import javax.inject.Inject
+import kotlin.coroutines.resumeWithException
 
 class RemoteConfigDataSourceImpl @Inject constructor() : RemoteConfigDataSource {
 
@@ -25,10 +27,20 @@ class RemoteConfigDataSourceImpl @Inject constructor() : RemoteConfigDataSource 
                         else -> throw IllegalArgumentException("Not supported type. Please check valueType")
                     }
                     continuation.resumeWith(Result.success(remoteConfigValue))
-                } else continuation.resumeWith(
-                    Result.failure(task.exception ?: Exception("fetchRemoteConfig failed"))
+                } else continuation.resumeWithException(
+                    task.exception ?: IllegalStateException("Fetch RemoteConfig failed")
                 )
             }
         }
+    }
+
+    override fun fetchRemoteConfigFlow(configKey: String, valueType: Type) = flow {
+        val remoteConfigValue = when (valueType) {
+            String::class.java -> remoteConfig.getString(configKey)
+            Boolean::class.java -> remoteConfig.getBoolean(configKey)
+            Long::class.java -> remoteConfig.getLong(configKey)
+            else -> throw IllegalArgumentException("Not supported type. Please check valueType")
+        }
+        emit(remoteConfigValue)
     }
 }

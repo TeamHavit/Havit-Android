@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryContentModifyBinding
 import org.sopt.havit.domain.entity.NetworkState
-import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_IMAGE_ID
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME
@@ -21,11 +21,16 @@ import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_NAME_LIST
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_POSITION
 import org.sopt.havit.ui.share.add_category.IconAdapter
 import org.sopt.havit.ui.share.add_category.IconAdapter.Companion.clickedPosition
-import org.sopt.havit.util.*
+import org.sopt.havit.util.CATEGORY_MODIFY_COMPLETE_TYPE
+import org.sopt.havit.util.DELETE_CATEGORY_TOP_TYPE
+import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.ERROR_OCCUR_TYPE
+import org.sopt.havit.util.ToastUtil
+import org.sopt.havit.util.setOnSingleClickListener
 
 @AndroidEntryPoint
 class CategoryContentModifyActivity :
-    BaseBindingActivity<ActivityCategoryContentModifyBinding>(R.layout.activity_category_content_modify) {
+    BaseActivity<ActivityCategoryContentModifyBinding>(R.layout.activity_category_content_modify) {
     private val categoryViewModel by viewModels<CategoryViewModel>()
     private var position = -1
     private var id = -1
