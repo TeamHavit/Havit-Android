@@ -30,5 +30,16 @@ abstract class BaseActivity<T : ViewDataBinding>(
         startActivity(Intent(this, SystemMaintenanceActivity::class.java))
         finish()
     }
+
+    fun showForcedUpdateNeededDialog() {
+        val dialog = DialogOkUtil(DialogOkUtil.FORCED_UPDATE, ::moveToPlayStore, false)
+        dialog.show(this.supportFragmentManager, this.javaClass.name)
+    }
+
+    private fun moveToPlayStore() {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = android.net.Uri.parse("market://details?id=org.sopt.havit")
+        startActivity(intent)
+    }
 }
 
