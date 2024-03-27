@@ -3,6 +3,7 @@ package org.sopt.havit.ui.web
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.View.GONE
 import android.view.animation.AnimationUtils
 import android.webkit.URLUtil
@@ -13,18 +14,22 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityWebBinding
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.save.SaveFragment
+import org.sopt.havit.ui.share.ShareActivity
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.GoogleAnalyticsUtil
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_GO_BACK
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_REFRESH
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SHARE
 import org.sopt.havit.util.GoogleAnalyticsUtil.CONTENT_SCREEN_TIME
+
 
 @AndroidEntryPoint
 class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_web) {
@@ -51,9 +56,10 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         observeSystemUnderMaintenance()
         initIsHavit()
         initHavitSeen()
+        setWebViewBottomBar()
         setUrlCheck()
-        setListeners()
         initIsHavitObserver()
+        setListeners()
     }
 
     private fun initIsHavit() {
@@ -71,6 +77,12 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
             Glide.with(this).load(R.drawable.ic_contents_read_2).into(binding.ivWebviewUnread)
             binding.tvWebviewUnread.text = "콘텐츠 확인하기"
         }
+    }
+
+    private fun setWebViewBottomBar() {
+        val caller = intent.getStringExtra("caller")
+        webViewModel.setWebBottomBarAndSaveBtn(caller != "CommunityDetailActivity")
+
     }
 
     private fun setUrlCheck() {
@@ -153,6 +165,12 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
             )
             checkUrlNetwork(requireNotNull(intent.getStringExtra("url")))
         }
+        binding.btnSave.setOnClickListener {
+            val intent = Intent(this, ShareActivity::class.java).apply {
+                putExtra("url", webViewModel.contentsUrl.value.toString())
+            }
+            startActivity(intent)
+        }
 
     }
 
@@ -176,5 +194,9 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
     private fun observeSystemUnderMaintenance() {
         webViewModel.isSystemMaintenance.observe(this, systemMaintenanceObserver)
+    }
+
+    companion object {
+        const val TAG = "WebActivity"
     }
 }

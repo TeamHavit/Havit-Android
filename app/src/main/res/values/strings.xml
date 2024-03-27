@@ -287,4 +287,7 @@
     <string name="system_under_maintenance">시스템 점검 안내</string>
     <string name="invalid_url">유효하지 않은 URL입니다.</string>
 
+    <!-- community -->
+    <string name="community_save">저장하기</string>
+
 </resources>
