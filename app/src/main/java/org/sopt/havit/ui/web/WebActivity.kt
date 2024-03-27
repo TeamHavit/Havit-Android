@@ -81,7 +81,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
     private fun setWebViewBottomBar() {
         val caller = intent.getStringExtra("caller")
-        webViewModel.setWebBottomBarAndSaveBtn(caller == "CommunityDetailActivity")
+        webViewModel.setWebBottomBarAndSaveBtn(caller != "CommunityDetailActivity")
 
     }
 
