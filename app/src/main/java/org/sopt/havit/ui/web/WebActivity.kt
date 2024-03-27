@@ -3,6 +3,7 @@ package org.sopt.havit.ui.web
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.View.GONE
 import android.view.animation.AnimationUtils
 import android.webkit.URLUtil
@@ -13,6 +14,7 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
@@ -20,6 +22,7 @@ import org.sopt.havit.databinding.ActivityWebBinding
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingActivity
 import org.sopt.havit.ui.save.SaveFragment
+import org.sopt.havit.ui.share.ShareActivity
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.GoogleAnalyticsUtil
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_GO_BACK
@@ -78,7 +81,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
     private fun setWebViewBottomBar() {
         val caller = intent.getStringExtra("caller")
-        webViewModel.setWebBottomBarAndSaveBtn(caller != "CommunityDetailActivity")
+        webViewModel.setWebBottomBarAndSaveBtn(caller == "CommunityDetailActivity")
 
     }
 
@@ -163,12 +166,10 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
             checkUrlNetwork(requireNotNull(intent.getStringExtra("url")))
         }
         binding.btnSave.setOnClickListener {
-            SaveFragment("categoryName").apply {
-                arguments = Bundle().apply {
-                    putString("url", webViewModel.contentsUrl.toString())
-                }
-            }.show(supportFragmentManager, TAG)
-
+            val intent = Intent(this, ShareActivity::class.java).apply {
+                putExtra("url", webViewModel.contentsUrl.value.toString())
+            }
+            startActivity(intent)
         }
 
     }
