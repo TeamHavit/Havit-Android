@@ -83,6 +83,7 @@ class SplashWithSignActivity :
         initWhereSplashComesFrom()
         setLoginGuideIfFromShare()
         setSplashView()
+        isCheckedUpdate()
         setListeners()
         isAlreadyUserObserver()
     }
@@ -132,7 +133,7 @@ class SplashWithSignActivity :
                 override fun onAnimationRepeat(p0: Animation?) {}
 
                 override fun onAnimationEnd(p0: Animation?) {
-                    checkAlarmPermission()
+                    isForcedUpdateNeeded()
                 }
             })
         } else {
@@ -149,13 +150,15 @@ class SplashWithSignActivity :
             signInViewModel.isServerNetwork.value = NetworkState.SUCCESS
             if (isLogin && preference.getXAuthToken().isNotEmpty()) startMainActivity()
             else if (preference.isFirstEnter()) startOnBoardingActivity()
+            else if (signInViewModel.isForcedUpdatedNeeded.value) isForcedUpdateNeeded()
             else setLoginAnimation()
         }
     }
 
     private val splashWithLoginLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            setLoginAnimation()
+            if (signInViewModel.isForcedUpdatedNeeded.value) isForcedUpdateNeeded()
+            else setLoginAnimation()
         }
 
     private fun setListeners() {
@@ -255,6 +258,16 @@ class SplashWithSignActivity :
         lifecycleScope.launch {
             signInViewModel.isForcedUpdatedNeeded
                 .collect(::showForcedUpdateDialogIfNeeded)
+        }
+    }
+
+    private fun isCheckedUpdate() {
+        lifecycleScope.launch {
+            signInViewModel.isForcedUpdatedNeeded.collect { isForcedUpdatedNeeded ->
+                if (!isForcedUpdatedNeeded) {
+                    checkAlarmPermission()
+                }
+            }
         }
     }
 }
