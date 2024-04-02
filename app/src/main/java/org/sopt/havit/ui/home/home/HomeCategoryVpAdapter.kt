@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.home
+package org.sopt.havit.ui.home.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.databinding.ItemHomeCategoryRecyclerviewBinding
 import org.sopt.havit.domain.entity.Category
-import org.sopt.havit.ui.home.HomeCategoryRvAdapter.Companion.isFirst
+import org.sopt.havit.ui.home.home.HomeCategoryRvAdapter.Companion.isFirst
 
 class HomeCategoryVpAdapter : RecyclerView.Adapter<HomeCategoryVpAdapter.HomeCategoryViewHolder>() {
     var categoryList = mutableListOf<List<Category>>()

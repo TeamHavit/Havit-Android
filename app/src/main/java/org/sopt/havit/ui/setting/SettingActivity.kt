@@ -12,7 +12,7 @@ import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingBinding
 import org.sopt.havit.domain.entity.VersionState
 import org.sopt.havit.ui.base.BaseBindingActivity
-import org.sopt.havit.ui.home.ServiceGuideActivity
+import org.sopt.havit.ui.home.home.ServiceGuideActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.ui.sign.SplashWithSignActivity
 import org.sopt.havit.util.CANNOT_SEND_MAIL_TYPE

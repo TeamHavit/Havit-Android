@@ -9,7 +9,7 @@
 
         <variable
             name="vmHome"
-            type="org.sopt.havit.ui.home.HomeViewModel" />
+            type="org.sopt.havit.ui.home.home.HomeViewModel" />
 
         <variable
             name="isPopup"
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white_gray"
-        tools:context=".ui.home.HomeFragment">
+        tools:context=".ui.home.home.HomeFragment">
 
         <!-- 서버 연결 실패 -->
         <androidx.constraintlayout.widget.ConstraintLayout
