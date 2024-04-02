@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="org.sopt.havit.ui.home.home.HomeFragment"
+        android:name="org.sopt.havit.ui.home.MainHomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_main_home" />
 
     <fragment
         android:id="@+id/navigation_category"

@@ -374,4 +374,18 @@
         <item name="android:letterSpacing">-0.022</item>
         <item name="android:lineSpacingExtra">5dp</item>
     </style>
+
+    <!-- TabLayout 텍스트 -->
+    <style name="tabText14Semibold" parent="TextAppearance.Design.Tab">
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:letterSpacing">-0.014</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingStart">2dp</item>
+        <item name="android:paddingEnd">2dp</item>
+    </style>
 </resources>

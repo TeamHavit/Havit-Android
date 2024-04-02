@@ -17,11 +17,9 @@ import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.category.CategoryAddActivity
 import org.sopt.havit.ui.contents_simple.ContentsSimpleActivity
-import org.sopt.havit.ui.notification.NotificationActivity
 import org.sopt.havit.ui.search.SearchActivity
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.GoogleAnalyticsUtil
-import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_HAVIT_SERVICE_GUIDE
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_MUST_SEE_CONTENT
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_RECOMMENDED_SITE
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SEARCH_CONTENT
@@ -234,10 +232,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         binding.ivDeletePopup.setOnClickListener {
             clickDeletePopup()
         }
-        binding.ivAlarm.setOnClickListener {
-            val intent = Intent(requireActivity(), NotificationActivity::class.java)
-            startActivity(intent)
-        }
         binding.clReachContents.setOnClickListener {
             GoogleAnalyticsUtil.logClickEvent(CLICK_MUST_SEE_CONTENT)
             val intent = Intent(requireActivity(), ContentsSimpleActivity::class.java)
@@ -260,11 +254,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
             intent.putExtra(CONTENT_TYPE, "recent")
             startActivity(intent)
         }
-        binding.ivServiceGuide.setOnClickListener {
-            GoogleAnalyticsUtil.logClickEvent(CLICK_HAVIT_SERVICE_GUIDE)
-            val intent = Intent(requireActivity(), ServiceGuideActivity::class.java)
-            startActivity(intent)
-        }
         binding.layoutNetworkError.ivRefresh.setOnSingleClickListener {
             it.startAnimation(
                 AnimationUtils.loadAnimation(
@@ -276,22 +265,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>(R.layout.fragment_
         }
         clickRecommendItemView() // 추천콘텐츠 클릭->웹뷰로 이동
         clickRecentContentsItemView() // 최근저장 콘텐츠 클릭->웹뷰로 이동
-
-        binding.tvTabCommunity.setOnSingleClickListener {
-            setHomeOrCommunity(isHome = false)
-        }
-
-        binding.tvTabHome.setOnSingleClickListener {
-            setHomeOrCommunity(isHome = true)
-        }
-    }
-
-    private fun setHomeOrCommunity(isHome: Boolean) {
-        binding.clCommunity.visibility = if (isHome) View.GONE else View.VISIBLE
-        binding.clCommunityTooltip.visibility = if (isHome) View.GONE else View.VISIBLE
-        binding.svMain.visibility = if (isHome) View.VISIBLE else View.GONE
-        binding.tvTabHome.isEnabled = !isHome
-        binding.tvTabCommunity.isEnabled = isHome
     }
 
     private fun recommendationDataObserve() {

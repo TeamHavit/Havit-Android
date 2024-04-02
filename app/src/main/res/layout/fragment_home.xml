@@ -64,283 +64,6 @@
             android:layout_height="match_parent"
             android:visibility="@{vmHome.loadState==state.FAIL ? View.GONE : View.VISIBLE}">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_topbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="@{vmHome.loadState==state.LOADING ? View.GONE : View.VISIBLE}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/iv_logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="17dp"
-                    android:layout_marginTop="23dp"
-                    android:layout_marginBottom="13dp"
-                    android:src="@drawable/ic_logo_small_gray"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iv_service_guide"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginBottom="2dp"
-                    android:padding="3dp"
-                    android:src="@drawable/ic_serviceguide"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/iv_alarm"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iv_alarm"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="2dp"
-                    android:padding="3dp"
-                    android:src="@{hasNotification? @drawable/ic_alarm_active : @drawable/ic_alarm}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_tab"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="@{vmHome.loadState==state.LOADING ? View.GONE : View.VISIBLE}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_topbar">
-
-                <View
-                    android:id="@+id/view_tab"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="9dp"
-                    android:background="@color/gray_1"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_tab_home"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="2dp"
-                    android:background="@drawable/selector_home_tab_underline"
-                    android:enabled="false"
-                    android:paddingHorizontal="5dp"
-                    android:paddingVertical="8dp"
-                    android:text="@string/home"
-                    android:textAppearance="@style/Text14Semibold"
-                    android:textColor="@drawable/selector_home_tab_text"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_tab_community"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="21dp"
-                    android:background="@drawable/selector_home_tab_underline"
-                    android:paddingHorizontal="2dp"
-                    android:paddingVertical="8dp"
-                    android:text="@string/community"
-                    android:textAppearance="@style/Text14Semibold"
-                    android:textColor="@drawable/selector_home_tab_text"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_tab_home"
-                    app:layout_constraintStart_toEndOf="@+id/tv_tab_home"
-                    app:layout_constraintTop_toTopOf="@+id/tv_tab_home" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:text="@string/new_icon"
-                    android:textAppearance="@style/Mini10Semibold"
-                    android:textColor="@color/purple_text"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_tab_community"
-                    app:layout_constraintStart_toEndOf="@+id/tv_tab_community"
-                    app:layout_constraintTop_toTopOf="@+id/tv_tab_community" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- 커뮤니티 -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_community"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@color/white"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_tab">
-
-                <TextView
-                    android:id="@+id/tv_community_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="19dp"
-                    android:text="함께 콘텐츠를 나눠보세요!"
-                    android:textAppearance="@style/Text16Semibold"
-                    android:textColor="@color/black"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iv_create_community_contents"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="12dp"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_edit_black"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <HorizontalScrollView
-                    android:id="@+id/hsv_community_chip"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="17dp"
-                    android:scrollbars="none"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_community_title">
-
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/cg_community_category"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:checkedChip="@id/ch_all"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:selectionRequired="true"
-                        app:singleSelection="true">
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/ch_all"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="17dp"
-                            android:text="@string/category_entire"
-                            android:textAppearance="@style/Text12Semibold"
-                            android:textColor="@color/selector_chip_text"
-                            app:chipBackgroundColor="@color/selector_chip"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:textEndPadding="10dp"
-                            app:textStartPadding="10dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/ch_travel"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="여행/맛집"
-                            android:textAppearance="@style/Text12Semibold"
-                            android:textColor="@color/selector_chip_text"
-                            app:chipBackgroundColor="@color/selector_chip"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:textEndPadding="10dp"
-                            app:textStartPadding="10dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/ch_job"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="직장/자기계발"
-                            android:textAppearance="@style/Text12Semibold"
-                            android:textColor="@color/selector_chip_text"
-                            app:chipBackgroundColor="@color/selector_chip"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:textEndPadding="10dp"
-                            app:textStartPadding="10dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/ch_life"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="라이프"
-                            android:textAppearance="@style/Text12Semibold"
-                            android:textColor="@color/selector_chip_text"
-                            app:chipBackgroundColor="@color/selector_chip"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:textEndPadding="10dp"
-                            app:textStartPadding="10dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/ch_knowledge"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="시사/지식"
-                            android:textAppearance="@style/Text12Semibold"
-                            android:textColor="@color/selector_chip_text"
-                            app:chipBackgroundColor="@color/selector_chip"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:textEndPadding="10dp"
-                            app:textStartPadding="10dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/ch_hobby"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="취미/건강"
-                            android:textAppearance="@style/Text12Semibold"
-                            android:textColor="@color/selector_chip_text"
-                            app:chipBackgroundColor="@color/selector_chip"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:textEndPadding="10dp"
-                            app:textStartPadding="10dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/ch_entertainment"
-                            style="@style/Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="17dp"
-                            android:text="엔터테인먼트"
-                            android:textAppearance="@style/Text12Semibold"
-                            android:textColor="@color/selector_chip_text"
-                            app:chipBackgroundColor="@color/selector_chip"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:textEndPadding="10dp"
-                            app:textStartPadding="10dp" />
-
-                    </com.google.android.material.chip.ChipGroup>
-                </HorizontalScrollView>
-
-                <View
-                    android:id="@+id/view_community_chip"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/gray_0"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/hsv_community_chip" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view_community_chip"
-                    tools:listitem="@layout/item_community" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
             <!-- 디폴트 홈-->
             <org.sopt.havit.util.StickyScrollView
                 android:id="@+id/sv_main"
@@ -349,7 +72,7 @@
                 android:orientation="vertical"
                 android:visibility="@{vmHome.loadState==state.LOADING ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_tab">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <!-- 스크롤되는 뷰 -->
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -463,29 +186,23 @@
                             android:id="@+id/cl_reach_contents"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="9dp"
-                            android:layout_marginEnd="9dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/rectangle_white_purple_light_radius_6"
+                            android:paddingHorizontal="9dp"
                             android:paddingVertical="6dp"
-                            android:paddingStart="6dp"
-                            android:paddingEnd="7dp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                            app:layout_constraintTop_toTopOf="@+id/tv_reach_user">
 
                             <TextView
                                 android:id="@+id/tv_reach_contents"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/rectangle_white_purple_light_radius_6"
-                                android:paddingVertical="5dp"
-                                android:paddingStart="8dp"
-                                android:paddingEnd="9dp"
                                 android:text="@string/home_reach_contents"
                                 android:textAppearance="@style/Sub12Medium"
                                 android:textColor="@color/gray_3"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
@@ -857,46 +574,6 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </org.sopt.havit.util.StickyScrollView>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_community_tooltip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="13dp"
-                android:layout_marginBottom="-19dp"
-                android:background="@drawable/bg_community_tooltip"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/cl_community"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <TextView
-                    android:id="@+id/tv_community_tooltip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="9dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="12dp"
-                    android:fontFamily="@font/pretendard"
-                    android:padding="5dp"
-                    android:text="소개하고 싶은 콘텐츠를 공유해보세요!"
-                    android:textColor="@color/gray_0"
-                    android:textSize="11dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iv_close_community_tooltip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="9dp"
-                    android:padding="2dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_community_tooltip"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tv_community_tooltip"
-                    app:layout_constraintTop_toTopOf="@+id/tv_community_tooltip"
-                    app:srcCompat="@drawable/ic_close_white" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
