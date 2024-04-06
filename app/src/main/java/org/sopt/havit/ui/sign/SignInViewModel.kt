@@ -3,7 +3,6 @@ package org.sopt.havit.ui.sign
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.auth.model.OAuthToken
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,14 +10,17 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.data.remote.SignInResponse
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.domain.repository.AuthRepository
+import org.sopt.havit.domain.repository.SystemMaintenanceRepository
+import org.sopt.havit.ui.base.BaseViewModel
 import org.sopt.havit.util.Event
 import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val authRepository: AuthRepository
-) : ViewModel() {
+    private val authRepository: AuthRepository,
+    systemMaintenanceRepository: SystemMaintenanceRepository,
+) : BaseViewModel(systemMaintenanceRepository) {
 
     companion object {
         const val SPLASH_FROM_SHARE = true

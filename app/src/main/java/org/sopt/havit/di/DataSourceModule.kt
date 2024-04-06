@@ -10,6 +10,8 @@ import org.sopt.havit.data.source.local.AuthLocalDataSource
 import org.sopt.havit.data.source.local.AuthLocalDataSourceImpl
 import org.sopt.havit.data.source.remote.AuthRemoteDataSource
 import org.sopt.havit.data.source.remote.AuthRemoteDataSourceImpl
+import org.sopt.havit.data.source.remote.RemoteConfigDataSource
+import org.sopt.havit.data.source.remote.RemoteConfigDataSourceImpl
 import org.sopt.havit.data.source.remote.SearchRemoteDataSource
 import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.category.CategoryRemoteDataSource
@@ -53,4 +55,8 @@ object DataSourceModule {
     @Singleton
     fun provideCommunityRemoteDataSource(api: HavitApi): CommunityRemoteDataSource =
         CommunityRemoteDataSourceImpl(api)
+
+    @Provides
+    @Singleton
+    fun provideRemoteConfigDataSource(): RemoteConfigDataSource = RemoteConfigDataSourceImpl()
 }

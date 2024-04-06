@@ -54,6 +54,7 @@ class ToastUtil @Inject constructor(@ApplicationContext private val context: Con
                 val textView: TextView = view.findViewById(R.id.tv_toast)
                 textView.text = categoryName
             }
+
             else -> {
                 val textView: TextView = view.findViewById(R.id.tv_toast)
                 textView.text = getTitle(context)
@@ -78,7 +79,7 @@ enum class ToastCase(
     @StringRes val text: Int,
     val viewType: Int,
     val gravity: Int = Gravity.BOTTOM,
-    val yOffsetDp: Int = MARGIN_NORMAL
+    val yOffsetDp: Int = MARGIN_NORMAL,
 ) {
     CONTENT_DELETE(
         R.layout.toast_text,
@@ -158,6 +159,11 @@ enum class ToastCase(
         R.layout.toast_text,
         R.string.request_delete_notification,
         REQUEST_DELETE_NOTIFICATION_TYPE
+    ),
+    INVALID_URL(
+        R.layout.toast_text,
+        R.string.invalid_url,
+        INVALID_URL_TYPE
     );
 
     companion object {
@@ -182,6 +188,7 @@ const val CATEGORY_MODIFY_COMPLETE_TYPE = 11
 const val MODIFY_TITLE_COMPLETE_TYPE = 13
 const val DELETE_NOTIFICATION_COMPLETE_TYPE = 14
 const val REQUEST_DELETE_NOTIFICATION_TYPE = 15
+const val INVALID_URL_TYPE = 16
 
 const val MARGIN_CONTENT_ADDED = 30
 const val MARGIN_HAVIT_COMPLETE = 40

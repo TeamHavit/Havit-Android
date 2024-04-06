@@ -5,7 +5,11 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.View.GONE
 import android.view.animation.AnimationUtils
-import android.webkit.*
+import android.webkit.URLUtil
+import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
@@ -37,12 +41,14 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
 
         this.onBackPressedDispatcher.addCallback(this, callback)
 
         binding.vm = webViewModel
         startTime = SystemClock.elapsedRealtime().toInt()
+
+        webViewModel.fetchIsSystemMaintenance()
+        observeSystemUnderMaintenance()
         initIsHavit()
         initHavitSeen()
         setUrlCheck()
@@ -77,7 +83,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
             webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(
                     view: WebView?,
-                    request: WebResourceRequest?
+                    request: WebResourceRequest?,
                 ): Boolean {
                     if (request?.url.toString().startsWith("towneers:")) {
                         startActivity(
@@ -166,5 +172,9 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         super.finish()
         setWebViewDurationTimeLogging()
         GoogleAnalyticsUtil.logClickEvent(CLICK_GO_BACK)
+    }
+
+    private fun observeSystemUnderMaintenance() {
+        webViewModel.isSystemMaintenance.observe(this, systemMaintenanceObserver)
     }
 }
