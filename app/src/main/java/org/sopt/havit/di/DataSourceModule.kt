@@ -14,6 +14,8 @@ import org.sopt.havit.data.source.remote.SearchRemoteDataSource
 import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.category.CategoryRemoteDataSource
 import org.sopt.havit.data.source.remote.category.CategoryRemoteDataSourceImpl
+import org.sopt.havit.data.source.remote.community.CommunityRemoteDataSource
+import org.sopt.havit.data.source.remote.community.CommunityRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSource
 import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSourceImpl
 import javax.inject.Singleton
@@ -46,4 +48,9 @@ object DataSourceModule {
     @Singleton
     fun provideCategoryRemoteDataSource(api: HavitApi): CategoryRemoteDataSource =
         CategoryRemoteDataSourceImpl(api)
+
+    @Provides
+    @Singleton
+    fun provideCommunityRemoteDataSource(api: HavitApi): CommunityRemoteDataSource =
+        CommunityRemoteDataSourceImpl(api)
 }

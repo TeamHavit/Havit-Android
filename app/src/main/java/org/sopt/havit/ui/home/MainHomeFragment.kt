@@ -29,7 +29,7 @@ class MainHomeFragment : BaseBindingFragment<FragmentMainHomeBinding>(R.layout.f
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
-        viewModel.getNotificationList()
+
         initAdapter()
         initTabLayout()
         initView()
@@ -71,6 +71,7 @@ class MainHomeFragment : BaseBindingFragment<FragmentMainHomeBinding>(R.layout.f
             val intent = Intent(requireActivity(), ServiceGuideActivity::class.java)
             startActivity(intent)
         }
+        binding.vpMainHome.isUserInputEnabled = false
     }
 
     private fun observe() {
