@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
@@ -17,24 +18,37 @@ import org.sopt.havit.ui.home.home.HomeFragment
 import org.sopt.havit.ui.home.home.ServiceGuideActivity
 import org.sopt.havit.ui.notification.NotificationActivity
 import org.sopt.havit.util.GoogleAnalyticsUtil
+import org.sopt.havit.util.HavitSharedPreference
+import org.sopt.havit.util.setOnSingleClickListener
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainHomeFragment : BaseBindingFragment<FragmentMainHomeBinding>(R.layout.fragment_main_home) {
     private val viewModel: MainHomeViewModel by viewModels()
     private lateinit var viewPagerAdapter: MainHomeViewPagerAdapter
+
+    @Inject
+    lateinit var preference: HavitSharedPreference
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
+
         binding.lifecycleOwner = viewLifecycleOwner
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initAdapter()
         initTabLayout()
         initView()
         observe()
-        return binding.root
     }
 
     private fun initAdapter() {
@@ -43,12 +57,13 @@ class MainHomeFragment : BaseBindingFragment<FragmentMainHomeBinding>(R.layout.f
         viewPagerAdapter.fragments.addAll(fragmentList)
         binding.vpMainHome.adapter = viewPagerAdapter
 
-        binding.vpMainHome.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        binding.vpMainHome.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 when (position) {
-                    0 -> binding.clCommunityTooltip.visibility = View.GONE
-                    1 -> binding.clCommunityTooltip.visibility = View.VISIBLE
+                    HOME_FRAGMENT -> setCommunityTooltipVisibility(isVisible = false)
+                    COMMUNITY_FRAGMENT -> setCommunityTooltipVisibility(isVisible = true)
                 }
             }
         })
@@ -62,21 +77,39 @@ class MainHomeFragment : BaseBindingFragment<FragmentMainHomeBinding>(R.layout.f
     }
 
     private fun initView() {
-        binding.ivAlarm.setOnClickListener {
+        binding.ivAlarm.setOnSingleClickListener {
             val intent = Intent(requireActivity(), NotificationActivity::class.java)
             startActivity(intent)
         }
-        binding.ivServiceGuide.setOnClickListener {
+
+        binding.ivServiceGuide.setOnSingleClickListener {
             GoogleAnalyticsUtil.logClickEvent(GoogleAnalyticsUtil.CLICK_HAVIT_SERVICE_GUIDE)
             val intent = Intent(requireActivity(), ServiceGuideActivity::class.java)
             startActivity(intent)
         }
-        binding.vpMainHome.isUserInputEnabled = false
+
+        setCommunityTooltipVisibility()
+        binding.ivCloseCommunityTooltip.setOnSingleClickListener {
+            setCommunityTooltipVisibility()
+            preference.setCommunityTooltipClosed()
+        }
+
+        binding.vpMainHome.isUserInputEnabled = false // 뷰페이저 스와이프 제거
     }
 
     private fun observe() {
         viewModel.notificationList.observe(viewLifecycleOwner) { data ->
             binding.hasNotification = data.isNotEmpty()
         }
+    }
+
+    private fun setCommunityTooltipVisibility(isVisible: Boolean = true) {
+        binding.clCommunityTooltip.isVisible = (!preference.isCommunityTooltipClosed() && isVisible)
+    }
+
+
+    companion object {
+        const val HOME_FRAGMENT = 0
+        const val COMMUNITY_FRAGMENT = 1
     }
 }
