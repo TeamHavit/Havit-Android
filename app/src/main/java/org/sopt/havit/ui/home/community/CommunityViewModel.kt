@@ -15,7 +15,6 @@ import javax.inject.Inject
 class CommunityViewModel @Inject constructor(
     private val communityRepository: CommunityRepository
 ) : ViewModel() {
-    // 알림 예정 콘텐츠
     private val _communityCategoryList = MutableLiveData<List<CommunityCategory>>()
     val communityCategoryList: LiveData<List<CommunityCategory>> = _communityCategoryList
 
