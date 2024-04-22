@@ -286,5 +286,7 @@
     <string name="disable_whitespace_on_nickname">닉네임에 띄어쓰기는 사용할 수 없습니다.</string>
     <string name="system_under_maintenance">시스템 점검 안내</string>
     <string name="invalid_url">유효하지 않은 URL입니다.</string>
+    <string name="update_notification">업데이트 알림</string>
+    <string name="update_notification_description">새로운 버전이 출시되었습니다.\n업데이트 후 이용해 주시기 바랍니다.</string>
 
 </resources>

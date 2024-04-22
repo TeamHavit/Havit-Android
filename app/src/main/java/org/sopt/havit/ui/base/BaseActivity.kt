@@ -8,9 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import org.sopt.havit.ui.system_maintenance.SystemMaintenanceActivity
+import org.sopt.havit.util.DialogOkUtil
 
 
-abstract class BaseBindingActivity<T : ViewDataBinding>(
+abstract class BaseActivity<T : ViewDataBinding>(
     @LayoutRes private val layoutRes: Int,
 ) : AppCompatActivity() {
     lateinit var binding: T
@@ -28,6 +29,23 @@ abstract class BaseBindingActivity<T : ViewDataBinding>(
     private fun startSystemMaintenanceActivity() {
         startActivity(Intent(this, SystemMaintenanceActivity::class.java))
         finish()
+    }
+
+    private fun showForcedUpdateNeededDialog() {
+        val dialog = DialogOkUtil(DialogOkUtil.FORCED_UPDATE, ::moveToPlayStore, false)
+        dialog.show(this.supportFragmentManager, this.javaClass.name)
+    }
+
+    fun showForcedUpdateDialogIfNeeded(isForcedUpdateNeeded: Boolean) {
+        if (isForcedUpdateNeeded) {
+            showForcedUpdateNeededDialog()
+        }
+    }
+
+    private fun moveToPlayStore() {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = android.net.Uri.parse("market://details?id=org.sopt.havit")
+        startActivity(intent)
     }
 }
 

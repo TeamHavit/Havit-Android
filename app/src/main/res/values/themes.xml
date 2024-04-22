@@ -18,6 +18,16 @@
 
     </style>
 
+    <style name="Theme.ForcedUpdateTransparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+
     <style name="Theme.RemoveSplash" parent="Theme.Havit">
         <item name="android:windowIsTranslucent">true</item>
     </style>
