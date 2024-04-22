@@ -5,11 +5,11 @@ import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySystemMaintenanceBinding
-import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.base.BaseActivity
 
 @AndroidEntryPoint
 class SystemMaintenanceActivity :
-    BaseBindingActivity<ActivitySystemMaintenanceBinding>(R.layout.activity_system_maintenance) {
+    BaseActivity<ActivitySystemMaintenanceBinding>(R.layout.activity_system_maintenance) {
 
     private val systemMaintenanceViewModel: SystemMaintenanceViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {

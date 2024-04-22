@@ -5,12 +5,12 @@ import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingAlarmBinding
-import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingAlarmViewModel
 
 @AndroidEntryPoint
 class SettingAlarmActivity :
-    BaseBindingActivity<ActivitySettingAlarmBinding>(R.layout.activity_setting_alarm) {
+    BaseActivity<ActivitySettingAlarmBinding>(R.layout.activity_setting_alarm) {
     private val viewModel: SettingAlarmViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

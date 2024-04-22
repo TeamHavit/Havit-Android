@@ -10,10 +10,12 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityShareBinding
-import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_FROM_SHARE
 import org.sopt.havit.ui.sign.SplashWithSignActivity
 import org.sopt.havit.util.INVALID_URL_TYPE
@@ -21,7 +23,7 @@ import org.sopt.havit.util.ToastUtil
 import java.io.Serializable
 
 @AndroidEntryPoint
-class ShareActivity : BaseBindingActivity<ActivityShareBinding>(R.layout.activity_share) {
+class ShareActivity : BaseActivity<ActivityShareBinding>(R.layout.activity_share) {
 
     private val shareViewModel: ShareViewModel by viewModels()
     private lateinit var splashWithSignLauncher: ActivityResultLauncher<Intent>
@@ -29,10 +31,8 @@ class ShareActivity : BaseBindingActivity<ActivityShareBinding>(R.layout.activit
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        shareViewModel.fetchIsSystemMaintenance()
         observeSystemUnderMaintenance()
         setScreenOrientation()
-        initializeActivityResultLauncher()
         handleShareFlow()
     }
 
@@ -65,11 +65,15 @@ class ShareActivity : BaseBindingActivity<ActivityShareBinding>(R.layout.activit
         shareViewModel.makeSignIn(
             internetError = { showNetworkErrorBottomSheet() },
             onUnAuthorized = { moveToSplashWithSign() },
-            onAuthorized = { showShareBottomSheet() }
+            onAuthorized = {
+                showShareBottomSheet()
+                isForcedUpdateNeeded()
+            }
         )
     }
 
     private fun moveToSplashWithSign() {
+        initializeActivityResultLauncher()
         val intent = Intent(this, SplashWithSignActivity::class.java).apply {
             putExtra(WHERE_SPLASH_COME_FROM, SPLASH_FROM_SHARE)
         }
@@ -121,6 +125,13 @@ class ShareActivity : BaseBindingActivity<ActivityShareBinding>(R.layout.activit
 
     private fun observeSystemUnderMaintenance() {
         shareViewModel.isSystemMaintenance.observe(this, systemMaintenanceObserver)
+    }
+
+    private fun isForcedUpdateNeeded() {
+        lifecycleScope.launch {
+            shareViewModel.isForcedUpdatedNeeded
+                .collect(::showForcedUpdateDialogIfNeeded)
+        }
     }
 
     companion object {
