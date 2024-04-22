@@ -247,6 +247,7 @@
     <string name="onboarding_contents_check">콘텐츠 확인하기</string>
     <string name="onboarding_contents_check_description">확인할 콘텐츠를 체크해보세요.\n콘텐츠를 체크함에 따라 목표 달성률이 올라갑니다.</string>
     <string name="onboarding_contents_checking">콘텐츠 확인</string>
+
     <!-- splash -->
     <string name="splash_title">모든 콘텐츠를\n내 손 안에</string>
     <string name="splash_another_account"><u>다른 카카오 계정으로 로그인</u></string>
@@ -288,5 +289,12 @@
     <string name="invalid_url">유효하지 않은 URL입니다.</string>
     <string name="update_notification">업데이트 알림</string>
     <string name="update_notification_description">새로운 버전이 출시되었습니다.\n업데이트 후 이용해 주시기 바랍니다.</string>
+
+    <!-- 커뮤니티 -->
+    <string name="home">홈</string>
+    <string name="community">커뮤니티</string>
+    <string name="new_icon">N</string>
+    <string name="share_content_introduce">소개하고 싶은 콘텐츠를 공유해보세요!</string>
+    <string name="share_content_together">함께 콘텐츠를 나눠보세요!</string>
 
 </resources>

@@ -15,7 +15,7 @@ import org.sopt.havit.databinding.ActivityContentsSimpleBinding
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.contents.more.ContentsMoreFragment
-import org.sopt.havit.ui.home.HomeFragment
+import org.sopt.havit.ui.home.home.HomeFragment
 import org.sopt.havit.ui.save.SaveFragment
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.CONTENT_CHECK_COMPLETE_TYPE

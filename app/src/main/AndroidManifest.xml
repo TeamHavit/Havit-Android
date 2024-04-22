@@ -38,7 +38,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.home.ServiceGuideActivity"
+            android:name=".ui.home.home.ServiceGuideActivity"
             android:configChanges="orientation"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -136,7 +136,7 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.home.HomeCategoryAllActivity"
+            android:name=".ui.home.home.HomeCategoryAllActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait" />

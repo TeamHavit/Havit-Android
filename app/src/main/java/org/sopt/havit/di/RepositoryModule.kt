@@ -12,6 +12,7 @@ import org.sopt.havit.data.source.remote.AuthRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.RemoteConfigDataSourceImpl
 import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.category.CategoryRemoteDataSourceImpl
+import org.sopt.havit.data.source.remote.community.CommunityRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSourceImpl
 import org.sopt.havit.domain.repository.*
 import javax.inject.Singleton
@@ -54,6 +55,11 @@ object RepositoryModule {
         authLocalDataSourceImpl: AuthLocalDataSourceImpl,
     ): AuthRepository = AuthRepositoryImpl(authRemoteDataSourceImpl, authLocalDataSourceImpl)
 
+    @Provides
+    @Singleton
+    fun provideCommunityRepository(
+        communityRemoteDataSourceImpl: CommunityRemoteDataSourceImpl
+    ): CommunityRepository = CommunityRepositoryImpl(communityRemoteDataSourceImpl)
 
     @Provides
     @Singleton

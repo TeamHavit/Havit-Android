@@ -1,4 +1,4 @@
-package org.sopt.havit.ui.home
+package org.sopt.havit.ui.home.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

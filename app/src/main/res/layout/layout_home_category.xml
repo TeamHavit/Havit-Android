@@ -9,7 +9,7 @@
 
         <variable
             name="vmHome"
-            type="org.sopt.havit.ui.home.HomeViewModel" />
+            type="org.sopt.havit.ui.home.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
