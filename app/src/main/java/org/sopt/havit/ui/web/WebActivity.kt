@@ -3,7 +3,6 @@ package org.sopt.havit.ui.web
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.Log
 import android.view.View.GONE
 import android.view.animation.AnimationUtils
 import android.webkit.URLUtil
@@ -14,14 +13,14 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityWebBinding
 import org.sopt.havit.domain.entity.NetworkState
-import org.sopt.havit.ui.base.BaseBindingActivity
-import org.sopt.havit.ui.save.SaveFragment
+import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.share.ShareActivity
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.GoogleAnalyticsUtil
@@ -69,7 +68,6 @@ class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
     private fun initIsHavit() {
         webViewModel.init(intent.getBooleanExtra("isSeen", false))
     }
-
     private fun initHavitSeen() {
         if (intent.getIntExtra("contentsId", -1) == -1) {
             binding.llWebview.visibility = GONE
@@ -203,4 +201,13 @@ class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
     companion object {
         const val TAG = "WebActivity"
 
+    }
+
+    private fun isForcedUpdateNeeded() {
+        lifecycleScope.launch {
+            webViewModel.isForcedUpdatedNeeded
+                .collect(::showForcedUpdateDialogIfNeeded)
+        }
+    }
 }
+
