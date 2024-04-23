@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentCommunityBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
-import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class CommunityFragment :
@@ -52,13 +51,6 @@ class CommunityFragment :
             list.forEachIndexed { index, value ->
                 val chip = LayoutInflater.from(requireContext())
                     .inflate(R.layout.item_chip, binding.cgCommunityCategory, false) as Chip
-
-                if (list.lastIndex == index) { // 마지막 chip marginEnd 16dp
-                    val density = requireContext().resources.displayMetrics.density
-                    val param = chip.layoutParams as ViewGroup.MarginLayoutParams
-                    param.marginEnd = (16.toFloat() * density).roundToInt()
-                    chip.layoutParams = param
-                }
 
                 with(chip) {
                     text = value.name

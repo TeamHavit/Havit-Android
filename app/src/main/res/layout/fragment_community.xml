@@ -50,6 +50,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:checkedChip="@id/ch_all"
+                android:clipToPadding="false"
+                android:paddingHorizontal="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:selectionRequired="true"
