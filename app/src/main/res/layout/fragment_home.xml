@@ -9,7 +9,7 @@
 
         <variable
             name="vmHome"
-            type="org.sopt.havit.ui.home.HomeViewModel" />
+            type="org.sopt.havit.ui.home.home.HomeViewModel" />
 
         <variable
             name="isPopup"
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white_gray"
-        tools:context=".ui.home.HomeFragment">
+        tools:context=".ui.home.home.HomeFragment">
 
         <!-- 서버 연결 실패 -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,53 +64,7 @@
             android:layout_height="match_parent"
             android:visibility="@{vmHome.loadState==state.FAIL ? View.GONE : View.VISIBLE}">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_topbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="@{vmHome.loadState==state.LOADING ? View.GONE : View.VISIBLE}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/iv_logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="17dp"
-                    android:layout_marginTop="23dp"
-                    android:layout_marginBottom="13dp"
-                    android:src="@drawable/ic_logo_small_gray"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iv_service_guide"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginBottom="2dp"
-                    android:padding="3dp"
-                    android:src="@drawable/ic_serviceguide"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/iv_alarm"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/iv_alarm"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="2dp"
-                    android:padding="3dp"
-                    android:src="@{hasNotification? @drawable/ic_alarm_active : @drawable/ic_alarm}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+            <!-- 디폴트 홈-->
             <org.sopt.havit.util.StickyScrollView
                 android:id="@+id/sv_main"
                 android:layout_width="match_parent"
@@ -118,7 +72,7 @@
                 android:orientation="vertical"
                 android:visibility="@{vmHome.loadState==state.LOADING ? View.GONE : View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_topbar">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <!-- 스크롤되는 뷰 -->
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -232,29 +186,23 @@
                             android:id="@+id/cl_reach_contents"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="9dp"
-                            android:layout_marginEnd="9dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/rectangle_white_purple_light_radius_6"
+                            android:paddingHorizontal="9dp"
                             android:paddingVertical="6dp"
-                            android:paddingStart="6dp"
-                            android:paddingEnd="7dp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                            app:layout_constraintTop_toTopOf="@+id/tv_reach_user">
 
                             <TextView
                                 android:id="@+id/tv_reach_contents"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/rectangle_white_purple_light_radius_6"
-                                android:paddingVertical="5dp"
-                                android:paddingStart="8dp"
-                                android:paddingEnd="9dp"
                                 android:text="@string/home_reach_contents"
                                 android:textAppearance="@style/Sub12Medium"
                                 android:textColor="@color/gray_3"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
@@ -626,6 +574,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </org.sopt.havit.util.StickyScrollView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

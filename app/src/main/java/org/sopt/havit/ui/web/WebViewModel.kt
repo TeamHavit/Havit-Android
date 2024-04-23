@@ -24,6 +24,9 @@ class WebViewModel @Inject constructor(
     private var _isClick = MutableLiveData<Event<Boolean>>()
     val isClick: LiveData<Event<Boolean>> = _isClick
 
+    private var _isSavedContents = MutableLiveData<Event<Boolean>>()
+    val isSavedContents: LiveData<Event<Boolean>> = _isSavedContents
+
     var contentsUrl = MutableLiveData<String>()
 
     var isServerNetwork = MutableLiveData<NetworkState>()
@@ -31,6 +34,10 @@ class WebViewModel @Inject constructor(
     fun init(havit: Boolean) {
         _isHavit.value = Event(havit)
         _isClick.value = Event(!havit)
+    }
+
+    fun setWebBottomBarAndSaveBtn(visible: Boolean) {
+        _isSavedContents.value = Event((visible))
     }
 
     fun setHavit(contentsId: Int) {

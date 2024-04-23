@@ -7,14 +7,14 @@ import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingNoticeBinding
-import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.setting.adapter.NoticeAdapter
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.util.setOnSingleClickListener
 
 @AndroidEntryPoint
 class SettingNoticeActivity :
-    BaseBindingActivity<ActivitySettingNoticeBinding>(R.layout.activity_setting_notice) {
+    BaseActivity<ActivitySettingNoticeBinding>(R.layout.activity_setting_notice) {
     private val viewModel: SettingViewModel by viewModels()
     private lateinit var noticeAdapter: NoticeAdapter
 

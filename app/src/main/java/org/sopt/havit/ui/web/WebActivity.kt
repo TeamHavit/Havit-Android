@@ -15,12 +15,15 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityWebBinding
 import org.sopt.havit.domain.entity.NetworkState
-import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.base.BaseActivity
+import org.sopt.havit.ui.share.ShareActivity
 import org.sopt.havit.util.EventObserver
 import org.sopt.havit.util.GoogleAnalyticsUtil
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_GO_BACK
@@ -29,8 +32,9 @@ import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SHARE
 import org.sopt.havit.util.GoogleAnalyticsUtil.CONTENT_SCREEN_TIME
 import java.net.URISyntaxException
 
+
 @AndroidEntryPoint
-class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_web) {
+class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
 
     private val webViewModel: WebViewModel by viewModels()
     private var startTime: Int = 0
@@ -50,19 +54,23 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         binding.vm = webViewModel
         startTime = SystemClock.elapsedRealtime().toInt()
 
-        webViewModel.fetchIsSystemMaintenance()
         observeSystemUnderMaintenance()
         initIsHavit()
         initHavitSeen()
+        setWebViewBottomBar()
         setUrlCheck()
-        setListeners()
         initIsHavitObserver()
+        setListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        isForcedUpdateNeeded()
     }
 
     private fun initIsHavit() {
         webViewModel.init(intent.getBooleanExtra("isSeen", false))
     }
-
     private fun initHavitSeen() {
         if (intent.getIntExtra("contentsId", -1) == -1) {
             binding.llWebview.visibility = GONE
@@ -74,6 +82,12 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
             Glide.with(this).load(R.drawable.ic_contents_read_2).into(binding.ivWebviewUnread)
             binding.tvWebviewUnread.text = "콘텐츠 확인하기"
         }
+    }
+
+    private fun setWebViewBottomBar() {
+        val caller = intent.getStringExtra("caller")
+        webViewModel.setWebBottomBarAndSaveBtn(caller != "CommunityDetailActivity")
+
     }
 
     private fun setUrlCheck() {
@@ -203,6 +217,12 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
             )
             checkUrlNetwork(requireNotNull(intent.getStringExtra("url")))
         }
+        binding.btnSave.setOnClickListener {
+            val intent = Intent(this, ShareActivity::class.java).apply {
+                putExtra("url", webViewModel.contentsUrl.value.toString())
+            }
+            startActivity(intent)
+        }
 
     }
 
@@ -227,4 +247,17 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
     private fun observeSystemUnderMaintenance() {
         webViewModel.isSystemMaintenance.observe(this, systemMaintenanceObserver)
     }
+
+    companion object {
+        const val TAG = "WebActivity"
+
+    }
+
+    private fun isForcedUpdateNeeded() {
+        lifecycleScope.launch {
+            webViewModel.isForcedUpdatedNeeded
+                .collect(::showForcedUpdateDialogIfNeeded)
+        }
+    }
 }
+

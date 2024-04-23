@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_community_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_profile" />
+
+    <ImageView
+        android:id="@+id/iv_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="19dp"
+        android:paddingStart="22dp"
+        android:paddingEnd="15dp"
+        android:src="@drawable/ic_more"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_community_profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
+        android:textAppearance="@style/Sub12Medium"
+        android:textColor="@color/gray_4"
+        app:layout_constraintStart_toEndOf="@+id/iv_community_profile"
+        app:layout_constraintTop_toTopOf="@+id/iv_community_profile"
+        tools:text="김침침" />
+
+    <TextView
+        android:id="@+id/tv_community_contents_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="37dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/Text15Semibold"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_community_profile"
+        app:layout_constraintStart_toStartOf="@+id/tv_community_profile_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_community_profile_name"
+        tools:text="작성제목한줄만작성제목한줄만작성제목한줄작성제목한줄만작성" />
+
+    <TextView
+        android:id="@+id/tv_community_contents_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textAppearance="@style/Sub13Regular"
+        android:textColor="@color/gray_5"
+        app:layout_constraintEnd_toEndOf="@+id/tv_community_contents_title"
+        app:layout_constraintStart_toEndOf="@+id/iv_community_profile"
+        app:layout_constraintStart_toStartOf="@+id/tv_community_profile_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_community_contents_title"
+        tools:text="작성본문두줄까지작성본문두줄까지작성본문두줄까지작성본문두줄까지작성본문두줄까지작성본문두줄까작성본문두줄까지작성성성" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_contents_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/rectangle_white_gray_radius_5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_community_contents_description"
+        app:layout_constraintStart_toStartOf="@+id/tv_community_contents_description"
+        app:layout_constraintTop_toBottomOf="@+id/tv_community_contents_description">
+
+        <ImageView
+            android:id="@+id/iv_thumbnail"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_margin="7dp"
+            android:src="@drawable/img_contents_dummy"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="12dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{content.title}"
+            android:textAppearance="@style/Sub12Medium"
+            android:textColor="@color/gray_4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_thumbnail"
+            app:layout_constraintTop_toTopOf="@+id/iv_thumbnail"
+            tools:text="원문제목두줄까지원문제목두줄까지원문제목두줄까지원문제목두줄까지원문원문제목두줄까지원문제목두줄까지원문제목" />
+
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textAppearance="@style/Mini9Regular"
+            android:textColor="@color/gray_2"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_thumbnail"
+            app:layout_constraintStart_toStartOf="@+id/tv_title"
+            tools:text="2021. 11. 24" />
+
+        <TextView
+            android:id="@+id/tv_divider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="@string/contents_divider"
+            android:textAppearance="@style/Mini9Regular"
+            android:textColor="@color/gray_2"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_date"
+            app:layout_constraintEnd_toStartOf="@id/tv_url"
+            app:layout_constraintStart_toEndOf="@+id/tv_date"
+            app:layout_constraintTop_toTopOf="@+id/tv_date" />
+
+        <TextView
+            android:id="@+id/tv_url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{content.url}"
+            android:textAppearance="@style/Mini9Regular"
+            android:textColor="@color/gray_2"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_divider"
+            app:layout_constraintEnd_toEndOf="@+id/tv_title"
+            app:layout_constraintStart_toEndOf="@+id/tv_divider"
+            app:layout_constraintTop_toTopOf="@+id/tv_divider"
+            tools:text="www.brunch.com.dididididididididididididdidididi" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

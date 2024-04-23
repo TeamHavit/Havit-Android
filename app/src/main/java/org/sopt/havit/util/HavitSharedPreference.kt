@@ -10,6 +10,7 @@ class HavitSharedPreference @Inject constructor(@ApplicationContext private val 
     companion object {
         private const val X_AUTH_TOKEN = "ACCESS_TOKEN"
         private const val FIRST_USER = "FIRST_USER"
+        private const val TOOLTIP_CLOSE = "TOOLTIP_CLOSE"
     }
 
     fun setXAuthToken(xAuthToken: String) {
@@ -47,5 +48,19 @@ class HavitSharedPreference @Inject constructor(@ApplicationContext private val 
         val pref: SharedPreferences =
             context.getSharedPreferences(FIRST_USER, Context.MODE_PRIVATE)
         return pref.getBoolean(FIRST_USER, true)
+    }
+
+    fun setCommunityTooltipClosed() {
+        val prefs: SharedPreferences =
+            context.getSharedPreferences(TOOLTIP_CLOSE, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = prefs.edit()
+        editor.putBoolean(TOOLTIP_CLOSE, true)
+        editor.apply()
+    }
+
+    fun isCommunityTooltipClosed(): Boolean {
+        val pref: SharedPreferences =
+            context.getSharedPreferences(TOOLTIP_CLOSE, Context.MODE_PRIVATE)
+        return pref.getBoolean(TOOLTIP_CLOSE, false)
     }
 }
