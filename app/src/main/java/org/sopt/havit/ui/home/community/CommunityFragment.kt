@@ -21,7 +21,7 @@ class CommunityFragment :
     private val viewModel: CommunityViewModel by viewModels()
     private val adapter by lazy {
         CommunityPagingDataAdapter(
-            onSettingClick = { id -> showReportDialog(id) }
+            onSettingClick = { id, position -> showReportDialog(id, position) },
         )
     }
 
@@ -69,17 +69,20 @@ class CommunityFragment :
         lifecycleScope.launch {
             viewModel.getCommunityAllPosts().collect { pagingData ->
                 adapter.submitData(lifecycle, pagingData)
+
             }
         }
     }
 
-    private fun showReportDialog(id: Int) {
+    private fun showReportDialog(id: Int, position: Int) {
         val bottomSheet = BottomSheetReportFragment()
         bottomSheet.show(childFragmentManager, BottomSheetReportFragment.TAG)
 
         bottomSheet.setReportClickListener(
             object : BottomSheetReportFragment.OnReportClickListener {
                 override fun onClick() {
+                    viewModel.postCommunityReport(id)
+                    adapter.notifyItemRemoved(position)
                     bottomSheet.dismiss()
                 }
             })

@@ -8,4 +8,5 @@ import org.sopt.havit.domain.entity.CommunityPost
 interface CommunityRepository {
     suspend fun getCommunityCategories(): List<CommunityCategory>
     suspend fun getCommunityAllPosts(): Flow<PagingData<CommunityPost>>
+    suspend fun postCommunityReport(id: Int)
 }

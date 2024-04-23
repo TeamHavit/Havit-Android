@@ -23,6 +23,10 @@ class CommunityRepositoryImpl @Inject constructor(
         return Pager(PagingConfig(pageSize = PAGE_SIZE)) { communityPagingSource }.flow
     }
 
+    override suspend fun postCommunityReport(id: Int) {
+        communityRemoteDataSource.postCommunityReport(id)
+    }
+
     companion object {
         private const val PAGE_SIZE = 2
     }

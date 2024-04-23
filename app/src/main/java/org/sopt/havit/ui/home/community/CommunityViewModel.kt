@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.home.community
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,6 +22,8 @@ class CommunityViewModel @Inject constructor(
 ) : ViewModel() {
     private val _communityCategoryList = MutableLiveData<List<CommunityCategory>>()
     val communityCategoryList: LiveData<List<CommunityCategory>> = _communityCategoryList
+
+    val reportIds = mutableListOf<Int>()
 
     private val _loadState = MutableLiveData(NetworkState.LOADING)
     val loadState: LiveData<NetworkState>
@@ -46,5 +49,18 @@ class CommunityViewModel @Inject constructor(
 
     suspend fun getCommunityAllPosts(): Flow<PagingData<CommunityPost>> {
         return communityRepository.getCommunityAllPosts().cachedIn(viewModelScope)
+    }
+
+    fun postCommunityReport(id: Int) {
+        viewModelScope.launch {
+            _loadState.value = NetworkState.LOADING
+            kotlin.runCatching {
+                communityRepository.postCommunityReport(id)
+            }.onSuccess {
+                reportIds.add(id)
+            }.onFailure {
+                Log.e("CommunityViewModel", "Community Post Id $id 의 삭제 에러")
+            }
+        }
     }
 }

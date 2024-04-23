@@ -154,4 +154,9 @@ interface HavitApi {
         @Query("page") page: Int,
         @Query("limit") limit: Int,
     ): BaseResponse<CommunityPostResponse>
+
+    @POST("community/reports")
+    suspend fun postCommunityReport(
+        @Body body: CommunityReportRequest
+    ): BasicResponse
 }
