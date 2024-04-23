@@ -7,21 +7,37 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.databinding.ItemCommunityBinding
 import org.sopt.havit.domain.entity.CommunityPost
+import org.sopt.havit.util.setOnSingleClickListener
 
-class CommunityPagingDataAdapter :
-    PagingDataAdapter<CommunityPost, CommunityPagingDataAdapter.ViewHolder>(diffUtil) {
+class CommunityPagingDataAdapter(
+    private val onSettingClick: (id: Int) -> Unit
+) : PagingDataAdapter<CommunityPost, CommunityPagingDataAdapter.ViewHolder>(diffUtil) {
 
-    class ViewHolder(private val binding: ItemCommunityBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: CommunityPost) {
-            binding.data = item
+    class ViewHolder(
+        private val binding: ItemCommunityBinding,
+        private val onSettingClick: (id: Int) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
+        private lateinit var item: CommunityPost
+
+        init {
+            binding.ivSetting.setOnSingleClickListener {
+                if (::item.isInitialized) {
+                    onSettingClick.invoke(item.id)
+                }
+            }
+        }
+
+        fun bind(data: CommunityPost) {
+            item = data.also {
+                binding.data = it
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemCommunityBinding =
             ItemCommunityBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(binding, onSettingClick)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

@@ -20,7 +20,9 @@ class CommunityFragment :
     BaseBindingFragment<FragmentCommunityBinding>(R.layout.fragment_community) {
     private val viewModel: CommunityViewModel by viewModels()
     private val adapter by lazy {
-        CommunityPagingDataAdapter()
+        CommunityPagingDataAdapter(
+            onSettingClick = { id -> showReportDialog(id) }
+        )
     }
 
     override fun onCreateView(
@@ -48,7 +50,7 @@ class CommunityFragment :
     private fun observe() {
         // 카테고리 chip 동적 생성
         viewModel.communityCategoryList.observe(viewLifecycleOwner) { list ->
-            list.forEachIndexed { index, value ->
+            list.forEachIndexed { _, value ->
                 val chip = LayoutInflater.from(requireContext())
                     .inflate(R.layout.item_chip, binding.cgCommunityCategory, false) as Chip
 
@@ -63,11 +65,23 @@ class CommunityFragment :
             }
         }
 
-        // 카테고리 리스트 전체 조회
+        // 커뮤니티 리스트 전체 조회
         lifecycleScope.launch {
             viewModel.getCommunityAllPosts().collect { pagingData ->
                 adapter.submitData(lifecycle, pagingData)
             }
         }
+    }
+
+    private fun showReportDialog(id: Int) {
+        val bottomSheet = BottomSheetReportFragment()
+        bottomSheet.show(childFragmentManager, BottomSheetReportFragment.TAG)
+
+        bottomSheet.setReportClickListener(
+            object : BottomSheetReportFragment.OnReportClickListener {
+                override fun onClick() {
+                    bottomSheet.dismiss()
+                }
+            })
     }
 }

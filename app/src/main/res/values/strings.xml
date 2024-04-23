@@ -296,5 +296,6 @@
     <string name="new_icon">N</string>
     <string name="share_content_introduce">소개하고 싶은 콘텐츠를 공유해보세요!</string>
     <string name="share_content_together">함께 콘텐츠를 나눠보세요!</string>
+    <string name="report">신고하기</string>
 
 </resources>
