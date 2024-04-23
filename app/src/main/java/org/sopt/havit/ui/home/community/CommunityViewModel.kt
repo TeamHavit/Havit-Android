@@ -51,6 +51,10 @@ class CommunityViewModel @Inject constructor(
         return communityRepository.getCommunityAllPosts().cachedIn(viewModelScope)
     }
 
+    suspend fun getCommunityPostsByCategory(categoryId: Int): Flow<PagingData<CommunityPost>> {
+        return communityRepository.getCommunityPostsByCategory(categoryId).cachedIn(viewModelScope)
+    }
+
     fun postCommunityReport(id: Int) {
         viewModelScope.launch {
             _loadState.value = NetworkState.LOADING

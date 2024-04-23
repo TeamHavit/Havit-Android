@@ -7,13 +7,15 @@ import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.domain.entity.CommunityPost
 import javax.inject.Inject
 
-class CommunityPagingSource @Inject constructor(
-    private val havitApi: HavitApi
+class CommunityByCommunityPagingSource @Inject constructor(
+    private val havitApi: HavitApi,
+    private val categoryId: Int
 ) : PagingSource<Int, CommunityPost>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CommunityPost> {
         val page = params.key ?: 1
         return try {
-            val response = havitApi.getCommunityAllPosts(
+            val response = havitApi.getCommunityPostsByCategory(
+                communityCategoryId = categoryId.toString(),
                 page = page,
                 limit = PAGE_LIMIT
             ).data
@@ -26,7 +28,7 @@ class CommunityPagingSource @Inject constructor(
                 nextKey = if (response.isLastPage) null else (page + 1)
             )
         } catch (e: Exception) {
-            Log.e("CommunityPagingSource", "error : $e")
+            Log.e("CommunityByCommunityPagingSource", "error : $e")
             LoadResult.Error(e)
         }
     }

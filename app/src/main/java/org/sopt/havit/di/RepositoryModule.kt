@@ -12,7 +12,6 @@ import org.sopt.havit.data.source.remote.AuthRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.RemoteConfigDataSourceImpl
 import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.category.CategoryRemoteDataSourceImpl
-import org.sopt.havit.data.source.remote.community.CommunityPagingSource
 import org.sopt.havit.data.source.remote.community.CommunityRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSourceImpl
 import org.sopt.havit.domain.repository.*
@@ -59,10 +58,9 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideCommunityRepository(
+        api: HavitApi,
         communityRemoteDataSourceImpl: CommunityRemoteDataSourceImpl,
-        communityPagingSource: CommunityPagingSource
-    ): CommunityRepository =
-        CommunityRepositoryImpl(communityRemoteDataSourceImpl, communityPagingSource)
+    ): CommunityRepository = CommunityRepositoryImpl(api, communityRemoteDataSourceImpl)
 
     @Provides
     @Singleton

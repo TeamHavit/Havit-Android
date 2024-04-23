@@ -159,4 +159,11 @@ interface HavitApi {
     suspend fun postCommunityReport(
         @Body body: CommunityReportRequest
     ): BasicResponse
+
+    @GET("community/categories/{communityCategoryId}")
+    suspend fun getCommunityPostsByCategory(
+        @Path("communityCategoryId") communityCategoryId: String,
+        @Query("page") page: Int,
+        @Query("limit") limit: Int,
+    ): BaseResponse<CommunityPostResponse>
 }

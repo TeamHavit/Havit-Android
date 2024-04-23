@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentCommunityBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.util.setOnSingleClickListener
 
 @AndroidEntryPoint
 class CommunityFragment :
@@ -37,10 +38,16 @@ class CommunityFragment :
 
         initView()
         observe()
+        getCommunityAllPosts()
     }
 
     private fun initView() {
         binding.rvCommunity.adapter = adapter
+
+        binding.chAll.setOnSingleClickListener {
+            getCommunityAllPosts()
+            adapter.refresh() // 새로 데이터를 받아오기 위해
+        }
     }
 
     private fun observe() {
@@ -52,22 +59,31 @@ class CommunityFragment :
 
                 with(chip) {
                     text = value.name
-                    setOnClickListener {
-                        //조회 로직
+                    setOnSingleClickListener {
+                        getCommunityPostsByCategoryWithRefresh(value.id)
                     }
                 }
 
                 binding.cgCommunityCategory.addView(chip)
             }
         }
+    }
 
-        // 커뮤니티 리스트 전체 조회
+    private fun getCommunityAllPosts() {
         lifecycleScope.launch {
             viewModel.getCommunityAllPosts().collect { pagingData ->
                 adapter.submitData(lifecycle, pagingData)
-
             }
         }
+    }
+
+    private fun getCommunityPostsByCategoryWithRefresh(categoryId: Int) {
+        lifecycleScope.launch {
+            viewModel.getCommunityPostsByCategory(categoryId).collect { pagingData ->
+                adapter.submitData(lifecycle, pagingData)
+            }
+        }
+        adapter.refresh() // 새로 데이터를 받아오기 위해
     }
 
     private fun showReportDialog(id: Int, position: Int) {
