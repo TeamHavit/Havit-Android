@@ -16,12 +16,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.sopt.havit.MainActivity
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySplashWithSignBinding
 import org.sopt.havit.domain.entity.NetworkState
-import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.onboarding.OnboardingActivity
 import org.sopt.havit.ui.share.ShareActivity
 import org.sopt.havit.ui.sign.SignInViewModel.Companion.SPLASH_NORMAL_FLOW
@@ -34,7 +36,7 @@ import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class SplashWithSignActivity :
-    BaseBindingActivity<ActivitySplashWithSignBinding>(R.layout.activity_splash_with_sign) {
+    BaseActivity<ActivitySplashWithSignBinding>(R.layout.activity_splash_with_sign) {
 
     @Inject
     lateinit var preference: HavitSharedPreference
@@ -75,13 +77,13 @@ class SplashWithSignActivity :
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         binding.main = signInViewModel
 
-        signInViewModel.fetchIsSystemMaintenance()
         observeSystemUnderMaintenance()
         initFcmToken()
         initSuccessKakaoLoginObserver()
         initWhereSplashComesFrom()
         setLoginGuideIfFromShare()
         setSplashView()
+        isCheckedUpdate()
         setListeners()
         isAlreadyUserObserver()
     }
@@ -131,7 +133,7 @@ class SplashWithSignActivity :
                 override fun onAnimationRepeat(p0: Animation?) {}
 
                 override fun onAnimationEnd(p0: Animation?) {
-                    checkAlarmPermission()
+                    isForcedUpdateNeeded()
                 }
             })
         } else {
@@ -148,13 +150,15 @@ class SplashWithSignActivity :
             signInViewModel.isServerNetwork.value = NetworkState.SUCCESS
             if (isLogin && preference.getXAuthToken().isNotEmpty()) startMainActivity()
             else if (preference.isFirstEnter()) startOnBoardingActivity()
+            else if (signInViewModel.isForcedUpdatedNeeded.value) isForcedUpdateNeeded()
             else setLoginAnimation()
         }
     }
 
     private val splashWithLoginLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            setLoginAnimation()
+            if (signInViewModel.isForcedUpdatedNeeded.value) isForcedUpdateNeeded()
+            else setLoginAnimation()
         }
 
     private fun setListeners() {
@@ -247,6 +251,23 @@ class SplashWithSignActivity :
     override fun setRequestedOrientation(requestedOrientation: Int) {
         if (Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
             super.setRequestedOrientation(requestedOrientation)
+        }
+    }
+
+    private fun isForcedUpdateNeeded() {
+        lifecycleScope.launch {
+            signInViewModel.isForcedUpdatedNeeded
+                .collect(::showForcedUpdateDialogIfNeeded)
+        }
+    }
+
+    private fun isCheckedUpdate() {
+        lifecycleScope.launch {
+            signInViewModel.isForcedUpdatedNeeded.collect { isForcedUpdatedNeeded ->
+                if (!isForcedUpdatedNeeded) {
+                    checkAlarmPermission()
+                }
+            }
         }
     }
 }

@@ -14,9 +14,9 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityWebBinding
 import org.sopt.havit.domain.entity.NetworkState
@@ -32,7 +32,7 @@ import org.sopt.havit.util.GoogleAnalyticsUtil.CONTENT_SCREEN_TIME
 
 
 @AndroidEntryPoint
-class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_web) {
+class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
 
     private val webViewModel: WebViewModel by viewModels()
     private var startTime: Int = 0
@@ -52,7 +52,6 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         binding.vm = webViewModel
         startTime = SystemClock.elapsedRealtime().toInt()
 
-        webViewModel.fetchIsSystemMaintenance()
         observeSystemUnderMaintenance()
         initIsHavit()
         initHavitSeen()
@@ -60,6 +59,11 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
         setUrlCheck()
         initIsHavitObserver()
         setListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        isForcedUpdateNeeded()
     }
 
     private fun initIsHavit() {
@@ -198,5 +202,5 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>(R.layout.activity_we
 
     companion object {
         const val TAG = "WebActivity"
-    }
+
 }

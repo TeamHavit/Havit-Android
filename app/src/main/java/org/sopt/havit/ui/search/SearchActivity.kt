@@ -13,7 +13,7 @@ import org.sopt.havit.R
 import org.sopt.havit.data.remote.ContentsMoreData
 import org.sopt.havit.databinding.ActivitySearchBinding
 import org.sopt.havit.domain.entity.Contents
-import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.contents.more.ContentsMoreFragment
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.DialogUtil
@@ -22,7 +22,7 @@ import org.sopt.havit.util.KeyBoardUtil
 import java.io.Serializable
 
 @AndroidEntryPoint
-class SearchActivity : BaseBindingActivity<ActivitySearchBinding>(R.layout.activity_search) {
+class SearchActivity : BaseActivity<ActivitySearchBinding>(R.layout.activity_search) {
 
     private val searchViewModel: SearchViewModel by viewModels()
     private val searchContentsAdapter: SearchContentsAdapter by lazy { SearchContentsAdapter() }

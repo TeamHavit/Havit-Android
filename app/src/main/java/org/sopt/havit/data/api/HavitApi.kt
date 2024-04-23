@@ -3,6 +3,7 @@ package org.sopt.havit.data.api
 import org.sopt.havit.data.remote.*
 import org.sopt.havit.data.remote.base.BaseResponse
 import org.sopt.havit.domain.entity.Category
+import org.sopt.havit.domain.entity.CommunityCategory
 import org.sopt.havit.domain.entity.Contents
 import org.sopt.havit.domain.entity.Notice
 import retrofit2.http.*
@@ -144,4 +145,7 @@ interface HavitApi {
 
     @GET("notice")
     suspend fun getNoticeList(): BaseResponse<List<Notice>>
+
+    @GET("community/categories")
+    suspend fun getCommunityCategoryList(): BaseResponse<List<CommunityCategory>>
 }

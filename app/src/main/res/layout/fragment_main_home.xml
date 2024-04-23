@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="org.sopt.havit.ui.home.MainHomeViewModel" />
+
+        <variable
+            name="hasNotification"
+            type="Boolean" />
+
+        <variable
+            name="state"
+            type="org.sopt.havit.domain.entity.NetworkState" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white_gray"
+        tools:context=".ui.home.MainHomeFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_community_tooltip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="13dp"
+            android:layout_marginBottom="-17dp"
+            android:background="@drawable/bg_community_tooltip"
+            android:elevation="1dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="14dp"
+            app:layout_constraintBottom_toTopOf="@+id/vp_main_home"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/tv_community_tooltip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/pretendard"
+                android:text="@string/share_content_introduce"
+                android:textColor="@color/gray_0"
+                android:textSize="11dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_close_community_tooltip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="8dp"
+                android:padding="2dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_community_tooltip"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_community_tooltip"
+                app:layout_constraintTop_toTopOf="@+id/tv_community_tooltip"
+                app:srcCompat="@drawable/ic_close_white" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_topbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{vm.loadState==state.LOADING ? View.GONE : View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="23dp"
+                android:layout_marginBottom="13dp"
+                android:src="@drawable/ic_logo_small_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_service_guide"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="2dp"
+                android:padding="3dp"
+                android:src="@drawable/ic_serviceguide"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_alarm"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_alarm"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="2dp"
+                android:padding="3dp"
+                android:src="@{hasNotification? @drawable/ic_alarm_active : @drawable/ic_alarm}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 상단 탭 -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tl_main_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@color/white_gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_topbar"
+            app:tabGravity="center"
+            app:tabIndicatorColor="@color/havit_purple"
+            app:tabIndicatorFullWidth="false"
+            app:tabPaddingBottom="7dp"
+            app:tabPaddingEnd="13dp"
+            app:tabPaddingStart="13dp"
+            app:tabPaddingTop="17dp"
+            app:tabRippleColor="@null"
+            app:tabSelectedTextColor="@color/black"
+            app:tabTextAppearance="@style/tabText14Semibold"
+            app:tabTextColor="@color/gray_3">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/community" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <TextView
+            android:id="@+id/tv_community_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/new_icon"
+            android:textAppearance="@style/Mini10Semibold"
+            android:textColor="@color/purple_text"
+            app:layout_constraintStart_toEndOf="@+id/tl_main_tab"
+            app:layout_constraintTop_toTopOf="@+id/tl_main_tab" />
+
+        <View
+            android:id="@+id/view_tab"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/gray_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_main_tab" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_main_home"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_tab" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCategoryOrderModifyBinding
 import org.sopt.havit.domain.entity.NetworkState
-import org.sopt.havit.ui.base.BaseBindingActivity
+import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_DELETE_CATEGORY
 import org.sopt.havit.ui.category.CategoryContentModifyActivity.Companion.RESULT_MODIFY_CATEGORY
 import org.sopt.havit.ui.category.CategoryFragment.Companion.CATEGORY_ID
@@ -28,7 +28,7 @@ import org.sopt.havit.util.setOnSingleClickListener
 
 @AndroidEntryPoint
 class CategoryOrderModifyActivity :
-    BaseBindingActivity<ActivityCategoryOrderModifyBinding>(R.layout.activity_category_order_modify) {
+    BaseActivity<ActivityCategoryOrderModifyBinding>(R.layout.activity_category_order_modify) {
     private lateinit var getResult: ActivityResultLauncher<Intent>
     private lateinit var categoryOrderModifyAdapter: CategoryOrderModifyAdapter
     private val categoryViewModel by viewModels<CategoryViewModel>()

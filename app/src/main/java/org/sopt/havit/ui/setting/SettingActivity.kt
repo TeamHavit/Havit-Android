@@ -11,8 +11,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivitySettingBinding
 import org.sopt.havit.domain.entity.VersionState
-import org.sopt.havit.ui.base.BaseBindingActivity
-import org.sopt.havit.ui.home.ServiceGuideActivity
+import org.sopt.havit.ui.base.BaseActivity
+import org.sopt.havit.ui.home.home.ServiceGuideActivity
 import org.sopt.havit.ui.setting.viewmodel.SettingViewModel
 import org.sopt.havit.ui.sign.SplashWithSignActivity
 import org.sopt.havit.util.CANNOT_SEND_MAIL_TYPE
@@ -24,7 +24,7 @@ import org.sopt.havit.util.setOnSingleClickListener
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SettingActivity : BaseBindingActivity<ActivitySettingBinding>(R.layout.activity_setting) {
+class SettingActivity : BaseActivity<ActivitySettingBinding>(R.layout.activity_setting) {
     private val settingViewModel: SettingViewModel by viewModels()
 
     @Inject
