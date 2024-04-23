@@ -4,9 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import org.sopt.havit.domain.entity.CommunityCategory
+import org.sopt.havit.domain.entity.CommunityPost
 import org.sopt.havit.domain.entity.NetworkState
 import org.sopt.havit.domain.repository.CommunityRepository
 import javax.inject.Inject
@@ -38,5 +42,9 @@ class CommunityViewModel @Inject constructor(
                 _loadState.value = NetworkState.FAIL
             }
         }
+    }
+
+    suspend fun getCommunityAllPosts(): Flow<PagingData<CommunityPost>> {
+        return communityRepository.getCommunityAllPosts().cachedIn(viewModelScope)
     }
 }

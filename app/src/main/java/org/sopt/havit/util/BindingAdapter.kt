@@ -1,14 +1,17 @@
 package org.sopt.havit.util
 
 import android.content.ContentValues.TAG
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -84,6 +87,14 @@ fun ImageView.defaultImageLinearMax(url: String?) {
         .load(url)
         .transform(CenterCrop(), RoundedCorners(px(4)))
         .placeholder(R.drawable.img_contents_dummy_3)
+        .into(this)
+}
+
+@BindingAdapter("imageProfile")
+fun ImageView.loadProfile(url: String?) {
+    Glide.with(context)
+        .load(url)
+        .placeholder(R.drawable.ic_profile)
         .into(this)
 }
 
@@ -202,4 +213,22 @@ fun View.showOnLoading(responseState: NetworkStatus) {
 @BindingAdapter("showOnSuccess")
 fun View.showOnSuccess(responseState: NetworkStatus) {
     visibility = if (responseState is NetworkStatus.Success) View.VISIBLE else View.GONE
+}
+
+@BindingAdapter(
+    value = ["dividerHeight", "dividerPadding", "dividerColor"],
+    requireAll = false
+)
+fun RecyclerView.setDivider(
+    dividerHeight: Float?,
+    dividerPadding: Float?,
+    @ColorInt dividerColor: Int?
+) {
+    val decoration = CustomDecoration(
+        height = dividerHeight ?: 0f,
+        padding = dividerPadding ?: 0f,
+        color = dividerColor ?: Color.TRANSPARENT
+    )
+
+    addItemDecoration(decoration)
 }

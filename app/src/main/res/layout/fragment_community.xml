@@ -83,8 +83,13 @@
             app:layout_constraintTop_toBottomOf="@id/hsv_community_chip" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_community"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:dividerColor="@{@color/gray_0}"
+            app:dividerHeight="@{@dimen/dp_1}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view_community_chip"
