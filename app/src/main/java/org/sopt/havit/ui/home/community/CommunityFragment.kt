@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -43,8 +41,6 @@ class CommunityFragment :
 
     private fun initView() {
         binding.rvCommunity.adapter = adapter
-        val decoration = DividerItemDecoration(requireActivity(), VERTICAL)
-        binding.rvCommunity.addItemDecoration(decoration)
     }
 
     private fun observe() {
