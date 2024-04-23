@@ -297,4 +297,7 @@
     <string name="share_content_introduce">소개하고 싶은 콘텐츠를 공유해보세요!</string>
     <string name="share_content_together">함께 콘텐츠를 나눠보세요!</string>
 
+    <!-- community -->
+    <string name="community_save">저장하기</string>
+
 </resources>

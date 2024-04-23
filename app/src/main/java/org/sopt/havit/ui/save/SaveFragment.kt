@@ -52,7 +52,7 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         binding.vm = saveViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         setBottomSheetShow()
-        setClipBoardUrl()
+        setClipBoardOrCommunityUrl()
         setListeners()
         setDialogKeyBoard()
     }
@@ -65,8 +65,10 @@ class SaveFragment(categoryName: String) : BottomSheetDialogFragment() {
         }
     }
 
-    private fun setClipBoardUrl() {
-        if (clipboard.hasPrimaryClip()) { // 클립보드에 내용이 있으면 팝업을 보여줌.
+    private fun setClipBoardOrCommunityUrl() {
+        if (arguments?.getString("url")?.isNotEmpty() == true) {
+            saveViewModel.setUrlData(arguments?.getString("url")!!)
+        } else if (clipboard.hasPrimaryClip()) { // 클립보드에 내용이 있으면 팝업을 보여줌.
             if (isFullPath(clipData ?: "")) saveViewModel.clipDataUrl.value = clipData
         }
     }
