@@ -1,13 +1,32 @@
 package org.sopt.havit.ui.community
 
 import android.os.Bundle
+import android.view.Gravity
+import androidx.activity.viewModels
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCreatePostBinding
 import org.sopt.havit.ui.base.BaseActivity
 
 class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.activity_create_post) {
+    private val createPostViewModel by viewModels<CreatePostViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_post)
+
+        setupEditText()
     }
+
+    private fun setupEditText() {
+        setupLinkEditText()
+    }
+
+    private fun setupLinkEditText() {
+        binding.etLink.apply {
+            setLifecycleOwner(this@CreatePostActivity)
+            bindEditTextData(createPostViewModel.urlEditTextData)
+            setMaxLine(2)
+            setMinLine(2)
+            setGravity(Gravity.TOP)
+        }
+    }
+
 }
