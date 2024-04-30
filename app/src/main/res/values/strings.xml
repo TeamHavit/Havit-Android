@@ -299,5 +299,10 @@
 
     <!-- community -->
     <string name="community_save">저장하기</string>
+    <string name="create_post">작성하기</string>
+    <string name="link">링크</string>
+    <string name="enter_or_paste_link">를 입력 및 붙여넣기 해주세요</string>
+    <string name="empty_value" />
+
 
 </resources>
