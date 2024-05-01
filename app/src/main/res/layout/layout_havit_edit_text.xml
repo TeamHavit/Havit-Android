@@ -32,7 +32,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="test test test test test test test test test ttest test test test test test test test test " />
+            tools:text="test test test test test test test test test test " />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_clear"
@@ -62,7 +62,7 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_marginStart="2dp"
-                android:layout_marginTop="13dp"
+                android:layout_marginTop="7dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

@@ -13,6 +13,11 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         super.onCreate(savedInstanceState)
 
         setupEditText()
+        onEditTextChanged()
+    }
+
+    private fun onEditTextChanged() {
+        onUrlEditTextChanged()
     }
 
     private fun setupEditText() {
@@ -26,6 +31,13 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
             setMaxLine(2)
             setMinLine(2)
             setGravity(Gravity.TOP)
+        }
+    }
+
+    private fun onUrlEditTextChanged() {
+        createPostViewModel.url.observe(this) {
+            createPostViewModel.fetchUrlInfoStatus()
+            createPostViewModel.setIsUrlValid()
         }
     }
 

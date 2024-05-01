@@ -303,6 +303,7 @@
     <string name="link">링크</string>
     <string name="enter_or_paste_link">를 입력 및 붙여넣기 해주세요</string>
     <string name="empty_value" />
+    <string name="cannot_find_url_info">입력한 링크의 정보를 찾을 수 없습니다.</string>
 
 
 </resources>

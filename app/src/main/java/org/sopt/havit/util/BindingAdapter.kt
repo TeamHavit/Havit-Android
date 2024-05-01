@@ -207,10 +207,12 @@ fun View.showOnSuccess(responseState: NetworkStatus) {
 }
 
 @BindingAdapter("setImageRes")
-fun AppCompatImageView.setImageRes(icon: Int) {
-    Glide.with(this.context)
-        .load(icon)
-        .into(this)
+fun AppCompatImageView.setImageRes(icon: Int?) {
+    icon?.let {
+        Glide.with(this.context)
+            .load(icon)
+            .into(this)
+    }
 }
 
 @BindingAdapter("infoStatusColor")
