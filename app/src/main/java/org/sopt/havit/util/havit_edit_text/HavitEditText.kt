@@ -8,7 +8,6 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
 import org.sopt.havit.databinding.LayoutHavitEditTextBinding
 
 
@@ -33,8 +32,8 @@ class HavitEditText @JvmOverloads constructor(
         initializeView()
     }
 
-    fun bindEditTextData(editTextData: MutableLiveData<EditTextData>) {
-        binding.editTextData = editTextData.value
+    fun bindEditTextData(editTextData: EditTextData) {
+        binding.editTextData = editTextData
         binding.lifecycleOwner = lifecycleOwner
     }
 
@@ -81,7 +80,7 @@ class HavitEditText @JvmOverloads constructor(
         binding.editText.setText(binding.editText.text.toString().replace("\n", ""))
     }
 
-    fun setCursorAtEnd() {
+    private fun setCursorAtEnd() {
         binding.editText.setSelection(binding.editText.text.length)
     }
 }

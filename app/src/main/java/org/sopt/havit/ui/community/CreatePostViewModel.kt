@@ -18,26 +18,22 @@ import javax.inject.Inject
 
 class CreatePostViewModel @Inject constructor() : ViewModel() {
 
-    val urlEditTextData = MutableLiveData(
-        EditTextData(
-            text = MutableLiveData(""),
-            infoStatus = MutableLiveData(EditTextInfoType.NONE),
-            maxLength = 1000,
-            hint = "소개하고 싶은 링크를 공유해보세요."
-        )
+    val urlEditTextData = EditTextData(
+        text = MutableLiveData(""),
+        infoStatus = MutableLiveData(EditTextInfoType.NONE),
+        maxLength = Int.MAX_VALUE,
+        hint = "소개하고 싶은 링크를 공유해보세요."
     )
 
-    val titleEditTextData = MutableLiveData(
-        EditTextData(
-            text = MutableLiveData(""),
-            infoStatus = MutableLiveData(EditTextInfoType.NONE),
-            maxLength = 45,
-            hint = "내용을 입력하세요."
-        )
+    val titleEditTextData = EditTextData(
+        text = MutableLiveData(""),
+        infoStatus = MutableLiveData(EditTextInfoType.NONE),
+        maxLength = 45 + 1,
+        hint = "내용을 입력하세요."
     )
 
-    val url: LiveData<String> = urlEditTextData.value?.text ?: MutableLiveData("")
-    val title: LiveData<String> = titleEditTextData.value?.text ?: MutableLiveData("")
+    val url: LiveData<String> = urlEditTextData.text
+    val title: LiveData<String> = titleEditTextData.text
 
     private val _isUrlValid = MutableLiveData(false)
     val isUrlValid: LiveData<Boolean> = _isUrlValid
@@ -47,7 +43,7 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
 
 
     fun fetchUrlInfoStatus() {
-        val url = urlEditTextData.value?.text?.value.toString().trim()
+        val url = urlEditTextData.text.value.toString().trim()
         when {
             url.isBlank() -> setUrlInfoStatus(EditTextInfoType.NONE)
             isMalformedUrl(url) -> setUrlInfoStatus(EditTextInfoType.INVALID_URL)
@@ -57,8 +53,8 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
 
 
     fun fetchTitleInfoStatus() {
-        val title = titleEditTextData.value?.text?.value.toString().trim()
-        val maxTitleLength = titleEditTextData.value?.maxLength ?: 0
+        val title = titleEditTextData.text.value.toString().trim()
+        val maxTitleLength = titleEditTextData.maxLength ?: 0
         when {
             title.isBlank() -> setTitleInfoStatus(EditTextInfoType.NONE)
             title.length == maxTitleLength -> setTitleInfoStatus(EditTextInfoType.EXCEED_MAX_LENGTH_45)
@@ -67,11 +63,11 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun setUrlInfoStatus(infoType: EditTextInfoType) {
-        urlEditTextData.value?.infoStatus?.postValue(infoType)
+        urlEditTextData.infoStatus.postValue(infoType)
     }
 
     private fun setTitleInfoStatus(infoType: EditTextInfoType) {
-        titleEditTextData.value?.infoStatus?.postValue(infoType)
+        titleEditTextData.infoStatus.postValue(infoType)
     }
 
     private fun isMalformedUrl(url: String) = !Patterns.WEB_URL.matcher(url).matches()
@@ -105,15 +101,15 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
 
     fun setIsUrlValid() {
         _isUrlValid.value =
-            urlEditTextData.value?.infoStatus?.value == EditTextInfoType.NONE
-                    && urlEditTextData.value?.text?.value?.isNotBlank() == true
+            urlEditTextData.infoStatus.value == EditTextInfoType.NONE
+                    && urlEditTextData.text.value?.isNotBlank() == true
 
     }
 
     fun setIsTitleValid() {
         _isTitleValid.value =
-            titleEditTextData.value?.infoStatus?.value == EditTextInfoType.NONE
-                    && titleEditTextData.value?.text?.value?.isNotBlank() == true
+            titleEditTextData.infoStatus.value == EditTextInfoType.NONE
+                    && titleEditTextData.text.value?.isNotBlank() == true
     }
 
 }
