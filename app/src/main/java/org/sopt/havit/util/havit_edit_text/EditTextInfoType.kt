@@ -16,7 +16,13 @@ enum class EditTextInfoType(
     INVALID_URL(R.color.havit_red, R.string.cannot_find_url_info, true, R.drawable.ic_notice_red),
     EXCEED_MAX_LENGTH_45(
         R.color.havit_red,
-        R.string.exceed_max_length,
+        R.string.exceed_max_length_45,
+        true,
+        R.drawable.ic_notice_red
+    ),
+    EXCEED_MAX_LENGTH_1000(
+        R.color.havit_red,
+        R.string.exceed_max_length_1000,
         true,
         R.drawable.ic_notice_red
     ),

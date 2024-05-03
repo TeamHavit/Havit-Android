@@ -16,9 +16,16 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         onEditTextChanged()
     }
 
+    private fun setupEditText() {
+        setupLinkEditText()
+        setupTitleEditText()
+        setUpDescriptionEditText()
+    }
+
     private fun onEditTextChanged() {
         onUrlEditTextChanged()
         onTitleEditTextChanged()
+        onDescriptionEditTextChanged()
     }
 
     private fun onTitleEditTextChanged() {
@@ -28,10 +35,20 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         }
     }
 
-    private fun setupEditText() {
-        setupLinkEditText()
-        setupTitleEditText()
+    private fun onDescriptionEditTextChanged() {
+        createPostViewModel.description.observe(this) {
+            createPostViewModel.fetchDescriptionInfoStatus()
+            createPostViewModel.setIsDescriptionValid()
+        }
     }
+
+    private fun onUrlEditTextChanged() {
+        createPostViewModel.url.observe(this) {
+            createPostViewModel.fetchUrlInfoStatus()
+            createPostViewModel.setIsUrlValid()
+        }
+    }
+
 
     private fun setupLinkEditText() {
         binding.etLink.apply {
@@ -54,10 +71,13 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         }
     }
 
-    private fun onUrlEditTextChanged() {
-        createPostViewModel.url.observe(this) {
-            createPostViewModel.fetchUrlInfoStatus()
-            createPostViewModel.setIsUrlValid()
+    private fun setUpDescriptionEditText() {
+        binding.etDescription.apply {
+            setLifecycleOwner(this@CreatePostActivity)
+            bindEditTextData(createPostViewModel.descriptionEditTextData)
+            setMaxLine(18)
+            setMinLine(18)
+            setGravity(Gravity.TOP)
         }
     }
 

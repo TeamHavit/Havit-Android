@@ -304,8 +304,12 @@
     <string name="enter_or_paste_link">를 입력 및 붙여넣기 해주세요</string>
     <string name="empty_value" />
     <string name="cannot_find_url_info">입력한 링크의 정보를 찾을 수 없습니다.</string>
-    <string name="enter_title">을 작성해주세요</string>
-    <string name="exceed_max_length">작성 가능한 글자 수를 초과했습니다 (45자)</string>
+    <string name="enter">을 작성해주세요</string>
+    <string name="exceed_max_length_45">작성 가능한 글자 수를 초과했습니다 (45자)</string>
+    <string name="exceed_max_length_1000">작성 가능한 글자 수를 초과했습니다 (1000자)</string>
+    <string name="description">본문</string>
+    <string name="category">카테고리</string>
+    <string name="select">를 선택해주세요</string>
 
 
 </resources>
