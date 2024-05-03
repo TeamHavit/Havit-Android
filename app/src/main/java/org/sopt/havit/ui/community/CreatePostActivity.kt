@@ -18,16 +18,36 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
 
     private fun onEditTextChanged() {
         onUrlEditTextChanged()
+        onTitleEditTextChanged()
+    }
+
+    private fun onTitleEditTextChanged() {
+        createPostViewModel.title.observe(this) {
+            createPostViewModel.fetchTitleInfoStatus()
+            createPostViewModel.setIsTitleValid()
+        }
     }
 
     private fun setupEditText() {
         setupLinkEditText()
+        setupTitleEditText()
     }
 
     private fun setupLinkEditText() {
         binding.etLink.apply {
             setLifecycleOwner(this@CreatePostActivity)
             bindEditTextData(createPostViewModel.urlEditTextData)
+            setMaxLine(2)
+            setMinLine(2)
+            setGravity(Gravity.TOP)
+        }
+    }
+
+    private fun setupTitleEditText() {
+        binding.etTitle.apply {
+            setLifecycleOwner(this@CreatePostActivity)
+            bindEditTextData(createPostViewModel.titleEditTextData)
+            disableNewLine()
             setMaxLine(2)
             setMinLine(2)
             setGravity(Gravity.TOP)

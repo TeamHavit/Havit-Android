@@ -14,5 +14,11 @@ enum class EditTextInfoType(
 ) {
     NONE(android.R.color.transparent, R.string.empty_value, false),
     INVALID_URL(R.color.havit_red, R.string.cannot_find_url_info, true, R.drawable.ic_notice_red),
+    EXCEED_MAX_LENGTH_45(
+        R.color.havit_red,
+        R.string.exceed_max_length,
+        true,
+        R.drawable.ic_notice_red
+    ),
 }
 

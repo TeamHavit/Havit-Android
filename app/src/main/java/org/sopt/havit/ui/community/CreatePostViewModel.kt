@@ -27,10 +27,23 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
         )
     )
 
+    val titleEditTextData = MutableLiveData(
+        EditTextData(
+            text = MutableLiveData(""),
+            infoStatus = MutableLiveData(EditTextInfoType.NONE),
+            maxLength = 45,
+            hint = "내용을 입력하세요."
+        )
+    )
+
     val url: LiveData<String> = urlEditTextData.value?.text ?: MutableLiveData("")
+    val title: LiveData<String> = titleEditTextData.value?.text ?: MutableLiveData("")
 
     private val _isUrlValid = MutableLiveData(false)
     val isUrlValid: LiveData<Boolean> = _isUrlValid
+
+    private val _isTitleValid = MutableLiveData(false)
+    val isTitleValid: LiveData<Boolean> = _isTitleValid
 
 
     fun fetchUrlInfoStatus() {
@@ -42,8 +55,23 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+
+    fun fetchTitleInfoStatus() {
+        val title = titleEditTextData.value?.text?.value.toString().trim()
+        val maxTitleLength = titleEditTextData.value?.maxLength ?: 0
+        when {
+            title.isBlank() -> setTitleInfoStatus(EditTextInfoType.NONE)
+            title.length == maxTitleLength -> setTitleInfoStatus(EditTextInfoType.EXCEED_MAX_LENGTH_45)
+            else -> setTitleInfoStatus(EditTextInfoType.NONE)
+        }
+    }
+
     private fun setUrlInfoStatus(infoType: EditTextInfoType) {
         urlEditTextData.value?.infoStatus?.postValue(infoType)
+    }
+
+    private fun setTitleInfoStatus(infoType: EditTextInfoType) {
+        titleEditTextData.value?.infoStatus?.postValue(infoType)
     }
 
     private fun isMalformedUrl(url: String) = !Patterns.WEB_URL.matcher(url).matches()
@@ -81,4 +109,11 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
                     && urlEditTextData.value?.text?.value?.isNotBlank() == true
 
     }
+
+    fun setIsTitleValid() {
+        _isTitleValid.value =
+            titleEditTextData.value?.infoStatus?.value == EditTextInfoType.NONE
+                    && titleEditTextData.value?.text?.value?.isNotBlank() == true
+    }
+
 }

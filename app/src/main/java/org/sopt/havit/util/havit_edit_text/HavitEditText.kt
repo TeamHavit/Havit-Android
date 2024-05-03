@@ -11,6 +11,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import org.sopt.havit.databinding.LayoutHavitEditTextBinding
 
+
 @SuppressLint("ViewConstructor")
 class HavitEditText @JvmOverloads constructor(
     context: Context,
@@ -63,20 +64,24 @@ class HavitEditText @JvmOverloads constructor(
         }
     }
 
-    fun bindStateEditTextData(editTextData: EditTextData?) {
-        binding.editTextData = editTextData
-        binding.lifecycleOwner = lifecycleOwner
-    }
-
-    fun onTextChangedListener(listener: (String) -> Unit) {
+    fun disableNewLine() {
         binding.editText.addTextChangedListener {
-            listener(it.toString())
+            if (isContainNewLine()) {
+                removeNewLine()
+                setCursorAtEnd()
+            }
         }
     }
 
-    fun onFocusChangedListener(listener: (Boolean) -> Unit) {
-        binding.editText.setOnFocusChangeListener { _, hasFocus ->
-            listener(hasFocus)
-        }
+    private fun isContainNewLine(): Boolean {
+        return binding.editText.text.toString().contains("\n")
+    }
+
+    private fun removeNewLine() {
+        binding.editText.setText(binding.editText.text.toString().replace("\n", ""))
+    }
+
+    fun setCursorAtEnd() {
+        binding.editText.setSelection(binding.editText.text.length)
     }
 }

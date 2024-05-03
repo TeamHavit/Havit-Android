@@ -60,6 +60,7 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/inner_guideline" />
 
+        <!-- url 작성 -->
         <TextView
             android:id="@+id/tv_link_highlight"
             android:layout_width="wrap_content"
@@ -89,6 +90,36 @@
             app:layout_constraintEnd_toEndOf="@id/gl_end"
             app:layout_constraintStart_toStartOf="@id/gl_start"
             app:layout_constraintTop_toBottomOf="@id/tv_link_highlight" />
+
+        <!-- 제목 작성 -->
+        <TextView
+            android:id="@+id/tv_title_highlight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:text="@string/title"
+            android:textAppearance="@style/Header16Bold"
+            android:textColor="@color/havit_purple"
+            app:layout_constraintStart_toStartOf="@id/gl_start"
+            app:layout_constraintTop_toBottomOf="@id/et_link" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_title"
+            android:textAppearance="@style/Header16Bold"
+            app:layout_constraintBottom_toBottomOf="@id/tv_title_highlight"
+            app:layout_constraintStart_toEndOf="@id/tv_title_highlight"
+            app:layout_constraintTop_toTopOf="@id/tv_title_highlight" />
+
+        <org.sopt.havit.util.havit_edit_text.HavitEditText
+            android:id="@+id/et_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="@id/gl_end"
+            app:layout_constraintStart_toStartOf="@id/gl_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_highlight" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
