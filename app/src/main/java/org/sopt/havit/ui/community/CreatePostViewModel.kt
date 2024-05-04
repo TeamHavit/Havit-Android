@@ -10,6 +10,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.sopt.havit.ui.model.CommunityCategoryRO
 import org.sopt.havit.util.havit_edit_text.EditTextData
 import org.sopt.havit.util.havit_edit_text.EditTextInfoType
 import java.net.HttpURLConnection
@@ -39,6 +40,14 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
         hint = "내용을 입력하세요."
     )
 
+    private val _communityCategoryROList = MutableLiveData(mutableListOf<CommunityCategoryRO>())
+    val communityCategoryROList: LiveData<MutableList<CommunityCategoryRO>> =
+        _communityCategoryROList
+
+    fun setCommunityCategoryROList(selectedCategories: MutableList<CommunityCategoryRO>) {
+        _communityCategoryROList.value = selectedCategories
+    }
+
     val url: LiveData<String> = urlEditTextData.text
     val title: LiveData<String> = titleEditTextData.text
     val description: LiveData<String> = descriptionEditTextData.text
@@ -51,6 +60,9 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
 
     private val _isDescriptionValid = MutableLiveData(false)
     val isDescriptionValid: LiveData<Boolean> = _isDescriptionValid
+
+    private val _isCategoryValid = MutableLiveData(false)
+    val isCategoryValid: LiveData<Boolean> = _isCategoryValid
 
 
     fun fetchUrlInfoStatus() {
@@ -142,7 +154,12 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
     fun setIsDescriptionValid() {
         _isDescriptionValid.value =
             descriptionEditTextData.infoStatus.value == EditTextInfoType.NONE
-                    && descriptionEditTextData.text.value?.isNotBlank() == true
+                    && descriptionEditTextData.text.value?.isNotEmpty() == true
+    }
+
+    fun setIsCategoryValid(): MutableList<CommunityCategoryRO>? {
+        _isCategoryValid.value = _communityCategoryROList.value?.isNotEmpty() == true
+        return _communityCategoryROList.value
     }
 
 }

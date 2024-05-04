@@ -1,4 +1,9 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="inner_guideline">18dp</dimen>
+    <dimen name="chip_spacing_horizontal">5dp</dimen>
+    <dimen name="chip_spacing_vertical">7dp</dimen>
+    <dimen name="chip_padding_horizontal">14dp</dimen>
+    <dimen name="chip_padding_vertical">7dp</dimen>
+    <dimen name="chip_min_height">31dp</dimen>
 </resources>
