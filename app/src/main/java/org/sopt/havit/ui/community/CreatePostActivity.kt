@@ -11,6 +11,7 @@ import org.sopt.havit.databinding.ActivityCreatePostBinding
 import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.model.CommunityCategoryRO
 import org.sopt.havit.util.CommunityCategoryChipGroup
+import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.setOnSingleClickListener
 
 class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.activity_create_post) {
@@ -162,6 +163,7 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
     }
 
     private fun showCancelConfirmDialog() {
-        Log.d(TAG, "showCancelConfirmDialog: clicked")
+        val dialog = DialogUtil(DialogUtil.CANCEL_POST_COMMUNITY, ::finish)
+        dialog.show(supportFragmentManager, this.javaClass.name)
     }
 }
