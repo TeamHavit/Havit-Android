@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.local.HavitAuthLocalPreferences
 import org.sopt.havit.data.source.local.AuthLocalDataSource
@@ -20,6 +21,8 @@ import org.sopt.havit.data.source.remote.community.CommunityRemoteDataSource
 import org.sopt.havit.data.source.remote.community.CommunityRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSource
 import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSourceImpl
+import org.sopt.havit.data.source.remote.url.UrlDataSource
+import org.sopt.havit.data.source.remote.url.UrlDataSourceImpl
 import javax.inject.Singleton
 
 @Module
@@ -59,4 +62,11 @@ object DataSourceModule {
     @Provides
     @Singleton
     fun provideRemoteConfigDataSource(): RemoteConfigDataSource = RemoteConfigDataSourceImpl()
+
+    @Provides
+    @Singleton
+    fun provideUrlDataSource(
+        dispatcher: CoroutineDispatcher,
+    ): UrlDataSource = UrlDataSourceImpl(dispatcher)
 }
+
