@@ -1,11 +1,9 @@
 package org.sopt.havit.ui.community
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
-import org.sopt.havit.HavitFirebaseMessagingService.Companion.TAG
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCreatePostBinding
 import org.sopt.havit.ui.base.BaseActivity
@@ -29,10 +27,6 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         observeUrlInfoStatus()
         onBackPressedDispatched()
         onCloseButtonClicked()
-
-        createPostViewModel.isWriting.observe(this) {
-            Log.d(TAG, "onCreate: $it")
-        }
     }
 
     private fun bindViewModel() {
