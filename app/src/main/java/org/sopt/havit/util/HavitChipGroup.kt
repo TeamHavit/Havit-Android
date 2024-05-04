@@ -56,6 +56,7 @@ class CommunityCategoryChipGroup(
             setOnClickListener {
                 toggleChipSelected(this)
                 updateSelectedCategory(communityCategoryRO, this.isSelected)
+                copySelectedCategoryList()
             }
         }
     }
@@ -73,6 +74,10 @@ class CommunityCategoryChipGroup(
         } else {
             _selectedCategory.value?.remove(communityCategoryRO)
         }
+    }
+
+    private fun copySelectedCategoryList() {
+        _selectedCategory.value = _selectedCategory.value?.toMutableList()
     }
 
     private fun getColorIntArray(selectedColor: Int, unSelectedColor: Int): IntArray {

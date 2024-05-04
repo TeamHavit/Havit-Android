@@ -15,11 +15,17 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        bindViewModel()
         setupEditText()
         onEditTextChanged()
         setCategory()
         syncSelectedCategory()
         onCategoryChanged()
+        observeUrlInfoStatus()
+    }
+
+    private fun bindViewModel() {
+        binding.viewModel = createPostViewModel
     }
 
     private fun setupEditText() {
@@ -35,27 +41,25 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
     }
 
     private fun setCategory() {
+        val category = mutableListOf(
+            CommunityCategoryRO(0, "mock1", false),
+            CommunityCategoryRO(1, "mock2", false),
+            CommunityCategoryRO(2, "mock3", false),
+            CommunityCategoryRO(7, "mock4", false),
+            CommunityCategoryRO(8, "mock5", false),
+            CommunityCategoryRO(5, "mock6", false)
+        )
         chipGroup = CommunityCategoryChipGroup(
-            binding.cgCategory, (mutableListOf(
-                CommunityCategoryRO(0, "mock1", false),
-                CommunityCategoryRO(1, "mock2", false),
-                CommunityCategoryRO(2, "mock3", false),
-                CommunityCategoryRO(7, "mock4", false),
-                CommunityCategoryRO(8, "mock5", false),
-                CommunityCategoryRO(5, "mock6", false)
-            ))
+            binding.cgCategory, category
         )
     }
 
     private fun syncSelectedCategory() {
-        val selectedCategory = chipGroup.selectedCategory
-        selectedCategory.observe(this) {
-            createPostViewModel.setCommunityCategoryROList(it)
-        }
+        createPostViewModel.setCommunityCategoryROList(chipGroup.selectedCategory)
     }
 
     private fun onCategoryChanged() {
-        createPostViewModel.communityCategoryROList.observe(this) {
+        createPostViewModel.selectedCategory.observe(this) {
             createPostViewModel.setIsCategoryValid()
         }
     }
@@ -78,6 +82,12 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
     private fun onUrlEditTextChanged() {
         createPostViewModel.url.observe(this) {
             createPostViewModel.fetchUrlInfoStatus()
+        }
+    }
+
+    private fun observeUrlInfoStatus() {
+        val urlInfoStatus = createPostViewModel.getUrlInfoStatus()
+        urlInfoStatus.observe(this) {
             createPostViewModel.setIsUrlValid()
         }
     }

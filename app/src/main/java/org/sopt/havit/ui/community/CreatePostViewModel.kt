@@ -4,11 +4,14 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import org.sopt.havit.ui.model.CommunityCategoryRO
 import org.sopt.havit.util.havit_edit_text.EditTextData
@@ -40,12 +43,10 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
         hint = "내용을 입력하세요."
     )
 
-    private val _communityCategoryROList = MutableLiveData(mutableListOf<CommunityCategoryRO>())
-    val communityCategoryROList: LiveData<MutableList<CommunityCategoryRO>> =
-        _communityCategoryROList
+    lateinit var selectedCategory: LiveData<MutableList<CommunityCategoryRO>>
 
-    fun setCommunityCategoryROList(selectedCategories: MutableList<CommunityCategoryRO>) {
-        _communityCategoryROList.value = selectedCategories
+    fun setCommunityCategoryROList(selectedCategories: LiveData<MutableList<CommunityCategoryRO>>) {
+        selectedCategory = selectedCategories
     }
 
     val url: LiveData<String> = urlEditTextData.text
@@ -53,17 +54,18 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
     val description: LiveData<String> = descriptionEditTextData.text
 
     private val _isUrlValid = MutableLiveData(false)
-    val isUrlValid: LiveData<Boolean> = _isUrlValid
-
     private val _isTitleValid = MutableLiveData(false)
-    val isTitleValid: LiveData<Boolean> = _isTitleValid
-
     private val _isDescriptionValid = MutableLiveData(false)
-    val isDescriptionValid: LiveData<Boolean> = _isDescriptionValid
-
     private val _isCategoryValid = MutableLiveData(false)
-    val isCategoryValid: LiveData<Boolean> = _isCategoryValid
 
+    val isAllValueEntered: LiveData<Boolean> = combine(
+        _isUrlValid.asFlow(),
+        _isTitleValid.asFlow(),
+        _isDescriptionValid.asFlow(),
+        _isCategoryValid.asFlow()
+    ) { isUrlValid, isTitleValid, isDescriptionValid, isCategoryValid ->
+        isUrlValid && isTitleValid && isDescriptionValid && isCategoryValid
+    }.asLiveData(viewModelScope.coroutineContext)
 
     fun fetchUrlInfoStatus() {
         val url = urlEditTextData.text.value.toString()
@@ -158,8 +160,10 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
     }
 
     fun setIsCategoryValid(): MutableList<CommunityCategoryRO>? {
-        _isCategoryValid.value = _communityCategoryROList.value?.isNotEmpty() == true
-        return _communityCategoryROList.value
+        _isCategoryValid.value = selectedCategory.value?.isNotEmpty() == true
+        return selectedCategory.value
     }
+
+    fun getUrlInfoStatus() = urlEditTextData.infoStatus
 
 }
