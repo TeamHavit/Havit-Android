@@ -8,6 +8,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -202,4 +204,18 @@ fun View.showOnLoading(responseState: NetworkStatus) {
 @BindingAdapter("showOnSuccess")
 fun View.showOnSuccess(responseState: NetworkStatus) {
     visibility = if (responseState is NetworkStatus.Success) View.VISIBLE else View.GONE
+}
+
+@BindingAdapter("setImageRes")
+fun AppCompatImageView.setImageRes(icon: Int?) {
+    icon?.let {
+        Glide.with(this.context)
+            .load(icon)
+            .into(this)
+    }
+}
+
+@BindingAdapter("infoStatusColor")
+fun TextView.setInfoStatusColor(color: Int) {
+    setTextColor(ContextCompat.getColor(this.context, color))
 }

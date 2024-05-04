@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="editTextData"
+            type="org.sopt.havit.util.havit_edit_text.EditTextData" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/edit_text"
+            style="@style/HavitEditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@{editTextData.hint}"
+            android:inputType="textMultiLine"
+            android:maxLength="@{editTextData.maxLength}"
+            android:paddingStart="12dp"
+            android:paddingEnd="38dp"
+            android:text="@={editTextData.text}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="test test test test test test test test test test " />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="10dp"
+            android:onClick="@{() -> editText.setText(``)}"
+            android:padding="4dp"
+            android:src="@drawable/ic_delete_text"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/edit_text"
+            tools:visibility="visible" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{editTextData.infoStatus.isVisible ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_text">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ic_info"
+                setImageRes="@{editTextData.infoStatus.icon}"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="7dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_notice_red" />
+
+            <TextView
+                android:id="@+id/tv_info"
+                infoStatusColor="@{editTextData.infoStatus.color}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@{editTextData.infoStatus.message}"
+                android:textAppearance="@style/Sub12Regular"
+                app:layout_constraintBottom_toBottomOf="@id/ic_info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/ic_info"
+                app:layout_constraintTop_toTopOf="@id/ic_info"
+                tools:text="띄어쓰기 노노"
+                tools:textColor="@color/havit_red" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

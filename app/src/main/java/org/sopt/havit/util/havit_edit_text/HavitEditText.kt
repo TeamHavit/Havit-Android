@@ -1,0 +1,86 @@
+package org.sopt.havit.util.havit_edit_text
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.LifecycleOwner
+import org.sopt.havit.databinding.LayoutHavitEditTextBinding
+
+
+@SuppressLint("ViewConstructor")
+class HavitEditText @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0,
+) : ConstraintLayout(context, attrs, defStyleAttr) {
+
+    private var lifecycleOwner: LifecycleOwner? = null
+
+    fun setLifecycleOwner(owner: LifecycleOwner) {
+        lifecycleOwner = owner
+    }
+
+    private val binding: LayoutHavitEditTextBinding by lazy {
+        LayoutHavitEditTextBinding.inflate(LayoutInflater.from(context), this, false)
+    }
+
+    init {
+        initializeView()
+    }
+
+    fun bindEditTextData(editTextData: EditTextData) {
+        binding.editTextData = editTextData
+        binding.lifecycleOwner = lifecycleOwner
+    }
+
+    fun setMaxLine(lines: Int) {
+        binding.editText.maxLines = lines
+    }
+
+    fun setMinLine(lines: Int) {
+        binding.editText.isSingleLine = false
+        binding.editText.minLines = lines
+    }
+
+    fun setGravity(gravity: Int) {
+        binding.editText.gravity = gravity
+    }
+
+    private fun initializeView() {
+        addView(binding.root)
+        showClearButton()
+    }
+
+    private fun showClearButton() {
+        binding.apply {
+            editText.addTextChangedListener {
+                ivClear.visibility = if (editText.text.isNotEmpty()) View.VISIBLE else View.GONE
+            }
+        }
+    }
+
+    fun disableNewLine() {
+        binding.editText.addTextChangedListener {
+            if (isContainNewLine()) {
+                removeNewLine()
+                setCursorAtEnd()
+            }
+        }
+    }
+
+    private fun isContainNewLine(): Boolean {
+        return binding.editText.text.toString().contains("\n")
+    }
+
+    private fun removeNewLine() {
+        binding.editText.setText(binding.editText.text.toString().replace("\n", ""))
+    }
+
+    private fun setCursorAtEnd() {
+        binding.editText.setSelection(binding.editText.text.length)
+    }
+}

@@ -29,9 +29,11 @@
         tools:ignore="LockedOrientationActivity">
 
         <activity
+            android:name=".ui.community.CreatePostActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.system_maintenance.SystemMaintenanceActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.setting.SettingNoticeActivity"
             android:configChanges="orientation"

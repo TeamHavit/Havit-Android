@@ -71,6 +71,22 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
+    <style name="HavitEditTextStyle" parent="@style/Widget.AppCompat.EditText">
+        <item name="colorControlActivated">@color/havit_purple</item>
+        <item name="colorControlNormal">@color/havit_purple</item>
+        <item name="colorControlHighlight">@color/havit_purple</item>
+        <item name="android:textAppearance">@style/Sub13Regular</item>
+        <item name="android:textColor">@color/gray_4</item>
+        <item name="android:textColorHighlight">@color/havit_purple</item>
+        <item name="colorAccent">@color/havit_purple</item>
+        <item name="android:textColorHint">@color/gray_2</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingBottom">11dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:background">@drawable/rectangle_white_gray_radius_4</item>
+        <item name="android:textCursorDrawable">@drawable/rectangle_havit_purple_cursor</item>
+    </style>
+
     <!-- values/fonts.xml -->
     <style name="Bold38">
         <item name="android:fontFamily">@font/pretendard</item>

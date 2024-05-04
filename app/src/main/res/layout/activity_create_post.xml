@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.sopt.havit.ui.community.CreatePostViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.community.CreatePostActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/create_post"
+                android:textAppearance="@style/Header16Bold"
+                android:textColor="@color/havit_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ib_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="14dp"
+                android:background="@null"
+                android:src="@drawable/ic_close_black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_complete"
+            app:layout_constraintTop_toBottomOf="@id/cl_header">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gl_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="@dimen/inner_guideline" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gl_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="@dimen/inner_guideline" />
+
+                <!-- url 작성 -->
+                <TextView
+                    android:id="@+id/tv_link_highlight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="33dp"
+                    android:text="@string/link"
+                    android:textAppearance="@style/Header16Bold"
+                    android:textColor="@color/havit_purple"
+                    app:layout_constraintStart_toStartOf="@id/gl_start"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enter_or_paste_link"
+                    android:textAppearance="@style/Header16Bold"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_link_highlight"
+                    app:layout_constraintStart_toEndOf="@id/tv_link_highlight"
+                    app:layout_constraintTop_toTopOf="@id/tv_link_highlight" />
+
+                <org.sopt.havit.util.havit_edit_text.HavitEditText
+                    android:id="@+id/et_link"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="@id/gl_end"
+                    app:layout_constraintStart_toStartOf="@id/gl_start"
+                    app:layout_constraintTop_toBottomOf="@id/tv_link_highlight" />
+
+                <!-- 제목 작성 -->
+                <TextView
+                    android:id="@+id/tv_title_highlight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="26dp"
+                    android:text="@string/title"
+                    android:textAppearance="@style/Header16Bold"
+                    android:textColor="@color/havit_purple"
+                    app:layout_constraintStart_toStartOf="@id/gl_start"
+                    app:layout_constraintTop_toBottomOf="@id/et_link" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enter"
+                    android:textAppearance="@style/Header16Bold"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_title_highlight"
+                    app:layout_constraintStart_toEndOf="@id/tv_title_highlight"
+                    app:layout_constraintTop_toTopOf="@id/tv_title_highlight" />
+
+                <org.sopt.havit.util.havit_edit_text.HavitEditText
+                    android:id="@+id/et_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="@id/gl_end"
+                    app:layout_constraintStart_toStartOf="@id/gl_start"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title_highlight" />
+
+                <!-- 본문 작성 -->
+                <TextView
+                    android:id="@+id/tv_description_highlight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="26dp"
+                    android:text="@string/description"
+                    android:textAppearance="@style/Header16Bold"
+                    android:textColor="@color/havit_purple"
+                    app:layout_constraintStart_toStartOf="@id/gl_start"
+                    app:layout_constraintTop_toBottomOf="@id/et_title" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enter"
+                    android:textAppearance="@style/Header16Bold"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_description_highlight"
+                    app:layout_constraintStart_toEndOf="@id/tv_description_highlight"
+                    app:layout_constraintTop_toTopOf="@id/tv_description_highlight" />
+
+                <org.sopt.havit.util.havit_edit_text.HavitEditText
+                    android:id="@+id/et_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="@id/gl_end"
+                    app:layout_constraintStart_toStartOf="@id/gl_start"
+                    app:layout_constraintTop_toBottomOf="@id/tv_description_highlight" />
+
+                <!-- 카테고리 선택 -->
+                <TextView
+                    android:id="@+id/tv_category_highlight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="26dp"
+                    android:text="@string/category"
+                    android:textAppearance="@style/Header16Bold"
+                    android:textColor="@color/havit_purple"
+                    app:layout_constraintStart_toStartOf="@id/gl_start"
+                    app:layout_constraintTop_toBottomOf="@id/et_description" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select"
+                    android:textAppearance="@style/Header16Bold"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_category_highlight"
+                    app:layout_constraintStart_toEndOf="@id/tv_category_highlight"
+                    app:layout_constraintTop_toTopOf="@id/tv_category_highlight" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/cg_category"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="76dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/gl_end"
+                    app:layout_constraintStart_toStartOf="@id/gl_start"
+                    app:layout_constraintTop_toBottomOf="@id/tv_category_highlight" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_complete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@{(viewModel.isAllValueEntered ? @drawable/rectangle_havit_purple : @drawable/rectangle_gray_2)}"
+            android:enabled="@{viewModel.isAllValueEntered}"
+            android:paddingTop="20dp"
+            android:paddingBottom="44dp"
+            android:text="@string/complete"
+            android:textAppearance="@style/Text16Semibold"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
