@@ -2,12 +2,15 @@ package org.sopt.havit.ui.community
 
 import android.os.Bundle
 import android.view.Gravity
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCreatePostBinding
 import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.model.CommunityCategoryRO
 import org.sopt.havit.util.CommunityCategoryChipGroup
+import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.setOnSingleClickListener
 
 class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.activity_create_post) {
     private val createPostViewModel by viewModels<CreatePostViewModel>()
@@ -22,6 +25,8 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         syncSelectedCategory()
         onCategoryChanged()
         observeUrlInfoStatus()
+        onBackPressedDispatched()
+        onCloseButtonClicked()
     }
 
     private fun bindViewModel() {
@@ -124,4 +129,35 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         }
     }
 
+    private fun onBackPressedDispatched() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                handleCloseState()
+            }
+        }
+        this.onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    private fun onCloseButtonClicked() {
+        binding.ibClose.setOnSingleClickListener {
+            handleCloseState()
+        }
+    }
+
+    private fun handleCloseState() {
+        if (isUnderPosting()) {
+            showCancelConfirmDialog()
+        } else {
+            finish()
+        }
+    }
+
+    private fun isUnderPosting(): Boolean {
+        return createPostViewModel.isWriting.value ?: false
+    }
+
+    private fun showCancelConfirmDialog() {
+        val dialog = DialogUtil(DialogUtil.CANCEL_POST_COMMUNITY, ::finish)
+        dialog.show(supportFragmentManager, this.javaClass.name)
+    }
 }

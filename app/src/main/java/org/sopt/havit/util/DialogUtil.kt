@@ -53,7 +53,8 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
             REMOVE_NOTIFICATION -> getString(R.string.remove_notification_title)
             REMOVE_CONTENTS -> getString(R.string.remove_contents_title)
             LOGOUT -> getString(R.string.logout)
-            else -> throw IllegalStateException()
+            CANCEL_POST_COMMUNITY -> getString(R.string.cancel_post)
+            else -> ""
         }
     }
 
@@ -67,28 +68,36 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
             REMOVE_NOTIFICATION -> getString(R.string.remove_notification_description)
             REMOVE_CONTENTS -> getString(R.string.remove_contents_description)
             LOGOUT -> getString(R.string.logout_description)
-            else -> throw IllegalStateException()
+            CANCEL_POST_COMMUNITY -> getString(R.string.cancel_post_description)
+            else -> ""
         }
     }
 
     private fun setConfirmText() {
         binding.confirmText = when (dialogMode) {
             CANCEL_EDIT_CATEGORY, CANCEL_SAVE_CONTENTS,
-            CANCEL_EDIT_TITLE, CANCEL_SET_NOTIFICATION -> getString(R.string.exit)
+            CANCEL_EDIT_TITLE, CANCEL_SET_NOTIFICATION, CANCEL_POST_COMMUNITY,
+            -> getString(R.string.exit)
+
             REMOVE_CATEGORY, REMOVE_NOTIFICATION, REMOVE_CONTENTS -> getString(R.string.remove)
             LOGOUT -> getString(R.string.check)
-            else -> throw IllegalStateException()
+            else -> ""
         }
     }
 
     private fun setConfirmBackground() {
-        when (dialogMode) {
-            CANCEL_EDIT_CATEGORY, CANCEL_SAVE_CONTENTS, CANCEL_EDIT_TITLE, CANCEL_SET_NOTIFICATION
-            -> binding.btnConfirm.setBackgroundResource(R.drawable.rectangle_havit_gray_bottom_right_radius_8)
-            REMOVE_CATEGORY, REMOVE_NOTIFICATION, REMOVE_CONTENTS, LOGOUT
-            -> binding.btnConfirm.setBackgroundResource(R.drawable.rectangle_havit_red_bottom_right_radius_8)
-            else -> throw IllegalStateException()
-        }
+        binding.btnConfirm.setBackgroundResource(
+            when (dialogMode) {
+                CANCEL_EDIT_CATEGORY, CANCEL_SAVE_CONTENTS, CANCEL_EDIT_TITLE, CANCEL_SET_NOTIFICATION,
+                CANCEL_POST_COMMUNITY,
+                -> R.drawable.rectangle_havit_gray_bottom_right_radius_8
+
+                REMOVE_CATEGORY, REMOVE_NOTIFICATION, REMOVE_CONTENTS, LOGOUT,
+                -> R.drawable.rectangle_havit_red_bottom_right_radius_8
+
+                else -> R.drawable.rectangle_havit_gray_bottom_right_radius_8
+            }
+        )
     }
 
     private fun clickCancelListener() {
@@ -116,5 +125,6 @@ class DialogUtil(private val dialogMode: Int, private val doAfterConfirm: () -> 
         const val REMOVE_NOTIFICATION = 5
         const val REMOVE_CONTENTS = 6
         const val LOGOUT = 7
+        const val CANCEL_POST_COMMUNITY = 8
     }
 }
