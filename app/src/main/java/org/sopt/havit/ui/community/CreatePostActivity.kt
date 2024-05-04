@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Gravity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCreatePostBinding
 import org.sopt.havit.ui.base.BaseActivity
@@ -12,6 +13,7 @@ import org.sopt.havit.util.CommunityCategoryChipGroup
 import org.sopt.havit.util.DialogUtil
 import org.sopt.havit.util.setOnSingleClickListener
 
+@AndroidEntryPoint
 class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.activity_create_post) {
     private val createPostViewModel by viewModels<CreatePostViewModel>()
     private lateinit var chipGroup: CommunityCategoryChipGroup
@@ -22,8 +24,6 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         setupEditText()
         onEditTextChanged()
         setCategory()
-        syncSelectedCategory()
-        onCategoryChanged()
         observeUrlInfoStatus()
         onBackPressedDispatched()
         onCloseButtonClicked()
@@ -45,17 +45,23 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         onDescriptionEditTextChanged()
     }
 
+
     private fun setCategory() {
-        val category = mutableListOf(
-            CommunityCategoryRO(0, "mock1", false),
-            CommunityCategoryRO(1, "mock2", false),
-            CommunityCategoryRO(2, "mock3", false),
-            CommunityCategoryRO(7, "mock4", false),
-            CommunityCategoryRO(8, "mock5", false),
-            CommunityCategoryRO(5, "mock6", false)
-        )
+        createPostViewModel.communityCategoryList.observe(this) {
+            if (it.isEmpty()) return@observe
+            onCategoryLoaded(it)
+        }
+    }
+
+    private fun onCategoryLoaded(categoryList: List<CommunityCategoryRO>) {
+        initChipGroup(categoryList)
+        syncSelectedCategory()
+        onCategoryChanged()
+    }
+
+    private fun initChipGroup(categoryList: List<CommunityCategoryRO>) {
         chipGroup = CommunityCategoryChipGroup(
-            binding.cgCategory, category
+            binding.cgCategory, categoryList
         )
     }
 

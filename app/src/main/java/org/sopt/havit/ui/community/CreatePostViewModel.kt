@@ -8,19 +8,29 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import org.sopt.havit.domain.repository.CommunityRepository
 import org.sopt.havit.ui.model.CommunityCategoryRO
+import org.sopt.havit.ui.model.toRO
 import org.sopt.havit.util.havit_edit_text.EditTextData
 import org.sopt.havit.util.havit_edit_text.EditTextInfoType
 import java.net.HttpURLConnection
 import java.net.URL
 import javax.inject.Inject
 
-class CreatePostViewModel @Inject constructor() : ViewModel() {
+@HiltViewModel
+class CreatePostViewModel @Inject constructor(
+    private val communityRepository: CommunityRepository,
+) : ViewModel() {
+
+    init {
+        getCommunityCategories()
+    }
 
     val urlEditTextData = EditTextData(
         text = MutableLiveData(""),
@@ -42,6 +52,22 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
         maxLength = 1000 + 1,
         hint = "내용을 입력하세요."
     )
+
+    private val _communityCategoryList = MutableLiveData<List<CommunityCategoryRO>>()
+    val communityCategoryList: LiveData<List<CommunityCategoryRO>> = _communityCategoryList
+
+    private fun getCommunityCategories() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                communityRepository.getCommunityCategories()
+            }.onSuccess {
+                val list = it.map { communityCategory -> communityCategory.toRO() }
+                _communityCategoryList.postValue(list)
+            }.onFailure {
+                _communityCategoryList.postValue(emptyList())
+            }
+        }
+    }
 
     lateinit var selectedCategory: LiveData<MutableList<CommunityCategoryRO>>
 
