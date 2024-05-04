@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Gravity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCreatePostBinding
@@ -27,6 +28,16 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         observeUrlInfoStatus()
         onBackPressedDispatched()
         onCloseButtonClicked()
+        observeUrlValid()
+    }
+
+    private fun observeUrlValid() {
+        lifecycleScope.launchWhenStarted {
+            createPostViewModel.isUrlValid.collect { isValid ->
+                if (isValid)
+                    createPostViewModel.loadOgData()
+            }
+        }
     }
 
     private fun bindViewModel() {

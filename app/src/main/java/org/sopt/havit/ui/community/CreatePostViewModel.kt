@@ -12,9 +12,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import org.sopt.havit.data.remote.OgData
 import org.sopt.havit.domain.repository.CommunityRepository
+import org.sopt.havit.domain.usecase.UrlUseCase
 import org.sopt.havit.ui.model.CommunityCategoryRO
 import org.sopt.havit.ui.model.toRO
 import org.sopt.havit.util.havit_edit_text.EditTextData
@@ -26,6 +29,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
     private val communityRepository: CommunityRepository,
+    private val urlUseCase: UrlUseCase,
 ) : ViewModel() {
 
     init {
@@ -80,6 +84,7 @@ class CreatePostViewModel @Inject constructor(
     val description: LiveData<String> = descriptionEditTextData.text
 
     private val _isUrlValid = MutableStateFlow(false)
+    val isUrlValid: StateFlow<Boolean> = _isUrlValid
     private val _isTitleValid = MutableStateFlow(false)
     private val _isDescriptionValid = MutableStateFlow(false)
     private val _isCategoryValid = MutableStateFlow(false)
@@ -198,5 +203,21 @@ class CreatePostViewModel @Inject constructor(
     }
 
     fun getUrlInfoStatus() = urlEditTextData.infoStatus
+
+    private val _ogData = MutableLiveData<OgData>()
+    val ogData: LiveData<OgData> = _ogData
+
+    fun loadOgData() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                urlUseCase.loadOgData(url.value.toString())
+            }.onSuccess {
+                _ogData.postValue(it)
+            }.onFailure {
+                _ogData.postValue(OgData(ogUrl = url.value.toString()))
+            }
+        }
+    }
+
 
 }
