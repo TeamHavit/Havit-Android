@@ -4,13 +4,13 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import org.sopt.havit.ui.model.CommunityCategoryRO
@@ -53,19 +53,26 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
     val title: LiveData<String> = titleEditTextData.text
     val description: LiveData<String> = descriptionEditTextData.text
 
-    private val _isUrlValid = MutableLiveData(false)
-    private val _isTitleValid = MutableLiveData(false)
-    private val _isDescriptionValid = MutableLiveData(false)
-    private val _isCategoryValid = MutableLiveData(false)
+    private val _isUrlValid = MutableStateFlow(false)
+    private val _isTitleValid = MutableStateFlow(false)
+    private val _isDescriptionValid = MutableStateFlow(false)
+    private val _isCategoryValid = MutableStateFlow(false)
 
-    val isAllValueEntered: LiveData<Boolean> = combine(
-        _isUrlValid.asFlow(),
-        _isTitleValid.asFlow(),
-        _isDescriptionValid.asFlow(),
-        _isCategoryValid.asFlow()
-    ) { isUrlValid, isTitleValid, isDescriptionValid, isCategoryValid ->
-        isUrlValid && isTitleValid && isDescriptionValid && isCategoryValid
-    }.asLiveData(viewModelScope.coroutineContext)
+    private fun combineStateFlowsToLiveData(predicate: (Boolean, Boolean, Boolean, Boolean) -> Boolean): LiveData<Boolean> {
+        return combine(
+            _isUrlValid, _isTitleValid, _isDescriptionValid, _isCategoryValid, transform = predicate
+        ).asLiveData()
+    }
+
+    val isWriting: LiveData<Boolean> =
+        combineStateFlowsToLiveData { urlValid, titleValid, descValid, catValid ->
+            urlValid || titleValid || descValid || catValid
+        }
+
+    val isPostButtonEnabled: LiveData<Boolean> =
+        combineStateFlowsToLiveData { urlValid, titleValid, descValid, catValid ->
+            urlValid && titleValid && descValid && catValid
+        }
 
     fun fetchUrlInfoStatus() {
         val url = urlEditTextData.text.value.toString()
