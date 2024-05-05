@@ -50,7 +50,6 @@ class MainHomeFragment : BaseBindingFragment<FragmentMainHomeBinding>(R.layout.f
         initTabLayout()
         initView()
         observe()
-        showNoticeCommunityDialog()
     }
 
     private fun initAdapter() {
@@ -102,6 +101,13 @@ class MainHomeFragment : BaseBindingFragment<FragmentMainHomeBinding>(R.layout.f
     private fun observe() {
         viewModel.notificationList.observe(viewLifecycleOwner) { data ->
             binding.hasNotification = data.isNotEmpty()
+        }
+
+        viewModel.isFirstBottomSheet.observe(viewLifecycleOwner) { isFirst ->
+            if (isFirst) {
+                showNoticeCommunityDialog()
+                viewModel.setNoticeCommunitySeen(!isFirst)
+            }
         }
     }
 
