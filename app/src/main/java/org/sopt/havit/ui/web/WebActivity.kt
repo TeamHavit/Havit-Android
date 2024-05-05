@@ -71,6 +71,7 @@ class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
     private fun initIsHavit() {
         webViewModel.init(intent.getBooleanExtra("isSeen", false))
     }
+
     private fun initHavitSeen() {
         if (intent.getIntExtra("contentsId", -1) == -1) {
             binding.llWebview.visibility = GONE
@@ -102,7 +103,7 @@ class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
                     view: WebView?,
                     request: WebResourceRequest?,
                 ): Boolean {
-                    if (request?.url?.scheme == "karrot") { //당근마켓 scheme
+                    if (request?.url?.scheme == KARROT_SCHEME) { //당근마켓 scheme
                         return true
                     } else return handleDeepLinkUrl(request?.url.toString())
                 }
@@ -133,7 +134,7 @@ class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
                         return try {
                             startActivity(Intent(Intent.ACTION_VIEW, uri)) // 다른 딥링크 스킴이면 실행
                             true
-                        } catch (e: java.lang.Exception) {
+                        } catch (e: ActivityNotFoundException) {
                             false
                         }
                     }
@@ -156,16 +157,16 @@ class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
             val packageName = schemeIntent.`package`
 
             if (!packageName.isNullOrBlank()) {
-                startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("market://details?id=${packageName}")
-                    )
-                )
+                openAppInPlayStore(packageName)
                 return true
             }
         }
         return false
+    }
+
+    private fun openAppInPlayStore(packageName: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+        startActivity(intent)
     }
 
 
@@ -250,7 +251,7 @@ class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
 
     companion object {
         const val TAG = "WebActivity"
-
+        const val KARROT_SCHEME = "karrot"
     }
 
     private fun isForcedUpdateNeeded() {
