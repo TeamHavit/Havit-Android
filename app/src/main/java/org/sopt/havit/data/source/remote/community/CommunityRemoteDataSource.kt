@@ -6,6 +6,6 @@ import org.sopt.havit.domain.entity.CommunityPostRequest
 
 interface CommunityRemoteDataSource {
     suspend fun getCommunityCategories(): List<CommunityCategory>
-
     suspend fun writeCommunityPost(communityPostRequest: CommunityPostRequest): BasicResponse
+    suspend fun postCommunityReport(id: Int)
 }

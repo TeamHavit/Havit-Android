@@ -469,7 +469,7 @@
                             android:id="@+id/iv_footer_logo"
                             android:layout_width="11dp"
                             android:layout_height="11dp"
-                            android:layout_marginStart="23dp"
+                            android:layout_marginStart="32dp"
                             android:src="@drawable/havit_logo_footer"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -490,9 +490,8 @@
                             android:id="@+id/cl_footer_plan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
                             android:layout_marginTop="19dp"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/iv_footer_logo"
                             app:layout_constraintTop_toBottomOf="@id/iv_footer_logo">
 
                             <TextView
@@ -533,10 +532,8 @@
                             android:id="@+id/cl_footer_ios"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            app:layout_constraintEnd_toStartOf="@id/cl_footer_server"
-                            app:layout_constraintStart_toEndOf="@id/cl_footer_plan"
-                            app:layout_constraintTop_toTopOf="@id/cl_footer_plan">
+                            app:layout_constraintStart_toStartOf="@id/cl_footer_aos"
+                            app:layout_constraintTop_toTopOf="@id/cl_footer_design">
 
                             <TextView
                                 android:id="@+id/tv_footer_ios"
@@ -609,7 +606,7 @@
                             android:id="@+id/cl_footer_server"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="24dp"
+                            android:layout_marginEnd="32dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/cl_footer_plan">
 
@@ -644,6 +641,17 @@
                                 android:textColor="@color/gray_3"
                                 app:layout_constraintStart_toEndOf="@id/tv_server_hyosik"
                                 app:layout_constraintTop_toTopOf="@id/tv_server_hyosik" />
+
+                            <TextView
+                                android:id="@+id/tv_aos_yubin"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:text="@string/aos_yubin"
+                                android:textAppearance="@style/Mini8Light"
+                                android:textColor="@color/gray_3"
+                                app:layout_constraintStart_toEndOf="@id/tv_server_jeongah"
+                                app:layout_constraintTop_toTopOf="@id/tv_server_hyosik" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <!-- 제작자정보 - design -->
@@ -651,11 +659,10 @@
                             android:id="@+id/cl_footer_design"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="30dp"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toStartOf="@+id/cl_footer_plan"
                             app:layout_constraintTop_toBottomOf="@id/cl_footer_plan">
 
                             <TextView
@@ -707,8 +714,9 @@
                             android:id="@+id/cl_footer_aos"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:layout_constraintStart_toStartOf="@id/cl_footer_ios"
-                            app:layout_constraintTop_toTopOf="@id/cl_footer_design">
+                            app:layout_constraintEnd_toStartOf="@id/cl_footer_server"
+                            app:layout_constraintStart_toEndOf="@id/cl_footer_plan"
+                            app:layout_constraintTop_toTopOf="@id/cl_footer_plan">
 
                             <TextView
                                 android:id="@+id/tv_footer_aos"
@@ -731,16 +739,6 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/tv_footer_aos" />
 
-                            <TextView
-                                android:id="@+id/tv_aos_yubin"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:text="@string/aos_yubin"
-                                android:textAppearance="@style/Mini8Light"
-                                android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toEndOf="@id/tv_aos_hyorim"
-                                app:layout_constraintTop_toTopOf="@id/tv_aos_hyorim" />
 
                             <TextView
                                 android:id="@+id/tv_aos_hyein"
@@ -750,7 +748,7 @@
                                 android:text="@string/aos_hyein"
                                 android:textAppearance="@style/Mini8Light"
                                 android:textColor="@color/gray_3"
-                                app:layout_constraintStart_toEndOf="@id/tv_aos_yubin"
+                                app:layout_constraintStart_toEndOf="@id/tv_aos_hyorim"
                                 app:layout_constraintTop_toTopOf="@id/tv_aos_hyorim" />
 
                             <TextView

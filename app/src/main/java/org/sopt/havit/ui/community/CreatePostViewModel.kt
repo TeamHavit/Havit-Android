@@ -199,8 +199,9 @@ class CreatePostViewModel @Inject constructor(
                     && descriptionEditTextData.text.value?.isNotEmpty() == true
     }
 
-    fun setIsCategoryValid() {
+    fun setIsCategoryValid(): MutableList<CommunityCategoryRO>? {
         _isCategoryValid.value = selectedCategory.value?.isNotEmpty() == true
+        return selectedCategory.value
     }
 
     fun getUrlInfoStatus() = urlEditTextData.infoStatus
