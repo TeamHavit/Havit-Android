@@ -1,17 +1,22 @@
 package org.sopt.havit.ui.community
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import org.sopt.havit.HavitFirebaseMessagingService.Companion.TAG
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCreatePostBinding
+import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.model.CommunityCategoryRO
 import org.sopt.havit.util.CommunityCategoryChipGroup
 import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.ERROR_OCCUR_TYPE
+import org.sopt.havit.util.ToastUtil
 import org.sopt.havit.util.setOnSingleClickListener
 
 @AndroidEntryPoint
@@ -29,6 +34,8 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         onBackPressedDispatched()
         onCloseButtonClicked()
         observeUrlValid()
+        handleCreatePostState()
+        onClickCompleteButton()
     }
 
     private fun observeUrlValid() {
@@ -55,7 +62,6 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         onTitleEditTextChanged()
         onDescriptionEditTextChanged()
     }
-
 
     private fun setCategory() {
         createPostViewModel.communityCategoryList.observe(this) {
@@ -86,7 +92,6 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         }
     }
 
-
     private fun onTitleEditTextChanged() {
         createPostViewModel.title.observe(this) {
             createPostViewModel.fetchTitleInfoStatus()
@@ -114,7 +119,6 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         }
     }
 
-
     private fun setupLinkEditText() {
         binding.etLink.apply {
             setLifecycleOwner(this@CreatePostActivity)
@@ -124,6 +128,7 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
             setGravity(Gravity.TOP)
         }
     }
+
 
     private fun setupTitleEditText() {
         binding.etTitle.apply {
@@ -176,5 +181,23 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
     private fun showCancelConfirmDialog() {
         val dialog = DialogUtil(DialogUtil.CANCEL_POST_COMMUNITY, ::finish)
         dialog.show(supportFragmentManager, this.javaClass.name)
+    }
+
+    private fun handleCreatePostState() {
+        createPostViewModel.createPostState.observe(this) {
+            Log.d(TAG, "handleCreatePostState:  $it")
+            when (it) {
+                is NetworkStatus.Success -> finish()
+                is NetworkStatus.Error -> ToastUtil(this).makeToast(ERROR_OCCUR_TYPE)
+                else -> {}/* no-op */
+            }
+        }
+    }
+
+
+    private fun onClickCompleteButton() {
+        binding.btnComplete.setOnSingleClickListener {
+            createPostViewModel.writePost()
+        }
     }
 }

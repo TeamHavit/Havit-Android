@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.remote.OgData
+import org.sopt.havit.domain.entity.CommunityPost
+import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.domain.repository.CommunityRepository
 import org.sopt.havit.domain.usecase.UrlUseCase
 import org.sopt.havit.ui.model.CommunityCategoryRO
@@ -197,9 +199,8 @@ class CreatePostViewModel @Inject constructor(
                     && descriptionEditTextData.text.value?.isNotEmpty() == true
     }
 
-    fun setIsCategoryValid(): MutableList<CommunityCategoryRO>? {
+    fun setIsCategoryValid() {
         _isCategoryValid.value = selectedCategory.value?.isNotEmpty() == true
-        return selectedCategory.value
     }
 
     fun getUrlInfoStatus() = urlEditTextData.infoStatus
@@ -218,6 +219,36 @@ class CreatePostViewModel @Inject constructor(
             }
         }
     }
+
+    private val _createPostState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())
+    val createPostState: LiveData<NetworkStatus> = _createPostState
+
+
+    fun writePost() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                val post = getCommunityPost()
+                communityRepository.writeCommunityPost(post)
+            }.onSuccess {
+                when {
+                    it.isSuccess -> _createPostState.postValue(NetworkStatus.Success())
+                    it.isFailure -> _createPostState.postValue(NetworkStatus.Error(it.exceptionOrNull()))
+                }
+            }.onFailure {
+                _createPostState.postValue(NetworkStatus.Error(it))
+            }
+        }
+    }
+
+    private fun getCommunityPost() = CommunityPost(
+        title = title.value.toString(),
+        body = description.value.toString(),
+        communityCategoryIds = selectedCategory.value?.map { it.id } ?: emptyList(),
+        contentDescription = ogData.value?.ogDescription ?: "",
+        contentTitle = ogData.value?.ogTitle ?: "",
+        contentUrl = ogData.value?.ogUrl ?: "",
+        thumbnailUrl = ogData.value?.ogImage ?: ""
+    )
 
 
 }
