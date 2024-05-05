@@ -1,21 +1,31 @@
 package org.sopt.havit.ui.community
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.sopt.havit.R
+import org.sopt.havit.databinding.FragmentCommunityDetailBinding
+import org.sopt.havit.ui.base.BaseBindingFragment
 
 
-class CommunityDetailFragment : Fragment() {
+class CommunityDetailFragment :
+    BaseBindingFragment<FragmentCommunityDetailBinding>(R.layout.fragment_community_detail) {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_community_detail, container, false)
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+        binding.lifecycleOwner = viewLifecycleOwner
+        return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
+
+
 
 
 }
