@@ -2,7 +2,6 @@ package org.sopt.havit.ui.category
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,9 +83,8 @@ class CategoryFragment : BaseBindingFragment<FragmentCategoryBinding>(R.layout.f
         with(viewModel) {
             categoryList.observe(viewLifecycleOwner) {
                 // 리싸이클러뷰 업데이트하는 코드
-                adapter.categoryList.clear()
-                adapter.categoryList.addAll(it)
-                adapter.notifyDataSetChanged()
+                adapter.replaceItems(it)
+                binding.rvContents.scrollToPosition(0)
             }
 
             loadState.observe(viewLifecycleOwner) {
