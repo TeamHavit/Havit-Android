@@ -1,6 +1,8 @@
 package org.sopt.havit.ui.web
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.View.GONE
@@ -28,6 +30,7 @@ import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_GO_BACK
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_REFRESH
 import org.sopt.havit.util.GoogleAnalyticsUtil.CLICK_SHARE
 import org.sopt.havit.util.GoogleAnalyticsUtil.CONTENT_SCREEN_TIME
+import java.net.URISyntaxException
 
 
 @AndroidEntryPoint
@@ -68,6 +71,7 @@ class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
     private fun initIsHavit() {
         webViewModel.init(intent.getBooleanExtra("isSeen", false))
     }
+
     private fun initHavitSeen() {
         if (intent.getIntExtra("contentsId", -1) == -1) {
             binding.llWebview.visibility = GONE
@@ -99,16 +103,9 @@ class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
                     view: WebView?,
                     request: WebResourceRequest?,
                 ): Boolean {
-                    if (request?.url.toString().startsWith("towneers:")) {
-                        startActivity(
-                            Intent.parseUri(
-                                request?.url.toString(),
-                                Intent.URI_INTENT_SCHEME
-                            )
-                        )
-                        finish()
-                    }
-                    return false
+                    if (request?.url?.scheme == KARROT_SCHEME) { //당근마켓 scheme
+                        return true
+                    } else return handleDeepLinkUrl(request?.url.toString())
                 }
             }
             settings.javaScriptEnabled = true
@@ -118,6 +115,60 @@ class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
         }
         webViewModel.setUrl(url)
     }
+
+    fun handleDeepLinkUrl(url: String): Boolean =
+        url.let {
+            if (!URLUtil.isNetworkUrl(url) && !URLUtil.isJavaScriptUrl(url)) {
+                // 딥링크로 URI 객체 만들기
+                val uri = try {
+                    Uri.parse(url)
+                } catch (e: Exception) {
+                    return false
+                }
+                return when (uri.scheme) {
+                    "intent" -> {
+                        startSchemeIntent(it) // Intent 스킴인 경우
+                    }
+
+                    else -> {
+                        return try {
+                            startActivity(Intent(Intent.ACTION_VIEW, uri)) // 다른 딥링크 스킴이면 실행
+                            true
+                        } catch (e: ActivityNotFoundException) {
+                            false
+                        }
+                    }
+                }
+            } else {
+                return false
+            }
+        }
+
+    private fun startSchemeIntent(url: String): Boolean {
+        val schemeIntent: Intent = try {
+            Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
+        } catch (e: URISyntaxException) {
+            return false
+        }
+        try {
+            startActivity(schemeIntent)
+            return true
+        } catch (e: ActivityNotFoundException) {
+            val packageName = schemeIntent.`package`
+
+            if (!packageName.isNullOrBlank()) {
+                openAppInPlayStore(packageName)
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun openAppInPlayStore(packageName: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+        startActivity(intent)
+    }
+
 
     private fun checkUrlNetwork(url: String) {
         if (URLUtil.isValidUrl(url)) {
@@ -200,7 +251,7 @@ class WebActivity : BaseActivity<ActivityWebBinding>(R.layout.activity_web) {
 
     companion object {
         const val TAG = "WebActivity"
-
+        const val KARROT_SCHEME = "karrot"
     }
 
     private fun isForcedUpdateNeeded() {
