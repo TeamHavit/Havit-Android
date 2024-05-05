@@ -58,8 +58,9 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideCommunityRepository(
-        communityRemoteDataSourceImpl: CommunityRemoteDataSourceImpl
-    ): CommunityRepository = CommunityRepositoryImpl(communityRemoteDataSourceImpl)
+        api: HavitApi,
+        communityRemoteDataSourceImpl: CommunityRemoteDataSourceImpl,
+    ): CommunityRepository = CommunityRepositoryImpl(api, communityRemoteDataSourceImpl)
 
     @Provides
     @Singleton

@@ -50,6 +50,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:checkedChip="@id/ch_all"
+                android:clipToPadding="false"
+                android:paddingHorizontal="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:selectionRequired="true"
@@ -60,7 +62,6 @@
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="17dp"
                     android:text="@string/category_entire"
                     android:textAppearance="@style/Text12Semibold"
                     android:textColor="@color/selector_chip_text"
@@ -83,8 +84,15 @@
             app:layout_constraintTop_toBottomOf="@id/hsv_community_chip" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_community"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            android:paddingBottom="100dp"
+            app:dividerColor="@{@color/gray_0}"
+            app:dividerHeight="@{@dimen/dp_1}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view_community_chip"

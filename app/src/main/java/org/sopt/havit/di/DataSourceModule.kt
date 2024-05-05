@@ -16,6 +16,7 @@ import org.sopt.havit.data.source.remote.SearchRemoteDataSource
 import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.category.CategoryRemoteDataSource
 import org.sopt.havit.data.source.remote.category.CategoryRemoteDataSourceImpl
+import org.sopt.havit.data.source.remote.community.CommunityPagingSource
 import org.sopt.havit.data.source.remote.community.CommunityRemoteDataSource
 import org.sopt.havit.data.source.remote.community.CommunityRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSource
@@ -59,4 +60,9 @@ object DataSourceModule {
     @Provides
     @Singleton
     fun provideRemoteConfigDataSource(): RemoteConfigDataSource = RemoteConfigDataSourceImpl()
+
+    @Provides
+    @Singleton
+    fun provideCommunityPagingSource(api: HavitApi): CommunityPagingSource =
+        CommunityPagingSource(api)
 }
