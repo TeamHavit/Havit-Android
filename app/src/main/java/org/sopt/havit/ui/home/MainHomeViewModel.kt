@@ -20,6 +20,9 @@ class MainHomeViewModel @Inject constructor(
     private val _notificationList = MutableLiveData<List<NotificationResponse.NotificationData>>()
     val notificationList: LiveData<List<NotificationResponse.NotificationData>> = _notificationList
 
+    private val _isFirstBottomSheet = MutableLiveData(true)
+    val isFirstBottomSheet: LiveData<Boolean> = _isFirstBottomSheet
+
     private val _loadState = MutableLiveData(NetworkState.LOADING)
     val loadState: LiveData<NetworkState>
         get() = _loadState
@@ -40,5 +43,9 @@ class MainHomeViewModel @Inject constructor(
                 _loadState.value = NetworkState.FAIL
             }
         }
+    }
+
+    fun setNoticeCommunitySeen(isFirst: Boolean) {
+        _isFirstBottomSheet.value = isFirst
     }
 }

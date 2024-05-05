@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    tools:context=".ui.home.BottomSheetNoticeCommunityFragment">
+
+    <CheckBox
+        android:id="@+id/cb_never_watch"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="8dp"
+        android:buttonTint="@color/gray_1"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_never_watch"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_never_watch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="21dp"
+        android:text="@string/do_not_watch_it_again"
+        android:textAppearance="@style/Text12Regular"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/cb_never_watch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cb_never_watch" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/rectangle_white_radius_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_never_watch">
+
+
+        <ImageView
+            android:id="@+id/iv_community"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="39dp"
+            android:src="@drawable/img_notice_community"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:text="@string/community_tab_added"
+            android:textAppearance="@style/Text16Semibold"
+            android:textColor="@color/havit_gray"
+            app:layout_constraintEnd_toEndOf="@+id/iv_community"
+            app:layout_constraintStart_toStartOf="@+id/iv_community"
+            app:layout_constraintTop_toBottomOf="@id/iv_community" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:gravity="center"
+            android:text="@string/share_some_impressive_content"
+            android:textAppearance="@style/Sub12Medium"
+            android:textColor="@color/gray_4"
+            app:layout_constraintEnd_toEndOf="@+id/tv_title"
+            app:layout_constraintStart_toStartOf="@+id/tv_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+        <TextView
+            android:id="@+id/tv_community_shortcut"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/rectangle_havit_purple_radius_5"
+            android:gravity="center"
+            android:paddingVertical="19dp"
+            android:text="@string/shortcut"
+            android:textAppearance="@style/Text15Semibold"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_description" />
+
+        <TextView
+            android:id="@+id/tv_close"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:paddingVertical="19dp"
+            android:text="@string/close"
+            android:textAppearance="@style/Text15Semibold"
+            android:textColor="@color/havit_purple"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_community_shortcut"
+            app:layout_constraintStart_toStartOf="@+id/tv_community_shortcut"
+            app:layout_constraintTop_toBottomOf="@+id/tv_community_shortcut" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

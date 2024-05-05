@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.DialogFragment.STYLE_NORMAL
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
@@ -101,12 +102,31 @@ class MainHomeFragment : BaseBindingFragment<FragmentMainHomeBinding>(R.layout.f
         viewModel.notificationList.observe(viewLifecycleOwner) { data ->
             binding.hasNotification = data.isNotEmpty()
         }
+
+        viewModel.isFirstBottomSheet.observe(viewLifecycleOwner) { isFirst ->
+            if (isFirst && !preference.isNoticeCommunityNeverWatch()) {
+                showNoticeCommunityDialog()
+                viewModel.setNoticeCommunitySeen(!isFirst)
+            }
+        }
     }
 
     private fun setCommunityTooltipVisibility(isVisible: Boolean = true) {
         binding.clCommunityTooltip.isVisible = (!preference.isCommunityTooltipClosed() && isVisible)
     }
 
+    private fun showNoticeCommunityDialog() {
+        val bottomSheet = BottomSheetNoticeCommunityFragment()
+        bottomSheet.setStyle(STYLE_NORMAL, R.style.TransParentBottomSheetDialogTheme)
+        bottomSheet.show(childFragmentManager, BottomSheetNoticeCommunityFragment.TAG)
+
+        bottomSheet.setStartCommunityClickListener(
+            object : BottomSheetNoticeCommunityFragment.OnStartCommunityClickListener {
+                override fun onClick() {
+                    binding.tlMainTab.selectTab(binding.tlMainTab.getTabAt(COMMUNITY_FRAGMENT))
+                }
+            })
+    }
 
     companion object {
         const val HOME_FRAGMENT = 0
