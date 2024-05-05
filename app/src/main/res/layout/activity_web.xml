@@ -44,13 +44,13 @@
                 android:id="@+id/et_web_url"
                 android:layout_width="0dp"
                 android:layout_height="33dp"
-                android:paddingHorizontal="8dp"
                 android:layout_marginStart="13dp"
                 android:layout_marginEnd="6dp"
                 android:background="@drawable/rectangle_gray_0_radius_4"
                 android:ellipsize="end"
                 android:enabled="false"
                 android:gravity="center_vertical"
+                android:paddingHorizontal="8dp"
                 android:singleLine="true"
                 android:text="@{vm.contentsUrl}"
                 android:textAppearance="@style/Text16Regular"
@@ -84,13 +84,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_tool_bar" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_save"
+            android:layout_width="120dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="66dp"
+            android:background="@drawable/rectangle_purple_main_radius_44"
+            android:text="@string/community_save"
+            android:textAppearance="@style/Button15Medium"
+            android:textColor="@color/white"
+            android:visibility="@{vm.isSavedContents().peekContent()? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <LinearLayout
             android:id="@+id/ll_web_bottom"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:background="@color/white_gray"
-            android:weightSum="2"
             android:orientation="horizontal"
+            android:weightSum="2"
+            android:visibility="@{vm.isSavedContents().peekContent()? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -99,14 +114,14 @@
                 android:id="@+id/ll_web_share"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:gravity="center">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_share"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_share" />
 
             </LinearLayout>
 
@@ -114,27 +129,26 @@
                 android:id="@+id/ll_webview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@color/white_gray"
-                android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_weight="1">
+                android:orientation="horizontal">
+
                 <ImageView
                     android:id="@+id/iv_webview_unread"
-                    android:layout_gravity="center"
-                    imgRes="@{vm.isHavit.peekContent() == true ? @drawable/ic_contents_read_2 : @drawable/ic_contents_unread}"
+                    imgRes="@{vm.isHavit().peekContent() == true ? @drawable/ic_contents_read_2 : @drawable/ic_contents_unread}"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
 
                 <TextView
                     android:id="@+id/tv_webview_unread"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@{vm.isHavit.peekContent() == true ? @string/webview_read: @string/webview_unread}"
+                    android:text="@{vm.isHavit().peekContent() == true ? @string/webview_read: @string/webview_unread}"
                     android:textAppearance="@style/Sub13Regular"
-                    android:textColor="@{vm.isHavit.peekContent() == true ? @color/havit_gray : @color/gray_2}"
-                     />
-
+                    android:textColor="@{vm.isHavit().peekContent() == true ? @color/havit_gray : @color/gray_2}" />
 
 
             </LinearLayout>

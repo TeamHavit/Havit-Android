@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.home.community
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,9 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentCommunityBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.ui.community.CreatePostActivity
 import org.sopt.havit.util.setOnSingleClickListener
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class CommunityFragment :
@@ -26,7 +29,7 @@ class CommunityFragment :
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
@@ -48,6 +51,8 @@ class CommunityFragment :
             getCommunityAllPosts()
             adapter.refresh() // 새로 데이터를 받아오기 위해
         }
+
+        onPostButtonClick()
     }
 
     private fun observe() {
@@ -98,5 +103,17 @@ class CommunityFragment :
                     bottomSheet.dismiss()
                 }
             })
+    }
+
+    private fun onPostButtonClick() {
+        binding.ivCreateCommunityContents.setOnSingleClickListener {
+            moveToCreatePostActivity()
+        }
+    }
+
+    private fun moveToCreatePostActivity() {
+        val intent = Intent(requireContext(), CreatePostActivity::class.java)
+        startActivity(intent)
+
     }
 }

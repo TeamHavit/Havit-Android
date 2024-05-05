@@ -10,6 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -231,4 +233,18 @@ fun RecyclerView.setDivider(
     )
 
     addItemDecoration(decoration)
+}
+
+@BindingAdapter("setImageRes")
+fun AppCompatImageView.setImageRes(icon: Int?) {
+    icon?.let {
+        Glide.with(this.context)
+            .load(icon)
+            .into(this)
+    }
+}
+
+@BindingAdapter("infoStatusColor")
+fun TextView.setInfoStatusColor(color: Int) {
+    setTextColor(ContextCompat.getColor(this.context, color))
 }
