@@ -166,4 +166,9 @@ interface HavitApi {
         @Query("page") page: Int,
         @Query("limit") limit: Int,
     ): BaseResponse<CommunityPostResponse>
+
+    @GET("/community/posts/{communityPostId}")
+    suspend fun getCommunityPostDetail(
+        @Path("communityPostId") id: Int
+    ):CommunityPostDetailResponse
 }
