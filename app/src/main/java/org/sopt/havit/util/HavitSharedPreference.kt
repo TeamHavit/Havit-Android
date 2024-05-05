@@ -11,6 +11,7 @@ class HavitSharedPreference @Inject constructor(@ApplicationContext private val 
         private const val X_AUTH_TOKEN = "ACCESS_TOKEN"
         private const val FIRST_USER = "FIRST_USER"
         private const val TOOLTIP_CLOSE = "TOOLTIP_CLOSE"
+        private const val NOTICE_COMMUNITY_NEVER_WATCH = "NOTICE_COMMUNITY_NEVER_WATCH"
     }
 
     fun setXAuthToken(xAuthToken: String) {
@@ -62,5 +63,19 @@ class HavitSharedPreference @Inject constructor(@ApplicationContext private val 
         val pref: SharedPreferences =
             context.getSharedPreferences(TOOLTIP_CLOSE, Context.MODE_PRIVATE)
         return pref.getBoolean(TOOLTIP_CLOSE, false)
+    }
+
+    fun setNoticeCommunityNeverWatch() {
+        val prefs: SharedPreferences =
+            context.getSharedPreferences(NOTICE_COMMUNITY_NEVER_WATCH, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = prefs.edit()
+        editor.putBoolean(NOTICE_COMMUNITY_NEVER_WATCH, true)
+        editor.apply()
+    }
+
+    fun isNoticeCommunityNeverWatch(): Boolean {
+        val pref: SharedPreferences =
+            context.getSharedPreferences(NOTICE_COMMUNITY_NEVER_WATCH, Context.MODE_PRIVATE)
+        return pref.getBoolean(NOTICE_COMMUNITY_NEVER_WATCH, false)
     }
 }

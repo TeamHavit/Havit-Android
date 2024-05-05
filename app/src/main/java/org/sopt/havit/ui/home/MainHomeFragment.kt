@@ -104,7 +104,7 @@ class MainHomeFragment : BaseBindingFragment<FragmentMainHomeBinding>(R.layout.f
         }
 
         viewModel.isFirstBottomSheet.observe(viewLifecycleOwner) { isFirst ->
-            if (isFirst) {
+            if (isFirst && !preference.isNoticeCommunityNeverWatch()) {
                 showNoticeCommunityDialog()
                 viewModel.setNoticeCommunitySeen(!isFirst)
             }
@@ -123,7 +123,6 @@ class MainHomeFragment : BaseBindingFragment<FragmentMainHomeBinding>(R.layout.f
         bottomSheet.setStartCommunityClickListener(
             object : BottomSheetNoticeCommunityFragment.OnStartCommunityClickListener {
                 override fun onClick() {
-                    bottomSheet.dismiss()
                     binding.tlMainTab.selectTab(binding.tlMainTab.getTabAt(COMMUNITY_FRAGMENT))
                 }
             })

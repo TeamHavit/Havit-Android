@@ -5,13 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.databinding.FragmentBottomSheetNoticeCommunityBinding
+import org.sopt.havit.util.HavitSharedPreference
 import org.sopt.havit.util.setOnSingleClickListener
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class BottomSheetNoticeCommunityFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentBottomSheetNoticeCommunityBinding? = null
     private val binding get() = _binding ?: error("Binding이 초기화 되지 않았습니다.")
     private lateinit var startCommunityClickListener: OnStartCommunityClickListener
+
+    @Inject
+    lateinit var preference: HavitSharedPreference
 
     interface OnStartCommunityClickListener {
         fun onClick()
@@ -37,6 +44,13 @@ class BottomSheetNoticeCommunityFragment : BottomSheetDialogFragment() {
         _binding = null
     }
 
+    override fun dismiss() {
+        super.dismiss()
+        if (binding.cbNeverWatch.isChecked) {
+            preference.setNoticeCommunityNeverWatch()
+        }
+    }
+
     private fun initView() {
         binding.tvClose.setOnSingleClickListener {
             dismiss()
@@ -44,6 +58,7 @@ class BottomSheetNoticeCommunityFragment : BottomSheetDialogFragment() {
 
         binding.tvCommunityShortcut.setOnSingleClickListener {
             startCommunityClickListener.onClick()
+            dismiss()
         }
     }
 
