@@ -1,5 +1,6 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="dp_1">1dp</dimen>
     <dimen name="inner_guideline">18dp</dimen>
     <dimen name="chip_spacing_horizontal">5dp</dimen>
     <dimen name="chip_spacing_vertical">7dp</dimen>

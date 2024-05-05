@@ -2,6 +2,7 @@ package org.sopt.havit.ui.category
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.sopt.havit.databinding.ItemCategoryBinding
 import org.sopt.havit.domain.entity.Category
@@ -10,16 +11,21 @@ import org.sopt.havit.util.setOnSingleClickListener
 class CategoryAdapter(
     private val onItemClick: (category: Category) -> Unit
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
-    // id 기준 이전의 것과 같다면 onBindViewHolder 호출 제외 -> 깜빡임 사라짐
-    init {
-        setHasStableIds(true)
-    }
-
     override fun getItemId(position: Int): Long {
-        return position.toLong() // or data id
+        return position.toLong()
     }
 
     val categoryList = mutableListOf<Category>()
+
+    fun replaceItems(newCategoryList: List<Category>) {
+        val diffCallback = DiffCallback(categoryList, newCategoryList)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+
+        categoryList.clear()
+        categoryList.addAll(newCategoryList)
+
+        diffResult.dispatchUpdatesTo(this)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val binding = ItemCategoryBinding.inflate(
@@ -57,5 +63,22 @@ class CategoryAdapter(
                 binding.category = it
             }
         }
+    }
+
+    inner class DiffCallback(
+        private val oldList: List<Category>,
+
+        private val newList: List<Category>
+
+    ) : DiffUtil.Callback() {
+        override fun getOldListSize() = oldList.size
+
+        override fun getNewListSize() = newList.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+            oldList[oldItemPosition].id == newList[newItemPosition].id
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+            oldList[oldItemPosition] == newList[newItemPosition]
     }
 }
