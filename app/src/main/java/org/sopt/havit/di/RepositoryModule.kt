@@ -14,6 +14,7 @@ import org.sopt.havit.data.source.remote.SearchRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.category.CategoryRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.community.CommunityRemoteDataSourceImpl
 import org.sopt.havit.data.source.remote.contents.ContentsRemoteDataSourceImpl
+import org.sopt.havit.data.source.remote.url.UrlDataSourceImpl
 import org.sopt.havit.domain.repository.*
 import javax.inject.Singleton
 
@@ -67,4 +68,10 @@ object RepositoryModule {
     fun provideSystemMaintenanceRepository(
         systemMaintenanceDataSource: RemoteConfigDataSourceImpl,
     ): SystemMaintenanceRepository = SystemMaintenanceRepositoryImpl(systemMaintenanceDataSource)
+
+    @Provides
+    @Singleton
+    fun provideUrlRepository(
+        urlDataSourceImpl: UrlDataSourceImpl,
+    ): UrlRepository = UrlRepositoryImpl(urlDataSourceImpl)
 }

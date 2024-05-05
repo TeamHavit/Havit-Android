@@ -1,16 +1,11 @@
 package org.sopt.havit.domain.entity
 
-data class CommunityPost(
+data class CommunityPostRequest(
     val body: String,
+    val communityCategoryIds: List<Int>,
     val contentDescription: String,
     val contentTitle: String,
     val contentUrl: String,
-    val createdAt: String,
-    val id: Int,
-    val nickname: String,
-    val profileImage: String,
     val thumbnailUrl: String,
-    val title: String
+    val title: String,
 )
-
-

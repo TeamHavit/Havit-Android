@@ -4,6 +4,7 @@ import org.sopt.havit.data.remote.*
 import org.sopt.havit.data.remote.base.BaseResponse
 import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.domain.entity.CommunityCategory
+import org.sopt.havit.domain.entity.CommunityPostRequest
 import org.sopt.havit.domain.entity.Contents
 import org.sopt.havit.domain.entity.Notice
 import retrofit2.http.*
@@ -140,7 +141,7 @@ interface HavitApi {
 
     @PUT("user/fcm-token")
     suspend fun refreshFcmToken(
-        @Body body: FcmTokenParams
+        @Body body: FcmTokenParams,
     ): BasicResponse
 
     @GET("notice")
@@ -148,6 +149,11 @@ interface HavitApi {
 
     @GET("community/categories")
     suspend fun getCommunityCategoryList(): BaseResponse<List<CommunityCategory>>
+
+    @POST("community/posts")
+    suspend fun writeCommunityPost(
+        @Body communityPostRequest: CommunityPostRequest,
+    ): BasicResponse
 
     @GET("community/posts")
     suspend fun getCommunityAllPosts(
