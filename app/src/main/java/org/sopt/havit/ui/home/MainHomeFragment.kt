@@ -118,6 +118,7 @@ class MainHomeFragment : BaseBindingFragment<FragmentMainHomeBinding>(R.layout.f
             object : BottomSheetNoticeCommunityFragment.OnStartCommunityClickListener {
                 override fun onClick() {
                     bottomSheet.dismiss()
+                    binding.tlMainTab.selectTab(binding.tlMainTab.getTabAt(COMMUNITY_FRAGMENT))
                 }
             })
     }
