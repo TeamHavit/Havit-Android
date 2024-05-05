@@ -38,6 +38,10 @@ class CommunityRepositoryImpl @Inject constructor(
         communityRemoteDataSource.postCommunityReport(id)
     }
 
+    override suspend fun getCommunityPostDetail(id: Int): CommunityPost {
+        return communityRemoteDataSource.getCommunityPost(id)
+    }
+
     companion object {
         private const val PAGE_SIZE = 2
     }

@@ -6,12 +6,17 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="org.sopt.havit.ui.community.CommunityDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.community.CommunityDetailFragment">
+        tools:context=".ui.community.CommunityDetailActivity">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,6 +54,7 @@
 
                 <ImageView
                     android:id="@+id/iv_profile"
+                    imageProfile="@{vm.communityPost.profileImage}"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:layout_marginStart="16dp"
@@ -62,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="11dp"
-                    android:text="김침침"
+                    android:text="@{vm.communityPost.nickname}"
                     app:layout_constraintBottom_toBottomOf="@id/iv_profile"
                     app:layout_constraintStart_toEndOf="@id/iv_profile"
                     app:layout_constraintTop_toTopOf="@id/iv_profile" />
@@ -84,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="15dp"
-                    android:text="asdfasdfa"
+                    android:text="@{vm.communityPost.title}"
                     android:textAppearance="@style/Text15Semibold"
                     android:textColor="@color/havit_gray"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +102,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="asdfasdfaasdfafdsafsdfafasdfasdfasdfasdfasdfasfasdfadafdfdsdfsdfafdsafdfa"
+                    android:text="@{vm.communityPost.body}"
                     app:layout_constraintEnd_toEndOf="@id/tv_title"
                     app:layout_constraintStart_toStartOf="@+id/tv_title"
                     app:layout_constraintTop_toBottomOf="@id/tv_title" />
@@ -116,14 +122,15 @@
 
                     <ImageView
                         android:id="@+id/iv_url"
+                        imageDefaultLinearMin="@{vm.communityPost.thumbnailUrl}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="12dp"
                         android:layout_marginTop="12dp"
-                        android:src="@drawable/img_contents_dummy_3"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/img_contents_dummy_3" />
 
                     <TextView
                         android:id="@+id/tv_url_title"
@@ -131,7 +138,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:maxLines="2"
-                        android:text="asdasdfa"
+                        android:text="@{vm.communityPost.contentTitle}"
                         android:textAppearance="@style/Medium15"
                         android:textColor="@color/gray_4"
                         app:layout_constraintEnd_toEndOf="@id/iv_url"
@@ -144,7 +151,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:maxLength="100"
-                        android:text="asdfasadad"
+                        android:text="@{vm.communityPost.contentDescription}"
                         android:textAppearance="@style/Mini9Regular"
                         android:textColor="@color/gray_3"
                         app:layout_constraintEnd_toEndOf="@id/tv_url_title"
@@ -156,6 +163,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
+                        android:text="@{vm.communityPost.createdAt}"
                         android:textAppearance="@style/Mini9Regular"
                         android:textColor="@color/gray_2"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -182,6 +190,7 @@
                         android:ellipsize="end"
                         android:ems="21"
                         android:maxLines="1"
+                        android:text="@{vm.communityPost.contentUrl}"
                         android:textAppearance="@style/Mini9Regular"
                         android:textColor="@color/gray_2"
                         app:layout_constraintBottom_toBottomOf="@+id/tv_dot"
