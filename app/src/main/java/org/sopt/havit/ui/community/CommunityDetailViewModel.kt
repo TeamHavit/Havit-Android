@@ -24,6 +24,7 @@ class CommunityDetailViewModel @Inject constructor(
     val loadState: LiveData<NetworkState>
         get() = _loadState
 
+    val reportIds: LiveData<MutableList<Int>> = MutableLiveData(mutableListOf())
 
     fun getCommunityPostDetail(id: Int) {
         viewModelScope.launch {
@@ -32,6 +33,20 @@ class CommunityDetailViewModel @Inject constructor(
                 communityRepository.getCommunityPostDetail(id)
             }.onSuccess { data ->
                 _communityPost.value = (data)
+                _loadState.value = NetworkState.SUCCESS
+            }.onFailure {
+                _loadState.value = NetworkState.FAIL
+            }
+        }
+    }
+
+    fun postCommunityReport(id: Int) {
+        viewModelScope.launch {
+            _loadState.value = NetworkState.LOADING
+            kotlin.runCatching {
+                communityRepository.postCommunityReport(id)
+            }.onSuccess {
+                reportIds.value?.add(id)
                 _loadState.value = NetworkState.SUCCESS
             }.onFailure {
                 _loadState.value = NetworkState.FAIL

@@ -7,8 +7,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCommunityDetailBinding
 import org.sopt.havit.ui.base.BaseActivity
+import org.sopt.havit.ui.home.community.BottomSheetReportFragment
 import org.sopt.havit.ui.share.ShareActivity
 import org.sopt.havit.ui.web.WebActivity
+import org.sopt.havit.util.REPORT_CONTENT_TYPE
+import org.sopt.havit.util.ToastUtil
 import org.sopt.havit.util.setOnSingleClickListener
 
 
@@ -54,9 +57,27 @@ class CommunityDetailActivity :
         }
         binding.btnSave.setOnSingleClickListener {
             startShareActivity()
-            finish()
+        }
+        binding.ibMore.setOnSingleClickListener {
+            showReportDialog(requireNotNull(communityDetailViewModel.communityPost.value?.id))
         }
 
+    }
+
+    private fun showReportDialog(id: Int) {
+        val bottomSheet = BottomSheetReportFragment()
+        bottomSheet.show(supportFragmentManager, BottomSheetReportFragment.TAG)
+
+        bottomSheet.setReportClickListener(
+            object : BottomSheetReportFragment.OnReportClickListener {
+                override fun onClick() {
+                    communityDetailViewModel.postCommunityReport(id)
+                    ToastUtil(this@CommunityDetailActivity).makeToast(
+                        REPORT_CONTENT_TYPE
+                    )
+                    bottomSheet.dismiss()
+                }
+            })
     }
 
     private fun startWebActivityWithCaller(callerClassName: String) {
