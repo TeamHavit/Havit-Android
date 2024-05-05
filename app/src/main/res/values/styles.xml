@@ -17,6 +17,14 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="TransParentBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/TransParentModalStyle</item>
+    </style>
+
+    <style name="TransParentModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
     <style name="roundedImageView6dp">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">6dp</item>
