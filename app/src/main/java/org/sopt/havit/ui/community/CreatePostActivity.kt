@@ -1,17 +1,25 @@
 package org.sopt.havit.ui.community
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
+import org.sopt.havit.HavitFirebaseMessagingService.Companion.TAG
 import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCreatePostBinding
+import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.model.CommunityCategoryRO
 import org.sopt.havit.util.CommunityCategoryChipGroup
 import org.sopt.havit.util.DialogUtil
+import org.sopt.havit.util.ERROR_OCCUR_TYPE
+import org.sopt.havit.util.ToastUtil
 import org.sopt.havit.util.setOnSingleClickListener
 
+@AndroidEntryPoint
 class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.activity_create_post) {
     private val createPostViewModel by viewModels<CreatePostViewModel>()
     private lateinit var chipGroup: CommunityCategoryChipGroup
@@ -22,11 +30,21 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         setupEditText()
         onEditTextChanged()
         setCategory()
-        syncSelectedCategory()
-        onCategoryChanged()
         observeUrlInfoStatus()
         onBackPressedDispatched()
         onCloseButtonClicked()
+        observeUrlValid()
+        handleCreatePostState()
+        onClickCompleteButton()
+    }
+
+    private fun observeUrlValid() {
+        lifecycleScope.launchWhenStarted {
+            createPostViewModel.isUrlValid.collect { isValid ->
+                if (isValid)
+                    createPostViewModel.loadOgData()
+            }
+        }
     }
 
     private fun bindViewModel() {
@@ -46,16 +64,21 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
     }
 
     private fun setCategory() {
-        val category = mutableListOf(
-            CommunityCategoryRO(0, "mock1", false),
-            CommunityCategoryRO(1, "mock2", false),
-            CommunityCategoryRO(2, "mock3", false),
-            CommunityCategoryRO(7, "mock4", false),
-            CommunityCategoryRO(8, "mock5", false),
-            CommunityCategoryRO(5, "mock6", false)
-        )
+        createPostViewModel.communityCategoryList.observe(this) {
+            if (it.isEmpty()) return@observe
+            onCategoryLoaded(it)
+        }
+    }
+
+    private fun onCategoryLoaded(categoryList: List<CommunityCategoryRO>) {
+        initChipGroup(categoryList)
+        syncSelectedCategory()
+        onCategoryChanged()
+    }
+
+    private fun initChipGroup(categoryList: List<CommunityCategoryRO>) {
         chipGroup = CommunityCategoryChipGroup(
-            binding.cgCategory, category
+            binding.cgCategory, categoryList
         )
     }
 
@@ -68,7 +91,6 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
             createPostViewModel.setIsCategoryValid()
         }
     }
-
 
     private fun onTitleEditTextChanged() {
         createPostViewModel.title.observe(this) {
@@ -97,7 +119,6 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         }
     }
 
-
     private fun setupLinkEditText() {
         binding.etLink.apply {
             setLifecycleOwner(this@CreatePostActivity)
@@ -107,6 +128,7 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
             setGravity(Gravity.TOP)
         }
     }
+
 
     private fun setupTitleEditText() {
         binding.etTitle.apply {
@@ -159,5 +181,23 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
     private fun showCancelConfirmDialog() {
         val dialog = DialogUtil(DialogUtil.CANCEL_POST_COMMUNITY, ::finish)
         dialog.show(supportFragmentManager, this.javaClass.name)
+    }
+
+    private fun handleCreatePostState() {
+        createPostViewModel.createPostState.observe(this) {
+            Log.d(TAG, "handleCreatePostState:  $it")
+            when (it) {
+                is NetworkStatus.Success -> finish()
+                is NetworkStatus.Error -> ToastUtil(this).makeToast(ERROR_OCCUR_TYPE)
+                else -> {}/* no-op */
+            }
+        }
+    }
+
+
+    private fun onClickCompleteButton() {
+        binding.btnComplete.setOnSingleClickListener {
+            createPostViewModel.writePost()
+        }
     }
 }

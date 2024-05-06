@@ -4,18 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 import org.sopt.havit.data.api.HavitApi
 import org.sopt.havit.data.mapper.CategoryMapper
-import org.sopt.havit.data.remote.ContentsSummeryData
 import org.sopt.havit.data.remote.CreateContentsRequest
+import org.sopt.havit.data.remote.OgData
 import org.sopt.havit.domain.entity.CategoryWithSelected
 import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.domain.repository.SystemMaintenanceRepository
+import org.sopt.havit.domain.usecase.UrlUseCase
 import org.sopt.havit.ui.base.BaseViewModel
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
@@ -28,6 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ShareViewModel @Inject constructor(
     private val authRepository: AuthRepository,
+    private val urlUseCase: UrlUseCase,
     private val categoryMapper: CategoryMapper,
     private val havitApi: HavitApi,
     systemMaintenanceRepository: SystemMaintenanceRepository,
@@ -186,48 +185,19 @@ class ShareViewModel @Inject constructor(
 
     /** Contents Data */
 
-    private val _ogData = MutableLiveData<ContentsSummeryData>()
-    val ogData: LiveData<ContentsSummeryData> = _ogData
+    private val _ogData = MutableLiveData<OgData>()
+    val ogData: LiveData<OgData> = _ogData
 
-    fun setCrawlingContents() {
+    fun loadOgData() {
         viewModelScope.launch {
-            getOgData()
-            setDefaultIfTitleDataNotExist()
-        }
-    }
-
-    private suspend fun getOgData() {
-        viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                Jsoup.connect(url.value).timeout(5000).get()
+                urlUseCase.loadOgData(url.value.toString())
             }.onSuccess {
-                val contentsSummeryData = getDataByOgTags(it)
-                _ogData.postValue(contentsSummeryData)
+                _ogData.postValue(it)
             }.onFailure {
-                _ogData.postValue(ContentsSummeryData(ogUrl = url.value.toString()))
-            }
-        }.join()
-    }
-
-    private fun setDefaultIfTitleDataNotExist() {
-        val ogData = ogData.value
-        if (ogData?.ogTitle.isNullOrBlank())
-            ogData?.ogTitle = NO_TITLE_CONTENTS
-    }
-
-    private fun getDataByOgTags(document: Document): ContentsSummeryData {
-        val ogTags = document.select("meta[property^=og:]")
-        val summaryData = ContentsSummeryData(ogUrl = url.value.toString())
-        ogTags.forEach { tag ->
-            val content = tag.attr("content")
-            when (tag.attr("property")) {
-                "og:image" -> summaryData.ogImage = content
-                "og:description" -> summaryData.ogDescription = content
-                "og:title" -> summaryData.ogTitle = content
+                _ogData.postValue(OgData(ogUrl = url.value.toString()))
             }
         }
-        if (summaryData.ogTitle.isEmpty()) summaryData.ogTitle = document.title()
-        return summaryData
     }
 
     private val _saveContentsViewState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())

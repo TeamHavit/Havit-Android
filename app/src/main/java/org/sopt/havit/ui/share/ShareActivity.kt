@@ -58,7 +58,7 @@ class ShareActivity : BaseActivity<ActivityShareBinding>(R.layout.activity_share
     private fun handleShareFlow() {
         initiateSignIn()
         extractAndSetUrl()
-        shareViewModel.setCrawlingContents()
+        shareViewModel.loadOgData()
     }
 
     private fun initiateSignIn() {

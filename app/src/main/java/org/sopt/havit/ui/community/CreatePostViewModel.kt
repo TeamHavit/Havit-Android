@@ -8,19 +8,35 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import org.sopt.havit.data.remote.OgData
+import org.sopt.havit.domain.entity.CommunityPostRequest
+import org.sopt.havit.domain.model.NetworkStatus
+import org.sopt.havit.domain.repository.CommunityRepository
+import org.sopt.havit.domain.usecase.UrlUseCase
 import org.sopt.havit.ui.model.CommunityCategoryRO
+import org.sopt.havit.ui.model.toRO
 import org.sopt.havit.util.havit_edit_text.EditTextData
 import org.sopt.havit.util.havit_edit_text.EditTextInfoType
 import java.net.HttpURLConnection
 import java.net.URL
 import javax.inject.Inject
 
-class CreatePostViewModel @Inject constructor() : ViewModel() {
+@HiltViewModel
+class CreatePostViewModel @Inject constructor(
+    private val communityRepository: CommunityRepository,
+    private val urlUseCase: UrlUseCase,
+) : ViewModel() {
+
+    init {
+        getCommunityCategories()
+    }
 
     val urlEditTextData = EditTextData(
         text = MutableLiveData(""),
@@ -43,6 +59,22 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
         hint = "내용을 입력하세요."
     )
 
+    private val _communityCategoryList = MutableLiveData<List<CommunityCategoryRO>>()
+    val communityCategoryList: LiveData<List<CommunityCategoryRO>> = _communityCategoryList
+
+    private fun getCommunityCategories() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                communityRepository.getCommunityCategories()
+            }.onSuccess {
+                val list = it.map { communityCategory -> communityCategory.toRO() }
+                _communityCategoryList.postValue(list)
+            }.onFailure {
+                _communityCategoryList.postValue(emptyList())
+            }
+        }
+    }
+
     lateinit var selectedCategory: LiveData<MutableList<CommunityCategoryRO>>
 
     fun setCommunityCategoryROList(selectedCategories: LiveData<MutableList<CommunityCategoryRO>>) {
@@ -54,6 +86,7 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
     val description: LiveData<String> = descriptionEditTextData.text
 
     private val _isUrlValid = MutableStateFlow(false)
+    val isUrlValid: StateFlow<Boolean> = _isUrlValid
     private val _isTitleValid = MutableStateFlow(false)
     private val _isDescriptionValid = MutableStateFlow(false)
     private val _isCategoryValid = MutableStateFlow(false)
@@ -172,5 +205,51 @@ class CreatePostViewModel @Inject constructor() : ViewModel() {
     }
 
     fun getUrlInfoStatus() = urlEditTextData.infoStatus
+
+    private val _ogData = MutableLiveData<OgData>()
+    val ogData: LiveData<OgData> = _ogData
+
+    fun loadOgData() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                urlUseCase.loadOgData(url.value.toString())
+            }.onSuccess {
+                _ogData.postValue(it)
+            }.onFailure {
+                _ogData.postValue(OgData(ogUrl = url.value.toString()))
+            }
+        }
+    }
+
+    private val _createPostState = MutableLiveData<NetworkStatus>(NetworkStatus.Init())
+    val createPostState: LiveData<NetworkStatus> = _createPostState
+
+
+    fun writePost() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                val post = getCommunityPost()
+                communityRepository.writeCommunityPost(post)
+            }.onSuccess {
+                when {
+                    it.isSuccess -> _createPostState.postValue(NetworkStatus.Success())
+                    it.isFailure -> _createPostState.postValue(NetworkStatus.Error(it.exceptionOrNull()))
+                }
+            }.onFailure {
+                _createPostState.postValue(NetworkStatus.Error(it))
+            }
+        }
+    }
+
+    private fun getCommunityPost() = CommunityPostRequest(
+        title = title.value.toString(),
+        body = description.value.toString(),
+        communityCategoryIds = selectedCategory.value?.map { it.id } ?: emptyList(),
+        contentDescription = ogData.value?.ogDescription ?: "",
+        contentTitle = ogData.value?.ogTitle ?: "",
+        contentUrl = ogData.value?.ogUrl ?: "",
+        thumbnailUrl = ogData.value?.ogImage ?: ""
+    )
+
 
 }
