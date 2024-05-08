@@ -12,5 +12,3 @@ data class CommunityPost(
     val thumbnailUrl: String,
     val title: String
 )
-
-

@@ -160,6 +160,11 @@ enum class ToastCase(
         R.string.request_delete_notification,
         REQUEST_DELETE_NOTIFICATION_TYPE
     ),
+    REPORT_CONTENT(
+        R.layout.toast_text,
+        R.string.report_content,
+        REPORT_CONTENT_TYPE
+    ),
     INVALID_URL(
         R.layout.toast_text,
         R.string.invalid_url,
@@ -189,7 +194,7 @@ const val MODIFY_TITLE_COMPLETE_TYPE = 13
 const val DELETE_NOTIFICATION_COMPLETE_TYPE = 14
 const val REQUEST_DELETE_NOTIFICATION_TYPE = 15
 const val INVALID_URL_TYPE = 16
-
+const val REPORT_CONTENT_TYPE = 17
 const val MARGIN_CONTENT_ADDED = 30
 const val MARGIN_HAVIT_COMPLETE = 40
 const val MARGIN_NORMAL = 106

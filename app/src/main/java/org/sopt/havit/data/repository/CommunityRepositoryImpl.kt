@@ -40,6 +40,10 @@ class CommunityRepositoryImpl @Inject constructor(
         communityRemoteDataSource.postCommunityReport(id)
     }
 
+
+    override suspend fun getCommunityPostDetail(id: Int): CommunityPost {
+        return communityRemoteDataSource.getCommunityPost(id)
+
     override suspend fun writeCommunityPost(communityPostRequest: CommunityPostRequest): Result<Boolean> {
         return try {
             val response = communityRemoteDataSource.writeCommunityPost(communityPostRequest)
@@ -50,6 +54,7 @@ class CommunityRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Result.failure(e)
         }
+
     }
 
     companion object {

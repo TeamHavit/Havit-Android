@@ -4,6 +4,7 @@ import org.sopt.havit.data.remote.*
 import org.sopt.havit.data.remote.base.BaseResponse
 import org.sopt.havit.domain.entity.Category
 import org.sopt.havit.domain.entity.CommunityCategory
+import org.sopt.havit.domain.entity.CommunityPost
 import org.sopt.havit.domain.entity.CommunityPostRequest
 import org.sopt.havit.domain.entity.Contents
 import org.sopt.havit.domain.entity.Notice
@@ -172,4 +173,9 @@ interface HavitApi {
         @Query("page") page: Int,
         @Query("limit") limit: Int,
     ): BaseResponse<CommunityPostResponse>
+
+    @GET("community/posts/{communityPostId}")
+    suspend fun getCommunityPostDetail(
+        @Path("communityPostId") communityPostId: Int
+    ): BaseResponse<CommunityPost>
 }

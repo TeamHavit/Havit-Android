@@ -261,7 +261,7 @@
     <string name="cannot_set_notification_time_on_past">과거 시간으로는 알림 설정을 할 수 없습니다</string>
 
     <string name="category_has_been_deleted">카테고리가 삭제되었습니다</string>
-
+    <string name="report_content">콘텐츠가 신고되었습니다</string>
     <string name="delete_content">"콘텐츠가 삭제되었습니다"</string>
     <string name="delete_category">카테고리가 삭제되었습니다</string>
     <string name="alarm_set">알림이 설정되었습니다</string>
