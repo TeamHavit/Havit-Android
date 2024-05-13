@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import org.sopt.havit.R
 import org.sopt.havit.databinding.FragmentCommunityBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
+import org.sopt.havit.ui.community.CommunityDetailActivity
 import org.sopt.havit.ui.community.CreatePostActivity
 import org.sopt.havit.util.setOnSingleClickListener
 
@@ -23,6 +24,7 @@ class CommunityFragment :
     private val adapter by lazy {
         CommunityPagingDataAdapter(
             onSettingClick = { id -> showReportDialog(id) },
+            onItemClick = { id -> moveToCommunityDetailActivity(id) }
         )
     }
 
@@ -114,5 +116,15 @@ class CommunityFragment :
         val intent = Intent(requireContext(), CreatePostActivity::class.java)
         startActivity(intent)
 
+    }
+
+    private fun moveToCommunityDetailActivity(id: Int) {
+        val intent = Intent(requireContext(), CommunityDetailActivity::class.java)
+        intent.putExtra(COMMUNITY_POST_ID, id)
+        startActivity(intent)
+    }
+
+    companion object {
+        const val COMMUNITY_POST_ID = "communityPostId"
     }
 }
