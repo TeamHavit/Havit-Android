@@ -15,7 +15,6 @@ import org.sopt.havit.databinding.FragmentCommunityBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.community.CreatePostActivity
 import org.sopt.havit.util.setOnSingleClickListener
-import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class CommunityFragment :
@@ -23,7 +22,7 @@ class CommunityFragment :
     private val viewModel: CommunityViewModel by viewModels()
     private val adapter by lazy {
         CommunityPagingDataAdapter(
-            onSettingClick = { id, position -> showReportDialog(id, position) },
+            onSettingClick = { id -> showReportDialog(id) },
         )
     }
 
@@ -91,7 +90,7 @@ class CommunityFragment :
         adapter.refresh() // 새로 데이터를 받아오기 위해
     }
 
-    private fun showReportDialog(id: Int, position: Int) {
+    private fun showReportDialog(id: Int) {
         val bottomSheet = BottomSheetReportFragment()
         bottomSheet.show(childFragmentManager, BottomSheetReportFragment.TAG)
 
@@ -99,8 +98,8 @@ class CommunityFragment :
             object : BottomSheetReportFragment.OnReportClickListener {
                 override fun onClick() {
                     viewModel.postCommunityReport(id)
-                    adapter.notifyItemRemoved(position)
                     bottomSheet.dismiss()
+                    adapter.refresh()
                 }
             })
     }
