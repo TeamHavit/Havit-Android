@@ -43,6 +43,7 @@ class CommunityRepositoryImpl @Inject constructor(
 
     override suspend fun getCommunityPostDetail(id: Int): CommunityPost {
         return communityRemoteDataSource.getCommunityPost(id)
+    }
 
     override suspend fun writeCommunityPost(communityPostRequest: CommunityPostRequest): Result<Boolean> {
         return try {
@@ -54,7 +55,6 @@ class CommunityRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Result.failure(e)
         }
-
     }
 
     companion object {

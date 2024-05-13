@@ -22,6 +22,7 @@ class CommunityRemoteDataSourceImpl @Inject constructor(
     override suspend fun getCommunityPost(id: Int): CommunityPost {
         return havitApi.getCommunityPostDetail(id).data
             ?: throw NullPointerException("해당하는 게시글이 존재하지 않습니다.")
+    }
 
     override suspend fun writeCommunityPost(communityPostRequest: CommunityPostRequest): BasicResponse {
         return havitApi.writeCommunityPost(communityPostRequest)
