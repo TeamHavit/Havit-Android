@@ -23,8 +23,6 @@ class CommunityViewModel @Inject constructor(
     private val _communityCategoryList = MutableLiveData<List<CommunityCategory>>()
     val communityCategoryList: LiveData<List<CommunityCategory>> = _communityCategoryList
 
-    val reportIds = mutableListOf<Int>()
-
     private val _loadState = MutableLiveData(NetworkState.LOADING)
     val loadState: LiveData<NetworkState>
         get() = _loadState
@@ -60,8 +58,6 @@ class CommunityViewModel @Inject constructor(
             _loadState.value = NetworkState.LOADING
             kotlin.runCatching {
                 communityRepository.postCommunityReport(id)
-            }.onSuccess {
-                reportIds.add(id)
             }.onFailure {
                 Log.e("CommunityViewModel", "Community Post Id $id 의 삭제 에러")
             }
