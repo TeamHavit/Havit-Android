@@ -6,8 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sopt.havit.data.repository.SearchRepositoryImpl
 import org.sopt.havit.data.repository.UrlRepositoryImpl
+import org.sopt.havit.domain.usecase.LoadOgDataUseCase
 import org.sopt.havit.domain.usecase.SearchUseCase
-import org.sopt.havit.domain.usecase.UrlUseCase
 import javax.inject.Singleton
 
 @Module
@@ -21,5 +21,5 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideUrlUseCase(urlRepositoryImpl: UrlRepositoryImpl) =
-        UrlUseCase(urlRepositoryImpl)
+        LoadOgDataUseCase(urlRepositoryImpl)
 }

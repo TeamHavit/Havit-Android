@@ -49,12 +49,15 @@ class MainActivity : AppCompatActivity() {
                         isInitialized = true
                     }
                 }
+
                 R.id.navigation_category -> {
                     GoogleAnalyticsUtil.logClickEvent(GNB_CATEGORY)
                 }
+
                 R.id.navigation_my_page -> {
                     GoogleAnalyticsUtil.logClickEvent(GNB_MYPAGE)
                 }
+
                 else -> {}
             }
         }
@@ -67,7 +70,8 @@ class MainActivity : AppCompatActivity() {
         binding.floatingSave.setOnClickListener {
             // 콘텐츠 추가 플로팅 버튼 클릭 시
             GoogleAnalyticsUtil.logClickEvent(GNB_ADD_CONTENT)
-            SaveFragment("").show(supportFragmentManager, "save")
+            if (!isFinishing)
+                SaveFragment("").show(supportFragmentManager, "save")
         }
     }
 }

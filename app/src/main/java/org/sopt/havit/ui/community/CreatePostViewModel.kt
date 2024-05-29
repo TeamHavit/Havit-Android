@@ -19,7 +19,7 @@ import org.sopt.havit.data.remote.OgData
 import org.sopt.havit.domain.entity.CommunityPostRequest
 import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.domain.repository.CommunityRepository
-import org.sopt.havit.domain.usecase.UrlUseCase
+import org.sopt.havit.domain.usecase.LoadOgDataUseCase
 import org.sopt.havit.ui.model.CommunityCategoryRO
 import org.sopt.havit.ui.model.toRO
 import org.sopt.havit.util.havit_edit_text.EditTextData
@@ -31,7 +31,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
     private val communityRepository: CommunityRepository,
-    private val urlUseCase: UrlUseCase,
+    private val loadOgDataUseCase: LoadOgDataUseCase,
 ) : ViewModel() {
 
     init {
@@ -211,12 +211,8 @@ class CreatePostViewModel @Inject constructor(
 
     fun loadOgData() {
         viewModelScope.launch {
-            kotlin.runCatching {
-                urlUseCase.loadOgData(url.value.toString())
-            }.onSuccess {
+            loadOgDataUseCase(url.value.toString()).collect {
                 _ogData.postValue(it)
-            }.onFailure {
-                _ogData.postValue(OgData(ogUrl = url.value.toString()))
             }
         }
     }
