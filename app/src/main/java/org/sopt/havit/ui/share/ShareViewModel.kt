@@ -13,7 +13,7 @@ import org.sopt.havit.domain.entity.CategoryWithSelected
 import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.domain.repository.AuthRepository
 import org.sopt.havit.domain.repository.SystemMaintenanceRepository
-import org.sopt.havit.domain.usecase.UrlUseCase
+import org.sopt.havit.domain.usecase.LoadOgDataUseCase
 import org.sopt.havit.ui.base.BaseViewModel
 import org.sopt.havit.ui.share.notification.AfterTime
 import org.sopt.havit.util.CalenderUtil
@@ -26,7 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ShareViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val urlUseCase: UrlUseCase,
+    private val loadOgDataUseCase: LoadOgDataUseCase,
     private val categoryMapper: CategoryMapper,
     private val havitApi: HavitApi,
     systemMaintenanceRepository: SystemMaintenanceRepository,
@@ -190,12 +190,9 @@ class ShareViewModel @Inject constructor(
 
     fun loadOgData() {
         viewModelScope.launch {
-            kotlin.runCatching {
-                urlUseCase.loadOgData(url.value.toString())
-            }.onSuccess {
+            val url = url.value ?: ""
+            loadOgDataUseCase.loadOgData(url).collect {
                 _ogData.postValue(it)
-            }.onFailure {
-                _ogData.postValue(OgData(ogUrl = url.value.toString()))
             }
         }
     }
