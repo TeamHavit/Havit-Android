@@ -135,7 +135,7 @@ class ContentsSimpleActivity :
         dataMore: ContentsMoreData?,
         showDeleteDialog: () -> Unit,
         refreshData: Serializable,
-        position: Int
+        position: Int,
     ): Bundle {
         val bundle = Bundle()
         bundle.putParcelable(ContentsMoreFragment.CONTENTS_MORE_DATA, dataMore)
@@ -230,7 +230,8 @@ class ContentsSimpleActivity :
                         else
                             requestEmptyContents(getString(R.string.contents_simple_recent_save_empty))
                         binding.tvAddContents.setOnClickListener {
-                            SaveFragment("").show(supportFragmentManager, "save")
+                            if (!isFinishing)
+                                SaveFragment("").show(supportFragmentManager, "save")
                         }
                     } else {
                         val min = if (data.size < 20) data.size else 20

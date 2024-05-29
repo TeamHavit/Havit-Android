@@ -86,12 +86,15 @@ class ShareActivity : BaseActivity<ActivityShareBinding>(R.layout.activity_share
                 putSerializable(ON_NETWORK_ERROR_DISMISS, { initiateSignIn() } as Serializable)
             }
         }
-        bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        if (!isFinishing)
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
     }
 
     private fun showShareBottomSheet() {
-        val bottomSheet = BottomSheetShareFragment()
-        bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        if (!isFinishing) {
+            val bottomSheet = BottomSheetShareFragment()
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        }
     }
 
     private fun extractAndSetUrl() {
