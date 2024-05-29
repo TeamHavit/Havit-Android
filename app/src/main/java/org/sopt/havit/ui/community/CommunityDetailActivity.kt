@@ -8,6 +8,7 @@ import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCommunityDetailBinding
 import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.home.community.BottomSheetReportFragment
+import org.sopt.havit.ui.home.community.CommunityFragment.Companion.COMMUNITY_POST_ID
 import org.sopt.havit.ui.share.ShareActivity
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.REPORT_CONTENT_TYPE
@@ -34,7 +35,7 @@ class CommunityDetailActivity :
     }
 
     private fun initView() {
-        val id = intent?.getIntExtra("communityPostId", -1)
+        val id = intent?.getIntExtra(COMMUNITY_POST_ID, -1)
         fetchCommunityPostDetailWithId(id)
     }
 
@@ -94,6 +95,4 @@ class CommunityDetailActivity :
         }
         startActivity(intent)
     }
-
-
 }
