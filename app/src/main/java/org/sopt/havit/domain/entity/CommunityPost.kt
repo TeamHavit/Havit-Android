@@ -10,5 +10,6 @@ data class CommunityPost(
     val nickname: String,
     val profileImage: String,
     val thumbnailUrl: String,
-    val title: String
+    val title: String,
+    val isAuthor: Boolean
 )
