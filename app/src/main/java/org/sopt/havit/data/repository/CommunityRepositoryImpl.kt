@@ -45,6 +45,10 @@ class CommunityRepositoryImpl @Inject constructor(
         return communityRemoteDataSource.getCommunityPost(id)
     }
 
+    override suspend fun deleteCommunityPost(id: Int) {
+        communityRemoteDataSource.deleteCommunityPost(id)
+    }
+
     override suspend fun writeCommunityPost(communityPostRequest: CommunityPostRequest): Result<Boolean> {
         return try {
             val response = communityRemoteDataSource.writeCommunityPost(communityPostRequest)

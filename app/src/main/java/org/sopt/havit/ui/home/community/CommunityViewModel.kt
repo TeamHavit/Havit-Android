@@ -63,4 +63,15 @@ class CommunityViewModel @Inject constructor(
             }
         }
     }
+
+    fun deleteCommunityPost(id: Int) {
+        viewModelScope.launch {
+            _loadState.value = NetworkState.LOADING
+            kotlin.runCatching {
+                communityRepository.deleteCommunityPost(id)
+            }.onFailure {
+                Log.e("CommunityViewModel", "Community Delete Id $id 의 삭제 에러")
+            }
+        }
+    }
 }

@@ -23,7 +23,9 @@ class CommunityFragment :
     private val viewModel: CommunityViewModel by viewModels()
     private val adapter by lazy {
         CommunityPagingDataAdapter(
-            onSettingClick = { id -> showReportDialog(id) },
+            onSettingClick = { id, isAuthor ->
+                if (isAuthor) showDeleteDialog(id) else showReportDialog(id)
+            },
             onItemClick = { id -> moveToCommunityDetailActivity(id) }
         )
     }
@@ -100,6 +102,20 @@ class CommunityFragment :
             object : BottomSheetReportFragment.OnReportClickListener {
                 override fun onClick() {
                     viewModel.postCommunityReport(id)
+                    bottomSheet.dismiss()
+                    adapter.refresh()
+                }
+            })
+    }
+
+    private fun showDeleteDialog(id: Int) {
+        val bottomSheet = BottomSheetDeleteFragment()
+        bottomSheet.show(childFragmentManager, BottomSheetDeleteFragment.TAG)
+
+        bottomSheet.setDeleteClickListener(
+            object : BottomSheetDeleteFragment.OnDeleteClickListener {
+                override fun onClick() {
+                    viewModel.deleteCommunityPost(id)
                     bottomSheet.dismiss()
                     adapter.refresh()
                 }

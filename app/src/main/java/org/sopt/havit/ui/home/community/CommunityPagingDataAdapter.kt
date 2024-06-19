@@ -10,13 +10,13 @@ import org.sopt.havit.domain.entity.CommunityPost
 import org.sopt.havit.util.setOnSingleClickListener
 
 class CommunityPagingDataAdapter(
-    private val onSettingClick: (id: Int) -> Unit,
+    private val onSettingClick: (id: Int, isAuthor: Boolean) -> Unit,
     private val onItemClick: (id: Int) -> Unit,
 ) : PagingDataAdapter<CommunityPost, CommunityPagingDataAdapter.ViewHolder>(diffUtil) {
 
     class ViewHolder(
         private val binding: ItemCommunityBinding,
-        private val onSettingClick: (id: Int) -> Unit,
+        private val onSettingClick: (id: Int, isAuthor: Boolean) -> Unit,
         private val onItemClick: (id: Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         private lateinit var item: CommunityPost
@@ -24,7 +24,7 @@ class CommunityPagingDataAdapter(
         init {
             binding.ivSetting.setOnSingleClickListener {
                 if (::item.isInitialized) {
-                    onSettingClick.invoke(item.id)
+                    onSettingClick.invoke(item.id, item.isAuthor)
                 }
             }
             binding.clCommunityItem.setOnSingleClickListener {

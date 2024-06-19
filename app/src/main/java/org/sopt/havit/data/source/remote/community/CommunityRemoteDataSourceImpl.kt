@@ -24,6 +24,10 @@ class CommunityRemoteDataSourceImpl @Inject constructor(
             ?: throw NullPointerException("해당하는 게시글이 존재하지 않습니다.")
     }
 
+    override suspend fun deleteCommunityPost(id: Int) {
+        havitApi.deleteCommunityPost(id)
+    }
+
     override suspend fun writeCommunityPost(communityPostRequest: CommunityPostRequest): BasicResponse {
         return havitApi.writeCommunityPost(communityPostRequest)
     }

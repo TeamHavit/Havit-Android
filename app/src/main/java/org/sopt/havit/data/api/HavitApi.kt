@@ -178,4 +178,9 @@ interface HavitApi {
     suspend fun getCommunityPostDetail(
         @Path("communityPostId") communityPostId: Int
     ): BaseResponse<CommunityPost>
+
+    @DELETE("community/{communityPostId}")
+    suspend fun deleteCommunityPost(
+        @Path("communityPostId") communityPostId: Int
+    ): BasicResponse
 }

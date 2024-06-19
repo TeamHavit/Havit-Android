@@ -12,5 +12,6 @@ interface CommunityRepository {
     suspend fun getCommunityPostsByCategory(categoryId: Int): Flow<PagingData<CommunityPost>>
     suspend fun postCommunityReport(id: Int)
     suspend fun getCommunityPostDetail(id: Int): CommunityPost
+    suspend fun deleteCommunityPost(id: Int)
     suspend fun writeCommunityPost(communityPostRequest: CommunityPostRequest): Result<Boolean>
 }
