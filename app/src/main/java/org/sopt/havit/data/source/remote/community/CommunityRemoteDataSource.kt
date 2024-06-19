@@ -10,4 +10,5 @@ interface CommunityRemoteDataSource {
     suspend fun writeCommunityPost(communityPostRequest: CommunityPostRequest): BasicResponse
     suspend fun postCommunityReport(id: Int)
     suspend fun getCommunityPost(id: Int): CommunityPost
+    suspend fun deleteCommunityPost(id: Int)
 }
