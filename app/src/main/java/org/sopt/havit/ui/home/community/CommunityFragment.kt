@@ -24,7 +24,7 @@ class CommunityFragment :
     private val adapter by lazy {
         CommunityPagingDataAdapter(
             onSettingClick = { id, isAuthor ->
-                if (isAuthor) showReportDialog(id) else showDeleteDialog(id)
+                if (isAuthor) showDeleteDialog(id) else showReportDialog(id)
             },
             onItemClick = { id -> moveToCommunityDetailActivity(id) }
         )
