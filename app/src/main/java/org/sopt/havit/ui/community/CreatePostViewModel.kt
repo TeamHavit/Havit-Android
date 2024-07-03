@@ -4,7 +4,6 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
@@ -12,8 +11,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.sopt.havit.data.remote.OgData
 import org.sopt.havit.domain.entity.CommunityPostRequest
@@ -91,21 +92,25 @@ class CreatePostViewModel @Inject constructor(
     private val _isDescriptionValid = MutableStateFlow(false)
     private val _isCategoryValid = MutableStateFlow(false)
 
-    private fun combineStateFlowsToLiveData(predicate: (Boolean, Boolean, Boolean, Boolean) -> Boolean): LiveData<Boolean> {
-        return combine(
-            _isUrlValid, _isTitleValid, _isDescriptionValid, _isCategoryValid, transform = predicate
-        ).asLiveData()
-    }
 
-    val isWriting: LiveData<Boolean> =
-        combineStateFlowsToLiveData { urlValid, titleValid, descValid, catValid ->
-            urlValid || titleValid || descValid || catValid
-        }
-
-    val isPostButtonEnabled: LiveData<Boolean> =
-        combineStateFlowsToLiveData { urlValid, titleValid, descValid, catValid ->
-            urlValid && titleValid && descValid && catValid
-        }
+    val isWriting: StateFlow<Boolean> = combine(
+        _isUrlValid, _isTitleValid, _isDescriptionValid, _isCategoryValid
+    ) { urlValid, titleValid, descValid, catValid ->
+        urlValid || titleValid || descValid || catValid
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = false
+    )
+    val isPostButtonEnabled: StateFlow<Boolean> = combine(
+        _isUrlValid, _isTitleValid, _isDescriptionValid, _isCategoryValid
+    ) { urlValid, titleValid, descValid, catValid ->
+        urlValid && titleValid && descValid && catValid
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = false
+    )
 
     fun fetchUrlInfoStatus() {
         val url = urlEditTextData.text.value.toString()

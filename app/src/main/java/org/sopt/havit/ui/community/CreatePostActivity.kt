@@ -175,7 +175,7 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
     }
 
     private fun isUnderPosting(): Boolean {
-        return createPostViewModel.isWriting.value ?: false
+        return createPostViewModel.isWriting.value
     }
 
     private fun showCancelConfirmDialog() {
