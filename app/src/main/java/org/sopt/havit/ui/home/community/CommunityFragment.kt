@@ -15,6 +15,7 @@ import org.sopt.havit.databinding.FragmentCommunityBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.community.CommunityDetailActivity
 import org.sopt.havit.ui.community.CreatePostActivity
+import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.setOnSingleClickListener
 
 @AndroidEntryPoint
@@ -26,7 +27,8 @@ class CommunityFragment :
             onSettingClick = { id, isAuthor ->
                 if (isAuthor) showDeleteDialog(id) else showReportDialog(id)
             },
-            onItemClick = { id -> moveToCommunityDetailActivity(id) }
+            onItemClick = { id -> moveToCommunityDetailActivity(id) },
+            onLinkClick = { contentUrl -> moveToWebViewActivity(contentUrl) }
         )
     }
 
@@ -137,6 +139,14 @@ class CommunityFragment :
     private fun moveToCommunityDetailActivity(id: Int) {
         val intent = Intent(requireContext(), CommunityDetailActivity::class.java)
         intent.putExtra(COMMUNITY_POST_ID, id)
+        startActivity(intent)
+    }
+
+    private fun moveToWebViewActivity(contentUrl: String) {
+        val intent = Intent(requireContext(), WebActivity::class.java).apply {
+            putExtra("url", contentUrl)
+            putExtra("caller", requireNotNull(CommunityDetailActivity::class.simpleName))
+        }
         startActivity(intent)
     }
 
