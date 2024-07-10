@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.chip.Chip
@@ -25,6 +27,7 @@ import org.sopt.havit.util.setOnSingleClickListener
 class CommunityFragment :
     BaseBindingFragment<FragmentCommunityBinding>(R.layout.fragment_community) {
     private val viewModel: CommunityViewModel by viewModels()
+    private lateinit var communityLauncher: ActivityResultLauncher<Intent>
     private val adapter by lazy {
         CommunityPagingDataAdapter(
             onSettingClick = { id, isAuthor ->
@@ -33,6 +36,15 @@ class CommunityFragment :
             onItemClick = { id -> moveToCommunityDetailActivity(id) },
             onLinkClick = { contentUrl -> moveToWebViewActivity(contentUrl) }
         )
+    }
+    private lateinit var initializeActivityResultLauncher: (resultCode: Int) -> Unit
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        communityLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                initializeActivityResultLauncher(it.resultCode)
+            }
     }
 
     override fun onCreateView(
@@ -50,6 +62,9 @@ class CommunityFragment :
         initView()
         observe()
         getCommunityAllPosts()
+        initializeActivityResultLauncher = { resultCode ->
+            adapter.refresh()
+        }
     }
 
     private fun initView() {
@@ -141,14 +156,13 @@ class CommunityFragment :
 
     private fun moveToCreatePostActivity() {
         val intent = Intent(requireContext(), CreatePostActivity::class.java)
-        startActivity(intent)
-
+        communityLauncher.launch(intent)
     }
 
     private fun moveToCommunityDetailActivity(id: Int) {
         val intent = Intent(requireContext(), CommunityDetailActivity::class.java)
         intent.putExtra(COMMUNITY_POST_ID, id)
-        startActivity(intent)
+        communityLauncher.launch(intent)
     }
 
     private fun moveToWebViewActivity(contentUrl: String) {
@@ -161,5 +175,7 @@ class CommunityFragment :
 
     companion object {
         const val COMMUNITY_POST_ID = "communityPostId"
+        const val CREATE_COMMUNITY = 1000
+        const val DETAIL_COMMUNITY = 2000
     }
 }

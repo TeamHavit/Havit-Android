@@ -10,6 +10,7 @@ import org.sopt.havit.ui.base.BaseActivity
 import org.sopt.havit.ui.home.community.BottomSheetDeleteFragment
 import org.sopt.havit.ui.home.community.BottomSheetReportFragment
 import org.sopt.havit.ui.home.community.CommunityFragment.Companion.COMMUNITY_POST_ID
+import org.sopt.havit.ui.home.community.CommunityFragment.Companion.DETAIL_COMMUNITY
 import org.sopt.havit.ui.share.ShareActivity
 import org.sopt.havit.ui.web.WebActivity
 import org.sopt.havit.util.CONTENT_DELETE_TYPE
@@ -89,6 +90,8 @@ class CommunityDetailActivity :
                     ToastUtil(this@CommunityDetailActivity).makeToast(
                         REPORT_CONTENT_TYPE
                     )
+                    val intent = Intent()
+                    setResult(DETAIL_COMMUNITY, intent)
                     bottomSheet.dismiss()
                 }
             })
@@ -106,6 +109,8 @@ class CommunityDetailActivity :
                         CONTENT_DELETE_TYPE
                     )
                     bottomSheet.dismiss()
+                    val intent = Intent()
+                    setResult(DETAIL_COMMUNITY, intent)
                     finish()
                 }
             })
