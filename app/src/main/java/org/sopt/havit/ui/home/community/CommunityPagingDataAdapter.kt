@@ -12,16 +12,23 @@ import org.sopt.havit.util.setOnSingleClickListener
 class CommunityPagingDataAdapter(
     private val onSettingClick: (id: Int, isAuthor: Boolean) -> Unit,
     private val onItemClick: (id: Int) -> Unit,
+    private val onLinkClick: (contentUrl: String) -> Unit
 ) : PagingDataAdapter<CommunityPost, CommunityPagingDataAdapter.ViewHolder>(diffUtil) {
 
     class ViewHolder(
         private val binding: ItemCommunityBinding,
         private val onSettingClick: (id: Int, isAuthor: Boolean) -> Unit,
-        private val onItemClick: (id: Int) -> Unit
+        private val onItemClick: (id: Int) -> Unit,
+        private val onLinkClick: (contentUrl: String) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         private lateinit var item: CommunityPost
 
         init {
+            binding.clContentsItem.setOnSingleClickListener {
+                if (::item.isInitialized) {
+                    onLinkClick.invoke(item.contentUrl)
+                }
+            }
             binding.ivSetting.setOnSingleClickListener {
                 if (::item.isInitialized) {
                     onSettingClick.invoke(item.id, item.isAuthor)
@@ -43,7 +50,7 @@ class CommunityPagingDataAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemCommunityBinding =
             ItemCommunityBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding, onSettingClick, onItemClick)
+        return ViewHolder(binding, onSettingClick, onItemClick, onLinkClick)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

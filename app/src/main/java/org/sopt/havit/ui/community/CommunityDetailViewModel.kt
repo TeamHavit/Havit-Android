@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.community
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -50,6 +51,17 @@ class CommunityDetailViewModel @Inject constructor(
                 _loadState.value = NetworkState.SUCCESS
             }.onFailure {
                 _loadState.value = NetworkState.FAIL
+            }
+        }
+    }
+
+    fun deleteCommunityPost(id: Int) {
+        viewModelScope.launch {
+            _loadState.value = NetworkState.LOADING
+            kotlin.runCatching {
+                communityRepository.deleteCommunityPost(id)
+            }.onFailure {
+                Log.e("CommunityViewModel", "Community Delete Id $id 의 삭제 에러")
             }
         }
     }

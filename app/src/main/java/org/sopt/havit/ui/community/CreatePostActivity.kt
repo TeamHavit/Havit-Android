@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.community
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -12,6 +13,7 @@ import org.sopt.havit.R
 import org.sopt.havit.databinding.ActivityCreatePostBinding
 import org.sopt.havit.domain.model.NetworkStatus
 import org.sopt.havit.ui.base.BaseActivity
+import org.sopt.havit.ui.home.community.CommunityFragment.Companion.CREATE_COMMUNITY
 import org.sopt.havit.ui.model.CommunityCategoryRO
 import org.sopt.havit.util.CommunityCategoryChipGroup
 import org.sopt.havit.util.DialogUtil
@@ -187,7 +189,12 @@ class CreatePostActivity : BaseActivity<ActivityCreatePostBinding>(R.layout.acti
         createPostViewModel.createPostState.observe(this) {
             Log.d(TAG, "handleCreatePostState:  $it")
             when (it) {
-                is NetworkStatus.Success -> finish()
+                is NetworkStatus.Success -> {
+                    val intent = Intent()
+                    setResult(CREATE_COMMUNITY, intent)
+                    finish()
+                }
+
                 is NetworkStatus.Error -> ToastUtil(this).makeToast(ERROR_OCCUR_TYPE)
                 else -> {}/* no-op */
             }

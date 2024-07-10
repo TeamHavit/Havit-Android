@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.chip.Chip
@@ -15,19 +17,34 @@ import org.sopt.havit.databinding.FragmentCommunityBinding
 import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.community.CommunityDetailActivity
 import org.sopt.havit.ui.community.CreatePostActivity
+import org.sopt.havit.ui.web.WebActivity
+import org.sopt.havit.util.CONTENT_DELETE_TYPE
+import org.sopt.havit.util.REPORT_CONTENT_TYPE
+import org.sopt.havit.util.ToastUtil
 import org.sopt.havit.util.setOnSingleClickListener
 
 @AndroidEntryPoint
 class CommunityFragment :
     BaseBindingFragment<FragmentCommunityBinding>(R.layout.fragment_community) {
     private val viewModel: CommunityViewModel by viewModels()
+    private lateinit var communityLauncher: ActivityResultLauncher<Intent>
     private val adapter by lazy {
         CommunityPagingDataAdapter(
             onSettingClick = { id, isAuthor ->
                 if (isAuthor) showDeleteDialog(id) else showReportDialog(id)
             },
-            onItemClick = { id -> moveToCommunityDetailActivity(id) }
+            onItemClick = { id -> moveToCommunityDetailActivity(id) },
+            onLinkClick = { contentUrl -> moveToWebViewActivity(contentUrl) }
         )
+    }
+    private lateinit var initializeActivityResultLauncher: (resultCode: Int) -> Unit
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        communityLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                initializeActivityResultLauncher(it.resultCode)
+            }
     }
 
     override fun onCreateView(
@@ -45,6 +62,9 @@ class CommunityFragment :
         initView()
         observe()
         getCommunityAllPosts()
+        initializeActivityResultLauncher = { resultCode ->
+            adapter.refresh()
+        }
     }
 
     private fun initView() {
@@ -102,6 +122,9 @@ class CommunityFragment :
             object : BottomSheetReportFragment.OnReportClickListener {
                 override fun onClick() {
                     viewModel.postCommunityReport(id)
+                    ToastUtil(requireContext()).makeToast(
+                        REPORT_CONTENT_TYPE
+                    )
                     bottomSheet.dismiss()
                     adapter.refresh()
                 }
@@ -116,6 +139,9 @@ class CommunityFragment :
             object : BottomSheetDeleteFragment.OnDeleteClickListener {
                 override fun onClick() {
                     viewModel.deleteCommunityPost(id)
+                    ToastUtil(requireContext()).makeToast(
+                        CONTENT_DELETE_TYPE
+                    )
                     bottomSheet.dismiss()
                     adapter.refresh()
                 }
@@ -130,17 +156,26 @@ class CommunityFragment :
 
     private fun moveToCreatePostActivity() {
         val intent = Intent(requireContext(), CreatePostActivity::class.java)
-        startActivity(intent)
-
+        communityLauncher.launch(intent)
     }
 
     private fun moveToCommunityDetailActivity(id: Int) {
         val intent = Intent(requireContext(), CommunityDetailActivity::class.java)
         intent.putExtra(COMMUNITY_POST_ID, id)
+        communityLauncher.launch(intent)
+    }
+
+    private fun moveToWebViewActivity(contentUrl: String) {
+        val intent = Intent(requireContext(), WebActivity::class.java).apply {
+            putExtra("url", contentUrl)
+            putExtra("caller", requireNotNull(CommunityDetailActivity::class.simpleName))
+        }
         startActivity(intent)
     }
 
     companion object {
         const val COMMUNITY_POST_ID = "communityPostId"
+        const val CREATE_COMMUNITY = 1000
+        const val DETAIL_COMMUNITY = 2000
     }
 }
