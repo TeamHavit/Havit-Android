@@ -16,6 +16,9 @@ import org.sopt.havit.ui.base.BaseBindingFragment
 import org.sopt.havit.ui.community.CommunityDetailActivity
 import org.sopt.havit.ui.community.CreatePostActivity
 import org.sopt.havit.ui.web.WebActivity
+import org.sopt.havit.util.CONTENT_DELETE_TYPE
+import org.sopt.havit.util.REPORT_CONTENT_TYPE
+import org.sopt.havit.util.ToastUtil
 import org.sopt.havit.util.setOnSingleClickListener
 
 @AndroidEntryPoint
@@ -104,6 +107,9 @@ class CommunityFragment :
             object : BottomSheetReportFragment.OnReportClickListener {
                 override fun onClick() {
                     viewModel.postCommunityReport(id)
+                    ToastUtil(requireContext()).makeToast(
+                        REPORT_CONTENT_TYPE
+                    )
                     bottomSheet.dismiss()
                     adapter.refresh()
                 }
@@ -118,6 +124,9 @@ class CommunityFragment :
             object : BottomSheetDeleteFragment.OnDeleteClickListener {
                 override fun onClick() {
                     viewModel.deleteCommunityPost(id)
+                    ToastUtil(requireContext()).makeToast(
+                        CONTENT_DELETE_TYPE
+                    )
                     bottomSheet.dismiss()
                     adapter.refresh()
                 }
