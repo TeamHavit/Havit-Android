@@ -39,16 +39,12 @@ class BottomSheetNoticeCommunityFragment : BottomSheetDialogFragment() {
         initView()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
-    override fun dismiss() {
-        super.dismiss()
+    override fun onDestroyView() {
+        super.onDestroyView()
         if (binding.cbNeverWatch.isChecked) {
             preference.setNoticeCommunityNeverWatch()
         }
+        _binding = null
     }
 
     private fun initView() {
