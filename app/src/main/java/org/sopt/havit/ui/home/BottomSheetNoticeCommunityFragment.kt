@@ -1,5 +1,6 @@
 package org.sopt.havit.ui.home
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,11 +40,18 @@ class BottomSheetNoticeCommunityFragment : BottomSheetDialogFragment() {
         initView()
     }
 
+    override fun dismiss() {
+        super.dismiss()
+        setNoticeCommunityNeverWatch()
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog) // back 키, 다이얼로그 외부 영역 눌렀을 때 동작
+        setNoticeCommunityNeverWatch()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        if (binding.cbNeverWatch.isChecked) {
-            preference.setNoticeCommunityNeverWatch()
-        }
         _binding = null
     }
 
@@ -55,6 +63,12 @@ class BottomSheetNoticeCommunityFragment : BottomSheetDialogFragment() {
         binding.tvCommunityShortcut.setOnSingleClickListener {
             startCommunityClickListener.onClick()
             dismiss()
+        }
+    }
+
+    private fun setNoticeCommunityNeverWatch() {
+        if (binding.cbNeverWatch.isChecked) {
+            preference.setNoticeCommunityNeverWatch()
         }
     }
 
