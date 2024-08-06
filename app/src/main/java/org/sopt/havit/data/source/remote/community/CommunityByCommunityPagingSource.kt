@@ -20,12 +20,17 @@ class CommunityByCommunityPagingSource @Inject constructor(
                 limit = PAGE_LIMIT
             ).data
 
-            val items = response?.posts
-
-            LoadResult.Page(
-                data = items!!,
-                prevKey = if (page <= 1) null else (page - 1),
-                nextKey = if (response.isLastPage) null else (page + 1)
+            response?.let {
+                val items = it.posts
+                LoadResult.Page(
+                    data = items,
+                    prevKey = if (page <= 1) null else (page - 1),
+                    nextKey = if (it.isLastPage) null else (page + 1)
+                )
+            } ?: LoadResult.Page(
+                data = emptyList(),
+                prevKey = null,
+                nextKey = null
             )
         } catch (e: Exception) {
             Log.e("CommunityByCommunityPagingSource", "error : $e")
