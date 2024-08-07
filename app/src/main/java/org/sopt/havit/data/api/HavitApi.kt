@@ -8,6 +8,7 @@ import org.sopt.havit.domain.entity.CommunityPost
 import org.sopt.havit.domain.entity.CommunityPostRequest
 import org.sopt.havit.domain.entity.Contents
 import org.sopt.havit.domain.entity.Notice
+import retrofit2.Response
 import retrofit2.http.*
 
 interface HavitApi {
@@ -182,5 +183,5 @@ interface HavitApi {
     @DELETE("community/{communityPostId}")
     suspend fun deleteCommunityPost(
         @Path("communityPostId") communityPostId: Int
-    ): BasicResponse
+    ): Response<Unit>
 }

@@ -59,7 +59,7 @@ class CommunityViewModel @Inject constructor(
             kotlin.runCatching {
                 communityRepository.postCommunityReport(id)
             }.onFailure {
-                Log.e("CommunityViewModel", "Community Post Id $id 의 삭제 에러")
+                Log.e("CommunityViewModel", "Community Post Id $id 의 삭제 에러 : ${it.message}")
             }
         }
     }
@@ -70,7 +70,7 @@ class CommunityViewModel @Inject constructor(
             kotlin.runCatching {
                 communityRepository.deleteCommunityPost(id)
             }.onFailure {
-                Log.e("CommunityViewModel", "Community Delete Id $id 의 삭제 에러")
+                Log.e("CommunityViewModel", "Community Delete Id $id 의 삭제 에러 : ${it.message}")
             }
         }
     }
